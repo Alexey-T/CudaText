@@ -3482,8 +3482,8 @@ end;
 function TEditorFrame.DoFileReload(Ed: TATSynEdit): boolean;
 var
   EdIndex: integer;
-  PrevCaretX, PrevCaretY: integer;
-  PrevTail: boolean;
+  PrevCaret: TPoint;
+  bPrevTail: boolean;
   Mode: TAppOpenMode;
   SFileName: string;
 begin
@@ -3516,19 +3516,19 @@ begin
   FileProps[EdIndex].Inited:= false;
 
   //remember props
-  PrevCaretX:= 0;
-  PrevCaretY:= 0;
+  PrevCaret.X:= 0;
+  PrevCaret.Y:= 0;
 
   if Ed.Carets.Count>0 then
     with Ed.Carets[0] do
       begin
-        PrevCaretX:= PosX;
-        PrevCaretY:= PosY;
+        PrevCaret.X:= PosX;
+        PrevCaret.Y:= PosY;
       end;
 
-  PrevTail:= UiOps.ReloadFollowTail and
+  bPrevTail:= UiOps.ReloadFollowTail and
     (Ed.Strings.Count>0) and
-    (PrevCaretY=Ed.Strings.Count-1);
+    (PrevCaret.Y=Ed.Strings.Count-1);
 
   Mode:= TAppOpenMode.Editor;
   if FrameKind=TAppFrameKind.BinaryViewer then
@@ -3570,17 +3570,17 @@ begin
   if Ed.Strings.Count=0 then exit;
 
   //restore props
-  PrevCaretY:= Min(PrevCaretY, Ed.Strings.Count-1);
-  if PrevTail then
+  PrevCaret.Y:= Min(PrevCaret.Y, Ed.Strings.Count-1);
+  if bPrevTail then
   begin
-    PrevCaretX:= 0;
-    PrevCaretY:= Ed.Strings.Count-1;
+    PrevCaret.X:= 0;
+    PrevCaret.Y:= Ed.Strings.Count-1;
   end;
 
   Application.ProcessMessages; //for DoGotoPos
 
   Ed.DoGotoPos(
-    Point(PrevCaretX, PrevCaretY),
+    PrevCaret,
     Point(-1, -1),
     1,
     1, //indentVert must be >0
