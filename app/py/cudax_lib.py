@@ -56,6 +56,7 @@ OPT2PROP            = dict(
     ,micromap_on_scrollbar      = app.PROP_MICROMAP_ON_SCROLLBAR
     ,minimap_show               = app.PROP_MINIMAP
     ,minimap_scale              = app.PROP_MINIMAP_SCALE
+    ,minimap_char_width         = app.PROP_MINIMAP_CHAR_WIDTH
     ,minimap_at_left            = app.PROP_MINIMAP_AT_LEFT
     ,ruler_show                 = app.PROP_RULER
     ,tab_size                   = app.PROP_TAB_SIZE
