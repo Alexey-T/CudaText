@@ -3810,6 +3810,9 @@ begin
         PROP_MICROMAP_ON_SCROLLBAR:
           Result:= PyBool_FromLong(Ord(Ed.OptMicromapOnScrollbar));
 
+        PROP_MICROMAP_AT_LEFT:
+          Result:= PyBool_FromLong(Ord(Ed.OptMicromapAtLeft));
+
         PROP_VISIBLE_LINES:
           Result:= PyLong_FromLong(Ed.GetVisibleLines);
 
@@ -4691,9 +4694,10 @@ begin
           Ed.OptMicromapWidthInAvgChars:= ValueInt;
 
         PROP_MICROMAP_ON_SCROLLBAR:
-          begin
-            Ed.OptMicromapOnScrollbar:= ValueBool;
-          end;
+          Ed.OptMicromapOnScrollbar:= ValueBool;
+
+        PROP_MICROMAP_AT_LEFT:
+          Ed.OptMicromapAtLeft:= ValueBool;
 
         PROP_SCROLL_VERT_INFO:
           begin

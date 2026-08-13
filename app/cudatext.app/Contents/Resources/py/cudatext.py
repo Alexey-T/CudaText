@@ -214,6 +214,7 @@ PROP_MICROMAP_WIDTH        = 53
 PROP_CODETREE              = 54
 PROP_EDITORS_LINKED        = 55
 PROP_MICROMAP_ON_SCROLLBAR = 56
+PROP_MICROMAP_AT_LEFT      = 57
 PROP_KIND                  = 59
 PROP_V_MODE                = 60
 PROP_V_POS                 = 61
