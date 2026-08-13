@@ -216,8 +216,12 @@ begin
     end;
 
   //paint background of columns added from Py API
-  for i:= 2{after default columns} to NColumnCount-1 do
+  for i:= 0 to NColumnCount-1 do
   begin
+    NIndex:= Ed.Micromap.Columns[i].NTag;
+    if (NIndex=cTagColumnStates) or
+      (NIndex=cTagColumnBookmarks) or
+      (NIndex=cTagColumnSelections) then Continue;
     NColor:= Ed.Micromap.Columns[i].NColor;
     if NColor<>clNone then
     begin
