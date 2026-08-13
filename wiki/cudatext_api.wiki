@@ -2960,7 +2960,10 @@ Many get_prop/set_prop ids correspond to CudaText options. List of corresponding
 * PROP_MARGIN - "margin".
 * PROP_MARGIN_STRING - "margin_string".
 * PROP_MICROMAP - "micromap_show".
+* PROP_MICROMAP_ON_SCROLLBAR - "micromap_on_scrollbar".
 * PROP_MINIMAP - "minimap_show".
+* PROP_MINIMAP_SCALE - "minimap_scale".
+* PROP_MINIMAP_AT_LEFT - "minimap_at_left".
 * PROP_RULER - "ruler_show".
 * PROP_TAB_SIZE - "tab_size".
 * PROP_TAB_SPACES - "tab_spaces".
