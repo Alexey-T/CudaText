@@ -235,6 +235,7 @@ begin
   begin
     BoolArray:= nil;
     SetLength(BoolArray, St.Count);
+
     for i:= 0 to St.Bookmarks.Count-1 do
     begin
       BookmarkPtr:= St.Bookmarks.ItemPtr[i];
@@ -242,6 +243,15 @@ begin
       if (NIndex>=0) and (NIndex<=High(BoolArray)) then
         BoolArray[NIndex]:= true;
     end;
+
+    for i:= 0 to St.Bookmarks2.Count-1 do
+    begin
+      BookmarkPtr:= St.Bookmarks2.ItemPtr[i];
+      NIndex:= BookmarkPtr^.Data.LineNum;
+      if (NIndex>=0) and (NIndex<=High(BoolArray)) then
+        BoolArray[NIndex]:= true;
+    end;
+
     for i:= 0 to Wr.Count-1 do
     begin
       NIndex:= Wr.Data[i].NLineIndex;
