@@ -2128,6 +2128,28 @@ begin
         AutoDel:= TATBookmarkAutoDelete.ByOption;
 
       case NId of
+        BOOKMARK_APPEND:
+          begin
+            Ed.BookmarkAppendEx(NLine, NKind, StrText,
+                AutoDel,
+                Bool(NShowInList),
+                NTag,
+                Ed.Strings.Bookmarks
+                );
+            Result:= ReturnNone;
+          end;
+
+        BOOKMARK2_APPEND:
+          begin
+            Ed.BookmarkAppendEx(NLine, NKind, StrText,
+                AutoDel,
+                Bool(NShowInList),
+                NTag,
+                Ed.Strings.Bookmarks2
+                );
+            Result:= ReturnNone;
+          end;
+
         BOOKMARK_SET:
           begin
             Ed.BookmarkSetForLine(NLine, NKind, StrText,
