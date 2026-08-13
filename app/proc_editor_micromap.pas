@@ -175,10 +175,9 @@ begin
   XColorSpell.FromColor(GetAppColor(TAppThemeColor.EdMicromapSpell));
 
   //paint line states
-  //but only if column with tag=0 exists
+  //only if column with tag=0 exists
   NColumnIndex:= Ed.Micromap.ColumnFromTag(cTagColumnStates);
-  if NColumnIndex>=0 then
-  if Ed.OptMicromapLineStates and (Wr.Count>=Ed.OptMicromapShowForMinCount) then
+  if (NColumnIndex>=0) and Ed.OptMicromapLineStates and (Wr.Count>=Ed.OptMicromapShowForMinCount) then
     for i:= 0 to Wr.Count-1 do
     begin
       NIndex:= Wr.Data[i].NLineIndex;
@@ -196,7 +195,7 @@ begin
     end;
 
   //paint selections
-  //but only if column with tag=2 exists
+  //only if column with tag=2 exists
   NColumnIndex:= Ed.Micromap.ColumnFromTag(cTagColumnSelections);
   if (NColumnIndex>=0) and Ed.OptMicromapSelections then
     for i:= 0 to Ed.Carets.Count-1 do
