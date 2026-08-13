@@ -12,7 +12,7 @@ Authors:
     Andrey Kvichansky    (kvichans on github)
     Alexey Torgashin (CudaText)
 Version:
-    '0.6.16 2025-09-11'
+    '0.6.17 2026-08-13'
 Wiki: github.com/kvichans/cudax_lib/wiki
 ToDo: (see end of file)
 """
@@ -53,7 +53,10 @@ OPT2PROP            = dict(
     ,margin                     = app.PROP_MARGIN
     ,margin_string              = app.PROP_MARGIN_STRING
     ,micromap_show              = app.PROP_MICROMAP
+    ,micromap_on_scrollbar      = app.PROP_MICROMAP_ON_SCROLLBAR
     ,minimap_show               = app.PROP_MINIMAP
+    ,minimap_scale              = app.PROP_MINIMAP_SCALE
+    ,minimap_at_left            = app.PROP_MINIMAP_AT_LEFT
     ,ruler_show                 = app.PROP_RULER
     ,tab_size                   = app.PROP_TAB_SIZE
     ,tab_spaces                 = app.PROP_TAB_SPACES
