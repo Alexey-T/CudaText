@@ -101,11 +101,22 @@ end;
 
 
 function CheckValue_ReqAPI(const S: string): boolean;
+//support 'api' key in 2 formats:
+// number 300
+// string '1.0.300'
+var
+  Num: integer;
 begin
   if S='' then
     Result:= true
   else
-    Result:= S <= '1.0.'+IntToStr(cAppApiVersion);
+  begin
+    Num:= StrToIntDef(S, 0);
+    if Num>0 then
+      Result:= Num<=cAppApiVersion
+    else
+      Result:= S <= '1.0.'+IntToStr(cAppApiVersion);
+  end;
 end;
 
 
@@ -638,10 +649,9 @@ var
   s_title, s_type, s_subdir, s_desc, s_api, s_os: string;
   s_allhotkeys: string;
   s_msgbox: string;
-  Num, NumHotkeys: integer;
+  NumHotkeys: integer;
   bAllowHotkeys: boolean;
   Buttons: TDialogButtons;
-  ok: boolean;
 begin
   AStrReport:= '';
   AStrMessage:= '';
@@ -750,24 +760,13 @@ begin
   end;
   *)
 
-  if (s_api<>'') then
+  if (s_api<>'') and not CheckValue_ReqAPI(s_api) then
   begin
-    //support 'api' key in 2 formats:
-    // number 300
-    // string '1.0.300'
-    Num:= StrToIntDef(s_api, 0);
-    if Num>0 then
-      ok:= Num<=cAppApiVersion
-    else
-      ok:= s_api <= '1.0.'+IntToStr(cAppApiVersion);
-    if not ok then
-    begin
-      if not ASilent then
-        MsgBox(
-          Format(msgCannotInstallAddonApi, [s_title, s_api])+#10+AFilenameZip,
-          MB_OK or MB_ICONERROR);
-      exit;
-    end;
+    if not ASilent then
+      MsgBox(
+        Format(msgCannotInstallAddonApi, [s_title, s_api])+#10+AFilenameZip,
+        MB_OK or MB_ICONERROR);
+    exit;
   end;
 
   if (s_title='') or (s_type='') then
