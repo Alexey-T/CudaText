@@ -3189,7 +3189,7 @@ Controls additional color attributes. Possible values of "id":
 ** "tag": Some int 32-bit value attached to fragment (different plugins should add fragments with different tags).
 ** "x", "y": Text position of fragment start.
 ** "len": Length of fragment in chars.
-*** If len<0, and "show_on_map" is set, it will be multi-line micromap fragment with specified height=-len.
+*** If len<0, and "show_on_map" is set, it will give multi-line micromap fragment with specified height=abs(len).
 ** "color_*": Color values (RGB) for font, background, borders.
 ** "font_*": Font attributes: 0 - off, 1 - on.
 ** "border_*": Border types for edges, int value 0..6: none, solid, dash, solid 2pixel, dotted, rounded, wave.
