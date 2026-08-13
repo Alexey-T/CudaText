@@ -3233,6 +3233,15 @@ Notes:
 * Params "color_font", "color_border" can be COLOR_NONE: it uses usual text-color.
 * If fragments from other plugins already exist (e.g. from Color_Text, Highlight_Occurrences, Spell_Checker), you cannot just add items after them in unsorted mode (MARKERS_SET_SORTED is off), you should clear all existing fragments first, optionally: backup/restore other fragments.
 
+Some "tag" values are very special. Part of Pascal sources:
+
+    const FindHiAll_TagValue = 99; //attrib-tag for Highlight_all_matches option ('Hi')
+    const FindOccur_TagValue = 98; //attrib-tag for 'expand selection to next word' command
+                                   //tags must be <120, coz PROC_GET_UNIQUE_TAG starts with 120
+    const FindPairBracket_TagValue = 1;
+    const PluginHiOccur_TagValue = 101;
+    const PluginSpellChecker_TagValue = 105;
+
 ===Editor.hotspots===
 
  hotspots(id, tag=0, tag_str="", pos="")
