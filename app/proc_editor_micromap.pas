@@ -277,6 +277,7 @@ begin
   for i:= 0 to Ed.Attribs.Count-1 do
   begin
     Marker:= Ed.Attribs[i];
+    if Marker.MicromapMode=TATMarkerMicromapMode.TextOnly then Continue;
     NLine1:= Marker.PosY;
     if (NLine1<0) or (NLine1>High(PropArray)) then Continue; //fix issue #4821
 
