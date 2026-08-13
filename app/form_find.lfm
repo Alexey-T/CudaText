@@ -218,7 +218,6 @@ object fmFind: TfmFind
       OptGutterVisible = False
       OptRulerVisible = False
       OptMicromapVisible = True
-      OptMicromapScalePerColumn = 300
       OptMarginRight = 1000
       OptUnprintedVisible = False
       OptMouse2ClickOpensURL = False
@@ -265,7 +264,6 @@ object fmFind: TfmFind
       OptGutterVisible = False
       OptRulerVisible = False
       OptMicromapVisible = True
-      OptMicromapScalePerColumn = 300
       OptMarginRight = 1000
       OptUnprintedVisible = False
       OptMouse2ClickOpensURL = False
