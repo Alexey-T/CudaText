@@ -356,7 +356,6 @@ begin
       if PropArray[NIndex].MarkPos<>TMicromapMark.Full then
         ABitmap.FillRect(RectMark, PropArray[NIndex].XColor)
       else
-        //todo: not tested with BGRABitmap - it must give inverted colors
         ABitmap.FillRect(RectMark, PropArray[NIndex].XColor, dmDrawWithTransparency, $8000);
     end;
   end;
