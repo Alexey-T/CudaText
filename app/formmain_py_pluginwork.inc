@@ -141,7 +141,7 @@ var
   sectionId: TAppInfSection;
   ini_section, dir_inf: string;
   s_itemkind, s_caption, s_module, s_method, s_lexers,
-  s_events, s_keys, s_inmenu, s_icon, s_os, s_api_req, s_api_here: string;
+  s_events, s_keys, s_inmenu, s_icon, s_os, s_api: string;
   CmdItem: TAppCommandInfo;
   EventItem: TAppEventInfo;
   TreeHelper: TAppTreeHelper;
@@ -161,15 +161,11 @@ begin
       exit;
     end;
 
-    s_api_req:= ini.ReadString('info', 'api', '');
-    if s_api_req<>'' then
+    s_api:= ini.ReadString('info', 'api', '');
+    if not CheckValue_ReqAPI(s_api) then
     begin
-      s_api_here:= '1.0.'+IntToStr(cAppApiVersion);
-      if s_api_req>s_api_here then
-      begin
-        MsgLogConsole(Format('NOTE: Plugin "%s" was ignored, it requires API "%s", but current API is "%s"', [s_module, s_api_req, s_api_here]));
-        exit;
-      end;
+      MsgLogConsole(Format('NOTE: Plugin "%s" was ignored, it requires API "%s", but current API is "1.0.%d"', [s_module, s_api, cAppApiVersion]));
+      exit;
     end;
 
     ini.ReadSections(sections);

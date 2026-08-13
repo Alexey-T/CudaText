@@ -49,6 +49,7 @@ procedure DoInstallAddonFromZip(
   out ANeedRestart: boolean;
   const ASilent: boolean);
 
+function CheckValue_ReqAPI(const S: string): boolean;
 function CheckValue_OS(S: string): boolean;
 
 implementation
@@ -96,6 +97,15 @@ begin
     if AppManager.FindLexerByName(SItem)=nil then
       exit(false);
   until false;
+end;
+
+
+function CheckValue_ReqAPI(const S: string): boolean;
+begin
+  if S='' then
+    Result:= true
+  else
+    Result:= S <= '1.0.'+IntToStr(cAppApiVersion);
 end;
 
 
