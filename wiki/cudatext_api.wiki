@@ -2651,6 +2651,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_MICROMAP: bool: micromap is visible.
 * PROP_MICROMAP_WIDTH: int: micromap's width in percents of average char-width.
 * PROP_MICROMAP_ON_SCROLLBAR: bool: micromap is painted on vertical scrollbar.
+* PROP_MICROMAP_AT_LEFT: bool: micromap is on the left side.
 * PROP_LINK_AT_POS: str: hyperlink string in the document, at given position. Value must be 2-tuple: (pos_x, pos_y).
 * PROP_LINKS_SHOW: bool: enable hyperlinks underlining.
 * PROP_LINKS_REGEX: str: regular expression for hyperlinks.
@@ -2861,6 +2862,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"), tuple
 * PROP_MICROMAP: bool: micromap is visible.
 * PROP_MICROMAP_WIDTH: int: micromap's width in percents of average char-width.
 * PROP_MICROMAP_ON_SCROLLBAR: bool: micromap is painted on vertical scrollbar.
+* PROP_MICROMAP_AT_LEFT: bool: micromap is on the left side.
 * PROP_LINKS_SHOW: bool: enable hyperlinks underlining.
 * PROP_LINKS_REGEX: str: regular expression for hyperlinks.
 * PROP_LINKS_CLICKS: int: how mouse clicks activate hyperlinks. 0: disabled, 1: single click, 2: double click.
@@ -5424,6 +5426,7 @@ It provides:
 * add: Editor.get_prop/set_prop: PROP_FN
 * add. Editor.get_prop/set_prop: PROP_MICROMAP_WIDTH
 * add. Editor.get_prop/set_prop: PROP_MICROMAP_ON_SCROLLBAR
+* add. Editor.get_prop/set_prop: PROP_MICROMAP_AT_LEFT
 * add: Editor.get_prop: PROP_TAB_ID is now much more unique, and it is persistent (it is saved/restored to session)
 * add: Editor.get_prop: PROP_HANDLE_IMAGE
 * add: Editor.bookmark: BOOKMARK_APPEND
