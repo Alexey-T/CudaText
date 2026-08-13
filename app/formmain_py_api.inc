@@ -3804,6 +3804,9 @@ begin
         PROP_MICROMAP:
           Result:= PyBool_FromLong(Ord(Ed.OptMicromapVisible));
 
+        PROP_MICROMAP_WIDTH:
+          Result:= PyLong_FromLong(Ed.OptMicromapWidthInAvgChars);
+
         PROP_VISIBLE_LINES:
           Result:= PyLong_FromLong(Ed.GetVisibleLines);
 
@@ -4680,6 +4683,9 @@ begin
             Ed.OptMicromapVisible:= ValueBool;
             Include(Ed.ModifiedOptions, TATEditorModifiedOption.MicromapVisible);
           end;
+
+        PROP_MICROMAP_WIDTH:
+          Ed.OptMicromapWidthInAvgChars:= ValueInt;
 
         PROP_SCROLL_VERT_INFO:
           begin
