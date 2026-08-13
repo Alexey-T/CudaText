@@ -1356,9 +1356,16 @@ begin
       )) then
     begin
       Ed:= PyHelper_EditorFromHandle(H);
+
+      {
+      type for 'x', 'y', 'len' is string, to support this API:
+      * MARKERS_ADD_MANY: Adds one or multiple fragments at once.
+      ** "x", "y", "len": The same as for MARKERS_ADD, but can be also list/tuple of int.
+      }
       StrX:= string(PtrX);
       StrY:= string(PtrY);
       StrLen:= string(PtrLen);
+
       StrColorFont:= string(PtrColorFont);
       StrColorBg:= string(PtrColorBg);
       StrColorBorder:= string(PtrColorBorder);
