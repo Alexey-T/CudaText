@@ -1507,7 +1507,7 @@ class Editor:
              color_font='', color_bg='', color_border='',
              font_bold='', font_italic='', font_strikeout='',
              border_left=0, border_right=0, border_down=0, border_up=0,
-             show_on_map=False, map_only=0
+             show_on_map=-1, map_only=0
              ):
 
         def f(x):
