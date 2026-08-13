@@ -2985,6 +2985,12 @@ Controls bookmarks. Possible values of "id":
 ** Param "show": bool: show bookmark in "Go to bookmark" dialog.
 ** Param "tag": int 32-bit: some value attached to bookmark.
 
+* BOOKMARK_APPEND: Adds bookmark very fastly. Params must be like for BOOKMARK_SET. This action does not perform:
+** Search for already existing bookmark for the same line index.
+** Sorting of internal bookmarks list. So plugin must add bookmarks via this action in the sorted order.
+** Firing of "on_state_ed" event about bookmarks change.
+** Rapainting of editor. Plugin should force the repainting via e.g. EDACTION_UPDATE.
+
 * BOOKMARK_CLEAR: Removes bookmark from line, specified by "nline" param.
 * BOOKMARK_CLEAR_ALL: Removes all bookmarks ("nline" ignored).
 * BOOKMARK_DELETE_BY_TAG: Removes all bookmarks, which have the tag, given by "tag" param.
@@ -3000,6 +3006,7 @@ Additional internal list Bookmarks2 exists, which holds list of background bookm
 
 * BOOKMARK2_GET_ALL
 * BOOKMARK2_SET
+* BOOKMARK2_APPEND
 * BOOKMARK2_CLEAR
 * BOOKMARK2_CLEAR_ALL
 * BOOKMARK2_DELETE_BY_TAG
@@ -5410,6 +5417,8 @@ It provides:
 * add: Editor.get_prop/set_prop: PROP_FN
 * add: Editor.get_prop: PROP_TAB_ID is now much more unique, and it is persistent (it is saved/restored to session)
 * add: Editor.get_prop: PROP_HANDLE_IMAGE
+* add: Editor.bookmark: BOOKMARK_APPEND
+* add: Editor.bookmark: BOOKMARK2_APPEND
 * add: Editor.micromap: allow to delete column with tag=0
 * add: file_open: function supports empty filename1 and non-empty filename2
 * add: dlg_proc: controls "memo"/"edit"/"edit_pwd"/"spinedit"/"combo" support new event "on_key_press"
