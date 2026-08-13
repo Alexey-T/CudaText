@@ -344,7 +344,7 @@ begin
         end;
       end;
     end; //case Marker.Tag of
-  end;
+  end; //for i:= 0 to Ed.Attribs.Count-1
 
   for i:= 0 to Wr.Count-1 do
   begin
