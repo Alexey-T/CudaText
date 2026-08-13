@@ -3197,8 +3197,8 @@ Controls additional color attributes. Possible values of "id":
 *** int value from 1 to 127: Show on micromap column with given tag.
 *** int value=-1: Don't show on micromap.
 *** int value=-2: Show on micromap as full-width fragment (over full micromap width). Fragment color will be XOR'ed with colors of all micromap columns.
-*** True: Show on micromap column 1.
-*** False: Don't show on micromap.
+*** (DEPRECATED) True: Show on micromap column 1.
+*** (DEPRECATED) False: Don't show on micromap.
 ** "map_only": int:
 *** 0: Show on text area only.
 *** 1: Show on micromap only.
@@ -5406,8 +5406,9 @@ It provides:
 * add: dlg_proc: controls "memo"/"edit"/"edit_pwd"/"spinedit"/"combo" support new event "on_key_press"
 * add: image_proc: IMAGE_GET_SIZE_UI
 * add: on_state: APPSTATE_SESSION_SET
-* deprecate: app_idle()
-* deprecate: Editor.get_filename()
+* deprecate: app_idle
+* deprecate: Editor.get_filename
+* deprecate: Editor.attr: param "show_on_map" cannot be boolean anymore
 * delete: PROP_PICTURE (none public plugins did use it; use PROP_HANDLE_IMAGE instead)
 
 [[Category:CudaText]]
