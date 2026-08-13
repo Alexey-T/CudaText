@@ -3524,7 +3524,7 @@ Controls editor's micromap. Possible values of "id":
 ** "color": RGB color of column background. Can be COLOR_NONE.
 
 * MICROMAP_ADD: Add micromap column. Returns bool: tag was not used, column was added.
-** "param1": Int tag of column. Value must be in the range -128...127.
+** "param1": Int tag of column. Value must be in the range 0...127.
 ** "param2": Width of column in 'units'. Where 100 'units' correspond to 'normal' column width. Value must be in the range 1...1000. For example, if you remove all columns, then add 2 columns with width 100 and 500, they will share the micromap width in ratio 1/6 and 5/6.
 ** "param3": RGB color of column background, or COLOR_NONE for default themed color.
 
