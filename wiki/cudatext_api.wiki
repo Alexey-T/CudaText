@@ -2740,6 +2740,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_HANDLE_PRIMARY: int: handle of editor object, which is primary editor in ui-tab (primary editor is always visible). It's None for editor objects created from <code>dlg_proc()</code>.
 * PROP_HANDLE_SECONDARY: int: handle of editor object, which is secondary editor in ui-tab (secondary editor is visible only when ui-tab is splitted). It's None for editor objects created from <code>dlg_proc()</code>.
 * PROP_HANDLE_PARENT: int: handle of parent of editor object, or 0 if no such parent. This is handle of dialog containing the editor, it can be passed to <code>dlg_proc()</code>. This handle is needed to dock custom dialogs into the editor, again via <code>dlg_proc()</code>.
+* PROP_HANDLE_PARENT2: int: handle of parent-of-parent of editor object, or 0 if no such parent.
 * PROP_HANDLE_IMAGE: int: for ui-tab containing picture viewer: handle if the image-object, this handle is compatible with <code>image_proc()</code>. Otherwise, it is None.
 
 * PROP_COORDS: 4-tuple of int: rectangle of entire editor area, relative to screen.
@@ -5450,6 +5451,7 @@ It provides:
 * add. Editor.get_prop/set_prop: PROP_MICROMAP_AT_LEFT
 * add: Editor.get_prop: PROP_TAB_ID is now much more unique, and it is persistent (it is saved/restored to session)
 * add: Editor.get_prop: PROP_HANDLE_IMAGE
+* add: Editor.get_prop: PROP_HANDLE_PARENT2
 * add: Editor.bookmark: BOOKMARK_APPEND
 * add: Editor.bookmark: BOOKMARK2_APPEND
 * add: Editor.micromap: allow to delete column with tag=0
