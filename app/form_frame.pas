@@ -367,8 +367,8 @@ type
 
   public
     { public declarations }
-    Ed1: TATSynEdit;
-    Ed2: TATSynEdit;
+    EdFirst: TATSynEdit;
+    EdSecond: TATSynEdit;
     Splitter: TSplitter;
     Groups: TATGroups;
     ImageBox: TATImageBox;
@@ -683,7 +683,7 @@ begin
   FTabCaption:= AValue; //don't check bUpdate here (for Win32)
 
   if bUpdate then
-    DoPyEventStateEd(Ed1, EDSTATE_TAB_TITLE);
+    DoPyEventStateEd(EdFirst, EDSTATE_TAB_TITLE);
 
   DoOnChangeCaption;
 end;
@@ -781,14 +781,14 @@ begin
     Result:= 0
   else
   if FSplitHorz then
-    Result:= Ed2.Height/Max(Height, 1)
+    Result:= EdSecond.Height/Max(Height, 1)
   else
-    Result:= Ed2.Width/Max(Width, 1);
+    Result:= EdSecond.Width/Max(Width, 1);
 end;
 
 function TEditorFrame.GetSplitted: boolean;
 begin
-  Result:= Ed2.Visible;
+  Result:= EdSecond.Visible;
 end;
 
 procedure TEditorFrame.EditorOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -900,20 +900,20 @@ begin
   begin
     FWasVisible:= true;
 
-    an:= LexerInitial[Ed1];
+    an:= LexerInitial[EdFirst];
     if Assigned(an) then
     begin
-      Lexer[Ed1]:= an;
-      LexerInitial[Ed1]:= nil;
+      Lexer[EdFirst]:= an;
+      LexerInitial[EdFirst]:= nil;
     end;
 
     if not EditorsLinked then
     begin
-      an:= LexerInitial[Ed2];
+      an:= LexerInitial[EdSecond];
       if Assigned(an) then
       begin
-        Lexer[Ed2]:= an;
-        LexerInitial[Ed2]:= nil;
+        Lexer[EdSecond]:= an;
+        LexerInitial[EdSecond]:= nil;
       end;
     end;
 
@@ -927,9 +927,9 @@ begin
     end;
 
     //fix #4559
-    EditorForceUpdateIfWrapped(Ed1);
+    EditorForceUpdateIfWrapped(EdFirst);
     if Splitted then
-      EditorForceUpdateIfWrapped(Ed2);
+      EditorForceUpdateIfWrapped(EdSecond);
   end;
 end;
 
@@ -956,9 +956,9 @@ var
 begin
   TimerChange.Enabled:= false;
 
-  RestoreSavedLexer(Ed1);
+  RestoreSavedLexer(EdFirst);
   if Splitted then
-    RestoreSavedLexer(Ed2);
+    RestoreSavedLexer(EdSecond);
 
   for EdIndex:= 0 to 1 do
     if FTextChange[EdIndex] then
@@ -1337,22 +1337,22 @@ end;
 
 function TEditorFrame.GetUnprintedEnds: boolean;
 begin
-  Result:= Ed1.OptUnprintedEnds;
+  Result:= EdFirst.OptUnprintedEnds;
 end;
 
 function TEditorFrame.GetUnprintedEndsDetails: boolean;
 begin
-  Result:= Ed1.OptUnprintedEndsDetails;
+  Result:= EdFirst.OptUnprintedEndsDetails;
 end;
 
 function TEditorFrame.GetUnprintedShow: boolean;
 begin
-  Result:= Ed1.OptUnprintedVisible;
+  Result:= EdFirst.OptUnprintedVisible;
 end;
 
 function TEditorFrame.GetUnprintedSpaces: boolean;
 begin
-  Result:= Ed1.OptUnprintedSpaces;
+  Result:= EdFirst.OptUnprintedSpaces;
 end;
 
 procedure TEditorFrame.UpdateTabTooltip;
@@ -1395,8 +1395,8 @@ begin
     FFileWasBig[1]:= AValue;
     if AValue then
     begin
-      EditorAdjustForBigFile(Ed1);
-      EditorAdjustForBigFile(Ed2);
+      EditorAdjustForBigFile(EdFirst);
+      EditorAdjustForBigFile(EdSecond);
     end;
   end
   else
@@ -1433,11 +1433,11 @@ begin
   if not EditorsLinked then
     EdPair:= nil
   else
-  if Ed=Ed1 then
-    EdPair:= Ed2
+  if Ed=EdFirst then
+    EdPair:= EdSecond
   else
-  if Ed=Ed2 then
-    EdPair:= Ed1
+  if Ed=EdSecond then
+    EdPair:= EdFirst
   else
     EdPair:= nil;
 
@@ -1459,13 +1459,13 @@ procedure TEditorFrame.UpdateLockedAll(AValue: boolean);
 begin
   if AValue then
   begin
-    Ed1.BeginUpdate;
-    Ed2.BeginUpdate;
+    EdFirst.BeginUpdate;
+    EdSecond.BeginUpdate;
   end
   else
   begin
-    Ed1.EndUpdate;
-    Ed2.EndUpdate;
+    EdFirst.EndUpdate;
+    EdSecond.EndUpdate;
   end;
 end;
 
@@ -1485,21 +1485,21 @@ procedure TEditorFrame.SetReadOnly(Ed: TATSynEdit; AValue: boolean);
 begin
   if Ed.ModeReadOnly=AValue then exit;
   Ed.ModeReadOnly:= AValue;
-  if (Ed=Ed1) and EditorsLinked then
-    Ed2.ModeReadOnly:= AValue;
+  if (Ed=EdFirst) and EditorsLinked then
+    EdSecond.ModeReadOnly:= AValue;
   DoPyEventStateEd(Ed, EDSTATE_READONLY);
 end;
 
 procedure TEditorFrame.UpdateEds(AUpdateWrapInfo: boolean = false);
 begin
-  Ed2.OptUnprintedVisible:= Ed1.OptUnprintedVisible;
-  Ed2.OptUnprintedSpaces:= Ed1.OptUnprintedSpaces;
-  Ed2.OptUnprintedEnds:= Ed1.OptUnprintedEnds;
-  Ed2.OptUnprintedEndsDetails:= Ed1.OptUnprintedEndsDetails;
-  Ed2.OptUnprintedWraps:= Ed1.OptUnprintedWraps;
+  EdSecond.OptUnprintedVisible:= EdFirst.OptUnprintedVisible;
+  EdSecond.OptUnprintedSpaces:= EdFirst.OptUnprintedSpaces;
+  EdSecond.OptUnprintedEnds:= EdFirst.OptUnprintedEnds;
+  EdSecond.OptUnprintedEndsDetails:= EdFirst.OptUnprintedEndsDetails;
+  EdSecond.OptUnprintedWraps:= EdFirst.OptUnprintedWraps;
 
-  Ed1.Update(AUpdateWrapInfo);
-  Ed2.Update(AUpdateWrapInfo);
+  EdFirst.Update(AUpdateWrapInfo);
+  EdSecond.Update(AUpdateWrapInfo);
 end;
 
 function TEditorFrame.GetLexer(Ed: TATSynEdit): TecSyntAnalyzer;
@@ -1558,8 +1558,8 @@ begin
   begin
     if EditorsLinked then
     begin
-      Ed1.AdapterForHilite:= nil;
-      Ed2.AdapterForHilite:= nil;
+      EdFirst.AdapterForHilite:= nil;
+      EdSecond.AdapterForHilite:= nil;
       Adapter1.Lexer:= nil;
     end
     else
@@ -1595,12 +1595,12 @@ begin
 
   al:= cSplitHorzToAlign[AValue];
   Splitter.Align:= al;
-  Ed2.Align:= al;
+  EdSecond.Align:= al;
 
   //restore relative splitter ratio (e.g. 50%)
   SplitPos:= SplitPos;
 
-  DoPyEvent(Ed1, TAppPyEvent.OnState, [AppVariant(APPSTATE_TAB_SPLIT_V_H)]);
+  DoPyEvent(EdFirst, TAppPyEvent.OnState, [AppVariant(APPSTATE_TAB_SPLIT_V_H)]);
 end;
 
 procedure TEditorFrame.SetSplitPos(AValue: double);
@@ -1618,13 +1618,13 @@ begin
   if FSplitHorz then
   begin
     N:= Round(AValue*Height);
-    Ed2.Height:= Max(Delta, Min(Height-Delta, N));
+    EdSecond.Height:= Max(Delta, Min(Height-Delta, N));
     Splitter.Top:= 0;
   end
   else
   begin
     N:= Round(AValue*Width);
-    Ed2.Width:= Max(Delta, Min(Width-Delta, N));
+    EdSecond.Width:= Max(Delta, Min(Width-Delta, N));
     Splitter.Left:= 0;
   end;
 end;
@@ -1634,11 +1634,11 @@ begin
   if FrameKind<>TAppFrameKind.Editor then exit;
   if GetSplitted=AValue then exit;
 
-  if not AValue and Ed2.Focused then
-    if Ed1.CanFocus then
-      Ed1.SetFocus;
+  if not AValue and EdSecond.Focused then
+    if EdFirst.CanFocus then
+      EdFirst.SetFocus;
 
-  Ed2.Visible:= AValue;
+  EdSecond.Visible:= AValue;
   Splitter.Visible:= AValue;
 
   if AValue then
@@ -1647,25 +1647,25 @@ begin
     //enable linking
     if FEditorsLinked then
     begin
-      Ed2.Strings:= Ed1.Strings;
+      EdSecond.Strings:= EdFirst.Strings;
     end;
     if Assigned(FOnEditorShow) then
-      FOnEditorShow(Ed2);
+      FOnEditorShow(EdSecond);
   end
   else
   begin
     //disable linking
-    Ed2.Strings:= nil;
+    EdSecond.Strings:= nil;
   end;
 
   if FEditorsLinked and Splitted then
-    Ed1.Strings.OnChangeEx2:= @Ed2.DoStringsOnChangeEx
+    EdFirst.Strings.OnChangeEx2:= @EdSecond.DoStringsOnChangeEx
   else
-    Ed1.Strings.OnChangeEx2:= nil;
+    EdFirst.Strings.OnChangeEx2:= nil;
 
-  Ed2.Update(true);
+  EdSecond.Update(true);
 
-  DoPyEvent(Ed1, TAppPyEvent.OnState, [AppVariant(APPSTATE_TAB_SPLIT)]);
+  DoPyEvent(EdFirst, TAppPyEvent.OnState, [AppVariant(APPSTATE_TAB_SPLIT)]);
 end;
 
 procedure TEditorFrame.EditorOnChange(Sender: TObject);
@@ -1681,10 +1681,10 @@ begin
   Ed:= Sender as TATSynEdit;
   St:= Ed.Strings;
 
-  if Ed=Ed1 then
-    EdOther:= Ed2
+  if Ed=EdFirst then
+    EdOther:= EdSecond
   else
-    EdOther:= Ed1;
+    EdOther:= EdFirst;
 
   bChangedLexer:= false;
   bChanged1:= false;
@@ -1770,10 +1770,10 @@ begin
   FBusyOnChangeDetailed:= true;
   if Splitted and EditorsLinked then
   begin
-    if Sender=Ed1 then
-      EdOther:= Ed2
+    if Sender=EdFirst then
+      EdOther:= EdSecond
     else
-      EdOther:= Ed1;
+      EdOther:= EdFirst;
     EdOther.UpdateCaretsAndMarkersOnEditing(0, APos, APosEnd, AShift, APosAfter);
     EdOther.DoGotoCaret(
       TATCaretEdge.Top,
@@ -1832,7 +1832,7 @@ end;
 procedure TEditorFrame.UpdateModified(Ed: TATSynEdit; AWithEvent: boolean);
 begin
   //when modified, remove "Preview tab" style (italic caption)
-  if (Ed=Ed1) and Ed.Modified then
+  if (Ed=EdFirst) and Ed.Modified then
     DoRemovePreviewStyle;
 
   UpdateCaptionFromFilename;
@@ -1860,7 +1860,7 @@ procedure TEditorFrame.EditorOnEnter(Sender: TObject);
 var
   bEd2: boolean;
 begin
-  bEd2:= Sender=Ed2;
+  bEd2:= Sender=EdSecond;
 
   ////should be called for any OnEnter, to fix #6235
   //if bEd2<>FActiveSecondaryEd then
@@ -2405,39 +2405,39 @@ begin
   FBracketSymbols:= EditorOps.OpBracketSymbols;
   FBracketMaxDistance:= EditorOps.OpBracketDistance;
 
-  InitEditor(Ed1, 'ed1', 0);
-  InitEditor(Ed2, 'ed2', 1);
-  Ed1.IsIniting:= true;
-  Ed2.IsIniting:= true;
-  St:= Ed1.Strings;
+  InitEditor(EdFirst, 'ed1', 0);
+  InitEditor(EdSecond, 'ed2', 1);
+  EdFirst.IsIniting:= true;
+  EdSecond.IsIniting:= true;
+  St:= EdFirst.Strings;
 
-  St.GutterDecor1:= Ed1.GutterDecor;
-  St.GutterDecor2:= Ed2.GutterDecor;
-  St.OnGetCaretsArray2:= @Ed2.GetCaretsArray;
-  St.OnSetCaretsArray2:= @Ed2.SetCaretsArray;
-  St.OnGetMarkersArray2:= @Ed2.GetMarkersArray;
-  St.OnSetMarkersArray2:= @Ed2.SetMarkersArray;
+  St.GutterDecor1:= EdFirst.GutterDecor;
+  St.GutterDecor2:= EdSecond.GutterDecor;
+  St.OnGetCaretsArray2:= @EdSecond.GetCaretsArray;
+  St.OnSetCaretsArray2:= @EdSecond.SetCaretsArray;
+  St.OnGetMarkersArray2:= @EdSecond.GetMarkersArray;
+  St.OnSetMarkersArray2:= @EdSecond.SetMarkersArray;
 
-  Ed2.Visible:= false;
+  EdSecond.Visible:= false;
   Splitter.Visible:= false;
 
   FSplitHorz:= UiOps.DefaultTabSplitIsHorz;
   Splitted:= false;
-  Ed1.Align:= alClient;
-  Ed2.Align:= cSplitHorzToAlign[FSplitHorz];
+  EdFirst.Align:= alClient;
+  EdSecond.Align:= cSplitHorzToAlign[FSplitHorz];
   Splitter.Align:= cSplitHorzToAlign[FSplitHorz];
   Splitter.OnMoved:= @SplitterMoved;
 
   Adapter1:= TATAdapterEControl.Create(Self);
   Adapter1.EnabledSublexerTreeNodes:= UiOps.TreeSublexers;
-  Adapter1.AddEditor(Ed1);
-  Adapter1.AddEditor(Ed2);
+  Adapter1.AddEditor(EdFirst);
+  Adapter1.AddEditor(EdSecond);
 
   //load options
-  EditorApplyOps(Ed1, EditorOps, true, AApplyCentering);
-  EditorApplyOps(Ed2, EditorOps, true, AApplyCentering);
-  EditorApplyTheme(Ed1);
-  EditorApplyTheme(Ed2);
+  EditorApplyOps(EdFirst, EditorOps, true, AApplyCentering);
+  EditorApplyOps(EdSecond, EditorOps, true, AApplyCentering);
+  EditorApplyTheme(EdFirst);
+  EditorApplyTheme(EdSecond);
 
   //newdoc props
   case UiOps.NewdocEnds of
@@ -2446,20 +2446,20 @@ begin
     2: St.Endings:= TATLineEnds.Windows;
     3: St.Endings:= TATLineEnds.Mac;
   end;
-  Ed2.Strings.Endings:= St.Endings;
+  EdSecond.Strings.Endings:= St.Endings;
 
   St.ClearUndo;
   St.EncodingDetectDefaultUtf8:= true; //UiOps.DefaultEncUtf8;
 
-  Ed1.EncodingName:= AppEncodingShortnameToFullname(UiOps.NewdocEnc);
-  Ed2.EncodingName:= Ed1.EncodingName;
+  EdFirst.EncodingName:= AppEncodingShortnameToFullname(UiOps.NewdocEnc);
+  EdSecond.EncodingName:= EdFirst.EncodingName;
 
   //must clear Modified, it was set on initing
-  Ed1.Modified:= false;
-  Ed2.Modified:= false;
+  EdFirst.Modified:= false;
+  EdSecond.Modified:= false;
 
-  Ed1.IsIniting:= false;
-  Ed2.IsIniting:= false;
+  EdFirst.IsIniting:= false;
+  EdSecond.IsIniting:= false;
 
   UniqueCounter:= AppUniqueCounterInt64;
 end;
@@ -2485,22 +2485,22 @@ begin
   if Assigned(ImageBox) then
     FreeAndNil(ImageBox);
 
-  Ed1.AdapterForHilite:= nil;
-  Ed2.AdapterForHilite:= nil;
+  EdFirst.AdapterForHilite:= nil;
+  EdSecond.AdapterForHilite:= nil;
 
-  Ed1.Strings.GutterDecor1:= nil;
-  Ed1.Strings.GutterDecor2:= nil;
+  EdFirst.Strings.GutterDecor1:= nil;
+  EdFirst.Strings.GutterDecor2:= nil;
   if not FEditorsLinked then
   begin
-    Ed2.Strings.GutterDecor1:= nil;
-    Ed2.Strings.GutterDecor2:= nil;
+    EdSecond.Strings.GutterDecor1:= nil;
+    EdSecond.Strings.GutterDecor2:= nil;
   end;
 
   if not Application.Terminated then //prevent crash on exit
   begin
-    DoPyEvent(Ed1, TAppPyEvent.OnClose, []);
+    DoPyEvent(EdFirst, TAppPyEvent.OnClose, []);
     if not EditorsLinked then
-      DoPyEvent(Ed2, TAppPyEvent.OnClose, []);
+      DoPyEvent(EdSecond, TAppPyEvent.OnClose, []);
   end;
 
   FreeAndNil(MacroStrings);
@@ -2519,22 +2519,22 @@ end;
 function TEditorFrame.Editor: TATSynEdit;
 begin
   if FActiveSecondaryEd then
-    Result:= Ed2
+    Result:= EdSecond
   else
-    Result:= Ed1;
+    Result:= EdFirst;
 end;
 
 function TEditorFrame.EditorBrother: TATSynEdit;
 begin
   if not FActiveSecondaryEd then
-    Result:= Ed2
+    Result:= EdSecond
   else
-    Result:= Ed1;
+    Result:= EdFirst;
 end;
 
 function TEditorFrame.GetAdapter(Ed: TATSynEdit): TATAdapterEControl;
 begin
-  if (Ed=Ed1) or EditorsLinked then
+  if (Ed=EdFirst) or EditorsLinked then
     Result:= Adapter1
   else
     Result:= Adapter2;
@@ -2542,7 +2542,7 @@ end;
 
 function TEditorFrame.EditorObjToTreeviewIndex(Ed: TATSynEdit): integer;
 begin
-  if (Ed=Ed1) or EditorsLinked then
+  if (Ed=EdFirst) or EditorsLinked then
     Result:= 0
   else
     Result:= 1;
@@ -2574,10 +2574,10 @@ function TEditorFrame.IsEmpty: boolean;
 begin
   //dont check Modified here
   if EditorsLinked then
-    Result:= (FFileName='') and Ed1.IsEmpty
+    Result:= (FFileName='') and EdFirst.IsEmpty
   else
     Result:= (FFileName='') and (FFileName2='') and
-      Ed1.IsEmpty and Ed2.IsEmpty;
+      EdFirst.IsEmpty and EdSecond.IsEmpty;
 end;
 
 procedure TEditorFrame.ApplyThemeToInfoPanel(APanel: TPanel);
@@ -2593,13 +2593,13 @@ procedure TEditorFrame.ApplyLexerStyleMap;
 var
   An, AnIncorrect: TecSyntAnalyzer;
 begin
-  An:= Lexer[Ed1];
+  An:= Lexer[EdFirst];
   if Assigned(An) then
     DoApplyLexerStylesMap(An, AnIncorrect);
 
   if not EditorsLinked then
   begin
-    An:= Lexer[Ed2];
+    An:= Lexer[EdSecond];
     if Assigned(An) then
       DoApplyLexerStylesMap(An, AnIncorrect);
   end;
@@ -2609,13 +2609,13 @@ procedure TEditorFrame.LexerReparse;
 var
   Ada: TATAdapterEControl;
 begin
-  Ada:= Adapter[Ed1];
+  Ada:= Adapter[EdFirst];
   if Assigned(Ada) and Assigned(Ada.AnClient) then
     Ada.ParseFromLine(0, true);
 
   if not EditorsLinked then
   begin
-    Ada:= Adapter[Ed2];
+    Ada:= Adapter[EdSecond];
     if Assigned(Ada) and Assigned(Ada.AnClient) then
       Ada.ParseFromLine(0, true);
   end;
@@ -2623,8 +2623,8 @@ end;
 
 procedure TEditorFrame.ApplyTheme;
 begin
-  EditorApplyTheme(Ed1);
-  EditorApplyTheme(Ed2);
+  EditorApplyTheme(EdFirst);
+  EditorApplyTheme(EdSecond);
 
   if Assigned(Viewer) then
   begin
@@ -2647,7 +2647,7 @@ end;
 
 function TEditorFrame.IsEditorFocused: boolean;
 begin
-  Result:= Ed1.Focused or Ed2.Focused;
+  Result:= EdFirst.Focused or EdSecond.Focused;
 end;
 
 function TEditorFrame.FrameKind: TAppFrameKind;
@@ -2689,19 +2689,19 @@ begin
   begin
     if EditorsLinked then
     begin
-      Ed1.AdapterForHilite:= nil;
-      Ed2.AdapterForHilite:= nil;
+      EdFirst.AdapterForHilite:= nil;
+      EdSecond.AdapterForHilite:= nil;
       if Assigned(Adapter1) then
         Adapter1.Lexer:= nil;
       if Assigned(Adapter2) then
         Adapter2.Lexer:= nil;
-      Ed1.Update;
-      Ed2.Update;
+      EdFirst.Update;
+      EdSecond.Update;
     end
     else
     begin
       Ed.AdapterForHilite:= nil;
-      if Ed=Ed1 then
+      if Ed=EdFirst then
       begin
         if Assigned(Adapter1) then
           Adapter1.Lexer:= nil;
@@ -2731,13 +2731,13 @@ begin
   begin
     if EditorsLinked then
     begin
-      Ed1.AdapterForHilite:= Adapter1;
-      Ed2.AdapterForHilite:= Adapter1;
+      EdFirst.AdapterForHilite:= Adapter1;
+      EdSecond.AdapterForHilite:= Adapter1;
     end
     else
     begin
-      if Ed=Ed1 then
-        Ed1.AdapterForHilite:= Adapter1
+      if Ed=EdFirst then
+        EdFirst.AdapterForHilite:= Adapter1
       else
       begin
         if Adapter2=nil then
@@ -2746,7 +2746,7 @@ begin
           Adapter2.EnabledSublexerTreeNodes:= UiOps.TreeSublexers;
           OnInitAdapter(Adapter2);
         end;
-        Ed2.AdapterForHilite:= Adapter2;
+        EdSecond.AdapterForHilite:= Adapter2;
       end;
     end;
 
@@ -2757,10 +2757,10 @@ begin
   begin
     Ed.Fold.Clear;
     Ed.Update;
-    if (Ed=Ed1) and EditorsLinked then
+    if (Ed=EdFirst) and EditorsLinked then
     begin
-      Ed2.Fold.Clear;
-      Ed2.Update;
+      EdSecond.Fold.Clear;
+      EdSecond.Update;
     end;
   end;
 
@@ -2786,10 +2786,10 @@ begin
   Ed.AdapterForHilite:= an;
   Ed.Update;
 
-  if (Ed=Ed1) and EditorsLinked then
+  if (Ed=EdFirst) and EditorsLinked then
   begin
-    Ed2.AdapterForHilite:= an;
-    Ed2.Update;
+    EdSecond.AdapterForHilite:= an;
+    EdSecond.Update;
   end;
 
   if MacroRecord then
@@ -2811,10 +2811,10 @@ begin
   FFileName:= AFileName;
   UpdateCaptionFromFilename;
 
-  Ed1.Hide;
-  Ed2.Hide;
+  EdFirst.Hide;
+  EdSecond.Hide;
   Splitter.Hide;
-  ReadOnly[Ed1]:= true;
+  ReadOnly[EdFirst]:= true;
 
   if Assigned(ImageBox) then
     ImageBox.Hide;
@@ -2846,7 +2846,7 @@ begin
   Viewer.DoubleBuffered:= UiOps.DoubleBuffered;
   Viewer.TextWidth:= UiOps.ViewerBinaryWidth;
   Viewer.TextNonPrintable:= UiOps.ViewerNonPrintable;
-  Viewer.TextWrap:= Ed1.OptWrapMode<>TATEditorWrapMode.ModeOff;
+  Viewer.TextWrap:= EdFirst.OptWrapMode<>TATEditorWrapMode.ModeOff;
   //don't sync spacing yet! value>0 shows the ATBinHex bug during mouse selection: mouse coord in spacing makes selection flicker
   //Viewer.TextLineSpacing:= EditorOps.OpSpacingBottom;
   Viewer.Mode:= AMode;
@@ -2884,10 +2884,10 @@ begin
   FFileName:= AFileName;
   UpdateCaptionFromFilename;
 
-  Ed1.Hide;
-  Ed2.Hide;
+  EdFirst.Hide;
+  EdSecond.Hide;
   Splitter.Hide;
-  ReadOnly[Ed1]:= true;
+  ReadOnly[EdFirst]:= true;
 
   if not Assigned(ImageBox) then
   begin
@@ -2921,7 +2921,7 @@ end;
 
 procedure TEditorFrame.DoImageboxOnEnter(Sender: TObject);
 begin
-  OnFocusEditor(Ed1);
+  OnFocusEditor(EdFirst);
 end;
 
 
@@ -2930,8 +2930,8 @@ begin
   if Assigned(ImageBox) then
   begin
     FreeAndNil(ImageBox);
-    Ed1.Show;
-    ReadOnly[Ed1]:= false;
+    EdFirst.Show;
+    ReadOnly[EdFirst]:= false;
   end;
 end;
 
@@ -2945,8 +2945,8 @@ begin
     if Assigned(FViewerStream) then
       FreeAndNil(FViewerStream);
 
-    Ed1.Show;
-    ReadOnly[Ed1]:= false;
+    EdFirst.Show;
+    ReadOnly[EdFirst]:= false;
   end;
 end;
 
@@ -2979,11 +2979,11 @@ begin
       (CompareFilenames(AFileName, AppFile_OptionsDefault)=0) then
       InitPanelInfo(PanelInfo, GetMsgSuggestOptionsEditor, @PanelInfoClick, true);
 
-  if Lexer[Ed1]<>nil then
-    Lexer[Ed1]:= nil;
+  if Lexer[EdFirst]<>nil then
+    Lexer[EdFirst]:= nil;
   if not EditorsLinked then
-    if Lexer[Ed2]<>nil then
-      Lexer[Ed2]:= nil;
+    if Lexer[EdSecond]<>nil then
+      Lexer[EdSecond]:= nil;
 
   case AOpenMode of
     TAppOpenMode.ViewText:
@@ -3025,7 +3025,7 @@ begin
   bFilename2Valid:= (AFileName2<>'') and not SameFileName(AFileName, AFileName2);
   EditorsLinked:= not bFilename2Valid; //set it before opening 1st file
 
-  DoFileOpen_Ex(Ed1, AFileName,
+  DoFileOpen_Ex(EdFirst, AFileName,
     AAllowLoadHistory,
     AAllowLoadHistory,
     AAllowLoadBookmarks,
@@ -3039,7 +3039,7 @@ begin
   begin
     SplitHorz:= false;
     Splitted:= true;
-    DoFileOpen_Ex(Ed2, AFileName2,
+    DoFileOpen_Ex(EdSecond, AFileName2,
       AAllowLoadHistory,
       AAllowLoadHistory,
       AAllowLoadBookmarks,
@@ -3167,7 +3167,7 @@ begin
 
   Ed.ModifiedBookmarks:= false;
   if EditorsLinked and (EdIndex=0) then
-    Ed2.ModifiedBookmarks:= false;
+    EdSecond.ModifiedBookmarks:= false;
 
   //save temp-options, to later know which options are changed,
   //during loading of lexer-specific config
@@ -3199,22 +3199,22 @@ procedure TEditorFrame.UpdateFrame(AUpdatedText: boolean);
 var
   Ad: TATAdapterEControl;
 begin
-  Ed1.DoCaretsFixIncorrectPos(false);
-  Ed2.DoCaretsFixIncorrectPos(false);
+  EdFirst.DoCaretsFixIncorrectPos(false);
+  EdSecond.DoCaretsFixIncorrectPos(false);
 
-  Ed1.Update(AUpdatedText);
-  Ed2.Update(AUpdatedText);
+  EdFirst.Update(AUpdatedText);
+  EdSecond.Update(AUpdatedText);
 
   if AUpdatedText then
   begin
-    Ad:= Adapter[Ed1];
-    Ad.OnEditorChange(Ed1);
+    Ad:= Adapter[EdFirst];
+    Ad.OnEditorChange(EdFirst);
 
     if not EditorsLinked then
     begin
-      Ad:= Adapter[Ed2];
+      Ad:= Adapter[EdSecond];
       if Assigned(Ad) then
-        Ad.OnEditorChange(Ed2);
+        Ad.OnEditorChange(EdSecond);
     end;
   end;
 end;
@@ -3231,7 +3231,7 @@ end;
 
 function TEditorFrame.GetFileName(Ed: TATSynEdit): string;
 begin
-  if EditorsLinked or (Ed=Ed1) then
+  if EditorsLinked or (Ed=EdFirst) then
     Result:= FFileName
   else
     Result:= FFileName2;
@@ -3239,20 +3239,20 @@ end;
 
 procedure TEditorFrame.SetFileName_Ed1(const AValue: string);
 begin
-  SetFileName(Ed1, AValue);
+  SetFileName(EdFirst, AValue);
 end;
 
 procedure TEditorFrame.SetFileName_Ed2(const AValue: string);
 begin
-  SetFileName(Ed2, AValue);
+  SetFileName(EdSecond, AValue);
 end;
 
 procedure TEditorFrame.SetFileName(Ed: TATSynEdit; const AFileName: string);
 begin
   if EditorsLinked then
   begin
-    Ed1.FileName:= AFileName;
-    Ed2.FileName:= AFileName;
+    EdFirst.FileName:= AFileName;
+    EdSecond.FileName:= AFileName;
     FileProps[0].Init(AFileName);
   end
   else
@@ -3261,7 +3261,7 @@ begin
     FileProps[EditorObjToIndex(Ed)].Init(AFileName);
   end;
 
-  if EditorsLinked or (Ed=Ed1) then
+  if EditorsLinked or (Ed=EdFirst) then
     FFileName:= AFileName
   else
     FFileName2:= AFileName;
@@ -3276,8 +3276,8 @@ begin
   if not EditorsLinked and ABothPairedEditors then
   begin
     Result:=
-      DoFileSave_Ex(Ed1, ASaveAs) and
-      DoFileSave_Ex(Ed2, ASaveAs);
+      DoFileSave_Ex(EdFirst, ASaveAs) and
+      DoFileSave_Ex(EdSecond, ASaveAs);
   end
   else
   begin
@@ -3438,15 +3438,15 @@ begin
   fixes issue:
   - open new tab
   - save to file
-  - split it to ed1/ed2
-  - edit in ed2; then edit in ed1 -> circle-mark shows
-  - focus ed2, save to file -> circle-mark hides
-  - focus ed1, edit -> circle-mark don't show (ed1 don't fire OnChangeModified)
+  - split it to EdFirst/EdSecond
+  - edit in EdSecond; then edit in EdFirst -> circle-mark shows
+  - focus EdSecond, save to file -> circle-mark hides
+  - focus EdFirst, edit -> circle-mark don't show (ed1 don't fire OnChangeModified)
   }
   if Result and EditorsLinked then
   begin
-    Ed1.Modified:= false;
-    Ed2.Modified:= false;
+    EdFirst.Modified:= false;
+    EdSecond.Modified:= false;
   end;
 
   NotifEnabled:= bNotifWasEnabled or bNameChanged;
@@ -3559,10 +3559,10 @@ begin
     Mode);
 
   //fix issue #3394
-  if EditorsLinked and Splitted and (Ed=Ed1) then
+  if EditorsLinked and Splitted and (Ed=EdFirst) then
   begin
-    Ed2.Update(true);
-    Ed2.DoCaretsFixIncorrectPos(false);
+    EdSecond.Update(true);
+    EdSecond.DoCaretsFixIncorrectPos(false);
   end;
 
   Ed.Modified:= false;
@@ -3601,19 +3601,19 @@ begin
 
   Ed.Strings.Endings:= AValue;
   Ed.Update;
-  if (Ed=Ed1) and EditorsLinked then
-    Ed2.Update;
+  if (Ed=EdFirst) and EditorsLinked then
+    EdSecond.Update;
 end;
 
 procedure TEditorFrame.SetUnprintedShow(AValue: boolean);
 begin
-  Ed1.OptUnprintedVisible:= AValue;
+  EdFirst.OptUnprintedVisible:= AValue;
   UpdateEds;
 end;
 
 procedure TEditorFrame.SetUnprintedSpaces(AValue: boolean);
 begin
-  Ed1.OptUnprintedSpaces:= AValue;
+  EdFirst.OptUnprintedSpaces:= AValue;
   UpdateEds;
 end;
 
@@ -3623,34 +3623,34 @@ begin
   FEditorsLinked:= AValue;
 
   if FEditorsLinked then
-    Ed2.Strings:= Ed1.Strings
+    EdSecond.Strings:= EdFirst.Strings
   else
-    Ed2.Strings:= nil;
+    EdSecond.Strings:= nil;
 
-  Ed1.Strings.GutterDecor1:= Ed1.GutterDecor;
+  EdFirst.Strings.GutterDecor1:= EdFirst.GutterDecor;
   if FEditorsLinked then
   begin
-    Ed1.Strings.GutterDecor2:= Ed2.GutterDecor;
-    Ed1.Strings.OnGetCaretsArray2:= @Ed2.GetCaretsArray;
-    Ed1.Strings.OnSetCaretsArray2:= @Ed2.SetCaretsArray;
-    Ed1.Strings.OnGetMarkersArray2:= @Ed2.GetMarkersArray;
-    Ed1.Strings.OnSetMarkersArray2:= @Ed2.SetMarkersArray;
+    EdFirst.Strings.GutterDecor2:= EdSecond.GutterDecor;
+    EdFirst.Strings.OnGetCaretsArray2:= @EdSecond.GetCaretsArray;
+    EdFirst.Strings.OnSetCaretsArray2:= @EdSecond.SetCaretsArray;
+    EdFirst.Strings.OnGetMarkersArray2:= @EdSecond.GetMarkersArray;
+    EdFirst.Strings.OnSetMarkersArray2:= @EdSecond.SetMarkersArray;
   end
   else
   begin
-    Ed1.Strings.GutterDecor2:= nil;
-    Ed2.Strings.GutterDecor1:= Ed2.GutterDecor;
-    Ed2.Strings.GutterDecor2:= nil;
-    Ed1.Strings.OnGetCaretsArray2:= nil;
-    Ed1.Strings.OnSetCaretsArray2:= nil;
-    Ed1.Strings.OnGetMarkersArray2:= nil;
-    Ed1.Strings.OnSetMarkersArray2:= nil;
+    EdFirst.Strings.GutterDecor2:= nil;
+    EdSecond.Strings.GutterDecor1:= EdSecond.GutterDecor;
+    EdSecond.Strings.GutterDecor2:= nil;
+    EdFirst.Strings.OnGetCaretsArray2:= nil;
+    EdFirst.Strings.OnSetCaretsArray2:= nil;
+    EdFirst.Strings.OnGetMarkersArray2:= nil;
+    EdFirst.Strings.OnSetMarkersArray2:= nil;
   end;
 
   if FEditorsLinked and Splitted then
-    Ed1.Strings.OnChangeEx2:= @Ed2.DoStringsOnChangeEx
+    EdFirst.Strings.OnChangeEx2:= @EdSecond.DoStringsOnChangeEx
   else
-    Ed1.Strings.OnChangeEx2:= nil;
+    EdFirst.Strings.OnChangeEx2:= nil;
 
   Adapter1.AddEditor(nil);
   if Assigned(Adapter2) then
@@ -3658,8 +3658,8 @@ begin
 
   if FEditorsLinked then
   begin
-    Adapter1.AddEditor(Ed1);
-    Adapter1.AddEditor(Ed2);
+    Adapter1.AddEditor(EdFirst);
+    Adapter1.AddEditor(EdSecond);
   end
   else
   begin
@@ -3669,12 +3669,12 @@ begin
       Adapter2.EnabledSublexerTreeNodes:= UiOps.TreeSublexers;
       OnInitAdapter(Adapter2);
     end;
-    Adapter1.AddEditor(Ed1);
-    Adapter2.AddEditor(Ed2);
+    Adapter1.AddEditor(EdFirst);
+    Adapter2.AddEditor(EdSecond);
   end;
 
-  Ed2.Fold.Clear;
-  Ed2.Update(true);
+  EdSecond.Fold.Clear;
+  EdSecond.Update(true);
 end;
 
 procedure TEditorFrame.SplitterMoved(Sender: TObject);
@@ -3693,13 +3693,13 @@ end;
 
 procedure TEditorFrame.SetUnprintedEnds(AValue: boolean);
 begin
-  Ed1.OptUnprintedEnds:= AValue;
+  EdFirst.OptUnprintedEnds:= AValue;
   UpdateEds;
 end;
 
 procedure TEditorFrame.SetUnprintedEndsDetails(AValue: boolean);
 begin
-  Ed1.OptUnprintedEndsDetails:= AValue;
+  EdFirst.OptUnprintedEndsDetails:= AValue;
   UpdateEds;
 end;
 
@@ -3795,7 +3795,7 @@ end;
 
 function TEditorFrame.GetEnabledCodeTree(Ed: TATSynEdit): boolean;
 begin
-  if (Ed=Ed1) or EditorsLinked then
+  if (Ed=EdFirst) or EditorsLinked then
     Result:= FEnabledCodeTree[0]
   else
     Result:= FEnabledCodeTree[1];
@@ -3854,29 +3854,29 @@ begin
 
   if FMacroRecord then
   begin
-    Ed1.OptBorderColor:= GetAppColor(TAppThemeColor.EdMarkers);
-    Ed1.OptCornerText:= 'R';
-    Ed1.OptCornerColorFont:= GetAppColor(TAppThemeColor.EdTextFont);
-    Ed1.OptCornerColorBack:= Ed1.OptBorderColor;
-    Ed1.OptCornerColorBorder:= clNone;
+    EdFirst.OptBorderColor:= GetAppColor(TAppThemeColor.EdMarkers);
+    EdFirst.OptCornerText:= 'R';
+    EdFirst.OptCornerColorFont:= GetAppColor(TAppThemeColor.EdTextFont);
+    EdFirst.OptCornerColorBack:= EdFirst.OptBorderColor;
+    EdFirst.OptCornerColorBorder:= clNone;
   end
   else
   begin
-    Ed1.OptBorderColor:= clNone;
-    Ed1.OptCornerText:= '';
-    Ed1.OptCornerColorFont:= clBlack;
-    Ed1.OptCornerColorBack:= clWhite;
-    Ed1.OptCornerColorBorder:= clNone;
+    EdFirst.OptBorderColor:= clNone;
+    EdFirst.OptCornerText:= '';
+    EdFirst.OptCornerColorFont:= clBlack;
+    EdFirst.OptCornerColorBack:= clWhite;
+    EdFirst.OptCornerColorBorder:= clNone;
   end;
 
-  Ed2.OptBorderColor:= Ed1.OptBorderColor;
-  Ed2.OptCornerText:= Ed1.OptCornerText;
-  Ed2.OptCornerColorFont:= Ed1.OptCornerColorFont;
-  Ed2.OptCornerColorBack:= Ed1.OptCornerColorBack;
-  Ed2.OptCornerColorBorder:= Ed1.OptCornerColorBorder;
+  EdSecond.OptBorderColor:= EdFirst.OptBorderColor;
+  EdSecond.OptCornerText:= EdFirst.OptCornerText;
+  EdSecond.OptCornerColorFont:= EdFirst.OptCornerColorFont;
+  EdSecond.OptCornerColorBack:= EdFirst.OptCornerColorBack;
+  EdSecond.OptCornerColorBorder:= EdFirst.OptCornerColorBorder;
 
-  Ed1.Update;
-  Ed2.Update;
+  EdFirst.Update;
+  EdSecond.Update;
 end;
 
 procedure TEditorFrame.DoOnUpdateStatusbar(AReason: TAppStatusbarUpdateReason);
@@ -4141,7 +4141,7 @@ begin
   begin
     c.SetDeleteValue(path+cHistory_TopLine, Ed.LineTop, 0);
     if EditorsLinked and Splitted then
-      c.SetDeleteValue(path+cHistory_TopLine2, Ed2.LineTop, 0);
+      c.SetDeleteValue(path+cHistory_TopLine2, EdSecond.LineTop, 0);
   end;
 
   if UiOps.HistoryItems[TAppHistoryElement.WordWrap] then
@@ -4359,7 +4359,7 @@ begin
   begin
     nTop:= c.GetValue(path+cHistory_TopLine2, 0);
     if nTop>0 then
-      Ed2.LineTop:= nTop;
+      EdSecond.LineTop:= nTop;
   end;
 
   //lexer
@@ -4551,7 +4551,7 @@ begin
 
   Ed.Update;
   if Splitted and EditorsLinked then
-    Ed2.Update;
+    EdSecond.Update;
 end;
 
 procedure TEditorFrame.DoLoadUndo(Ed: TATSynEdit);
@@ -4703,7 +4703,7 @@ begin
     Pages.Tabs.Invalidate;
   end;
 
-  UpdatePinned(Ed1, true);
+  UpdatePinned(EdFirst, true);
 end;
 
 procedure TEditorFrame.DoRemovePreviewStyle;
@@ -5019,8 +5019,8 @@ end;
 
 procedure TEditorFrame.SetEnabledFolding(AValue: boolean);
 begin
-  Ed1.OptFoldEnabled:= AValue;
-  Ed2.OptFoldEnabled:= AValue;
+  EdFirst.OptFoldEnabled:= AValue;
+  EdSecond.OptFoldEnabled:= AValue;
 end;
 
 function TEditorFrame.PictureSizes: TPoint;
@@ -5122,7 +5122,7 @@ end;
 
 procedure TEditorFrame.ViewerOnEnter(Sender: TObject);
 begin
-  OnFocusEditor(Ed1);
+  OnFocusEditor(EdFirst);
 end;
 
 procedure TEditorFrame.ViewerOnProgress(const ACurrentPos,
@@ -5190,9 +5190,9 @@ begin
   CloseFormAutoCompletion;
 
   //clear adapters
-  Lexer[Ed1]:= nil;
+  Lexer[EdFirst]:= nil;
   if not EditorsLinked then
-    Lexer[Ed2]:= nil;
+    Lexer[EdSecond]:= nil;
 
   FFileName:= '';
   FFileName2:= '';
@@ -5205,11 +5205,11 @@ begin
   DoDeactivatePictureMode;
 
   //clear editors
-  EditorClear(Ed1);
+  EditorClear(EdFirst);
   if not EditorsLinked then
-    EditorClear(Ed2);
+    EditorClear(EdSecond);
 
-  UpdateModified(Ed1);
+  UpdateModified(EdFirst);
 end;
 
 procedure TEditorFrame.DoToggleFocusSplitEditors;
@@ -5221,7 +5221,7 @@ begin
     Ed:= EditorBrother;
     if Ed.Enabled and Ed.Visible then
     begin
-      FActiveSecondaryEd:= Ed=Ed2;
+      FActiveSecondaryEd:= Ed=EdSecond;
       Ed.SetFocus;
     end;
   end;
@@ -5338,10 +5338,10 @@ end;
 
 function TEditorFrame.EditorObjToIndex(Ed: TATSynEdit): integer;
 begin
-  if Ed=Ed1 then
+  if Ed=EdFirst then
     Result:= 0
   else
-  if Ed=Ed2 then
+  if Ed=EdSecond then
     Result:= 1
   else
     Result:= -1;
@@ -5350,10 +5350,10 @@ end;
 function TEditorFrame.EditorIndexToObj(N: integer): TATSynEdit;
 begin
   if N=0 then
-    Result:= Ed1
+    Result:= EdFirst
   else
   if N=1 then
-    Result:= Ed2
+    Result:= EdSecond
   else
     Result:= nil;
 end;
@@ -5390,22 +5390,22 @@ begin
   if FBracketHilite=AValue then Exit;
   FBracketHilite:= AValue;
 
-  EditorBracket_ClearHilite(Ed1);
-  EditorBracket_ClearHilite(Ed2);
+  EditorBracket_ClearHilite(EdFirst);
+  EditorBracket_ClearHilite(EdSecond);
 
   if FBracketHilite then
   begin
-    EditorOnChangeCaretPos(Ed1);
-    EditorOnChangeCaretPos(Ed2);
+    EditorOnChangeCaretPos(EdFirst);
+    EditorOnChangeCaretPos(EdSecond);
   end;
 end;
 
 function TEditorFrame.Modified: boolean;
 begin
   if FEditorsLinked then
-    Result:= EditorIsModifiedEx(Ed1)
+    Result:= EditorIsModifiedEx(EdFirst)
   else
-    Result:= EditorIsModifiedEx(Ed1) or EditorIsModifiedEx(Ed2);
+    Result:= EditorIsModifiedEx(EdFirst) or EditorIsModifiedEx(EdSecond);
 end;
 
 procedure TEditorFrame.PanelInfoClick(Sender: TObject);
@@ -5437,26 +5437,26 @@ procedure TEditorFrame.LexerBackupSave;
 begin
   if FLexerNameBackup1<>'' then
     raise Exception.Create('Unexpected non-empty Frame.LexerNameBackup');
-  FLexerNameBackup1:= LexerName[Ed1];
+  FLexerNameBackup1:= LexerName[EdFirst];
 
-  Lexer[Ed1]:= nil;
+  Lexer[EdFirst]:= nil;
 
   if not EditorsLinked then
   begin
-    FLexerNameBackup2:= LexerName[Ed2];
-    Lexer[Ed2]:= nil;
+    FLexerNameBackup2:= LexerName[EdSecond];
+    Lexer[EdSecond]:= nil;
   end;
 
   //fix crash: lexer is active in passive tab, LoadLexerLib deletes all lexers, user switches tab
-  LexerInitial[Ed1]:= nil;
-  LexerInitial[Ed2]:= nil;
+  LexerInitial[EdFirst]:= nil;
+  LexerInitial[EdSecond]:= nil;
 end;
 
 procedure TEditorFrame.LexerBackupRestore;
 begin
-  LexerName[Ed1]:= FLexerNameBackup1;
+  LexerName[EdFirst]:= FLexerNameBackup1;
   if not EditorsLinked then
-    LexerName[Ed2]:= FLexerNameBackup2;
+    LexerName[EdSecond]:= FLexerNameBackup2;
 
   FLexerNameBackup1:= '';
   FLexerNameBackup2:= '';
@@ -5483,12 +5483,12 @@ begin
     end
     else
     begin
-      Name1:= AppCollapseHomeDirInFilename(GetFileName(Ed1));
-      Name2:= AppCollapseHomeDirInFilename(GetFileName(Ed2));
+      Name1:= AppCollapseHomeDirInFilename(GetFileName(EdFirst));
+      Name2:= AppCollapseHomeDirInFilename(GetFileName(EdSecond));
       if Name1='' then Name1:= msgUntitledTab;
       if Name2='' then Name2:= msgUntitledTab;
-      Name1:= msgModifiedString[Ed1.Modified]+Name1;
-      Name2:= msgModifiedString[Ed2.Modified]+Name2;
+      Name1:= msgModifiedString[EdFirst.Modified]+Name1;
+      Name2:= msgModifiedString[EdSecond.Modified]+Name2;
       Result:= Name1+' | '+Name2;
     end;
   end

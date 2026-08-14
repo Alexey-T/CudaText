@@ -154,7 +154,7 @@ begin
       if Frame=nil then exit;
       Frame.TabCaption:= msgFinderRegexMatchesNumbered;
       Frame.TabCaptionReason:= TAppTabCaptionReason.UnsavedSpecial;
-      Ed:= Frame.Ed1;
+      Ed:= Frame.EdFirst;
       Ed.Strings.LoadFromStrings(Matches, TATLineEnds.Unix, false);
       Ed.UpdateWrapInfo(true, false); //AForceUpdate=True to fix #4609
       Ed.Update;
@@ -280,9 +280,9 @@ begin
     if bChangeFrame then
       SetFrame(FrameNew);
 
-    ACounter+= FinderReplaceAll(FrameNew.Ed1, true);
+    ACounter+= FinderReplaceAll(FrameNew.EdFirst, true);
     if not FrameNew.EditorsLinked then
-      ACounter+= FinderReplaceAll(FrameNew.Ed2, true);
+      ACounter+= FinderReplaceAll(FrameNew.EdSecond, true);
   end;
 
   NTime:= (GetTickCount64-NTick) div 1000;

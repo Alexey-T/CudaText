@@ -27,14 +27,14 @@ begin
   if Frame.EditorsLinked then
   begin
     D.TabTwoDocuments:= false;
-    D.TabModified:= Frame.Ed1.Modified;
+    D.TabModified:= Frame.EdFirst.Modified;
     D.TabModified2:= false;
   end
   else
   begin
     D.TabTwoDocuments:= true;
-    D.TabModified:= Frame.Ed1.Modified;
-    D.TabModified2:= Frame.Ed2.Modified;
+    D.TabModified:= Frame.EdFirst.Modified;
+    D.TabModified2:= Frame.EdSecond.Modified;
   end;
 
   if NTab=Pages.Tabs.TabIndex then
@@ -92,13 +92,13 @@ begin
   for i:= 0 to FrameCount-1 do
   begin
     Frame:= Frames[i];
-    Frame.Ed1.OptUnprintedVisible:= bShow;
-    Frame.Ed2.OptUnprintedVisible:= bShow;
+    Frame.EdFirst.OptUnprintedVisible:= bShow;
+    Frame.EdSecond.OptUnprintedVisible:= bShow;
     if Frame.Visible then
     begin
-      Frame.Ed1.Update;
+      Frame.EdFirst.Update;
       if Frame.Splitted then
-        Frame.Ed2.Update;
+        Frame.EdSecond.Update;
     end;
   end;
 

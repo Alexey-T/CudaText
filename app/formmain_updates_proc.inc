@@ -545,30 +545,30 @@ begin
   begin
     F:= Frames[i];
 
-    F.Ed1.Font.Name:= EditorOps.OpFontName;
-    F.Ed1.FontItalic.Name:= EditorOps.OpFontName_i;
-    F.Ed1.FontBold.Name:= EditorOps.OpFontName_b;
-    F.Ed1.FontBoldItalic.Name:= EditorOps.OpFontName_bi;
-    F.Ed2.Font.Name:= EditorOps.OpFontName;
-    F.Ed2.FontItalic.Name:= EditorOps.OpFontName_i;
-    F.Ed2.FontBold.Name:= EditorOps.OpFontName_b;
-    F.Ed2.FontBoldItalic.Name:= EditorOps.OpFontName_bi;
+    F.EdFirst.Font.Name:= EditorOps.OpFontName;
+    F.EdFirst.FontItalic.Name:= EditorOps.OpFontName_i;
+    F.EdFirst.FontBold.Name:= EditorOps.OpFontName_b;
+    F.EdFirst.FontBoldItalic.Name:= EditorOps.OpFontName_bi;
+    F.EdSecond.Font.Name:= EditorOps.OpFontName;
+    F.EdSecond.FontItalic.Name:= EditorOps.OpFontName_i;
+    F.EdSecond.FontBold.Name:= EditorOps.OpFontName_b;
+    F.EdSecond.FontBoldItalic.Name:= EditorOps.OpFontName_bi;
 
-    F.Ed1.Font.Size:= EditorOps.OpFontSize;
-    F.Ed1.FontItalic.Size:= EditorOps.OpFontSize_i;
-    F.Ed1.FontBold.Size:= EditorOps.OpFontSize_b;
-    F.Ed1.FontBoldItalic.Size:= EditorOps.OpFontSize_bi;
-    F.Ed2.Font.Size:= EditorOps.OpFontSize;
-    F.Ed2.FontItalic.Size:= EditorOps.OpFontSize_i;
-    F.Ed2.FontBold.Size:= EditorOps.OpFontSize_b;
-    F.Ed2.FontBoldItalic.Size:= EditorOps.OpFontSize_bi;
+    F.EdFirst.Font.Size:= EditorOps.OpFontSize;
+    F.EdFirst.FontItalic.Size:= EditorOps.OpFontSize_i;
+    F.EdFirst.FontBold.Size:= EditorOps.OpFontSize_b;
+    F.EdFirst.FontBoldItalic.Size:= EditorOps.OpFontSize_bi;
+    F.EdSecond.Font.Size:= EditorOps.OpFontSize;
+    F.EdSecond.FontItalic.Size:= EditorOps.OpFontSize_i;
+    F.EdSecond.FontBold.Size:= EditorOps.OpFontSize_b;
+    F.EdSecond.FontBoldItalic.Size:= EditorOps.OpFontSize_bi;
 
-    F.Ed1.Font.Quality:= EditorOps.OpFontQuality;
-    F.Ed2.Font.Quality:= EditorOps.OpFontQuality;
+    F.EdFirst.Font.Quality:= EditorOps.OpFontQuality;
+    F.EdSecond.Font.Quality:= EditorOps.OpFontQuality;
 
-    F.Ed1.Update;
+    F.EdFirst.Update;
     if F.Splitted then
-      F.Ed2.Update;
+      F.EdSecond.Update;
 
     if (F.FrameKind=TAppFrameKind.BinaryViewer) and Assigned(F.Viewer) then
     begin
@@ -580,9 +580,9 @@ begin
 
     {
     //2023.11: block commented, to not reset newly applied font from DoOps_LoadOptionsLexerSpecific
-    DoOps_LoadOptionsLexerSpecific(F, F.Ed1);
+    DoOps_LoadOptionsLexerSpecific(F, F.EdFirst);
     if not F.EditorsLinked then
-      DoOps_LoadOptionsLexerSpecific(F, F.Ed2);
+      DoOps_LoadOptionsLexerSpecific(F, F.EdSecond);
       }
   end;
 
@@ -754,11 +754,11 @@ begin
   begin
     F:= Frames[i];
     DoApplyFrameOps(F, EditorOps, false);
-    DoOps_LoadOptionsLexerSpecific(F, F.Ed1);
+    DoOps_LoadOptionsLexerSpecific(F, F.EdFirst);
     if not F.EditorsLinked then
-      DoOps_LoadOptionsLexerSpecific(F, F.Ed2);
-    DoApplyCenteringOption(F, F.Ed1);
-    DoApplyCenteringOption(F, F.Ed2);
+      DoOps_LoadOptionsLexerSpecific(F, F.EdSecond);
+    DoApplyCenteringOption(F, F.EdFirst);
+    DoApplyCenteringOption(F, F.EdSecond);
   end;
 
   if Assigned(fmFind) then
@@ -783,14 +783,14 @@ end;
 procedure TfmMain.DoApplyFrameOps(F: TEditorFrame; const Op: TEditorOps; AForceApply: boolean);
 begin
   if F=nil then exit;
-  EditorApplyOps(F.Ed1, Op, AForceApply, GroupsMain.Mode=gmOne);
-  EditorApplyOps(F.Ed2, Op, AForceApply, GroupsMain.Mode=gmOne);
+  EditorApplyOps(F.EdFirst, Op, AForceApply, GroupsMain.Mode=gmOne);
+  EditorApplyOps(F.EdSecond, Op, AForceApply, GroupsMain.Mode=gmOne);
 
-  F.Adapter[F.Ed1].DynamicHiliteEnabled:= Op.OpLexerDynamicHiliteMaxLines>0;
-  F.Adapter[F.Ed1].DynamicHiliteMaxLines:= Op.OpLexerDynamicHiliteMaxLines;
+  F.Adapter[F.EdFirst].DynamicHiliteEnabled:= Op.OpLexerDynamicHiliteMaxLines>0;
+  F.Adapter[F.EdFirst].DynamicHiliteMaxLines:= Op.OpLexerDynamicHiliteMaxLines;
 
-  F.Adapter[F.Ed2].DynamicHiliteEnabled:= Op.OpLexerDynamicHiliteMaxLines>0;
-  F.Adapter[F.Ed2].DynamicHiliteMaxLines:= Op.OpLexerDynamicHiliteMaxLines;
+  F.Adapter[F.EdSecond].DynamicHiliteEnabled:= Op.OpLexerDynamicHiliteMaxLines>0;
+  F.Adapter[F.EdSecond].DynamicHiliteMaxLines:= Op.OpLexerDynamicHiliteMaxLines;
 
   if not F.BracketHiliteUserChanged then
     F.BracketHilite:= Op.OpBracketHilite;
@@ -800,9 +800,9 @@ begin
   if Op.OpCodetreeSorted and (F.CodetreeSortType=stNone) then
     F.CodetreeSortType:= stText;
 
-  F.Ed1.Update;
+  F.EdFirst.Update;
   if F.Splitted then
-    F.Ed2.Update;
+    F.EdSecond.Update;
 
   //UpdateStatusbar; //commented 2026.02 on fixing #6209
 end;
@@ -1493,8 +1493,8 @@ begin
   begin
     F:= Frames[i];
     if not F.Visible then Continue;
-    F.Ed1.Invalidate;
-    F.Ed2.Invalidate;
+    F.EdFirst.Invalidate;
+    F.EdSecond.Invalidate;
     F.Splitter.Invalidate;
   end;
 

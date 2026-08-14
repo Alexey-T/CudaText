@@ -1542,10 +1542,10 @@ var
 begin
   F:= GetEditorFrame(Ed);
   if F=nil then exit(nil);
-  if Ed=F.Ed1 then
-    Result:= F.Ed2
+  if Ed=F.EdFirst then
+    Result:= F.EdSecond
   else
-    Result:= F.Ed1;
+    Result:= F.EdFirst;
 end;
 
 class function TGroupsHelper.GetEditorFirstSecond(Ed: TATSynEdit; AFirst: boolean): TATSynEdit;
@@ -1555,9 +1555,9 @@ begin
   F:= GetEditorFrame(Ed);
   if F=nil then exit(nil);
   if AFirst then
-    Result:= F.Ed1
+    Result:= F.EdFirst
   else
-    Result:= F.Ed2;
+    Result:= F.EdSecond;
 end;
 
 
@@ -1980,12 +1980,12 @@ end;
 
 procedure TAppNotifThread.NotifyFrame1;
 begin
-  CurFrame.NotifyAboutChange(CurFrame.Ed1);
+  CurFrame.NotifyAboutChange(CurFrame.EdFirst);
 end;
 
 procedure TAppNotifThread.NotifyFrame2;
 begin
-  CurFrame.NotifyAboutChange(CurFrame.Ed2);
+  CurFrame.NotifyAboutChange(CurFrame.EdSecond);
 end;
 
 {
@@ -2075,10 +2075,10 @@ end;
 
 procedure TFrameEditState.Assign(AFrame: TEditorFrame);
 begin
-  Ed1_FileName:= AFrame.Ed1.FileName;
-  Ed2_FileName:= AFrame.Ed2.FileName;
-  Ed1_ModifiedVersion:= AFrame.Ed1.Strings.ModifiedVersion;
-  Ed2_ModifiedVersion:= AFrame.Ed2.Strings.ModifiedVersion;
+  Ed1_FileName:= AFrame.EdFirst.FileName;
+  Ed2_FileName:= AFrame.EdSecond.FileName;
+  Ed1_ModifiedVersion:= AFrame.EdFirst.Strings.ModifiedVersion;
+  Ed2_ModifiedVersion:= AFrame.EdSecond.Strings.ModifiedVersion;
 end;
 
 { TfmMain }
@@ -2585,9 +2585,9 @@ begin
     Frame:= CurrentFrame;
     if Assigned(Frame) then
     begin
-      EditorCaretToView(Frame.Ed1, true, {$ifdef windows}false{$else}true{$endif});
+      EditorCaretToView(Frame.EdFirst, true, {$ifdef windows}false{$else}true{$endif});
       if Frame.Splitted then
-        EditorCaretToView(Frame.Ed2, true, {$ifdef windows}false{$else}true{$endif});
+        EditorCaretToView(Frame.EdSecond, true, {$ifdef windows}false{$else}true{$endif});
     end;
   end;
 
@@ -3294,9 +3294,9 @@ begin
 
     //on_close are not fired automatically on app exit
     //(because we don't really close tabs on exit), so fire it here
-    DoPyEvent(F.Ed1, TAppPyEvent.OnClose, []);
+    DoPyEvent(F.EdFirst, TAppPyEvent.OnClose, []);
     if not F.EditorsLinked then
-      DoPyEvent(F.Ed2, TAppPyEvent.OnClose, []);
+      DoPyEvent(F.EdSecond, TAppPyEvent.OnClose, []);
   end;
 
   DoPyEvent(nil, TAppPyEvent.OnExit, []);
@@ -3498,9 +3498,9 @@ begin
   for i:= 0 to FrameCount-1 do
   begin
     F:= Frames[i];
-    DoPyEvent(F.Ed1, TAppPyEvent.OnCloseBefore, []);
+    DoPyEvent(F.EdFirst, TAppPyEvent.OnCloseBefore, []);
     if not F.EditorsLinked then
-      DoPyEvent(F.Ed2, TAppPyEvent.OnCloseBefore, []);
+      DoPyEvent(F.EdSecond, TAppPyEvent.OnCloseBefore, []);
   end;
 
   if GetModifiedCount>0 then
@@ -3961,7 +3961,7 @@ procedure TfmMain.FormShow(Sender: TObject);
     begin
       Frame:= Frames[0];
       if Frame.IsEmpty then
-        FrameLexerChange(Frame.Ed1);
+        FrameLexerChange(Frame.EdFirst);
     end;
   end;
   //
@@ -4038,9 +4038,9 @@ procedure TfmMain.FormShow(Sender: TObject);
     Frame:= CurrentFrame;
     if Assigned(Frame) then
     begin
-      EditorForceUpdateIfWrapped(Frame.Ed1);
+      EditorForceUpdateIfWrapped(Frame.EdFirst);
       if Frame.Splitted then
-        EditorForceUpdateIfWrapped(Frame.Ed2);
+        EditorForceUpdateIfWrapped(Frame.EdSecond);
     end;
   end;
   //
@@ -4144,7 +4144,7 @@ begin
     if FrameCount=1 then
     begin
       Frame:= Frames[0];
-      if Frame.IsEmpty and (Frame.LexerName[Frame.Ed1]='') then
+      if Frame.IsEmpty and (Frame.LexerName[Frame.EdFirst]='') then
         DoApplyNewdocLexer(Frame);
     end;
 
@@ -4197,7 +4197,7 @@ begin
     Frame:= Frames[0];
     if Frame.IsEmpty then
     begin
-      Ed:= Frame.Ed1;
+      Ed:= Frame.EdFirst;
       Frame.IsWelcome:= true;
       Frame.TabCaption:= msgWelcomeTabTitle;
       Frame.TabCaptionReason:= TAppTabCaptionReason.UnsavedSpecial;
@@ -4346,8 +4346,8 @@ begin
   for i:= 0 to FrameCount-1 do
   begin
     Frame:= Frames[i];
-    DoApplyCenteringOption(Frame, Frame.Ed1);
-    DoApplyCenteringOption(Frame, Frame.Ed2);
+    DoApplyCenteringOption(Frame, Frame.EdFirst);
+    DoApplyCenteringOption(Frame, Frame.EdSecond);
   end;
 end;
 
@@ -4691,10 +4691,10 @@ begin
   for i:= 0 to FrameCount-1 do
     begin
       F:= Frames[i];
-      F.Ed1.DoubleBuffered:= UiOps.DoubleBuffered;
-      F.Ed2.DoubleBuffered:= UiOps.DoubleBuffered;
-      F.Ed1.Font.Size:= EditorOps.OpFontSize;
-      F.Ed2.Font.Size:= EditorOps.OpFontSize;
+      F.EdFirst.DoubleBuffered:= UiOps.DoubleBuffered;
+      F.EdSecond.DoubleBuffered:= UiOps.DoubleBuffered;
+      F.EdFirst.Font.Size:= EditorOps.OpFontSize;
+      F.EdSecond.Font.Size:= EditorOps.OpFontSize;
       if Assigned(F.Viewer) then
       begin
         F.Viewer.DoubleBuffered:= UiOps.DoubleBuffered;
@@ -5226,18 +5226,18 @@ begin
 
     if bEnableHistory then
     begin
-      Result.DoSaveHistory(Result.Ed1);
+      Result.DoSaveHistory(Result.EdFirst);
       if not Result.EditorsLinked then
-        Result.DoSaveHistory(Result.Ed2);
+        Result.DoSaveHistory(Result.EdSecond);
     end;
 
     //we load file into existing editor, so clear bookmarks/markers
-    Result.Ed1.BookmarkDeleteAll;
-    Result.Ed2.BookmarkDeleteAll;
-    Result.Ed1.MarkerClearAll;
-    Result.Ed2.MarkerClearAll;
-    Result.Ed1.AttribClearAll;
-    Result.Ed2.AttribClearAll;
+    Result.EdFirst.BookmarkDeleteAll;
+    Result.EdSecond.BookmarkDeleteAll;
+    Result.EdFirst.MarkerClearAll;
+    Result.EdSecond.MarkerClearAll;
+    Result.EdFirst.AttribClearAll;
+    Result.EdSecond.AttribClearAll;
 
     Result.DoFileOpen(AFileName, AFileName2,
       bEnableHistory,
@@ -5251,7 +5251,7 @@ begin
 
     if bEnableEventOpened then
     begin
-      DoPyEvent_Open(Result.Ed1);
+      DoPyEvent_Open(Result.EdFirst);
     end;
 
     exit;
@@ -5283,29 +5283,29 @@ begin
       MsgStatusFileOpened(AFileName, AFileName2);
 
       if bEnableEventOpened then
-        DoPyEvent_Open(F.Ed1);
+        DoPyEvent_Open(F.EdFirst);
 
       if bEnableEventOpenedNone and IsFilenameForLexerDetecter(AFileName) then
-        if (F.FrameKind=TAppFrameKind.Editor) and (F.LexerName[F.Ed1]='') then
+        if (F.FrameKind=TAppFrameKind.Editor) and (F.LexerName[F.EdFirst]='') then
         begin
-          DoPyEvent_OpenNone(F.Ed1);
+          DoPyEvent_OpenNone(F.EdFirst);
           UpdateStatusbar;
         end;
 
       if AFileName2<>'' then
       begin
         if bEnableEventOpened then
-          DoPyEvent_Open(F.Ed2);
+          DoPyEvent_Open(F.EdSecond);
 
         if bEnableEventOpenedNone and IsFilenameForLexerDetecter(AFileName2) then
-          if (F.FrameKind=TAppFrameKind.Editor) and (F.LexerName[F.Ed2]='') then
-            DoPyEvent_OpenNone(F.Ed2);
+          if (F.FrameKind=TAppFrameKind.Editor) and (F.LexerName[F.EdSecond]='') then
+            DoPyEvent_OpenNone(F.EdSecond);
 
         UpdateStatusbar;
       end;
 
       //for _lite_ lexer, update code-tree (for _normal_ lexer it will run on parsing-done)
-      if F.Ed1.AdapterForHilite is TATLiteLexer then
+      if F.EdFirst.AdapterForHilite is TATLiteLexer then
         UpdateTreeByTimer;
 
       Exit
@@ -5344,16 +5344,16 @@ begin
   MsgStatusFileOpened(AFileName, AFileName2);
 
   if bEnableEventOpened then
-    DoPyEvent_Open(F.Ed1);
+    DoPyEvent_Open(F.EdFirst);
 
   if bEnableEventOpenedNone then
     if IsFilenameForLexerDetecter(AFileName) then
-      if (F.FrameKind=TAppFrameKind.Editor) and (F.LexerName[F.Ed1]='') then
-        DoPyEvent_OpenNone(F.Ed1);
+      if (F.FrameKind=TAppFrameKind.Editor) and (F.LexerName[F.EdFirst]='') then
+        DoPyEvent_OpenNone(F.EdFirst);
 
   if bEnableEventOpened then
     if AFileName2<>'' then
-      DoPyEvent_Open(F.Ed2);
+      DoPyEvent_Open(F.EdSecond);
 
   if bAndActivate then
     DoFocusFrame(Result);
@@ -6622,9 +6622,9 @@ begin
     for i:= 0 to ListNoSave.Count-1 do
     begin
       F:= TEditorFrame(ListNoSave[i]);
-      F.Ed1.Modified:= false;
+      F.EdFirst.Modified:= false;
       if not F.EditorsLinked then
-        F.Ed2.Modified:= false;
+        F.EdSecond.Modified:= false;
     end;
   finally
     FreeAndNil(ListNoSave);
@@ -6669,8 +6669,8 @@ begin
        msgConfirmCloseAndDeleteFile+#10+AppCollapseHomeDirInFilename(fn),
        MB_OKCANCEL or MB_ICONWARNING)=ID_OK then
   begin
-    if Frame.Ed1.Modified then
-      Frame.Ed1.Modified:= false;
+    if Frame.EdFirst.Modified then
+      Frame.EdFirst.Modified:= false;
 
     TempPages:= Frame.GetTabPages;
     if not Assigned(TempPages) then exit;
@@ -6708,7 +6708,7 @@ begin
   //call this for empty NewdocLexer too: to apply lexer-specific config for none-lexer
   if Assigned(F) then
   begin
-    Ed:= F.Ed1;
+    Ed:= F.EdFirst;
     F.LexerName[Ed]:= UiOps.NewdocLexer;
 
     if UiOps.NewdocLexer<>'' then
@@ -6919,8 +6919,8 @@ begin
   for i:= 0 to FrameCount-1 do
     with Frames[i] do
     begin
-      Ed1.OptGutterVisible:= AValue;
-      Ed2.OptGutterVisible:= AValue;
+      EdFirst.OptGutterVisible:= AValue;
+      EdSecond.OptGutterVisible:= AValue;
     end;
 end;
 
@@ -6956,8 +6956,8 @@ begin
 
     if AHideAll then
     begin
-      FullScreen_ForDistractionFree(F.Ed1);
-      FullScreen_ForDistractionFree(F.Ed2);
+      FullScreen_ForDistractionFree(F.EdFirst);
+      FullScreen_ForDistractionFree(F.EdSecond);
     end;
 
     if AHideAll or (Pos('t', UiOps.FullScreen)>0) then ShowToolbar:= false;
@@ -6977,8 +6977,8 @@ begin
     ShowSideBar:= FOrigShowSideBar;
     ShowTabsMain:= FOrigShowTabs;
 
-    FullScreen_Restore(F.Ed1);
-    FullScreen_Restore(F.Ed2);
+    FullScreen_Restore(F.EdFirst);
+    FullScreen_Restore(F.EdSecond);
 
     DoApplyGutterVisible(EditorOps.OpGutterShow);
   end;
@@ -7058,8 +7058,8 @@ var
 begin
   F:= DoFileOpen('', '');
   if F=nil then exit;
-  F.Ed1.Strings.LoadFromFile(fn, []);
-  F.DoLexerFromFilename(F.Ed1, fn);
+  F.EdFirst.Strings.LoadFromFile(fn, []);
+  F.DoLexerFromFilename(F.EdFirst, fn);
   UpdateFrameEx(F, true);
   UpdateStatusbar;
 end;
@@ -7225,7 +7225,7 @@ var
 begin
   F:= DoFileOpen(AppFile_OptionsDefault, '');
   if Assigned(F) then
-    F.ReadOnly[F.Ed1]:= true;
+    F.ReadOnly[F.EdFirst]:= true;
 end;
 
 procedure TfmMain.DoOps_OpenFile_User;
@@ -7259,8 +7259,8 @@ begin
   F:= DoFileOpen(NameDef, NameUser);
   if Assigned(F) then
   begin
-    F.ReadOnly[F.Ed1]:= true;
-    F.ReadOnly[F.Ed2]:= false;
+    F.ReadOnly[F.EdFirst]:= true;
+    F.ReadOnly[F.EdSecond]:= false;
   end
   else
     MsgStatus(msgCannotOpenFile+' default.json/user.json');
@@ -7617,8 +7617,8 @@ begin
   for i:= 0 to FrameCount-1 do
   begin
     Frame:= Frames[i];
-    if (Frame.Ed1=AppCodetreeState.Editor) or
-       (Frame.Ed2=AppCodetreeState.Editor) then
+    if (Frame.EdFirst=AppCodetreeState.Editor) or
+       (Frame.EdSecond=AppCodetreeState.Editor) then
     begin
       Frame.CodetreeSortType:= CodeTree.Tree.SortType;
       //user unchecks 'Sorted' -> rebuild the codetree
@@ -8606,8 +8606,8 @@ begin
   //load lexer-specific config
   DoOps_LoadOptionsLexerSpecific(Frame, Ed);
 
-  DoApplyCenteringOption(Frame, Frame.Ed1);
-  DoApplyCenteringOption(Frame, Frame.Ed2);
+  DoApplyCenteringOption(Frame, Frame.EdFirst);
+  DoApplyCenteringOption(Frame, Frame.EdSecond);
 
   //API event on_lexer
   //better avoid it for empty editor
@@ -8626,8 +8626,8 @@ begin
 
   if Frame.EditorsLinked then
   begin
-    Frame.Ed1.Keymap:= Keymap;
-    Frame.Ed2.Keymap:= Keymap;
+    Frame.EdFirst.Keymap:= Keymap;
+    Frame.EdSecond.Keymap:= Keymap;
   end
   else
     Ed.Keymap:= Keymap;
@@ -8949,9 +8949,9 @@ begin
   for i:= 0 to FrameCount-1 do
   begin
     F:= Frames[i];
-    F.FixLexerIfDeleted(F.Ed1, ALexerName);
+    F.FixLexerIfDeleted(F.EdFirst, ALexerName);
     if not F.EditorsLinked then
-      F.FixLexerIfDeleted(F.Ed2, ALexerName);
+      F.FixLexerIfDeleted(F.EdSecond, ALexerName);
   end;
 end;
 
@@ -10125,8 +10125,8 @@ begin
   for i:= 0 to FrameCount-1 do
   begin
     Frame:= Frames[i];
-    (Sender as TfmUnprinted).ApplyToEditor(Frame.Ed1);
-    (Sender as TfmUnprinted).ApplyToEditor(Frame.Ed2);
+    (Sender as TfmUnprinted).ApplyToEditor(Frame.EdFirst);
+    (Sender as TfmUnprinted).ApplyToEditor(Frame.EdSecond);
   end;
 end;
 

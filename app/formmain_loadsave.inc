@@ -391,13 +391,13 @@ begin
       Frame:= Frames[iFrame];
       if Frame.IsEmpty then Continue;
       if Frame.IsWelcome then Continue;
-      if Frame.Ed1.Strings.LoadingFromStream then Continue;
+      if Frame.EdFirst.Strings.LoadingFromStream then Continue;
 
-      sTabFilename:= Frame.GetFileName(Frame.Ed1);
+      sTabFilename:= Frame.GetFileName(Frame.EdFirst);
       if Frame.EditorsLinked then
         sTabFilename2:= ''
       else
-        sTabFilename2:= Frame.GetFileName(Frame.Ed2);
+        sTabFilename2:= Frame.GetFileName(Frame.EdSecond);
 
       if AppFile_IsIgnoredForSession(sTabFilename) then
       begin
@@ -414,7 +414,7 @@ begin
       sJsonPath:= sRootPath+'/'+Format('%3.3d', [iSavingTabIndex]);
 
       GetFrameLocation(Frame, TempGrp, TempPages, nLocalGroup, nGlobalGroup, nTabInGroup);
-      bModified:= Frame.Ed1.Modified or (bUntitled and not Frame.IsEmpty);
+      bModified:= Frame.EdFirst.Modified or (bUntitled and not Frame.IsEmpty);
 
       if AByTimer then
         currFramesEditState[iSavingTabIndex].Assign(Frame);
@@ -474,67 +474,67 @@ begin
       if bModified and UiOps.HistoryItems[TAppHistoryElement.Text] then
         if (not bUntitled and ASaveModifiedFiles) or
           (bUntitled and ASaveUntitledTabs) then
-          if not Frame.Ed1.Strings.IsSizeBig(UiOps.MaxSizeForSession) then
+          if not Frame.EdFirst.Strings.IsSizeBig(UiOps.MaxSizeForSession) then
         begin
-          cfg.SetValue(sJsonPath+'/text', Frame.Ed1.Text);
-          cfg.SetValue(sJsonPath+'/ends', Ord(Frame.Ed1.Strings.Endings));
+          cfg.SetValue(sJsonPath+'/text', Frame.EdFirst.Text);
+          cfg.SetValue(sJsonPath+'/ends', Ord(Frame.EdFirst.Strings.Endings));
           if (not bUntitled) and FileExists(sTabFilename) then
             cfg.SetValue(sJsonPath+'/file_date', ConvertFileDateToNiceString(sTabFilename));
 
           if UiOps.HistoryItems[TAppHistoryElement.UndoRedo] then
           begin
-            sUndo:= Frame.Ed1.UndoAsString;
+            sUndo:= Frame.EdFirst.UndoAsString;
             if Length(sUndo)<=UiOps.MaxUndoSizeForSessionFile then
               cfg.SetValue(sJsonPath+'/undo', sUndo);
-            sUndo:= Frame.Ed1.RedoAsString;
+            sUndo:= Frame.EdFirst.RedoAsString;
             if Length(sUndo)<=UiOps.MaxUndoSizeForSessionFile then
               cfg.SetValue(sJsonPath+'/redo', sUndo);
           end;
         end;
 
-      Frame.DoSaveHistoryEx(Frame.Ed1, cfg, sJsonPath, true{AForSession});
+      Frame.DoSaveHistoryEx(Frame.EdFirst, cfg, sJsonPath, true{AForSession});
 
       if Assigned(cfg_bookmarks) then
-        if Frame.Ed1.ModifiedBookmarks then
-          Frame.DoSaveBookmarks(Frame.Ed1, cfg_bookmarks);
+        if Frame.EdFirst.ModifiedBookmarks then
+          Frame.DoSaveBookmarks(Frame.EdFirst, cfg_bookmarks);
 
       //save info about paired-tab to subkey "pair"
       if not Frame.EditorsLinked then
       begin
         sJsonPath+= '/pair';
 
-        if Frame.Ed2.Strings.LoadingFromStream then Continue;
+        if Frame.EdSecond.Strings.LoadingFromStream then Continue;
 
-        bModified:= Frame.Ed2.Modified;
+        bModified:= Frame.EdSecond.Modified;
         cfg.SetValue(sJsonPath+'/modified', bModified);
         if not bModified then
           cfg.DeleteValue(sJsonPath+'/text');
         cfg.SetValue(sJsonPath+'/file', AppCollapseHomeDirInFilename(sTabFilename2));
 
         if bModified and UiOps.HistoryItems[TAppHistoryElement.Text] then
-          if not Frame.Ed2.Strings.IsSizeBig(UiOps.MaxSizeForSession) then
+          if not Frame.EdSecond.Strings.IsSizeBig(UiOps.MaxSizeForSession) then
         begin
-          cfg.SetValue(sJsonPath+'/text', Frame.Ed2.Text);
-          cfg.SetValue(sJsonPath+'/ends', Ord(Frame.Ed2.Strings.Endings));
+          cfg.SetValue(sJsonPath+'/text', Frame.EdSecond.Text);
+          cfg.SetValue(sJsonPath+'/ends', Ord(Frame.EdSecond.Strings.Endings));
           if FileExists(sTabFilename2) then
             cfg.SetValue(sJsonPath+'/file_date', ConvertFileDateToNiceString(sTabFilename2));
           if UiOps.HistoryItems[TAppHistoryElement.UndoRedo] then
           begin
-            sUndo:= Frame.Ed2.UndoAsString;
+            sUndo:= Frame.EdSecond.UndoAsString;
             if Length(sUndo)<=UiOps.MaxUndoSizeForSessionFile then
               cfg.SetValue(sJsonPath+'/undo', sUndo);
-            sUndo:= Frame.Ed2.RedoAsString;
+            sUndo:= Frame.EdSecond.RedoAsString;
             if Length(sUndo)<=UiOps.MaxUndoSizeForSessionFile then
               cfg.SetValue(sJsonPath+'/redo', sUndo);
           end;
         end;
 
-        Frame.DoSaveHistoryEx(Frame.Ed2, cfg, sJsonPath, true{AForSession});
+        Frame.DoSaveHistoryEx(Frame.EdSecond, cfg, sJsonPath, true{AForSession});
 
         if not Frame.EditorsLinked then
           if Assigned(cfg_bookmarks) then
-            if Frame.Ed2.ModifiedBookmarks then
-              Frame.DoSaveBookmarks(Frame.Ed2, cfg_bookmarks);
+            if Frame.EdSecond.ModifiedBookmarks then
+              Frame.DoSaveBookmarks(Frame.EdSecond, cfg_bookmarks);
       end;
 
       Inc(iSavingTabIndex);
@@ -820,34 +820,34 @@ begin
                     SOptionPassive+SOptionNoHistory
                     );
         if sTabFilename<>'' then
-          Frame.SetFileName(Frame.Ed1, sTabFilename);
+          Frame.SetFileName(Frame.EdFirst, sTabFilename);
         if sTabFilename2<>'' then
         begin
           Frame.EditorsLinked:= false;
           Frame.Splitted:= true;
-          Frame.SetFileName(Frame.Ed2, sTabFilename2);
+          Frame.SetFileName(Frame.EdSecond, sTabFilename2);
         end;
         if (sTabFilename<>'') or (sTabFilename2<>'') then
           Frame.UpdateCaptionFromFilename;
 
         if sText<>'' then
         begin
-          Frame.InitProgressForm(Frame.Ed1, 'session "'+ExtractFileName(sSessionFileName)+'"', Length(sText));
-          Frame.Ed1.Text:= sText;
-          Frame.Ed1.Strings.Endings:= nLineEnds;
-          Frame.HideProgressForm(Frame.Ed1);
+          Frame.InitProgressForm(Frame.EdFirst, 'session "'+ExtractFileName(sSessionFileName)+'"', Length(sText));
+          Frame.EdFirst.Text:= sText;
+          Frame.EdFirst.Strings.Endings:= nLineEnds;
+          Frame.HideProgressForm(Frame.EdFirst);
         end;
         if sUndoString<>'' then
-          Frame.Ed1.UndoAsString:= sUndoString;
+          Frame.EdFirst.UndoAsString:= sUndoString;
         if sRedoString<>'' then
-          Frame.Ed1.RedoAsString:= sRedoString;
-        Frame.Ed1.Modified:= bModified;
+          Frame.EdFirst.RedoAsString:= sRedoString;
+        Frame.EdFirst.Modified:= bModified;
 
         Frame.NotifEnabled:= sTabFilename<>'';
 
         //file was maybe deleted: check it and show notif-panel; fixes issue #6377
         if not bTabFileExists then
-          Frame.NotifyAboutChange(Frame.Ed1);
+          Frame.NotifyAboutChange(Frame.EdFirst);
       end //if bModified
       else
       //unmodified+named tabs must load file again
@@ -862,20 +862,20 @@ begin
         if Assigned(Frame) then
         begin
           if (sTabFilename<>'') and not bTabFileExists then
-            Frame.NotifyAboutChange(Frame.Ed1);
+            Frame.NotifyAboutChange(Frame.EdFirst);
           if (sTabFilename2<>'') and not bTabFileExists2 then
-            Frame.NotifyAboutChange(Frame.Ed2);
+            Frame.NotifyAboutChange(Frame.EdSecond);
         end;
       end; //if not bModified
 
       if Assigned(Frame) then
       begin
         Frame.IsLoadedFromSession:= true;
-        Frame.DoLoadHistoryEx(Frame.Ed1, cfg, sItemPath, true);
+        Frame.DoLoadHistoryEx(Frame.EdFirst, cfg, sItemPath, true);
 
         //UpdateModified call must be before Frame.TabCaption:=..., it overwrites TabCaption
-        if Frame.Ed1.Modified then
-          Frame.UpdateModified(Frame.Ed1);
+        if Frame.EdFirst.Modified then
+          Frame.UpdateModified(Frame.EdFirst);
 
         sTabTitle:= cfg.GetValue(sItemPath+'tab_title', '');
         if sTabTitle<>'' then
@@ -903,15 +903,15 @@ begin
               Inc(nCountFilesModified);
             if sText<>'' then
             begin
-              Frame.Ed2.Text:= sText;
-              Frame.Ed2.Strings.Endings:= nLineEnds;
+              Frame.EdSecond.Text:= sText;
+              Frame.EdSecond.Strings.Endings:= nLineEnds;
             end;
             if sUndoString<>'' then
-              Frame.Ed2.UndoAsString:= sUndoString;
+              Frame.EdSecond.UndoAsString:= sUndoString;
             if sRedoString<>'' then
-              Frame.Ed2.RedoAsString:= sRedoString;
-            Frame.Ed2.Modified:= bModified2;
-            Frame.UpdateModified(Frame.Ed2);
+              Frame.EdSecond.RedoAsString:= sRedoString;
+            Frame.EdSecond.Modified:= bModified2;
+            Frame.UpdateModified(Frame.EdSecond);
           end
           else
           begin
@@ -920,7 +920,7 @@ begin
               Inc(nCountFilesDeleted);
           end;
 
-          Frame.DoLoadHistoryEx(Frame.Ed2, cfg, sItemPath2, true);
+          Frame.DoLoadHistoryEx(Frame.EdSecond, cfg, sItemPath2, true);
         end;
 
         Frame.GotoInput:= cfg.GetValue(sItemPath+'goto', '');
@@ -931,11 +931,11 @@ begin
 
         //event on_open was blocked in DoFileOpen, call it here
         //(plugin "Tab Icons" needs it)
-        if (sTabFilename<>'') or Assigned(Frame.Ed1.AdapterForHilite) then
-          DoPyEvent_Open(Frame.Ed1);
+        if (sTabFilename<>'') or Assigned(Frame.EdFirst.AdapterForHilite) then
+          DoPyEvent_Open(Frame.EdFirst);
 
         if sTabFilename2<>'' then
-          DoPyEvent_Open(Frame.Ed2);
+          DoPyEvent_Open(Frame.EdSecond);
       end; //if Assigned(Frame)
     end;
 
@@ -983,9 +983,9 @@ begin
     begin
       Frame:= Frames[iFrame];
       if Frame.Visible then
-        Frame.Ed1.ActivationTime:= GetTickCount64
+        Frame.EdFirst.ActivationTime:= GetTickCount64
       else
-        Frame.Ed1.ActivationTime:= 0;
+        Frame.EdFirst.ActivationTime:= 0;
     end;
 
     //restore panel sizes
@@ -1048,7 +1048,7 @@ begin
     DoOnTabFocusFinalization(Frame, nCountFiles+nCountFilesModified>0);
 
     //python 'on_caret' is disabled during session loading, so fire it here
-    Ed:= Frame.Ed1;
+    Ed:= Frame.EdFirst;
     if not Ed.IsEmpty and not EditorCaretIsOnStart(Ed) then
       Ed.DoEventCarets();
   end;

@@ -194,8 +194,8 @@ begin
       begin
         Frame.TabCaption:= 'stdin';
         Frame.TabCaptionReason:= TAppTabCaptionReason.UnsavedSpecial;
-        Frame.Ed1.Strings.LoadFromString(_GetStdin);
-        //Frame.Ed1.Modified:= false;
+        Frame.EdFirst.Strings.LoadFromString(_GetStdin);
+        //Frame.EdFirst.Modified:= false;
       end;
       Continue;
     end;
@@ -238,13 +238,13 @@ begin
       if Assigned(Frame) then
       begin
         if sEncoding<>'' then
-          SetFrameEncoding(Frame.Ed1, sEncoding, true);
+          SetFrameEncoding(Frame.EdFirst, sEncoding, true);
 
         if (NLine>0) then
-          EditorGoToPos(Frame.Ed1, NColumn-1, NLine-1);
+          EditorGoToPos(Frame.EdFirst, NColumn-1, NLine-1);
 
         if bReadOnly then
-          Frame.ReadOnly[Frame.Ed1]:= true;
+          Frame.ReadOnly[Frame.EdFirst]:= true;
       end;
     end
     else
@@ -260,10 +260,10 @@ begin
           if Assigned(Frame) then
           begin
             if sEncoding<>'' then
-              SetFrameEncoding(Frame.Ed1, sEncoding, true);
+              SetFrameEncoding(Frame.EdFirst, sEncoding, true);
 
             if bReadOnly then
-              Frame.ReadOnly[Frame.Ed1]:= true;
+              Frame.ReadOnly[Frame.EdFirst]:= true;
           end;
         end;
       finally
@@ -281,7 +281,7 @@ begin
           if Assigned(Frame) then
           begin
             if sEncoding<>'' then
-              SetFrameEncoding(Frame.Ed1, sEncoding, true);
+              SetFrameEncoding(Frame.EdFirst, sEncoding, true);
           end;
         end;
   end;

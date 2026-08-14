@@ -126,7 +126,7 @@ begin
             Frame:= fmMain.Frames[0];
             TGroupsHelper.ForceFrameVisible(Frame);
             Frame.SetFocus();
-            Result:= Frame.Ed1;
+            Result:= Frame.EdFirst;
           end
           else
             MsgLogConsole('ERROR: API "ed" is Nil, and no frames; report to author what you are doing');
@@ -137,7 +137,7 @@ begin
       begin
         Frame:= fmMain.FrameOfPopup;
         if Assigned(Frame) then
-          Result:= Frame.Ed1
+          Result:= Frame.EdFirst
         else
           Result:= fmMain.CurrentEditor;
       end;
@@ -146,7 +146,7 @@ begin
       begin
         nTab:= Handle-cPyEditorHandleMin;
         if (nTab>=0) and (nTab<fmMain.FrameCount) then
-          Result:= fmMain.Frames[nTab].Ed1;
+          Result:= fmMain.Frames[nTab].EdFirst;
       end;
   end;
 end;
@@ -4007,14 +4007,14 @@ begin
         PROP_HANDLE_PRIMARY:
           begin
             if Assigned(Frame) then
-              Result:= PyHelper_ObjectHandle(Frame.Ed1)
+              Result:= PyHelper_ObjectHandle(Frame.EdFirst)
             else
               Result:= ReturnNone;
           end;
         PROP_HANDLE_SECONDARY:
           begin
             if Assigned(Frame) then
-              Result:= PyHelper_ObjectHandle(Frame.Ed2)
+              Result:= PyHelper_ObjectHandle(Frame.EdSecond)
             else
               Result:= ReturnNone;
           end;
