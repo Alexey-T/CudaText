@@ -21,7 +21,12 @@ class Command:
                 self.do_gap(i*2, ntag)
 
     def do_gap(self, nline, ntag):
-        id_bitmap, id_canvas = ed.gap(GAP_MAKE_BITMAP, 600, 50)
+        NW = 600
+        NH = 50
+        id_bitmap = bitmap_proc(0, BITMAP_CREATE, NW, NH)
+        id_canvas = bitmap_proc(id_bitmap, BITMAP_GET_CANVAS)
+        canvas_proc(id_canvas, CANVAS_SET_BRUSH, color=0xff0000)
+        canvas_proc(id_canvas, CANVAS_RECT_FILL, x=0, y=0, x2=NW, y2=NH)
         canvas_proc(id_canvas, CANVAS_SET_BRUSH, color=0xa0ffa0)
         canvas_proc(id_canvas, CANVAS_SET_ANTIALIAS, style=ANTIALIAS_ON)
         canvas_proc(id_canvas, CANVAS_POLYGON, '200,0,300,30,200,49')
