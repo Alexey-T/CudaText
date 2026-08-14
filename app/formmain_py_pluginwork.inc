@@ -164,7 +164,7 @@ begin
     s_api:= ini.ReadString('info', 'api', '');
     if not CheckValue_ReqAPI(s_api) then
     begin
-      MsgLogConsole(Format('NOTE: Plugin "%s" was ignored, it requires API "%s", but current API is "1.0.%d"', [s_module, s_api, cAppApiVersion]));
+      MsgLogConsole(Format('NOTE: Plugin "%s" was ignored, it requires API "%s", but current API is "%s"', [s_module, s_api, cAppApiVersion]));
       exit;
     end;
 

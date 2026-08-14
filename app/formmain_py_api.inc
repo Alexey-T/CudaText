@@ -507,7 +507,7 @@ end;
 function api_app_ver(Self, Args : PPyObject): PPyObject; cdecl;
 begin
   with AppPython.Engine do
-    Result:= Py_BuildValue('(is)',
+    Result:= Py_BuildValue('(ss)',
       cAppApiVersion,
       cAppExeVersion
       );

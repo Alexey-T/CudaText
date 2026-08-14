@@ -119,7 +119,7 @@ begin
     Result:= false
   else
   begin
-    Result:= StrToIntDef(Copy(S, 5, MaxInt), MaxInt) <= cAppApiVersion;
+    Result:= S<=cAppApiVersion;
   end;
 end;
 
