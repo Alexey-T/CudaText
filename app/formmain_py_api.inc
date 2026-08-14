@@ -8382,12 +8382,12 @@ begin
             Bmp:= TBitmap.Create;
             Bmp.PixelFormat:= pf24bit;
             Bmp.SetSize(NParam1, NParam2);
-            Result:= PyLong_FromLongLong(Int64(PtrInt(Bmp)));
+            Result:= PyHelper_ObjectHandle(Bmp);
           end;
 
         BITMAP_GET_CANVAS:
           begin
-            Result:= PyLong_FromLongLong(Int64(PtrInt(Bmp.Canvas)));
+            Result:= PyHelper_ObjectHandle(Bmp.Canvas);
           end;
 
         BITMAP_FREE:
