@@ -3565,6 +3565,11 @@ Notes:
 ** Auto-sized to the current editor font, if "micromap_on_scrollbar":false.
 ** Auto-sized to scrollbar width, if "micromap_on_scrollbar":true.
 
+About width of micromap:
+
+* PROP_MICROMAP_WIDTH sets the width of all columns in pixels.
+* MICORMAP_ADD sets not the pixel width of each column. It sets the relative width, which is in abstract "units". For example, you may remove all columns, and add 2 columns: width of 100 "units", width of 400 "units". It will distribute the pixel width (set by PROP_MICROMAP_WIDTH) in proportions: 100/500 and 400/500.
+
 =HTML formatting=
 Several APIs support rendering of HTML-formatted strings. Small subset of HTML tags is supported:
 
