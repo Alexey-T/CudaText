@@ -1853,9 +1853,9 @@ Performs action on bitmap object.
 
 Possible value of "id_action":
 
-* BITMAP_CREATE: Creates new bitmap (not associated with any GUI control). Param "id_bmp" must be 0 here; param "param1" sets width; param "param2" sets height. Returns 2-tuple (bitmap_handle, canvas_handle), where canvas_handle is compatible with canvas_proc().
-
+* BITMAP_CREATE: Creates new bitmap (not associated with any GUI control). Param "id_bmp" must be 0 here; param "param1" sets width; param "param2" sets height. Returns int handle of bitmap.
 * BITMAP_FREE: Deletes (frees) the bitmap.
+* BITMAP_GET_CANVAS: Returns int handle of bitmap's canvas, it is compatible with canvas_proc().
 * BITMAP_SET_SIZE: Resizes the bitmap. Param "param1" sets width; param "param2" sets height.
 * BITMAP_GET_SIZE: Returns sizes of bitmap as 2-tuple (width, height).
 

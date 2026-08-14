@@ -905,6 +905,7 @@ const
   BITMAP_FREE     = 1;
   BITMAP_SET_SIZE = 2;
   BITMAP_GET_SIZE = 3;
+  BITMAP_GET_CANVAS = 4;
 
 implementation
 

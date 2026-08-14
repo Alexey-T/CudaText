@@ -270,7 +270,8 @@ class Command:
         imagelist_proc(il, IMAGELIST_PAINT, (canvas_id, 16, 16, 1))
         
         #paint bitmap
-        h_bmp, h_bmp_cnv = bitmap_proc(0, BITMAP_CREATE, 20, 20)
+        h_bmp = bitmap_proc(0, BITMAP_CREATE, 20, 20)
+        h_bmp_cnv = bitmap_proc(h_bmp, BITMAP_GET_CANVAS)
         canvas_proc(h_bmp_cnv, CANVAS_SET_BRUSH, color=0xFF, style=BRUSH_SOLID)
         canvas_proc(h_bmp_cnv, CANVAS_RECT_FILL, x=0, y=0, x2=20, y2=20)
         canvas_proc(canvas_id, CANVAS_BITMAP, text=str(h_bmp), x=30, y=30)
