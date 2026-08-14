@@ -1800,10 +1800,13 @@ procedure TEditorFrame.EditorOnChangeBookmarks(Sender: TObject);
 var
   EdOther: TATSynEdit;
 begin
-  EdOther:= EditorBrother;
-  if Splitted and EditorsLinked then
-    EdOther.Update;
-  EdOther.ModifiedBookmarks:= true;
+  if EditorsLinked then
+  begin
+    EdOther:= EditorBrother;
+    if Splitted then
+      EdOther.Update;
+    EdOther.ModifiedBookmarks:= true;
+  end;
 
   DoPyEventStateEd(Sender as TATSynEdit, EDSTATE_BOOKMARK);
 end;
