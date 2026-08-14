@@ -478,15 +478,15 @@ end;
 function DoBackup: string;
 var
   Ed: TATSynEdit;
-  EdBrother: TATSynEdit;
+  EdOther: TATSynEdit;
   Frame: TEditorFrame;
   MatchedFrame: TEditorFrame;
-  i: Integer;
   ShadowEd: TATSynEdit;
   ShadowIsValid: Boolean;
   Timestamp: AnsiString;
-  FirstPath: string;
-  BrotherPath: string;
+  SFirstPath: string;
+  SBrotherPath: string;
+  i: Integer;
 begin
   Result := '';
 
@@ -563,9 +563,9 @@ begin
   Timestamp := FormatTimestamp;
 
   { Back up the focused editor. }
-  FirstPath := BackupOneEditor(Ed, MatchedFrame, Timestamp);
-  if FirstPath <> '' then
-    Result := FirstPath;
+  SFirstPath := BackupOneEditor(Ed, MatchedFrame, Timestamp);
+  if SFirstPath <> '' then
+    Result := SFirstPath;
 
   { Handle the paired editor (split-view with two different files).
     When Frame.EditorsLinked=False, EdFirst and EdSecond have separate buffers
@@ -579,17 +579,17 @@ begin
   begin
     { GetEditorBrother: if Ed=EdFirst return EdSecond, else return EdFirst. }
     if Ed = MatchedFrame.EdFirst then
-      EdBrother := MatchedFrame.EdSecond
+      EdOther := MatchedFrame.EdSecond
     else
-      EdBrother := MatchedFrame.EdFirst;
+      EdOther := MatchedFrame.EdFirst;
 
-    if Assigned(EdBrother) and EdBrother.Modified then
+    if Assigned(EdOther) and EdOther.Modified then
     begin
       LogStep('[backup] backing up paired editor (EditorsLinked=False)');
-      BrotherPath := BackupOneEditor(EdBrother, MatchedFrame, Timestamp + '_');
+      SBrotherPath := BackupOneEditor(EdOther, MatchedFrame, Timestamp + '_');
       // add '_' to make bak filename different by one char, for untitled tab
-      if (BrotherPath <> '') and (Result = '') then
-        Result := BrotherPath;
+      if (SBrotherPath <> '') and (Result = '') then
+        Result := SBrotherPath;
     end;
   end;
 end;
