@@ -8405,7 +8405,9 @@ end;
 function api_canvas_proc(Self, Args: PPyObject): PPyObject; cdecl;
 var
   C: TCanvas;
-  IdCanvas: Int64;
+  IdCanvas, Num64: Int64;
+  Bmp: TBitmap;
+  Obj: TObject;
   IdAction, NColor, NSize, NStyle, NX, NY, NX2, NY2, NP1, NP2: integer;
   PtrText: PChar;
   StrText: string;
@@ -8498,6 +8500,25 @@ begin
         CANVAS_RECT_ROUND:
           begin
             C.RoundRect(NX, NY, NX2, NY2, NStyle, NStyle{Rx=Ry});
+            Result:= ReturnNone;
+          end;
+
+        CANVAS_BITMAP:
+          begin
+            Num64:= StrToInt64Def(StrText, 0);
+            if Num64=0 then
+              MsgLogConsole('ERROR: canvas_proc(...CANVAS_BITMAP...) gets bad or zero bitmap handle')
+            else
+            begin
+              Obj:= TObject(PtrInt(Num64));
+              if not (Obj is TBitmap) then
+                MsgLogConsole('ERROR: canvas_proc(...CANVAS_BITMAP...) gets bad bitmap handle, of type '+Obj.ClassName)
+              else
+              begin
+                Bmp:= TBitmap(Obj);
+                C.Draw(NX, NY, Bmp);
+              end;
+            end;
             Result:= ReturnNone;
           end;
 
