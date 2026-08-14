@@ -1078,13 +1078,13 @@ CURSOR_SIZE_SW      = -28
 CURSOR_SIZE_S       = -29
 CURSOR_SIZE_SE      = -30
 
-API_V, EXE_V = ct.app_ver()
+V_API, V_EXE = ct.app_ver()
 
 def app_exe_version():
-    return EXE_V
+    return V_EXE
 
 def app_api_version():
-    return API_V
+    return V_API
 
 def app_path(id):
     return ct.app_path(id)
