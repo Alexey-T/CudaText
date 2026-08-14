@@ -8344,7 +8344,7 @@ begin
         Obj:= TObject(PtrInt(IdBitmap));
         if not (Obj is TBitmap) then
         begin
-          MsgLogConsole('ERROR: bitmap_proc() gets bad bitmap handle');
+          MsgLogConsole('ERROR: bitmap_proc() gets bad handle, of type '+Obj.ClassName);
           Result:= ReturnNone;
           exit;
         end;
