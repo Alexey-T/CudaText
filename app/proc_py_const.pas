@@ -899,6 +899,11 @@ const
   WND_FULLSCREEN  = 3;
   WND_FULLSCREEN2 = 4;
 
+  BITMAP_CREATE   = 0;
+  BITMAP_FREE     = 1;
+  BITMAP_SET_SIZE = 2;
+  BITMAP_GET_SIZE = 3;
+
 implementation
 
 end.

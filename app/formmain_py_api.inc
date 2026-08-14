@@ -8327,6 +8327,81 @@ begin
 end;
 
 
+function api_bitmap_proc(Self, Args: PPyObject): PPyObject; cdecl;
+var
+  IdBitmap: Int64;
+  IdAction, NParam1, NParam2: integer;
+  Bmp: TBitmap;
+  Obj: TObject;
+begin
+  with AppPython.Engine do
+    if Bool(PyArg_ParseTuple(Args, 'Liii:bitmap_proc',
+              @IdBitmap, @IdAction, @NParam1, @NParam2)) then
+    begin
+      Bmp:= nil;
+      if IdBitmap<>0 then
+      begin
+        Obj:= TObject(PtrInt(IdBitmap));
+        if not (Obj is TBitmap) then
+        begin
+          MsgLogConsole('ERROR: bitmap_proc() gets bad bitmap handle');
+          Result:= ReturnNone;
+          exit;
+        end;
+        Bmp:= TBitmap(Obj);
+      end;
+
+      if (IdAction<>BITMAP_CREATE) and (Bmp=nil) then
+      begin
+        MsgLogConsole('ERROR: bitmap_proc() gets zero bitmap handle');
+        Result:= ReturnNone;
+        exit;
+      end;
+
+      if (IdAction=BITMAP_CREATE) or (IdAction=BITMAP_SET_SIZE) then
+        if (NParam1<=0) or (NParam2<=0) then
+        begin
+          MsgLogConsole(Format('ERROR: bitmap_proc() gets bad w=%d, h=%d', [NParam1, NParam2]));
+          Result:= ReturnNone;
+          exit;
+        end;
+
+      case IdAction of
+        BITMAP_CREATE:
+          begin
+            Bmp:= TBitmap.Create;
+            Bmp.PixelFormat:= pf24bit;
+            Bmp.SetSize(NParam1, NParam2);
+            Result:= Py_BuildValue('(LL)', Int64(PtrInt(Bmp)), Int64(PtrInt(Bmp.Canvas)));
+          end;
+
+        BITMAP_FREE:
+          begin
+            FreeAndNil(Bmp);
+            Result:= ReturnNone;
+          end;
+
+        BITMAP_SET_SIZE:
+          begin
+            if (NParam1>0) and (NParam2>0) then
+              Bmp.SetSize(NParam1, NParam2);
+            Result:= ReturnNone;
+          end;
+
+        BITMAP_GET_SIZE:
+          begin
+            Result:= Py_BuildValue('(ii)', Bmp.Width, Bmp.Height);
+          end;
+
+        else
+          Result:= ReturnNone;
+      end;
+    end
+    else
+      Result:= ReturnNone;
+end;
+
+
 function api_canvas_proc(Self, Args: PPyObject): PPyObject; cdecl;
 var
   C: TCanvas;
@@ -10933,6 +11008,7 @@ begin
     AddMethod('statusbar_proc', @api_statusbar_proc, '');
     AddMethod('listbox_proc', @api_listbox_proc, '');
     AddMethod('canvas_proc', @api_canvas_proc, '');
+    AddMethod('bitmap_proc', @api_bitmap_proc, '');
     AddMethod('timer_proc', @api_timer_proc, '');
     AddMethod('dlg_proc', @api_dlg_proc, '');
     AddMethod('imagelist_proc', @api_imagelist_proc, '');

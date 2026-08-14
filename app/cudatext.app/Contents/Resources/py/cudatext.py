@@ -1078,6 +1078,11 @@ CURSOR_SIZE_SW      = -28
 CURSOR_SIZE_S       = -29
 CURSOR_SIZE_SE      = -30
 
+BITMAP_CREATE   = 0
+BITMAP_FREE     = 1
+BITMAP_SET_SIZE = 2
+BITMAP_GET_SIZE = 3
+
 V_API, V_EXE = ct.app_ver()
 
 def app_exe_version():
@@ -1264,6 +1269,9 @@ def statusbar_proc(id_bar, id_action, index=-1, tag=0, value=""):
 
 def canvas_proc(id_canvas, id_action, text='', color=-1, size=-1, x=-1, y=-1, x2=-1, y2=-1, style=-1, p1=-1, p2=-1):
     return ct.canvas_proc(id_canvas, id_action, text, color, size, x, y, x2, y2, style, p1, p2)
+
+def bitmap_proc(id_bmp, id_action, param1=0, param2=0):
+    return ct.bitmap_proc(id_bmp, id_action, param1, param2)
 
 def _timer_proc_callback_proxy(tag='', info=''):
     if info in _live:
