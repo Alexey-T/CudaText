@@ -8631,7 +8631,7 @@ function api_ed_gap(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H, Num1, Num2: Int64;
   Id, NColor, NSize, NTag, NOnTop: integer;
-  Ed, EdBrother: TATSynEdit;
+  Ed, EdOther: TATSynEdit;
   Frame: TEditorFrame;
   Bmp: TBitmap;
   Form: TCustomForm;
@@ -8694,11 +8694,11 @@ begin
                 Frame:= TGroupsHelper.GetEditorFrame(Ed);
                 if Assigned(Frame) and Frame.EditorsLinked then
                 begin
-                  EdBrother:= TGroupsHelper.GetEditorBrother(Ed);
-                  if Assigned(EdBrother) then
+                  EdOther:= TGroupsHelper.GetEditorBrother(Ed);
+                  if Assigned(EdOther) then
                   begin
-                    EdBrother.OptLastLineOnTop:= true;
-                    Include(EdBrother.ModifiedOptions, TATEditorModifiedOption.LastLineOnTop);
+                    EdOther.OptLastLineOnTop:= true;
+                    Include(EdOther.ModifiedOptions, TATEditorModifiedOption.LastLineOnTop);
                   end;
                 end;
 
