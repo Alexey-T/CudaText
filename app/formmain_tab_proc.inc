@@ -35,7 +35,6 @@ begin
   F.OnGetSaveDialog:= @DoGetSaveDialog;
   F.Splitter.OnPaint:= @SplitterOnPaintDummy;
 
-  F.Groups:= GroupsMain;
   F.OnInitAdapter(F.Adapter[F.EdFirst]);
 
   F.EdFirst.PopupText:= PopupText;

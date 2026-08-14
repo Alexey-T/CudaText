@@ -370,7 +370,6 @@ type
     EdFirst: TATSynEdit;
     EdSecond: TATSynEdit;
     Splitter: TSplitter;
-    Groups: TATGroups;
     ImageBox: TATImageBox;
     Viewer: TATBinHex;
     MacroStrings: TStringList;
