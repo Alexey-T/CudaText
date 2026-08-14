@@ -3443,7 +3443,7 @@ Possible values of "id":
 ** "num1": int: Line index; can be -1 for gap before the first line.
 ** "num2": int: Can be:
 *** 0: gap is empty, filled with specified color.
-*** handle of bitmap (created via GAP_MAKE_BITMAP): place bitmap in the gap.
+*** handle of bitmap (created via <code>bitmap_proc()</code>): place bitmap in the gap.
 *** handle of dialog (created via <code>dlg_proc()</code>): place dialog in the gap.
 ** "tag": int 32-bit: Some value attached to gap, to separate gaps from different plugins.
 ** "size": int: If >0, it is gap height in pixels. If 0, gap height is calculated from bitmap handle.
@@ -3464,7 +3464,10 @@ class Command:
             self.do_gap(i*2)
 
     def do_gap(self, num):
-        id_bitmap, id_canvas = ed.gap(GAP_MAKE_BITMAP, 600, 50)
+        NW = 600
+        NH = 50
+        id_bitmap = bitmap_proc(0, BITMAP_CREATE, NW, NH)
+        id_canvas = bitmap_proc(id_bitmap, BITMAP_GET_CANVAS)
         canvas_proc(id_canvas, CANVAS_SET_BRUSH, color=0xa0ffa0)
         canvas_proc(id_canvas, CANVAS_POLYGON, '200,0,300,30,200,50')
         canvas_proc(id_canvas, CANVAS_SET_BRUSH, color=0xffffff, style=BRUSH_CLEAR)
