@@ -3432,7 +3432,7 @@ Possible values of "id":
 ** "color": int: Color.
 ** "bitmap": 2-tuple of int: Size of bitmap, or (0, 0) if no bitmap.
 
-* GAP_MAKE_BITMAP: Action is needed only if you want to paint bitmap in gap, it's not needed for empty gaps. Makes new bitmap for future gap. Size of bitmap is (num1, num2). Returns 2-tuple (id_bitmap, id_canvas).
+* (DEPRECATED, use bitmap_proc instead) GAP_MAKE_BITMAP: Action is needed only if you want to paint bitmap in gap, it's not needed for empty gaps. Makes new bitmap for future gap. Size of bitmap is (num1, num2). Returns 2-tuple (id_bitmap, id_canvas).
 ** "id_bitmap": bitmap handle, needed to later call GAP_ADD.
 ** "id_canvas": canvas handle, needed to paint on bitmap, by <code>canvas_proc()</code>.
 
@@ -5459,6 +5459,7 @@ It provides:
 * deprecate: app_idle
 * deprecate: Editor.get_filename
 * deprecate: Editor.attr: param "show_on_map" cannot be boolean anymore
+* deprecate: GAP_MAKE_BITMAP (use bitmap_proc() instead)
 * delete: PROP_PICTURE (none public plugins did use it; use PROP_HANDLE_IMAGE instead)
 
 [[Category:CudaText]]
