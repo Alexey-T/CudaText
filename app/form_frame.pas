@@ -381,7 +381,7 @@ type
 
     constructor Create(AOwner: TComponent; AApplyCentering: boolean); reintroduce;
     destructor Destroy; override;
-    function Editor: TATSynEdit;
+    function EditorCurrent: TATSynEdit;
     function EditorBrother: TATSynEdit;
     function Modified: boolean;
     property Adapter[Ed: TATSynEdit]: TATAdapterEControl read GetAdapter;
@@ -978,7 +978,7 @@ var
   bWithSel: boolean;
 begin
   TimerCaret.Enabled:= false;
-  Ed:= Editor;
+  Ed:= EditorCurrent;
 
   DoOnUpdateStatusbar(TAppStatusbarUpdateReason.Caret);
 
@@ -1108,7 +1108,7 @@ begin
   {$endif}
 
   //on_caret, now
-  DoPyEvent(Editor, TAppPyEvent.OnCaret, []);
+  DoPyEvent(EditorCurrent, TAppPyEvent.OnCaret, []);
 
   //on_caret_slow, later
   TimerCaret.Enabled:= false;
@@ -1332,7 +1332,7 @@ end;
 
 function TEditorFrame.GetTabKeyCollectMarkers: boolean;
 begin
-  Result:= FTabKeyCollectMarkers and (Editor.Markers.Count>0);
+  Result:= FTabKeyCollectMarkers and (EditorCurrent.Markers.Count>0);
 end;
 
 function TEditorFrame.GetUnprintedEnds: boolean;
@@ -2516,7 +2516,7 @@ begin
   inherited;
 end;
 
-function TEditorFrame.Editor: TATSynEdit;
+function TEditorFrame.EditorCurrent: TATSynEdit;
 begin
   if FActiveSecondaryEd then
     Result:= EdSecond
@@ -3281,7 +3281,7 @@ begin
   end
   else
   begin
-    Result:= DoFileSave_Ex(Editor, ASaveAs);
+    Result:= DoFileSave_Ex(EditorCurrent, ASaveAs);
   end;
 
   if ASaveAs then
@@ -3770,7 +3770,7 @@ function TEditorFrame.GetWordWrap: TATEditorWrapMode;
 begin
   case FrameKind of
     TAppFrameKind.Editor:
-      Result:= Editor.OptWrapMode;
+      Result:= EditorCurrent.OptWrapMode;
     TAppFrameKind.BinaryViewer:
       begin
         if Assigned(Viewer) and Viewer.TextWrap then
@@ -3803,7 +3803,7 @@ end;
 
 function TEditorFrame.GetEnabledFolding: boolean;
 begin
-  Result:= Editor.OptFoldEnabled;
+  Result:= EditorCurrent.OptFoldEnabled;
 end;
 
 function TEditorFrame.GetFileWasBig(Ed: TATSynEdit): boolean;
@@ -4593,7 +4593,7 @@ function TEditorFrame.DoPyEvent_Macro(const AText: string): boolean;
 var
   Res: TAppPyEventResult;
 begin
-  Res:= DoPyEvent(Editor, TAppPyEvent.OnMacro, [AppVariant(AText)]);
+  Res:= DoPyEvent(EditorCurrent, TAppPyEvent.OnMacro, [AppVariant(AText)]);
   Result:= Res.Val <> TAppPyEventValue.False;
 end;
 
@@ -5077,7 +5077,7 @@ begin
     case FrameKind of
       TAppFrameKind.Editor:
         begin
-          Ed:= Editor;
+          Ed:= EditorCurrent;
           if Ed.Visible and Ed.Enabled then
             EditorFocus(Ed);
         end;
@@ -5112,7 +5112,7 @@ begin
        (Key=VK_END) then
     exit;
 
-  TATSynEdit_Hack(Editor).KeyDown(Key, Shift);
+  TATSynEdit_Hack(EditorCurrent).KeyDown(Key, Shift);
 end;
 
 procedure TEditorFrame.ViewerOnScroll(Sender: TObject);
@@ -5258,7 +5258,7 @@ begin
         if AControls.ButtonYes.Focused or
            AControls.ButtonNo.Focused or
            AControls.ButtonStop.Focused then
-          EditorFocus(Editor);
+          EditorFocus(EditorCurrent);
       AControls.Panel.Hide;
     end;
 end;
@@ -5430,7 +5430,7 @@ end;
 procedure TEditorFrame.CancelAutocompleteAutoshow;
 begin
   FTextCharsTyped:= 0;
-  AppRunAutocomplete(Editor, false);
+  AppRunAutocomplete(EditorCurrent, false);
 end;
 
 procedure TEditorFrame.LexerBackupSave;

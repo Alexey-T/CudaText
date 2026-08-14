@@ -39,7 +39,7 @@ begin
   begin
     case Frame.FrameKind of
       TAppFrameKind.Editor:
-        Result:= Frame.Editor.FileName;
+        Result:= Frame.EditorCurrent.FileName;
       else
         Result:= Frame.FileName;
     end;

@@ -13,7 +13,7 @@ begin
 
   Frame:= CurrentFrame;
   if Frame=nil then exit;
-  Ed:= Frame.Editor;
+  Ed:= Frame.EditorCurrent;
   if Ed=nil then exit;
 
   SParam:= '';
@@ -53,7 +53,7 @@ var
 begin
   F:= CurrentFrame;
   if F=nil then exit;
-  CurLexer:= F.LexerName[F.Editor];
+  CurLexer:= F.LexerName[F.EditorCurrent];
 
   if not IsLexerListed(CurLexer, CmdItem.ItemLexers) then
   begin
@@ -231,7 +231,7 @@ var
 begin
   Result:= false;
 
-  Ed:= Frame.Editor;
+  Ed:= Frame.EditorCurrent;
   if Frame.EditorsLinked and Frame.Splitted then //Ed2 should be Nil when tab is not splitted
     Ed2:= Frame.EditorBrother
   else

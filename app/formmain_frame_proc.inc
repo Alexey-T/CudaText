@@ -87,7 +87,7 @@ var
   i: integer;
 begin
   Frame:= Sender as TEditorFrame;
-  bShow:= Frame.Editor.OptUnprintedVisible;
+  bShow:= Frame.EditorCurrent.OptUnprintedVisible;
 
   for i:= 0 to FrameCount-1 do
   begin
@@ -139,7 +139,7 @@ var
 begin
   F:= CurrentFrame;
   if F=nil then exit;
-  F.Adapter[F.Editor].StopTreeUpdate;
+  F.Adapter[F.EditorCurrent].StopTreeUpdate;
 end;
 
 procedure TfmMain.FrameOnEditorFocus(Sender: TObject);
@@ -307,7 +307,7 @@ var
 begin
   F:= CurrentFrame;
   if F<>nil then
-    Result:= F.Editor
+    Result:= F.EditorCurrent
   else
     Result:= nil;
 end;

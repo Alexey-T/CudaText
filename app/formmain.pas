@@ -1601,7 +1601,7 @@ begin
   if Pages=nil then exit;
   Data:= Pages.Tabs.GetTabData(Pages.Tabs.TabIndex);
   if Assigned(Data) then
-    Result:= (Data.TabObject as TEditorFrame).Editor;
+    Result:= (Data.TabObject as TEditorFrame).EditorCurrent;
 end;
 
 class procedure TGroupsHelper.ForceFrameVisible(Frame: TEditorFrame);
@@ -2394,7 +2394,7 @@ begin
             end;
           TAppFrameKind.Editor:
             begin
-              WrapMode:= Frame.Editor.OptWrapMode;
+              WrapMode:= Frame.EditorCurrent.OptWrapMode;
             end;
           else
             exit;
@@ -2499,12 +2499,12 @@ begin
       end;
     StatusbarTag_Enc:
       begin
-        if not Frame.ReadOnly[Frame.Editor] then
+        if not Frame.ReadOnly[Frame.EditorCurrent] then
           DoDialogMenuEncodings;
       end;
     StatusbarTag_LineEnds:
       begin
-        if not Frame.ReadOnly[Frame.Editor] then
+        if not Frame.ReadOnly[Frame.EditorCurrent] then
           DoDialogMenuEnds;
       end;
     StatusbarTag_Lexer:
@@ -2519,13 +2519,13 @@ begin
     StatusbarTag_SelMode:
       begin
         //don't change property, call command, to support macro-recording
-        Frame.Editor.DoCommand(cCommand_MouseColSelectWithoutKey_Toggle, TATCommandInvoke.Hotkey);
+        Frame.EditorCurrent.DoCommand(cCommand_MouseColSelectWithoutKey_Toggle, TATCommandInvoke.Hotkey);
         UpdateStatusbar_RealWork;
       end;
     StatusbarTag_WrapMode:
       begin
         //toggle values: no wrap / wrap at window / wrap at margin
-        with Frame.Editor do
+        with Frame.EditorCurrent do
         begin
           if OptWrapMode=High(OptWrapMode) then
             OptWrapMode:= Low(OptWrapMode)
@@ -3401,7 +3401,7 @@ begin
   begin
     F:= CurrentFrame;
     if Assigned(F) then
-      F.Editor.Update;
+      F.EditorCurrent.Update;
   end;
 
   (*
@@ -3423,7 +3423,7 @@ begin
   begin
     F:= CurrentFrame;
     if Assigned(F) then
-      F.Editor.Update;
+      F.EditorCurrent.Update;
   end;
 
   {
@@ -3990,7 +3990,7 @@ procedure TfmMain.FormShow(Sender: TObject);
       {$ifdef windows}
       //fix missing on_focus on start, needed for Configure_Toolbar, #5784
       if not FHandledOnFocus then
-        DoPyEvent(Frame.Editor, TAppPyEvent.OnFocus, []);
+        DoPyEvent(Frame.EdFirst, TAppPyEvent.OnFocus, []);
       {$endif}
     end;
   end;
@@ -4565,7 +4565,7 @@ begin
   F:= CurrentFrame;
   if F=nil then exit;
 
-  if DoDialogLexerStylesMap(F.Lexer[F.Editor]) then
+  if DoDialogLexerStylesMap(F.Lexer[F.EditorCurrent]) then
     DoApplyLexerStylesMapsToFrames(false);
 end;
 
@@ -5500,7 +5500,7 @@ var
   Props: TDlgCommandsProps;
 begin
   F:= CurrentFrame;
-  Ed:= F.Editor;
+  Ed:= F.EditorCurrent;
 
   TKeymapHelperMain.UpdateDynamic(TAppCommandCategory.Lexer);
   TKeymapHelperMain.UpdateDynamic(TAppCommandCategory.OpenedFile);
@@ -5552,8 +5552,8 @@ begin
   F:= CurrentFrame;
   if F=nil then exit;
 
-  AProps.LexerName:= F.LexerName[F.Editor];
-  NCmd:= DoDialogCommands_Custom(F.Editor, AProps);
+  AProps.LexerName:= F.LexerName[F.EditorCurrent];
+  NCmd:= DoDialogCommands_Custom(F.EditorCurrent, AProps);
   if NCmd<=0 then exit;
   Category:= TPluginHelper.CommandCategory(NCmd);
 
@@ -5685,7 +5685,7 @@ begin
   begin
     Frame.GotoInput:= fmGoto.edInput.Text;
     Str:= UTF8Encode(Frame.GotoInput);
-    if DoPyEvent(Frame.Editor, TAppPyEvent.OnGotoEnter, [AppVariant(Str)]).Val = TAppPyEventValue.False then exit;
+    if DoPyEvent(Frame.EditorCurrent, TAppPyEvent.OnGotoEnter, [AppVariant(Str)]).Val = TAppPyEventValue.False then exit;
     DoGotoFromInput(Frame, Str);
   end;
 end;
@@ -5742,7 +5742,7 @@ begin
     end;
     TAppFrameKind.Editor:
     begin
-      if EditorGotoFromString(Frame.Editor, AInput) then
+      if EditorGotoFromString(Frame.EditorCurrent, AInput) then
         MsgStatus('')
       else
         MsgStatus(msgStatusBadLineNum);
@@ -5803,7 +5803,7 @@ var
   const
     cMaxLen = 150;
   begin
-    Ed:= Frame.Editor;
+    Ed:= Frame.EditorCurrent;
     St:= Ed.Strings;
     for i:= 0 to Ed.Strings.Bookmarks.Count-1 do
     begin
@@ -5839,7 +5839,7 @@ var
   CurLineIndex, SelIndex, i: integer;
 begin
   CurFrame:= CurrentFrame;
-  CurLineIndex:= CurFrame.Editor.Carets[0].PosY;
+  CurLineIndex:= CurFrame.EditorCurrent.Carets[0].PosY;
   SelIndex:= 0;
 
   with TIniFile.Create(AppFile_Language) do
@@ -6211,7 +6211,7 @@ begin
   else
     SName:= '';
 
-  F.LexerName[F.Editor]:= SName;
+  F.LexerName[F.EditorCurrent]:= SName;
 
   //if some lexer selected, OnParseDone will update the tree
   //if (none) lexer selected, update tree manually
@@ -6509,7 +6509,7 @@ begin
   for i:= 0 to FrameCount-1 do
   begin
     F:= Frames[i];
-    if F.Editor.Modified then
+    if F.EditorCurrent.Modified then
       if not F.DoFileSave(false, true) then
         Result:= false;
   end;
@@ -7150,9 +7150,9 @@ begin
   begin
     Frame:= Frames[i];
     if Frame=CurFrame then Continue;
-    if Frame.Editor.ActivationTime>Time then
+    if Frame.EditorCurrent.ActivationTime>Time then
     begin
-      Time:= Frame.Editor.ActivationTime;
+      Time:= Frame.EditorCurrent.ActivationTime;
       NewFrame:= Frame;
     end;
   end;
@@ -7274,7 +7274,7 @@ begin
   F:= CurrentFrame;
   if F=nil then exit;
 
-  CurLexer:= F.LexerName[F.Editor];
+  CurLexer:= F.LexerName[F.EditorCurrent];
 
   fn:= AppFile_LexerSpecificConfig(CurLexer, false);
   fn_def:= AppFile_LexerSpecificConfig(CurLexer, true);
@@ -7330,7 +7330,7 @@ begin
     F:= Frames[0];
 
   //check allowed lexers
-  CurLexer:= F.LexerName[F.Editor];
+  CurLexer:= F.LexerName[F.EditorCurrent];
   if not IsLexerListed(CurLexer, SLexers) then
   begin
     MsgStatus(msgStatusCommandOnlyForLexers+' '+SLexers);
@@ -7361,7 +7361,7 @@ begin
   begin
     if SCallback<>'' then
     begin
-      F.Editor.CommandLog.Add(cmd_PluginRun, TATCommandInvoke.MenuAPI, SCallback+SCaption);
+      F.EditorCurrent.CommandLog.Add(cmd_PluginRun, TATCommandInvoke.MenuAPI, SCallback+SCaption);
 
       //click of MainMenu must also record macro command
       if F.MacroRecord then
@@ -7370,11 +7370,11 @@ begin
 
       DoPyCallbackFromAPI(SCallback, [], []);
       if not PyEditorMaybeDeleted then
-        F.Editor.CommandLog.Add(cmd_PluginEnd, TATCommandInvoke.MenuAPI, SCallback+SCaption);
+        F.EditorCurrent.CommandLog.Add(cmd_PluginEnd, TATCommandInvoke.MenuAPI, SCallback+SCaption);
     end;
   end
   else
-    F.Editor.DoCommand(NCommand, TATCommandInvoke.MenuMain);
+    F.EditorCurrent.DoCommand(NCommand, TATCommandInvoke.MenuMain);
 
   if (NCommand<>-1)
     and (NCommand<>cmd_FileClose)
@@ -8239,7 +8239,7 @@ begin
   F:= FrameOfPopup;
   if F=nil then exit;
 
-  F.Editor.DoCommand(cmd_CopyFilenameDir, TATCommandInvoke.MenuContext);
+  F.EditorCurrent.DoCommand(cmd_CopyFilenameDir, TATCommandInvoke.MenuContext);
 end;
 
 procedure TfmMain.mnuTabCopyFullPathClick(Sender: TObject);
@@ -8249,7 +8249,7 @@ begin
   F:= FrameOfPopup;
   if F=nil then exit;
 
-  F.Editor.DoCommand(cmd_CopyFilenameFull, TATCommandInvoke.MenuContext);
+  F.EditorCurrent.DoCommand(cmd_CopyFilenameFull, TATCommandInvoke.MenuContext);
 end;
 
 procedure TfmMain.mnuTabCopyNameClick(Sender: TObject);
@@ -8259,7 +8259,7 @@ begin
   F:= FrameOfPopup;
   if F=nil then exit;
 
-  F.Editor.DoCommand(cmd_CopyFilenameName, TATCommandInvoke.MenuContext);
+  F.EditorCurrent.DoCommand(cmd_CopyFilenameName, TATCommandInvoke.MenuContext);
 end;
 
 procedure DoParseOutputLine(const AForm: TAppFormWithEditor;
@@ -8363,7 +8363,7 @@ begin
     if bFound then
     begin
       Frame.SetFocus;
-      Frame.Editor.DoGotoPos(
+      Frame.EditorCurrent.DoGotoPos(
          Point(ResCol, ResLine),
          Point(-1, -1),
          UiOps.FindIndentHorz,
@@ -8654,7 +8654,7 @@ begin
     Frame:= CurrentFrame;
     if Assigned(Frame) then
     begin
-      Frame.Editor.DoCommand(NCmd, TATCommandInvoke.AppToolbar);
+      Frame.EditorCurrent.DoCommand(NCmd, TATCommandInvoke.AppToolbar);
       UpdateToolbarButtons(Frame);
     end;
   end
@@ -9106,7 +9106,7 @@ end;
 
 function TfmMain.DoOnTabGetTick(Sender: TObject; ATabObject: TObject): Int64;
 begin
-  Result:= TEditorFrame(ATabObject).Editor.ActivationTime;
+  Result:= TEditorFrame(ATabObject).EditorCurrent.ActivationTime;
 end;
 
 function TfmMain.IsWindowMaximizedOrFullscreen: boolean;
@@ -9423,8 +9423,8 @@ function _FrameListCompare(List: TStringList; Index1, Index2: Integer): Integer;
 var
   t1, t2: Int64;
 begin
-  t1:= TEditorFrame(List.Objects[Index1]).Editor.ActivationTime;
-  t2:= TEditorFrame(List.Objects[Index2]).Editor.ActivationTime;
+  t1:= TEditorFrame(List.Objects[Index1]).EditorCurrent.ActivationTime;
+  t2:= TEditorFrame(List.Objects[Index2]).EditorCurrent.ActivationTime;
   if t1>t2 then
     Result:= -1
   else
@@ -9537,7 +9537,7 @@ begin
 
     DlgProps:= Default(TDlgMenuProps);
     DlgProps.ItemsText:= List.Text;
-    DlgProps.InitialIndex:= List.IndexOf(Frame.LexerName[Frame.Editor]);
+    DlgProps.InitialIndex:= List.IndexOf(Frame.LexerName[Frame.EditorCurrent]);
     DlgProps.Caption:= SCaption;
     DlgProps.NoFuzzy:= not UiOps.ListboxFuzzySearch;
     DlgProps.NoKeepFilter:= true;
@@ -9547,13 +9547,13 @@ begin
 
     Obj:= List.Objects[NIndex];
     if Obj=nil then
-      Frame.Lexer[Frame.Editor]:= nil
+      Frame.Lexer[Frame.EditorCurrent]:= nil
     else
     if Obj is TecSyntAnalyzer then
-      Frame.Lexer[Frame.Editor]:= Obj as TecSyntAnalyzer
+      Frame.Lexer[Frame.EditorCurrent]:= Obj as TecSyntAnalyzer
     else
     if Obj is TATLiteLexer then
-      Frame.LexerLite[Frame.Editor]:= Obj as TATLiteLexer;
+      Frame.LexerLite[Frame.EditorCurrent]:= Obj as TATLiteLexer;
   finally
     FreeAndNil(List);
   end;
