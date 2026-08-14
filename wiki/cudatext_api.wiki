@@ -1845,6 +1845,20 @@ Example adds 3 columns:
   listbox_proc(h_list, LISTBOX_ADD, index=-1, text='first|second|third')
 </syntaxhighlight>
 
+===bitmap_proc===
+
+ bitmap_proc(id_bmp, id_action, param1=0, param2=0)
+
+Performs action on bitmap object.
+
+Possible value of "id_action":
+
+* BITMAP_CREATE: Creates new bitmap (not associated with any GUI control). Param "id_bmp" must be 0 here; param "param1" sets width; param "param2" sets height. Returns 2-tuple (bitmap_handle, canvas_handle), where canvas_handle is compatible with canvas_proc().
+
+* BITMAP_FREE: Deletes (frees) the bitmap.
+* BITMAP_SET_SIZE: Resizes the bitmap. Param "param1" sets width; param "param2" sets height.
+* BITMAP_GET_SIZE: Returns sizes of bitmap as 2-tuple (width, height).
+
 ===canvas_proc===
 
  canvas_proc(id_canvas, id_action,
@@ -5437,6 +5451,7 @@ It provides:
 * add: Editor.bookmark: BOOKMARK_APPEND
 * add: Editor.bookmark: BOOKMARK2_APPEND
 * add: Editor.micromap: allow to delete column with tag=0
+* add: bitmap_proc()
 * add: file_open: function supports empty filename1 and non-empty filename2
 * add: dlg_proc: controls "memo"/"edit"/"edit_pwd"/"spinedit"/"combo" support new event "on_key_press"
 * add: image_proc: IMAGE_GET_SIZE_UI
