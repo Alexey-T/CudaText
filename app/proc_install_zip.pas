@@ -101,22 +101,13 @@ end;
 
 
 function CheckValue_ReqAPI(const S: string): boolean;
-//support 'api' key in 2 formats:
-// number 300
+//support 'api' key in 1 format:
 // string '1.0.300'
-var
-  Num: integer;
 begin
   if S='' then
     Result:= true
   else
-  begin
-    Num:= StrToIntDef(S, 0);
-    if Num>0 then
-      Result:= Num<=cAppApiVersion
-    else
-      Result:= S <= '1.0.'+IntToStr(cAppApiVersion);
-  end;
+    Result:= S <= '1.0.'+IntToStr(cAppApiVersion);
 end;
 
 
