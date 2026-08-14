@@ -1859,6 +1859,12 @@ Possible value of "id_action":
 * BITMAP_SET_SIZE: Resizes the bitmap. Param "param1" sets width; param "param2" sets height.
 * BITMAP_GET_SIZE: Returns sizes of bitmap as 2-tuple (width, height).
 
+Notes:
+
+* It is possible to copy one bitmap to another:
+
+ canvas_proc(id_canvas_of_target_bitmap, CANVAS_BITMAP, text=str(id_source_bitmap), x=0, y=0)
+
 ===canvas_proc===
 
  canvas_proc(id_canvas, id_action,
