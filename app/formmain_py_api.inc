@@ -3419,6 +3419,7 @@ var
   Str: string;
   Ed: TATSynEdit;
   Frame: TEditorFrame;
+  TempCtl: TWinControl;
   Pnt: TPoint;
   Adapter: TATAdapterEControl;
   An: TecSyntAnalyzer;
@@ -4021,7 +4022,16 @@ begin
 
         PROP_HANDLE_PARENT:
           begin
-            Result:= PyHelper_ObjectHandle(Ed.Parent);
+            TempCtl:= Ed.Parent;
+            Result:= PyHelper_ObjectHandle(TempCtl);
+          end;
+
+        PROP_HANDLE_PARENT2:
+          begin
+            TempCtl:= Ed.Parent;
+            if Assigned(TempCtl.Parent) then
+              TempCtl:= TempCtl.Parent;
+            Result:= PyHelper_ObjectHandle(TempCtl);
           end;
 
         PROP_SCROLLSTYLE_HORZ:
@@ -10484,7 +10494,7 @@ begin
             else
             begin
               Obj:= TObject(PtrInt(NIndex));
-              if not (Obj is TForm) then
+              if not (Obj is TForm) and not (Obj is TFrame) then
               begin
                 MsgLogConsole('ERROR: dlg_proc(...DLG_DOCK...) gets bad form handle, of type '+Obj.ClassName);
                 exit(ReturnNone);
