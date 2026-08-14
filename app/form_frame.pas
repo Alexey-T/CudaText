@@ -3440,7 +3440,7 @@ begin
   - split it to EdFirst/EdSecond
   - edit in EdSecond; then edit in EdFirst -> circle-mark shows
   - focus EdSecond, save to file -> circle-mark hides
-  - focus EdFirst, edit -> circle-mark don't show (ed1 don't fire OnChangeModified)
+  - focus EdFirst, edit -> circle-mark don't show (EdFirst don't fire OnChangeModified)
   }
   if Result and EditorsLinked then
   begin
