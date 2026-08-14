@@ -1798,8 +1798,10 @@ end;
 
 procedure TEditorFrame.EditorOnChangeBookmarks(Sender: TObject);
 var
-  EdOther: TATSynEdit;
+  Ed, EdOther: TATSynEdit;
 begin
+  Ed:= Sender as TATSynEdit;
+
   if EditorsLinked then
   begin
     EdOther:= EditorBrother;
@@ -1808,7 +1810,7 @@ begin
     EdOther.ModifiedBookmarks:= true;
   end;
 
-  DoPyEventStateEd(Sender as TATSynEdit, EDSTATE_BOOKMARK);
+  DoPyEventStateEd(Ed, EDSTATE_BOOKMARK);
 end;
 
 procedure TEditorFrame.EditorOnChangeZoom(Sender: TObject);
