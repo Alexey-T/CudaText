@@ -381,7 +381,7 @@ type
     constructor Create(AOwner: TComponent; AApplyCentering: boolean); reintroduce;
     destructor Destroy; override;
     function EdCurrent: TATSynEdit;
-    function EditorBrother: TATSynEdit;
+    function EdBrother: TATSynEdit;
     function Modified: boolean;
     property Adapter[Ed: TATSynEdit]: TATAdapterEControl read GetAdapter;
     procedure EditorOnKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -1803,7 +1803,7 @@ begin
 
   if EditorsLinked then
   begin
-    EdOther:= EditorBrother;
+    EdOther:= EdBrother;
     if Splitted then
       EdOther.Update;
     EdOther.ModifiedBookmarks:= true;
@@ -2523,7 +2523,7 @@ begin
     Result:= EdFirst;
 end;
 
-function TEditorFrame.EditorBrother: TATSynEdit;
+function TEditorFrame.EdBrother: TATSynEdit;
 begin
   if not FActiveSecondaryEd then
     Result:= EdSecond
@@ -5217,7 +5217,7 @@ var
 begin
   if Splitted then
   begin
-    Ed:= EditorBrother;
+    Ed:= EdBrother;
     if Ed.Enabled and Ed.Visible then
     begin
       FActiveSecondaryEd:= Ed=EdSecond;
