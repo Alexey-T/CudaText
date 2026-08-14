@@ -163,7 +163,7 @@ var
   Frame: TEditorFrame;
 begin
   Frame:= CurrentFrame;
-  Frame.IsCaretInViewBeforeToggle:= Frame.EditorCurrent.IsCaretOnVisibleRect;
+  Frame.IsCaretInViewBeforeToggle:= Frame.EdCurrent.IsCaretOnVisibleRect;
 end;
 
 procedure TfmMain.DoSidebar_OnAfterToggle(Sender: TObject);

@@ -316,7 +316,7 @@ begin
   if Category in [TAppFinderOperationCategory.Find, TAppFinderOperationCategory.ReplaceOne] then
   begin
     if Frame.FrameKind=TAppFrameKind.ImageViewer then exit;
-    if Frame.EditorCurrent.Carets.Count=0 then
+    if Frame.EdCurrent.Carets.Count=0 then
     begin
       MsgStatus(msgCannotFindWithoutCaret);
       exit;
@@ -326,7 +326,7 @@ begin
   if Category=TAppFinderOperationCategory.ReplaceOne then
   begin
     if Frame.FrameKind<>TAppFrameKind.Editor then exit;
-    if Frame.EditorCurrent.ModeReadOnly then exit;
+    if Frame.EdCurrent.ModeReadOnly then exit;
   end;
 
   //keep focus in Find field, else focus find or rep field
@@ -470,7 +470,7 @@ begin
       Frame:= CurrentFrame;
       if Assigned(Frame) then
       begin
-        EditorClearHiAllMarkers(Frame.EditorCurrent);
+        EditorClearHiAllMarkers(Frame.EdCurrent);
         Frame.SetFocus;
       end;
     end;
@@ -567,7 +567,7 @@ begin
 
   Frame:= CurrentFrame;
   if Frame=nil then exit;
-  Ed:= Frame.EditorCurrent;
+  Ed:= Frame.EdCurrent;
 
   StrSel:= '';
   StrWord:= '';
@@ -798,7 +798,7 @@ begin
     exit;
   end;
 
-  FFinder.Editor:= Frame.EditorCurrent;
+  FFinder.Editor:= Frame.EdCurrent;
   FFinder.OptBack:= false;
   FFinder.OptFromCaret:= false;
   FFinder.OptDisableOnProgress:= false;

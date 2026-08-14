@@ -551,7 +551,7 @@ begin
 
   F:= CurrentFrame;
   if F=nil then exit;
-  Ed:= F.EditorCurrent;
+  Ed:= F.EdCurrent;
 
   if not AForceUpdate then
   begin

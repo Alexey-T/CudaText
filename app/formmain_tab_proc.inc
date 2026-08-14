@@ -189,7 +189,7 @@ begin
   begin
     //prevent ListIndexError on file_open(..)
     if not FDisableTreeClearing then
-      if F.EditorCurrent<>AppCodetreeState.Editor then
+      if F.EdCurrent<>AppCodetreeState.Editor then
         DoCodetree_Clear;
   end;
 
@@ -243,7 +243,7 @@ begin
   UpdateStatusbar; //always update statusbar on tab switching
 
   if AAllowEventOnTabChange then
-    DoPyEvent(F.EditorCurrent, TAppPyEvent.OnTabChange, []);
+    DoPyEvent(F.EdCurrent, TAppPyEvent.OnTabChange, []);
 
   UpdateFindDialogOnTabFocusing(F);
 end;
@@ -288,7 +288,7 @@ begin
     raise Exception.Create('Cannot get first tab');
 
   Frame:= (D.TabObject as TEditorFrame);
-  if Frame.EditorCurrent.Modified then
+  if Frame.EdCurrent.Modified then
     case MsgBox(
          Format(msgConfirmSaveModifiedTab, [Frame.TabCaption]),
          MB_YESNOCANCEL or MB_ICONWARNING
@@ -334,7 +334,7 @@ begin
   CloseFormAutoCompletion;
   DoTooltipHide;
 
-  if Frame.EditorCurrent.IsLocked then
+  if Frame.EdCurrent.IsLocked then
   begin
     ACanClose:= false;
     Exit
@@ -375,7 +375,7 @@ begin
 
   if not Application.Terminated then
   begin
-    if DoPyEvent(Frame.EditorCurrent, TAppPyEvent.OnCloseBefore, []).Val = TAppPyEventValue.False then
+    if DoPyEvent(Frame.EdCurrent, TAppPyEvent.OnCloseBefore, []).Val = TAppPyEventValue.False then
     begin
       ACanClose:= false;
       Exit
@@ -698,7 +698,7 @@ var
 begin
   F:= FrameOfPopup;
   if F=nil then exit;
-  DoFileSave(F, F.EditorCurrent);
+  DoFileSave(F, F.EdCurrent);
   //not F.DoFileSave, because TfmMain.DoFileSave considers the option "ui_save_always":false
 end;
 

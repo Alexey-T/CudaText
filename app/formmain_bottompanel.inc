@@ -40,7 +40,7 @@ var
 begin
   Frame:= CurrentFrame;
   if Assigned(Frame) then
-    Frame.IsCaretInViewBeforeToggle:= Frame.EditorCurrent.IsCaretOnVisibleRect;
+    Frame.IsCaretInViewBeforeToggle:= Frame.EdCurrent.IsCaretOnVisibleRect;
 end;
 
 procedure TfmMain.DoBottom_OnAfterToggle(Sender: TObject);

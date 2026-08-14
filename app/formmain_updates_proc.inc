@@ -134,7 +134,7 @@ begin
   if DragManager.IsDragging then exit;
 
   if F=nil then exit;
-  Ed:= F.EditorCurrent;
+  Ed:= F.EdCurrent;
 
   case F.FrameKind of
     TAppFrameKind.Editor:
@@ -224,7 +224,7 @@ var
   bFontBold: boolean;
 begin
   if F=nil then exit;
-  Ed:= F.EditorCurrent;
+  Ed:= F.EdCurrent;
   FrameKind:= F.FrameKind;
 
   //hide hints for pictures/viewer
@@ -476,7 +476,7 @@ var
 begin
   Frame:= CurrentFrame;
   if Frame=nil then exit;
-  Ed:= Frame.EditorCurrent;
+  Ed:= Frame.EdCurrent;
 
   if AStart then
   begin
@@ -1141,7 +1141,7 @@ var
 begin
   F:= CurrentFrame;
   if F=nil then exit;
-  Ed:= F.EditorCurrent;
+  Ed:= F.EdCurrent;
 
   case AValue of
     -1:
@@ -1183,7 +1183,7 @@ var
   bEditor, bBinary, bPicture: boolean;
 begin
   if F=nil then exit;
-  Ed:= F.EditorCurrent;
+  Ed:= F.EdCurrent;
 
   bEditor:= F.FrameKind=TAppFrameKind.Editor;
   bBinary:= F.FrameKind=TAppFrameKind.BinaryViewer;
@@ -1296,7 +1296,7 @@ begin
   if Frame=nil then exit;
   CodeTree.Tree.SortType:= Frame.CodetreeSortType;
 
-  Ed:= Frame.EditorCurrent;
+  Ed:= Frame.EdCurrent;
   bLiteLexer:= Ed.AdapterForHilite is TATLiteLexer;
 
   if bLiteLexer then
