@@ -101,13 +101,26 @@ end;
 
 
 function CheckValue_ReqAPI(const S: string): boolean;
-//support 'api' key in 1 format:
-// string '1.0.300'
+//text must have the format '1.0.300'
 begin
   if S='' then
     Result:= true
   else
-    Result:= S <= '1.0.'+IntToStr(cAppApiVersion);
+  if Length(S)<>7 then
+    Result:= false
+  else
+  if (S[1]<>'1') or
+    (S[2]<>'.') or
+    (S[3]<>'0') or
+    (S[4]<>'.') or
+    not (S[5] in ['0'..'9']) or
+    not (S[6] in ['0'..'9']) or
+    not (S[7] in ['0'..'9']) then
+    Result:= false
+  else
+  begin
+    Result:= StrToIntDef(Copy(S, 5, 3), MaxInt) <= cAppApiVersion;
+  end;
 end;
 
 
