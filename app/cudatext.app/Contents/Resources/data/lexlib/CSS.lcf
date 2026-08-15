@@ -1,4 +1,4 @@
-object SyntAnal6: TLibSyntAnalyzer
+object SyntAnal5: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Id'
@@ -2400,7 +2400,11 @@ object SyntAnal6: TLibSyntAnalyzer
             'px'
             'q'
             'rad'
+            'rcap'
+            'rch'
             'rem'
+            'rex'
+            'ric'
             'rlh'
             's'
             'svb'
@@ -2418,6 +2422,7 @@ object SyntAnal6: TLibSyntAnalyzer
             'vw'
             'x')
           TokenTypes = 1024
+          IgnoreCase = True
         end>
       HighlightPos = cpAny
       IgnoreAsParent = False
