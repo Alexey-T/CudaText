@@ -8549,7 +8549,8 @@ begin
             Result:= ReturnNone;
           end;
 
-        CANVAS_IMAGE:
+        CANVAS_IMAGE,
+        CANVAS_IMAGE_SIZED:
           begin
             Num64:= StrToInt64Def(StrText, 0);
             if Num64=0 then
@@ -8561,7 +8562,10 @@ begin
                 MsgLogConsole('ERROR: canvas_proc(...CANVAS_IMAGE...) gets bad image handle, of type '+Obj.ClassName)
               else
               begin
-                C.Draw(NX, NY, TImage(Obj).Picture.Graphic);
+                if IdAction=CANVAS_IMAGE then
+                  C.Draw(NX, NY, TImage(Obj).Picture.Graphic)
+                else
+                  C.StretchDraw(Rect(NX, NY, NX2, NY2), TImage(Obj).Picture.Graphic);
               end;
             end;
             Result:= ReturnNone;
