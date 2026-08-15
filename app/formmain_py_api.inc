@@ -8435,7 +8435,6 @@ function api_canvas_proc(Self, Args: PPyObject): PPyObject; cdecl;
 var
   C: TCanvas;
   IdCanvas, Num64: Int64;
-  Bmp: TBitmap;
   Obj: TObject;
   IdAction, NColor, NSize, NStyle, NX, NY, NX2, NY2, NP1, NP2: integer;
   PtrText: PChar;
@@ -8544,8 +8543,25 @@ begin
                 MsgLogConsole('ERROR: canvas_proc(...CANVAS_BITMAP...) gets bad bitmap handle, of type '+Obj.ClassName)
               else
               begin
-                Bmp:= TBitmap(Obj);
-                C.Draw(NX, NY, Bmp);
+                C.Draw(NX, NY, TBitmap(Obj));
+              end;
+            end;
+            Result:= ReturnNone;
+          end;
+
+        CANVAS_IMAGE:
+          begin
+            Num64:= StrToInt64Def(StrText, 0);
+            if Num64=0 then
+              MsgLogConsole('ERROR: canvas_proc(...CANVAS_IMAGE...) gets bad or zero image handle')
+            else
+            begin
+              Obj:= TObject(PtrInt(Num64));
+              if not (Obj is TImage) then
+                MsgLogConsole('ERROR: canvas_proc(...CANVAS_IMAGE...) gets bad image handle, of type '+Obj.ClassName)
+              else
+              begin
+                C.Draw(NX, NY, TImage(Obj).Picture.Graphic);
               end;
             end;
             Result:= ReturnNone;
