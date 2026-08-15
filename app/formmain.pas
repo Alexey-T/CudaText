@@ -4214,11 +4214,11 @@ end;
 
 procedure TfmMain.FormWindowStateChange(Sender: TObject);
 begin
-  //ignore wsMinimized: it was already hadled by TApplicationProperties.OnRestore
+  //ignore wsMinimized: it was already handled by TApplicationProperties.OnRestore
   if WindowState in [wsMaximized, wsNormal] then
   begin
     // fixing issue #6417
-    // On gtk2/gtk3, restoring from wsMinimized fires BOTH
+    // On Linux gtk2/gtk3, restoring from wsMinimized fires BOTH
     // TApplicationProperties.OnRestore (handled by AppPropsRestore) AND
     // FormWindowStateChange with WindowState=wsNormal. To avoid emitting
     // on_state APPSTATE_WINDOW twice (both reporting WND_NORMAL) on
