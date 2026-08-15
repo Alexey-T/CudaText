@@ -739,6 +739,7 @@ type
     FLastFocusedFrame: TComponent;
     FLastTooltipLine: integer;
     FLastAppActivate: QWord;
+    FLastWindowState: TWindowState;
     FLastSaveSessionTick: QWord;
     FLastPyMenuFilter: UnicodeString;
     FLastPyMenuHashOfLines: integer;
@@ -3081,6 +3082,8 @@ begin
   mnuHelpCheckUpd.Enabled:= UiOps.AllowProgramUpdates;
   AppRunAutocomplete:= @DoAutoComplete_Callback;
 
+  FLastWindowState:= WindowState;
+
   with AppPanels[TAppPanelId.Side] do
   begin
     PanelRoot:= Self.PanelMain;
@@ -4211,10 +4214,23 @@ end;
 
 procedure TfmMain.FormWindowStateChange(Sender: TObject);
 begin
-  ////is TApplicationProperties.OnMinimize / OnRestore enough?
-  ////no, wsMaximized is not catched
+  //ignore wsMinimized: it was already hadled by TApplicationProperties.OnRestore
   if WindowState in [wsMaximized, wsNormal] then
-    DoPyEvent_AppState(APPSTATE_WINDOW);
+  begin
+    // fixing issue #6417
+    // On gtk2/gtk3, restoring from wsMinimized fires BOTH
+    // TApplicationProperties.OnRestore (handled by AppPropsRestore) AND
+    // FormWindowStateChange with WindowState=wsNormal. To avoid emitting
+    // on_state APPSTATE_WINDOW twice (both reporting WND_NORMAL) on
+    // minimize+restore, skip the form-state-change emission when the
+    // previous state was wsMinimized -- the restore event already
+    // covered it.
+    // On Windows, OnWindowStateChange doesn't fire on restore,
+    // so this guard is a no-op there.
+    if FLastWindowState<>wsMinimized then
+      DoPyEvent_AppState(APPSTATE_WINDOW);
+  end;
+  FLastWindowState:= WindowState;
 end;
 
 procedure TfmMain.ShowWelcomeInfo;
