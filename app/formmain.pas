@@ -3462,6 +3462,20 @@ begin
   *)
 
   DoPyEvent_AppActivate(TAppPyEvent.OnAppDeactivate);
+
+  // Fix for on_state not firing on minimize on Windows.
+  // On Windows, TApplicationProperties.OnMinimize does NOT fire when the
+  // user clicks the minimize button (it only fires for programmatic
+  // Application.Minimize). OnDeactivate DOES fire on minimize, but it also
+  // fires on alt-tab / clicking another app. IsIconic checks the actual
+  // OS window state, so we can distinguish minimize from focus loss.
+  // Gated to Windows only: on Linux, AppPropsMinimize already handles it
+  // (and would cause a duplicate if we also emitted here).
+  // https://github.com/Alexey-T/CudaText/issues/6417
+  {$ifdef windows}
+  if IsIconic(Handle) then
+    DoPyEvent_AppState(APPSTATE_WINDOW);
+  {$endif}
 end;
 
 procedure TfmMain.AppPropsDropFiles(Sender: TObject;
