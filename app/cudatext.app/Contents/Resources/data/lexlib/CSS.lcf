@@ -2532,6 +2532,7 @@ object SyntAnal5: TLibSyntAnalyzer
             'variant'
             'view')
           TokenTypes = 4
+          IgnoreCase = True
         end>
       HighlightPos = cpAny
       IgnoreAsParent = False
