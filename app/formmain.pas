@@ -1482,6 +1482,31 @@ begin
          //MsgLogConsole('WM_SETTINGCHANGE');
        end;
 
+    // Fix for issue #6418
+    // On Windows, the LCL Application.OnActivate event only fires on
+    // WM_ACTIVATEAPP, which is NOT sent by Windows when the app is restored
+    // from the taskbar via clicking the taskbar icon. WM_ACTIVATE is sent
+    // reliably in that case (with WA_CLICKACTIVE), so we hook it here and
+    // call AppPropsActivate/AppPropsDeactivate manually. The existing 500ms
+    // debounce in DoPyEvent_AppActivate prevents double-firing when LCL
+    // also fires the same event.
+    WM_ACTIVATE:
+      begin
+        if Assigned(PrevWndProc) then
+          Result := CallWindowProc(PrevWndProc, AHWnd, uMsg, WParam, LParam)
+        else
+          Result := Windows.DefWindowProc(AHWnd, uMsg, WParam, LParam);
+
+        if Assigned(fmMain) then
+          case LoWord(wParam) of
+            WA_ACTIVE, WA_CLICKACTIVE:
+              fmMain.AppPropsActivate(nil);
+            WA_INACTIVE:
+              fmMain.AppPropsDeactivate(nil);
+          end;
+        exit;
+      end;
+
      {
      WM_SYSCOLORCHANGE:
        begin
