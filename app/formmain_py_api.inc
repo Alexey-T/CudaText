@@ -8637,6 +8637,14 @@ begin
               Image.Height);
           end;
 
+        APP_IMAGE_GET_BITMAP:
+          begin
+            if Assigned(Image.Picture) and Assigned(Image.Picture.Bitmap) then
+              Result:= PyHelper_ObjectHandle(Image.Picture.Bitmap)
+            else
+              Result:= PyLong_FromLong(0);
+          end;
+
         APP_IMAGE_LOAD:
           begin
             Gr:= AppLoadPictureFromFile(StrValue);
