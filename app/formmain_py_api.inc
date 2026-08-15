@@ -6102,12 +6102,26 @@ begin
               i:= WND_FULLSCREEN2
             else if fmMain.ShowFullscreen then
               i:= WND_FULLSCREEN
+            {$ifdef windows}
+            // On Windows, the LCL TForm.WindowState property is NOT reliably
+            // updated to wsMinimized when the user minimizes the window
+            // (the LCL Win32 widgetset doesn't update it on SC_MINIMIZE).
+            // So we query the actual OS-level window state via IsIconic/IsZoomed.
+            // https://github.com/Alexey-T/CudaText/issues/6417
+            else if IsIconic(fmMain.Handle) then
+              i:= WND_MINIMIZED
+            else if IsZoomed(fmMain.Handle) then
+              i:= WND_MAXIMIZED
+            else
+              i:= WND_NORMAL;
+            {$else}
             else if fmMain.WindowState=wsMaximized then
               i:= WND_MAXIMIZED
             else if fmMain.WindowState=wsMinimized then
               i:= WND_MINIMIZED
             else
               i:= WND_NORMAL;
+            {$endif}
             Result:= PyLong_FromLong(Ord(i));
           end;
 
