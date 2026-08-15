@@ -474,8 +474,10 @@ type
     procedure AppPropsDropFiles(Sender: TObject; const FileNames: array of string);
     procedure AppPropsEndSession(Sender: TObject);
     procedure AppPropsException(Sender: TObject; E: Exception);
+    procedure AppPropsMinimize(Sender: TObject);
     procedure AppPropsModalBegin(Sender: TObject);
     procedure AppPropsQueryEndSession(var Cancel: Boolean);
+    procedure AppPropsRestore(Sender: TObject);
     procedure ButtonCancelClick(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure FormChangeBounds(Sender: TObject);
@@ -3458,6 +3460,16 @@ begin
   AppLogException(E);
 end;
 
+procedure TfmMain.AppPropsMinimize(Sender: TObject);
+begin
+  DoPyEvent_AppState(APPSTATE_WINDOW);
+end;
+
+procedure TfmMain.AppPropsRestore(Sender: TObject);
+begin
+  DoPyEvent_AppState(APPSTATE_WINDOW);
+end;
+
 procedure TfmMain.AppPropsModalBegin(Sender: TObject);
 begin
   CloseFormAutoCompletion;
@@ -4174,7 +4186,10 @@ end;
 
 procedure TfmMain.FormWindowStateChange(Sender: TObject);
 begin
-  DoPyEvent_AppState(APPSTATE_WINDOW);
+  ////is TApplicationProperties.OnMinimize / OnRestore enough?
+  ////no, wsMaximized is not catched
+  if WindowState in [wsMaximized, wsNormal] then
+    DoPyEvent_AppState(APPSTATE_WINDOW);
 end;
 
 procedure TfmMain.ShowWelcomeInfo;

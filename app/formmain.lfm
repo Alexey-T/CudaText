@@ -685,7 +685,9 @@ object fmMain: TfmMain
     OnException = AppPropsException
     OnEndSession = AppPropsEndSession
     OnQueryEndSession = AppPropsQueryEndSession
+    OnMinimize = AppPropsMinimize
     OnModalBegin = AppPropsModalBegin
+    OnRestore = AppPropsRestore
     OnDropFiles = AppPropsDropFiles
     Left = 432
     Top = 272
