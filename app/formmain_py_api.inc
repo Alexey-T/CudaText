@@ -4022,20 +4022,18 @@ begin
 
         PROP_HANDLE_PARENT:
           begin
-            TempCtl:= Ed.Parent;
-            if Assigned(TempCtl) then
-              TempCtl:= TempCtl.Parent;
-            Result:= PyHelper_ObjectHandle(TempCtl);
+            if Assigned(Frame) then
+              Result:= PyHelper_ObjectHandle(Frame.FFormDummy)
+            else
+              Result:= PyLong_FromLong(0);
           end;
 
         PROP_HANDLE_PARENT2:
           begin
-            TempCtl:= Ed.Parent;
-            if Assigned(TempCtl) then
-              TempCtl:= TempCtl.Parent;
-            if Assigned(TempCtl) then
-              TempCtl:= TempCtl.Parent;
-            Result:= PyHelper_ObjectHandle(TempCtl);
+            if Assigned(Frame) then
+              Result:= PyHelper_ObjectHandle(Frame)
+            else
+              Result:= PyLong_FromLong(0);
           end;
 
         PROP_SCROLLSTYLE_HORZ:
