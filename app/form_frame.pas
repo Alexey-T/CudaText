@@ -2823,6 +2823,8 @@ begin
   else
   begin
     Viewer:= TATBinHex.Create(FFormDummy);
+    Viewer.Name:= 'viewer1';
+    Viewer.Caption:= '';
     Viewer.Hide; //reduce flicker with initial size
     Viewer.OnKeyDown:= @ViewerOnKeyDown;
     Viewer.OnScroll:= @ViewerOnScroll;
@@ -2839,6 +2841,7 @@ begin
     Viewer.TextPopupCaption[vpCmdCopy]:= ATEditorOptions.TextMenuitemCopy;
     Viewer.TextPopupCaption[vpCmdCopyHex]:= ATEditorOptions.TextMenuitemCopy+' (hex)';
     Viewer.TextPopupCaption[vpCmdSelectAll]:= ATEditorOptions.TextMenuitemSelectAll;
+    DoControl_InitPropsObject(Viewer, FFormDummy, 'viewer');
     Viewer.Show;
   end;
 
