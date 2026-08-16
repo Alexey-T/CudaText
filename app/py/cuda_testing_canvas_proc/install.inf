@@ -1,8 +1,8 @@
 [info]
-title=Canvas API Demo
+title=Testing of canvas_proc API
 desc=Scrollable panel that exercises every canvas_proc() action and parameter combination
 type=cudatext-plugin
-subdir=cuda_canvas_demo
+subdir=cuda_testing_canvas_proc
 homepage=
 
 [item1]
