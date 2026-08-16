@@ -1900,10 +1900,10 @@ Possible values of "id_action":
 * CANVAS_TEXT: Paints text at given coords. Uses font and brush. Params used: "text", "x", "y".
 * CANVAS_LINE: Paints line at given coords. Uses pen. Params used: "x", "y", "x2", "y2".
 * CANVAS_PIXEL: Paints one pixel at given coords. Params used: "x", "y", "color".
-* CANVAS_RECT: Paints rectangle. Uses pen and brush. Params used: "x", "y", "x2", "y2".
-* CANVAS_RECT_FRAME: Paints rectangle. Uses only pen. Params used: "x", "y", "x2", "y2".
-* CANVAS_RECT_FILL: Paints rectangle. Uses only brush. Params used: "x", "y", "x2", "y2".
-* CANVAS_RECT_ROUND: Paints rounded rectangle. Uses pen and brush. Params used: "x", "y", "x2", "y2", "style" - radius of corners.
+* CANVAS_RECT: Paints filled rectangle. Uses pen and brush. Params used: "x", "y", "x2", "y2".
+* CANVAS_RECT_FRAME: Paints outline-only rectangle. Uses only brush (for outline). Params used: "x", "y", "x2", "y2".
+* CANVAS_RECT_FILL: Paints filled rectangle. Uses only brush. Params used: "x", "y", "x2", "y2".
+* CANVAS_RECT_ROUND: Paints rounded filled rectangle. Uses pen and brush. Params used: "x", "y", "x2", "y2", "style" - radius of corners.
 * CANVAS_ELLIPSE: Paints ellipse or circle. Uses pen and brush. Params used: "x", "y", "x2", "y2".
 * CANVAS_POLYGON: Paints polygon from any number of points (>2). Uses pen and brush. Params used: "text" - comma separated list of (x,y) coords. Example: "10,10,200,50,10,100" - 3 points.
 * CANVAS_BITMAP: Paints given bitmap. Bitmap's handle must be got from bitmap_proc() and passed to param "p1". Params "x", "y" are the coordinates to paint at.
