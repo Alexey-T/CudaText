@@ -1,0 +1,25 @@
+[info]
+title=Canvas API Demo
+desc=Scrollable panel that exercises every canvas_proc() action and parameter combination
+type=cudatext-plugin
+subdir=cuda_canvas_demo
+homepage=
+
+[item1]
+section=commands
+caption=Testing\Testing of canvas_proc API\Show panel
+method=show_panel
+
+[item2]
+section=commands
+caption=Testing\Testing of canvas_proc API\Hide panel
+method=hide_panel
+
+[item3]
+section=commands
+caption=Testing\Testing of canvas_proc API\Repaint
+method=repaint_panel
+
+[item100]
+section=events
+events=on_state
