@@ -10589,13 +10589,7 @@ begin
         DLG_CTL_HANDLE:
           begin
             if Assigned(Ctl) then
-            begin
-              if Ctl is TPaintBox then
-                Num64:= PtrInt(TPaintBox(Ctl).Canvas)
-              else
-                Num64:= PtrInt(Ctl);
-              Result:= PyLong_FromLongLong(Num64);
-            end
+              Result:= PyHelper_ObjectHandle(Ctl)
             else
               Result:= ReturnNone;
           end;

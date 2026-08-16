@@ -5486,9 +5486,9 @@ It provides:
 * deprecate: Editor.get_filename (use PROP_FN instead)
 * deprecate: Editor.attr: param "show_on_map" cannot be boolean anymore
 * deprecate: GAP_MAKE_BITMAP (use bitmap_proc instead)
-* deprecate: dlg_proc control "paintbox" (none public plugins did it it; use "image" instead)
 * deprecate: IMAGE_PAINT (use CANVAS_IMAGE instead)
 * deprecate: IMAGE_PAINT_SIZED (use CANVAS_IMAGE_SIZED instead)
+* delete: dlg_proc control "paintbox" (almost none public plugins did it it; use "image" instead)
 * delete: PROP_PICTURE (none public plugins did use it; use PROP_HANDLE_IMAGE instead)
 
 [[Category:CudaText]]

@@ -1116,12 +1116,6 @@ begin
     exit;
   end;
 
-  if S='paintbox' then
-  begin
-    Ctl:= TPaintBox.Create(AForm);
-    exit;
-  end;
-
   if S='scrollbox' then
   begin
     Ctl:= TScrollBox.Create(AForm);
