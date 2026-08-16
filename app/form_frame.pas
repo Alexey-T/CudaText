@@ -132,6 +132,7 @@ type
     FFormDummy: TFormDummy; //this form is the actual Parent of editors; this is to support dlg_proc() for "Editor" python objects
     Adapter1: TATAdapterEControl;
     Adapter2: TATAdapterEControl;
+    PanelEditors: TPanel;
     PanelInfo: TPanel;
     PanelUndoStopped: TPanel;
     PanelNoHilite: TPanel;
@@ -2288,7 +2289,7 @@ begin
   ed.ParentFrameObject:= Self;
   ed.Name:= AName;
   ed.EditorIndex:= AEditorIndex;
-  ed.Parent:= FFormDummy;
+  ed.Parent:= PanelEditors;
   DoControl_InitPropsObject(ed, FFormDummy, 'editor');
 
   ed.DoubleBuffered:= UiOps.DoubleBuffered;
@@ -2371,8 +2372,16 @@ begin
   FFormDummy.Parent:= Self;
   FFormDummy.Visible:= true;
 
+  PanelEditors:= TPanel.Create(FFormDummy);
+  PanelEditors.BorderStyle:= bsNone;
+  PanelEditors.BevelInner:= bvNone;
+  PanelEditors.BevelOuter:= bvNone;
+  PanelEditors.Parent:= FFormDummy;
+  PanelEditors.Align:= alClient;
+  PanelEditors.Visible:= true;
+
   Splitter:= TSplitter.Create(FFormDummy);
-  Splitter.Parent:= FFormDummy;
+  Splitter.Parent:= PanelEditors;
   Splitter.Name:= 'splitter1';
   Splitter.Align:= alBottom;
   Splitter.AutoSnap:= false;

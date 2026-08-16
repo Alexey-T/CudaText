@@ -4023,12 +4023,16 @@ begin
         PROP_HANDLE_PARENT:
           begin
             TempCtl:= Ed.Parent;
+            if Assigned(TempCtl) then
+              TempCtl:= TempCtl.Parent;
             Result:= PyHelper_ObjectHandle(TempCtl);
           end;
 
         PROP_HANDLE_PARENT2:
           begin
             TempCtl:= Ed.Parent;
+            if Assigned(TempCtl) then
+              TempCtl:= TempCtl.Parent;
             if Assigned(TempCtl) then
               TempCtl:= TempCtl.Parent;
             Result:= PyHelper_ObjectHandle(TempCtl);
