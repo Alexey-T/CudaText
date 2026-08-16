@@ -2373,7 +2373,7 @@ begin
 
   Splitter:= TSplitter.Create(FFormDummy);
   Splitter.Parent:= FFormDummy;
-  Splitter.Name:= 'split';
+  Splitter.Name:= 'splitter1';
   Splitter.Align:= alBottom;
   Splitter.AutoSnap:= false;
   Splitter.ResizeStyle:= rsPattern;
@@ -2891,6 +2891,7 @@ begin
   if not Assigned(ImageBox) then
   begin
     ImageBox:= TATImageBox.Create(FFormDummy);
+    ImageBox.Name:= 'imagebox1';
     ImageBox.Parent:= FFormDummy;
     ImageBox.Align:= alClient;
     ImageBox.BorderStyle:= bsNone;
@@ -2898,6 +2899,7 @@ begin
     ImageBox.OnKeyDown:= @ViewerOnKeyDown;
     ImageBox.OnImageResize:= @DoImageboxImageResize;
     ImageBox.OnEnter:= @DoImageboxOnEnter;
+    DoControl_InitPropsObject(ImageBox, FFormDummy, 'imagebox');
   end;
 
   try
