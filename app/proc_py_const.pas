@@ -594,6 +594,7 @@ const
   CANVAS_TEXT          = 20;
   CANVAS_LINE          = 21;
   CANVAS_BITMAP        = 22;
+  CANVAS_BITMAP_SIZED  = 23;
   CANVAS_PIXEL         = 24;
   CANVAS_IMAGE         = 25;
   CANVAS_IMAGE_SIZED   = 26;

@@ -278,6 +278,7 @@ class Command:
         canvas_proc(h_bmp_cnv, CANVAS_SET_BRUSH, color=0xFF, style=BRUSH_SOLID)
         canvas_proc(h_bmp_cnv, CANVAS_RECT_FILL, x=0, y=0, x2=20, y2=20)
         canvas_proc(h_canvas, CANVAS_BITMAP, p1=h_bmp, x=30, y=30)
+        canvas_proc(h_canvas, CANVAS_BITMAP_SIZED, p1=h_bmp, x=0, y=0, x2=7, y2=35)
         bitmap_proc(h_bmp, BITMAP_FREE)
 
     def callback_maindlg_paint_click(self, id_dlg, id_ctl, data='', info=''):

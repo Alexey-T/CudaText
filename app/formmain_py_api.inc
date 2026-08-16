@@ -8532,7 +8532,8 @@ begin
             Result:= ReturnNone;
           end;
 
-        CANVAS_BITMAP:
+        CANVAS_BITMAP,
+        CANVAS_BITMAP_SIZED:
           begin
             Num64:= NP1;
             if Num64=0 then
@@ -8544,7 +8545,10 @@ begin
                 MsgLogConsole('ERROR: canvas_proc(...CANVAS_BITMAP...) gets bad bitmap handle, of type '+Obj.ClassName)
               else
               begin
-                C.Draw(NX, NY, TBitmap(Obj));
+                if IdAction=CANVAS_BITMAP then
+                  C.Draw(NX, NY, TBitmap(Obj))
+                else
+                  C.StretchDraw(Rect(NX, NY, NX2, NY2), TBitmap(Obj));
               end;
             end;
             Result:= ReturnNone;
