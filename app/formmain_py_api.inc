@@ -4023,7 +4023,7 @@ begin
         PROP_HANDLE_PARENT:
           begin
             if Assigned(Frame) then
-              Result:= PyHelper_ObjectHandle(Frame.FFormDummy)
+              Result:= PyHelper_ObjectHandle(Frame.FormForPy)
             else
               Result:= PyLong_FromLong(0);
           end;

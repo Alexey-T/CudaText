@@ -367,7 +367,7 @@ type
 
   public
     { public declarations }
-    FFormDummy: TFormDummy; //to support dlg_proc()
+    FormForPy: TFormDummy; //to support dlg_proc()
     EdFirst: TATSynEdit;
     EdSecond: TATSynEdit;
     Splitter: TSplitter;
@@ -2285,12 +2285,12 @@ end;
 
 procedure TEditorFrame.InitEditor(var ed: TATSynEdit; const AName: string; AEditorIndex: integer);
 begin
-  ed:= TATSynEdit.Create(FFormDummy);
+  ed:= TATSynEdit.Create(FormForPy);
   ed.ParentFrameObject:= Self;
   ed.Name:= AName;
   ed.EditorIndex:= AEditorIndex;
   ed.Parent:= PanelEditors;
-  DoControl_InitPropsObject(ed, FFormDummy, 'editor');
+  DoControl_InitPropsObject(ed, FormForPy, 'editor');
 
   ed.DoubleBuffered:= UiOps.DoubleBuffered;
 
@@ -2364,26 +2364,26 @@ begin
   FNotifDeletedEnabled:= true;
 
   //we need TFormDummy object to allow working with controls via API dlg_proc
-  FFormDummy:= TFormDummy.Create(Self);
-  FFormDummy.Visible:= false;
-  FFormDummy.BorderStyle:= bsNone;
-  FFormDummy.KeyPreview:= false; //to not break the 'cancel carets (Esc)' command
-  FFormDummy.Align:= alClient;
-  FFormDummy.Parent:= Self;
-  FFormDummy.Visible:= true;
+  FormForPy:= TFormDummy.Create(Self);
+  FormForPy.Visible:= false;
+  FormForPy.BorderStyle:= bsNone;
+  FormForPy.KeyPreview:= false; //to not break the 'cancel carets (Esc)' command
+  FormForPy.Align:= alClient;
+  FormForPy.Parent:= Self;
+  FormForPy.Visible:= true;
 
-  PanelEditors:= TPanel.Create(FFormDummy);
+  PanelEditors:= TPanel.Create(FormForPy);
   PanelEditors.Name:= 'panel_ed';
   PanelEditors.Caption:= '';
   PanelEditors.BorderStyle:= bsNone;
   PanelEditors.BevelInner:= bvNone;
   PanelEditors.BevelOuter:= bvNone;
-  PanelEditors.Parent:= FFormDummy;
+  PanelEditors.Parent:= FormForPy;
   PanelEditors.Align:= alClient;
   PanelEditors.Visible:= true;
-  DoControl_InitPropsObject(PanelEditors, FFormDummy, 'panel');
+  DoControl_InitPropsObject(PanelEditors, FormForPy, 'panel');
 
-  Splitter:= TSplitter.Create(FFormDummy);
+  Splitter:= TSplitter.Create(FormForPy);
   Splitter.Parent:= PanelEditors;
   Splitter.Name:= 'splitter1';
   Splitter.Align:= alBottom;
@@ -2391,7 +2391,7 @@ begin
   Splitter.ResizeStyle:= rsPattern;
   Splitter.MinSize:= 100;
   Splitter.Color:= GetAppColor(TAppThemeColor.SplitMain);
-  DoControl_InitPropsObject(Splitter, FFormDummy, 'splitter');
+  DoControl_InitPropsObject(Splitter, FormForPy, 'splitter');
 
   FFileName:= '';
   FFileName2:= '';
@@ -2834,7 +2834,7 @@ begin
     Viewer.OpenStream(nil)
   else
   begin
-    Viewer:= TATBinHex.Create(FFormDummy);
+    Viewer:= TATBinHex.Create(FormForPy);
     Viewer.Name:= 'viewer1';
     Viewer.Caption:= '';
     Viewer.Hide; //reduce flicker with initial size
@@ -2844,7 +2844,7 @@ begin
     Viewer.OnOptionsChange:= @ViewerOnScroll;
     Viewer.OnSelectionChange:= @ViewerOnSelectionChange;
     Viewer.OnSearchProgress:= @ViewerOnProgress;
-    Viewer.Parent:= FFormDummy;
+    Viewer.Parent:= FormForPy;
     Viewer.Align:= alClient;
     Viewer.BorderStyle:= bsNone;
     Viewer.ResizeFollowTail:= false; //fixes scrolling to the end on file loading
@@ -2853,7 +2853,7 @@ begin
     Viewer.TextPopupCaption[vpCmdCopy]:= ATEditorOptions.TextMenuitemCopy;
     Viewer.TextPopupCaption[vpCmdCopyHex]:= ATEditorOptions.TextMenuitemCopy+' (hex)';
     Viewer.TextPopupCaption[vpCmdSelectAll]:= ATEditorOptions.TextMenuitemSelectAll;
-    DoControl_InitPropsObject(Viewer, FFormDummy, 'viewer');
+    DoControl_InitPropsObject(Viewer, FormForPy, 'viewer');
     Viewer.Show;
   end;
 
@@ -2905,16 +2905,16 @@ begin
 
   if not Assigned(ImageBox) then
   begin
-    ImageBox:= TATImageBox.Create(FFormDummy);
+    ImageBox:= TATImageBox.Create(FormForPy);
     ImageBox.Name:= 'imagebox1';
-    ImageBox.Parent:= FFormDummy;
+    ImageBox.Parent:= FormForPy;
     ImageBox.Align:= alClient;
     ImageBox.BorderStyle:= bsNone;
     ImageBox.OptFitToWindow:= true;
     ImageBox.OnKeyDown:= @ViewerOnKeyDown;
     ImageBox.OnImageResize:= @DoImageboxImageResize;
     ImageBox.OnEnter:= @DoImageboxOnEnter;
-    DoControl_InitPropsObject(ImageBox, FFormDummy, 'imagebox');
+    DoControl_InitPropsObject(ImageBox, FormForPy, 'imagebox');
   end;
 
   try
