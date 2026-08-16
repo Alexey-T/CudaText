@@ -3419,7 +3419,6 @@ var
   Str: string;
   Ed: TATSynEdit;
   Frame: TEditorFrame;
-  TempCtl: TWinControl;
   Pnt: TPoint;
   Adapter: TATAdapterEControl;
   An: TecSyntAnalyzer;
