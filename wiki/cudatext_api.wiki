@@ -2750,8 +2750,15 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_HANDLE_SELF: int: handle of editor object, for which get_prop() is called. This handle is unique among all objects in program (it is memory address). Why not just use "ed.h"? Because: 1) For "ed" object its handle "ed.h" is zero - zero handle is virtual handle pointing to the focused editor. 2) For <code>ed_handles()</code> result, handles are also virtual, they are some small integer numbers, not memory addresses. Note: to get editor object from handle, use <code>Editor(handle_value)</code>.
 * PROP_HANDLE_PRIMARY: int: handle of editor object, which is primary editor in ui-tab (primary editor is always visible). It's None for editor objects created from <code>dlg_proc()</code>.
 * PROP_HANDLE_SECONDARY: int: handle of editor object, which is secondary editor in ui-tab (secondary editor is visible only when ui-tab is splitted). It's None for editor objects created from <code>dlg_proc()</code>.
-* PROP_HANDLE_PARENT: int: handle of parent of editor object, or 0 if no such parent. This is handle of the form (dialog) parenting the editor, it can be passed to <code>dlg_proc(..., DLG_DOCK, ...)</code>.
-* PROP_HANDLE_PARENT2: int: handle of parent-of-parent of editor object, or 0 if no such parent. This handle can be passed to <code>dlg_proc(..., DLG_DOCK, ...)</code>.
+
+* PROP_HANDLE_PARENT: int: handle of parent of editor object, or 0 if no such parent.
+** This is the handle of the (borderless) dialog parenting the editor, it can be used to "dock" custom dialogs there, via DLG_DOCK action.
+** This is the handle of dialog which should fully support dlg_proc() so plugin can enumerate controls there. Plugin should see at least 3 controls: control of type "splitter", 2 controls of type "editor" - primary/secondary. If picture viewer is opened, plugin should see additional control of type "imagebox" (API don't support creation of such controls yet). If text/hex viewer is opened, plugin should see additional control of type "viewer" (API don't support creation of such controls yet). Plugin can get/set sizes (properties "w", "h") of splitter / editors / picture viewer / text viewer, and other standard properties.
+
+* PROP_HANDLE_PARENT2: int: handle of parent-of-parent of editor object, or 0 if no such parent.
+** This handle can be used to "dock" custom dialogs there, via DLG_DOCK action.
+** This is the handle of the "TFrame" Lazarus control, and it is not compatible with dlg_proc(), so plugin cannot see properties of other controls there.
+
 * PROP_HANDLE_IMAGE: int: for ui-tab containing picture viewer: handle if the image-object, this handle is compatible with <code>image_proc()</code>. Otherwise, it is None.
 
 * PROP_COORDS: 4-tuple of int: rectangle of entire editor area, relative to screen.
