@@ -1910,6 +1910,7 @@ Possible values of "id_action":
 * CANVAS_ELLIPSE: Paints ellipse or circle. Uses pen and brush. Params used: "x", "y", "x2", "y2".
 * CANVAS_POLYGON: Paints polygon from any number of points (>2). Uses pen and brush. Params used: "text" - comma separated list of (x,y) coords. Example: "10,10,200,50,10,100" - 3 points.
 * CANVAS_BITMAP: Paints given bitmap. Bitmap's handle must be got from bitmap_proc() and passed to param "p1". Params "x", "y" are the coordinates to paint at.
+* CANVAS_BITMAP_SIZED: Paints given bitmap, stretching it to given rectangle. It uses the destination rectangle given by params "x", "y", "x2", "y2".
 * CANVAS_IMAGE: Paints given image. Image's handle must be got from image_proc() or dlg_proc() and passed to param "p1". Params "x", "y" are the coordinates to paint at.
 * CANVAS_IMAGE_SIZED: Paints given image, stretching it to given rectangle. It uses the destination rectangle given by params "x", "y", "x2", "y2".
 
@@ -5475,6 +5476,7 @@ It provides:
 * add: file_open: function supports empty filename1 and non-empty filename2
 * add: dlg_proc: controls "memo"/"edit"/"edit_pwd"/"spinedit"/"combo" support new event "on_key_press"
 * add: canvas_proc: CANVAS_BITMAP
+* add: canvas_proc: CANVAS_BITMAP_SIZED
 * add: canvas_proc: CANVAS_IMAGE
 * add: canvas_proc: CANVAS_IMAGE_SIZED
 * add: image_proc: IMAGE_GET_SIZE_UI
