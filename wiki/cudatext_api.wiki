@@ -1887,9 +1887,9 @@ Possible values of "id_action":
 * CANVAS_SET_PEN: Sets props of pen. Params used:
 ** "color": pen RGB color.
 ** "size": pen width.
-** "style": one of PEN_STYLE_nnnn.
-** "p1": end caps style, one of PEN_CAPS_nnnn.
-** "p2": line joining style, one of PEN_JOIN_nnnn.
+** "style": one of PEN_STYLE_nnnn values.
+** "p1": end caps style, one of PEN_CAPS_nnnn values.
+** "p2": line joining style, one of PEN_JOIN_nnnn values. It is used when lines of a single polygon (CANVAS_POLYGON) are joined at polygon points.
 
 * CANVAS_SET_BRUSH: Sets props of brush. Params used:
 ** "color": brush color.
