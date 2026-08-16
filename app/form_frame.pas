@@ -2373,12 +2373,15 @@ begin
   FFormDummy.Visible:= true;
 
   PanelEditors:= TPanel.Create(FFormDummy);
+  PanelEditors.Name:= 'panel_ed';
+  PanelEditors.Caption:= '';
   PanelEditors.BorderStyle:= bsNone;
   PanelEditors.BevelInner:= bvNone;
   PanelEditors.BevelOuter:= bvNone;
   PanelEditors.Parent:= FFormDummy;
   PanelEditors.Align:= alClient;
   PanelEditors.Visible:= true;
+  DoControl_InitPropsObject(PanelEditors, FFormDummy, 'panel');
 
   Splitter:= TSplitter.Create(FFormDummy);
   Splitter.Parent:= PanelEditors;
