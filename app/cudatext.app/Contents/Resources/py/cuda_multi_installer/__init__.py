@@ -50,7 +50,7 @@ class Command:
         })
 
         dlg_proc(self.h_wait, DLG_SHOW_NONMODAL)
-        app_idle(True)
+        app_proc(PROC_IDLE, True)
 
     def hide_wait(self):
 
@@ -399,4 +399,4 @@ class Command:
         v = (self.error_count+self.ok_count)*100//self.total_count
 
         dlg_proc(self.h_pro, DLG_CTL_PROP_SET, name='pro', prop={'val': v,})
-        app_idle(False)
+        app_proc(PROC_IDLE, False)

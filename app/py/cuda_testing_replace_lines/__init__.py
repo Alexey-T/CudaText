@@ -729,7 +729,7 @@ class Command:
         # Open a fresh untitled tab as a sandbox so the user's work is safe.
         file_open('')
         ed.set_prop(PROP_TAB_TITLE, TEST_TAB_TITLE)
-        app_idle(True)
+        app_proc(PROC_IDLE, True)
         ed.focus()
         msg_status('[replace_lines] running {} test(s)...'.format(len(tests)))
 

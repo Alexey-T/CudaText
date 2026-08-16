@@ -52,7 +52,7 @@ def get_url(url, fn, del_first=False):
             app.app_proc(app.PROC_PROGRESSBAR, 0)
             if fn_show:
                 app.msg_status(_('Downloading: ')+(('"'+fn_show+'"') if fn_show else url))
-                app.app_idle()
+                app.app_proc(app.PROC_IDLE, False)
 
             with open(fn_temp, 'wb') as f:
                 for chunk in r.iter_content(chunk_size=4*1024):
@@ -64,10 +64,10 @@ def get_url(url, fn, del_first=False):
                             if perc != percent:
                                 percent = perc
                                 app.app_proc(app.PROC_PROGRESSBAR, percent)
-                                app.app_idle()
+                                app.app_proc(app.PROC_IDLE, False)
 
             app.app_proc(app.PROC_PROGRESSBAR, -1)
-            app.app_idle()
+            app.app_proc(app.PROC_IDLE, False)
 
             if os.path.isfile(fn_temp):
                 if os.path.getsize(fn_temp)==0:

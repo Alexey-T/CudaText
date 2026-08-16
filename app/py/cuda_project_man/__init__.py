@@ -2029,7 +2029,7 @@ class Command:
         for (i, fn) in enumerate(files):
             _file_open(fn, options="/nontext-cancel")
             if i%10==0:
-                app_idle(False)
+                app_proc(PROC_IDLE, False)
 
     def on_open(self, ed_self):
 

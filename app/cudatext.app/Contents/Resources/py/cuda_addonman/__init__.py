@@ -714,7 +714,7 @@ class Command:
 
         dlg_proc(self.h_pro, DLG_CTL_PROP_SET, name='pro', prop={'val': percent,})
         dlg_proc(self.h_pro, DLG_CTL_PROP_SET, name='inf', prop={'cap': text,})
-        app_idle(False)
+        app_proc(PROC_IDLE, False)
 
     def hide_progress(self):
 
