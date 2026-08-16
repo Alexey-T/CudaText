@@ -979,7 +979,6 @@ Details:
 * Control "toolbar" don't have "items"/"value": to work with it, you must get handle via DLG_CTL_HANDLE, and pass it to <code>toolbar_proc()</code>.
 * Control "statusbar" don't have "items"/"value": to work with it, you must get handle via DLG_CTL_HANDLE, and pass it to <code>statusbar_proc()</code>.
 * Controls "editor"/"editor_edit"/"editor_combo" don't have "items"/"value": to work with it, you must get handle via DLG_CTL_HANDLE, and pass it to <code>Editor()</code> to make editor object.
-* (DEPRECATED) Control "paintbox" is empty area, plugin can paint on it. Get canvas_id via DLG_CTL_HANDLE, and use it in <code>canvas_proc()</code>.
 * Control property "name" is required for "filter_nnnnn" controls: must set name of listbox/listview, and name of its filter - to the same name with prefix "f_" (e.g. listbox name "mylist" with filter name "f_mylist").
 
 ====dlg_custom - Properties of controls====
@@ -1178,7 +1177,6 @@ Additional types, supported only by "dlg_proc":
 * "editor_edit": one-line variant of "editor".
 * "editor_combo": one-line variant of "editor", with drop-down arrow.
 * "listbox_ex": listbox, application-themed, works via <code>listbox_proc()</code>.
-* (DEPRECATED) "paintbox": control which must be painted by plugin via <code>canvas_proc()</code>.
 * "statusbar": statusbar: panel with one horizontal row of cells, works via <code>statusbar_proc()</code>.
 * "toolbar": toolbar: panel which holds buttons with icons, works via <code>toolbar_proc()</code>.
 * "treeview": tree structure with nodes and nested nodes, works via <code>tree_proc()</code>.
@@ -1319,7 +1317,7 @@ General events for all controls:
 * "on_mouse_move": Called when mouse moves over the control. Param "data": like in "on_mouse_down", but "btn" key is always 0. Typical usage of this event is to change the "cursor" property on drag-and-drop. Plugin should keep CPU usage low when user just moves mouse around, so "on_mouse_move" handler should be assigned in "on_mouse_down" and should be removed in "on_mouse_up".
 * "on_mouse_enter": Called when mouse cursor enters control area.
 * "on_mouse_exit": Called when mouse cursor leaves control area.
-* "on_focus_enter": Called when control gets focus. Not supported for controls (they don't have OS window handle): label, button, button_ex, panel, linklabel, colorpanel, bevel, image, progressbar_ex, paintbox, statusbar.
+* "on_focus_enter": Called when control gets focus. Not supported for controls (they don't have OS window handle): label, button, button_ex, panel, linklabel, colorpanel, bevel, image, progressbar_ex, statusbar.
 * "on_focus_exit": Called when control looses focus. Supported for the same controls as "on_focus_enter".
 * "on_menu": Called before showing context menu, after right click or ContextMenu hotkey. Param "data": like in "on_mouse_down". Method can return False to disable default menu (if any).
 
@@ -1419,7 +1417,6 @@ Possible values of "id_action":
 ** type "button_ex": pass handle to <code>button_proc()</code>.
 ** types "editor"/"editor_edit"/"editor_combo": pass handle to <code>Editor()</code> constructor.
 ** type "listbox_ex": pass handle to <code>listbox_proc()</code>.
-** type "paintbox": pass handle to <code>canvas_proc()</code>.
 ** type "statusbar": pass handle to <code>statusbar_proc()</code>.
 ** type "treeview": pass handle to <code>tree_proc()</code>.
 ** type "toolbar": pass handle to <code>toolbar_proc()</code>.
@@ -2189,7 +2186,7 @@ Possible values of "id_action":
 * IMAGELIST_ADD: Loads image into imagelist. Param "value" must be full path to PNG/BMP image file. Size of image should be the same as size of imagelist (otherwise image will be loaded cropped or maybe stretched, it depends on IDE). Returns int icon index, or None if cannot load.
 * IMAGELIST_DELETE: Deletes one icon. Param "value" is int icon index (0-based).
 * IMAGELIST_DELETE_ALL: Deletes all icons.
-* IMAGELIST_PAINT: Paints single icon on given canvas, at given coords. Param "value" must be tuple (canvas_id, x, y, icon_index). Value canvas_id can be 0 for testing paintbox in CudaText.
+* IMAGELIST_PAINT: Paints single icon on given canvas, at given coords. Param "value" must be tuple (canvas_id, x, y, icon_index). Value canvas_id can be 0 for testing paint-area in CudaText.
 
 ===image_proc===
 
