@@ -1605,24 +1605,27 @@ procedure TEditorFrame.SetSplitPos(AValue: double);
 const
   Delta = 70;
 var
-  N: integer;
+  W, H, N: integer;
 begin
   if FrameKind<>TAppFrameKind.Editor then exit;
   if not Splitted then exit;
+
+  W:= PanelEditors.Width;
+  H:= PanelEditors.Height;
 
   AValue:= Max(0.0, Min(1.0, AValue));
   FSplitPos:= AValue;
 
   if FSplitHorz then
   begin
-    N:= Round(AValue*PanelEditors.Height);
-    EdSecond.Height:= Max(Delta, Min(PanelEditors.Height-Delta, N));
+    N:= Round(AValue*H);
+    EdSecond.Height:= Max(Delta, Min(H-Delta, N));
     Splitter.Top:= 0;
   end
   else
   begin
-    N:= Round(AValue*PanelEditors.Width);
-    EdSecond.Width:= Max(Delta, Min(PanelEditors.Width-Delta, N));
+    N:= Round(AValue*W);
+    EdSecond.Width:= Max(Delta, Min(W-Delta, N));
     Splitter.Left:= 0;
   end;
 end;
