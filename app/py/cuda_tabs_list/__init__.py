@@ -278,7 +278,7 @@ class Command:
 
                 name = prefix + title.lstrip('*').replace('|', '/') # ' | ' happens in file pair
                 if self.show_column_folder:
-                    name += '|' + os.path.dirname(edit.get_filename())
+                    name += '|' + os.path.dirname(edit.get_prop(PROP_FN, ''))
                 if self.show_column_lexer:
                     name += '|' + edit.get_prop(PROP_LEXER_FILE)
 

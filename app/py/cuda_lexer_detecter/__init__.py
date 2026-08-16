@@ -26,7 +26,7 @@ class Command:
 
     def on_open_none(self, ed_self):
 
-        fn = ed_self.get_filename()
+        fn = ed_self.get_prop(PROP_FN, '')
         if not fn:
             return
 

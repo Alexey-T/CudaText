@@ -66,7 +66,7 @@ def _file_ext(fn):
 def _file_editor(fn):
     for h in ed_handles():
         e = Editor(h)
-        if e.get_filename('*')==fn:
+        if e.get_prop(PROP_FN, '*')==fn:
             return e
     return None
 
@@ -665,7 +665,7 @@ class Command:
         # fix filename of existing ui-tab
         for h in ed_handles():
             e = Editor(h)
-            if e.get_filename('*')==str(location):
+            if e.get_prop(PROP_FN, '*')==str(location):
                 e.save(str(new_location))
 
         self.action_refresh()
@@ -1757,7 +1757,7 @@ class Command:
             msg_status(_('Project not loaded'))
             return
 
-        fn = ed.get_filename('*')
+        fn = ed.get_prop(PROP_FN, '*')
         if fn:
             if self.jump_to_filename(fn): #gets False if found
                 msg_status(_('Cannot jump to file: ') + collapse_filename(fn))
@@ -1946,7 +1946,7 @@ class Command:
         if not self.tree:
             self.init_panel(False)
 
-        fn = ed.get_filename('*')
+        fn = ed.get_prop(PROP_FN, '*')
         self.add_node(fn)
 
     def add_current_dir(self):
@@ -1954,7 +1954,7 @@ class Command:
         if not self.tree:
             self.init_panel(False)
 
-        fn = ed.get_filename('*')
+        fn = ed.get_prop(PROP_FN, '*')
         if fn:
             d = os.path.dirname(fn)
             if not (IS_WIN and d.endswith(':\\')):
@@ -1967,7 +1967,7 @@ class Command:
 
         for h in ed_handles():
             e = Editor(h)
-            fn = e.get_filename('*')
+            fn = e.get_prop(PROP_FN, '*')
             self.add_node(fn)
 
 
@@ -2037,7 +2037,7 @@ class Command:
             self.init_panel(False)
 
             if not self.project_file_path:
-                fn = ed_self.get_filename('*')
+                fn = ed_self.get_prop(PROP_FN, '*')
                 self.action_project_for_git(fn)
 
         self.on_tab_change(ed_self)
@@ -2281,7 +2281,7 @@ class Command:
         res = []
         for h in ed_handles():
             e = Editor(h)
-            fn = e.get_filename('*')
+            fn = e.get_prop(PROP_FN, '*')
 
             #skip empty tabs
             if (not fn) and (not e.get_text_all()):
