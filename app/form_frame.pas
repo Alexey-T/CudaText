@@ -356,14 +356,12 @@ type
     procedure UpdateTabTooltip;
     function GetIsPreview: boolean;
     procedure SetIsPreview(AValue: boolean);
+    procedure PanelEditorsOnResize(Sender: TObject);
 
     procedure DoSaveUndo(Ed: TATSynEdit);
     procedure DoLoadUndo(Ed: TATSynEdit);
     procedure DoSaveHistory_Caret(Ed: TATSynEdit; c: TAppJsonConfig; const path: UnicodeString);
     procedure RestoreSavedLexer(Ed: TATSynEdit);
-
-  protected
-    procedure DoOnResize; override;
 
   public
     { public declarations }
@@ -1617,14 +1615,14 @@ begin
 
   if FSplitHorz then
   begin
-    N:= Round(AValue*Height);
-    EdSecond.Height:= Max(Delta, Min(Height-Delta, N));
+    N:= Round(AValue*PanelEditors.Height);
+    EdSecond.Height:= Max(Delta, Min(PanelEditors.Height-Delta, N));
     Splitter.Top:= 0;
   end
   else
   begin
-    N:= Round(AValue*Width);
-    EdSecond.Width:= Max(Delta, Min(Width-Delta, N));
+    N:= Round(AValue*PanelEditors.Width);
+    EdSecond.Width:= Max(Delta, Min(PanelEditors.Width-Delta, N));
     Splitter.Left:= 0;
   end;
 end;
@@ -2270,7 +2268,7 @@ begin
 end;
 
 
-procedure TEditorFrame.DoOnResize;
+procedure TEditorFrame.PanelEditorsOnResize(Sender: TObject);
 //var
 //  N: integer;
 begin
@@ -2381,6 +2379,7 @@ begin
   PanelEditors.Parent:= FormForPy;
   PanelEditors.Align:= alClient;
   PanelEditors.Visible:= true;
+  PanelEditors.OnResize:= @PanelEditorsOnResize;
   DoControl_InitPropsObject(PanelEditors, FormForPy, 'panel');
 
   Splitter:= TSplitter.Create(FormForPy);
