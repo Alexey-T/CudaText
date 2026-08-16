@@ -2752,10 +2752,12 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_HANDLE_SECONDARY: int: handle of editor object, which is secondary editor in ui-tab (secondary editor is visible only when ui-tab is splitted). It's None for editor objects created from <code>dlg_proc()</code>.
 
 * PROP_HANDLE_PARENT: int: handle of parent of editor object, or 0 if no such parent.
+** It is supported only for editor inside ui-tab, otherwise it returns 0.
 ** This is the handle of the (borderless) dialog parenting the editor, it can be used to "dock" custom dialogs there, via DLG_DOCK action.
 ** This is the handle of dialog which should fully support dlg_proc() so plugin can enumerate controls there. Plugin should see at least 3 controls: control of type "splitter", 2 controls of type "editor" - primary/secondary. If picture viewer is opened, plugin should see additional control of type "imagebox" (API don't support creation of such controls yet). If text/hex viewer is opened, plugin should see additional control of type "viewer" (API don't support creation of such controls yet). Plugin can get/set sizes (properties "w", "h") of splitter / editors / picture viewer / text viewer, and other standard properties.
 
 * PROP_HANDLE_PARENT2: int: handle of parent-of-parent of editor object, or 0 if no such parent.
+** It is supported only for editor inside ui-tab, otherwise it returns 0.
 ** This handle can be used to "dock" custom dialogs there, via DLG_DOCK action.
 ** This is the handle of the "TFrame" Lazarus control, and it is not compatible with dlg_proc(), so plugin cannot see properties of other controls there.
 ** Why not to "dock" custom dialog to PROP_HANDLE_PARENT? Sometimes that 1st-level parent is not OK, because that 1-st level parent has at least 3 aligned controls. So adding new control (dialog) there cannot garantee the stable alignment of this new control (always at the right/left/top/bottom), this new control will be moved in the middle of all 4 controls on showing/hiding of the side-panel.
