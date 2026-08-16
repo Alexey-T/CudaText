@@ -5485,7 +5485,7 @@ It provides:
 * deprecate: GAP_MAKE_BITMAP (use bitmap_proc instead)
 * deprecate: IMAGE_PAINT (use CANVAS_IMAGE instead)
 * deprecate: IMAGE_PAINT_SIZED (use CANVAS_IMAGE_SIZED instead)
-* delete: dlg_proc control "paintbox" (almost none public plugins did it it; use "image" instead)
-* delete: PROP_PICTURE (none public plugins did use it; use PROP_HANDLE_IMAGE instead)
+* delete: dlg_proc control "paintbox" (almost none public plugins used it; use "image" instead)
+* delete: PROP_PICTURE (none public plugins used it; use PROP_HANDLE_IMAGE instead)
 
 [[Category:CudaText]]
