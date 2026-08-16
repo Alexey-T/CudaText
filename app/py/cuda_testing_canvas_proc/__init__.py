@@ -262,10 +262,10 @@ class Command:
                 'height': HDR + 24 + 140,
                 'draw':   self._paint_rects,
             },
-            # Section 12: Rect frame (pen only)
+            # Section 12: Rect frame (brush only)
             {
-                'title':  'CANVAS_RECT_FRAME  -- pen only',
-                'desc':   'x,y,x2,y2. Uses current pen; brush is ignored.',
+                'title':  'CANVAS_RECT_FRAME  -- brush only',
+                'desc':   'x,y,x2,y2. Uses current brush; pen is ignored.',
                 'height': HDR + 24 + 140,
                 'draw':   self._paint_rects_frame,
             },
@@ -693,7 +693,7 @@ class Command:
             canvas_proc(c, CANVAS_TEXT, text=txt, x=x, y=sample_y)
             # Bounding box around the sample text
             canvas_proc(c, CANVAS_SET_PEN, color=rgb(0xC0,0x39,0x2B), size=1, style=PEN_STYLE_DASH)
-            canvas_proc(c, CANVAS_SET_BRUSH, color=0, style=BRUSH_CLEAR)
+            canvas_proc(c, CANVAS_SET_BRUSH, color=rgb(0xC0,0x39,0x2B), style=BRUSH_SOLID)
             canvas_proc(c, CANVAS_RECT_FRAME, x=x, y=sample_y, x2=x+tw, y2=sample_y+th)
 
     # ------------------------------------------------------------------ #
@@ -811,10 +811,10 @@ class Command:
             self._label(c, cx, rect_y+rect_h+8, '#%06X' % self._tc2web(col))
 
     # ------------------------------------------------------------------ #
-    # Section 12: CANVAS_RECT_FRAME -- pen only (FIXED: clearly visible)
+    # Section 12: CANVAS_RECT_FRAME -- brush only
     # ------------------------------------------------------------------ #
     def _paint_rects_frame(self, c, x, y, w, h):
-        self._label(c, x, y+2, 'CANVAS_RECT_FRAME: only outline (pen), no fill', bold=True)
+        self._label(c, x, y+2, 'CANVAS_RECT_FRAME: only outline (brush), no fill', bold=True)
         n = len(DEMO_COLORS)
         cell_w = (w - 20) // n
         rect_y = y + 30
@@ -823,7 +823,7 @@ class Command:
             cx = x + 10 + i * cell_w
             # Thick pen (size 4) so the outline is clearly visible
             canvas_proc(c, CANVAS_SET_PEN, color=col, size=4, style=PEN_STYLE_SOLID)
-            canvas_proc(c, CANVAS_SET_BRUSH, color=0, style=BRUSH_CLEAR)
+            canvas_proc(c, CANVAS_SET_BRUSH, color=col, style=BRUSH_SOLID)
             canvas_proc(c, CANVAS_RECT_FRAME, x=cx, y=rect_y, x2=cx+cell_w-16, y2=rect_y+rect_h)
             self._label(c, cx, rect_y+rect_h+8, 'frame #%d' % i)
 
