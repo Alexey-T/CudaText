@@ -608,9 +608,10 @@ class Command:
             canvas_proc(c, CANVAS_SET_PEN, color=rgb(0x8E,0x44,0xAD), size=14,
                         style=PEN_STYLE_SOLID, p1=PEN_CAPS_ROUND, p2=jv)
             # Three sides of the triangle
-            canvas_proc(c, CANVAS_LINE, x=tri_left_x,  y=tri_bot_y, x2=tri_x,        y2=tri_top_y)
-            canvas_proc(c, CANVAS_LINE, x=tri_x,        y=tri_top_y, x2=tri_right_x, y2=tri_bot_y)
-            canvas_proc(c, CANVAS_LINE, x=tri_right_x, y=tri_bot_y, x2=tri_left_x,  y2=tri_bot_y)
+            canvas_proc(c, CANVAS_POLYGON, text=('%d,%d,%d,%d,%d,%d' %
+                (tri_left_x,  tri_bot_y,
+                 tri_x, tri_top_y,
+                 tri_right_x, tri_bot_y)))
             # Label
             self._label(c, cx, y+165, 'join=' + name.split('_')[-1], size=9, color=COLOR_FG_DESC)
 
