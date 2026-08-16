@@ -1867,7 +1867,7 @@ Notes:
 
 * It is possible to copy one bitmap to another:
 
- canvas_proc(id_canvas_of_target_bitmap, CANVAS_BITMAP, text=str(id_source_bitmap), x=0, y=0)
+ canvas_proc(id_canvas_of_target_bitmap, CANVAS_BITMAP, p1=id_source_bitmap, x=0, y=0)
 
 ===canvas_proc===
 
@@ -1909,8 +1909,8 @@ Possible values of "id_action":
 * CANVAS_RECT_ROUND: Paints rounded rectangle. Uses pen and brush. Params used: "x", "y", "x2", "y2", "style" - radius of corners.
 * CANVAS_ELLIPSE: Paints ellipse or circle. Uses pen and brush. Params used: "x", "y", "x2", "y2".
 * CANVAS_POLYGON: Paints polygon from any number of points (>2). Uses pen and brush. Params used: "text" - comma separated list of (x,y) coords. Example: "10,10,200,50,10,100" - 3 points.
-* CANVAS_BITMAP: Paints given bitmap. Bitmap's handle must be got from bitmap_proc() and passed to param "text" as str(id_bitmap). Params "x", "y" are the coordinates to paint at.
-* CANVAS_IMAGE: Paints given image. Image's handle must be got from image_proc() or dlg_proc() and passed to param "text" as str(id_image). Params "x", "y" are the coordinates to paint at.
+* CANVAS_BITMAP: Paints given bitmap. Bitmap's handle must be got from bitmap_proc() and passed to param "p1". Params "x", "y" are the coordinates to paint at.
+* CANVAS_IMAGE: Paints given image. Image's handle must be got from image_proc() or dlg_proc() and passed to param "p1". Params "x", "y" are the coordinates to paint at.
 * CANVAS_IMAGE_SIZED: Paints given image, stretching it to given rectangle. It uses the destination rectangle given by params "x", "y", "x2", "y2".
 
 * CANVAS_SET_TESTPANEL: Sets height of testing panel at the top. Params used: "size". If it's "too small" then panel hides; for big value, panel height is limited.

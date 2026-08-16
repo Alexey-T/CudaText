@@ -8436,12 +8436,13 @@ var
   C: TCanvas;
   IdCanvas, Num64: Int64;
   Obj: TObject;
-  IdAction, NColor, NSize, NStyle, NX, NY, NX2, NY2, NP1, NP2: integer;
+  IdAction, NColor, NSize, NStyle, NX, NY, NX2, NY2: integer;
+  NP1, NP2: Int64; //param "p1" must be Int64 to pass handle of bitmap/image
   PtrText: PChar;
   StrText: string;
 begin
   with AppPython.Engine do
-    if Bool(PyArg_ParseTuple(Args, 'Lisiiiiiiiii:canvas_proc',
+    if Bool(PyArg_ParseTuple(Args, 'LisiiiiiiiLL:canvas_proc',
               @IdCanvas, @IdAction, @PtrText, @NColor, @NSize,
               @NX, @NY, @NX2, @NY2, @NStyle, @NP1, @NP2)) then
     begin
@@ -8533,7 +8534,7 @@ begin
 
         CANVAS_BITMAP:
           begin
-            Num64:= StrToInt64Def(StrText, 0);
+            Num64:= NP1;
             if Num64=0 then
               MsgLogConsole('ERROR: canvas_proc(...CANVAS_BITMAP...) gets bad or zero bitmap handle')
             else
@@ -8552,7 +8553,7 @@ begin
         CANVAS_IMAGE,
         CANVAS_IMAGE_SIZED:
           begin
-            Num64:= StrToInt64Def(StrText, 0);
+            Num64:= NP1;
             if Num64=0 then
               MsgLogConsole('ERROR: canvas_proc(...CANVAS_IMAGE...) gets bad or zero image handle')
             else
