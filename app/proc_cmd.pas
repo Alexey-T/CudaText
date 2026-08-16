@@ -242,6 +242,8 @@ const
 
   cmd_SetTabColor       = 2671;
   cmd_ResetTabColor     = 2672;
+  cmd_SetTabColorFont   = 2673;
+  cmd_ResetTabColorFont = 2674;
   cmd_ToggleTabPinned   = 2675;
 
   cmd_LineEndWin        = 2677;
@@ -639,6 +641,8 @@ begin
 
   M.Add(cmd_SetTabColor, 'ui: set tab color...', [], []);
   M.Add(cmd_ResetTabColor, 'ui: reset tab color', [], []);
+  M.Add(cmd_SetTabColorFont, 'ui: set tab font-color...', [], []);
+  M.Add(cmd_ResetTabColorFont, 'ui: reset tab font-color', [], []);
   M.Add(cmd_ToggleTabPinned, 'ui: toggle tab "pinned" state', [], []);
 
   M.Add(cmd_SplitTabToggle, 'split tab: toggle "splitted" state', [], []);

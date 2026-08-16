@@ -667,6 +667,21 @@ begin
           Frame.TabColor:= clNone;
       end;
 
+    cmd_SetTabColorFont:
+      begin
+        if Assigned(Frame) then
+        begin
+          NColor:= PyHelper_DialogColorPicker(Frame.TabFontColor);
+          if NColor>=0 then
+            Frame.TabFontColor:= NColor;
+        end;
+      end;
+    cmd_ResetTabColorFont:
+      begin
+        if Assigned(Frame) then
+          Frame.TabFontColor:= clNone;
+      end;
+
     cmd_ToggleTabPinned:
       begin
         if Assigned(Frame) then

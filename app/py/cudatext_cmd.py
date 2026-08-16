@@ -438,6 +438,8 @@ cmd_BookmarkPlaceBookmarksOnCarets = 2670
 
 cmd_SetTabColor       = 2671
 cmd_ResetTabColor     = 2672
+cmd_SetTabColorFont   = 2673
+cmd_ResetTabColorFont = 2674
 cmd_ToggleTabPinned   = 2675
 
 cmd_LineEndWin        = 2677
