@@ -925,7 +925,7 @@ class Command:
     # Section 17: CANVAS_BITMAP
     # ------------------------------------------------------------------ #
     def _paint_bitmap(self, c, x, y, w, h):
-        self._label(c, x, y+2, 'CANVAS_BITMAP: text=str(id_bitmap), x, y', bold=True)
+        self._label(c, x, y+2, 'CANVAS_BITMAP: p1=id_bitmap, x, y', bold=True)
         h_bmp = self._ensure_demo_bitmap()
         canvas_proc(c, CANVAS_BITMAP, p1=h_bmp, x=x, y=y+30)
         canvas_proc(c, CANVAS_BITMAP, p1=h_bmp, x=x+200, y=y+30)
