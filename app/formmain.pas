@@ -5015,8 +5015,14 @@ begin
   if Application.Terminated then exit;
   if IsTooManyTabsOpened then exit;
 
-  //prevent re-entering in DoFileOpen (can happen because of Application.ProcessMessages)
-  if AppOpeningFile then exit;
+  {
+  //don't prevent re-entering in DoFileOpen: can happen because of cuda_lexer_detecter is activated inside on_open_pre
+  if AppOpeningFile then
+  begin
+    MsgLogConsole('NOTE: reentering to DoFileOpen');
+    exit;
+  end;
+  }
   AppOpeningFile:= true;
 
   bFileExists:= (AFileName<>'') and FileExists(AFileName);
