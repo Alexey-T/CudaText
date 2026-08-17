@@ -5083,7 +5083,7 @@ begin
   InitMainVars;
 
   //handle zip files _before_ checking of re-entering
-  if bAllowZip and (ExtractFileExt(AFileName)='.zip') then
+  if bAllowZip and (OpenMode=TAppOpenMode.Editor) and (ExtractFileExt(AFileName)='.zip') then
   begin
     if DoFileInstallZip(AFileName, AppDir_LastInstalledAddon, bSilent, bAllowUpdateAddons) then
       Result:= CurrentFrame;
@@ -5093,7 +5093,7 @@ begin
   //prevent re-entering in DoFileOpen
   if AppOpeningFile then
   begin
-    MsgLogConsole('NOTE: reentering to DoFileOpen');
+    MsgLogConsole('NOTE: re-entering to DoFileOpen, strange, tell the developer what you did');
     exit;
   end;
   AppOpeningFile:= true;
