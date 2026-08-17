@@ -100,14 +100,6 @@ procedure ApplyThemeToTreeview(C: TTreeview; AThemedColors, AChangeShowRoot: boo
 procedure ApplyThemeToToolbar(C: TATFlatToolbar);
 procedure ApplyThemeToImageBox(AImageBox: TATImageBox);
 
-type
-  TAppPointArray = array of TPoint;
-
-function ConvertStringToPointArray(const AText: string): TAppPointArray;
-function ConvertTwoPointsToDiffPoint(APrevPnt, ANewPnt: TPoint): TPoint;
-function ConvertShiftStateToString(const Shift: TShiftState): string;
-function ConvertKeyboardStateToShiftState: TShiftState; //like VCL
-
 function UpdateImagelistWithIconFromFile(AList: TCustomImagelist;
   const AFilename, ACallerAPI: string; AllowScaling: boolean=false): integer;
 
@@ -134,6 +126,12 @@ procedure AppMenuCopy(ASrc, ADest: TMenu);
 function AppMenuGetIndexToInsert(AMenu: TMenuItem; ACaption: string): integer;
 procedure AppMenuShowAtEditorCorner(AMenu: TPopupMenu; Ed: TATSynEdit);
 
+type
+  TAppPointArray = array of TPoint;
+
+function ConvertShiftStateToString(const Shift: TShiftState): string;
+function ConvertKeyboardStateToShiftState: TShiftState; //like VCL
+
 function ConvertFileDateToNiceString(const AFilename: string): string;
 function ConvertFilenameToMenuCaption(const fn: string): string;
 
@@ -142,6 +140,8 @@ procedure ConvertFinderOptionsFromString(F: TATEditorFinder; const S: string);
 
 function ConvertStringToIntArray(const AText: string): TATIntArray;
 function ConvertIntArrayToString(const A: TATIntArray): string;
+function ConvertStringToPointArray(const AText: string): TAppPointArray;
+function ConvertTwoPointsToDiffPoint(APrevPnt, ANewPnt: TPoint): TPoint;
 
 function ConvertMultiSelectStyleToString(St: TMultiSelectStyle): string;
 function ConvertStringToMultiSelectStyle(const S: string): TMultiSelectStyle;
