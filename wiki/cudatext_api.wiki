@@ -1905,7 +1905,7 @@ Possible values of "id_action":
 * CANVAS_RECT_FILL: Paints filled rectangle. Uses only brush. Params used: "x", "y", "x2", "y2".
 * CANVAS_RECT_ROUND: Paints rounded filled rectangle. Uses pen and brush. Params used: "x", "y", "x2", "y2", "style" - radius of corners.
 * CANVAS_ELLIPSE: Paints ellipse or circle. Uses pen and brush. Params used: "x", "y", "x2", "y2".
-* CANVAS_GRADIENT: Paints rectangle filled by gradient. Params used: rectangle is in params "x", "y", "x2", "y2"; starting color is in "color"; ending color is in "size"; gradient direction is in "style": 0 - vertical, 1 - horizontal.
+* CANVAS_GRADIENT: Paints rectangle filled by gradient. Ignores pen and brush. Params used: rectangle is in params "x", "y", "x2", "y2"; starting color is in "color"; ending color is in "size"; gradient direction is in "style": 0 - vertical, 1 - horizontal.
 
 * CANVAS_POLYGON: Paints polygon from any number of points (>2). Uses pen and brush. Params used: "text", it must be tuple of int / list of int, like this: (x0, y0, x1, y1, ...). Example: text=(10,10,200,50,10,100) - 3 points to paint a triangle.
 
