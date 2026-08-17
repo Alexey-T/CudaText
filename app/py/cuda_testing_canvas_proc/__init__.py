@@ -293,7 +293,7 @@ class Command:
             # Section 16: Polygon
             {
                 'title':  'CANVAS_POLYGON  -- triangles, squares, pentagons, stars',
-                'desc':   'text="x1,y1,x2,y2,...". Uses pen AND brush.',
+                'desc':   'text=(x1,y1,x2,y2,...). Uses pen AND brush.',
                 'height': HDR + 24 + 180,
                 'draw':   self._paint_polygons,
             },
@@ -608,10 +608,10 @@ class Command:
             canvas_proc(c, CANVAS_SET_PEN, color=rgb(0x8E,0x44,0xAD), size=14,
                         style=PEN_STYLE_SOLID, p1=PEN_CAPS_ROUND, p2=jv)
             # Three sides of the triangle
-            canvas_proc(c, CANVAS_POLYGON, text=('%d,%d,%d,%d,%d,%d' %
+            canvas_proc(c, CANVAS_POLYGON, text=\
                 (tri_left_x,  tri_bot_y,
                  tri_x, tri_top_y,
-                 tri_right_x, tri_bot_y)))
+                 tri_right_x, tri_bot_y))
             # Label
             self._label(c, cx, y+165, 'join=' + name.split('_')[-1], size=9, color=COLOR_FG_DESC)
 
@@ -884,7 +884,7 @@ class Command:
     # Section 16: CANVAS_POLYGON
     # ------------------------------------------------------------------ #
     def _paint_polygons(self, c, x, y, w, h):
-        self._label(c, x, y+2, "CANVAS_POLYGON: text='x1,y1,x2,y2,...'", bold=True)
+        self._label(c, x, y+2, "CANVAS_POLYGON: text=(x1,y1,x2,y2,...)", bold=True)
         cell_w = (w - 20) // 4
         cy = y + 30
         # Triangle
@@ -892,12 +892,12 @@ class Command:
         self._label(c, cx, cy, 'triangle (3 pts)')
         canvas_proc(c, CANVAS_SET_PEN, color=rgb(0x34,0x49,0x5E), size=2, style=PEN_STYLE_SOLID)
         canvas_proc(c, CANVAS_SET_BRUSH, color=DEMO_COLORS[0], style=BRUSH_SOLID)
-        canvas_proc(c, CANVAS_POLYGON, text='%d,%d,%d,%d,%d,%d' % (cx+10, cy+90, cx+cell_w-20, cy+90, cx+cell_w//2, cy+30))
+        canvas_proc(c, CANVAS_POLYGON, text=(cx+10, cy+90, cx+cell_w-20, cy+90, cx+cell_w//2, cy+30))
         # Quad
         cx = x + cell_w
         self._label(c, cx, cy, 'quad (4 pts)')
         canvas_proc(c, CANVAS_SET_BRUSH, color=DEMO_COLORS[1], style=BRUSH_SOLID)
-        canvas_proc(c, CANVAS_POLYGON, text='%d,%d,%d,%d,%d,%d,%d,%d' % (cx+10, cy+30, cx+cell_w-20, cy+30, cx+cell_w-20, cy+90, cx+10, cy+90))
+        canvas_proc(c, CANVAS_POLYGON, text=(cx+10, cy+30, cx+cell_w-20, cy+30, cx+cell_w-20, cy+90, cx+10, cy+90))
         # Pentagon
         cx = x + 2*cell_w
         self._label(c, cx, cy, 'pentagon (5 pts)')
@@ -908,7 +908,7 @@ class Command:
             pts.append(int(cx_c + rad * math.cos(a)))
             pts.append(int(cy_c + rad * math.sin(a)))
         canvas_proc(c, CANVAS_SET_BRUSH, color=DEMO_COLORS[2], style=BRUSH_SOLID)
-        canvas_proc(c, CANVAS_POLYGON, text=','.join(str(p) for p in pts))
+        canvas_proc(c, CANVAS_POLYGON, text=pts)
         # Star
         cx = x + 3*cell_w
         self._label(c, cx, cy, 'star (10 pts)')
@@ -920,7 +920,7 @@ class Command:
             pts.append(int(cx_c + r * math.cos(a)))
             pts.append(int(cy_c + r * math.sin(a)))
         canvas_proc(c, CANVAS_SET_BRUSH, color=DEMO_COLORS[3], style=BRUSH_SOLID)
-        canvas_proc(c, CANVAS_POLYGON, text=','.join(str(p) for p in pts))
+        canvas_proc(c, CANVAS_POLYGON, text=pts)
 
     # ------------------------------------------------------------------ #
     # Section 17: CANVAS_BITMAP
