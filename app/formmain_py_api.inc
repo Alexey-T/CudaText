@@ -8628,6 +8628,20 @@ begin
             Result:= ReturnNone;
           end;
 
+        CANVAS_GRADIENT:
+          begin
+            if not ((NStyle>=0) and (NStyle<=Ord(High(TGradientDirection)))) then
+              MsgLogConsole('ERROR: canvas_proc(...CANVAS_GRADIENT...) gets bad direction')
+            else
+              C.GradientFill(
+                Rect(NX, NY, NX2, NY2),
+                NColor,
+                NSize,
+                TGradientDirection(NStyle)
+                );
+            Result:= ReturnNone;
+          end;
+
         CANVAS_SET_TESTPANEL:
           begin
             fmMain.InitPaintTest;

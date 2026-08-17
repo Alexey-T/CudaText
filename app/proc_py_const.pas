@@ -598,6 +598,7 @@ const
   CANVAS_PIXEL         = 24;
   CANVAS_IMAGE         = 25;
   CANVAS_IMAGE_SIZED   = 26;
+  CANVAS_GRADIENT      = 29;
   CANVAS_RECT          = 30;
   CANVAS_RECT_FRAME    = 31;
   CANVAS_RECT_FILL     = 32;

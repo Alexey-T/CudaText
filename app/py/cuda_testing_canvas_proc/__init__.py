@@ -973,7 +973,7 @@ class Command:
         chart_h, chart_w = 170, 200
         canvas_proc(c, CANVAS_SET_PEN, color=rgb(0x34,0x49,0x5E), size=1, style=PEN_STYLE_SOLID)
         canvas_proc(c, CANVAS_SET_BRUSH, color=rgb(0xEC,0xF0,0xF1), style=BRUSH_SOLID)
-        canvas_proc(c, CANVAS_RECT, x=bx, y=by, x2=bx+chart_w, y2=by+chart_h)
+        canvas_proc(c, CANVAS_GRADIENT, x=bx, y=by, x2=bx+chart_w, y2=by+chart_h, color=0x00FF00, size=0xFF, style=0)
         bars = [0.3, 0.6, 0.85, 0.45, 0.95, 0.55]
         bar_w = (chart_w - 20) // len(bars)
         for i, frac in enumerate(bars):
