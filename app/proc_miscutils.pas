@@ -379,8 +379,8 @@ begin
   Sep.Init(AText);
   repeat
     if not Sep.GetItemInt(P.X, MaxInt) then Break;
-    if not Sep.GetItemInt(P.Y, MaxInt) then Break;
     if (P.X=MaxInt) then Exit(nil);
+    if not Sep.GetItemInt(P.Y, MaxInt) then Break;
     if (P.Y=MaxInt) then Exit(nil);
     SetLength(Result, Length(Result)+1);
     Result[Length(Result)-1]:= P;
