@@ -121,7 +121,7 @@ const
   msgOpenLink: string = 'Open %s';
 
   msgPanelMenu_Init = 'Menu';
-  msgPanelTree_Init = 'Code tree';
+  msgPanelTree_Init = 'Code-Tree';
   msgPanelProject_Init = 'Project';
   msgPanelTabs_Init = 'Tabs';
   msgPanelSnippet_Init = 'Snippet Panel';
