@@ -1126,7 +1126,7 @@ and file path exists on local user's PC.
 Auto-completion behaviour for this case is described in the
 [[#Special_HTML_auto-completion|topic about HTML completion]], see "folders/filenames completion".
 
-= Code-Tree =
+=Code-Tree=
 
 Code-tree is treeview UI control which shows list of document's 'symbols': classes/functions/structs/etc, from the lexer (only if lexer supports this).
 To show code-tree, activate the side-panel (default hotkey: F12). Many lexers support code-tree: most C-based, HTML, XML, CSS, JS etc. Example of tree for Pascal:
