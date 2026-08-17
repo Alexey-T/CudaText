@@ -1911,6 +1911,9 @@ Possible values of "id_action":
 * CANVAS_IMAGE: Paints given image. Image's handle must be got from image_proc() or dlg_proc() and passed to param "p1". Params "x", "y" are the coordinates to paint at.
 * CANVAS_IMAGE_SIZED: Paints given image, stretching it to given rectangle. Image's handle must be in param "p1". Destination rectangle must be in params "x", "y", "x2", "y2".
 
+* CANVAS_COPY_RECT: Copies rectangle from one canvas to another. Handle of destination canvas is in param "id_canvas". Handle of source canvas must be in param "p1". Destination rectangle must be in 4 params: "x", "y", "x2", "y2". Source rectangle must be in param "text" as 4-tuple or 4-list of int.
+** Specifying the same handle for source and destination canvas is not recommended: it may not be supported on all platforms, it may give buggy results. If you want to copy from a canvas to ifself, create the temporaty bitmap via bitmap_proc().
+
 * CANVAS_SET_TESTPANEL: Sets height of testing panel at the top. Params used: "size". If it's "too small" then panel hides; for big value, panel height is limited.
 
 === timer_proc ===
@@ -5485,6 +5488,7 @@ It provides:
 * add: canvas_proc: CANVAS_BITMAP_SIZED
 * add: canvas_proc: CANVAS_IMAGE
 * add: canvas_proc: CANVAS_IMAGE_SIZED
+* add: canvas_proc: CANVAS_COPY_RECT
 * add: image_proc: IMAGE_GET_SIZE_UI
 * add: image_proc: IMAGE_GET_BITMAP
 * add: on_state: APPSTATE_SESSION_SET
