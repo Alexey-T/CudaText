@@ -1152,10 +1152,6 @@ Code-tree for CSS lexer has additional feature: in the "Colors" node, it shows c
 
 * <code>#AABBCC</code>
 * <code>#ABC</code>
-* <code>rgb(...)</code>
-* <code>rgba(...)</code>
-* <code>hsl(...)</code>
-* <code>hsla(...)</code>
 
 [[File:cudatext-tree-css-colors.png]]
 
