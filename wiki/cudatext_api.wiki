@@ -1901,7 +1901,7 @@ Possible values of "id_action":
 * CANVAS_LINE: Paints line at given coords. Uses pen. Params used: "x", "y", "x2", "y2".
 * CANVAS_PIXEL: Paints one pixel at given coords. Params used: "x", "y", "color".
 * CANVAS_RECT: Paints filled rectangle. Uses pen and brush. Params used: "x", "y", "x2", "y2".
-* CANVAS_RECT_FRAME: Paints outline-only rectangle. Uses only brush (for outline). Params used: "x", "y", "x2", "y2".
+* CANVAS_RECT_FRAME: Paints outline-only rectangle. Uses only brush (for outline), outline width is always 1 pixel. Params used: "x", "y", "x2", "y2".
 * CANVAS_RECT_FILL: Paints filled rectangle. Uses only brush. Params used: "x", "y", "x2", "y2".
 * CANVAS_RECT_ROUND: Paints rounded filled rectangle. Uses pen and brush. Params used: "x", "y", "x2", "y2", "style" - radius of corners.
 * CANVAS_ELLIPSE: Paints ellipse or circle. Uses pen and brush. Params used: "x", "y", "x2", "y2".
