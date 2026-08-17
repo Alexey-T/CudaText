@@ -8441,8 +8441,9 @@ var
   NP1, NP2: Int64; //param "p1" must be Int64 to pass handle of bitmap/image
   PtrText: PChar;
   StrText: string;
-  Sep: TATStringSeparator;
+  TempPntArray: TAppPointArray;
   TempRect: TRect;
+  Sep: TATStringSeparator;
 begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'LisiiiiiiiLL:canvas_proc',
@@ -8587,7 +8588,11 @@ begin
 
         CANVAS_POLYGON:
           begin
-            Canvas_PaintPolygonFromSting(C, StrText);
+            TempPntArray:= Canvas_PolygonFromSting(C, StrText);
+            if Length(TempPntArray)>2 then
+              C.Polygon(TempPntArray)
+            else
+              MsgLogConsole('ERROR: canvas_proc(...CANVAS_POLYGON...) gets bad coords: '+StrText);
             Result:= ReturnNone;
           end;
 

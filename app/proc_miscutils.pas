@@ -65,9 +65,12 @@ procedure AppFormHistoryLoad(F: TForm; const AConfigPath: string; AWithPos: bool
 procedure AppFormPutToVisibleArea(F: TForm);
 procedure AppFormFocus(F: TForm; AllowShow: boolean);
 
+type
+  TAppPointArray = array of TPoint;
+
 function Canvas_TextMultilineExtent(C: TCanvas; const AText: string): TPoint;
 function Canvas_NumberToFontStyles(Num: integer): TFontStyles;
-procedure Canvas_PaintPolygonFromSting(C: TCanvas; const AText: string);
+function Canvas_PolygonFromSting(C: TCanvas; const AText: string): TAppPointArray;
 procedure Canvas_PaintImageInRect(C: TCanvas; APic: TGraphic; const ARect: TRect);
 
 function AppLoadPictureFromFile(const AFilename: string): TGraphic;
@@ -366,25 +369,21 @@ begin
   if (Num and FONT_S)<>0 then Include(Result, fsStrikeOut);
 end;
 
-procedure Canvas_PaintPolygonFromSting(C: TCanvas; const AText: string);
+function Canvas_PolygonFromSting(C: TCanvas; const AText: string): TAppPointArray;
 var
   Sep: TATStringSeparator;
   P: TPoint;
-  Pnt: array of TPoint;
 begin
-  Pnt:= nil;
+  Result:= nil;
   Sep.Init(AText);
   repeat
     if not Sep.GetItemInt(P.X, MaxInt) then Break;
     if not Sep.GetItemInt(P.Y, MaxInt) then Break;
-    if (P.X=MaxInt) then Exit;
-    if (P.Y=MaxInt) then Exit;
-    SetLength(Pnt, Length(Pnt)+1);
-    Pnt[Length(Pnt)-1]:= P;
+    if (P.X=MaxInt) then Exit(nil);
+    if (P.Y=MaxInt) then Exit(nil);
+    SetLength(Result, Length(Result)+1);
+    Result[Length(Result)-1]:= P;
   until false;
-
-  if Length(Pnt)>2 then
-    C.Polygon(Pnt);
 end;
 
 
