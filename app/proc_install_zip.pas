@@ -41,7 +41,6 @@ function AppAddonKindFromString(const AId: string): TAppAddonType;
 
 procedure DoInstallAddonFromZip(
   const AFilenameZip: string;
-  const ADirAcp: string;
   out AStrReport, AStrMessage: string;
   out AIsInstalled: boolean;
   out AAddonType: TAppAddonType;
@@ -480,7 +479,7 @@ begin
 end;
 
 function DoInstallLexer(
-  const AFilenameInf, ADirAcp: string;
+  const AFilenameInf: string;
   out AReport: string): boolean;
 var
   i_sub: integer;
@@ -489,12 +488,13 @@ var
   an, an_sub: TecSyntAnalyzer;
   ini_file: TIniFile;
   sections: TStringList;
-  DirLexers, DirSettings: string;
+  DirLexers, DirSettings, DirAcp: string;
 begin
   Result:= false;
   AReport:= '';
   DirLexers:= AppDir_Lexers;
   DirSettings:= AppDir_SettingsDefault;
+  DirAcp:= AppDir_DataAutocomplete;
 
   ini_file:= TIniFile.Create(AFilenameInf);
   sections:= TStringList.Create;
@@ -542,8 +542,8 @@ begin
 
       if FileExists(fn_acp) then
       begin
-        if ADirAcp<>'' then
-          CopyFile(fn_acp, ADirAcp+DirectorySeparator+ExtractFileName(fn_acp));
+        if DirAcp<>'' then
+          CopyFile(fn_acp, DirAcp+DirectorySeparator+ExtractFileName(fn_acp));
         AReport:= AReport+msgStatusPackageAutoCompletion+' '+s_lexer+#10;
       end;
 
@@ -638,7 +638,6 @@ end;
 
 procedure DoInstallAddonFromZip(
   const AFilenameZip: string;
-  const ADirAcp: string;
   out AStrReport, AStrMessage: string;
   out AIsInstalled: boolean;
   out AAddonType: TAppAddonType;
@@ -842,7 +841,7 @@ begin
   case AAddonType of
     TAppAddonType.Lexer:
       begin
-        AIsInstalled:= DoInstallLexer(fn_inf, ADirAcp, AStrReport);
+        AIsInstalled:= DoInstallLexer(fn_inf, AStrReport);
         ADirTarget:= AppDir_Lexers;
       end;
     TAppAddonType.LexerLite:

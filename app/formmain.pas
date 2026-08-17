@@ -4452,7 +4452,7 @@ begin
   if bKeepFrameLexers then
     DoOps_LexersBackupSave;
 
-  DoInstallAddonFromZip(AFileName, AppDir_DataAutocomplete, msg, msg2,
+  DoInstallAddonFromZip(AFileName, msg, msg2,
     Result, AddonType, DirTarget, bNeedRestart, ASilent);
 
   if Result then
