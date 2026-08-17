@@ -1905,7 +1905,7 @@ Possible values of "id_action":
 * CANVAS_RECT_FILL: Paints filled rectangle. Uses only brush. Params used: "x", "y", "x2", "y2".
 * CANVAS_RECT_ROUND: Paints rounded filled rectangle. Uses pen and brush. Params used: "x", "y", "x2", "y2", "style" - radius of corners.
 * CANVAS_ELLIPSE: Paints ellipse or circle. Uses pen and brush. Params used: "x", "y", "x2", "y2".
-* CANVAS_POLYGON: Paints polygon from any number of points (>2). Uses pen and brush. Params used: "text" - comma separated list of (x,y) coords. Example: "10,10,200,50,10,100" - 3 points.
+* CANVAS_POLYGON: Paints polygon from any number of points (>2). Uses pen and brush. Params used: "text", it must be tuple of int / list of int, like this: (x0, y0, x1, y1, ...). Example: text=(10,10,200,50,10,100) - 3 points to paint a triangle.
 * CANVAS_BITMAP: Paints given bitmap. Bitmap's handle must be got from bitmap_proc() and passed to param "p1". Params "x", "y" are the coordinates to paint at.
 * CANVAS_BITMAP_SIZED: Paints given bitmap, stretching it to given rectangle. Bitmap's handle must be in param "p1". Destination rectangle must be in params "x", "y", "x2", "y2".
 * CANVAS_IMAGE: Paints given image. Image's handle must be got from image_proc() or dlg_proc() and passed to param "p1". Params "x", "y" are the coordinates to paint at.
