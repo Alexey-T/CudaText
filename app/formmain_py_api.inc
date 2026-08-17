@@ -8604,14 +8604,20 @@ begin
               else
               begin
                 Sep.Init(StrText, ',');
-                Sep.GetItemInt(TempRect.Left, 0);
-                Sep.GetItemInt(TempRect.Top, 0);
-                Sep.GetItemInt(TempRect.Right, 0);
-                Sep.GetItemInt(TempRect.Bottom, 0);
-                C.CopyRect(
-                  Rect(NX, NY, NX2, NY2),
-                  TCanvas(Obj),
-                  TempRect);
+                Sep.GetItemInt(TempRect.Left, MaxInt);
+                Sep.GetItemInt(TempRect.Top, MaxInt);
+                Sep.GetItemInt(TempRect.Right, MaxInt);
+                Sep.GetItemInt(TempRect.Bottom, MaxInt);
+                if (TempRect.Left=MaxInt) or
+                   (TempRect.Top=MaxInt) or
+                   (TempRect.Right=MaxInt) or
+                   (TempRect.Bottom=MaxInt) then
+                  MsgLogConsole('ERROR: canvas_proc(...CANVAS_COPY_RECT...) gets bad source-rect: '+StrText)
+                else
+                  C.CopyRect(
+                    Rect(NX, NY, NX2, NY2),
+                    TCanvas(Obj),
+                    TempRect);
               end;
             end;
             Result:= ReturnNone;
