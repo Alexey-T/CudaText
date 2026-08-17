@@ -4995,18 +4995,83 @@ end;
 function TfmMain.DoFileOpen(AFileName, AFileName2: string; APages: TATPages;
   const AOptions: string): TEditorFrame;
 var
-  D: TATTabData;
-  F: TEditorFrame;
   bSilent, bPreviewTab, bEnableHistory, bEnableLoadUndo, bEnableLoadBookmarks,
   bEnableEventPre, bEnableEventOpened, bEnableEventOpenedNone,
   bAllowZip, bAllowPics, bAllowLexerDetect, bAllowDeleted, bDetectedPics,
   bAllowUpdateAddons, bAndActivate: boolean;
-  bFileExists, bFileExists2: boolean;
-  bFileTooBig, bFileTooBig2: boolean;
   AllowNear: TAppNewTabNearCurrent;
   OpenMode, NonTextMode: TAppOpenMode;
+  //
+  procedure InitMainVars;
+  begin
+    bSilent:= SubInString('/silent', AOptions);
+    bPreviewTab:= SubInString('/preview', AOptions);
+    bEnableHistory:= not SubInString('/nohistory', AOptions);
+    bEnableLoadBookmarks:= true;
+    bEnableLoadUndo:= not SubInString('/noloadundo', AOptions);
+    bEnableEventPre:= not SubInString('/noevent', AOptions);
+    bEnableEventOpened:= not SubInString('/noopenedevent', AOptions);
+    bEnableEventOpenedNone:= not SubInString('/nononeevent', AOptions);
+    bAndActivate:= not SubInString('/passive', AOptions);
+    bAllowLexerDetect:= not SubInString('/nolexerdetect', AOptions);
+    bAllowZip:= not SubInString('/nozip', AOptions);
+    bAllowPics:= not SubInString('/nopictures', AOptions);
+    bAllowUpdateAddons:= not SubInString('/noupdateaddons', AOptions);
+    bAllowDeleted:= SubInString('/allowdeleted', AOptions);
+    bDetectedPics:= bAllowPics and IsFilenameListedInExtensionList(AFileName, UiOps.PictureTypes);
+
+    AllowNear:= TAppNewTabNearCurrent.ByOption;
+    if SubInString('/donear', AOptions) then
+      AllowNear:= TAppNewTabNearCurrent.Enabled
+    else
+    if SubInString('/nonear', AOptions) then
+      AllowNear:= TAppNewTabNearCurrent.Disabled;
+
+    if SubInString('/view-text', AOptions) then
+      OpenMode:= TAppOpenMode.ViewText
+    else
+    if SubInString('/view-binary', AOptions) then
+      OpenMode:= TAppOpenMode.ViewBinary
+    else
+    if SubInString('/view-hex', AOptions) then
+      OpenMode:= TAppOpenMode.ViewHex
+    else
+    if SubInString('/view-unicode', AOptions) then
+      OpenMode:= TAppOpenMode.ViewUnicode
+    else
+    if SubInString('/view-uhex', AOptions) then
+      OpenMode:= TAppOpenMode.ViewUHex
+    else
+      OpenMode:= TAppOpenMode.Editor;
+
+    if SubInString('/nontext-view-text', AOptions) then
+      NonTextMode:= TAppOpenMode.ViewText
+    else
+    if SubInString('/nontext-view-binary', AOptions) then
+      NonTextMode:= TAppOpenMode.ViewBinary
+    else
+    if SubInString('/nontext-view-hex', AOptions) then
+      NonTextMode:= TAppOpenMode.ViewHex
+    else
+    if SubInString('/nontext-view-unicode', AOptions) then
+      NonTextMode:= TAppOpenMode.ViewUnicode
+    else
+    if SubInString('/nontext-view-uhex', AOptions) then
+      NonTextMode:= TAppOpenMode.ViewUHex
+    else
+    if SubInString('/nontext-cancel', AOptions) then
+      NonTextMode:= TAppOpenMode.None
+    else
+      NonTextMode:= TAppOpenMode.Editor;
+  end;
+  //
+var
+  D: TATTabData;
+  F: TEditorFrame;
   CurGroups: TATGroups;
   NBinaryChar: byte;
+  bFileExists, bFileExists2: boolean;
+  bFileTooBig, bFileTooBig2: boolean;
   //tick: QWord;
   //msg: string;
 begin
@@ -5015,14 +5080,22 @@ begin
   if Application.Terminated then exit;
   if IsTooManyTabsOpened then exit;
 
-  {
-  //don't prevent re-entering in DoFileOpen: can happen because of cuda_lexer_detecter is activated inside on_open_pre
+  InitMainVars;
+
+  //handle zip files _before_ checking of re-entering
+  if bAllowZip and (ExtractFileExt(AFileName)='.zip') then
+  begin
+    if DoFileInstallZip(AFileName, AppDir_LastInstalledAddon, bSilent, bAllowUpdateAddons) then
+      Result:= CurrentFrame;
+    exit
+  end;
+
+  //prevent re-entering in DoFileOpen
   if AppOpeningFile then
   begin
     MsgLogConsole('NOTE: reentering to DoFileOpen');
     exit;
   end;
-  }
   AppOpeningFile:= true;
 
   bFileExists:= (AFileName<>'') and FileExists(AFileName);
@@ -5041,65 +5114,6 @@ begin
   end;
 
   CurGroups:= CurrentGroups;
-
-  bSilent:= SubInString('/silent', AOptions);
-  bPreviewTab:= SubInString('/preview', AOptions);
-  bEnableHistory:= not SubInString('/nohistory', AOptions);
-  bEnableLoadBookmarks:= true;
-  bEnableLoadUndo:= not SubInString('/noloadundo', AOptions);
-  bEnableEventPre:= not SubInString('/noevent', AOptions);
-  bEnableEventOpened:= not SubInString('/noopenedevent', AOptions);
-  bEnableEventOpenedNone:= not SubInString('/nononeevent', AOptions);
-  bAndActivate:= not SubInString('/passive', AOptions);
-  bAllowLexerDetect:= not SubInString('/nolexerdetect', AOptions);
-  bAllowZip:= not SubInString('/nozip', AOptions);
-  bAllowPics:= not SubInString('/nopictures', AOptions);
-  bAllowUpdateAddons:= not SubInString('/noupdateaddons', AOptions);
-  bAllowDeleted:= SubInString('/allowdeleted', AOptions);
-
-  AllowNear:= TAppNewTabNearCurrent.ByOption;
-  if SubInString('/donear', AOptions) then
-    AllowNear:= TAppNewTabNearCurrent.Enabled
-  else
-  if SubInString('/nonear', AOptions) then
-    AllowNear:= TAppNewTabNearCurrent.Disabled;
-
-  if SubInString('/view-text', AOptions) then
-    OpenMode:= TAppOpenMode.ViewText
-  else
-  if SubInString('/view-binary', AOptions) then
-    OpenMode:= TAppOpenMode.ViewBinary
-  else
-  if SubInString('/view-hex', AOptions) then
-    OpenMode:= TAppOpenMode.ViewHex
-  else
-  if SubInString('/view-unicode', AOptions) then
-    OpenMode:= TAppOpenMode.ViewUnicode
-  else
-  if SubInString('/view-uhex', AOptions) then
-    OpenMode:= TAppOpenMode.ViewUHex
-  else
-    OpenMode:= TAppOpenMode.Editor;
-
-  if SubInString('/nontext-view-text', AOptions) then
-    NonTextMode:= TAppOpenMode.ViewText
-  else
-  if SubInString('/nontext-view-binary', AOptions) then
-    NonTextMode:= TAppOpenMode.ViewBinary
-  else
-  if SubInString('/nontext-view-hex', AOptions) then
-    NonTextMode:= TAppOpenMode.ViewHex
-  else
-  if SubInString('/nontext-view-unicode', AOptions) then
-    NonTextMode:= TAppOpenMode.ViewUnicode
-  else
-  if SubInString('/nontext-view-uhex', AOptions) then
-    NonTextMode:= TAppOpenMode.ViewUHex
-  else
-  if SubInString('/nontext-cancel', AOptions) then
-    NonTextMode:= TAppOpenMode.None
-  else
-    NonTextMode:= TAppOpenMode.Editor;
 
   if APages=nil then
     APages:= CurGroups.PagesCurrent;
@@ -5156,14 +5170,6 @@ begin
 
     if OpenMode=TAppOpenMode.Editor then
     begin
-      //zip files
-      if bAllowZip and (ExtractFileExt(AFileName)='.zip') then
-      begin
-        if DoFileInstallZip(AFileName, AppDir_LastInstalledAddon, bSilent, bAllowUpdateAddons) then
-          Result:= CurrentFrame;
-        exit
-      end;
-
       {
       //session files
       //2025.03: don't open as session anymore
@@ -5180,8 +5186,6 @@ begin
       begin
         if DoPyEvent(CurrentEditor, TAppPyEvent.OnOpenBefore, [AppVariant(AFileName)]).Val = TAppPyEventValue.False then exit;
       end;
-
-      bDetectedPics:= bAllowPics and IsFilenameListedInExtensionList(AFileName, UiOps.PictureTypes);
 
       //non-text option
       if not bFileTooBig then
