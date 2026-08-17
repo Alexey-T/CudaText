@@ -997,7 +997,7 @@ class Command:
         b = bitmap_proc(0, BITMAP_CREATE, w, h)
         c2 = bitmap_proc(b, BITMAP_GET_CANVAS)
         canvas_proc(c2, CANVAS_COPY_RECT, text=rect_from, x=rect_to[0], y=rect_to[1], x2=rect_to[2], y2=rect_to[3], p1=c)
-        canvas_proc(c, CANVAS_COPY_RECT, text=rect_to, x=rect_from[0]+15, y=rect_from[1]+60, x2=rect_from[2]+15+60, y2=rect_from[3]+60+80, p1=c2)
+        canvas_proc(c, CANVAS_COPY_RECT, text=rect_to, x=rect_from[0]-2, y=rect_from[1]+60, x2=rect_from[2]+15+55, y2=rect_from[3]+60+70, p1=c2)
         bitmap_proc(b, BITMAP_FREE)
 
 
