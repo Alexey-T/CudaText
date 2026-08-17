@@ -812,354 +812,354 @@ var
 begin
   Ctl:= nil;
 
- try
-  if S='check' then
-  begin
-    Ctl:= TCheckBox.Create(AForm);
-    TCheckBox(Ctl).OnChange:= @AForm.DoOnChange;
-    exit;
-  end;
+  try
+    if S='check' then
+    begin
+      Ctl:= TCheckBox.Create(AForm);
+      TCheckBox(Ctl).OnChange:= @AForm.DoOnChange;
+      exit;
+    end;
 
-  if S='edit' then
-  begin
-    Ctl:= TEdit.Create(AForm);
-    TEdit(Ctl).OnChange:= @AForm.DoOnChange;
-    TEdit(Ctl).OnUTF8KeyPress:= @AForm.DoOnMemoUTF8KeyPress;
-    exit;
-  end;
+    if S='edit' then
+    begin
+      Ctl:= TEdit.Create(AForm);
+      TEdit(Ctl).OnChange:= @AForm.DoOnChange;
+      TEdit(Ctl).OnUTF8KeyPress:= @AForm.DoOnMemoUTF8KeyPress;
+      exit;
+    end;
 
-  if S='editor' then
-  begin
-    Ctl:= TATSynEdit.Create(AForm);
-    DoControl_ApplyEditorProps(TATSynEdit(Ctl), AForm, true, false);
+    if S='editor' then
+    begin
+      Ctl:= TATSynEdit.Create(AForm);
+      DoControl_ApplyEditorProps(TATSynEdit(Ctl), AForm, true, false);
 
-    //URL clicking don't work in API-created editors
-    TATSynEdit(Ctl).OptShowURLs:= false;
+      //URL clicking don't work in API-created editors
+      TATSynEdit(Ctl).OptShowURLs:= false;
 
-    Adapter:= TATAdapterEControl.Create(Ctl);
-    Adapter.EnabledSublexerTreeNodes:= UiOps.TreeSublexers;
-    {
-    Adapter.DynamicHiliteEnabled:= EditorOps.OpLexerDynamicHiliteMaxLines>0;
-    Adapter.DynamicHiliteMaxLines:= EditorOps.OpLexerDynamicHiliteMaxLines;
-    }
-    Adapter.DynamicHiliteEnabled:= false;
-    Adapter.DynamicHiliteMaxLines:= 0;
-    Adapter.AddEditor(TATSynEdit(Ctl));
-    Adapter.OnParseDone:= DlgProc_Adapter_OnParseDone;
+      Adapter:= TATAdapterEControl.Create(Ctl);
+      Adapter.EnabledSublexerTreeNodes:= UiOps.TreeSublexers;
+      {
+      Adapter.DynamicHiliteEnabled:= EditorOps.OpLexerDynamicHiliteMaxLines>0;
+      Adapter.DynamicHiliteMaxLines:= EditorOps.OpLexerDynamicHiliteMaxLines;
+      }
+      Adapter.DynamicHiliteEnabled:= false;
+      Adapter.DynamicHiliteMaxLines:= 0;
+      Adapter.AddEditor(TATSynEdit(Ctl));
+      Adapter.OnParseDone:= DlgProc_Adapter_OnParseDone;
 
-    exit;
-  end;
+      exit;
+    end;
 
-  if S='editor_edit' then
-  begin
-    Ctl:= TATEdit.Create(AForm);
-    DoControl_ApplyEditorProps(TATSynEdit(Ctl), AForm, false, false);
-    exit;
-  end;
+    if S='editor_edit' then
+    begin
+      Ctl:= TATEdit.Create(AForm);
+      DoControl_ApplyEditorProps(TATSynEdit(Ctl), AForm, false, false);
+      exit;
+    end;
 
-  if S='editor_combo' then
-  begin
-    Ctl:= TATComboEdit.Create(AForm);
-    DoControl_ApplyEditorProps(TATSynEdit(Ctl), AForm, false, false);
-    exit;
-  end;
+    if S='editor_combo' then
+    begin
+      Ctl:= TATComboEdit.Create(AForm);
+      DoControl_ApplyEditorProps(TATSynEdit(Ctl), AForm, false, false);
+      exit;
+    end;
 
-  if S='edit_pwd' then
-  begin
-    Ctl:= TEdit.Create(AForm);
-    TEdit(Ctl).EchoMode:= emPassword;
-    TEdit(Ctl).OnChange:= @AForm.DoOnChange;
-    TEdit(Ctl).OnUTF8KeyPress:= @AForm.DoOnMemoUTF8KeyPress;
-    exit;
-  end;
+    if S='edit_pwd' then
+    begin
+      Ctl:= TEdit.Create(AForm);
+      TEdit(Ctl).EchoMode:= emPassword;
+      TEdit(Ctl).OnChange:= @AForm.DoOnChange;
+      TEdit(Ctl).OnUTF8KeyPress:= @AForm.DoOnMemoUTF8KeyPress;
+      exit;
+    end;
 
-  if S='spinedit' then
-  begin
-    Ctl:= TSpinEdit.Create(AForm);
-    TSpinEdit(Ctl).OnChange:= @AForm.DoOnChange;
-    TSpinEdit(Ctl).OnUTF8KeyPress:= @AForm.DoOnMemoUTF8KeyPress;
-    exit;
-  end;
+    if S='spinedit' then
+    begin
+      Ctl:= TSpinEdit.Create(AForm);
+      TSpinEdit(Ctl).OnChange:= @AForm.DoOnChange;
+      TSpinEdit(Ctl).OnUTF8KeyPress:= @AForm.DoOnMemoUTF8KeyPress;
+      exit;
+    end;
 
-  if S='memo' then
-  begin
-    Ctl:= TMemo.Create(AForm);
-    TMemo(Ctl).WordWrap:= false;
-    TMemo(Ctl).ScrollBars:= ssBoth;
-    TMemo(Ctl).OnChange:= @AForm.DoOnChange;
-    TMemo(Ctl).OnUTF8KeyPress:= @AForm.DoOnMemoUTF8KeyPress;
-    exit;
-  end;
+    if S='memo' then
+    begin
+      Ctl:= TMemo.Create(AForm);
+      TMemo(Ctl).WordWrap:= false;
+      TMemo(Ctl).ScrollBars:= ssBoth;
+      TMemo(Ctl).OnChange:= @AForm.DoOnChange;
+      TMemo(Ctl).OnUTF8KeyPress:= @AForm.DoOnMemoUTF8KeyPress;
+      exit;
+    end;
 
-  if S='label' then
-  begin
-    Ctl:= TLabel.Create(AForm);
-    exit;
-  end;
+    if S='label' then
+    begin
+      Ctl:= TLabel.Create(AForm);
+      exit;
+    end;
 
-  if S='combo' then
-  begin
-    Ctl:= TComboBox.Create(AForm);
-    TComboBox(Ctl).OnChange:= @AForm.DoOnChange;
-    TComboBox(Ctl).OnUTF8KeyPress:= @AForm.DoOnMemoUTF8KeyPress;
-    TComboBox(Ctl).DropDownCount:= 20;
-    exit;
-  end;
+    if S='combo' then
+    begin
+      Ctl:= TComboBox.Create(AForm);
+      TComboBox(Ctl).OnChange:= @AForm.DoOnChange;
+      TComboBox(Ctl).OnUTF8KeyPress:= @AForm.DoOnMemoUTF8KeyPress;
+      TComboBox(Ctl).DropDownCount:= 20;
+      exit;
+    end;
 
-  if S='combo_ro' then
-  begin
-    Ctl:= TComboBox.Create(AForm);
-    TComboBox(Ctl).DropDownCount:= 20;
-    TComboBox(Ctl).Style:= csDropDownList;
-    TComboBox(Ctl).OnChange:= @AForm.DoOnChange;
-    exit;
-  end;
+    if S='combo_ro' then
+    begin
+      Ctl:= TComboBox.Create(AForm);
+      TComboBox(Ctl).DropDownCount:= 20;
+      TComboBox(Ctl).Style:= csDropDownList;
+      TComboBox(Ctl).OnChange:= @AForm.DoOnChange;
+      exit;
+    end;
 
-  if S='button' then
-  begin
-    Ctl:= TButton.Create(AForm);
-    TButton(Ctl).OnClick:= @AForm.DoOnChange;
-    DoControl_FixButtonHeight(Ctl);
-    exit;
-  end;
+    if S='button' then
+    begin
+      Ctl:= TButton.Create(AForm);
+      TButton(Ctl).OnClick:= @AForm.DoOnChange;
+      DoControl_FixButtonHeight(Ctl);
+      exit;
+    end;
 
-  if S='button_ex' then
-  begin
-    Ctl:= TATButton.Create(AForm);
-    TATButton(Ctl).DoubleBuffered:= UiOps.DoubleBuffered;
-    TATButton(Ctl).OnClick:= @AForm.DoOnChange;
-    exit;
-  end;
+    if S='button_ex' then
+    begin
+      Ctl:= TATButton.Create(AForm);
+      TATButton(Ctl).DoubleBuffered:= UiOps.DoubleBuffered;
+      TATButton(Ctl).OnClick:= @AForm.DoOnChange;
+      exit;
+    end;
 
-  if S='checkbutton' then
-  begin
-    Ctl:= TToggleBox.Create(AForm);
-    TToggleBox(Ctl).OnChange:= @AForm.DoOnChange;
-    DoControl_FixButtonHeight(Ctl);
-    exit;
-  end;
+    if S='checkbutton' then
+    begin
+      Ctl:= TToggleBox.Create(AForm);
+      TToggleBox(Ctl).OnChange:= @AForm.DoOnChange;
+      DoControl_FixButtonHeight(Ctl);
+      exit;
+    end;
 
-  if S='listbox' then
-  begin
-    Ctl:= TListBox.Create(AForm);
-    TListBox(Ctl).OnSelectionChange:= @AForm.DoOnListboxSelect;
-    exit;
-  end;
+    if S='listbox' then
+    begin
+      Ctl:= TListBox.Create(AForm);
+      TListBox(Ctl).OnSelectionChange:= @AForm.DoOnListboxSelect;
+      exit;
+    end;
 
-  if S='radio' then
-  begin
-    Ctl:= TRadioButton.Create(AForm);
-    TRadioButton(Ctl).OnChange:= @AForm.DoOnChange;
-    exit;
-  end;
+    if S='radio' then
+    begin
+      Ctl:= TRadioButton.Create(AForm);
+      TRadioButton(Ctl).OnChange:= @AForm.DoOnChange;
+      exit;
+    end;
 
-  if S='radiogroup' then
-  begin
-    Ctl:= TRadioGroup.Create(AForm);
-    TRadioGroup(Ctl).OnSelectionChanged:= @AForm.DoOnChange;
-    exit;
-  end;
+    if S='radiogroup' then
+    begin
+      Ctl:= TRadioGroup.Create(AForm);
+      TRadioGroup(Ctl).OnSelectionChanged:= @AForm.DoOnChange;
+      exit;
+    end;
 
-  if S='checkgroup' then
-  begin
-    Ctl:= TCheckGroup.Create(AForm);
-    TCheckGroup(Ctl).OnItemClick:= @AForm.DoOnCheckGroupClicked;
-    exit;
-  end;
+    if S='checkgroup' then
+    begin
+      Ctl:= TCheckGroup.Create(AForm);
+      TCheckGroup(Ctl).OnItemClick:= @AForm.DoOnCheckGroupClicked;
+      exit;
+    end;
 
-  if S='panel' then
-  begin
+    if S='panel' then
+    begin
+      Ctl:= TPanel.Create(AForm);
+      TPanel(Ctl).BevelInner:= bvNone;
+      TPanel(Ctl).BevelOuter:= bvNone;
+      TPanel(Ctl).BorderStyle:= bsNone;
+      exit;
+    end;
+
+    if S='group' then
+    begin
+      Ctl:= TGroupBox.Create(AForm);
+      exit;
+    end;
+
+    if S='checklistbox' then
+    begin
+      Ctl:= TCheckListBox.Create(AForm);
+      TCheckListBox(Ctl).OnSelectionChange:= @AForm.DoOnListboxSelect;
+      TCheckListBox(Ctl).OnClickCheck:= @AForm.DoOnChange;
+      exit;
+    end;
+
+    if (S='listview') or
+       (S='checklistview') then
+    begin
+      Ctl:= TListView.Create(AForm);
+      TListView(Ctl).ReadOnly:= true;
+      TListView(Ctl).ColumnClick:= true;
+      TListView(Ctl).ViewStyle:= vsReport;
+      TListView(Ctl).RowSelect:= true;
+      TListView(Ctl).HideSelection:= false;
+      TListView(Ctl).DoubleBuffered:= UiOps.DoubleBuffered;
+      TListView(Ctl).Checkboxes:= (S='checklistview');
+      TListView(Ctl).OnChange:= @AForm.DoOnListviewChange;
+      TListView(Ctl).OnSelectItem:= @AForm.DoOnListviewSelect;
+      TListView(Ctl).OnColumnClick:= @AForm.DoOnListviewColumnClick;
+      exit;
+    end;
+
+    if (S='treeview') then
+    begin
+      Ctl:= TAppTreeContainer.Create(AForm);
+      ApplyThemeToTreeview(TAppTreeContainer(Ctl).Tree, false, true);
+      TAppTreeContainer(Ctl).Tree.BorderStyle:= bsSingle;
+      TAppTreeContainer(Ctl).Tree.Images:= TImageList.Create(Ctl);
+      TAppTreeContainer(Ctl).Tree.DoubleBuffered:= UiOps.DoubleBuffered;
+      TAppTreeContainer(Ctl).Tree.OnChange:= @AForm.DoOnTreeviewChange;
+      TAppTreeContainer(Ctl).Tree.OnSelectionChanged:= @AForm.DoOnTreeviewSelect;
+      TAppTreeContainer(Ctl).Tree.OnCollapsing:= @AForm.DoOnTreeviewCollapsing;
+      TAppTreeContainer(Ctl).Tree.OnExpanding:= @AForm.DoOnTreeviewExpanding;
+      TAppTreeContainer(Ctl).Tree.DefaultItemHeight:= ATEditorScale(DefaultTreeNodeHeight);
+      TAppTreeContainer(Ctl).Invalidate;
+      exit
+    end;
+
+    if (S='listbox_ex') then
+    begin
+      Ctl:= TATListbox.Create(AForm);
+      TATListbox(Ctl).Theme:= @AppApiFlatTheme;
+      TATListbox(Ctl).ThemedScrollbar:= UiOps.ScrollbarsNew;
+      TATListbox(Ctl).DoubleBuffered:= UiOps.DoubleBuffered;
+      TATListbox(Ctl).VirtualMode:= false;
+      TATListbox(Ctl).CanGetFocus:= true;
+      TATListbox(Ctl).OnClickXMark:= @AForm.DoOnClickX;
+      TATListbox(Ctl).OnClickHeader:= @AForm.DoOnListboxClickHeader;
+      TATListbox(Ctl).OnChangedSel:= @AForm.DoOnChange;
+      TATListbox(Ctl).OnDrawItem:= @AForm.DoOnListboxDrawItem;
+      exit;
+    end;
+
+    if S='linklabel' then
+    begin
+      Ctl:= TATLabelLink.Create(AForm);
+      exit;
+    end;
+
+    if S='tabs' then
+    begin
+      Ctl:= TTabControl.Create(AForm);
+      TTabControl(Ctl).OnChange:= @AForm.DoOnChange;
+      exit;
+    end;
+
+    if S='pages' then
+    begin
+      Ctl:= TPageControl.Create(AForm);
+      TPageControl(Ctl).OnChange:= @AForm.DoOnChange;
+      exit;
+    end;
+
+    if S='colorpanel' then
+    begin
+      Ctl:= TATPanelColor.Create(AForm);
+      TATPanelColor(Ctl).OnClick:= @AForm.DoOnChange;
+      exit;
+    end;
+
+    if S='bevel' then
+    begin
+      Ctl:= TBevel.Create(AForm);
+      TBevel(Ctl).Shape:= bsFrame;
+      exit;
+    end;
+
+    if S='image' then
+    begin
+      Ctl:= TImage.Create(AForm);
+      TImage(Ctl).Proportional:= true;
+      TImage(Ctl).AntialiasingMode:= amOn;
+      TImage(Ctl).OnPaintBackground:= @AForm.DoOnImagePaintBackground;
+      exit;
+    end;
+
+    if S='trackbar' then
+    begin
+      Ctl:= TTrackBar.Create(AForm);
+      TTrackBar(Ctl).Min:= -1000000;
+      TTrackBar(Ctl).Max:= 1000000;
+      TTrackBar(Ctl).OnChange:= @AForm.DoOnChange;
+      exit;
+    end;
+
+    if S='splitter' then
+    begin
+      Ctl:= TAppSplitter.Create(AForm);
+      TAppSplitter(Ctl).Beveled:= true;
+      TAppSplitter(Ctl).ResizeStyle:= rsPattern;
+      TAppSplitter(Ctl).AutoSnap:= false;
+      TAppSplitter(Ctl).OnMoved:= @AForm.DoOnChange;
+      exit;
+    end;
+
+    if S='progressbar' then
+    begin
+      Ctl:= TProgressBar.Create(AForm);
+      TProgressBar(Ctl).Min:= -1000000;
+      TProgressBar(Ctl).Max:= 1000000;
+      exit;
+    end;
+
+    if S='progressbar_ex' then
+    begin
+      Ctl:= TATGauge.Create(AForm);
+      TATGauge(Ctl).MinValue:= -1000000;
+      TATGauge(Ctl).MaxValue:= 1000000;
+      exit;
+    end;
+
+    if S='scrollbox' then
+    begin
+      Ctl:= TScrollBox.Create(AForm);
+      TScrollBox(Ctl).VertScrollBar.Tracking:= true;
+      TScrollBox(Ctl).HorzScrollBar.Tracking:= true;
+      exit;
+    end;
+
+    if S='toolbar' then
+    begin
+      Ctl:= TATFlatToolbar.Create(AForm);
+      TATFlatToolbar(Ctl).Images:= TImageList.Create(Ctl);
+      exit;
+    end;
+
+    if S='statusbar' then
+    begin
+      Ctl:= TATStatus.Create(AForm);
+      TATStatus(Ctl).OnPanelClick:= @AForm.DoOnStatusbarPanelClick;
+      exit;
+    end;
+
+    if S='filter_listbox' then
+    begin
+      Ctl:= TListFilterEdit.Create(AForm);
+      exit;
+    end;
+
+    if S='filter_listview' then
+    begin
+      Ctl:= TListViewFilterEdit.Create(AForm);
+      exit;
+    end;
+
+    //unsupported control type: create red panel to indicate plugin's error
     Ctl:= TPanel.Create(AForm);
-    TPanel(Ctl).BevelInner:= bvNone;
-    TPanel(Ctl).BevelOuter:= bvNone;
-    TPanel(Ctl).BorderStyle:= bsNone;
+    Ctl.Caption:= S+'?';
+    Ctl.Color:= clRed;
     exit;
+
+  finally
+    if Assigned(Ctl) then
+      DoControl_InitPropsObject(Ctl, AForm, S);
   end;
-
-  if S='group' then
-  begin
-    Ctl:= TGroupBox.Create(AForm);
-    exit;
-  end;
-
-  if S='checklistbox' then
-  begin
-    Ctl:= TCheckListBox.Create(AForm);
-    TCheckListBox(Ctl).OnSelectionChange:= @AForm.DoOnListboxSelect;
-    TCheckListBox(Ctl).OnClickCheck:= @AForm.DoOnChange;
-    exit;
-  end;
-
-  if (S='listview') or
-     (S='checklistview') then
-  begin
-    Ctl:= TListView.Create(AForm);
-    TListView(Ctl).ReadOnly:= true;
-    TListView(Ctl).ColumnClick:= true;
-    TListView(Ctl).ViewStyle:= vsReport;
-    TListView(Ctl).RowSelect:= true;
-    TListView(Ctl).HideSelection:= false;
-    TListView(Ctl).DoubleBuffered:= UiOps.DoubleBuffered;
-    TListView(Ctl).Checkboxes:= (S='checklistview');
-    TListView(Ctl).OnChange:= @AForm.DoOnListviewChange;
-    TListView(Ctl).OnSelectItem:= @AForm.DoOnListviewSelect;
-    TListView(Ctl).OnColumnClick:= @AForm.DoOnListviewColumnClick;
-    exit;
-  end;
-
-  if (S='treeview') then
-  begin
-    Ctl:= TAppTreeContainer.Create(AForm);
-    ApplyThemeToTreeview(TAppTreeContainer(Ctl).Tree, false, true);
-    TAppTreeContainer(Ctl).Tree.BorderStyle:= bsSingle;
-    TAppTreeContainer(Ctl).Tree.Images:= TImageList.Create(Ctl);
-    TAppTreeContainer(Ctl).Tree.DoubleBuffered:= UiOps.DoubleBuffered;
-    TAppTreeContainer(Ctl).Tree.OnChange:= @AForm.DoOnTreeviewChange;
-    TAppTreeContainer(Ctl).Tree.OnSelectionChanged:= @AForm.DoOnTreeviewSelect;
-    TAppTreeContainer(Ctl).Tree.OnCollapsing:= @AForm.DoOnTreeviewCollapsing;
-    TAppTreeContainer(Ctl).Tree.OnExpanding:= @AForm.DoOnTreeviewExpanding;
-    TAppTreeContainer(Ctl).Tree.DefaultItemHeight:= ATEditorScale(DefaultTreeNodeHeight);
-    TAppTreeContainer(Ctl).Invalidate;
-    exit
-  end;
-
-  if (S='listbox_ex') then
-  begin
-    Ctl:= TATListbox.Create(AForm);
-    TATListbox(Ctl).Theme:= @AppApiFlatTheme;
-    TATListbox(Ctl).ThemedScrollbar:= UiOps.ScrollbarsNew;
-    TATListbox(Ctl).DoubleBuffered:= UiOps.DoubleBuffered;
-    TATListbox(Ctl).VirtualMode:= false;
-    TATListbox(Ctl).CanGetFocus:= true;
-    TATListbox(Ctl).OnClickXMark:= @AForm.DoOnClickX;
-    TATListbox(Ctl).OnClickHeader:= @AForm.DoOnListboxClickHeader;
-    TATListbox(Ctl).OnChangedSel:= @AForm.DoOnChange;
-    TATListbox(Ctl).OnDrawItem:= @AForm.DoOnListboxDrawItem;
-    exit;
-  end;
-
-  if S='linklabel' then
-  begin
-    Ctl:= TATLabelLink.Create(AForm);
-    exit;
-  end;
-
-  if S='tabs' then
-  begin
-    Ctl:= TTabControl.Create(AForm);
-    TTabControl(Ctl).OnChange:= @AForm.DoOnChange;
-    exit;
-  end;
-
-  if S='pages' then
-  begin
-    Ctl:= TPageControl.Create(AForm);
-    TPageControl(Ctl).OnChange:= @AForm.DoOnChange;
-    exit;
-  end;
-
-  if S='colorpanel' then
-  begin
-    Ctl:= TATPanelColor.Create(AForm);
-    TATPanelColor(Ctl).OnClick:= @AForm.DoOnChange;
-    exit;
-  end;
-
-  if S='bevel' then
-  begin
-    Ctl:= TBevel.Create(AForm);
-    TBevel(Ctl).Shape:= bsFrame;
-    exit;
-  end;
-
-  if S='image' then
-  begin
-    Ctl:= TImage.Create(AForm);
-    TImage(Ctl).Proportional:= true;
-    TImage(Ctl).AntialiasingMode:= amOn;
-    TImage(Ctl).OnPaintBackground:= @AForm.DoOnImagePaintBackground;
-    exit;
-  end;
-
-  if S='trackbar' then
-  begin
-    Ctl:= TTrackBar.Create(AForm);
-    TTrackBar(Ctl).Min:= -1000000;
-    TTrackBar(Ctl).Max:= 1000000;
-    TTrackBar(Ctl).OnChange:= @AForm.DoOnChange;
-    exit;
-  end;
-
-  if S='splitter' then
-  begin
-    Ctl:= TAppSplitter.Create(AForm);
-    TAppSplitter(Ctl).Beveled:= true;
-    TAppSplitter(Ctl).ResizeStyle:= rsPattern;
-    TAppSplitter(Ctl).AutoSnap:= false;
-    TAppSplitter(Ctl).OnMoved:= @AForm.DoOnChange;
-    exit;
-  end;
-
-  if S='progressbar' then
-  begin
-    Ctl:= TProgressBar.Create(AForm);
-    TProgressBar(Ctl).Min:= -1000000;
-    TProgressBar(Ctl).Max:= 1000000;
-    exit;
-  end;
-
-  if S='progressbar_ex' then
-  begin
-    Ctl:= TATGauge.Create(AForm);
-    TATGauge(Ctl).MinValue:= -1000000;
-    TATGauge(Ctl).MaxValue:= 1000000;
-    exit;
-  end;
-
-  if S='scrollbox' then
-  begin
-    Ctl:= TScrollBox.Create(AForm);
-    TScrollBox(Ctl).VertScrollBar.Tracking:= true;
-    TScrollBox(Ctl).HorzScrollBar.Tracking:= true;
-    exit;
-  end;
-
-  if S='toolbar' then
-  begin
-    Ctl:= TATFlatToolbar.Create(AForm);
-    TATFlatToolbar(Ctl).Images:= TImageList.Create(Ctl);
-    exit;
-  end;
-
-  if S='statusbar' then
-  begin
-    Ctl:= TATStatus.Create(AForm);
-    TATStatus(Ctl).OnPanelClick:= @AForm.DoOnStatusbarPanelClick;
-    exit;
-  end;
-
-  if S='filter_listbox' then
-  begin
-    Ctl:= TListFilterEdit.Create(AForm);
-    exit;
-  end;
-
-  if S='filter_listview' then
-  begin
-    Ctl:= TListViewFilterEdit.Create(AForm);
-    exit;
-  end;
-
-  //unsupported control type: create red panel to indicate plugin's error
-  Ctl:= TPanel.Create(AForm);
-  Ctl.Caption:= S+'?';
-  Ctl.Color:= clRed;
-  exit;
-
- finally
-   if Assigned(Ctl) then
-     DoControl_InitPropsObject(Ctl, AForm, S);
- end;
 end;
 
 
