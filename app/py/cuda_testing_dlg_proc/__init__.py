@@ -1418,3 +1418,12 @@ end
 
     def test_labels_render(self):
         test_labels_render()
+
+
+    def test_docking(self):
+        h_dlg = dlg_proc(0, DLG_CREATE)
+        dlg_proc(h_dlg, DLG_PROP_SET, prop={'w':300, 'h':100, 'color': 0xFF})
+        ed.set_prop(PROP_SPLIT, ('v', 500))
+        dlg_proc(h_dlg, DLG_SHOW_NONMODAL)
+        h_parent = ed.get_prop(PROP_HANDLE_PARENT)
+        dlg_proc(h_dlg, DLG_DOCK, prop='R', index=h_parent)

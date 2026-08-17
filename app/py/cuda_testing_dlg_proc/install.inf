@@ -84,3 +84,8 @@ method=test_sidepanel
 section=commands
 caption=Testing\Testing of dialog API\test label rendering
 method=test_labels_render
+
+[item53]
+section=commands
+caption=Testing\Testing of dialog API\test docking
+method=test_docking
