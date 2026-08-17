@@ -5016,7 +5016,6 @@ begin
   if IsTooManyTabsOpened then exit;
   AppOpeningFile:= true;
 
- try
   bFileExists:= (AFileName<>'') and FileExists(AFileName);
   bFileExists2:= (AFileName2<>'') and FileExists(AFileName2);
   bFileTooBig:= IsFileTooBigForOpening(AFileName);
@@ -5096,6 +5095,7 @@ begin
   if APages=nil then
     APages:= CurGroups.PagesCurrent;
 
+ try
   if (AFileName='') and (not bFileExists2) then
   begin
     D:= CreateTab(APages, AFileName, ExtractFileName(AFileName), bAndActivate, AllowNear);
