@@ -8441,6 +8441,8 @@ var
   NP1, NP2: Int64; //param "p1" must be Int64 to pass handle of bitmap/image
   PtrText: PChar;
   StrText: string;
+  Sep: TATStringSeparator;
+  TempRect: TRect;
 begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'LisiiiiiiiLL:canvas_proc',
@@ -8586,6 +8588,32 @@ begin
         CANVAS_POLYGON:
           begin
             Canvas_PaintPolygonFromSting(C, StrText);
+            Result:= ReturnNone;
+          end;
+
+        CANVAS_COPY_RECT:
+          begin
+            Num64:= NP1;
+            if Num64=0 then
+              MsgLogConsole('ERROR: canvas_proc(...CANVAS_COPY_RECT...) gets bad or zero source-canvas handle')
+            else
+            begin
+              Obj:= TObject(PtrInt(Num64));
+              if not (Obj is TCanvas) then
+                MsgLogConsole('ERROR: canvas_proc(...CANVAS_COPY_RECT...) gets bad source-canvas handle, of type '+Obj.ClassName)
+              else
+              begin
+                Sep.Init(StrText, ',');
+                Sep.GetItemInt(TempRect.Left, 0);
+                Sep.GetItemInt(TempRect.Top, 0);
+                Sep.GetItemInt(TempRect.Right, 0);
+                Sep.GetItemInt(TempRect.Bottom, 0);
+                C.CopyRect(
+                  Rect(NX, NY, NX2, NY2),
+                  TCanvas(Obj),
+                  TempRect);
+              end;
+            end;
             Result:= ReturnNone;
           end;
 

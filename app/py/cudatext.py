@@ -711,6 +711,7 @@ CANVAS_RECT_FRAME    = 31
 CANVAS_RECT_FILL     = 32
 CANVAS_RECT_ROUND    = 33
 CANVAS_POLYGON       = 35
+CANVAS_COPY_RECT     = 36
 CANVAS_ELLIPSE       = 40
 
 FONT_B = 1
@@ -1275,6 +1276,8 @@ def statusbar_proc(id_bar, id_action, index=-1, tag=0, value=""):
     return ct.statusbar_proc(id_bar, id_action, index, tag, to_str(value))
 
 def canvas_proc(id_canvas, id_action, text='', color=-1, size=-1, x=-1, y=-1, x2=-1, y2=-1, style=-1, p1=-1, p2=-1):
+    if isinstance(text, (tuple, list)):
+        text = ','.join(map(str, text))
     return ct.canvas_proc(id_canvas, id_action, text, color, size, x, y, x2, y2, style, p1, p2)
 
 def bitmap_proc(id_bmp, id_action, param1=0, param2=0):

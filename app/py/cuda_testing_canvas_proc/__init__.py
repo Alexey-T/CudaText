@@ -989,6 +989,17 @@ class Command:
         canvas_proc(c, CANVAS_SET_FONT, text='Consolas', color=rgb(0xFF,0xFF,0xFF), size=14, style=FONT_B)
         canvas_proc(c, CANVAS_SET_BRUSH, color=rgb(0x34,0x98,0xDB), style=BRUSH_CLEAR)
         canvas_proc(c, CANVAS_TEXT, text='CANVAS_TEXT on CANVAS_RECT_ROUND', x=rx+12, y=ry+12)
+        #test CANVAS_COPY_RECT
+        w = 220
+        h = 40
+        rect_from = (rx, ry, rx+w, ry+h)
+        rect_to = (0, 0, w, h)
+        b = bitmap_proc(0, BITMAP_CREATE, w, h)
+        c2 = bitmap_proc(b, BITMAP_GET_CANVAS)
+        canvas_proc(c2, CANVAS_COPY_RECT, text=rect_from, x=rect_to[0], y=rect_to[1], x2=rect_to[2], y2=rect_to[3], p1=c)
+        canvas_proc(c, CANVAS_COPY_RECT, text=rect_to, x=rect_from[0]+15, y=rect_from[1]+60, x2=rect_from[2]+15+60, y2=rect_from[3]+60+80, p1=c2)
+        bitmap_proc(b, BITMAP_FREE)
+
 
     @staticmethod
     def _tc2web(tc):
