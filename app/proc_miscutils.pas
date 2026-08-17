@@ -65,12 +65,8 @@ procedure AppFormHistoryLoad(F: TForm; const AConfigPath: string; AWithPos: bool
 procedure AppFormPutToVisibleArea(F: TForm);
 procedure AppFormFocus(F: TForm; AllowShow: boolean);
 
-type
-  TAppPointArray = array of TPoint;
-
 function Canvas_TextMultilineExtent(C: TCanvas; const AText: string): TPoint;
 function Canvas_NumberToFontStyles(Num: integer): TFontStyles;
-function Canvas_PolygonFromSting(C: TCanvas; const AText: string): TAppPointArray;
 procedure Canvas_PaintImageInRect(C: TCanvas; APic: TGraphic; const ARect: TRect);
 
 function AppLoadPictureFromFile(const AFilename: string): TGraphic;
@@ -104,9 +100,14 @@ procedure ApplyThemeToTreeview(C: TTreeview; AThemedColors, AChangeShowRoot: boo
 procedure ApplyThemeToToolbar(C: TATFlatToolbar);
 procedure ApplyThemeToImageBox(AImageBox: TATImageBox);
 
+type
+  TAppPointArray = array of TPoint;
+
+function ConvertStringToPointArray(const AText: string): TAppPointArray;
 function ConvertTwoPointsToDiffPoint(APrevPnt, ANewPnt: TPoint): TPoint;
 function ConvertShiftStateToString(const Shift: TShiftState): string;
 function ConvertKeyboardStateToShiftState: TShiftState; //like VCL
+
 function UpdateImagelistWithIconFromFile(AList: TCustomImagelist;
   const AFilename, ACallerAPI: string; AllowScaling: boolean=false): integer;
 
@@ -369,7 +370,7 @@ begin
   if (Num and FONT_S)<>0 then Include(Result, fsStrikeOut);
 end;
 
-function Canvas_PolygonFromSting(C: TCanvas; const AText: string): TAppPointArray;
+function ConvertStringToPointArray(const AText: string): TAppPointArray;
 var
   Sep: TATStringSeparator;
   P: TPoint;

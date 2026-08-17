@@ -8588,7 +8588,7 @@ begin
 
         CANVAS_POLYGON:
           begin
-            TempPntArray:= Canvas_PolygonFromSting(C, StrText);
+            TempPntArray:= ConvertStringToPointArray(StrText);
             if Length(TempPntArray)>2 then
               C.Polygon(TempPntArray)
             else
