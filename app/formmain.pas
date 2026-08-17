@@ -5014,6 +5014,9 @@ begin
   AppDir_LastInstalledAddon:= '';
   if Application.Terminated then exit;
   if IsTooManyTabsOpened then exit;
+
+  //prevent re-entering in DoFileOpen (can happen because of Application.ProcessMessages)
+  if AppOpeningFile then exit;
   AppOpeningFile:= true;
 
   bFileExists:= (AFileName<>'') and FileExists(AFileName);
