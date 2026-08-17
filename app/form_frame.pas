@@ -4097,7 +4097,7 @@ begin
     c.SetValue(path+cHistory_Caret,
       Format('%d,%d,%d,%d,', [Caret.PosX, Caret.PosY, EndX, EndY])
       );
-   end;
+  end;
 end;
 
 procedure TEditorFrame.DoLoadBookmarks(Ed: TATSynEdit; c: TAppJsonConfig);

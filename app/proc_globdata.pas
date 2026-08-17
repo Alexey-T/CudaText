@@ -1557,7 +1557,7 @@ function AppExpandAppDirInFilename(const fn: string): string;
 begin
   Result:= fn;
   if SBeginsWith(Result, '{AppDir}') then
-   Result:= AppDir_SettingsParent+Copy(Result, Length('{AppDir}')+1, MaxInt);
+    Result:= AppDir_SettingsParent+Copy(Result, Length('{AppDir}')+1, MaxInt);
 end;
 
 function AppCollapseHomeDirInFilename(const fn: string): string;

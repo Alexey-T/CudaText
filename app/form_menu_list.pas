@@ -184,8 +184,8 @@ begin
   end;
 
   if (Key=VK_UP) or
-   ((Key=VK_TAB) and (Shift=[ssCtrl, ssShift])) or
-   ((Key=VK_K) and (Shift=[ssCtrl])) then
+    ((Key=VK_TAB) and (Shift=[ssCtrl, ssShift])) or
+    ((Key=VK_K) and (Shift=[ssCtrl])) then
   begin
     if List.ItemIndex=0 then
       List.ItemIndex:= List.ItemCount-1
