@@ -4999,8 +4999,8 @@ var
   bEnableEventPre, bEnableEventOpened, bEnableEventOpenedNone,
   bAllowZip, bAllowPics, bAllowLexerDetect, bAllowDeleted, bDetectedPics,
   bAllowUpdateAddons, bAndActivate: boolean;
-  AllowNear: TAppNewTabNearCurrent;
-  OpenMode, NonTextMode: TAppOpenMode;
+  nAllowNear: TAppNewTabNearCurrent;
+  nOpenMode, nNonTextMode: TAppOpenMode;
   //
   procedure InitMainVars;
   begin
@@ -5020,58 +5020,58 @@ var
     bAllowDeleted:= SubInString('/allowdeleted', AOptions);
     bDetectedPics:= bAllowPics and IsFilenameListedInExtensionList(AFileName, UiOps.PictureTypes);
 
-    AllowNear:= TAppNewTabNearCurrent.ByOption;
+    nAllowNear:= TAppNewTabNearCurrent.ByOption;
     if SubInString('/donear', AOptions) then
-      AllowNear:= TAppNewTabNearCurrent.Enabled
+      nAllowNear:= TAppNewTabNearCurrent.Enabled
     else
     if SubInString('/nonear', AOptions) then
-      AllowNear:= TAppNewTabNearCurrent.Disabled;
+      nAllowNear:= TAppNewTabNearCurrent.Disabled;
 
     if SubInString('/view-text', AOptions) then
-      OpenMode:= TAppOpenMode.ViewText
+      nOpenMode:= TAppOpenMode.ViewText
     else
     if SubInString('/view-binary', AOptions) then
-      OpenMode:= TAppOpenMode.ViewBinary
+      nOpenMode:= TAppOpenMode.ViewBinary
     else
     if SubInString('/view-hex', AOptions) then
-      OpenMode:= TAppOpenMode.ViewHex
+      nOpenMode:= TAppOpenMode.ViewHex
     else
     if SubInString('/view-unicode', AOptions) then
-      OpenMode:= TAppOpenMode.ViewUnicode
+      nOpenMode:= TAppOpenMode.ViewUnicode
     else
     if SubInString('/view-uhex', AOptions) then
-      OpenMode:= TAppOpenMode.ViewUHex
+      nOpenMode:= TAppOpenMode.ViewUHex
     else
-      OpenMode:= TAppOpenMode.Editor;
+      nOpenMode:= TAppOpenMode.Editor;
 
     if SubInString('/nontext-view-text', AOptions) then
-      NonTextMode:= TAppOpenMode.ViewText
+      nNonTextMode:= TAppOpenMode.ViewText
     else
     if SubInString('/nontext-view-binary', AOptions) then
-      NonTextMode:= TAppOpenMode.ViewBinary
+      nNonTextMode:= TAppOpenMode.ViewBinary
     else
     if SubInString('/nontext-view-hex', AOptions) then
-      NonTextMode:= TAppOpenMode.ViewHex
+      nNonTextMode:= TAppOpenMode.ViewHex
     else
     if SubInString('/nontext-view-unicode', AOptions) then
-      NonTextMode:= TAppOpenMode.ViewUnicode
+      nNonTextMode:= TAppOpenMode.ViewUnicode
     else
     if SubInString('/nontext-view-uhex', AOptions) then
-      NonTextMode:= TAppOpenMode.ViewUHex
+      nNonTextMode:= TAppOpenMode.ViewUHex
     else
     if SubInString('/nontext-cancel', AOptions) then
-      NonTextMode:= TAppOpenMode.None
+      nNonTextMode:= TAppOpenMode.None
     else
-      NonTextMode:= TAppOpenMode.Editor;
+      nNonTextMode:= TAppOpenMode.Editor;
   end;
   //
 var
   D: TATTabData;
   F: TEditorFrame;
   CurGroups: TATGroups;
-  NBinaryChar: byte;
   bFileExists, bFileExists2: boolean;
   bFileTooBig, bFileTooBig2: boolean;
+  NBinaryChar: byte;
   //tick: QWord;
   //msg: string;
 begin
@@ -5083,7 +5083,7 @@ begin
   InitMainVars;
 
   //handle zip files _before_ checking of re-entering
-  if bAllowZip and (OpenMode=TAppOpenMode.Editor) and (ExtractFileExt(AFileName)='.zip') then
+  if bAllowZip and (nOpenMode=TAppOpenMode.Editor) and (ExtractFileExt(AFileName)='.zip') then
   begin
     if DoFileInstallZip(AFileName, AppDir_LastInstalledAddon, bSilent, bAllowUpdateAddons) then
       Result:= CurrentFrame;
@@ -5121,7 +5121,7 @@ begin
   try
     if (AFileName='') and (not bFileExists2) then
     begin
-      D:= CreateTab(APages, AFileName, ExtractFileName(AFileName), bAndActivate, AllowNear);
+      D:= CreateTab(APages, AFileName, ExtractFileName(AFileName), bAndActivate, nAllowNear);
       if not Assigned(D) then
       begin
         D:= GroupsMain.Pages1.Tabs.GetTabData(0);
@@ -5168,7 +5168,7 @@ begin
       AFileName2:= '';
     end;
 
-    if OpenMode=TAppOpenMode.Editor then
+    if nOpenMode=TAppOpenMode.Editor then
     begin
       {
       //session files
@@ -5199,52 +5199,52 @@ begin
                  NBinaryChar
                  ) then
         begin
-          if NonTextMode=TAppOpenMode.None then
+          if nNonTextMode=TAppOpenMode.None then
             Exit;
-          if NonTextMode<>TAppOpenMode.Editor then
-            OpenMode:= NonTextMode
+          if nNonTextMode<>TAppOpenMode.Editor then
+            nOpenMode:= nNonTextMode
           else
           case UiOps.NonTextFiles of
             0:
               case DoDialogConfirmBinaryFile(AFileName, bFileTooBig, NBinaryChar) of
                 TAppConfirmBinary.ViewerText:
-                  OpenMode:= TAppOpenMode.ViewText;
+                  nOpenMode:= TAppOpenMode.ViewText;
                 TAppConfirmBinary.ViewerBinary:
-                  OpenMode:= TAppOpenMode.ViewBinary;
+                  nOpenMode:= TAppOpenMode.ViewBinary;
                 TAppConfirmBinary.ViewerHex:
-                  OpenMode:= TAppOpenMode.ViewHex;
+                  nOpenMode:= TAppOpenMode.ViewHex;
                 TAppConfirmBinary.ViewerUnicode:
-                  OpenMode:= TAppOpenMode.ViewUnicode;
+                  nOpenMode:= TAppOpenMode.ViewUnicode;
                 TAppConfirmBinary.ViewerUHex:
-                  OpenMode:= TAppOpenMode.ViewUHex;
+                  nOpenMode:= TAppOpenMode.ViewUHex;
                 TAppConfirmBinary.Cancel:
                   Exit;
               end;
             2:
               Exit;
             3:
-              OpenMode:= TAppOpenMode.ViewBinary;
+              nOpenMode:= TAppOpenMode.ViewBinary;
             4:
-              OpenMode:= TAppOpenMode.ViewHex;
+              nOpenMode:= TAppOpenMode.ViewHex;
             else
               Exit;
           end;
         end;
 
       //too big size?
-      if (OpenMode=TAppOpenMode.Editor) and bFileTooBig then
+      if (nOpenMode=TAppOpenMode.Editor) and bFileTooBig then
       begin
         case DoDialogConfirmBinaryFile(AFileName, bFileTooBig, 0) of
           TAppConfirmBinary.ViewerText:
-            OpenMode:= TAppOpenMode.ViewText;
+            nOpenMode:= TAppOpenMode.ViewText;
           TAppConfirmBinary.ViewerBinary:
-            OpenMode:= TAppOpenMode.ViewBinary;
+            nOpenMode:= TAppOpenMode.ViewBinary;
           TAppConfirmBinary.ViewerHex:
-            OpenMode:= TAppOpenMode.ViewHex;
+            nOpenMode:= TAppOpenMode.ViewHex;
           TAppConfirmBinary.ViewerUnicode:
-            OpenMode:= TAppOpenMode.ViewUnicode;
+            nOpenMode:= TAppOpenMode.ViewUnicode;
           TAppConfirmBinary.ViewerUHex:
-            OpenMode:= TAppOpenMode.ViewUHex;
+            nOpenMode:= TAppOpenMode.ViewUHex;
           TAppConfirmBinary.Cancel:
             Exit;
         end;
@@ -5320,7 +5320,7 @@ begin
         true,
         bEnableLoadUndo,
         bAllowDeleted,
-        OpenMode);
+        nOpenMode);
       MsgStatusFileOpened(AFileName, AFileName2);
 
       if bEnableEventOpened then
@@ -5346,7 +5346,7 @@ begin
           true,
           bEnableLoadUndo,
           bAllowDeleted,
-          OpenMode);
+          nOpenMode);
         Result:= F;
         //tick:= (GetTickCount64-tick) div 1000;
 
@@ -5387,7 +5387,7 @@ begin
     end;
 
     //did not find frame to reuse, create new frame
-    D:= CreateTab(APages, AFileName, ExtractFileName(AFileName), false{AndActivate}, AllowNear);
+    D:= CreateTab(APages, AFileName, ExtractFileName(AFileName), false{AndActivate}, nAllowNear);
     if not Assigned(D) then
     begin
       D:= GroupsMain.Pages1.Tabs.GetTabData(0);
@@ -5402,7 +5402,7 @@ begin
       true,
       bEnableLoadUndo,
       bAllowDeleted,
-      OpenMode);
+      nOpenMode);
     Result:= F;
 
     //use AndActivate=false in CreateTab() and focus here manually,
