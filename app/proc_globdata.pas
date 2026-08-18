@@ -4187,12 +4187,19 @@ begin
     }
 
   ATEditorOptions.RenderSpaceBgAtLineEOL:=         Pos('n', s)=0;
+
+  {$if defined(LCLQt5) or defined(LCLQt6) or defined(darwin)}
+  ATEditorOptions.PreciseCalculationOfCharWidth:=  true;
+  {$else}
   ATEditorOptions.PreciseCalculationOfCharWidth:=  Pos('w', s)=0;
+  {$endif}
+
   {$if defined(windows) or defined(LCLQt5) or defined(LCLQt6) or defined(darwin)}
   ATEditorOptions.TextoutNeedsOffsets:=            Pos('o', s)>0;
   {$else}
-  ATEditorOptions.TextoutNeedsOffsets:= false;
+  ATEditorOptions.TextoutNeedsOffsets:=            false;
   {$endif}
+
   ATEditorOptions.CaretTextOverInvertedRect:=      Pos('c', s)>0;
   ATEditorOptions.EnableLigaturesOnLineWithCaret:= Pos('l', s)>0;
   ATEditorOptions.UnprintedWrapArrowAtEdge:=       Pos('W', s)>0;
