@@ -672,202 +672,202 @@ begin
     exit
   end;
 
- try
-  unzip:= TUnZipper.Create;
   try
-    unzip.FileName:= AFilenameZip;
-    unzip.OutputPath:= dir_temp;
+    unzip:= TUnZipper.Create;
     try
-      unzip.Examine;
-      if unzip.Entries.Count=0 then
-        raise Exception.Create('Zip is empty');
-    except
-      if not ASilent then
-        MsgBox(
-          msgCannotHandleZip+#10+AFilenameZip,
-          MB_OK+MB_ICONERROR);
-      exit;
-    end;
+      unzip.FileName:= AFilenameZip;
+      unzip.OutputPath:= dir_temp;
+      try
+        unzip.Examine;
+        if unzip.Entries.Count=0 then
+          raise Exception.Create('Zip is empty');
+      except
+        if not ASilent then
+          MsgBox(
+            msgCannotHandleZip+#10+AFilenameZip,
+            MB_OK+MB_ICONERROR);
+        exit;
+      end;
 
-    dir_zipped:= GetZipDirForInstallInf(unzip);
-    fn_inf:= dir_temp+DirectorySeparator+dir_zipped+'install.inf';
-    if FileExists(fn_inf) then
-      DeleteFile(fn_inf);
+      dir_zipped:= GetZipDirForInstallInf(unzip);
+      fn_inf:= dir_temp+DirectorySeparator+dir_zipped+'install.inf';
+      if FileExists(fn_inf) then
+        DeleteFile(fn_inf);
 
-    list:= TStringList.create;
-    try
-      list.Add(dir_zipped+'install.inf');
-      unzip.UnZipFiles(list);
+      list:= TStringList.create;
+      try
+        list.Add(dir_zipped+'install.inf');
+        unzip.UnZipFiles(list);
+      finally
+        FreeAndNil(list);
+      end;
+
+      if not FileExists(fn_inf) then
+      begin
+        if not ASilent then
+          MsgBox(
+            msgCannotFindInstallInfInZip+#10+AFilenameZip,
+            MB_OK or MB_ICONERROR);
+        exit
+      end;
+
+      unzip.Files.Clear;
+      unzip.UnZipAllFiles;
     finally
-      FreeAndNil(list);
+      unzip.Free;
     end;
 
-    if not FileExists(fn_inf) then
+    ini:= TIniFile.Create(fn_inf);
+    try
+      s_title:= ini.ReadString('info', 'title', '');
+      s_desc:= ini.ReadString('info', 'desc', '');
+      s_type:= ini.ReadString('info', 'type', '');
+      s_subdir:= ini.ReadString('info', 'subdir', '');
+      s_api:= ini.ReadString('info', 'api', '');
+      s_os:= ini.ReadString('info', 'os', '');
+
+      s_allhotkeys:= '';
+      NumHotkeys:= 0;
+      if not ASilent then
+        DoInstallPlugin_GetHotkeys(ini, s_allhotkeys, NumHotkeys);
+    finally
+      FreeAndNil(ini);
+    end;
+
+    if not CheckValue_OS(s_os) then
     begin
       if not ASilent then
         MsgBox(
-          msgCannotFindInstallInfInZip+#10+AFilenameZip,
+          Format(msgCannotInstallOnOS, [s_title, s_os])+#10+AFilenameZip,
           MB_OK or MB_ICONERROR);
       exit
     end;
 
-    unzip.Files.Clear;
-    unzip.UnZipAllFiles;
-  finally
-    unzip.Free;
-  end;
+    (*
+    if not CheckValue_ReqPlugin(s_req) then
+    begin
+      if not ASilent then
+        MsgBox(
+          Format(msgCannotInstallReqPlugin, [s_title, s_req])+#10+AFilenameZip,
+          MB_OK or MB_ICONERROR);
+      exit
+    end;
 
-  ini:= TIniFile.Create(fn_inf);
-  try
-    s_title:= ini.ReadString('info', 'title', '');
-    s_desc:= ini.ReadString('info', 'desc', '');
-    s_type:= ini.ReadString('info', 'type', '');
-    s_subdir:= ini.ReadString('info', 'subdir', '');
-    s_api:= ini.ReadString('info', 'api', '');
-    s_os:= ini.ReadString('info', 'os', '');
+    if not CheckValue_ReqLexer(s_req_lexer) then
+    begin
+      if not ASilent then
+        MsgBox(
+          Format(msgCannotInstallReqLexer, [s_title, s_req_lexer])+#10+AFilenameZip,
+          MB_OK or MB_ICONERROR);
+      exit
+    end;
+    *)
 
-    s_allhotkeys:= '';
-    NumHotkeys:= 0;
+    if (s_api<>'') and not CheckValue_ReqAPI(s_api) then
+    begin
+      if not ASilent then
+        MsgBox(
+          Format(msgCannotInstallAddonApi, [s_title, s_api])+#10+AFilenameZip,
+          MB_OK or MB_ICONERROR);
+      exit;
+    end;
+
+    if (s_title='') or (s_type='') then
+    begin
+      if not ASilent then
+        MsgBox(
+          msgStatusIncorrectInstallInfInZip+#10+AFilenameZip,
+          MB_OK or MB_ICONERROR);
+      exit
+    end;
+
+    AAddonType:= AppAddonKindFromString(s_type);
+    if AAddonType=TAppAddonType.Unknown then
+    begin
+      if not ASilent then
+        MsgBox(
+          msgStatusUnsupportedAddonType+' '+s_type+#10+AFilenameZip,
+          MB_OK or MB_ICONERROR);
+      exit
+    end;
+
+    bAllowHotkeys:= false;
     if not ASilent then
-      DoInstallPlugin_GetHotkeys(ini, s_allhotkeys, NumHotkeys);
-  finally
-    FreeAndNil(ini);
-  end;
+    begin
+      s_msgbox:=
+        msgStatusPackageContains+#10#10+
+        msgStatusPackageName+' '+s_title+#10+
+        IfThen(s_desc<>'', msgStatusPackageDesc+' '+s_desc+#10)+
+        msgStatusPackageType+' '+s_type+ IfThen(AAddonType=TAppAddonType.Data, ' / '+s_subdir)+
+        IfThen(NumHotkeys>0, #10+Format(msgConfirmHotkeyList, [NumHotkeys, s_allhotkeys]))+
+        #10#10+msgConfirmInstallIt;
 
-  if not CheckValue_OS(s_os) then
-  begin
-    if not ASilent then
-      MsgBox(
-        Format(msgCannotInstallOnOS, [s_title, s_os])+#10+AFilenameZip,
-        MB_OK or MB_ICONERROR);
-    exit
-  end;
-
-  (*
-  if not CheckValue_ReqPlugin(s_req) then
-  begin
-    if not ASilent then
-      MsgBox(
-        Format(msgCannotInstallReqPlugin, [s_title, s_req])+#10+AFilenameZip,
-        MB_OK or MB_ICONERROR);
-    exit
-  end;
-
-  if not CheckValue_ReqLexer(s_req_lexer) then
-  begin
-    if not ASilent then
-      MsgBox(
-        Format(msgCannotInstallReqLexer, [s_title, s_req_lexer])+#10+AFilenameZip,
-        MB_OK or MB_ICONERROR);
-    exit
-  end;
-  *)
-
-  if (s_api<>'') and not CheckValue_ReqAPI(s_api) then
-  begin
-    if not ASilent then
-      MsgBox(
-        Format(msgCannotInstallAddonApi, [s_title, s_api])+#10+AFilenameZip,
-        MB_OK or MB_ICONERROR);
-    exit;
-  end;
-
-  if (s_title='') or (s_type='') then
-  begin
-    if not ASilent then
-      MsgBox(
-        msgStatusIncorrectInstallInfInZip+#10+AFilenameZip,
-        MB_OK or MB_ICONERROR);
-    exit
-  end;
-
-  AAddonType:= AppAddonKindFromString(s_type);
-  if AAddonType=TAppAddonType.Unknown then
-  begin
-    if not ASilent then
-      MsgBox(
-        msgStatusUnsupportedAddonType+' '+s_type+#10+AFilenameZip,
-        MB_OK or MB_ICONERROR);
-    exit
-  end;
-
-  bAllowHotkeys:= false;
-  if not ASilent then
-  begin
-    s_msgbox:=
-      msgStatusPackageContains+#10#10+
-      msgStatusPackageName+' '+s_title+#10+
-      IfThen(s_desc<>'', msgStatusPackageDesc+' '+s_desc+#10)+
-      msgStatusPackageType+' '+s_type+ IfThen(AAddonType=TAppAddonType.Data, ' / '+s_subdir)+
-      IfThen(NumHotkeys>0, #10+Format(msgConfirmHotkeyList, [NumHotkeys, s_allhotkeys]))+
-      #10#10+msgConfirmInstallIt;
-
-    Buttons:= TDialogButtons.Create(TDialogButton);
-    try
-      with Buttons.Add do
-      begin
-        Caption:= msgButtonOk;
-        ModalResult:= mrOk;
-      end;
-      if NumHotkeys>0 then
+      Buttons:= TDialogButtons.Create(TDialogButton);
+      try
         with Buttons.Add do
         begin
-          Caption:= msgConfirmOkNoHotkeys;
-          ModalResult:= mrNo;
+          Caption:= msgButtonOk;
+          ModalResult:= mrOk;
         end;
-      with Buttons.Add do
-      begin
-        Caption:= msgButtonCancel;
-        ModalResult:= mrCancel;
-      end;
-      Buttons.DefaultButton:= Buttons.Items[0];
+        if NumHotkeys>0 then
+          with Buttons.Add do
+          begin
+            Caption:= msgConfirmOkNoHotkeys;
+            ModalResult:= mrNo;
+          end;
+        with Buttons.Add do
+        begin
+          Caption:= msgButtonCancel;
+          ModalResult:= mrCancel;
+        end;
+        Buttons.DefaultButton:= Buttons.Items[0];
 
-      case AskUser(msgTitle, s_msgbox, idDialogConfirm, Buttons, 0) of
-        mrOk:
-          bAllowHotkeys:= true;
-        mrNo:
-          bAllowHotkeys:= false;
-        mrCancel:
-          exit;
+        case AskUser(msgTitle, s_msgbox, idDialogConfirm, Buttons, 0) of
+          mrOk:
+            bAllowHotkeys:= true;
+          mrNo:
+            bAllowHotkeys:= false;
+          mrCancel:
+            exit;
+        end;
+      finally
+        FreeAndNil(Buttons);
       end;
-    finally
-      FreeAndNil(Buttons);
     end;
+
+    AStrReport:= '';
+    AIsInstalled:= true;
+
+    case AAddonType of
+      TAppAddonType.Lexer:
+        begin
+          AIsInstalled:= DoInstallLexer(fn_inf, AStrReport);
+          ADirTarget:= AppDir_Lexers;
+        end;
+      TAppAddonType.LexerLite:
+        begin
+          AIsInstalled:= DoInstallLexerLite(fn_inf, AStrReport);
+          ADirTarget:= AppDir_LexersLite;
+        end;
+      TAppAddonType.Plugin:
+        begin
+          AStrMessage:= msgStatusInstalledNeedRestart;
+          AIsInstalled:= DoInstallPlugin(fn_inf, AStrReport, ADirTarget, ANeedRestart, bAllowHotkeys)
+        end;
+      TAppAddonType.Data:
+        begin
+          AIsInstalled:= DoInstallData(fn_inf, AStrReport, ADirTarget)
+        end;
+      TAppAddonType.Package:
+        begin
+          AIsInstalled:= DoInstallPackage(fn_inf, AStrReport, ADirTarget);
+        end;
+    end;
+
+  finally
+    //cleanup
+    DeleteDirectory(dir_temp, false);
   end;
-
-  AStrReport:= '';
-  AIsInstalled:= true;
-
-  case AAddonType of
-    TAppAddonType.Lexer:
-      begin
-        AIsInstalled:= DoInstallLexer(fn_inf, AStrReport);
-        ADirTarget:= AppDir_Lexers;
-      end;
-    TAppAddonType.LexerLite:
-      begin
-        AIsInstalled:= DoInstallLexerLite(fn_inf, AStrReport);
-        ADirTarget:= AppDir_LexersLite;
-      end;
-    TAppAddonType.Plugin:
-      begin
-        AStrMessage:= msgStatusInstalledNeedRestart;
-        AIsInstalled:= DoInstallPlugin(fn_inf, AStrReport, ADirTarget, ANeedRestart, bAllowHotkeys)
-      end;
-    TAppAddonType.Data:
-      begin
-        AIsInstalled:= DoInstallData(fn_inf, AStrReport, ADirTarget)
-      end;
-    TAppAddonType.Package:
-      begin
-        AIsInstalled:= DoInstallPackage(fn_inf, AStrReport, ADirTarget);
-      end;
-  end;
-
- finally
-  //cleanup
-  DeleteDirectory(dir_temp, false);
- end;
 end;
 
 
