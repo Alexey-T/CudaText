@@ -4188,7 +4188,7 @@ begin
 
   ATEditorOptions.RenderSpaceBgAtLineEOL:=         Pos('n', s)=0;
 
-  {$if defined(LCLQt5) or defined(LCLQt6) or defined(darwin)}
+  {$if defined(LCLQt5) or defined(LCLQt6)}
   ATEditorOptions.PreciseCalculationOfCharWidth:=  true;
   {$else}
   ATEditorOptions.PreciseCalculationOfCharWidth:=  Pos('w', s)=0;
