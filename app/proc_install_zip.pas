@@ -714,7 +714,7 @@ begin
       unzip.Files.Clear;
       unzip.UnZipAllFiles;
     finally
-      unzip.Free;
+      FreeAndNil(unzip);
     end;
 
     ini:= TIniFile.Create(fn_inf);
