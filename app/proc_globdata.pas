@@ -4188,7 +4188,11 @@ begin
 
   ATEditorOptions.RenderSpaceBgAtLineEOL:=         Pos('n', s)=0;
   ATEditorOptions.PreciseCalculationOfCharWidth:=  Pos('w', s)=0;
+  {$if defined(LCLQt5) or defined(LCLQt6) or defined(LCLCarbon) or defined(LCLCocoa)}
   ATEditorOptions.TextoutNeedsOffsets:=            Pos('o', s)>0;
+  {$else}
+  ATEditorOptions.TextoutNeedsOffsets:= false;
+  {$endif}
   ATEditorOptions.CaretTextOverInvertedRect:=      Pos('c', s)>0;
   ATEditorOptions.EnableLigaturesOnLineWithCaret:= Pos('l', s)>0;
   ATEditorOptions.UnprintedWrapArrowAtEdge:=       Pos('W', s)>0;
