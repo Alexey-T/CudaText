@@ -4188,7 +4188,7 @@ begin
 
   ATEditorOptions.RenderSpaceBgAtLineEOL:=         Pos('n', s)=0;
   ATEditorOptions.PreciseCalculationOfCharWidth:=  Pos('w', s)=0;
-  {$if defined(LCLQt5) or defined(LCLQt6) or defined(LCLCarbon) or defined(LCLCocoa)}
+  {$if defined(windows) or defined(LCLQt5) or defined(LCLQt6) or defined(darwin)}
   ATEditorOptions.TextoutNeedsOffsets:=            Pos('o', s)>0;
   {$else}
   ATEditorOptions.TextoutNeedsOffsets:= false;
