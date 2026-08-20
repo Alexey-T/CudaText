@@ -276,10 +276,7 @@ begin
       DoDialogSaveTabs;
 
     cmd_DialogLexerProp:
-      begin
-        if Assigned(Frame) then
-          DoDialogLexerProp(Frame.Lexer[Ed]);
-      end;
+      DoDialogLexerProp(Ed);
 
     cmd_DialogLexerLib:
       DoDialogLexerLib;

@@ -1069,7 +1069,7 @@ type
     function DoDialogMenuLexerChoose(const AFilename: string; ANames: TStringList): integer;
     procedure DoDialogGotoBookmark;
     function DoDialogSaveTabs: boolean;
-    procedure DoDialogLexerProp(an: TecSyntAnalyzer);
+    procedure DoDialogLexerProp(Ed: TATSynEdit);
     procedure DoDialogLexerLib;
     procedure DoDialogLexerMap;
     procedure DoDialogTheme(AThemeUI: boolean);
@@ -4576,15 +4576,27 @@ begin
   end;
 end;
 
-procedure TfmMain.DoDialogLexerProp(an: TecSyntAnalyzer);
+procedure TfmMain.DoDialogLexerProp(Ed: TATSynEdit);
+var
+  An: TecSyntAnalyzer;
 begin
-  if DoDialogLexerPropEx(an,
-    EditorOps.OpFontName,
-    EditorOps.OpFontSize) then
+  if Ed.AdapterForHilite=nil then exit;
+  if Ed.AdapterForHilite is TATAdapterEControl then
   begin
-    UpdateStatusbar;
-    UpdateCurrentFrame;
-  end;
+    An:= (Ed.AdapterForHilite as TATAdapterEControl).Lexer;
+    if DoDialogLexerPropEx(An,
+      EditorOps.OpFontName,
+      EditorOps.OpFontSize) then
+    begin
+      UpdateStatusbar;
+      UpdateCurrentFrame;
+    end;
+  end
+  else
+  if Ed.AdapterForHilite is TATLiteLexer then
+    MsgBox(
+      'Currently active lexer is LITE lexer (it has "^" suffix in its name). CudaText don''t have configuration dialog for lite lexers.',
+      MB_OK or MB_ICONWARNING);
 end;
 
 procedure TfmMain.DoDialogLexerLib;
