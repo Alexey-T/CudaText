@@ -1,8 +1,10 @@
 #!/bin/bash
 
 . ./cuda_ver.sh
-debsuffix=$1
-binsuffix=$2
+cpu=$1
+widgets=$2
+debsuffix=${widgets}_${cpu}
+binsuffix=$cpu-$widgets
 
 outdir=~/cudatext_build
 mkdir -p $outdir
