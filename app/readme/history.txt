@@ -14,7 +14,6 @@
 * change: changed sidebar icon for code-tree
 * change/add: when findbar input becomes empty, 'Hi' marks are removed (idea by @CortexReaver)
 * change: for one-line input fields (findbar, console, code-tree filter), uncheck the property "Ctrl+C copies whole line if no selection"; now it's like in Notepad++/browsers (idea by @CortexReaver)
-* change: findbar: working of 'Hi' option must not move caret/scroll_position (idea by @CortexReaver)
 * change: lexer "RegEx" should not be visible in the lexers menu
 * change: flag 'o' in the option "renderer_tweaks" is now ignored on Gtk2/Gtk3/Windows to avoid slower rendering
 - fix: when findbar is closed by sidebar click, 'Hi' marks were not removed (thanks @CortexReaver)
