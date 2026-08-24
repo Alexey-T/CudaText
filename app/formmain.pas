@@ -5102,6 +5102,10 @@ begin
     exit
   end;
 
+  {
+  2026.08: this check gave regression: when Session Manager plugin handles opening of *.cuda-session,
+  and user chooses 'open as session', SessManager opens a session, and this check breaks the work. issue #6429
+
   //prevent re-entering in DoFileOpen
   if AppOpeningFile then
   begin
@@ -5109,6 +5113,7 @@ begin
     exit;
   end;
   AppOpeningFile:= true;
+  }
 
   bFileExists:= (AFileName<>'') and FileExists(AFileName);
   bFileExists2:= (AFileName2<>'') and FileExists(AFileName2);
