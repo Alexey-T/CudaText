@@ -1,0 +1,52 @@
+[info]
+title=Complexity Plot
+desc=(Fill the description)
+type=cudatext-plugin
+subdir=cuda_testing_complexity_plot
+homepage=(Fill the GitHub repo URL)
+
+[item2]
+section=commands
+caption=Testing\Complexity Plot\Test 1: O(1) - Const
+method=run_const
+
+[item3]
+section=commands
+caption=Testing\Complexity Plot\Test 2: O(n) - Linear
+method=run_linear
+
+[item4]
+section=commands
+caption=Testing\Complexity Plot\Test 3: O(logn) - Logarithmic
+method=run_logn
+
+[item5]
+section=commands
+caption=Testing\Complexity Plot\Test 4: O(nlogn) - Loglinear
+method=run_nlogn
+
+[item6]
+section=commands
+caption=Testing\Complexity Plot\Test 5: O(n^2) - Quadratic
+method=run_quad
+
+[item7]
+section=commands
+caption=Testing\Complexity Plot\Test 6: O(2^n) - Exponential
+method=run_exponential
+
+[item8]
+section=commands
+caption=Testing\Complexity Plot\Test 7: O(n!) - Factorial
+method=run_factorial
+
+[item9]
+section=commands
+caption=Testing\Complexity Plot\Test 8: ed.set_text_line
+method=run_set_text_line
+
+[item10]
+section=commands
+caption=Testing\Complexity Plot\Test 9: ed.replace_lines
+method=run_replace_lines
+
