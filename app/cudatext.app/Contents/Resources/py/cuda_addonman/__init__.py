@@ -78,7 +78,6 @@ STD_THEMES = (
   'navy',
   'sub',
   'syn',
-  'white',
 )
 STD_TOOLBARICONS = (
   'default_24x24',
