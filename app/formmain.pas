@@ -5103,10 +5103,8 @@ begin
   end;
 
   {
-  2026.08: this check gave regression: when Session Manager plugin handles opening of *.cuda-session,
-  and user chooses 'open as session', SessManager opens a session, and this check breaks the work. issue #6429
-
-  //prevent re-entering in DoFileOpen
+  //2026.08: this check gave regression: when Session Manager plugin handles opening of *.cuda-session,
+  //and user chooses 'open as session', SessManager opens a session, and this check breaks the work. issue #6429
   if AppOpeningFile then
   begin
     MsgLogConsole('NOTE: re-entering to DoFileOpen, strange, tell the developer what you did');
