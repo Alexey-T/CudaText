@@ -1031,14 +1031,14 @@ function api_ed_get_text_all(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
   Ed: TATSynEdit;
-  bIgnoreEnds: LongBool;
+  bEnds: LongBool;
 begin
   with AppPython.Engine do
-    if Bool(PyArg_ParseTuple(Args, 'Li:get_text_all', @H, @bIgnoreEnds)) then
+    if Bool(PyArg_ParseTuple(Args, 'Li:get_text_all', @H, @bEnds)) then
     begin
       Ed:= PyHelper_EditorFromHandle(H);
       Result:= PyUnicodeFromString(
-        Ed.Strings.TextString_Unicode(0, bIgnoreEnds)
+        Ed.Strings.TextString_Unicode(0, not bEnds)
         );
     end
   else

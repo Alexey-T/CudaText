@@ -2389,11 +2389,11 @@ Notes:
 
 ===Editor.get_text_all===
 
- get_text_all(no_ends=True)
+ get_text_all(ends=False)
 
 Returns the entire editor text as string.
 
-If optional param "no_ends" is False, line-breaks are returned per original text ("\n" or "\r\n" or "\r"), otherwise all line-breaks are returned as "\n".
+If optional param "ends" is True, line-breaks are returned per original text ("\n" or "\r\n" or "\r"), otherwise all line-breaks are returned as "\n".
 
 ===Editor.set_text_all===
 
@@ -5505,6 +5505,6 @@ It provides:
 * delete: PROP_PICTURE (none public plugins used it; use PROP_HANDLE_IMAGE instead)
 
 1.0.484 (app 1.236.0)
-* add: Editor.get_text_all has new optional param "no_ends"
+* add: Editor.get_text_all has optional param "ends"
 
 [[Category:CudaText]]

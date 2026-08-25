@@ -1411,8 +1411,8 @@ class Editor:
     def get_char_count(self, max_chars, max_time):
         return ct.ed_get_char_count(self.h, max_chars, max_time)
 
-    def get_text_all(self, no_ends=True):
-        return ct.ed_get_text_all(self.h, no_ends)
+    def get_text_all(self, ends=False):
+        return ct.ed_get_text_all(self.h, ends)
 
     def set_text_all(self, text):
         return ct.ed_set_text_all(self.h, esc_z(text))
