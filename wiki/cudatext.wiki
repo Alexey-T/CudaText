@@ -2325,6 +2325,7 @@ Don't configure custom lexer styles in the "Options / Lexers / Lexer properties"
 
 The following UI theme items allow "none" values, it means that JSON theme-file stores the empty string for them, and plugin API returns COLOR_NONE value for them.
 
+* EdCarets / 'editor, caret': when "none", caret color is the same as text font color; if not "none", it sets the final caret color
 * EdCurLineBg2 / 'editor, current line BG': when "none", it falls back to EdCurLineBg
 * EdBlockStapleActive / 'editor, block staples, for caret': when "none", it falls back to EdBlockStaple
 * OtherTextFont / 'single-line inputs, font': when "none", it falls back to EdTextFont
