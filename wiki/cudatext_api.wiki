@@ -2416,8 +2416,27 @@ Notes:
  get_line_len(index)
 
 Returns length of internal line UTF-16 (without BOM) representation.
-It is not the same as len(ed.get_text_line(index)), if internal UTF-16 representation has surrogate-pairs.
-Returns None if index is incorrect.
+It is not the same as <code>len(ed.get_text_line(index))</code>, if internal UTF-16 representation has surrogate-pairs.
+Returns None if param "index" is incorrect.
+
+===Editor.get_line_end===
+
+ get_line_end(index)
+
+Returns kind of line-ending (line-break) for the given line index.
+One of LINEEND_nnnn values, or None if param "index" is incorrect.
+
+===Editor.set_line_end===
+
+ set_line_end(index, val)
+
+Sets kind of line-ending (line-break) for the given line index.
+Param "index" must be correct line index, param "val" must be one of LINEEND_nnnn constants.
+
+Notes:
+
+* It does not repaint the editor.
+* Value LINEEND_NONE should be set only for the very last line. App has the guard against LINEEND_NONE for non-last lines, text should be saved with default line-ending for that lines.
 
 ===Editor.get_text_line===
 
@@ -5506,5 +5525,7 @@ It provides:
 
 1.0.484 (app 1.236.0)
 * add: Editor.get_text_all has optional param "ends"
+* add: Editor.get_line_end
+* add: Editor.set_line_end
 
 [[Category:CudaText]]
