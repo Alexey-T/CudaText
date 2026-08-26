@@ -4,8 +4,8 @@
  | style="background-color: #edeeef; border: none; width: 20%;" | [[CudaText API|API]]
  | style="background-color: #d5d6d7; border: none; width: 20%;" | [[CudaText VS other editors|Comparisons with other text editors]]
  | style="background-color: #edeeef; border: none; width: 20%;" | [[CudaText plugins|Plugins]]
- | style="background-color: #edeeef; border: none; width: 20%;" | [[CudaText/LSP Client|LSP Client]]
- | style="background-color: #d5d6d7; border: none; width: 20%;" | [[CudaText files formats|Supported file formats]]
+ | style="background-color: #d5d6d7; border: none; width: 20%;" | [[CudaText/LSP Client|LSP Client]]
+ | style="background-color: #edeeef; border: none; width: 20%;" | [[CudaText files formats|Supported file formats]]
 |}
 {| class="plainlinks" style="border: 3px ridge #00212b; border-collapse: collapse; border-spacing: 0; box-shadow: 6px 5px 6px 1px rgba(44, 91, 71, 0.80); font-variant: small-caps; font-weight: 600; margin: 2em auto; text-align: center; width: 80%;"
  | style="background-color: #005d75; color: #cf7233; font-size: 1.275rem; line-height: 1.15; padding: 0.2em 1em; width: fit-content;" | External Links
