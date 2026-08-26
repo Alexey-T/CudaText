@@ -11133,20 +11133,20 @@ begin
     AddMethod('ed_get_text_all', @api_ed_get_text_all, '');
     AddMethod('ed_set_text_all', @api_ed_set_text_all, '');
     AddMethod('ed_get_text_sel', @api_ed_get_text_sel, '');
-    Addmethod('ed_get_text_line', @api_ed_get_text_line, '');
-    Addmethod('ed_set_text_line', @api_ed_set_text_line, '');
-    Addmethod('ed_get_text_substr', @api_ed_get_text_substr, '');
-    Addmethod('ed_get_line_len', @api_ed_get_line_len, '');
-    Addmethod('ed_get_line_count', @api_ed_get_line_count, '');
+    AddMethod('ed_get_text_line', @api_ed_get_text_line, '');
+    AddMethod('ed_set_text_line', @api_ed_set_text_line, '');
+    AddMethod('ed_get_text_substr', @api_ed_get_text_substr, '');
+    AddMethod('ed_get_line_len', @api_ed_get_line_len, '');
+    AddMethod('ed_get_line_count', @api_ed_get_line_count, '');
     AddMethod('ed_get_char_count', @api_ed_get_char_count, '');
-    Addmethod('ed_get_line_end', @api_ed_get_line_end, '');
-    Addmethod('ed_set_line_end', @api_ed_set_line_end, '');
+    AddMethod('ed_get_line_end', @api_ed_get_line_end, '');
+    AddMethod('ed_set_line_end', @api_ed_set_line_end, '');
     AddMethod('ed_delete', @api_ed_delete, '');
     AddMethod('ed_insert', @api_ed_insert, '');
     AddMethod('ed_replace', @api_ed_replace, '');
     AddMethod('ed_replace_lines', @api_ed_replace_lines, '');
 
-    Addmethod('ed_get_filename', @api_ed_get_filename, '');
+    AddMethod('ed_get_filename', @api_ed_get_filename, '');
     AddMethod('ed_get_prop', @api_ed_get_prop, '');
     AddMethod('ed_set_prop', @api_ed_set_prop, '');
     AddMethod('ed_folding', @api_ed_folding, '');
