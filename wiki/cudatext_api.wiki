@@ -2424,19 +2424,20 @@ Returns None if param "index" is incorrect.
  get_line_end(index)
 
 Returns kind of line-ending (line-break) for the given line index.
-One of LINEEND_nnnn values, or None if param "index" is incorrect.
+One of LINEEND_nnnn values, or None if param "index" is out of range.
 
 ===Editor.set_line_end===
 
  set_line_end(index, val)
 
 Sets kind of line-ending (line-break) for the given line index.
-Param "index" must be correct line index, param "val" must be one of LINEEND_nnnn constants.
+Param "index" must be line index in the correct range.
+Param "val" must be one of LINEEND_nnnn constants.
 
 Notes:
 
 * It does not repaint the editor.
-* Value LINEEND_NONE should be set only for the very last line. App has the guard against LINEEND_NONE for non-last lines, text should be saved with default line-ending for that lines.
+* Value LINEEND_NONE should be set only for the very last line. App has the safeguard against LINEEND_NONE for non-last lines, text should be saved with default line-ending (ie line-ending set for the document) for such lines.
 
 ===Editor.get_text_line===
 
