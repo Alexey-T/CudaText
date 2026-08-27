@@ -567,6 +567,7 @@ uses
   ATSynEdit_Bookmarks,
   ATSynEdit_CanvasProc,
   ATSynEdit_WrapInfo,
+  ATSynEdit_CanvasProc_FillRect,
   ATStringProc_Separator,
   ATStringProc_HtmlColor,
   ATSynEdit_Cmp_RenderHTML,
@@ -1248,8 +1249,8 @@ begin
         C.Font.Style:= [];
         C.Brush.Color:= NColor;
         RectLine:= Rect(X1, AY, X2, Y);
-        {$ifdef LCLGtk2}
-        C.FillRect(RectLine); //needed only when we use CairoTextOut (ie on gtk2)
+        {$if defined(LCLGtk2) or defined(LCLGtk3)}
+        CanvasFillRect(C, RectLine, NColor); //needed only when we use CairoTextOut (ie on gtk2)
         {$endif}
         CanvasTextOutSimplest(C, RectLine.Left, RectLine.Top, Copy(AStr, NStartPos, NColorLen));
       end
