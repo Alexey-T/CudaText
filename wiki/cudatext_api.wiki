@@ -2522,13 +2522,14 @@ Returns 2-tuple (x, y) of position after inserted text.
 
  replace_lines(y1, y2, lines)
 
-Deletes whole lines from index y1 to y2, then inserts new lines from specified list.
+Deletes whole lines from given line-index range (inclusive), then inserts new lines from specified list.
 
-* Index y1 must be valid index (0 to count-1).
-* Index y2 can be less than y1 (to not delete), and can be too big (to delete lines to end).
-* Param lines is list/tuple of str. Can be empty list to just delete lines. Inside items should not be "\n" and "\r": "\n" will generate additional lines, "\r" not handled.
+* Param "y1" is starting line-index, must be valid index (0 to count-1).
+* Param "y2" is ending line-index, can be less than "y1" (to not delete), and can be too big (to delete lines to end).
+* Param "lines" is list/tuple of str. Can be empty list to just delete lines.
+* Param "lines": you can override line-breaks for newly added lines if you add "\r\n" or "\n" or "\r" to line ends. Chars "\n" and "\r" not at the very line end - will not be handled specially, they will not give additional lines.
 
-Returns bool: index y1 correct, replace done.
+Returns bool: param "y1" is correct, replacement is done.
 
 ==Selection==
 
@@ -5528,5 +5529,6 @@ It provides:
 * add: Editor.get_text_all has optional param "ends"
 * add: Editor.get_line_end
 * add: Editor.set_line_end
+* add: Editor.replace_lines can override line-breaks for added lines
 
 [[Category:CudaText]]
