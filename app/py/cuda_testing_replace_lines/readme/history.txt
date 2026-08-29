@@ -1,6 +1,63 @@
-2026.07.29
-  * Initial release.
-  * 30 tests covering issue #6374 and additional regression cases.
+2026.08.30
+  * Rework for the final upstream decision (PR https://github.com/Alexey-T/ATSynEdit/pull/364 discussion):
+    Alexey-T added a safeguard instead - replace_lines/set_text_line
+    return False and change nothing when an item/text has CR LF chars
+    not at the very line end.
+  * Rewrite test 6: embedded "\n" inside an item is now prohibited
+    (returns False, doc unchanged). Was: literal store / loader-like
+    split.
+  * Rewrite tests 54-64 as the "CR LF safeguard" category: rejection
+    for inner LF / CRLF / CR (mid-doc and doc-end), all 3 kinds in one
+    item, atomicity (one bad item rejects the whole call), double
+    trailing EOL rejected, no phantom undo entry, carets not moved,
+    boundary matrix (exactly one trailing EOL of each kind allowed);
+    test 62 kept - trailing EOL on the fake line still works.
+  * Rewrite tests 65-75 as the "set_text_line safeguard" category:
+    any CR LF in text (even trailing, unlike replace_lines) -> False
+    and no change, including -1/-2 appends; no phantom undo entry;
+    controls without EOLs (72, 73) now also verify the None return;
+    test 75 documents the multi-line recipe:
+    replace_lines(n, n, text.splitlines(True)).
+
+2026.08.29
+  * Add 23 tests (31-53) for the EOL-marks fix of replace_lines
+    (CudaText issue #6432, plus the trailing-CR loader fix):
+      - final EOL of document for LF / CRLF / CR marks (31-33, 47),
+      - no final EOL when last item has no mark (34-36, 38),
+      - single-item and pure-EOL-item cases (37, 48),
+      - mixed EOLs, with and without final EOL (39-41),
+      - old '' workaround still works, same result as new style (42, 43),
+      - mid-document replacement: EOL override + preservation of
+        untouched lines' EOLs (44),
+      - suffix replacement to end of document + final EOL (45),
+      - unmarked items get document's default EOL, PROP_NEWLINE (46),
+      - splitlines(True) full round-trip (49),
+      - normalized state equals state after set_text_all (50),
+      - trailing CR survives set_text_all - loader fix (51),
+      - undo/redo restore EOLs correctly (52, 53).
+  * Fix: test 6 expectation updated for the #6432 fix: embedded "\n"
+    inside an item now gives additional lines (before: stored as literal
+    byte inside one line, only split after file reload).
+  * Fix: test 46 expectation corrected: set_prop(PROP_NEWLINE) converts
+    ALL existing line-endings before the call, so the document becomes
+    "aaa\rxx\rccc" with ends [CR,CR,NONE] (was [LF,CR,NONE]).
+  * Add 11 tests (54-64) for the embedded-EOL fix of replace_lines
+    (CudaText issue #6432, loader-like splitting of items):
+      - mid-doc split, replace to doc end (54, 55),
+      - embedded CRLF / CR consumed as single EOLs (56, 57),
+      - all 3 EOL kinds in one item (58),
+      - one item == several pre-split items (59),
+      - empty segments from consecutive EOLs (60),
+      - whole-doc replace == set_text_all (61),
+      - fake last line + item with trailing EOL (62),
+      - undo/redo (63), caret shift by resulting line count (64).
+  * Add 9 tests (65-73) for the set_text_line fix (issue #6432):
+      - set_text_line with EOL chars splits the line (65, 66),
+      - fake last line + trailing EOL (67),
+      - appends -1 / -2 with EOL chars (68, 69),
+      - equivalence with replace_lines(N, N, [text]) (70),
+      - undo/redo (71),
+      - controls: no-EOL calls unchanged (72, 73).
 
 2026.07.29a
   * Fix: tests now run in strict numerical order (1..30). Previously
@@ -27,3 +84,7 @@
       26    Caret tracking
       27    Unicode
       28-30 splitlines() integration
+
+2026.07.29
+  * Initial release.
+  * 30 tests covering issue #6374 and additional regression cases.
