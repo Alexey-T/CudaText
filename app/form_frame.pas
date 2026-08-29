@@ -1277,8 +1277,8 @@ begin
   Ed:= Sender as TATSynEdit;
   if Ed.OptRulerText='' then exit;
 
-  C.Brush.Color:= Ed.Colors.RulerBG;
-  C.FillRect(ARect);
+  //C.Brush.Color:= Ed.Colors.RulerBG;
+  CanvasFillRect(C, ARect, Ed.Colors.RulerBG);
 
   SRulerText:= Ed.OptRulerText;
   bUseHTML:= SBeginsWith(SRulerText, '<html>');
