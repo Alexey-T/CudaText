@@ -1250,14 +1250,16 @@ begin
         C.Brush.Color:= NColor;
         RectLine:= Rect(X1, AY, X2, Y);
         {$if defined(LCLGtk2) or defined(LCLGtk3)}
-        CanvasFillRect(C, RectLine, NColor); //needed only when we use CairoTextOut (ie on gtk2)
+        //needed only when we use NativeTextout inside CanvasTextOutSimplest
+        CanvasFillRect(C, RectLine, NColor);
         {$endif}
         CanvasTextOutSimplest(C, RectLine.Left, RectLine.Top, Copy(AStr, NStartPos, NColorLen));
       end
       else
       begin
-        C.Brush.Color:= NColor;
-        C.FillRect(X1, Y-NLineWidth, X2, Y);
+        CanvasFillRect(C,
+          Rect(X1, Y-NLineWidth, X2, Y),
+          NColor);
       end;
     end;
   end;
