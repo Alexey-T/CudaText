@@ -9,6 +9,7 @@
 + add: Gtk2 version: rendering speed is increased a little
 + add: few APIs for future plugins (ideas by @badrelmers)
 - fix: file's trailing CR (without LF) was not detected (thanks @badrelmers)
+- fix: Gtk3 version: "underline_color_size":10 worked wrong
 
 1.236.0 (2026/08)
 
