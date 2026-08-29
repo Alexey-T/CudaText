@@ -27,6 +27,7 @@ uses
   ATSynEdit_Globals,
   ATSynEdit_Adapter_EControl,
   ATSynEdit_Finder,
+  ATSynEdit_CanvasProc_FillRect,
   ATStringProc,
   ATStringProc_Separator,
   ATStringProc_HtmlColor,
@@ -799,15 +800,19 @@ procedure Canvas_PaintCheckers(C: TCanvas;
 var
   i, j: integer;
 begin
-  c.Brush.Color:= AColor1;
-  c.FillRect(0, 0, ASizeX, ASizeY);
+  CanvasFillRect(C, Rect(0, 0, ASizeX, ASizeY), AColor1);
 
   for i:= 0 to ASizeX div ACellSize + 1 do
     for j:= 0 to ASizeY div ACellSize + 1 do
       if odd(i) xor odd(j) then
       begin
-        c.Brush.Color:= AColor2;
-        c.FillRect(i*ACellSize, j*ACellSize, (i+1)*ACellSize, (j+1)*ACellSize);
+        CanvasFillRect(C,
+          Rect(
+            i*ACellSize,
+            j*ACellSize,
+            (i+1)*ACellSize,
+            (j+1)*ACellSize),
+          AColor2);
       end;
 end;
 
