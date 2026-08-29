@@ -1972,10 +1972,11 @@ var
   H: Int64;
   Y1, Y2: Integer;
   Ed: TATSynEdit;
+  Strs: TATStrings;
   Lines: TStringList;
   ListPy: PPyObject;
+  NCount: integer;
   Res: boolean;
-  Strs: TATStrings;
 begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'LiiO:replace_lines', @H, @Y1, @Y2, @ListPy)) then
@@ -1985,25 +1986,29 @@ begin
         exit(ReturnNone);
       Strs:= Ed.Strings;
       Strs.SetNewCommandMark;
+      NCount:= 0;
 
       Lines:= TStringList.Create;
       try
         PyListToStrings(ListPy, Lines);
         Res:= Strs.TextReplaceLines_UTF8(Y1, Y2, Lines);
-
-        Ed.UpdateMarkersOnDeleting(0, Y1, 0, Y2+1);
-        Ed.UpdateCaretsAndMarkersOnEditing(0,
-          Point(0, Y1),
-          Point(0, Y2+1),
-          Point(0, Lines.Count-(Y2-Y1+1)),
-          Point(0, Y1+Lines.Count));
-
-        Ed.DoEventChange(Y1);
+        NCount:= Lines.Count;
       finally
         FreeAndNil(Lines);
       end;
 
-      Ed.Update(true);
+      if Res then
+      begin
+        Ed.UpdateMarkersOnDeleting(0, Y1, 0, Y2+1);
+        Ed.UpdateCaretsAndMarkersOnEditing(0,
+          Point(0, Y1),
+          Point(0, Y2+1),
+          Point(0, NCount-(Y2-Y1+1)),
+          Point(0, Y1+NCount));
+
+        Ed.DoEventChange(Y1);
+        Ed.Update(true);
+      end;
 
       Result:= PyBool_FromLong(Ord(Res));
     end;
