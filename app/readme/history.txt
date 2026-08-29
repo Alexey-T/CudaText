@@ -8,6 +8,7 @@
 + add: Gtk3 version: rendering speed is increased, on average Python files may be 4x faster
 + add: Gtk2 version: rendering speed is increased a little
 + add: few APIs for future plugins (ideas by @badrelmers)
+- fix: file's trailing CR (without LF) was not detected (thanks @badrelmers)
 
 1.236.0 (2026/08)
 
