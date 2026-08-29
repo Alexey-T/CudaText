@@ -2453,11 +2453,13 @@ If param "max_len" is non-zero, and UTF-8 length of given line is greater than "
  set_text_line(index, text)
 
 Changes single line with given index (0-based) to given text.
-Text can have chr(10) and chr(13), but these chars won't make line-breaks automatically, and app will render these chars in the hex form (after file saving/reloading line-breaks will appear automatically).
 
 Special "index" values:
 * -1: Append new line, with final end-of-line.
 * -2: Append new line, but without final end-of-line.
+
+Notes:
+* Param "text" cannot have CR LF chars, otherwise function stops and returns False.
 
 ===Editor.get_text_substr===
 
@@ -2527,7 +2529,9 @@ Deletes whole lines from given line-index range (inclusive), then inserts new li
 * Param "y1" is starting line-index, must be valid index (0 to count-1).
 * Param "y2" is ending line-index, can be less than "y1" (to not delete), and can be too big (to delete lines to end).
 * Param "lines" is list/tuple of str. Can be empty list to just delete lines.
-* Param "lines": you can override line-breaks for newly added lines if you add "\r\n" or "\n" or "\r" to line ends. Chars "\n" and "\r" not at the very line end - will not be handled specially, they will not give additional lines.
+
+It's allowed to override line-breaks for newly added lines if you add "\r\n" or "\n" or "\r" to line ends.
+Chars "\n" and "\r" not at the very line end - are prohibited, in such case function stops and returns False.
 
 Returns bool: param "y1" is correct, replacement is done.
 
@@ -5530,5 +5534,7 @@ It provides:
 * add: Editor.get_line_end
 * add: Editor.set_line_end
 * add: Editor.replace_lines can override line-breaks for added lines
+* change: Editor.set_text_line don't allow line with CR LF
+* change: Editor.replace_lines don't allow lines with CR LF, except at the very line-end
 
 [[Category:CudaText]]
