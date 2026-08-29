@@ -1320,7 +1320,8 @@ uses
   qtwidgets,
   ATStringProc_HtmlColor,
   {$endif}
-  ATSynEdit_ClipRecents;
+  ATSynEdit_ClipRecents,
+  ATSynEdit_CanvasProc_FillRect;
 
 {$R *.lfm}
 

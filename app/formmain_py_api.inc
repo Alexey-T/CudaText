@@ -8571,7 +8571,7 @@ begin
           end;
         CANVAS_RECT_FILL:
           begin
-            C.FillRect(NX, NY, NX2, NY2);
+            CanvasFillRect(C, Rect(NX, NY, NX2, NY2), C.Brush.Color);
             Result:= ReturnNone;
           end;
         CANVAS_RECT_ROUND:
