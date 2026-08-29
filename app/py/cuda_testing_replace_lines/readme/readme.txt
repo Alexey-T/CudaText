@@ -5,8 +5,9 @@
 
 Regression tests for CudaText's Editor.replace_lines() API.
 
-Related issue:
+Related issues:
   https://github.com/Alexey-T/CudaText/issues/6374
+  https://github.com/Alexey-T/CudaText/issues/6432
 
 
 What it does
@@ -15,7 +16,7 @@ When you invoke the command, the plugin:
 
   1. Opens a fresh untitled tab named "[replace_lines tests]" as a
      sandbox, so your current work is never touched.
-  2. Runs 30 tests in that tab. Each test:
+  2. Runs 75 tests in that tab. Each test:
        - sets up a known editor state with set_text_all()
        - calls ed.replace_lines(...)
        - verifies the resulting text, line count, return value,
@@ -33,7 +34,7 @@ Commands
 Two commands are registered, both in the Command Palette (F1 / Ctrl+Shift+P):
 
   - "Testing of replace_lines API: Run all tests"
-        Runs all 30 tests sequentially.
+        Runs all 75 tests sequentially.
 
   - "Testing of replace_lines API: Run single test..."
         Shows a menu of all tests. Pick one to run only that test
@@ -43,7 +44,7 @@ Two commands are registered, both in the Command Palette (F1 / Ctrl+Shift+P):
 Tests overview
 --------------
 Tests are organized in clean categorized sections. The numeric ID of
-each test (1..30) matches its declaration order in the source file,
+each test (1..75) matches its declaration order in the source file,
 which in turn matches the order in which tests are run and listed in
 the menu.
 
@@ -53,9 +54,10 @@ the menu.
                                      bug + set_text_all sanity reference.
   Empty-array handling        4-5    Empty array [] must leave one empty
                                      line (latest fix); ["] as proper clear.
-  Documented behavior           6    Embedded "\n" inside item is stored
-                                     literally, not split (only splits on
-                                     file reload - confirmed by Alexey).
+  Documented behavior           6    Embedded "\n" inside item is
+                                     prohibited: the call returns False
+                                     and changes nothing (final behavior
+                                     after the PR #364 discussion).
   2x2 combination matrix     7-10    All 4 combinations of:
                                        editor ends empty/not
                                        x replacement ends empty/not
@@ -77,6 +79,43 @@ the menu.
                                      "aaa\nbbb".splitlines() all behave
                                      the same as the equivalent explicit
                                      list.
+  EOL marks (issue #6432)   31-53    EOL marks ("\r\n", "\n", "\r") at
+                                     the end of list items: LF/CRLF/CR/
+                                     mixed, with and without final EOL,
+                                     single-item cases, pure-EOL item,
+                                     old '' workaround still works,
+                                     mid-document replacement (EOL
+                                     override + preservation of other
+                                     lines' EOLs), suffix replacement
+                                     to end of document, unmarked items
+                                     get default EOL (PROP_NEWLINE),
+                                     overshooting y2 (the literal example
+                                     from issue #6432), splitlines(True)
+                                     round-trip, normalized state equals
+                                     state after loading same text,
+                                     trailing CR survives set_text_all
+                                     (loader fix), undo/redo restore EOLs.
+  CR LF safeguard         54-64    CR LF chars not at the very line
+  (issue #6432)                   end are prohibited: the whole call
+                                     returns False and changes nothing,
+                                     atomically - even when only one item
+                                     is bad (mid-doc / doc-end / CRLF /
+                                     CR / all 3 kinds in one item / double
+                                     trailing EOL / leading EOL); no
+                                     phantom undo entry; carets stay;
+                                     exactly one trailing EOL per item is
+                                     still allowed (test 62) - the allowed
+                                     side of the rule.
+  set_text_line           65-75    ed.set_text_line rejects ANY CR LF
+  safeguard (#6432)               char in text (even a trailing one,
+                                     unlike replace_lines): returns False
+                                     and changes nothing; -1/-2 appends
+                                     are guarded the same way; no phantom
+                                     undo entry; controls without EOLs
+                                     still work and return None (72, 73);
+                                     test 75 documents the multi-line
+                                     recipe:
+                                     replace_lines(n, n, text.splitlines(True)).
 
 
 Configuration
