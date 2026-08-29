@@ -1864,6 +1864,8 @@ begin
     begin
       Ed:= PyHelper_EditorFromHandle(H);
       Str:= UTF8Decode(string(Ptr));
+      if SStringHasEol(Str) then
+        Exit(ReturnFalse);
       if not Ed.ModeReadOnly then
         EditorSetLineFromAPI(Ed, NIndex, Str);
       Result:= ReturnNone;
