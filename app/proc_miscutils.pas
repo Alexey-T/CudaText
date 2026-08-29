@@ -1168,14 +1168,12 @@ end;
 { TAppSplitter }
 
 procedure TAppSplitter.Paint;
-var
-  C: TCanvas;
 begin
   if CustomColored then
   begin
-    C:= Canvas;
-    C.Brush.Color:= Self.Color;
-    C.FillRect(0, 0, Width, Height);
+    CanvasFillRect(Canvas,
+      Rect(0, 0, Width, Height),
+      Self.Color);
   end
   else
     inherited Paint;
