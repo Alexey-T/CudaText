@@ -1,4 +1,4 @@
-object SyntAnal2: TLibSyntAnalyzer
+object SyntAnal3: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Comment'
@@ -172,7 +172,7 @@ object SyntAnal2: TLibSyntAnalyzer
     item
       DisplayName = 'Var'
       StyleName = 'Var'
-      Expression = '\$\w+ | \$[\*\#@\?!\$\-]'
+      Expression = '\$\w+ | \$\{\w+\} | \$[\*\#@\?!\$\-]'
       ColumnFrom = 0
       ColumnTo = 0
     end
