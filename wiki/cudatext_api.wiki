@@ -5529,7 +5529,7 @@ It provides:
 * delete: dlg_proc control "paintbox" (almost none public plugins used it; use "image" instead)
 * delete: PROP_PICTURE (none public plugins used it; use PROP_HANDLE_IMAGE instead)
 
-1.0.484 (app 1.236.1)
+1.0.484 (app 1.237.0)
 * add: Editor.get_text_all has optional param "ends"
 * add: Editor.get_line_end
 * add: Editor.set_line_end

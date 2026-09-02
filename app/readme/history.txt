@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.236.2 (2026/09)
+1.237.0 (2026/09)
 
 + add: Gtk3 version: rendering speed is increased, on average Python files may be 4x faster
 + add: Gtk2 version: rendering speed is increased a little
