@@ -1814,6 +1814,9 @@ class Command:
 
         _file_open(str(path), options=options)
 
+        # avoid stealing focus by editor
+        dlg_proc(self.h_dlg, DLG_FOCUS)
+
 
     def get_open_options(self):
 
