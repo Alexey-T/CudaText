@@ -9,8 +9,8 @@
 + add: Gtk2 version: rendering speed is increased a little
 + add: few APIs for future plugins (ideas by @badrelmers)
 + add: much improved speed of scrolling with _huge_ amount of inter-line gaps (@badrelmers asked AI)
-* change: lexer Bash: highlight ${varname} as variable, not as bracket+name+bracket
-- fix: file's trailing CR (without LF) was not detected (thanks @badrelmers)
+* change: lexer Bash: highlight '${varname}' as single element, not as bracket+name+bracket
+- fix: file's trailing CR (without LF) was not detected (@badrelmers asked AI)
 - fix: Gtk3 version: "underline_color_size":10 worked wrong
 - fix: Qt5/Qt6 version: text in Console was little shrinked by width
 
