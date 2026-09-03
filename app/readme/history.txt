@@ -10,6 +10,7 @@
 + add: few APIs for future plugins (ideas by @badrelmers)
 + add: much improved speed of scrolling with _huge_ amount of inter-line gaps (by @badrelmers using AI)
 + add: much improved speed of inserting _huge_ amount of lines via API replace_lines (by @badrelmers using AI)
+* change: Project Manager: return focus to project-treeview after opening a file by 1-click or dbl-click
 * change: lexer Bash: highlight '${varname}' as single element, not as bracket+name+bracket
 - fix: file's trailing CR (without LF) was not detected (fixed by @badrelmers using AI)
 - fix: Gtk3 version: "underline_color_size":10 worked wrong
