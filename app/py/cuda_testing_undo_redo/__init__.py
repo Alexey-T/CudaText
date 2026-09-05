@@ -146,6 +146,13 @@ NOTES
     Forcing it False globally exhausts RAM on the 300k-line perf tests
     (>6 GB).  Only tests that need exact per-op undo entries may
     temporarily set it False and must restore True.  See UNDO GROUPING.
+  * PROP_SAVING_FORCE_FINAL_EOL, PROP_SAVING_TRIM_SPACES and
+    PROP_SAVING_TRIM_FINAL_EMPTY_LINES are forced False on the test tab
+    for the whole run (original values restored on cleanup).  Otherwise
+    ed.save() mutates the buffer (e.g. adds a final newline), which
+    breaks exact text compares and PROP_MODIFIED / save-marker checks
+    such as T26.  See CudaText issue #6448:
+    https://github.com/Alexey-T/CudaText/issues/6448
 """
 
 import os
@@ -293,6 +300,7 @@ class Runner:
         self.cur = None         # current test record
         self.fatal = None
         self._undo_grouped_orig = None  # saved PROP_UNDO_GROUPED
+        self._saving_orig = {}  # saved PROP_SAVING_* values
         self.log = []           # full console log (also opened in a tab)
 
     # ---- console ----
@@ -469,6 +477,23 @@ class Runner:
             self.TE.set_prop(cudatext.PROP_UNDO_GROUPED, True)
         except Exception:
             self._undo_grouped_orig = None
+        # Disable save-time document mutations for the test tab.
+        # PROP_SAVING_FORCE_FINAL_EOL / TRIM_SPACES / TRIM_FINAL_EMPTY_LINES
+        # alter the buffer on ed.save() (e.g. append a final newline),
+        # which breaks exact text compares and the save-marker /
+        # PROP_MODIFIED checks (T26).  See CudaText issue #6448.
+        # Original values are restored in _cleanup.
+        self._saving_orig = {}
+        for _name in (
+                'PROP_SAVING_FORCE_FINAL_EOL',
+                'PROP_SAVING_TRIM_SPACES',
+                'PROP_SAVING_TRIM_FINAL_EMPTY_LINES'):
+            try:
+                prop = getattr(cudatext, _name)
+                self._saving_orig[_name] = self.TE.get_prop(prop)
+                self.TE.set_prop(prop, False)
+            except Exception:
+                pass
         try:
             # let the app process pending messages so the new editor is
             # fully inited before caret commands are run on it
@@ -497,6 +522,12 @@ class Runner:
             try:
                 self.TE.set_prop(cudatext.PROP_UNDO_GROUPED,
                                  self._undo_grouped_orig)
+            except Exception:
+                pass
+        # restore save-time PROP_SAVING_* preferences
+        for _name, _val in self._saving_orig.items():
+            try:
+                self.TE.set_prop(getattr(cudatext, _name), _val)
             except Exception:
                 pass
         closed = False
@@ -1598,7 +1629,11 @@ class Runner:
     def test_T26(self):
         """Modified flag / save marker: save, edit, undo to the save
         point, redo - PROP_MODIFIED must track the save marker through
-        the undo/redo stack."""
+        the undo/redo stack.
+        Relies on PROP_SAVING_FORCE_FINAL_EOL / TRIM_SPACES /
+        TRIM_FINAL_EMPTY_LINES being False for the test tab (set in
+        Runner._setup); otherwise save() mutates the buffer.  See
+        CudaText issue #6448."""
         L = make_small_lines()
         self.TE.set_text_all(m_join(L))
         self.TE.set_caret(0, 0)
