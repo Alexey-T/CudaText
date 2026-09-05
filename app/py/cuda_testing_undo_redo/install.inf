@@ -1,5 +1,5 @@
 [info]
-title=Undo/Redo Tests
+title=Testing of undo/redo
 desc=Extensive undo/redo regression test suite; prints results and summary to the console
 type=cudatext-plugin
 subdir=cuda_testing_undo_redo

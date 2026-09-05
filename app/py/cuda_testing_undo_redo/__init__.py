@@ -437,44 +437,25 @@ class Runner:
         # capture the user's active editor first: we need an independent
         # Editor object (see _ed_focused), before the test tab is created
         self.orig = self._ed_focused()
-        te = None
-        try:
-            # file_open('') creates and activates a fresh untitled tab;
-            # it returns bool (True on success), not an editor object.
-            # After it returns, cudatext.ed refers to the new tab.
-            if cudatext.file_open(''):
-                te = self._ed_focused()
-        except Exception:
-            te = None
-        if te is None:
-            cudatext.ed.cmd(cmds.cmd_FileNew)
-            te = self._ed_focused()
-        if te is None:
-            self.fatal = ('cannot create a new editor tab '
-                          '(cudatext.file_open("") / cmd_FileNew both failed)')
-            return
-        self.TE = te
-        try:
-            self.TE.set_prop(cudatext.PROP_TAG, 'URTEST_TAB')
-        except Exception:
-            pass
+        # file_open('') creates and activates a fresh untitled tab;
+        # it returns bool (True on success), not an editor object.
+        # After it returns, cudatext.ed refers to the new tab.
+        cudatext.file_open('')
+        self.TE = self._ed_focused()
+        self.TE.set_prop(cudatext.PROP_TAG, 'URTEST_TAB')
         # Keep undo grouping ON (CudaText default).  Forcing it False
         # for the whole suite makes the 300k-line perf tests use >6 GB
         # RAM.  Individual tests that need exact per-op undo entries
         # disable it only for their own body and restore True after.
         # Saved value is restored in _cleanup.
-        try:
-            self._undo_grouped_orig = self.TE.get_prop(
-                cudatext.PROP_UNDO_GROUPED)
-            self.TE.set_prop(cudatext.PROP_UNDO_GROUPED, True)
-        except Exception:
-            self._undo_grouped_orig = None
-        try:
-            # let the app process pending messages so the new editor is
-            # fully inited before caret commands are run on it
-            cudatext.app_proc(cudatext.PROC_IDLE, True)
-        except Exception:
-            pass
+        self._undo_grouped_orig = self.TE.get_prop(cudatext.PROP_UNDO_GROUPED, '')
+        self.TE.set_prop(cudatext.PROP_UNDO_GROUPED, True)
+        self.TE.set_prop(cudatext.PROP_SAVING_FORCE_FINAL_EOL, False)
+        self.TE.set_prop(cudatext.PROP_SAVING_TRIM_FINAL_EMPTY_LINES, False)
+        self.TE.set_prop(cudatext.PROP_SAVING_TRIM_SPACES, False)
+        # fully inited before caret commands are run on it
+        # let the app process pending messages so the new editor is
+        cudatext.app_proc(cudatext.PROC_IDLE, True)
 
     def _cleanup(self):
         if self.TE is None:
