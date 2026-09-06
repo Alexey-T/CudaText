@@ -1,5 +1,5 @@
 """
-cuda_undo_redo_tests - extensive undo/redo regression test suite for CudaText.
+cuda_testing_undo_redo - extensive undo/redo regression test suite for CudaText.
 
 PURPOSE
   Guards the undo/redo machinery against behavior changes and hidden bugs
@@ -386,7 +386,7 @@ class Runner:
 
     def run(self):
         self.out('=' * 66)
-        self.out(' CudaText Undo/Redo Regression Suite  (cuda_undo_redo_tests)')
+        self.out(' CudaText Undo/Redo Regression Suite  (cuda_testing_undo_redo)')
         self.out(' mode=%s   seed=%d   %s' % (
             'full: incl. 300k-line perf tests' if self.full
             else 'quick: 50k-line perf test',
@@ -404,7 +404,7 @@ class Runner:
         Core tests run with word wrap off and on, like in the full suite;
         perf tests handle their wrap modes themselves."""
         self.out('=' * 66)
-        self.out(' CudaText Undo/Redo Regression Suite  (cuda_undo_redo_tests)')
+        self.out(' CudaText Undo/Redo Regression Suite  (cuda_testing_undo_redo)')
         self.out(' mode=single test %s   seed=%d   %s' % (
             tid, SEED, time.strftime('%Y-%m-%d %H:%M:%S')))
         self.out(' NOTE: do not touch the editor while the test is running.')
