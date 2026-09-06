@@ -112,20 +112,6 @@ end;
 function SFindFuzzyPositions(const SText, SFind: UnicodeString): TATIntArray;
 var
   STextUpper, SFindUpper: UnicodeString;
-  {
-  //
-  function IsCharSep(const ch: WideChar): boolean;
-  begin
-    Result:= Pos(ch, ' _.,:;/\-+*()[]{}=|''"<>?!@^&~')>0;
-  end;
-  //
-  function IsCharUpperLetter(const ch: WideChar): boolean;
-  begin
-    Result:= (ch>='A') and (ch<='Z');
-  end;
-  //
-  }
-var
   N, i: integer;
 begin
   Result:= nil;
@@ -133,19 +119,6 @@ begin
   if SFind='' then exit;
   STextUpper:= UnicodeUpperCase(SText);
   SFindUpper:= UnicodeUpperCase(SFind);
-
-  {
-  //commented 2024.05: block is not called at all
-  //if simple match is found, don't calculate complex fuzzy matches
-  N:= Pos(SFindUpper, STextUpper);
-  if N>0 then
-  begin
-    SetLength(Result, Length(SFind));
-    for i:= 0 to High(Result) do
-      Result[i]:= N+i;
-    Exit;
-  end;
-  }
 
   //calculate complex matches
   N:= 0;
