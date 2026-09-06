@@ -37,7 +37,7 @@ import cudatext_cmd as cmds
 # ---- configuration --------------------------------------------------------
 
 CLOSE_TEST_TAB_AFTER = False   # True: close the sandbox tab when done
-TEST_TAB_TITLE        = '[replace_lines tests]'
+TEST_TAB_TITLE        = 'replace_lines tests'
 
 
 # ---- editor command wrappers --------------------------------------------
