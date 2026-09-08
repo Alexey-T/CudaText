@@ -398,7 +398,7 @@ begin
   Ed.OptUndoMaxCarets:= Op.OpUndoMaxCarets;
   Ed.OptUndoIndentVert:= Op.OpUndoIndentVert;
   Ed.OptUndoIndentHorz:= Op.OpUndoIndentHorz;
-  Ed.OptUndoPause:= Op.OpUndoPause;
+  //Ed.OptUndoPause:= Op.OpUndoPause;
   Ed.OptUndoForCaretJump:= Op.OpUndoMouseClicks;
 
   Ed.OptCaretBlinkTime:= Op.OpCaretBlinkTime;

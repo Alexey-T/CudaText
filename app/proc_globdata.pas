@@ -680,7 +680,7 @@ type
     OpUndoMaxCarets: integer;
     OpUndoIndentVert: integer;
     OpUndoIndentHorz: integer;
-    OpUndoPause: integer;
+    //OpUndoPause: integer;
     OpUndoMouseClicks: boolean;
 
     //caret
@@ -1993,7 +1993,7 @@ begin
     OpUndoMaxCarets:= TATSynEdit.cInitUndoMaxCarets;
     OpUndoIndentVert:= -5;
     OpUndoIndentHorz:= 10;
-    OpUndoPause:= 300;
+    //OpUndoPause:= 300;
     OpUndoMouseClicks:= false;
 
     OpCaretBlinkTime:= TATSynEdit.cInitCaretBlinkTime;
