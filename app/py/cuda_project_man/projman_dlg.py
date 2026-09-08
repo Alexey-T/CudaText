@@ -34,7 +34,6 @@ def dialog_config(op):
     RES_PREVIEW = 9
     RES_D_CLICK = 10
     RES_CHECK_GIT = 11
-    RES_CLOSE_EXT = 12
     RES_SYNC = 13
     RES_ICONS = 15
     RES_ICONS_TB = 17
@@ -45,14 +44,14 @@ def dialog_config(op):
     try:
         s = op.get('icon_theme', 'vscode_16x16')
         theme_index = themes.index(s)
-    except Exception:
+    except:
         theme_index = -1
 
     themes_tb = get_themes_toolbar()
     try:
         s = op.get('toolbar_theme', 'default_16x16')
         theme_index_tb = themes_tb.index(s)
-    except Exception:
+    except:
         theme_index_tb = -1
 
     items_sort_id = [
@@ -102,38 +101,36 @@ def dialog_config(op):
             'val='+bool_to_str(op.get('preview', True)) ])]
         +[c1.join(['type=check', 'pos=6,288,400,0', 'cap='+_('Open files by &double-click'),
             'val='+bool_to_str(op.get('d_click', False)) ])]
-        +[c1.join(['type=check', 'pos=6,314,400,0', 'cap='+_('On opening file in Git/SVN repo, create project from repo (*)'),
-            'val='+bool_to_str(op.get('check_git', True)) ])]
-        +[c1.join(['type=check', 'pos=6,340,400,0', 'cap='+_('Suggest to close tabs not belonging to project'),
-            'val='+bool_to_str(op.get('close_ext', True)) ])]
-        +[c1.join(['type=check', 'pos=6,366,400,0', 'cap='+_('Always sync project-tree with current editor file'),
+        +[c1.join(['type=check', 'pos=6,314,400,0', 'cap='+_('On opening file in Git/SVN repo, create temporary project from repo (*)'),
+            'val='+bool_to_str(op.get('check_git', False)) ])]
+        +[c1.join(['type=check', 'pos=6,340,400,0', 'cap='+_('Always sync project-tree with current editor file'),
             'val='+bool_to_str(op.get('always_sync', False)) ])]
 
-        +[c1.join(['type=label', 'pos=6,400,130,0', 'cap='+_('File type icons:')])]
-        +[c1.join(['type=combo_ro', 'pos=160,395,400,0',
+        +[c1.join(['type=label', 'pos=6,374,130,0', 'cap='+_('File type icons:')])]
+        +[c1.join(['type=combo_ro', 'pos=160,369,400,0',
             'items='+'\t'.join(themes),
             'val='+str(theme_index)
             ])]
 
-        +[c1.join(['type=label', 'pos=6,430,130,0', 'cap='+_('Toolbar icons:')])]
-        +[c1.join(['type=combo_ro', 'pos=160,425,400,0',
+        +[c1.join(['type=label', 'pos=6,404,130,0', 'cap='+_('Toolbar icons:')])]
+        +[c1.join(['type=combo_ro', 'pos=160,399,400,0',
             'items='+'\t'.join(themes_tb),
             'val='+str(theme_index_tb)
             ])]
 
-        +[c1.join(['type=label', 'pos=6,480,130,0', 'cap='+_('Sorting order (*):')])]
-        +[c1.join(['type=combo_ro', 'pos=160,475,400,0',
+        +[c1.join(['type=label', 'pos=6,454,130,0', 'cap='+_('Sorting order (*):')])]
+        +[c1.join(['type=combo_ro', 'pos=160,449,400,0',
             'items='+'\t'.join(items_sort_str),
             'val='+str(items_sort_val)
             ])]
 
-        +[c1.join(['type=label', 'pos=6,456,600,0', 'cap='+_('For more icons, get add-ons of kind "filetypeicons", "projtoolbaricons"')])]
-        +[c1.join(['type=label', 'pos=6,515,600,0', 'cap='+_('(*) - requires CudaText restart')])]
-        +[c1.join(['type=button', 'pos=300,510,400,0', 'cap='+_('&OK'), 'ex0=1'])]
-        +[c1.join(['type=button', 'pos=406,510,502,0', 'cap='+_('Cancel')])]
+        +[c1.join(['type=label', 'pos=6,430,600,0', 'cap='+_('For more icons, get add-ons of kind "filetypeicons", "projtoolbaricons"')])]
+        +[c1.join(['type=label', 'pos=6,489,600,0', 'cap='+_('(*) - requires CudaText restart')])]
+        +[c1.join(['type=button', 'pos=300,484,400,0', 'cap='+_('&OK'), 'ex0=1'])]
+        +[c1.join(['type=button', 'pos=406,484,502,0', 'cap='+_('Cancel')])]
     )
 
-    res = dlg_custom(_('Project Manager options'), 508, 544, text, get_dict=True)
+    res = dlg_custom(_('Project Manager options'), 508, 518, text, get_dict=True)
     if res is None:
         return
 
@@ -147,13 +144,11 @@ def dialog_config(op):
     s = res[RES_RECENTS].split('\t')
     op['recent_projects'] = s
 
-    #op['on_start'] = str_to_bool(res[RES_ON_START])
     op['toolbar'] = str_to_bool(res[RES_TOOLBAR])
     op['goto_open'] = str_to_bool(res[RES_GOTO_OPEN])
     op['preview'] = str_to_bool(res[RES_PREVIEW])
     op['d_click'] = str_to_bool(res[RES_D_CLICK])
     op['check_git'] = str_to_bool(res[RES_CHECK_GIT])
-    op['close_ext'] = str_to_bool(res[RES_CLOSE_EXT])
     op['always_sync'] = str_to_bool(res[RES_SYNC])
 
     index = int(res[RES_ICONS])
