@@ -2671,7 +2671,9 @@ begin
 
   Strs.EnableCachedWrapinfoUpdate:= false;
   Strs.IndexesOfEditedLines.Clear; //don't keep Undo -> list should be cleared
-  Ed.UpdateWrapInfo(true); //fix 2nd+3rd parts of CudaText #4172, Ed.Update(true) is not enough
+
+  Ed.WrapInfo.Clear;
+  Ed.UpdateWrapInfo(true, false); //fix 2nd+3rd parts of CudaText #4172, Ed.Update(true) is not enough
   Ed.Update(true); //with True, to fix CudaText #4174
 end;
 

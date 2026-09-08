@@ -528,7 +528,7 @@ begin
     if Assigned(An.SampleText) then
     begin
       F.edSample.Strings.LoadFromString(An.SampleText.Text);
-      F.edSample.UpdateWrapInfo(true);
+      F.edSample.UpdateWrapInfo(true, false);
       F.edSample.DoEventChange(0); //parse from beginning
     end;
     F.edSample.ModeReadOnly:= true;
