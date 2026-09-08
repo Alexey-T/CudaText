@@ -13,6 +13,7 @@
 + add: optimized speed of loading big ~500MB files, up to 6x faster now (by @badrelmers using AI)
 * change: Project Manager: return focus to project-treeview after opening a file from treeview by 1-click or dbl-click (thanks @kwappdev)
 * change: lexer Bash: highlight '${varname}' as single element, not as bracket+name+bracket
+* change: delete option "undo_pause", it worked poorly anyway
 - fix: file's trailing CR (without LF) was not detected (fixed by @badrelmers using AI)
 - fix: Gtk3 version: "underline_color_size":10 worked wrong
 - fix: Qt5/Qt6 version: text in Console was little shrinked by width
