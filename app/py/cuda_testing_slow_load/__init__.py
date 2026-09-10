@@ -20,10 +20,8 @@ class Command:
     def slow_sc_false(self):
         make_file()
         print('Test scrollbar_themed:false')
-        # cudax_lib.set_opt('scrollbar_themed', False);
         cudax_lib.set_opt('wrap_enabled_max_lines', 1100000);
         cudax_lib.set_opt('wrap_mode', 1);
-        # file_open(os.path.join(app_path(APP_DIR_SETTINGS), 'user.json')) and (ed.cmd(cmds.cmd_FileSave), ed.cmd(cmds.cmd_FileClose));
         ed.cmd(cmds.cmd_OpsReloadAndApply)
 
         file_open("");
@@ -42,10 +40,8 @@ class Command:
     def slow_sc_true(self):
         make_file()
         print('Test scrollbar_themed:true')
-        # cudax_lib.set_opt('scrollbar_themed', True);
         cudax_lib.set_opt('wrap_enabled_max_lines', 1100000);
         cudax_lib.set_opt('wrap_mode', 1);
-        # file_open(os.path.join(app_path(APP_DIR_SETTINGS), 'user.json')) and (ed.cmd(cmds.cmd_FileSave), ed.cmd(cmds.cmd_FileClose));
         ed.cmd(cmds.cmd_OpsReloadAndApply)
 
         file_open("");
@@ -60,4 +56,3 @@ class Command:
         t1 = time.time(); app_proc(PROC_IDLE, True); t2 = time.time(); print(f"Hang1: {t2-t1:.4f}s");
         t1 = time.time(); ed.action(EDACTION_UPDATE,1); t2 = time.time(); print(f"Hang2: {t2-t1:.4f}s");
         del lines;
-
