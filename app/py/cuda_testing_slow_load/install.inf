@@ -1,0 +1,17 @@
+[info]
+title=Testing of slow loading
+desc=(Fill the description)
+type=cudatext-plugin
+subdir=cuda_testing_slow_load
+homepage=(Fill the GitHub repo URL)
+
+[item2]
+section=commands
+caption=Testing\Testing slow loading of text\With "scrollbar_themed":false
+method=slow_sc_false
+
+[item3]
+section=commands
+caption=Testing\Testing slow loading of text\With "scrollbar_themed":true
+method=slow_sc_true
+
