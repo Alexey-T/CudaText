@@ -15,8 +15,8 @@
 * change: lexer Bash: highlight '${varname}' as single element, not as bracket+name+bracket
 * change: delete option "undo_pause", it worked poorly anyway
 - fix: file's trailing CR (without LF) was not detected (fixed by @badrelmers using AI)
-- fix: Gtk3 version: "underline_color_size":10 worked wrong
-- fix: Qt5/Qt6 version: text in Console was little shrinked by width
+- fix: Gtk3 version: "underline_color_size":10 had broken color painting
+- fix: Qt5/Qt6 version: text without lexer (and text in Console) was little shrinked by width
 
 1.236.0 (2026/08)
 
