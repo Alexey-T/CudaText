@@ -1,0 +1,31 @@
+[info]
+title=Testing of performance
+desc=Performance regression tests
+type=cudatext-plugin
+subdir=cuda_testing_perf
+homepage=
+
+[item1]
+section=commands
+caption=Testing\Testing of Performance\Run all tests (300k lines, may use up to 2GB RAM)
+method=run_all_300k
+
+[item2]
+section=commands
+caption=Testing\Testing of Performance\Run all tests (1M lines, may use up to 4.5GB RAM)
+method=run_all_1M
+
+[item3]
+section=commands
+caption=Testing\Testing of Performance\Run single test (300k lines)
+method=run_single_300k
+
+[item4]
+section=commands
+caption=Testing\Testing of Performance\Run single test (1M lines)
+method=run_single_1M
+
+[item5]
+section=commands
+caption=Testing\Testing of Performance\Help
+method=about

@@ -8,16 +8,12 @@ PURPOSE
   by an independent pure-Python text model.
 
 DESIGN: every test is standalone
-  Each test (test_T01..test_T41,
-  test_MP1..test_MP4 and test_MP6)
-  is a single self-contained function: document setup, the operation,
-  every check, the exact-count undo/redo steps, and (for perf tests)
-  the threshold
-  judging are ALL inside the test function itself. Nothing test-specific is
-  shared or factored out, so a test can be read and debugged top to
-  bottom without following call chains. Only non-test infrastructure is
-  shared: the text-model oracle, the document factories, the
-  check/report channel, and the tab lifecycle.
+  Each test is a single self-contained function: document setup, the operation,
+  every check, the exact-count undo/redo steps are ALL inside the test
+  function itself. Nothing test-specific is shared or factored out, so a
+  test can be read and debugged top to bottom without following call
+  chains. Only non-test infrastructure is shared: the text-model oracle,
+  the document factories, the check/report channel, and the tab lifecycle.
 
 UNDO/REDO MODEL (verified in the CudaText console, 2026-09-05)
   set_text_all() does NOT clear the undo stack. It keeps ONE entry:
@@ -56,7 +52,7 @@ UNDO GROUPING (PROP_UNDO_GROUPED)
   example: in cudatext console do:
     import cudatext_cmd as cmds; import time; ed.set_text_all('unicode ünïcödé 中文'); ed.insert(2,0,'中Äßé'); time.sleep(0.6); ed.delete(1,0,5,0); ed.cmd(cmds.cCommand_Undo); print('UNDO FAILED' if '中Äßé' not in ed.get_text_all() else 'undo ok')
     ===> UNDO FAILED
-    
+
     import cudatext_cmd as cmds; import time; ed.set_text_all('unicode ünïcödé 中文'); ed.insert(2,0,'中Äßé'); time.sleep(0.7); ed.delete(1,0,5,0); ed.cmd(cmds.cCommand_Undo); print('UNDO FAILED' if '中Äßé' not in ed.get_text_all() else 'undo ok')
     ===> undo ok
 
@@ -64,20 +60,20 @@ UNDO GROUPING (PROP_UNDO_GROUPED)
     this is undo grouping (coalescing), not a Unicode bug.
     CudaText (via its editor component ATSynEdit) automatically merges consecutive edits that happen close together in time into one undo step. This is the same mechanism that makes typing a whole word produce a single Undo instead of one Undo per character.
     What happens in your test
-    	1. ed.insert(2, 0, '中Äßé')
+        1. ed.insert(2, 0, '中Äßé')
     → creates an undo record for the insertion.
-    	2. Immediately afterwards ed.delete(1, 0, 5, 0)
+        2. Immediately afterwards ed.delete(1, 0, 5, 0)
     → if this occurs before the grouping timeout expires, the editor treats the two actions as part of the same logical edit.
     The delete is either merged with the previous insert or cancels/replaces the previous undo record.
-    	3. Result:
-    		○ The document ends up in the correct final state (net effect of insert-then-delete).
-    		○ But there is only one (or a combined) undo entry.
-    		○ Therefore a single cCommand_Undo cannot restore the intermediate state that still contained 中Äßé.
-    	4. When you insert a pause of ~0.7 s the grouping timer expires.
-    The insert is “closed”, the following delete starts a new undo group, and now you have two independent entries. Undo of the delete correctly brings the four characters back.
+        3. Result:
+                ○ The document ends up in the correct final state (net effect of insert-then-delete).
+                ○ But there is only one (or a combined) undo entry.
+                ○ Therefore a single cCommand_Undo cannot restore the intermediate state that still contained 中Äßé.
+        4. When you insert a pause of ~0.7 s the grouping timer expires.
+    The insert is "closed", the following delete starts a new undo group, and now you have two independent entries. Undo of the delete correctly brings the four characters back.
     That is why:
-    	• time.sleep(0.6) → still grouped → UNDO FAILED
-    	• time.sleep(0.7) → group closed → undo ok
+        • time.sleep(0.6) → still grouped → UNDO FAILED
+        • time.sleep(0.7) → group closed → undo ok
 
 
 
@@ -96,53 +92,14 @@ UNDO GROUPING (PROP_UNDO_GROUPED)
           ed.set_prop(PROP_UNDO_GROUPED, True)
 
   Currently forced off (then restored) in: T06, T21, T22, T25, T35
-  (and temporarily in some load-test undo/redo round-trips).
+  (and temporarily in the L6 mixed-EOL and L7 big-file undo/redo
+  round-trips).
 
   Note: a prior bug in cCommand_TextDeleteSelection made redo of a
   selection-to-EOF incorrect when PROP_UNDO_GROUPED was False; that
   was fixed upstream (CudaText issue #6446).
 
 _________________________________
-HANG TIME MEASUREMENT (2026-09-08, v2 - the benchmark's method)
-  The manual benchmarks show the API time is only PART of the cost:
-  after e.g. replace_lines returns in ~3s, the app is still "hung"
-  ~8s more, and the forced repaint costs ~8s again. The suite
-  measures it EXACTLY like the manual benchmark, right after each
-  timed op - no polling, no CPU sampling, just two timed calls:
-    Hang1:  t1 = time.time()
-            app_proc(PROC_IDLE, True)
-            t2 = time.time()
-    Hang2:  t1 = time.time()
-            ed.action(EDACTION_UPDATE, 1)
-            t2 = time.time()
-  * Hang1 (app_proc(PROC_IDLE, True)) is Application.ProcessMessages +
-    Application.Idle (verified in app/formmain_py_api.inc): one
-    message-loop pump + idle pass. The deferred work queued by the op
-    runs inside this call, so its duration IS the first part of the
-    hang.
-  * Hang2 (ed.action(EDACTION_UPDATE, 1)) is Ed.Update(True, true):
-    forces the WrapInfo update + repaint - the deferred word-wrap
-    recalculation (API wiki: param1="1" updates WrapInfo). Its
-    duration is the second part of the hang.
-  Every timed op (replace_lines, set_text_all, TextDeleteSelection,
-  Undo, Redo, file_open, set wrap on) is followed by exactly these
-  two calls; the console shows "op X (+Hang1 Y +Hang2 Z)", and the
-  summary table's "hang" column is the sum of all Hang1+Hang2 of
-  that perf record. Judged against each test's local hang thresholds (warn/fail), so a
-  regression like the removed wrap-items cache (commit3 vs commit4:
-  +12s hang on set_text_all with wrap on) trips a WARN/FAIL, not
-  just a note.
-
-_________________________________
-
-COMMANDS
-  Menu: Plugins / Testing / Testing of Undo/Redo /
-    - Run full suite (incl. 300k/1M-line MP* perf; ~1-2 GB RAM, several minutes)
-    - Run quick suite (core + load tests only; no heavy perf)
-    - Run single test (filterable list of T01..T41, L1..L7,
-      MP1..MP4, MP6)
-    - Help: what is tested / how to read results (opens this docstring
-      in a new tab)
 
   Each test opens its own temp tab (tag URTEST_TAB / URTEST_TAB2 /
   URTEST_LOAD) and closes it when done; your tabs are not modified.
@@ -168,31 +125,6 @@ WHAT IT COVERS
     wrap toggled between undo/redo, tab switching away and back, unicode
     and tab chars, EOL toggle fidelity
   - multi-caret editing: Enter and Backspace with 3 carets, undo/redo
-  - performance regression on large documents via the exact manual
-    console benchmarks (MP1..MP4, MP6). Times and the deferred "hang"
-    (Hang1 = app_proc(PROC_IDLE), Hang2 = ed.action(EDACTION_UPDATE, 1),
-    see HANG TIME above) is measured and judged for every timed op
-  - MP1..MP4 and MP6: the 5 manual console benchmarks replicated
-    EXACTLY, command for command (scaled to the suite's 300k lines;
-    MP4 200k-of-300k; call test_MP1(1000000) etc. from
-    the console for the full 1M scale). The document is the corpus
-    FILE opened with file_open into its own tab - exactly the manual
-    session's state; no set_text_all, no suite-tab commands anywhere
-    in the setup. The timed part is ONLY the manual test's own
-    commands with nothing run in between, Hang1/Hang2 are the manual
-    test's two timed calls, and every check is read-only and runs
-    after the timing. The corpus file is written once per run with
-    the manual benchmark's exact seeded generator (SEED 20260904,
-    one bytes(rng.getrandbits(8) for _ in range(rng.randint(245,
-    255))).hex() line + newline per line), so its content is
-    byte-identical to the benchmark's own corpus file. The replicas:
-    MP1 replace_lines(0, get_line_count()-1, open().readlines()),
-    MP2 set_text_all(open().read()), MP3 replace_lines load then
-    set_caret(0, get_line_count(), 0, 0) + TextDeleteSelection +
-    Undo + Redo,
-    MP4 replace_lines load then set_caret(0, ndel, 0, 0) +
-    TextDeleteSelection + Undo + Redo (200k-of-300k),
-    MP6 file_open + set_prop(PROP_WRAP, 1)
   - unicode replace_lines (T36/T37): 4000 EQUAL CJK lines and 4000
     DISTINCT CJK lines - the word-wrap calculation has separate code
     paths for pure-ASCII lines and for unicode (CJK) lines; text,
@@ -214,53 +146,38 @@ WHAT IT COVERS
     opened tab has an EMPTY undo stack: one edit = one undo step,
     which must land exactly on the loaded content - undo data
     corrupted by an encoding round-trip shows up as mojibake or
-    lost/duplicated lines here); L7 measures file_open() time plus
-    the undo/redo of one small edit on the big loaded doc and
-    records all of it in the perf table (see MP6 for the plain-text
-    big-file open + hang)
-
+    lost/duplicated lines here). L7 is the big-file variant (100k
+    lines, UTF-16 LE and UTF-32 BE): full-text compare is replaced by
+    line count + sampled lines (first / CJK line 7 / last) because a
+    full compare would cost seconds on a ~100 MB doc; the same
+    bulk-undo bug class (empty document after undo) is still caught.
 
 OUTPUT
   All results go to the Console panel. Per test: check lines
   (ok / FAIL with got/expected / ERR), info lines (undo step
-  counts, timings, Hang1/Hang2 per op). A SUMMARY is
-  printed at the end: totals, list of failed tests, performance
-  table (with a "hang" column), overall verdict.
+  counts, timings). A SUMMARY is printed at the end: totals, list of
+  failed tests, overall verdict.
 
 HOW TO READ THE OUTPUT
   [Txx] test name (wrap=off/on)
     ok    <check>          check passed
     FAIL  <check>          mismatch; got/expected previews follow
     ERR   exception        the test crashed the API (bug or API change)
-    info  ...              undo/redo step counts, timings, Hang1/Hang2
-    WARN  perf: ...        a timing exceeded the warn threshold
+    info  ...              undo/redo step counts, timings
   => PASS/FAIL/ERR/SKIP  (n ok, m failed)
-  SUMMARY: totals, failed list, performance table (with hang column),
-  overall verdict. A dialog repeats the short summary; a new tab holds
-  the full log.
+  SUMMARY: totals, failed list, overall verdict. A dialog repeats the
+  short summary; a new tab holds the full log.
 
 NOTES
-  * Do not touch the editor while the suite runs. Any click or keypress
-    you make during a perf test is processed by the PROC_IDLE pass and
-    pollutes the hang numbers.
-  * Full mode needs ~2 GB RAM (300k-line docs) and can take several
-    minutes (much longer if undo is still slow/not patched - that is the point).
-    Each timed op additionally runs one app_proc(PROC_IDLE) pass and
-    one ed.action(EDACTION_UPDATE) pass (the hang measurement): on a
-    healthy editor both return in milliseconds, on a regressed one
-    they take seconds - that IS the hang being measured.
-    MP tests write a ~150 MB corpus file into the system temp dir
-    (once per run, shared by MP1..MP6).
-  * Each test opens its own tab (tag URTEST_TAB / URTEST_TAB2 / URTEST_LOAD)
-    and closes it when done; your tabs are not modified.
+  * Do not touch the editor while the suite runs.
+  * Each test opens its own tab (tag URTEST_TAB / URTEST_TAB2 /
+    URTEST_LOAD) and closes it when done; your tabs are not modified.
   * While the suite runs, user.json's "wrap_enabled_max_lines" is
-    temporarily set to 1100000 (CudaText refuses to enable word wrap
-    above that line count, and the suite wraps 300k/1M-line docs) and
-    "wrap_mode" is temporarily set to 1 (word wrap on; tabs opened by
-    the suite inherit it as the global wrap setting). Three helpers:
-    Runner._enable_wrap_opts (high max + wrap on; from _setup and
-    from MP6 when wrap is on), Runner._disable_wrap_opts (high max +
-    wrap off; from MP6 when wrap is off), and
+    temporarily set to 1100000 (the suite wraps documents up to 4000
+    lines in the wrap-on runs) and "wrap_mode" is temporarily set
+    to 1 (word wrap on; tabs opened by the suite inherit it as the
+    global wrap setting). Two helpers:
+    Runner._enable_wrap_opts (high max + wrap on; from _setup) and
     Runner._restore_wrap_opts (user's original values back; from
     _cleanup, also on FATAL/error paths). All writes go through
     cudax_lib's get_opt/set_opt, which only change the file on disk:
@@ -271,17 +188,16 @@ NOTES
     the values by hand; the old ones are printed to the console when
     enable first runs.
   * PROP_UNDO_GROUPED stays True (the CudaText default) for the suite.
-    Forcing it False globally exhausts RAM on the 300k-line perf tests
-    (>6 GB).  Only tests that need exact per-op undo entries may
-    temporarily set it False and must restore True.  See UNDO GROUPING.
+    Only tests that need exact per-op undo entries may temporarily
+    set it False and must restore True.  See UNDO GROUPING.
   * Test data is seeded (SEED 20260904): identical documents on
     every run.
   * Caret positions are asserted only where the contract is solid
     (undo restores pre-op caret/selection). Redo carets are
     informational.
-  * File-loading and MP tests keep corpus files under the system
-    temp dir (cuda_testing_undo_redo); the suite removes that folder
-    on cleanup. Delete it by hand to reclaim space if a run was
+  * File-loading tests keep corpus files under the system temp dir
+    (cuda_testing_undo_redo); the suite removes that folder on
+    cleanup. Delete it by hand to reclaim space if a run was
     killed mid-way.
 
 """
@@ -304,12 +220,12 @@ LOAD_DIR = os.path.join(tempfile.gettempdir(), 'cuda_testing_undo_redo')
 
 # user.json options patched for the duration of a run: CudaText
 # refuses to enable word wrap on documents longer than
-# "wrap_enabled_max_lines" lines. The suite enables wrap on 300k
-# (MP1..MP4) and 1M-line (MP6) documents, so
+# "wrap_enabled_max_lines" lines. The core suite runs every T*
+# test twice - word wrap off and on (documents up to ~4000
+# lines), so
 # Runner._enable_wrap_opts bumps this limit to 1.1M lines and forces
 # "wrap_mode" to 1 (word wrap on) so tabs the suite opens inherit
-# wrap as the global setting. Runner._disable_wrap_opts keeps the
-# high max but sets wrap_mode to 0 (MP6 wrap-off row).
+# wrap as the global setting.
 # Runner._restore_wrap_opts writes the user's originals back at
 # the end of the run.
 WRAP_MAX_KEY = 'wrap_enabled_max_lines'
@@ -461,32 +377,6 @@ def make_small_lines():
             lines.append('z' * rng.randint(5, 40))
     return lines
 
-def make_big_lines(n):
-    """The benchmark corpus: create random text with random lines lenght 490 to 510 char (hex() double the chars). 1M line=500mb, 300k line= 147mb (takes 16s to create 300k line)
-    n lines of random hex from urandom-like
-    bytes of length 245..255 (seeded for reproducibility). Matches the
-    style of: os.urandom(random.randint(245, 255)).hex() per line."""
-    # old: it uses no seed so everytime we test a diferent corpus
-    # import os, tempfile, random, time; fpath = os.path.join(tempfile.gettempdir(), "cuda_undo_test_rand_1M.txt"); t1 = time.time(); open(fpath, "w").writelines(os.urandom(random.randint(245, 255)).hex() + "\n" for _ in range(1000000)); print(f"saved to {fpath} in {time.time()-t1:.4f}s")
-
-    # new and better  using seed for reproducibility:
-    # import os, tempfile, random, time; SEED = 20260904; rng = random.Random(SEED); fpath = os.path.join(tempfile.gettempdir(), "cuda_undo_test_rand_1M.txt"); t1 = time.time(); open(fpath, "w").writelines(bytes(rng.getrandbits(8) for _ in range(rng.randint(245, 255))).hex() + "\n" for _ in range(1000000)); print(f"saved to {fpath} in {time.time()-t1:.4f}s")
-    
-    rng = random.Random(SEED)
-    lines = []
-    for _i in range(n):
-        length = rng.randint(245, 255)
-        data = bytes(rng.getrandbits(8) for _ in range(length))
-        lines.append(data.hex())
-    return lines
-
-_BIG_CACHE = {}
-
-def big_lines(n):
-    if n not in _BIG_CACHE:
-        _BIG_CACHE.clear()
-        _BIG_CACHE[n] = make_big_lines(n)
-    return _BIG_CACHE[n]
 
 _UNI_CACHE = {}
 
@@ -541,57 +431,16 @@ def _pv(v):
     return '%r' % (v,)
 
 # ----------------------------------------------------------------------------
-# deferred-work ("hang") measurement - see the HANG TIME section in the
-# module docstring. Each perf test defines its own hang thresholds
-# (warn, fail) locally at the top of the test function.
-# ----------------------------------------------------------------------------
-
-_MP_CORPUS = {}
-
-
-def mp_corpus_file(nlines):
-    '''The manual benchmarks' corpus FILE, written once per run with
-    their EXACT generator command (every MP test file_opens it, like
-    the manual session had the file open):
-        rng = random.Random(SEED)          # 20260904
-        fpath = <LOAD_DIR>/cuda_undo_test_rand_<nlines>.txt
-        open(fpath, "w").writelines(
-            bytes(rng.getrandbits(8) for _ in range(
-                rng.randint(245, 255))).hex() + "\n"
-            for _ in range(nlines))
-    The content equals the first nlines lines of the benchmark's own
-    1M-line file (same seed, same random stream) and big_lines(nlines)
-    joined with EOLs. Returns (fpath, write_seconds); write_seconds
-    is None when the file was already written earlier in this run.'''
-    if nlines in _MP_CORPUS:
-        return _MP_CORPUS[nlines], None
-    fpath = os.path.join(LOAD_DIR, 'cuda_undo_test_rand_%d.txt' % nlines)
-    os.makedirs(LOAD_DIR, exist_ok=True)
-    rng = random.Random(SEED)
-    t1 = time.time()
-    with open(fpath, 'w') as f:
-        f.writelines(bytes(rng.getrandbits(8)
-                           for _ in range(rng.randint(245, 255))).hex()
-                     + '\n'
-                     for _ in range(nlines))
-    t_write = time.time() - t1
-    _MP_CORPUS[nlines] = fpath
-    return fpath, t_write
-
-
-# ----------------------------------------------------------------------------
 # runner
 # ----------------------------------------------------------------------------
 
 class Runner:
 
-    def __init__(self, full):
-        self.full = full
+    def __init__(self):
         self.TE = None          # current test editor (set per-test, not shared)
         self.orig = None        # user's originally active editor
         self.wrap = 0
         self.results = []       # one dict per test
-        self.perf = []          # one dict per perf run
         self.cur = None         # current test record
         self.fatal = None
         self._undo_grouped_orig = None  # saved PROP_UNDO_GROUPED
@@ -704,35 +553,6 @@ class Runner:
             msg, cudatext.MB_OKCANCEL | cudatext.MB_ICONWARNING)
         return res == cudatext.ID_OK
 
-    # ---- deferred-work ("hang") measurement: the manual benchmark's
-    #      exact two timed calls, used inline by every perf test ----
-
-    def _hang(self, ed, tag=''):
-        """Measure the deferred "hang" of the just-finished operation
-        EXACTLY like the manual benchmark - nothing more, no polling,
-        no CPU sampling:
-          Hang1: app_proc(PROC_IDLE, True)
-                 Application.ProcessMessages + Application.Idle, i.e.
-                 one message-loop pump + idle pass; the deferred work
-                 queued by the op runs inside this call
-          Hang2: ed.action(EDACTION_UPDATE, 1)
-                 Ed.Update(True, true): forces the WrapInfo update +
-                 repaint (the deferred word-wrap recalculation)
-        Returns (hang1, hang2)."""
-        t1 = time.time()
-        cudatext.app_proc(cudatext.PROC_IDLE, True)
-        t2 = time.time()
-        hang1 = t2 - t1
-        t1 = time.time()
-        ed.action(cudatext.EDACTION_UPDATE, 1)
-        t2 = time.time()
-        hang2 = t2 - t1
-        if tag:
-            self.info('hang(%s): Hang1 %.4fs (PROC_IDLE) + Hang2 %.4fs '
-                      '(EDACTION_UPDATE) = %.4fs' % (
-                          tag, hang1, hang2, hang1 + hang2))
-        return hang1, hang2
-
     # ---- editor api helpers ----
 
     def _ed_focused(self):
@@ -749,35 +569,28 @@ class Runner:
     # ---- lifecycle ----
 
     def run(self):
+        """Run the whole core suite: T* tests with word wrap off and on,
+        then the file-loading tests L1..L7."""
         self.out('=' * 66)
-        self.out(' CudaText Undo/Redo Regression Suite  (cuda_testing_undo_redo)')
-        self.out(' mode=%s   seed=%d   %s' % (
-            'full: incl. 300k/1M-line MP* perf tests' if self.full
-            else 'quick: core + load tests only',
-            SEED, time.strftime('%Y-%m-%d %H:%M:%S')))
+        self.out(' CudaText Undo/Redo Regression Suite - core tests '
+                 '(cuda_testing_undo_redo)')
+        self.out(' mode=all: core T01..T41 + file-loading L1..L7   '
+                 'seed=%d   %s' % (
+                     SEED, time.strftime('%Y-%m-%d %H:%M:%S')))
         self.out(' NOTE: do not touch the editor while the suite is running.')
-        if self.full:
-            self.out(' NOTE: full mode needs ~1 GB RAM and several minutes;')
-            self.out('       it takes much longer if undo/redo is still slow.')
         self.out('=' * 66)
         self._run_body(lambda: (self._core_suite(0), self._core_suite(1),
-                                self._load_suite(), self._perf_suite()))
+                                self._load_suite()))
 
     def run_single(self, tid):
-        """Run only one test, by id from test_catalog() ('T07', 'MP4', ...).
-        Core tests run with word wrap off and on, like in the full suite;
-        perf tests handle their wrap modes themselves."""
+        """Run only one core test, by id from test_catalog() ('T07', 'L3').
+        Core tests run with word wrap off and on, like in the full suite."""
         self.out('=' * 66)
-        self.out(' CudaText Undo/Redo Regression Suite  (cuda_testing_undo_redo)')
+        self.out(' CudaText Undo/Redo Regression Suite - core tests '
+                 '(cuda_testing_undo_redo)')
         self.out(' mode=single test %s   seed=%d   %s' % (
             tid, SEED, time.strftime('%Y-%m-%d %H:%M:%S')))
         self.out(' NOTE: do not touch the editor while the test is running.')
-        if tid.startswith('P') or tid.startswith('M'):
-            self.out(' NOTE: perf tests build big docs (up to 300k lines);')
-            self.out('       they need RAM and can take a while.')
-            if tid.startswith('M'):
-                self.out(' NOTE: MP tests write the corpus file once per')
-                self.out('       run (~16s for 300k lines) if needed.')
         self.out('=' * 66)
         self._run_body(lambda: self._single_test(tid))
 
@@ -800,7 +613,7 @@ class Runner:
             self._cleanup()
             self._summary()
 
-    # ---- unified tab open / close (for suite, load, bulk, MP) ----
+    # ---- unified tab open / close (for suite and load tests) ----
 
     def _tab_title(self, tid, wrap=None, extra=''):
         """Tab title shown while a test runs, e.g. 'T01 wrap on'."""
@@ -903,7 +716,8 @@ class Runner:
             ed.set_prop(cudatext.PROP_TAG, 'URTEST_USERJSON')
             ed.cmd(cmds.cmd_FileSave)
             
-            # force wrap setting to take effect, enabling wrap for test MP6 does not work without this!
+            # force wrap setting to take effect, enabling wrap for the
+            # wrap-on test runs does not work without this!
             cudatext.app_proc(cudatext.PROC_IDLE, True)
             ed.action(cudatext.EDACTION_UPDATE, 1)
         
@@ -926,7 +740,7 @@ class Runner:
         (word wrap on; new tabs inherit it). set_opt only writes the
         file on disk: _resave_user_json re-saves user.json in the
         editor so the running CudaText re-reads the options.
-        Called from _setup and from MP6 when wrap is on."""
+        Called from _setup (the wrap-on test runs need it)."""
         global WRAP_MAX_OLD
         global WRAP_MODE_OLD
         # save the user's originals only once (first enable)
@@ -949,21 +763,6 @@ class Runner:
                  '(enable wrap opts)' % (
                      WRAP_MAX_KEY, WRAP_MAX_OLD, WRAP_MAX_RUN_VALUE,
                      WRAP_MODE_KEY, WRAP_MODE_OLD, WRAP_MODE_RUN_VALUE))
-        self._resave_user_json()
-
-    def _disable_wrap_opts(self):
-        """Turn global wrap off for the suite (keep the high max).
-
-        Sets wrap_mode to 0 so new tabs inherit wrap off, while
-        leaving wrap_enabled_max_lines at WRAP_MAX_RUN_VALUE so a
-        later enable can still wrap 300k/1M-line docs. Does NOT
-        restore the user's originals - that is _restore_wrap_opts.
-        Called from MP6 when wrap is off."""
-        cudax_lib.set_opt(WRAP_MAX_KEY, WRAP_MAX_RUN_VALUE)
-        cudax_lib.set_opt(WRAP_MODE_KEY, 0)
-        self.out('info: user.json: %s: %s, %s: 0 '
-                 '(disable wrap opts)' % (
-                     WRAP_MAX_KEY, WRAP_MAX_RUN_VALUE, WRAP_MODE_KEY))
         self._resave_user_json()
 
     def _restore_wrap_opts(self):
@@ -1027,9 +826,7 @@ class Runner:
             else:
                 self.out('info: original tab no longer exists, '
                          'skipping focus restore')
-        _BIG_CACHE.clear()
         _UNI_CACHE.clear()
-        _MP_CORPUS.clear()
         if os.path.isdir(LOAD_DIR):
             import shutil
             shutil.rmtree(LOAD_DIR, ignore_errors=True)
@@ -1079,38 +876,7 @@ class Runner:
                          'on' if r.get('wrap') else 'off'))
                 if r['note']:
                     self.out('        %s' % r['note'][:220])
-        if self.perf:
-            self.out(' \n\nperformance results:')
-
-            self.out('   (L7/MP6: "command" is the file_open time; L7 '
-                     'undo/redo: one small edit undone/redone on the '
-                     'loaded big doc; MP1: replace_lines; MP2: '
-                     'set_text_all; MP6 wrap-on row: open + wrap-on)')
-                     
-            self.out('   ("hang" = sum of Hang1 (app_proc PROC_IDLE) + '
-                     'Hang2 (ed.action EDACTION_UPDATE); - = not measured)')
-
-            self.out('\n   %-6s %-4s %-8s %9s %9s %9s %8s  %-6s' % ('test', 'wrap', 'lines', 'command', 'undo', 'redo', 'hang', 'status'))
-            
-            for p in self.perf:
-                hang = p.get('hang')
-                hang_s = ('%7.2fs' % hang) if hang is not None else '       -'
-                if p['id'].startswith('L'):
-                    u_s = ('%8.2fs' % p['undo']) if p.get('undo') \
-                        else '        -'
-                    r_s = ('%8.2fs' % p['redo']) if p.get('redo') \
-                        else '        -'
-                    self.out('   %-6s %-4s %-8d %8.2fs %s %s  %s  %-6s' % (
-                        p['id'], '-', p['lines'],
-                        p['del'], u_s, r_s, hang_s, p['status']))
-                else:
-                    self.out('   %-6s %-4s %-8d %8.2fs %8.2fs %8.2fs  %s  %-6s' % (
-                        p['id'], 'on' if p['wrap'] else 'off', p['lines'],
-                        p['del'], p['undo'], p['redo'], hang_s, p['status']))
-                if p['note']:
-                    self.out('        %s' % p['note'][:200])
-        perf_fail = any(p['status'] == 'FAIL' for p in self.perf)
-        if st['FAIL'] == 0 and st['ERR'] == 0 and not perf_fail:
+        if st['FAIL'] == 0 and st['ERR'] == 0:
             overall = 'ALL TESTS PASSED'
         else:
             overall = 'FAILURES DETECTED - see details above'
@@ -1127,15 +893,9 @@ class Runner:
             'FAIL:       %d' % st['FAIL'],
             'ERR:        %d' % st['ERR'],
             'SKIP:       %d' % st['SKIP'],
+            '',
+            overall,
         ]
-        if self.perf:
-            pf = sum(1 for p in self.perf if p['status'] == 'FAIL')
-            pw = sum(1 for p in self.perf if p['status'] == 'WARN')
-            lines.append('perf FAIL:  %d' % pf)
-            if pw:
-                lines.append('perf WARN:  %d' % pw)
-        lines.append('')
-        lines.append(overall)
         if bad:
             lines.append('')
             lines.append('Failed:')
@@ -1146,7 +906,7 @@ class Runner:
                 lines.append('  ... and %d more' % (len(bad) - 12))
         summary_text = '\n'.join(lines)
         flags = cudatext.MB_OK
-        if st['FAIL'] or st['ERR'] or perf_fail:
+        if st['FAIL'] or st['ERR']:
             flags |= cudatext.MB_ICONWARNING
         else:
             flags |= cudatext.MB_ICONINFO
@@ -1175,37 +935,19 @@ class Runner:
                 continue
             self.t(tid, name, lambda f=fn: f(self))
 
-    def _perf_suite(self):
-        self.out()
-        self.out('------ performance & mass-op tests ------')
-        # All remaining performance tests are the MP* exact manual
-        # benchmark replicas. They are heavy (300k / 1M lines) and run
-        # only in full mode. Quick mode skips this section entirely
-        # (L7 still runs a smaller corpus via _load_suite).
-        if not self.full:
-            self.out('    (skipped in quick mode — run full suite for MP* perf tests)')
-            return
-        for tid, _name, fn in TESTS:
-            if tid.startswith('M'):
-                fn(self)
-
     def _load_suite(self):
         self.out()
-        self.out('------ file-loading tests (UTF-8/16/32, LE/BE, mixed EOLs) ------')
+        self.out('------ file-loading tests (UTF-8/16/32, LE/BE, mixed EOLs; '
+                 'L7 big-file) ------')
         for tid, name, fn in TESTS:
             if not tid.startswith('L'):
-                continue
-            if tid == 'L7':
-                # perf-style test: manages its own records; smaller corpus
-                # in quick mode
-                fn(self, 100000 if self.full else 30000)
                 continue
             self.t(tid, name, lambda f=fn: f(self), own_tab=False)
 
     def _single_test(self, tid):
-        """Run exactly one test from the catalog. A core test runs with
-        word wrap off and then on (same contract as in the whole suite);
-        a perf test manages its wrap modes itself."""
+        """Run exactly one test. A T test runs with word wrap off
+        and then on (same contract as in the whole suite); a load test
+        runs once, independent of wrap."""
         for t_id, name, fn in TESTS:
             if t_id != tid:
                 continue
@@ -1217,19 +959,10 @@ class Runner:
                         tid, 'on' if w else 'off'))
                     self.t(tid, name, lambda f=fn: f(self))
                 return
-            if tid.startswith('L'):
-                # load test: independent of wrap; L7 manages its own records
-                self.out()
-                self.out('------ single load test %s ------' % tid)
-                if tid == 'L7':
-                    fn(self)
-                else:
-                    self.t(tid, name, lambda f=fn: f(self), own_tab=False)
-                return
-            # perf test: makes its own records and wrap modes
+            # load test: independent of wrap
             self.out()
-            self.out('------ single perf test %s ------' % tid)
-            fn(self)
+            self.out('------ single load test %s ------' % tid)
+            self.t(tid, name, lambda f=fn: f(self), own_tab=False)
             return
         self.out()
         self.out('ERROR: no test with id %r in the catalog' % tid)
@@ -2736,7 +2469,7 @@ class Runner:
 
     # ========================================================================
     # STANDALONE FILE-LOADING TESTS L1..L7
-    # (UTF-8 / UTF-16 LE+BE / UTF-32 LE+BE, mixed EOLs; file_open perf;
+    # (UTF-8 / UTF-16 LE+BE / UTF-32 LE+BE, mixed EOLs; L7 big-file;
     # undo/redo round-trip of a small edit inside every loaded doc)
     # These tests write their own corpus files into LOAD_DIR (temp dir)
     # and open them with file_open(), which creates a separate tab per
@@ -2747,6 +2480,10 @@ class Runner:
     # per suite run, not once per wrap mode). The EOL scan of the loader
     # was optimized in 2026.09 - per-encoding tight loops - so these
     # tests pin its behavior for all encodings and mixed line endings.
+    # L7 is the big-file correctness variant (100k lines, UTF-16 LE /
+    # UTF-32 BE): no timing or hang measurement - only load checks and
+    # undo/redo of one small edit, with sampled-line verification
+    # (full-text compare would cost seconds on a ~100 MB doc).
     # ========================================================================
 
     # python codec + BOM bytes + expected CudaText PROP_ENC name
@@ -3000,23 +2737,20 @@ class Runner:
             finally:
                 self._close_tab(ed2)
 
-    def test_L7(self, nlines=100000):
-        """Perf: file_open() of big files (nlines lines: ~995-char ascii
-        lines and ~320-char CJK lines) saved as UTF-16 LE and UTF-32 BE
-        with BOM. The load time is measured and recorded in the perf
-        table (column 'delete' shows the open time). After the load
-        checks, ONE small CJK edit on line 7 is undone and redone: the
-        undo/redo times fill the perf table's undo/redo columns, and
-        the restored content is verified by line count + edited line +
-        first/last lines (a full-text compare would cost seconds on a
-        ~100 MB doc, and the bulk-undo bug class - empty document
-        after undo - is caught by these checks too). Thresholds are
-        generous regression trips, not patch gates."""
-        # thresholds (warn, fail) — edit here to retune this test
-        TH_OPEN = (5.0, 20.0)   # file_open
-        TH_UNDO = (2.0, 10.0)   # undo of one small edit
-        TH_REDO = (2.0, 10.0)   # redo of one small edit
 
+
+    def test_L7(self, nlines=100000):
+        """Load big files (nlines lines: ~995-char ascii lines and
+        ~320-char CJK lines) saved as UTF-16 LE and UTF-32 BE with BOM
+        via file_open(); check line count and sampled lines (first,
+        CJK line 7, last). Then ONE small CJK edit on line 7 is
+        undone and redone: a freshly opened tab has an EMPTY undo
+        stack, so one edit = one undo step landing back on the loaded
+        content. Full-text compare is avoided (would cost seconds on a
+        ~100 MB doc); line count + edited line + first/last lines still
+        catch the bulk-undo bug class (empty document after undo).
+        No timing or hang measurement - correctness only, same
+        philosophy as L1..L6."""
         rng = random.Random(SEED + 10)
         lines = []
         for i in range(nlines):
@@ -3027,46 +2761,32 @@ class Runner:
                 lines.append('line %d %s' % (
                     i, 'x' * rng.randint(900, 990)))
         for enc in ('utf-16le', 'utf-32be'):
-            if not self.begin('L7', 'L7: file_open of %d lines, %s' % (nlines, enc)):
-                self.done()
-                continue
-            ed2 = None
+            fn = os.path.join(LOAD_DIR, 'big_%s.txt' % enc)
+            self._load_write_file(fn, lines, enc)
+            nsize = os.path.getsize(fn)
+            self.info('file', '%s (%d lines, %.0f MB)' % (
+                fn, nlines, nsize / 1e6))
+            ed2, res = self._open_tab(
+                fn, tag='URTEST_LOAD',
+                title=self._tab_title('L7', extra=enc))
             try:
-                fn = os.path.join(LOAD_DIR, 'big_%s.txt' % enc)
-                t0 = time.time()
-                self._load_write_file(fn, lines, enc)
-                t_write = time.time() - t0
-                nsize = os.path.getsize(fn)
-                self.info('file written: %.0f MB in %.1fs' % (
-                    nsize / 1e6, t_write))
-                t0 = time.time()
-                res = cudatext.file_open(fn)
-                t_open = time.time() - t0
-                ed2 = self._ed_focused()
-                self._configure_suite_tab(ed2, tag='URTEST_LOAD')
-                ed2.set_prop(cudatext.PROP_TAB_TITLE,
-                             self._tab_title('L7', extra=enc))
                 self.check('%s: file_open returns True' % enc, res, True)
-                self.check('%s: line count' % enc, ed2.get_line_count(), nlines)
+                self.check('%s: line count' % enc,
+                           ed2.get_line_count(), nlines)
                 self.check('%s: first line' % enc,
                            ed2.get_text_line(0), lines[0])
                 self.check('%s: CJK line 7' % enc,
                            ed2.get_text_line(7), lines[7])
                 self.check('%s: last line' % enc,
                            ed2.get_text_line(nlines - 1), lines[nlines - 1])
-                self.info('%s: file_open: %.2fs (%d lines, %.0f MB)' % (
-                    enc, t_open, nlines, nsize / 1e6))
+                self.check('%s: modified flag not set' % enc,
+                           ed2.get_prop(cudatext.PROP_MODIFIED), False)
                 # ---- undo/redo of ONE small edit on the big doc ----
-                # Same contract as L1..L6: a freshly opened tab has an
+                # Same contract as L1..L6: freshly opened tab has an
                 # EMPTY undo stack, so one small edit gives exactly one
                 # undo step, which must land back on the loaded content.
-                # The doc is huge, so full-text compares are replaced by
-                # line-count + edited-line + first/last-line checks (the
-                # bulk-undo bug class - empty document after undo - is
-                # caught by these as well). Undo and redo are TIMED and
-                # go into the perf record; the tab's wrap state is
-                # inherited from the global setting here, so the hang is
-                # recorded but not judged (the MP tests own that).
+                # Grouping off for the block so '1 API call = 1 undo
+                # entry' holds exactly (restored True afterwards).
                 y_ed = 7          # CJK line (i % 7 == 0)
                 x_ed = 5
                 ins = '\u4e2d\u6587 undo'
@@ -3074,7 +2794,6 @@ class Runner:
                 try:
                     ed2.set_caret(x_ed, y_ed)
                     ed2.insert(x_ed, y_ed, ins)
-                    hi1, hi2 = self._hang(ed2, 'after small edit')
                     self.check('%s: line count after edit' % enc,
                                ed2.get_line_count(), nlines)
                     self.check('%s: edited line after edit' % enc,
@@ -3085,11 +2804,7 @@ class Runner:
                     self.check('%s: last line unchanged' % enc,
                                ed2.get_text_line(nlines - 1),
                                lines[nlines - 1])
-                    t1 = time.time()
                     ed2.cmd(cmds.cCommand_Undo)
-                    t2 = time.time()
-                    t_undo = t2 - t1
-                    hu1, hu2 = self._hang(ed2, 'after undo')
                     self.check('%s: line count after undo' % enc,
                                ed2.get_line_count(), nlines)
                     self.check('%s: edited line restored by undo' % enc,
@@ -3099,11 +2814,7 @@ class Runner:
                     self.check('%s: last line after undo' % enc,
                                ed2.get_text_line(nlines - 1),
                                lines[nlines - 1])
-                    t1 = time.time()
                     ed2.cmd(cmds.cCommand_Redo)
-                    t2 = time.time()
-                    t_redo = t2 - t1
-                    hr1, hr2 = self._hang(ed2, 'after redo')
                     self.check('%s: line count after redo' % enc,
                                ed2.get_line_count(), nlines)
                     self.check('%s: edited line after redo' % enc,
@@ -3116,807 +2827,13 @@ class Runner:
                     ed2.cmd(cmds.cCommand_Undo)
                     self.check('%s: edited line after final undo' % enc,
                                ed2.get_text_line(y_ed), lines[y_ed])
+                    self.check('%s: modified flag after undo to loaded'
+                               % enc,
+                               ed2.get_prop(cudatext.PROP_MODIFIED), False)
                 finally:
                     ed2.set_prop(cudatext.PROP_UNDO_GROUPED, True)
-                t_hang = (hi1 + hi2) + (hu1 + hu2) + (hr1 + hr2)
-                self.info('%s: undo %.3fs, redo %.3fs of one small edit '
-                          '(hang total %.2fs)' % (enc, t_undo, t_redo,
-                                                  t_hang))
-                # ---- perf judging (generous) ----
-                perf_fails = []
-                perf_warns = []
-                if t_open > TH_OPEN[1]:
-                    perf_fails.append('open %.2fs exceeds FAIL threshold '
-                                      '%.1fs' % (t_open, TH_OPEN[1]))
-                elif t_open > TH_OPEN[0]:
-                    perf_warns.append('open %.2fs exceeds warn threshold '
-                                      '%.1fs' % (t_open, TH_OPEN[0]))
-                for label, tv, w_, f_ in (
-                        ('undo', t_undo, TH_UNDO[0], TH_UNDO[1]),
-                        ('redo', t_redo, TH_REDO[0], TH_REDO[1])):
-                    if tv > f_:
-                        perf_fails.append('%s %.2fs exceeds FAIL threshold '
-                                          '%.1fs' % (label, tv, f_))
-                    elif tv > w_:
-                        perf_warns.append('%s %.2fs exceeds warn threshold '
-                                          '%.1fs' % (label, tv, w_))
-                status = ('FAIL' if perf_fails
-                          else ('WARN' if perf_warns else 'PASS'))
-                self.perf.append({
-                    'id': 'L7', 'wrap': 0, 'lines': nlines,
-                    'del': t_open, 'undo': t_undo, 'redo': t_redo,
-                    'hang': t_hang,
-                    'status': status, 'note': '; '.join(
-                        perf_fails + perf_warns) + ' (%s)' % enc,
-                })
-                if perf_fails:
-                    self.cur['bad'] += 1
-                    if self.cur['status'] != 'ERR':
-                        self.cur['status'] = 'FAIL'
-                    self.out('    FAIL  perf: %s' % '; '.join(perf_fails))
-                elif perf_warns:
-                    if self.cur['note']:
-                        self.cur['note'] += '; '
-                    self.cur['note'] = (self.cur['note'] + '; '.join(
-                        perf_warns))[:200]
-                    self.out('    WARN  perf: %s' % '; '.join(perf_warns))
-                else:
-                    self.cur['ok'] += 1
-                    self.out('    ok    perf thresholds')
-            except Exception:
-                self.cur['status'] = 'ERR'
-                tb = traceback.format_exc()
-                self.cur['note'] = tb.strip().splitlines()[-1][:200]
-                self.out('    ERR   exception raised:')
-                for ln in tb.strip().splitlines()[-5:]:
-                    self.out('            ' + ln)
             finally:
                 self._close_tab(ed2)
-            self.done()
-
-
-    # ========================================================================
-    # STANDALONE MANUAL-BENCHMARK REPLICAS MP1..MP6 (2026-09-08)
-    # The 6 manual console performance tests, replicated command for
-    # command. The ONLY document setup is file_open of the corpus file
-    # (mp_corpus_file() writes it once per run with the benchmark's
-    # exact seeded generator) - the manual session's state: no
-    # set_text_all, no suite-tab commands, no caret resets. Inside the
-    # timed part NOTHING runs between the manual test's own commands;
-    # Hang1/Hang2 are the manual test's two timed calls (Runner._hang).
-    # Checks are read-only and run after each op's timing so they
-    # cannot pollute it. Every wrap variant re-opens the file in a
-    # fresh tab (the previous variant's tab is closed), so each row is
-    # a clean, repeatable measurement of the manual test's own command
-    # sequence. Scaled to the suite's 300k lines (MP4 200k-of-300k);
-    # call test_MP1(1000000) etc. from the console for the exact
-    # 1M-line scale of the manual benchmarks.
-    # ========================================================================
-
-    def test_MP1(self, nlines=300000):
-        '''Manual test1: replace_lines of ALL lines with the corpus
-        file's readlines(), word wrap off and on. The manual test, run
-        in the console against the opened corpus file:
-            ed.set_prop(PROP_WRAP, 1)                  # untimed setup
-            lines = open(fpath, "r").readlines()       # untimed input
-            t1 = time.time()
-            ed.replace_lines(0, ed.get_line_count()-1, lines)
-            t2 = time.time()                           # op time
-            t1 = time.time(); app_proc(PROC_IDLE, True);     t2  # Hang1
-            t1 = time.time(); ed.action(EDACTION_UPDATE, 1); t2  # Hang2
-        The document is the corpus FILE opened with file_open (the
-        manual session's tab state), NOT a set_text_all-built doc.
-        The replaced content equals the file's own text, so the text
-        stays the same - the manual test measures the replace cost
-        itself, and so does this replica. No undo/redo here: the
-        manual test1 had none (its speed is covered by MP3/MP4).'''
-
-        # thresholds (warn, fail) — edit here to retune this test
-        TH_OP   = (2.0, 12.0)   # replace_lines
-        TH_HANG = (4.0, 16.0)   # Hang1+Hang2 total
-
-        # note about real consumed time:after replace_lines finishes in 3.0762s (for 1M lines) it takes 8s to show text and for cpu to return to 0%, and another 8s when i do the first click on text or first scroll, it eats 25% cpu for 8s while app hangs,so real total time is 19s
-        # to automate the time spent calculation of hang1 and hang2 we can use app_proc(PROC_IDLE, True) to calculate hang1 and ed.action(EDACTION_UPDATE,1) to calculate hang2 as used bellow
-        '''
-        import os, tempfile, random, time; fpath = os.path.join(tempfile.gettempdir(), "cuda_undo_test_rand_300K.txt"); t1 = time.time(); open(fpath, "w").writelines(os.urandom(random.randint(245, 255)).hex() + "\n" for _ in range(300000)); print(f"saved to {fpath} in {time.time()-t1:.4f}s");
-
-        import os, tempfile, time; file_open(""); app_proc(PROC_IDLE, True); ed.set_prop(PROP_WRAP,1); fpath = os.path.join(tempfile.gettempdir(), "cuda_undo_test_rand_300K.txt"); lines = open(fpath, "r").readlines(); t1 = time.time(); ed.replace_lines(0, ed.get_line_count()-1, lines); t2 = time.time(); print(f"replace_lines: {t2-t1:.4f}s"); 
-        t1 = time.time(); app_proc(PROC_IDLE, True); t2 = time.time(); print(f"Hang1: {t2-t1:.4f}s");
-        t1 = time.time(); ed.action(EDACTION_UPDATE,1); t2 = time.time(); print(f"Hang2: {t2-t1:.4f}s"); del lines
-
-        replace_lines: 0.9011s
-        Hang1: 2.6972s
-        Hang2: 2.0361s
-        '''
-
-        # to test it from this script use this, uncomment bellow code and see console to see the diference of both methods
-        # '''
-        import os, tempfile, random, time; fpath = os.path.join(tempfile.gettempdir(), "cuda_undo_test_rand_300K.txt"); t1 = time.time(); open(fpath, "w").writelines(os.urandom(random.randint(245, 255)).hex() + "\n" for _ in range(300000)); print(f"saved to {fpath} in {time.time()-t1:.4f}s")
-
-        # met1: this method is more correct than met2 because it reproduce exactly the test i run manually in cuda console, because i first start a tab, then i click in console then i run the one line command, when i open the tab cuda had the time to idle, but in met2 i don t use PROC_IDLE so the hang1 and hang2 are both mixed and calculated in the first PROC_IDLE hang1, while met1 show them clearly in diferent time so i can calculate the timinig in better granularity, in MP functions i will use met1
-
-        cudatext.file_open("")
-        ed1 = self._ed_focused()
-        ed1.set_prop(cudatext.PROP_TAG, 'URTEST_LOAD')
-        cudatext.app_proc(cudatext.PROC_IDLE, True);
-        import os, tempfile, time; ed1.set_prop(cudatext.PROP_WRAP,1); fpath = os.path.join(tempfile.gettempdir(), "cuda_undo_test_rand_300K.txt"); lines = open(fpath, "r").readlines(); t1 = time.time(); ed1.replace_lines(0, ed1.get_line_count()-1, lines); t2 = time.time(); print(f"replace_lines: {t2-t1:.4f}s"); 
-        t1 = time.time(); cudatext.app_proc(cudatext.PROC_IDLE, True); t2 = time.time(); print(f"Hang1: {t2-t1:.4f}s");
-        t1 = time.time(); ed1.action(cudatext.EDACTION_UPDATE,1); t2 = time.time(); print(f"Hang2: {t2-t1:.4f}s"); del lines
-        self._close_tab(ed1)
-        
-        # return:
-          # replace_lines: 0.9011s
-          # Hang1: 2.3531s
-          # Hang2: 1.9571s
-          
-          
-        # _______
-        # met2:
-
-        cudatext.file_open("")
-        ed2 = self._ed_focused()
-        ed2.set_prop(cudatext.PROP_TAG, 'URTEST_LOAD')
-        import os, tempfile, time; ed2.set_prop(cudatext.PROP_WRAP,1); fpath = os.path.join(tempfile.gettempdir(), "cuda_undo_test_rand_300K.txt"); lines = open(fpath, "r").readlines(); t1 = time.time(); ed2.replace_lines(0, ed2.get_line_count()-1, lines); t2 = time.time(); print(f"replace_lines: {t2-t1:.4f}s"); 
-        t1 = time.time(); cudatext.app_proc(cudatext.PROC_IDLE, True); t2 = time.time(); print(f"Hang1: {t2-t1:.4f}s");
-        t1 = time.time(); ed2.action(cudatext.EDACTION_UPDATE,1); t2 = time.time(); print(f"Hang2: {t2-t1:.4f}s"); del lines
-        self._close_tab(ed2)
-        
-        # return:
-          # replace_lines: 0.9031s
-          # Hang1: 4.4093s
-          # Hang2: 0.0210s
-        # '''
-        
-        fpath, t_write = mp_corpus_file(nlines)
-        for w in (0, 1):
-            self.wrap = w
-            if not self.begin('MP1', 'MP1 (manual test1): replace_lines of all '
-                              '%d corpus-file lines' % nlines):
-                self.done()
-                continue
-            ed = None
-            try:
-                # ---- setup: the manual session's state, untimed ----
-                ed, res = self._open_tab(
-                    "", tag='URTEST_LOAD', wrap=w,
-                    title=self._tab_title('MP1', w))
-                self.info('doc', '%s: %d lines (+fake), %d bytes%s' % (
-                    fpath, nlines, os.path.getsize(fpath),
-                    (', written in %.1fs' % t_write) if t_write is not None
-                    else ' (already written this run)'))
-                lines = open(fpath, 'r').readlines()
-                self.info('op', 'replace_lines(0, get_line_count()-1, %d '
-                          'readlines() items)' % len(lines))
-                # as i explained above, calling PROC_IDLE here after open() is important to get a correct hang1 and hang2 separated timing
-                cudatext.app_proc(cudatext.PROC_IDLE, True)
-                t1 = time.time()
-                ok = ed.replace_lines(0, ed.get_line_count() - 1, lines)
-                t2 = time.time()
-                t_op = t2 - t1
-                # Hang1 (PROC_IDLE) + Hang2 (EDACTION_UPDATE), right after the op
-                h1, h2 = self._hang(ed, 'after replace_lines')
-                
-                # ---- read-only verification, after the timing ----
-                # items end with their EOLs: concatenation = file text
-                corpus = ''.join(lines)
-                del lines
-                self.check('text after replace (final EOL + fake line)',
-                           ed.get_text_all(), corpus)
-                self.check('line_count after replace (fake line incl.)',
-                           ed.get_line_count(), nlines + 1)
-                del corpus
-                t_hang = h1 + h2
-                self.info('times: replace_lines %.3fs (+Hang1 %.4fs '
-                          '+Hang2 %.4fs) | hang total %.4fs' % (
-                              t_op, h1, h2, t_hang))
-                # ---- perf judging (inline) ----
-                perf_fails = []
-                perf_warns = []
-                for label, tv, w_, f_ in (
-                        ('replace_lines', t_op, TH_OP[0], TH_OP[1]),
-                        ('hang(Hang1+Hang2)', t_hang, TH_HANG[0], TH_HANG[1])):
-                    if tv > f_:
-                        perf_fails.append('%s %.2fs exceeds FAIL threshold '
-                                          '%.1fs' % (label, tv, f_))
-                    elif tv > w_:
-                        perf_warns.append('%s %.2fs exceeds warn threshold '
-                                          '%.1fs' % (label, tv, w_))
-
-                text_bad = self.cur['bad'] > 0
-                status = ('FAIL' if (perf_fails or text_bad)
-                          else ('WARN' if perf_warns else 'PASS'))
-                self.perf.append({
-                    'id': 'MP1', 'wrap': self.wrap, 'lines': nlines,
-                    'del': t_op, 'undo': 0.0, 'redo': 0.0, 'hang': t_hang,
-                    'status': status, 'note': '; '.join(perf_fails +
-                                                        perf_warns),
-                })
-                if perf_fails:
-                    self.cur['bad'] += 1
-                    if self.cur['status'] != 'ERR':
-                        self.cur['status'] = 'FAIL'
-                    self.out('    FAIL  perf: %s' % '; '.join(perf_fails))
-                elif perf_warns:
-                    if self.cur['note']:
-                        self.cur['note'] += '; '
-                    self.cur['note'] = (self.cur['note'] + '; '.join(
-                        perf_warns))[:200]
-                    self.out('    WARN  perf: %s' % '; '.join(perf_warns))
-                else:
-                    self.cur['ok'] += 1
-                    self.out('    ok    perf thresholds')
-            except Exception:
-                self.cur['status'] = 'ERR'
-                tb = traceback.format_exc()
-                self.cur['note'] = tb.strip().splitlines()[-1][:200]
-                self.out('    ERR   exception raised:')
-                for ln in tb.strip().splitlines()[-5:]:
-                    self.out('            ' + ln)
-            finally:
-                self._close_tab(ed)
-            self.done()
-
-    def test_MP2(self, nlines=300000):
-        '''Manual test2: set_text_all of the whole corpus file text,
-        word wrap off and on. The manual test, run in the console
-        against the opened corpus file:
-            text = open(fpath, "r").read()             # untimed input
-            t1 = time.time(); ed.set_text_all(text); t2 = time.time()
-            t1 = time.time(); app_proc(PROC_IDLE, True);     t2  # Hang1
-            t1 = time.time(); ed.action(EDACTION_UPDATE, 1); t2  # Hang2
-        The start document is the corpus FILE opened with file_open
-        (empty undo history - exactly the manual session's tab), not a
-        set_text_all-built doc on the suite tab: the doc's undo/wrap
-        state is part of what makes the timing comparable to the
-        manual numbers. No undo/redo: the manual test2 had none (the
-        set_text_all undo contract itself is pinned by T23).'''
-        # thresholds (warn, fail) — edit here to retune this test
-        TH_OP   = (5.0, 12.0)   # set_text_all
-        TH_HANG = (4.0, 16.0)   # Hang1+Hang2 total
-
-        fpath, t_write = mp_corpus_file(nlines)
-        for w in (0, 1):
-            self.wrap = w
-            if not self.begin('MP2', 'MP2 (manual test2): set_text_all of the '
-                              '%d-line corpus file text' % nlines):
-                self.done()
-                continue
-            ed = None
-            try:
-                # ---- setup: the manual session's state, untimed ----
-                ed, res = self._open_tab(
-                    "", tag='URTEST_LOAD', wrap=w,
-                    title=self._tab_title('MP2', w))
-                self.info('doc', '%s: %d lines (+fake), %d bytes%s' % (
-                    fpath, nlines, os.path.getsize(fpath),
-                    (', written in %.1fs' % t_write) if t_write is not None
-                    else ' (already written this run)'))
-                text = open(fpath, 'r').read()
-                self.info('op', 'set_text_all(%d chars)' % len(text))
-
-                # see MP1 for why this is necesary
-                cudatext.app_proc(cudatext.PROC_IDLE, True)
-                t1 = time.time()
-                ed.set_text_all(text)
-                t2 = time.time()
-                t_op = t2 - t1
-                # Hang1 + Hang2, right after the op
-                h1, h2 = self._hang(ed, 'after set_text_all')
-                # ---- read-only verification, after the timing ----
-                self.check('file_open returns True', res, True)
-                self.check('text after set_text_all', ed.get_text_all(),
-                           text)
-                self.check('line_count after set_text_all (fake line '
-                           'incl.)', ed.get_line_count(), nlines + 1)
-                del text
-                t_hang = h1 + h2
-                self.info('times: set_text_all %.3fs (+Hang1 %.4fs '
-                          '+Hang2 %.4fs) | hang total %.4fs' % (
-                              t_op, h1, h2, t_hang))
-                # ---- perf judging (inline) ----
-                perf_fails = []
-                perf_warns = []
-                for label, tv, w_, f_ in (
-                        ('set_text_all', t_op, TH_OP[0], TH_OP[1]),
-                        ('hang(Hang1+Hang2)', t_hang, TH_HANG[0], TH_HANG[1])):
-                    if tv > f_:
-                        perf_fails.append('%s %.2fs exceeds FAIL threshold '
-                                          '%.1fs' % (label, tv, f_))
-                    elif tv > w_:
-                        perf_warns.append('%s %.2fs exceeds warn threshold '
-                                          '%.1fs' % (label, tv, w_))
-
-                text_bad = self.cur['bad'] > 0
-                status = ('FAIL' if (perf_fails or text_bad)
-                          else ('WARN' if perf_warns else 'PASS'))
-                self.perf.append({
-                    'id': 'MP2', 'wrap': self.wrap, 'lines': nlines,
-                    'del': t_op, 'undo': 0.0, 'redo': 0.0, 'hang': t_hang,
-                    'status': status, 'note': '; '.join(perf_fails +
-                                                        perf_warns),
-                })
-                if perf_fails:
-                    self.cur['bad'] += 1
-                    if self.cur['status'] != 'ERR':
-                        self.cur['status'] = 'FAIL'
-                    self.out('    FAIL  perf: %s' % '; '.join(perf_fails))
-                elif perf_warns:
-                    if self.cur['note']:
-                        self.cur['note'] += '; '
-                    self.cur['note'] = (self.cur['note'] + '; '.join(
-                        perf_warns))[:200]
-                    self.out('    WARN  perf: %s' % '; '.join(perf_warns))
-                else:
-                    self.cur['ok'] += 1
-                    self.out('    ok    perf thresholds')
-            except Exception:
-                self.cur['status'] = 'ERR'
-                tb = traceback.format_exc()
-                self.cur['note'] = tb.strip().splitlines()[-1][:200]
-                self.out('    ERR   exception raised:')
-                for ln in tb.strip().splitlines()[-5:]:
-                    self.out('            ' + ln)
-            finally:
-                self._close_tab(ed)
-            self.done()
-
-    def test_MP3(self, nlines=300000):
-        '''Manual test3: load corpus via replace_lines (same as the
-        manual console setup), then select ALL, delete, undo, redo -
-        word wrap off and on. The manual test, run in the console:
-            ed.set_prop(PROP_WRAP, 1)                      # untimed
-            lines = open(fpath, "r").readlines()           # untimed
-            ed.replace_lines(0, ed.get_line_count()-1, lines)  # untimed setup
-            del lines
-            ed.set_caret(0, ed.get_line_count(), 0, 0)
-            ed.cmd(cCommand_TextDeleteSelection)
-            t1; ed.cmd(cCommand_Undo); t2; Hang1; Hang2
-            t1; ed.cmd(cCommand_Redo); t2; Hang1; Hang2
-        Document setup matches MP1: empty tab + replace_lines of the
-        corpus file's readlines(). The select-all caret
-        y=get_line_count() overshoots by one (fake last line): the
-        delete clamps to the true document end, and undo cannot
-        restore the overshooting caret as-is - the check accepts the
-        exact pre state and the clamped form.'''
-        # thresholds (warn, fail) — edit here to retune this test
-        TH_DEL  = (2.0, 12.0)   # TextDeleteSelection
-        TH_UNDO = (5.0, 20.0)   # Undo
-        TH_REDO = (5.0, 20.0)   # Redo
-        TH_HANG = (7.0, 20.0)   # Hang1+Hang2 total
-
-        fpath, t_write = mp_corpus_file(nlines)
-        for w in (0, 1):
-            self.wrap = w
-            if not self.begin('MP3', 'MP3 (manual test3): replace_lines load + '
-                              'select all + delete, undo, redo of %d lines'
-                              % nlines):
-                self.done()
-                continue
-            ed = None
-            try:
-                # ---- setup: empty tab + corpus via replace_lines (untimed)
-                ed, res = self._open_tab(
-                    "", tag='URTEST_LOAD', wrap=w,
-                    title=self._tab_title('MP3', w))
-                self.info('doc', '%s: %d lines (+fake), %d bytes%s' % (
-                    fpath, nlines, os.path.getsize(fpath),
-                    (', written in %.1fs' % t_write) if t_write is not None
-                    else ' (already written this run)'))
-                lines = open(fpath, 'r').readlines()
-                corpus = ''.join(lines)
-                self.info('setup', 'replace_lines(0, get_line_count()-1, %d '
-                          'readlines() items) [untimed]' % len(lines))
-                ok = ed.replace_lines(0, ed.get_line_count() - 1, lines)
-                del lines
-                self.check('replace_lines returns True (setup)', ok, True)
-                self.check('text after replace_lines setup',
-                           ed.get_text_all(), corpus)
-                self.check('line_count after replace_lines setup '
-                           '(fake line incl.)',
-                           ed.get_line_count(), nlines + 1)
-                # ---- the manual test's timed commands ----
-                ed.set_caret(0, ed.get_line_count(), 0, 0)
-                self.info('op', 'set_caret(0, get_line_count()=%d, 0, 0) '
-                          '+ TextDeleteSelection + Undo + Redo' % (
-                              ed.get_line_count()))
-                # see MP1 for why this is necesary
-                cudatext.app_proc(cudatext.PROC_IDLE, True)
-                t1 = time.time()
-                ed.cmd(cmds.cCommand_TextDeleteSelection)
-                t2 = time.time()
-                t_del = t2 - t1
-                # Hang1 + Hang2, right after the delete
-                hd1, hd2 = self._hang(ed, 'after delete')
-                # ---- read-only checks (after that op's timing) ----
-                self.check('text after delete (empty doc)',
-                           ed.get_text_all(), '')
-                self.check('line_count after delete', ed.get_line_count(),
-                           1)
-                cudatext.app_proc(cudatext.PROC_IDLE, True)
-                t1 = time.time()
-                ed.cmd(cmds.cCommand_Undo)
-                t2 = time.time()
-                t_undo = t2 - t1
-                hu1, hu2 = self._hang(ed, 'after undo')
-                self.check('text after undo (full doc back)',
-                           ed.get_text_all(), corpus)
-                self.check('line_count after undo (fake line incl.)',
-                           ed.get_line_count(), nlines + 1)
-                self.check('carets after undo valid (select-all overshoot)',
-                           ed.get_carets() in (
-                               [(0, nlines + 1, 0, 0)],
-                               [(0, nlines, -1, -1)]),
-                           True)
-                cudatext.app_proc(cudatext.PROC_IDLE, True)
-                t1 = time.time()
-                ed.cmd(cmds.cCommand_Redo)
-                t2 = time.time()
-                t_redo = t2 - t1
-                hr1, hr2 = self._hang(ed, 'after redo')
-                self.check('text after redo (delete result back)',
-                           ed.get_text_all(), '')
-                self.check('line_count after redo', ed.get_line_count(), 1)
-                del corpus
-                t_hang = (hd1 + hd2) + (hu1 + hu2) + (hr1 + hr2)
-                self.info('times: delete %.3fs (+Hang1 %.2fs +Hang2 %.2fs) '
-                          '| undo %.3fs (+Hang1 %.2fs +Hang2 %.2fs) | '
-                          'redo %.3fs (+Hang1 %.2fs +Hang2 %.2fs) | hang '
-                          'total %.2fs' % (
-                              t_del, hd1, hd2, t_undo, hu1, hu2, t_redo, hr1, hr2, t_hang))
-                # ---- perf judging (inline) ----
-                perf_fails = []
-                perf_warns = []
-                for label, tv, w_, f_ in (
-                        ('delete', t_del, TH_DEL[0], TH_DEL[1]),
-                        ('undo', t_undo, TH_UNDO[0], TH_UNDO[1]),
-                        ('redo', t_redo, TH_REDO[0], TH_REDO[1]),
-                        ('hang(Hang1+Hang2)', t_hang, TH_HANG[0], TH_HANG[1])):
-                    if tv > f_:
-                        perf_fails.append('%s %.2fs exceeds FAIL threshold '
-                                          '%.1fs' % (label, tv, f_))
-                    elif tv > w_:
-                        perf_warns.append('%s %.2fs exceeds warn threshold '
-                                          '%.1fs' % (label, tv, w_))
-
-                text_bad = self.cur['bad'] > 0
-                status = ('FAIL' if (perf_fails or text_bad)
-                          else ('WARN' if perf_warns else 'PASS'))
-                self.perf.append({
-                    'id': 'MP3', 'wrap': self.wrap, 'lines': nlines,
-                    'del': t_del, 'undo': t_undo, 'redo': t_redo,
-                    'hang': t_hang,
-                    'status': status, 'note': '; '.join(perf_fails +
-                                                        perf_warns),
-                })
-                if perf_fails:
-                    self.cur['bad'] += 1
-                    if self.cur['status'] != 'ERR':
-                        self.cur['status'] = 'FAIL'
-                    self.out('    FAIL  perf: %s' % '; '.join(perf_fails))
-                elif perf_warns:
-                    if self.cur['note']:
-                        self.cur['note'] += '; '
-                    self.cur['note'] = (self.cur['note'] + '; '.join(
-                        perf_warns))[:200]
-                    self.out('    WARN  perf: %s' % '; '.join(perf_warns))
-                else:
-                    self.cur['ok'] += 1
-                    self.out('    ok    perf thresholds')
-            except Exception:
-                self.cur['status'] = 'ERR'
-                tb = traceback.format_exc()
-                self.cur['note'] = tb.strip().splitlines()[-1][:200]
-                self.out('    ERR   exception raised:')
-                for ln in tb.strip().splitlines()[-5:]:
-                    self.out('            ' + ln)
-            finally:
-                self._close_tab(ed)
-            self.done()
-
-    def test_MP4(self, nlines=300000, ndel=200000):
-        '''Manual test4: load corpus via replace_lines (same setup as
-        the manual console and as MP1/MP3), then delete the FIRST ndel
-        lines, undo, redo - word wrap off and on. The manual test:
-            file_open(""); app_proc(PROC_IDLE, True)
-            ed.set_prop(PROP_WRAP, 1)                       # untimed
-            lines = open(fpath, "r").readlines()            # untimed
-            ed.replace_lines(0, ed.get_line_count()-1, lines)  # untimed
-            del lines
-            ed.set_caret(0, ndel, 0, 0)
-            t1; ed.cmd(cCommand_TextDeleteSelection); t2; Hang1; Hang2
-            t1; ed.cmd(cCommand_Undo);               t2; Hang1; Hang2
-            t1; ed.cmd(cCommand_Redo);               t2; Hang1; Hang2
-        (0,0)-(0,ndel) selects exactly the first ndel lines with their
-        newlines; the document keeps lines ndel.. plus the fake last
-        line. Document setup matches MP1/MP3: empty tab + replace_lines
-        of the corpus file's readlines() (NOT file_open of the corpus).'''
-        # thresholds (warn, fail) — edit here to retune this test
-        TH_DEL  = (2.0, 12.0)   # TextDeleteSelection
-        TH_UNDO = (5.0, 20.0)   # Undo
-        TH_REDO = (5.0, 20.0)   # Redo
-        TH_HANG = (7.0, 20.0)   # Hang1+Hang2 total
-
-        fpath, t_write = mp_corpus_file(nlines)
-        for w in (0, 1):
-            self.wrap = w
-            if not self.begin('MP4', 'MP4 (manual test4): replace_lines load + '
-                              'delete first %d of %d lines, undo, redo' % (
-                                  ndel, nlines)):
-                self.done()
-                continue
-            ed = None
-            try:
-                # ---- setup: empty tab + corpus via replace_lines (untimed)
-                ed, res = self._open_tab(
-                    "", tag='URTEST_LOAD', wrap=w,
-                    title=self._tab_title('MP4', w))
-                self.info('doc', '%s: %d lines (+fake), %d bytes%s' % (
-                    fpath, nlines, os.path.getsize(fpath),
-                    (', written in %.1fs' % t_write) if t_write is not None
-                    else ' (already written this run)'))
-                lines = open(fpath, 'r').readlines()
-                corpus = ''.join(lines)
-                after_del = ''.join(lines[ndel:])
-                self.info('setup', 'replace_lines(0, get_line_count()-1, %d '
-                          'readlines() items) [untimed]' % len(lines))
-                ok = ed.replace_lines(0, ed.get_line_count() - 1, lines)
-                del lines
-                self.check('replace_lines returns True (setup)', ok, True)
-                self.check('text after replace_lines setup',
-                           ed.get_text_all(), corpus)
-                self.check('line_count after replace_lines setup '
-                           '(fake line incl.)',
-                           ed.get_line_count(), nlines + 1)
-                # ---- the manual test's timed commands ----
-                ed.set_caret(0, ndel, 0, 0)
-                pre = ed.get_carets()
-                self.info('op', 'set_caret(0, %d, 0, 0) + '
-                          'TextDeleteSelection + Undo + Redo' % ndel)
-                # see MP1 for why this is necesary
-                cudatext.app_proc(cudatext.PROC_IDLE, True)
-                t1 = time.time()
-                ed.cmd(cmds.cCommand_TextDeleteSelection)
-                t2 = time.time()
-                t_del = t2 - t1
-                # Hang1 + Hang2, right after the delete
-                hd1, hd2 = self._hang(ed, 'after delete')
-                # ---- read-only checks (after that op's timing) ----
-                self.check('text after delete', ed.get_text_all(),
-                           after_del)
-                self.check('line_count after delete (fake line incl.)',
-                           ed.get_line_count(), nlines - ndel + 1)
-                cudatext.app_proc(cudatext.PROC_IDLE, True)
-                t1 = time.time()
-                ed.cmd(cmds.cCommand_Undo)
-                t2 = time.time()
-                t_undo = t2 - t1
-                hu1, hu2 = self._hang(ed, 'after undo')
-                self.check('text after undo (full doc back)',
-                           ed.get_text_all(), corpus)
-                self.check('line_count after undo (fake line incl.)',
-                           ed.get_line_count(), nlines + 1)
-                self.check('selection restored after undo',
-                           ed.get_carets(), pre)
-                cudatext.app_proc(cudatext.PROC_IDLE, True)
-                t1 = time.time()
-                ed.cmd(cmds.cCommand_Redo)
-                t2 = time.time()
-                t_redo = t2 - t1
-                hr1, hr2 = self._hang(ed, 'after redo')
-                self.check('text after redo (delete result back)',
-                           ed.get_text_all(), after_del)
-                del corpus, after_del
-                t_hang = (hd1 + hd2) + (hu1 + hu2) + (hr1 + hr2)
-                self.info('times: delete %.3fs (+Hang1 %.2fs +Hang2 %.2fs) '
-                          '| undo %.3fs (+Hang1 %.2fs +Hang2 %.2fs) | '
-                          'redo %.3fs (+Hang1 %.2fs +Hang2 %.2fs) | hang '
-                          'total %.2fs' % (
-                              t_del, hd1, hd2, t_undo, hu1, hu2, t_redo, hr1, hr2, t_hang))
-                # ---- perf judging (inline) ----
-                perf_fails = []
-                perf_warns = []
-                for label, tv, w_, f_ in (
-                        ('delete', t_del, TH_DEL[0], TH_DEL[1]),
-                        ('undo', t_undo, TH_UNDO[0], TH_UNDO[1]),
-                        ('redo', t_redo, TH_REDO[0], TH_REDO[1]),
-                        ('hang(Hang1+Hang2)', t_hang, TH_HANG[0], TH_HANG[1])):
-                    if tv > f_:
-                        perf_fails.append('%s %.2fs exceeds FAIL threshold '
-                                          '%.1fs' % (label, tv, f_))
-                    elif tv > w_:
-                        perf_warns.append('%s %.2fs exceeds warn threshold '
-                                          '%.1fs' % (label, tv, w_))
-
-                text_bad = self.cur['bad'] > 0
-                status = ('FAIL' if (perf_fails or text_bad)
-                          else ('WARN' if perf_warns else 'PASS'))
-                self.perf.append({
-                    'id': 'MP4', 'wrap': self.wrap, 'lines': nlines,
-                    'del': t_del, 'undo': t_undo, 'redo': t_redo,
-                    'hang': t_hang,
-                    'status': status, 'note': '; '.join(perf_fails +
-                                                        perf_warns),
-                })
-                if perf_fails:
-                    self.cur['bad'] += 1
-                    if self.cur['status'] != 'ERR':
-                        self.cur['status'] = 'FAIL'
-                    self.out('    FAIL  perf: %s' % '; '.join(perf_fails))
-                elif perf_warns:
-                    if self.cur['note']:
-                        self.cur['note'] += '; '
-                    self.cur['note'] = (self.cur['note'] + '; '.join(
-                        perf_warns))[:200]
-                    self.out('    WARN  perf: %s' % '; '.join(perf_warns))
-                else:
-                    self.cur['ok'] += 1
-                    self.out('    ok    perf thresholds')
-            except Exception:
-                self.cur['status'] = 'ERR'
-                tb = traceback.format_exc()
-                self.cur['note'] = tb.strip().splitlines()[-1][:200]
-                self.out('    ERR   exception raised:')
-                for ln in tb.strip().splitlines()[-5:]:
-                    self.out('            ' + ln)
-            finally:
-                self._close_tab(ed)
-            self.done()
-
-    # def test_MP6(self, nlines=300000):
-    def test_MP6(self, nlines=1000000):
-        '''Manual test6: file_open of the corpus file + wrap on. The
-        manual test timed the plain open of the big text file plus
-        the open-with-wrap number. A freshly opened tab inherits the
-        app's GLOBAL wrap setting. Before each row this test sets that
-        global setting via _disable_wrap_opts (wrap off) or
-        _enable_wrap_opts (wrap on), then does a true cold open:
-            # untimed: _disable_wrap_opts() or _enable_wrap_opts()
-            t1; cudatext.file_open(fpath); t2          # open time
-            t1; app_proc(PROC_IDLE, True); t2           # Hang1
-            t1; ed.action(EDACTION_UPDATE, 1); t2       # Hang2
-            # wrap-on row only (global already on; also set on tab):
-            t1; ed.set_prop(PROP_WRAP, 1); t2           # wrap-on time
-            t1; app_proc(PROC_IDLE, True); t2           # Hang1
-            t1; ed.action(EDACTION_UPDATE, 1); t2       # Hang2
-        Each row starts with the corpus tab closed (the previous row
-        closes it), so file_open is a true cold open.'''
-        # thresholds (warn, fail) — edit here to retune this test
-        TH_OPEN = (15.0, 25.0)   # file_open (+ optional wrap-on)
-        TH_HANG = (1.0, 2.0)   # Hang1+Hang2 total
-
-        fpath, t_write = mp_corpus_file(nlines)
-        items = open(fpath, 'r').readlines()
-        sample = tuple(s[:-1] if s.endswith('\n') else s
-                       for s in (items[0], items[nlines // 2],
-                                 items[nlines - 1]))
-        del items
-        for w in (0, 1):
-            self.wrap = w
-            if not self.begin('MP6', 'MP6 (manual test6): file_open of %d '
-                              'corpus-file lines (%s)' % (
-                                  nlines, 'wrap off' if w == 0
-                                  else 'wrap on')):
-                self.done()
-                continue
-            ed = None
-            try:
-                self.info('doc', '%s: %d lines (+fake), %d bytes%s' % (
-                    fpath, nlines, os.path.getsize(fpath),
-                    (', written in %.1fs' % t_write) if t_write is not None
-                    else ' (already written this run)'))
-                # set global wrap opts BEFORE the timed open so the
-                # new tab inherits the wanted setting (untimed)
-                if w == 0:
-                    self._disable_wrap_opts()
-                else:
-                    self._enable_wrap_opts()
-                    
-                # this three lines are important otherwise _enable_wrap_opts have no effect in the first run of this test!
-                cudatext.app_proc(cudatext.PROC_IDLE, True)
-                edZ = self._ed_focused()
-                edZ.action(cudatext.EDACTION_UPDATE, 1)
-                
-                
-                # ---- the manual test's own commands, nothing else ----
-                t1 = time.time()
-                res = cudatext.file_open(fpath)
-                t2 = time.time()
-                t_open = t2 - t1
-                ed = self._ed_focused()
-                
-                # sometimes this help too _enable_wrap_opts to take efect! 
-                cudatext.app_proc(cudatext.PROC_IDLE, True)
-                ed.action(cudatext.EDACTION_UPDATE,1)
-
-                
-                # configure after the timed open (shared helper)
-                self._configure_suite_tab(ed, tag='URTEST_LOAD')
-                ed.set_prop(cudatext.PROP_TAB_TITLE,
-                            self._tab_title('MP6', w))
-                # Hang1 + Hang2, right after the open
-                ho1, ho2 = self._hang(ed, 'after file_open')
-                w_tab = ed.get_prop(cudatext.PROP_WRAP)
-                if w == 0 and w_tab:
-                    self.info('note', 'tab opened with wrap ON after '
-                              '_disable_wrap_opts (unexpected)')
-                    print('NOTE:tab opened with wrap ON after '
-                              '_disable_wrap_opts (unexpected)')
-                elif w == 1 and not w_tab:
-                    self.info('note', 'tab opened with wrap OFF after '
-                              '_enable_wrap_opts (unexpected)')
-                    print('NOTE:tab opened with wrap OFF after '
-                              '_enable_wrap_opts (unexpected)')      
-                t_wrap = 0.0
-                hw1 = hw2 = 0.0
-                if w == 1:
-                    t1 = time.time()
-                    ed.set_prop(cudatext.PROP_WRAP, 1)
-                    t2 = time.time()
-                    t_wrap = t2 - t1
-                    hw1, hw2 = self._hang(ed, 'after set wrap on')
-                # ---- read-only verification, after the timing ----
-                self.check('file_open returns True', res, True)
-                self.check('line count (fake line incl.)',
-                           ed.get_line_count(), nlines + 1)
-                self.check('first line', ed.get_text_line(0), sample[0])
-                self.check('middle line', ed.get_text_line(nlines // 2),
-                           sample[1])
-                self.check('last line', ed.get_text_line(nlines - 1),
-                           sample[2])
-                t_total = t_open + t_wrap
-                t_hang = (ho1 + ho2) + (hw1 + hw2)
-                self.info('file_open: %.2fs%s | Hang1 %.4fs + Hang2 %.4fs%s'
-                          % (t_open,
-                             (' + wrap on %.2fs' % t_wrap) if w else '',
-                             ho1, ho2,
-                             (' + wrap Hang1 %.4fs + Hang2 %.4fs'
-                              % (hw1, hw2)) if w else ''))
-                # ---- perf judging (inline, generous like L7's gates) ----
-                perf_fails = []
-                perf_warns = []
-                for label, tv, w_, f_ in (
-                        ('open', t_total, TH_OPEN[0], TH_OPEN[1]),
-                        ('hang(Hang1+Hang2)', t_hang, TH_HANG[0], TH_HANG[1])):
-                    if tv > f_:
-                        perf_fails.append('%s %.2fs exceeds FAIL threshold '
-                                          '%.1fs' % (label, tv, f_))
-                    elif tv > w_:
-                        perf_warns.append('%s %.2fs exceeds warn threshold '
-                                          '%.1fs' % (label, tv, w_))
-                text_bad = self.cur['bad'] > 0
-                status = ('FAIL' if (perf_fails or text_bad)
-                          else ('WARN' if perf_warns else 'PASS'))
-                self.perf.append({
-                    'id': 'MP6', 'wrap': self.wrap, 'lines': nlines,
-                    'del': t_total, 'undo': 0.0, 'redo': 0.0,
-                    'hang': t_hang,
-                    'status': status, 'note': '; '.join(
-                        perf_fails + perf_warns),
-                })
-                if perf_fails:
-                    self.cur['bad'] += 1
-                    if self.cur['status'] != 'ERR':
-                        self.cur['status'] = 'FAIL'
-                    self.out('    FAIL  perf: %s' % '; '.join(perf_fails))
-                elif perf_warns:
-                    if self.cur['note']:
-                        self.cur['note'] += '; '
-                    self.cur['note'] = (self.cur['note'] + '; '.join(
-                        perf_warns))[:200]
-                    self.out('    WARN  perf: %s' % '; '.join(perf_warns))
-                else:
-                    self.cur['ok'] += 1
-                    self.out('    ok    perf thresholds')
-            except Exception:
-                self.cur['status'] = 'ERR'
-                tb = traceback.format_exc()
-                self.cur['note'] = tb.strip().splitlines()[-1][:200]
-                self.out('    ERR   exception raised:')
-                for ln in tb.strip().splitlines()[-5:]:
-                    self.out('            ' + ln)
-            finally:
-                self._close_tab(ed)
-            self.done()
 
 
 # ----------------------------------------------------------------------------
@@ -3985,25 +2902,8 @@ TESTS = [
      Runner.test_L5),
     ('L6', 'load UTF-16 LE/UTF-32 BE with mixed EOLs (LF/CRLF/CR)',
      Runner.test_L6),
-    ('L7', 'perf: file_open of big UTF-16 LE / UTF-32 BE files',
+    ('L7', 'load big UTF-16 LE / UTF-32 BE files: content + undo/redo',
      Runner.test_L7),
-    # Performance coverage now comes exclusively from the MP* tests
-    # (exact manual-benchmark replicas) and from L7. The older P1-P5
-    # suite-tab tests were removed as redundant.
-    # exact replicas of the 6 manual console benchmarks: the doc is
-    # the corpus FILE opened via file_open, the timed commands are
-    # the manual tests' own commands (see the MP section docstrings)
-    ('MP1', 'manual test1: replace_lines of all lines, readlines() '
-            'input (file-opened doc, wrap off+on)', Runner.test_MP1),
-    ('MP2', 'manual test2: set_text_all of open().read() text '
-            '(file-opened doc, wrap off+on)', Runner.test_MP2),
-    ('MP3', 'manual test3: select-all delete, undo, redo '
-            '(file-opened doc, wrap off+on)', Runner.test_MP3),
-    ('MP4', 'manual test4: replace_lines load + delete first 200k of 300k, '
-            'undo, redo (wrap off+on)', Runner.test_MP4),
-    ('MP6', 'manual test6: file_open of the corpus file '
-            '(wrap off then wrap on; toggles global wrap opts)',
-     Runner.test_MP6),
 ]
 
 # ----------------------------------------------------------------------------
@@ -4012,25 +2912,16 @@ TESTS = [
 
 class Command:
 
-    # ---- menu commands ----------------------------------------------------
-
-    def run_full(self):
-        """Run the full suite, including 300k/1M-line MP* perf tests."""
-        Runner(full=True).run()
-
-    def run_quick(self):
-        """Run the quick suite (core + load tests only; no heavy MP* perf)."""
-        Runner(full=False).run()
+    def run_all(self):
+        """Run ALL tests."""
+        Runner().run()
 
     def run_single(self):
-        """Show the list of all tests (core T01..T41,
-        manual replicas MP1..MP4, MP6) and run
-        only the one chosen in the dialog. dlg_menu(DMENU_LIST_ALT, ...)
-        is the documented list-with-filter dialog; the ALT flavor shows
-        each item with double height, the description below the id (good
-        for these long labels). It returns the 0-based index of the
-        chosen item, or None when cancelled."""
-        r = Runner(full=True)
+        """Show the list of all tests and run
+        only the one chosen in the dialog.
+        It returns the 0-based index of the chosen item, or None when
+        cancelled."""
+        r = Runner()
         cat = r.test_catalog()
         # 'id\tdescription': the part after the tab shows below the id
         items = ['%s\t%s' % (tid, label) for tid, label in cat]

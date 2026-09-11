@@ -1,27 +1,21 @@
 [info]
 title=Testing of undo/redo
-desc=Extensive undo/redo regression test suite; prints results and summary to the console
+desc=undo/redo regression suite
 type=cudatext-plugin
 subdir=cuda_testing_undo_redo
 homepage=https://github.com/Alexey-T/CudaText/issues/6443 https://github.com/Alexey-T/ATSynEdit/issues/368
 
 [item1]
 section=commands
-caption=Testing\Testing of Undo/Redo\Run full suite (incl. perf tests)
-method=run_full
+caption=Testing\Testing of Undo/Redo\Run all tests
+method=run_all
 
 [item2]
 section=commands
-caption=Testing\Testing of Undo/Redo\Run quick suite (no perf test)
-method=run_quick
+caption=Testing\Testing of Undo/Redo\Run single test
+method=run_single
 
 [item3]
 section=commands
-caption=Testing\Testing of Undo/Redo\Run single test (choose from list)
-method=run_single
-
-[item4]
-section=commands
-caption=Testing\Testing of Undo/Redo\Help: what is tested / how to read results
+caption=Testing\Testing of Undo/Redo\Help
 method=about
-
