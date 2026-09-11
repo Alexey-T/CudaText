@@ -251,7 +251,9 @@ class Command:
                 self.listed_editors.append(edit)
 
                 title = edit.get_prop(PROP_TAB_TITLE)
-                # image_index = edit.h - handles[0] # this was not used # TODO: add tab icon like in tabs bar
+                # when Tabs_Icons works for pinned tab, and option "collapse_pinned" on, and tab has custom icon, plugin makes tab-title=' '
+                if title in ('', ' '):
+                    title = os.path.basename(edit.get_prop(PROP_FN))
 
                 prefix = ''
                 show_g = self.show_index_group
