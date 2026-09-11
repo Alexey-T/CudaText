@@ -331,6 +331,8 @@ class Command:
     # Dialog creation -- scrollbox + image
     # ------------------------------------------------------------------ #
     def _create_dialog(self):
+        app_proc(PROC_EVENTS_SUB, 'cuda_testing_canvas_proc;on_state;;')
+        
         h = dlg_proc(0, DLG_CREATE)
         dlg_proc(h, DLG_PROP_SET, prop={
             'cap':         'canvas_proc() API demo',
@@ -376,6 +378,8 @@ class Command:
         self.n_scroll = -1
         self.n_image = -1
         dlg_proc(h, DLG_FREE)
+
+        app_proc(PROC_EVENTS_UNSUB, 'cuda_testing_canvas_proc;on_state;;')
 
     # ------------------------------------------------------------------ #
     # Canvas acquisition (bitmap-backed image pattern)

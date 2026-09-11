@@ -20,6 +20,6 @@ section=commands
 caption=Testing\Testing of canvas_proc API\Repaint
 method=repaint_panel
 
-[item100]
-section=events
-events=on_state
+; [item100]
+; section=events
+; events=on_state
