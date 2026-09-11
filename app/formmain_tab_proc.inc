@@ -366,13 +366,6 @@ begin
   end;
   }
 
-  if Frame.IsEmpty then
-    if FrameCount=1 then
-    begin
-      ACanClose:= false;
-      Exit
-    end;
-
   if not Application.Terminated then
   begin
     if DoPyEvent(Frame.EdCurrent, TAppPyEvent.OnCloseBefore, []).Val = TAppPyEventValue.False then
@@ -381,6 +374,13 @@ begin
       Exit
     end;
   end;
+
+  if Frame.IsEmpty then
+    if FrameCount=1 then
+    begin
+      ACanClose:= false;
+      Exit
+    end;
 
   bModified:= Frame.Modified;
 
