@@ -14,9 +14,11 @@
 * change: Project Manager: return focus to project-treeview after opening a file from treeview by 1-click or dbl-click (thanks @kwappdev)
 * change: lexer Bash: highlight '${varname}' as single element, not as bracket+name+bracket
 * change: delete option "undo_pause", it worked poorly anyway
+- fix: some Python APIs, when word-wrap:on and "scrollbar_themed":false, had 2x slowdown (found by @badrelmers)
 - fix: file's trailing CR (without LF) was not detected (fixed by @badrelmers using AI)
 - fix: Gtk3 version: "underline_color_size":10 had broken color painting
 - fix: Qt5/Qt6 version: text without lexer (and text in Console) was little shrinked by width
+- fix: Tabs_List plugin shows empty tab-title when Tabs_Icons supressed that title (thanks @ildarkhasanshin)
 
 1.236.0 (2026/08)
 
