@@ -5,6 +5,21 @@ type=cudatext-plugin
 subdir=cuda_testing_complexity_plot
 homepage=(Fill the GitHub repo URL)
 
+[item1a]
+section=commands
+caption=Testing\Testing of completixy\Test: ed.set_text_line
+method=run_set_text_line
+
+[item1b]
+section=commands
+caption=Testing\Testing of completixy\Test: ed.replace_lines
+method=run_replace_lines
+
+[item1c]
+section=commands
+caption=Testing\Testing of completixy\Test: move lines up/down
+method=run_move_lines
+
 [item2]
 section=commands
 caption=Testing\Testing of completixy\Test 1: O(1) - Const
@@ -39,14 +54,3 @@ method=run_exponential
 section=commands
 caption=Testing\Testing of completixy\Test 7: O(n!) - Factorial
 method=run_factorial
-
-[item9]
-section=commands
-caption=Testing\Testing of completixy\Test 8: ed.set_text_line
-method=run_set_text_line
-
-[item10]
-section=commands
-caption=Testing\Testing of completixy\Test 9: ed.replace_lines
-method=run_replace_lines
-

@@ -108,6 +108,23 @@ class Command:
             
         plot(test(1000), offsetx=300)
     
+    def run_move_lines(self):
+        def test(n):
+            file_open('')
+            ed.set_text_all('aaaaaaaaaaaaaa bbbbbbbbbbbbb cccccc\n'*n)
+            result = []
+            for i in range(n):
+                _time = perf_counter()*1000
+                ed.set_caret(0, i, -1, -1)
+                ed.cmd(cCommand_MoveSelectionDown)
+                diff = perf_counter()*1000 - _time
+                result.append([i+1, diff])
+            ed.set_prop(PROP_MODIFIED, False)
+            ed.cmd(cmd_FileClose)
+            return result
+            
+        plot(test(1000), offsetx=300)
+    
     def run_replace_lines(self):
         def test(n):
             file_open('')
