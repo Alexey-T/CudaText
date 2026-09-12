@@ -111,11 +111,12 @@ class Command:
     def run_move_lines(self):
         def test(n):
             file_open('')
-            ed.set_text_all('aaaaaaaaaaaaaa bbbbbbbbbbbbb cccccc\n'*n)
+            ed.set_text_all('aaaaa '*100+'\n')
             result = []
             for i in range(n):
                 _time = perf_counter()*1000
-                ed.set_caret(0, i, -1, -1)
+                ed.set_text_line(-1, 'bbbbbbbb '*50)
+                ed.set_caret(0, i//2, -1, -1)
                 ed.cmd(cCommand_MoveSelectionDown)
                 diff = perf_counter()*1000 - _time
                 result.append([i+1, diff])
