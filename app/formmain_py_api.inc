@@ -2007,7 +2007,19 @@ begin
           Point(0, Y1+NCount));
 
         Ed.DoEventChange(Y1);
-        Ed.Update(true);
+
+        //2026.09.12 (perf): update word-wrap info at API time, like api_ed_replace
+        //does ("fixing #4173"), instead of deferring it to the first paint:
+        //Update(true) only sets FWrapUpdateNeeded, so the whole wrap recalculation
+        //was blocking the first idle-paint after a big replace_lines (1M lines:
+        //~8s hang). Same total work, different placement: the API call returns
+        //with WrapInfo already consistent, and the first paint early-exits.
+        //UpdateWrapInfo(true,true): force it now, allow cached/incremental path
+        //(block ops recorded by LineBlockDelete/LineBlockInsert are applied as
+        //index shifts + wrap calc for the new lines only). Update(false): wrap
+        //flag is already consumed, only the repaint is needed.
+        Ed.UpdateWrapInfo(true, true);
+        Ed.Update(false);
       end;
 
       Result:= PyBool_FromLong(Ord(Res));
