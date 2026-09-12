@@ -124,7 +124,7 @@ class Command:
             ed.cmd(cmd_FileClose)
             return result
             
-        plot(test(1000), offsetx=300)
+        plot(test(300), offsetx=300)
     
     def run_replace_lines(self):
         def test(n):
