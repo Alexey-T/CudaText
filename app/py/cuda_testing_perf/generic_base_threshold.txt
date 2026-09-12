@@ -1,0 +1,50 @@
+# generic_base_threshold.txt
+# Reference healthy baselines captured on Intel Core i7 CPU M 640 @ 2.80GHz
+# with wrap ON. Used when my_base_threshold.txt is absent.
+# Copy a run's performance table into my_base_threshold.txt to use your
+# own machine as the baseline instead.
+#
+# Columns: test  wrap  lines  command  cmd  Hang1  Hang2  Total  base  status
+# Only wrap=on rows are used by the plugin.
+
+   test  wrap lines   command              cmd     Hang1     Hang2     Total      base  status
+   ----------------------------------------------------------------------------------------
+   MP1   off   300000 replace_lines    0.5845s   0.4985s   0.0725s   1.1555s         -  PASS  
+   MP1   on    300000 replace_lines    0.9796s   0.2755s   0.0695s   1.3246s   1.3556s  PASS  
+   MP2   off   300000 set_text_all     0.4755s   0.4055s   0.0735s   0.9545s         -  PASS  
+   MP2   on    300000 set_text_all     0.8665s   0.5345s   0.0715s   1.4725s   1.1655s  PASS  
+   MP3   off   300000 Delete           0.5595s   0.1335s   0.0505s   0.7435s         -  PASS  
+                      Undo             0.6085s   0.0995s   0.0755s   0.7835s         -        
+                      Redo             0.6235s   0.1365s   0.0505s   0.8105s         -        
+   MP3   on    300000 Delete           0.5865s   0.1375s   0.0525s   0.7765s   0.6925s  PASS  
+                      Undo             1.1706s   0.1305s   0.0705s   1.3716s   1.1776s        
+                      Redo             0.6495s   0.1375s   0.0505s   0.8375s   0.7745s        
+   MP4   off   300000 Delete           0.3915s   0.1325s   0.0525s   0.5765s         -  PASS  
+                      Undo             0.4235s   0.0745s   0.0535s   0.5515s         -        
+                      Redo             0.4505s   0.1395s   0.0535s   0.6435s         -        
+   MP4   on    300000 Delete           0.5665s   0.1315s   0.0515s   0.7495s   0.7445s  PASS  
+                      Undo             0.6645s   0.1225s   0.0765s   0.8635s   0.8075s        
+                      Redo             0.6425s   0.1455s   0.0665s   0.8545s   0.7835s        
+   MP5   off  1000000 file_open        1.7636s   0.0515s   0.0535s   1.8686s         -  PASS  
+   MP5   on   1000000 file_open        2.8197s   0.0485s   0.0515s   2.9197s   3.0787s  PASS  
+
+   test  wrap lines   command              cmd     Hang1     Hang2     Total      base  status
+   ----------------------------------------------------------------------------------------
+   MP1   off  1000000 replace_lines    1.7576s   0.3875s   0.0805s   2.2256s         -  PASS  
+   MP1   on   1000000 replace_lines    3.1837s   0.2605s   0.0715s   3.5157s   3.4837s  PASS  
+   MP2   off  1000000 set_text_all     1.4336s   0.4565s   0.0755s   1.9656s         -  PASS  
+   MP2   on   1000000 set_text_all     2.8367s   0.2745s   0.0675s   3.1787s   3.0857s  PASS  
+   MP3   off  1000000 Delete           2.6787s   0.1195s   0.0505s   2.8487s         -  PASS  
+                      Undo             2.0466s   0.1435s   0.0665s   2.2566s         -        
+                      Redo             2.3716s   0.1355s   0.0515s   2.5586s         -        
+   MP3   on   1000000 Delete           2.1326s   0.0735s   0.0515s   2.2576s   2.2496s  PASS  
+                      Undo             3.4997s   0.1435s   0.0725s   3.7157s   3.6877s        
+                      Redo             2.5096s   0.1025s   0.0435s   2.6556s   2.4726s        
+   MP4   off  1000000 Delete           1.8326s   0.1425s   0.0695s   2.0446s         -  PASS  
+                      Undo             1.2886s   0.1375s   0.0715s   1.4976s         -        
+                      Redo             1.4626s   0.1375s   0.0705s   1.6706s         -        
+   MP4   on   1000000 Delete           2.1466s   0.1425s   0.0685s   2.3576s   2.6966s  PASS  
+                      Undo             2.7717s   0.0745s   0.0515s   2.8977s   2.8217s        
+                      Redo             2.3516s   0.1315s   0.0705s   2.5536s   2.4436s        
+   MP5   off  1000000 file_open        1.7226s   0.0655s   0.0535s   1.8416s         -  PASS  
+   MP5   on   1000000 file_open        2.9697s   0.0635s   0.0535s   3.0867s   3.0787s  PASS  

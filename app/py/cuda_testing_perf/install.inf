@@ -27,5 +27,10 @@ method=run_single_1M
 
 [item5]
 section=commands
+caption=Testing\Testing of Performance\Generate my_base_threshold.txt (run 300k+1M, save baselines)
+method=generate_my_base_threshold
+
+[item6]
+section=commands
 caption=Testing\Testing of Performance\Help
 method=about

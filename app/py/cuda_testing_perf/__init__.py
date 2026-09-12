@@ -4,6 +4,16 @@ cuda_testing_perf - PERFORMANCE regression test suite for CudaText.
 QUICK GUIDE:
   In the results table, Compare each row’s Total to base.
   Total should be close to base (the reference measurement with wrap on).
+  Baselines come from my_base_threshold.txt (personal) or
+  generic_base_threshold.txt (shipping reference, Intel Core i7
+  2.80 GHz).
+  
+  Thresholds numbers are read from external files:
+    1. my_base_threshold.txt: your personal baselines (preferred)
+    2. generic_base_threshold.txt: default baselines measured on my PC (used if the personal file is missing)
+  both files use the same format as the performance report printed at the end of a run (300k or 1M). You can run the tests once, copy that report into my_base_threshold.txt, and the plugin will use those numbers as thresholds. that way the benchmark matches your own hardware
+  or you can run the menu command, **Generate my_base_threshold.txt**, that runs the full 300k and 1M suites and writes the final report to my_base_threshold.txt for you. after that, every run loads thresholds from that file
+  If you delete my_base_threshold.txt, the plugin falls back to generic_base_threshold.txt 
 _____________________________________________________________________
 
 PURPOSE
@@ -67,6 +77,10 @@ COMMANDS (menu: Testing / Testing of Performance)
     300k catalog, chosen in a dialog
   Run single test (1M lines)     run_single_1M:   one test of the
     1M catalog, chosen in a dialog
+  Generate my_base_threshold.txt generate_my_base_threshold:
+    run both 300k and 1M suites, then write their performance
+    tables to my_base_threshold.txt (personal baselines; used
+    instead of generic_base_threshold.txt on future runs)
   Help                           about
   Each test opens its own temp tab (tag URTEST_LOAD) and closes it
   when done; your tabs are not modified. Do not touch the editor
@@ -112,22 +126,30 @@ WHAT IT COVERS
     corpus, 600k-of-1M on the 1M corpus),
     MP5 file_open (wrap off then wrap on via global opts)
 
-THRESHOLDS (2026-09-11)
-  Every timed quantity - each command's own time and its own
-  Hang1+Hang2, judged separately - is compared to thresholds
-  derived from the reference machine's MEASURED healthy baselines
-  (the manual benchmark timings, both corpora):
-      warn = 2 * baseline + 0.25 s
-      fail = 3 * baseline + 1.0 s
-  That is the "WARN above 2x, FAIL above 3x" rule plus a small
-  absolute jitter slack: sub-second baselines (Hang2 ~0.01 s,
-  small redo hangs ~0.1 s) cannot trip on timer noise, while
-  every baseline above ~0.25 s is judged by the pure 2x / 3x
-  rule. Set TH_SLACK_WARN / TH_SLACK_FAIL to 0 for the strict
-  multiplier-only rule. The baselines live in each test, right
-  next to the thresholds they produce; corpus sizes without a
-  measurement scale linearly from the 300k value (base_for).
-  All timed ops have measured Hang1+Hang2 baselines from the manual benchmark (2026-09-11) which was done on an Intel Core i7 CPU M 640 @ 2.80GHz.
+THRESHOLDS (loaded from file)
+  Every timed quantity - each command's own time, Hang1 and
+  Hang2, each judged separately - is compared to thresholds
+  derived from baselines loaded from a threshold file:
+      warn = TH_WARN_FACTOR * baseline   (default 3x)
+      fail = TH_FAIL_FACTOR * baseline   (default 4x)
+  Multipliers are the module globals TH_WARN_FACTOR / TH_FAIL_FACTOR
+  (near the top of this file; change them to retune).
+
+  Baseline source (checked in this order):
+    1. my_base_threshold.txt  - personal baselines (optional).
+       Put this next to the plugin. Copy a finished run's
+       performance table from the console / log tab into it so
+       the suite judges against YOUR machine. Wrap=off and
+       wrap=on rows are kept and judged separately.
+    2. generic_base_threshold.txt - shipping reference baselines
+       captured on Intel Core i7 CPU M 640 @ 2.80GHz with wrap ON
+       (used when my_base_threshold.txt is absent).
+
+  Both files use the same table format the suite prints at the end
+  of a run (test / wrap / lines / command / cmd / Hang1 / Hang2 /
+  Total / base / status). Continuation lines (Undo / Redo under
+  MP3/MP4) omit the test/wrap/lines columns. Corpus sizes without
+  an exact match scale linearly from the closest known size.
 
 OUTPUT
   All results go to the Console panel. Per test: check lines
@@ -187,6 +209,13 @@ NOTES
   * PROP_UNDO_GROUPED stays True (the CudaText default) for the suite.
     Forcing it False globally exhausts RAM on the 300k-line perf
     tests (>6 GB).  See UNDO GROUPING.
+  * Threshold baselines are loaded from files next to this module:
+      my_base_threshold.txt     - optional personal baselines.
+        Copy a finished run's performance table here so the suite
+        judges against YOUR machine (wrap=off and wrap=on separately).
+      generic_base_threshold.txt - shipping reference captured on
+        Intel Core i7 CPU M 640 @ 2.80GHz with wrap ON. Used when
+        my_base_threshold.txt is absent.
   * Test data is seeded (SEED 20260904): identical documents on
     every run.
 
@@ -205,6 +234,12 @@ import cudatext_cmd as cmds
 import cudax_lib
 
 SEED = 20260904
+
+# Performance threshold multipliers (easy to tune):
+#   warn when measured > TH_WARN_FACTOR * baseline
+#   fail when measured > TH_FAIL_FACTOR * baseline
+TH_WARN_FACTOR = 3.0
+TH_FAIL_FACTOR = 4.0
 
 # temp dir where the MP corpus files are written
 LOAD_DIR = os.path.join(tempfile.gettempdir(), 'cuda_testing_undo_redo')
@@ -358,40 +393,218 @@ def big_lines(n):
     return _BIG_CACHE[n]
 
 # ----------------------------------------------------------------------------
-# performance thresholds: measured healthy baseline -> (warn, fail).
-# Shared judging infrastructure (like Runner._judge_cmd / Runner._hang):
-# every test keeps its own measured baselines locally and only calls
-# these two helpers - see the THRESHOLDS section in the module docstring.
+# performance thresholds: baselines loaded from file -> (warn, fail).
+# Shared judging infrastructure (Runner._judge_cmd / Runner._hang).
+# See the THRESHOLDS section in the module docstring.
 # ----------------------------------------------------------------------------
 
-# absolute jitter slack (seconds) added to the 2x / 3x rule so
-# sub-second measurements cannot trip on timer noise; set both to
-# 0.0 for the strict pure-multiplier rule
-TH_SLACK_WARN = 0.25
-TH_SLACK_FAIL = 1.0
+# Plugin directory (threshold files live next to this module).
+_PLUGIN_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# Personal baselines (optional). Copy a finished run's performance
+# table here so the suite judges against your own machine.
+MY_BASE_THRESHOLD_FILE = os.path.join(_PLUGIN_DIR, 'my_base_threshold.txt')
+# Shipping reference baselines (Intel Core i7 2.80 GHz, wrap ON).
+GENERIC_BASE_THRESHOLD_FILE = os.path.join(
+    _PLUGIN_DIR, 'generic_base_threshold.txt')
+
+# Loaded once per process (reloaded when the threshold file changes):
+#   {(test_id, wrap, nlines, command): {'cmd': float, 'h1': float, 'h2': float}}
+# wrap is 0 (off) or 1 (on). Both modes are kept and judged separately.
+_BASELINES = None
+_BASELINES_SOURCE = None  # path that was loaded (for console note)
+_BASELINES_MTIME = None   # mtime of the loaded file (invalidate cache on change)
 
 
 def th(base):
     """(warn, fail) thresholds for a measured healthy baseline.
 
-    The judging rule is "WARN above 2x, FAIL above 3x the healthy
-    baseline", plus a small absolute slack:
-        warn = 2 * base + TH_SLACK_WARN
-        fail = 3 * base + TH_SLACK_FAIL
-    For baselines above ~0.25 s the slack is negligible and this is
-    the pure 2x / 3x rule; for tiny baselines (Hang2 ~0.01 s, small
-    redo hangs ~0.1 s) the slack dominates and ordinary timer
-    jitter cannot trip a WARN/FAIL."""
-    return (2.0 * base + TH_SLACK_WARN,
-            3.0 * base + TH_SLACK_FAIL)
+    Uses the module globals TH_WARN_FACTOR / TH_FAIL_FACTOR:
+        warn = TH_WARN_FACTOR * base
+        fail = TH_FAIL_FACTOR * base
+    """
+    return (TH_WARN_FACTOR * base, TH_FAIL_FACTOR * base)
+
+
+def _parse_secs(token):
+    """Parse a table cell like '3.0732s' or '-' into float or None."""
+    token = token.strip()
+    if not token or token == '-':
+        return None
+    if token.endswith('s'):
+        token = token[:-1]
+    try:
+        return float(token)
+    except ValueError:
+        return None
+
+
+def _normalize_wrap(wrap):
+    """Normalize a wrap token to 0 (off) or 1 (on)."""
+    if isinstance(wrap, int):
+        return 1 if wrap else 0
+    s = str(wrap).strip().lower()
+    if s in ('on', '1', 'true'):
+        return 1
+    return 0
+
+
+def _parse_threshold_table(text):
+    """Parse one or more performance-table blocks from a threshold file.
+
+    Expected columns (header line contains 'command' and 'Hang1'):
+        test  wrap  lines  command  cmd  Hang1  Hang2  Total  [base]  [status]
+    Continuation rows (Undo/Redo) leave test/wrap/lines blank and
+    inherit the previous row's values. Both wrap=off and wrap=on
+    rows are kept.
+    Returns dict {(test_id, wrap, nlines, command):
+        {'cmd': f, 'h1': f, 'h2': f}} where wrap is 0 or 1.
+    """
+    result = {}
+    cur_test = None
+    cur_wrap = None
+    cur_lines = None
+    for raw in text.splitlines():
+        line = raw.strip()
+        if not line or line.startswith('#') or set(line) <= set('- '):
+            continue
+        # skip pure header lines
+        low = line.lower()
+        if low.startswith('test ') and 'command' in low:
+            continue
+        # tokenize on whitespace
+        parts = line.split()
+        if len(parts) < 4:
+            continue
+        # Detect a full row (starts with MPx) vs continuation (starts with command name)
+        if parts[0].startswith('MP') and len(parts[0]) <= 4:
+            # full row: test wrap lines command cmd Hang1 Hang2 Total ...
+            if len(parts) < 7:
+                continue
+            cur_test = parts[0]
+            cur_wrap = _normalize_wrap(parts[1])
+            try:
+                cur_lines = int(parts[2])
+            except ValueError:
+                continue
+            cmd_name = parts[3]
+            t_cmd = _parse_secs(parts[4])
+            t_h1 = _parse_secs(parts[5])
+            t_h2 = _parse_secs(parts[6])
+        else:
+            # continuation: command cmd Hang1 Hang2 Total ...
+            if cur_test is None or cur_lines is None or cur_wrap is None:
+                continue
+            cmd_name = parts[0]
+            t_cmd = _parse_secs(parts[1]) if len(parts) > 1 else None
+            t_h1 = _parse_secs(parts[2]) if len(parts) > 2 else None
+            t_h2 = _parse_secs(parts[3]) if len(parts) > 3 else None
+        if t_cmd is None:
+            continue
+        result[(cur_test, cur_wrap, cur_lines, cmd_name)] = {
+            'cmd': t_cmd,
+            'h1': t_h1 if t_h1 is not None else 0.0,
+            'h2': t_h2 if t_h2 is not None else 0.0,
+        }
+    return result
+
+
+def load_baselines(force=False):
+    """Load baselines from my_base_threshold.txt or generic_base_threshold.txt.
+
+    Returns the baselines dict. Caches in _BASELINES, but reloads when
+    the file's mtime changes (so edits take effect without restarting).
+    Prints a one-line note about which file was used on each load.
+    """
+    global _BASELINES, _BASELINES_SOURCE, _BASELINES_MTIME
+    path = None
+    if os.path.isfile(MY_BASE_THRESHOLD_FILE):
+        path = MY_BASE_THRESHOLD_FILE
+    elif os.path.isfile(GENERIC_BASE_THRESHOLD_FILE):
+        path = GENERIC_BASE_THRESHOLD_FILE
+    else:
+        _BASELINES = {}
+        _BASELINES_SOURCE = None
+        _BASELINES_MTIME = None
+        print('WARNING: no threshold file found '
+              '(my_base_threshold.txt / generic_base_threshold.txt); '
+              'all baselines default to 0')
+        return _BASELINES
+    try:
+        mtime = os.path.getmtime(path)
+    except OSError:
+        mtime = None
+    if (not force and _BASELINES is not None
+            and _BASELINES_SOURCE == path
+            and _BASELINES_MTIME == mtime):
+        return _BASELINES
+    try:
+        with open(path, 'r') as f:
+            raw = f.read()
+        _BASELINES = _parse_threshold_table(raw)
+        _BASELINES_SOURCE = path
+        _BASELINES_MTIME = mtime
+        n_off = sum(1 for k in _BASELINES if k[1] == 0)
+        n_on = sum(1 for k in _BASELINES if k[1] == 1)
+        print('info: thresholds loaded from %s '
+              '(%d wrap=off + %d wrap=on entries)' % (
+                  os.path.basename(path), n_off, n_on))
+    except Exception as e:
+        _BASELINES = {}
+        _BASELINES_SOURCE = None
+        _BASELINES_MTIME = None
+        print('WARNING: failed to load threshold file %s: %s' % (path, e))
+    return _BASELINES
+
+
+def baseline(test_id, nlines, command, kind='cmd', wrap=1):
+    """Healthy baseline for one timed quantity.
+
+    kind is one of:
+      'cmd'   - command time
+      'hang1' - Hang1 (PROC_IDLE)
+      'hang2' - Hang2 (EDACTION_UPDATE)
+    wrap is 0 (off) or 1 (on): each mode has its own baselines.
+    Exact (test_id, wrap, nlines, command) match preferred; otherwise
+    linearly scale from the closest known nlines for the same
+    (test_id, wrap, command). Returns 0.0 when nothing is available.
+    """
+    data = load_baselines()
+    wrap = _normalize_wrap(wrap)
+    key = (test_id, wrap, nlines, command)
+
+    def _val(entry, k):
+        if k == 'hang1':
+            return entry.get('h1') or 0.0
+        if k == 'hang2':
+            return entry.get('h2') or 0.0
+        return entry.get(k, 0.0) or 0.0
+
+    if key in data:
+        return _val(data[key], kind)
+    # scale from nearest known size for same test+wrap+command
+    candidates = [(nl, v) for (tid, w, nl, cmd), v in data.items()
+                  if tid == test_id and w == wrap and cmd == command]
+    if not candidates:
+        return 0.0
+    candidates.sort(key=lambda x: abs(x[0] - nlines))
+    src_nl, src_v = candidates[0]
+    src_val = _val(src_v, kind)
+    if src_nl <= 0:
+        return 0.0
+    return src_val * (nlines / float(src_nl))
+
+
+def format_baselines(b_cmd, b_h1, b_h2):
+    """One-line summary of the baselines about to be used for judging."""
+    return ('baselines cmd=%.4fs hang1=%.4fs hang2=%.4fs '
+            '(warn x%g / fail x%g)' % (
+                b_cmd, b_h1, b_h2, TH_WARN_FACTOR, TH_FAIL_FACTOR))
 
 
 def base_for(table, nlines):
-    """Healthy baseline of one measured quantity for a corpus of
-    nlines lines. table holds the reference machine's measured
-    values keyed by the known corpora (300000 / 1000000); corpus
-    sizes without a measurement are linearly scaled from the
-    closest known one."""
+    """Legacy helper kept for any remaining callers: table is
+    {nlines: value}; scale linearly when nlines is missing."""
     if nlines in table:
         return table[nlines]
     if 300000 in table:
@@ -617,26 +830,34 @@ class Runner:
             'base': base_total,
         }
 
-    def _judge_cmd(self, name, t_cmd, h1, h2, th_cmd, th_hang,
-                   fails, warns, base_total=None):
+    def _judge_cmd(self, name, t_cmd, h1, h2, th_cmd, th_h1, th_h2,
+                   fails, warns, base_total=None,
+                   b_cmd=0.0, b_h1=0.0, b_h2=0.0):
         """Judge one profiled command against its own thresholds.
-        th_cmd / th_hang are (warn, fail) tuples for the pure command
-        time and for (Hang1+Hang2) respectively. Appends to fails/warns
-        lists. base_total is the reference-machine measured total
-        (cmd + Hang1 + Hang2) used to derive the thresholds.
+
+        th_cmd / th_h1 / th_h2 are (warn, fail) tuples for the pure
+        command time, Hang1 and Hang2 respectively - each judged
+        separately. b_cmd / b_h1 / b_h2 are the raw baselines those
+        thresholds came from (so notes can show "threshold (base x N)").
+        Appends to fails/warns with full 4-decimal precision.
+        base_total is the reference total (cmd + Hang1 + Hang2).
         Returns a profile dict {name, cmd, h1, h2, total, base}."""
+        # show the exact baselines used for this judgment
+        self.info(format_baselines(b_cmd, b_h1, b_h2))
         prof = self._profile_line(name, t_cmd, h1, h2, base_total=base_total)
-        t_hang = h1 + h2
-        for label, tv, th_ in (
-                (name, t_cmd, th_cmd),
-                (name + ' hang', t_hang, th_hang)):
+        for label, tv, th_, base in (
+                (name, t_cmd, th_cmd, b_cmd),
+                (name + ' hang1', h1, th_h1, b_h1),
+                (name + ' hang2', h2, th_h2, b_h2)):
             w_, f_ = th_
             if tv > f_:
-                fails.append('%s %.2fs exceeds FAIL threshold %.2fs'
-                             % (label, tv, f_))
+                fails.append(
+                    '%s %.4fs exceeds FAIL threshold %.4fs (%.4f x %g)'
+                    % (label, tv, f_, base, TH_FAIL_FACTOR))
             elif tv > w_:
-                warns.append('%s %.2fs exceeds warn threshold %.2fs'
-                             % (label, tv, w_))
+                warns.append(
+                    '%s %.4fs exceeds warn threshold %.4fs (%.4f x %g)'
+                    % (label, tv, w_, base, TH_WARN_FACTOR))
         return prof
 
     # ---- editor api helpers ----
@@ -919,6 +1140,16 @@ class Runner:
         self._resave_user_json()
 
     def _setup(self):
+        # Load threshold baselines once (my_base_threshold.txt or
+        # generic_base_threshold.txt). Prints which file was used.
+        load_baselines()
+        if _BASELINES_SOURCE:
+            self.out(' baseline file: %s' % _BASELINES_SOURCE)
+            self.out('               (%d entries: wrap=off and wrap=on kept '
+                     'separately)' % len(_BASELINES or {}))
+        else:
+            self.out(' baseline file: (none found - all baselines default '
+                     'to 0)')
         # Enable suite wrap options (high wrap_enabled_max_lines +
         # wrap_mode on) so 300k/1M-line docs can wrap and new tabs
         # inherit wrap as the global setting. See _enable_wrap_opts.
@@ -994,6 +1225,55 @@ class Runner:
             cudatext.app_proc(cudatext.PROC_IDLE, True)
             self.out('info: closed %d suite tab(s)' % closed)
 
+    def _format_threshold_table(self):
+        """Format self.perf as the threshold-file table text.
+
+        Same columns the suite prints in the summary and that
+        _parse_threshold_table() expects. Includes both wrap=off
+        and wrap=on rows (wrap=off and wrap=on are kept separately). Returns
+        a multi-line string ending with a newline, or '' when
+        self.perf is empty.
+        """
+        if not self.perf:
+            return ''
+        lines = []
+        lines.append('   %-5s %-4s %-7s %-14s %9s %9s %9s %9s %9s  %-6s' % (
+            'test', 'wrap', 'lines', 'command',
+            'cmd', 'Hang1', 'Hang2', 'Total', 'base', 'status'))
+        lines.append('   ' + '-' * 88)
+        for p in self.perf:
+            wrap_s = ('on' if p.get('wrap') else 'off')                 if not str(p['id']).startswith('L') else '-'
+            profiles = p.get('profiles') or []
+            if profiles and isinstance(profiles[0], dict):
+                for i, pl in enumerate(profiles):
+                    tid = p['id'] if i == 0 else ''
+                    w = wrap_s if i == 0 else ''
+                    lines_s = ('%7d' % p['lines']) if i == 0 else ' ' * 7
+                    pstat = p['status'] if i == 0 else ''
+                    base = pl.get('base')
+                    if base is not None:
+                        base_s = '%8.4fs' % base
+                    else:
+                        base_s = '        -'
+                    lines.append(
+                        '   %-5s %-4s %s %-14s %8.4fs %8.4fs %8.4fs '
+                        '%8.4fs %s  %-6s' % (
+                            tid, w, lines_s, pl['name'],
+                            pl['cmd'], pl['h1'], pl['h2'], pl['total'],
+                            base_s, pstat))
+            else:
+                # fallback: single command row
+                hang = p.get('hang') or 0.0
+                lines.append(
+                    '   %-5s %-4s %7d %-14s %8.4fs %8.4fs %8.4fs '
+                    '%8.4fs %s  %-6s' % (
+                        p['id'], wrap_s, p['lines'],
+                        'command',
+                        p.get('del') or 0.0, 0.0, 0.0,
+                        (p.get('del') or 0.0) + hang,
+                        '        -', p.get('status') or ''))
+        return '\n'.join(lines) + '\n'
+
     def _summary(self):
         n = len(self.results)
         st = {'PASS': 0, 'FAIL': 0, 'ERR': 0, 'SKIP': 0}
@@ -1016,10 +1296,11 @@ class Runner:
                     self.out('        %s' % r['note'][:220])
         if self.perf:
             self.out('\n\nperformance results (one row per timed command):')
-            self.out('   Thresholds judge each command and its own hang')
+            self.out('   Thresholds judge each command, Hang1 and Hang2')
             self.out('   separately (not a summed hang).')
-            self.out('   base = measured total (cmd+Hang1+Hang2) on ref machine')
-            self.out('          (Intel Core i7 2.80 GHz, wrap ON); shown only for wrap=on rows.')
+            self.out('   base = measured total (cmd+Hang1+Hang2) from threshold file')
+            self.out('          (my_base_threshold.txt or generic_base_threshold.txt);')
+            self.out('          shown when a baseline exists for that wrap mode.')
             # header
             self.out('\n   %-5s %-4s %-7s %-14s %9s %9s %9s %9s %9s  %-6s' % (
                 'test', 'wrap', 'lines', 'command',
@@ -1032,14 +1313,14 @@ class Runner:
                 profiles = p.get('profiles') or []
                 if profiles and isinstance(profiles[0], dict):
                     # one table row per profiled command
-                    # base only when wrap=on (baselines measured with wrap)
+                    # base when a baseline exists for this wrap mode
                     for i, pl in enumerate(profiles):
                         tid = p['id'] if i == 0 else ''
                         w = wrap_s if i == 0 else ''
                         lines_s = ('%7d' % p['lines']) if i == 0 else ' ' * 7
                         pstat = p['status'] if i == 0 else ''
                         base = pl.get('base')
-                        if p.get('wrap') and base is not None:
+                        if base is not None:
                             base_s = '%8.4fs' % base
                         else:
                             base_s = '        -'
@@ -1049,13 +1330,6 @@ class Runner:
                                 tid, w, lines_s, pl['name'],
                                 pl['cmd'], pl['h1'], pl['h2'], pl['total'],
                                 base_s, pstat))
-                elif profiles:
-                    # legacy string profiles (should not happen after update)
-                    for i, pl in enumerate(profiles):
-                        tid = p['id'] if i == 0 else ''
-                        w = wrap_s if i == 0 else ''
-                        lines_s = ('%7d' % p['lines']) if i == 0 else ' ' * 7
-                        self.out('   %-5s %-4s %s  %s' % (tid, w, lines_s, pl))
                 else:
                     # no profiles list — fall back to command/undo/redo columns
                     hang = p.get('hang')
@@ -1207,21 +1481,6 @@ class Runner:
         itself, and so does this replica. No undo/redo here: the
         manual test1 had none (its speed is covered by MP3/MP4).'''
 
-        # ---- thresholds (warn, fail) per profiled quantity ----
-        # Command time and its own Hang1+Hang2 are judged separately,
-        # each against th(baseline) = (2*base + 0.25, 3*base + 1.0):
-        # the "WARN above 2x / FAIL above 3x" rule with a jitter slack
-        # (see the THRESHOLDS section in the module docstring).
-        # Measured healthy baselines of this op (manual benchmark,
-        # reference machine):
-        #   corpus   replace_lines   Hang1 + Hang2
-        #   300k     0.9491s         2.3201 + 0.0090 = 2.3291s
-        #   1M       3.0732s         7.8765 + 0.0100 = 7.8865s
-        BASE_CMD  = {300000: 0.9491, 1000000: 3.0732}
-        BASE_HANG = {300000: 2.3291, 1000000: 7.8865}
-        TH_OP   = th(base_for(BASE_CMD, nlines))   # 300k (2.15, 3.85), 1M (6.40, 10.22)
-        TH_HANG = th(base_for(BASE_HANG, nlines))  # 300k (4.91, 7.99), 1M (16.02, 24.66)
-
         # note about real consumed time:after replace_lines finishes in 3.0762s (for 1M lines) it takes 8s to show text and for cpu to return to 0%, and another 8s when i do the first click on text or first scroll, it eats 25% cpu for 8s while app hangs,so real total time is 19s
         # to automate the time spent calculation of hang1 and hang2 we can use app_proc(PROC_IDLE, True) to calculate hang1 and ed.action(EDACTION_UPDATE,1) to calculate hang2 as used bellow
         '''
@@ -1277,6 +1536,13 @@ class Runner:
         fpath, t_write = mp_corpus_file(nlines)
         for w in (0, 1):
             self.wrap = w
+            # thresholds for this wrap mode (cmd / Hang1 / Hang2)
+            b_cmd = baseline('MP1', nlines, 'replace_lines', 'cmd', wrap=w)
+            b_h1  = baseline('MP1', nlines, 'replace_lines', 'hang1', wrap=w)
+            b_h2  = baseline('MP1', nlines, 'replace_lines', 'hang2', wrap=w)
+            TH_OP = th(b_cmd)
+            TH_H1 = th(b_h1)
+            TH_H2 = th(b_h2)
             if not self.begin('MP1', 'MP1 (manual test1): replace_lines of all '
                               '%d corpus-file lines' % nlines):
                 self.done()
@@ -1318,10 +1584,10 @@ class Runner:
                 perf_warns = []
                 profiles = [
                     self._judge_cmd(
-                        'replace_lines', t_op, h1, h2, TH_OP, TH_HANG,
+                        'replace_lines', t_op, h1, h2, TH_OP, TH_H1, TH_H2,
                         perf_fails, perf_warns,
-                        base_total=base_for(BASE_CMD, nlines) +
-                                   base_for(BASE_HANG, nlines))
+                        base_total=b_cmd + b_h1 + b_h2,
+                        b_cmd=b_cmd, b_h1=b_h1, b_h2=b_h2)
                 ]
 
                 text_bad = self.cur['bad'] > 0
@@ -1374,21 +1640,16 @@ class Runner:
         state is part of what makes the timing comparable to the
         manual numbers. No undo/redo: the manual test2 had none (the
         set_text_all undo contract itself is pinned by T23).'''
-        # ---- thresholds (warn, fail) per profiled quantity ----
-        # th(baseline) = (2*base + 0.25, 3*base + 1.0): WARN above 2x /
-        # FAIL above 3x with jitter slack (module docstring, THRESHOLDS).
-        # Measured healthy baselines of this op (manual benchmark):
-        #   corpus   set_text_all    Hang1 + Hang2
-        #   300k     3.1442s         2.3361 + 0.0180 = 2.3541s
-        #   1M       9.4745s         8.1685 + 0.0090 = 8.1775s
-        BASE_CMD  = {300000: 3.1442, 1000000: 9.4745}
-        BASE_HANG = {300000: 2.3541, 1000000: 8.1775}
-        TH_OP   = th(base_for(BASE_CMD, nlines))   # 300k (6.54, 10.43), 1M (19.20, 29.42)
-        TH_HANG = th(base_for(BASE_HANG, nlines))  # 300k (4.96, 8.06), 1M (16.61, 25.53)
-
         fpath, t_write = mp_corpus_file(nlines)
         for w in (0, 1):
             self.wrap = w
+            # thresholds for this wrap mode (cmd / Hang1 / Hang2)
+            b_cmd = baseline('MP2', nlines, 'set_text_all', 'cmd', wrap=w)
+            b_h1  = baseline('MP2', nlines, 'set_text_all', 'hang1', wrap=w)
+            b_h2  = baseline('MP2', nlines, 'set_text_all', 'hang2', wrap=w)
+            TH_OP = th(b_cmd)
+            TH_H1 = th(b_h1)
+            TH_H2 = th(b_h2)
             if not self.begin('MP2', 'MP2 (manual test2): set_text_all of the '
                               '%d-line corpus file text' % nlines):
                 self.done()
@@ -1427,10 +1688,10 @@ class Runner:
                 perf_warns = []
                 profiles = [
                     self._judge_cmd(
-                        'set_text_all', t_op, h1, h2, TH_OP, TH_HANG,
+                        'set_text_all', t_op, h1, h2, TH_OP, TH_H1, TH_H2,
                         perf_fails, perf_warns,
-                        base_total=base_for(BASE_CMD, nlines) +
-                                   base_for(BASE_HANG, nlines))
+                        base_total=b_cmd + b_h1 + b_h2,
+                        b_cmd=b_cmd, b_h1=b_h1, b_h2=b_h2)
                 ]
 
                 text_bad = self.cur['bad'] > 0
@@ -1487,30 +1748,28 @@ class Runner:
         delete clamps to the true document end, and undo cannot
         restore the overshooting caret as-is - the check accepts the
         exact pre state and the clamped form.'''
-        # ---- thresholds (warn, fail) per profiled quantity ----
-        # th(baseline) = (2*base + 0.25, 3*base + 1.0): WARN above 2x /
-        # FAIL above 3x with jitter slack (module docstring, THRESHOLDS).
-        # Measured healthy baselines (manual benchmark):
-        #   corpus   Delete   Del hang   Undo     Undo hang   Redo     Redo hang
-        #   300k     0.8140   0.1190     2.6962   2.2231      0.8801   0.1130
-        #   1M       2.8732   0.4850     9.3815   7.7514      2.9832   0.1730
-        # Delete hang is now measured (Hang1+Hang2 after TextDeleteSelection).
-        BASE_DEL       = {300000: 0.8140, 1000000: 2.8732}
-        BASE_DEL_HANG  = {300000: 0.1190, 1000000: 0.4850}
-        BASE_UNDO      = {300000: 2.6962, 1000000: 9.3815}
-        BASE_UNDO_HANG = {300000: 2.2231, 1000000: 7.7514}
-        BASE_REDO      = {300000: 0.8801, 1000000: 2.9832}
-        BASE_REDO_HANG = {300000: 0.1130, 1000000: 0.1730}
-        TH_DEL       = th(base_for(BASE_DEL, nlines))
-        TH_DEL_HANG  = th(base_for(BASE_DEL_HANG, nlines))
-        TH_UNDO      = th(base_for(BASE_UNDO, nlines))
-        TH_UNDO_HANG = th(base_for(BASE_UNDO_HANG, nlines))
-        TH_REDO      = th(base_for(BASE_REDO, nlines))
-        TH_REDO_HANG = th(base_for(BASE_REDO_HANG, nlines))
-
         fpath, t_write = mp_corpus_file(nlines)
         for w in (0, 1):
             self.wrap = w
+            # thresholds for this wrap mode (cmd / Hang1 / Hang2)
+            b_del    = baseline('MP3', nlines, 'Delete', 'cmd', wrap=w)
+            b_del_h1 = baseline('MP3', nlines, 'Delete', 'hang1', wrap=w)
+            b_del_h2 = baseline('MP3', nlines, 'Delete', 'hang2', wrap=w)
+            b_undo    = baseline('MP3', nlines, 'Undo', 'cmd', wrap=w)
+            b_undo_h1 = baseline('MP3', nlines, 'Undo', 'hang1', wrap=w)
+            b_undo_h2 = baseline('MP3', nlines, 'Undo', 'hang2', wrap=w)
+            b_redo    = baseline('MP3', nlines, 'Redo', 'cmd', wrap=w)
+            b_redo_h1 = baseline('MP3', nlines, 'Redo', 'hang1', wrap=w)
+            b_redo_h2 = baseline('MP3', nlines, 'Redo', 'hang2', wrap=w)
+            TH_DEL    = th(b_del)
+            TH_DEL_H1 = th(b_del_h1)
+            TH_DEL_H2 = th(b_del_h2)
+            TH_UNDO    = th(b_undo)
+            TH_UNDO_H1 = th(b_undo_h1)
+            TH_UNDO_H2 = th(b_undo_h2)
+            TH_REDO    = th(b_redo)
+            TH_REDO_H1 = th(b_redo_h1)
+            TH_REDO_H2 = th(b_redo_h2)
             if not self.begin('MP3', 'MP3 (manual test3): replace_lines load + '
                               'select all + delete, undo, redo of %d lines'
                               % nlines):
@@ -1587,20 +1846,20 @@ class Runner:
                 perf_warns = []
                 profiles = []
                 profiles.append(self._judge_cmd(
-                    'Delete', t_del, hd1, hd2, TH_DEL, TH_DEL_HANG,
+                    'Delete', t_del, hd1, hd2, TH_DEL, TH_DEL_H1, TH_DEL_H2,
                     perf_fails, perf_warns,
-                    base_total=base_for(BASE_DEL, nlines) +
-                               base_for(BASE_DEL_HANG, nlines)))
+                    base_total=b_del + b_del_h1 + b_del_h2,
+                    b_cmd=b_del, b_h1=b_del_h1, b_h2=b_del_h2))
                 profiles.append(self._judge_cmd(
-                    'Undo', t_undo, hu1, hu2, TH_UNDO, TH_UNDO_HANG,
+                    'Undo', t_undo, hu1, hu2, TH_UNDO, TH_UNDO_H1, TH_UNDO_H2,
                     perf_fails, perf_warns,
-                    base_total=base_for(BASE_UNDO, nlines) +
-                               base_for(BASE_UNDO_HANG, nlines)))
+                    base_total=b_undo + b_undo_h1 + b_undo_h2,
+                    b_cmd=b_undo, b_h1=b_undo_h1, b_h2=b_undo_h2))
                 profiles.append(self._judge_cmd(
-                    'Redo', t_redo, hr1, hr2, TH_REDO, TH_REDO_HANG,
+                    'Redo', t_redo, hr1, hr2, TH_REDO, TH_REDO_H1, TH_REDO_H2,
                     perf_fails, perf_warns,
-                    base_total=base_for(BASE_REDO, nlines) +
-                               base_for(BASE_REDO_HANG, nlines)))
+                    base_total=b_redo + b_redo_h1 + b_redo_h2,
+                    b_cmd=b_redo, b_h1=b_redo_h1, b_h2=b_redo_h2))
                 t_hang = (hd1 + hd2) + (hu1 + hu2) + (hr1 + hr2)
 
                 text_bad = self.cur['bad'] > 0
@@ -1659,28 +1918,6 @@ class Runner:
         newlines; the document keeps lines ndel.. plus the fake last
         line. Document setup matches MP1/MP3: empty tab + replace_lines
         of the corpus file's readlines() (NOT file_open of the corpus).'''
-        # ---- thresholds (warn, fail) per profiled quantity ----
-        # th(baseline) = (2*base + 0.25, 3*base + 1.0): WARN above 2x /
-        # FAIL above 3x with jitter slack (module docstring, THRESHOLDS).
-        # Measured healthy baselines (manual benchmark, corrected 2026-09-11;
-        # partial deletes are 200k-of-300k and 600k-of-1M):
-        #   corpus   Delete   Del hang   Undo     Undo hang   Redo     Redo hang
-        #   300k     0.6060   0.1040     0.5390   0.1070      0.6260   0.1030
-        #   1M       1.7321   3.0762     5.5503   7.7294      1.6831   3.1252
-        # Delete hang is now measured (Hang1+Hang2 after TextDeleteSelection).
-        BASE_DEL       = {300000: 0.6060, 1000000: 1.7321}
-        BASE_DEL_HANG  = {300000: 0.1040, 1000000: 3.0762}
-        BASE_UNDO      = {300000: 0.5390, 1000000: 5.5503}
-        BASE_UNDO_HANG = {300000: 0.1070, 1000000: 7.7294}
-        BASE_REDO      = {300000: 0.6260, 1000000: 1.6831}
-        BASE_REDO_HANG = {300000: 0.1030, 1000000: 3.1252}
-        TH_DEL       = th(base_for(BASE_DEL, nlines))
-        TH_DEL_HANG  = th(base_for(BASE_DEL_HANG, nlines))
-        TH_UNDO      = th(base_for(BASE_UNDO, nlines))
-        TH_UNDO_HANG = th(base_for(BASE_UNDO_HANG, nlines))
-        TH_REDO      = th(base_for(BASE_REDO, nlines))
-        TH_REDO_HANG = th(base_for(BASE_REDO_HANG, nlines))
-
         # the corpus's own delete count (the manual benchmarks' exact
         # values): 200k-of-300k, 600k-of-1M; other sizes: 2/3 of lines
         if ndel is None:
@@ -1690,6 +1927,25 @@ class Runner:
         fpath, t_write = mp_corpus_file(nlines)
         for w in (0, 1):
             self.wrap = w
+            # thresholds for this wrap mode (cmd / Hang1 / Hang2)
+            b_del    = baseline('MP4', nlines, 'Delete', 'cmd', wrap=w)
+            b_del_h1 = baseline('MP4', nlines, 'Delete', 'hang1', wrap=w)
+            b_del_h2 = baseline('MP4', nlines, 'Delete', 'hang2', wrap=w)
+            b_undo    = baseline('MP4', nlines, 'Undo', 'cmd', wrap=w)
+            b_undo_h1 = baseline('MP4', nlines, 'Undo', 'hang1', wrap=w)
+            b_undo_h2 = baseline('MP4', nlines, 'Undo', 'hang2', wrap=w)
+            b_redo    = baseline('MP4', nlines, 'Redo', 'cmd', wrap=w)
+            b_redo_h1 = baseline('MP4', nlines, 'Redo', 'hang1', wrap=w)
+            b_redo_h2 = baseline('MP4', nlines, 'Redo', 'hang2', wrap=w)
+            TH_DEL    = th(b_del)
+            TH_DEL_H1 = th(b_del_h1)
+            TH_DEL_H2 = th(b_del_h2)
+            TH_UNDO    = th(b_undo)
+            TH_UNDO_H1 = th(b_undo_h1)
+            TH_UNDO_H2 = th(b_undo_h2)
+            TH_REDO    = th(b_redo)
+            TH_REDO_H1 = th(b_redo_h1)
+            TH_REDO_H2 = th(b_redo_h2)
             if not self.begin('MP4', 'MP4 (manual test4): replace_lines load + '
                               'delete first %d of %d lines, undo, redo' % (
                                   ndel, nlines)):
@@ -1763,20 +2019,20 @@ class Runner:
                 perf_warns = []
                 profiles = []
                 profiles.append(self._judge_cmd(
-                    'Delete', t_del, hd1, hd2, TH_DEL, TH_DEL_HANG,
+                    'Delete', t_del, hd1, hd2, TH_DEL, TH_DEL_H1, TH_DEL_H2,
                     perf_fails, perf_warns,
-                    base_total=base_for(BASE_DEL, nlines) +
-                               base_for(BASE_DEL_HANG, nlines)))
+                    base_total=b_del + b_del_h1 + b_del_h2,
+                    b_cmd=b_del, b_h1=b_del_h1, b_h2=b_del_h2))
                 profiles.append(self._judge_cmd(
-                    'Undo', t_undo, hu1, hu2, TH_UNDO, TH_UNDO_HANG,
+                    'Undo', t_undo, hu1, hu2, TH_UNDO, TH_UNDO_H1, TH_UNDO_H2,
                     perf_fails, perf_warns,
-                    base_total=base_for(BASE_UNDO, nlines) +
-                               base_for(BASE_UNDO_HANG, nlines)))
+                    base_total=b_undo + b_undo_h1 + b_undo_h2,
+                    b_cmd=b_undo, b_h1=b_undo_h1, b_h2=b_undo_h2))
                 profiles.append(self._judge_cmd(
-                    'Redo', t_redo, hr1, hr2, TH_REDO, TH_REDO_HANG,
+                    'Redo', t_redo, hr1, hr2, TH_REDO, TH_REDO_H1, TH_REDO_H2,
                     perf_fails, perf_warns,
-                    base_total=base_for(BASE_REDO, nlines) +
-                               base_for(BASE_REDO_HANG, nlines)))
+                    base_total=b_redo + b_redo_h1 + b_redo_h2,
+                    b_cmd=b_redo, b_h1=b_redo_h1, b_h2=b_redo_h2))
                 t_hang = (hd1 + hd2) + (hu1 + hu2) + (hr1 + hr2)
 
                 text_bad = self.cur['bad'] > 0
@@ -1831,21 +2087,6 @@ class Runner:
         the global option before the open. Each row starts with the
         corpus tab closed (the previous row closes it), so file_open
         is a true cold open.'''
-        # ---- thresholds (warn, fail) per profiled quantity ----
-        # th(baseline) = (2*base + 0.25, 3*base + 1.0): WARN above 2x /
-        # FAIL above 3x with jitter slack (module docstring, THRESHOLDS).
-        # MP5 is the SAME 1M-line file_open benchmark in both suites
-        # (default nlines=1000000); the 300k row below only serves
-        # console calls of test_MP5(300000).
-        # Measured healthy baselines (manual benchmark):
-        #   corpus   file_open   Hang1 + Hang2
-        #   300k     2.9142s     0.0430 + 0.0190 = 0.0620s
-        #   1M       8.8475s     0.0550 + 0.0190 = 0.0740s
-        BASE_OPEN      = {300000: 2.9142, 1000000: 8.8475}
-        BASE_OPEN_HANG = {300000: 0.0620, 1000000: 0.0740}
-        TH_OPEN      = th(base_for(BASE_OPEN, nlines))       # 300k (6.08, 9.74), 1M (17.95, 27.54)
-        TH_OPEN_HANG = th(base_for(BASE_OPEN_HANG, nlines))  # 300k (0.37, 1.19), 1M (0.40, 1.22)
-
         fpath, t_write = mp_corpus_file(nlines)
         items = open(fpath, 'r').readlines()
         sample = tuple(s[:-1] if s.endswith('\n') else s
@@ -1854,6 +2095,13 @@ class Runner:
         del items
         for w in (0, 1):
             self.wrap = w
+            # thresholds for this wrap mode (cmd / Hang1 / Hang2)
+            b_open    = baseline('MP5', nlines, 'file_open', 'cmd', wrap=w)
+            b_open_h1 = baseline('MP5', nlines, 'file_open', 'hang1', wrap=w)
+            b_open_h2 = baseline('MP5', nlines, 'file_open', 'hang2', wrap=w)
+            TH_OPEN    = th(b_open)
+            TH_OPEN_H1 = th(b_open_h1)
+            TH_OPEN_H2 = th(b_open_h2)
             if not self.begin('MP5', 'MP5 (manual test5): file_open of %d '
                               'corpus-file lines (%s)' % (
                                   nlines, 'wrap off' if w == 0
@@ -1920,10 +2168,10 @@ class Runner:
                 perf_warns = []
                 profiles = [
                     self._judge_cmd(
-                        'file_open', t_open, ho1, ho2, TH_OPEN, TH_OPEN_HANG,
+                        'file_open', t_open, ho1, ho2, TH_OPEN, TH_OPEN_H1, TH_OPEN_H2,
                         perf_fails, perf_warns,
-                        base_total=base_for(BASE_OPEN, nlines) +
-                                   base_for(BASE_OPEN_HANG, nlines))
+                        base_total=b_open + b_open_h1 + b_open_h2,
+                        b_cmd=b_open, b_h1=b_open_h1, b_h2=b_open_h2)
                 ]
                 t_hang = ho1 + ho2
 
@@ -2059,6 +2307,59 @@ class Command:
         if res is None:
             return
         r.run_single(cat[res][0], corpus)
+
+    def generate_my_base_threshold(self):
+        """Run the full 300k and 1M suites, then write their
+        performance tables to my_base_threshold.txt next to this
+        plugin. That file becomes the personal baseline source
+        (preferred over generic_base_threshold.txt)."""
+        tables = []
+        for corpus in ('300k', '1M'):
+            r = Runner()
+            r.run(corpus)
+            tbl = r._format_threshold_table()
+            if tbl:
+                tables.append(tbl)
+        if not tables:
+            cudatext.msg_box(
+                'No performance rows collected.\n'
+                'my_base_threshold.txt was not written.',
+                cudatext.MB_OK | cudatext.MB_ICONWARNING)
+            return
+        header = (
+            '# my_base_threshold.txt - personal baselines\n'
+            '# Generated by "Generate my_base_threshold.txt".\n'
+            '# Copy of the performance tables from a full 300k + 1M run.\n'
+            '# Wrap=off and wrap=on rows are kept separately; each mode is judged against its own baselines.\n'
+            '#\n'
+            '# Columns: test  wrap  lines  command  cmd  Hang1  Hang2  '
+            'Total  base  status\n'
+            '\n'
+        )
+        body = '\n'.join(tables)
+        path = MY_BASE_THRESHOLD_FILE
+        try:
+            with open(path, 'w') as f:
+                f.write(header)
+                f.write(body)
+        except Exception as e:
+            cudatext.msg_box(
+                'Failed to write %s:\n%s' % (path, e),
+                cudatext.MB_OK | cudatext.MB_ICONERROR)
+            return
+        # Force reload on next baseline() call
+        global _BASELINES, _BASELINES_SOURCE, _BASELINES_MTIME
+        _BASELINES = None
+        _BASELINES_SOURCE = None
+        _BASELINES_MTIME = None
+        msg = (
+            'Wrote personal baselines to:\n%s\n\n'
+            '(%d table block(s) from 300k + 1M runs)\n\n'
+            'Future runs will use this file instead of '
+            'generic_base_threshold.txt.'
+        ) % (path, len(tables))
+        print('info: ' + msg.replace('\n', ' '))
+        cudatext.msg_box(msg, cudatext.MB_OK | cudatext.MB_ICONINFO)
 
     def about(self):
         """Open this module's docstring (help) in a new untitled tab."""
