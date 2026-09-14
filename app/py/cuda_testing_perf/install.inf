@@ -12,7 +12,7 @@ method=run_all_300k
 
 [item2]
 section=commands
-caption=Testing\Testing of Performance\Run all tests (1M lines, may use up to 4.5GB RAM)
+caption=Testing\Testing of Performance\Run all tests (1M lines, may use up to 6GB RAM)
 method=run_all_1M
 
 [item3]
@@ -27,8 +27,8 @@ method=run_single_1M
 
 [item5]
 section=commands
-caption=Testing\Testing of Performance\Generate my_base_threshold.txt (run 300k+1M, save baselines)
-method=generate_my_base_threshold
+caption=Testing\Testing of Performance\Generate base_threshold__personal.txt (run 300k+1M, save baselines)
+method=generate_base_threshold__personal
 
 [item6]
 section=commands
