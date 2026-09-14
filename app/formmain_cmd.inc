@@ -793,7 +793,7 @@ begin
       begin
         NIndex:= ACommandCode-cmdFirstRecentCommand;
         if NIndex<AppListRecents.Count then
-          DoFileOpen(AppListRecents[NIndex], '');
+          DoFileOpen(AppExpandHomeDirInFilename(AppListRecents[NIndex]), '');
       end;
 
     cmd_HelpAbout:

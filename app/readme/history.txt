@@ -19,6 +19,7 @@
 - fix: Gtk3 version: "underline_color_size":10 had broken color painting
 - fix: Qt5/Qt6 version: text without lexer (and text in Console) was little shrinked by width
 - fix: Tabs_List plugin shows empty tab-title when Tabs_Icons supressed that title (thanks @ildarkhasanshin)
+- fix: Command Palette items for 'recent files' cannot reopen files from home-dir (thanks @mix-7)
 
 1.236.0 (2026/08)
 
