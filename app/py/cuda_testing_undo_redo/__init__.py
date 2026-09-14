@@ -666,69 +666,7 @@ class Runner:
         cudatext.app_proc(cudatext.PROC_IDLE, True)
 
     def _resave_user_json(self):
-        """Make the running CudaText notice the user.json changes.
-
-        cudax_lib's set_opt writes user.json directly on disk, which
-        the running CudaText does NOT notice: option changes take
-        effect only after a restart, or after user.json is saved
-        through the editor (CudaText re-reads its options when
-        user.json is saved in the editor). So this opens user.json in
-        a tab, runs the save command, then closes the tab again.
-        Called only from _enable_wrap_opts / _disable_wrap_opts /
-        _restore_wrap_opts.
-
-        If user.json is already open in any tab, that tab is closed
-        first (no save prompt), then the file is opened fresh, marked
-        modified, saved, and closed again."""
-        path = os.path.join(cudatext.app_path(cudatext.APP_DIR_SETTINGS),
-                            'user.json')
-        if not os.path.isfile(path):
-            return
-        # Close any already-open user.json tab(s) first, so we always
-        # start from a clean open (avoids focusing / saving an old
-        # buffer that may not match the on-disk content set_opt wrote).
-        try:
-            for h in list(cudatext.ed_handles()):
-                e = cudatext.Editor(h)
-                if e.get_prop(cudatext.PROP_FN) == path:
-                    e.set_prop(cudatext.PROP_MODIFIED, False)
-                    e.focus()
-                    e.cmd(cmds.cmd_FileClose)
-            cudatext.app_proc(cudatext.PROC_IDLE, True)
-        except Exception:
-            pass
-        ed = None
-        try:
-            if not cudatext.file_open(path):
-                self.out('NOTE: cannot open user.json, changed options '
-                         'not applied (restart CudaText to apply them)')
-                return
-            opened = self._ed_focused()
-            if opened.get_prop(cudatext.PROP_FN) != path:
-                # the open did not focus user.json: never touch - and
-                # never close below - a tab that is not user.json
-                self.out('NOTE: user.json tab not focused, changed '
-                         'options not applied (restart to apply them)')
-                return
-            ed = opened
-            # tag it suite-owned: _close_all_suite_tabs also closes
-            # URTEST_USERJSON if this method dies before its own close
-            ed.set_prop(cudatext.PROP_TAG, 'URTEST_USERJSON')
-            ed.cmd(cmds.cmd_FileSave)
-            
-            # force wrap setting to take effect, enabling wrap for the
-            # wrap-on test runs does not work without this!
-            cudatext.app_proc(cudatext.PROC_IDLE, True)
-            ed.action(cudatext.EDACTION_UPDATE, 1)
-        
-        except Exception:
-            self.out('NOTE: saving user.json failed, changed options '
-                     'not applied (restart CudaText to apply them)')
-        finally:
-            # saved or failed: close the tab (no save prompt - either
-            # it was just saved, or _close_tab clears the flag)
-            if ed is not None:
-                self._close_tab(ed)
+        cudatext.ed.cmd(cmds.cmd_OpsReloadAndApply)
 
     def _enable_wrap_opts(self):
         """Enable suite wrap options in user.json and apply them.
