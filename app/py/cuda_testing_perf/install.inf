@@ -7,30 +7,30 @@ homepage=
 
 [item1]
 section=commands
-caption=Testing\Testing of Performance\Run all tests (300k lines, may use up to 2GB RAM)
+caption=Testing\Testing of performance\Run all tests (300k lines, may use up to 2GB RAM)
 method=run_all_300k
 
 [item2]
 section=commands
-caption=Testing\Testing of Performance\Run all tests (1M lines, may use up to 6GB RAM)
+caption=Testing\Testing of performance\Run all tests (1M lines, may use up to 6GB RAM)
 method=run_all_1M
 
 [item3]
 section=commands
-caption=Testing\Testing of Performance\Run single test (300k lines)
+caption=Testing\Testing of performance\Run single test (300k lines)
 method=run_single_300k
 
 [item4]
 section=commands
-caption=Testing\Testing of Performance\Run single test (1M lines)
+caption=Testing\Testing of performance\Run single test (1M lines)
 method=run_single_1M
 
 [item5]
 section=commands
-caption=Testing\Testing of Performance\Generate base_threshold__personal.txt (run 300k+1M, save baselines)
+caption=Testing\Testing of performance\Generate base_threshold__personal.txt (run 300k+1M, save baselines)
 method=generate_base_threshold__personal
 
 [item6]
 section=commands
-caption=Testing\Testing of Performance\Help
+caption=Testing\Testing of performance\Help
 method=about
