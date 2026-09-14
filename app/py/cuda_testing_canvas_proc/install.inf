@@ -1,5 +1,5 @@
 [info]
-title=Testing of canvas_proc API
+title=Testing of canvas_proc
 desc=Scrollable panel that exercises every canvas_proc() action and parameter combination
 type=cudatext-plugin
 subdir=cuda_testing_canvas_proc
@@ -7,17 +7,17 @@ homepage=
 
 [item1]
 section=commands
-caption=Testing\Testing of canvas_proc API\Show panel
+caption=Testing\Testing of canvas_proc\Show panel
 method=show_panel
 
 [item2]
 section=commands
-caption=Testing\Testing of canvas_proc API\Hide panel
+caption=Testing\Testing of canvas_proc\Hide panel
 method=hide_panel
 
 [item3]
 section=commands
-caption=Testing\Testing of canvas_proc API\Repaint
+caption=Testing\Testing of canvas_proc\Repaint
 method=repaint_panel
 
 ; [item100]
