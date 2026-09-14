@@ -45,10 +45,13 @@ met1 is more correct than met2 because it reproduce exactly the test i run manua
 ```python
 import os, cudatext as app, cudatext_cmd as cmds, cudax_lib;
 cudax_lib.set_opt('scrollbar_themed', False);
-cudax_lib.set_opt('wrap_enabled_max_lines', 1100000); cudax_lib.set_opt('wrap_mode', 1); file_open(os.path.join(app_path(APP_DIR_SETTINGS), 'user.json')) and (ed.cmd(cmds.cmd_FileSave), ed.cmd(cmds.cmd_FileClose));
+cudax_lib.set_opt('wrap_enabled_max_lines', 1100000);
+cudax_lib.set_opt('wrap_mode', 1);
+ed.cmd(cmds.cmd_OpsReloadAndApply);
+
 import os, tempfile, time; file_open(""); app_proc(PROC_IDLE, True); ed.set_prop(PROP_WRAP,1); fpath = os.path.join(tempfile.gettempdir(), filename); lines = open(fpath, "r").readlines();
 
-app_proc(PROC_IDLE, True);
+app_proc(PROC_IDLE, True); ed.action(EDACTION_UPDATE,1);
 t1 = time.time(); ed.replace_lines(0, ed.get_line_count()-1, lines); t2 = time.time(); print(f"replace_lines: {t2-t1:.4f}s");
 t1 = time.time(); app_proc(PROC_IDLE, True); t2 = time.time(); print(f"Hang1: {t2-t1:.4f}s");
 t1 = time.time(); ed.action(EDACTION_UPDATE,1); t2 = time.time(); print(f"Hang2: {t2-t1:.4f}s");
@@ -67,10 +70,13 @@ expected results: MP1 and MP2 and MP3 must consume the same time
 ```python
 import os, cudatext as app, cudatext_cmd as cmds, cudax_lib;
 cudax_lib.set_opt('scrollbar_themed', True);
-cudax_lib.set_opt('wrap_enabled_max_lines', 1100000); cudax_lib.set_opt('wrap_mode', 1); file_open(os.path.join(app_path(APP_DIR_SETTINGS), 'user.json')) and (ed.cmd(cmds.cmd_FileSave), ed.cmd(cmds.cmd_FileClose));
+cudax_lib.set_opt('wrap_enabled_max_lines', 1100000);
+cudax_lib.set_opt('wrap_mode', 1);
+ed.cmd(cmds.cmd_OpsReloadAndApply);
+
 import os, tempfile, time; file_open(""); app_proc(PROC_IDLE, True); ed.set_prop(PROP_WRAP,1); fpath = os.path.join(tempfile.gettempdir(), filename); lines = open(fpath, "r").readlines();
 
-app_proc(PROC_IDLE, True);
+app_proc(PROC_IDLE, True); ed.action(EDACTION_UPDATE,1);
 t1 = time.time(); ed.replace_lines(0, ed.get_line_count()-1, lines); t2 = time.time(); print(f"replace_lines: {t2-t1:.4f}s");
 t1 = time.time(); app_proc(PROC_IDLE, True); t2 = time.time(); print(f"Hang1: {t2-t1:.4f}s");
 t1 = time.time(); ed.action(EDACTION_UPDATE,1); t2 = time.time(); print(f"Hang2: {t2-t1:.4f}s");
@@ -89,10 +95,13 @@ expected results: MP1 and MP2 and MP3 must consume the same time
 ```python
 import os, cudatext as app, cudatext_cmd as cmds, cudax_lib;
 cudax_lib.set_opt('scrollbar_themed', True);
-cudax_lib.set_opt('wrap_enabled_max_lines', 1100000); cudax_lib.set_opt('wrap_mode', 1); file_open(os.path.join(app_path(APP_DIR_SETTINGS), 'user.json')) and (ed.cmd(cmds.cmd_FileSave), ed.cmd(cmds.cmd_FileClose));
+cudax_lib.set_opt('wrap_enabled_max_lines', 1100000);
+cudax_lib.set_opt('wrap_mode', 1);
+ed.cmd(cmds.cmd_OpsReloadAndApply);
+
 import os, tempfile, time; file_open(""); app_proc(PROC_IDLE, True); ed.set_prop(PROP_WRAP,1); fpath = os.path.join(tempfile.gettempdir(), filename); text = open(fpath, "r").read();
 
-app_proc(PROC_IDLE, True);
+app_proc(PROC_IDLE, True); ed.action(EDACTION_UPDATE,1);
 t1 = time.time(); ed.set_text_all(text); t2 = time.time(); print(f"set_text_all: {t2-t1:.4f}s");
 t1 = time.time(); app_proc(PROC_IDLE, True); t2 = time.time(); print(f"Hang1: {t2-t1:.4f}s");
 t1 = time.time(); ed.action(EDACTION_UPDATE,1); t2 = time.time(); print(f"Hang2: {t2-t1:.4f}s");
@@ -110,22 +119,24 @@ write 500mb rand lines, select all, delete it, then undo
 ```python
 import os, cudatext as app, cudatext_cmd as cmds, cudax_lib;
 cudax_lib.set_opt('scrollbar_themed', True);
-cudax_lib.set_opt('wrap_enabled_max_lines', 1100000); cudax_lib.set_opt('wrap_mode', 1); file_open(os.path.join(app_path(APP_DIR_SETTINGS), 'user.json')) and (ed.cmd(cmds.cmd_FileSave), ed.cmd(cmds.cmd_FileClose));
+cudax_lib.set_opt('wrap_enabled_max_lines', 1100000);
+cudax_lib.set_opt('wrap_mode', 1);
+ed.cmd(cmds.cmd_OpsReloadAndApply);
 
 import os, tempfile, time, cudatext_cmd as c; file_open(""); app_proc(PROC_IDLE, True); ed.set_prop(PROP_WRAP,1); fpath = os.path.join(tempfile.gettempdir(), filename); 
 lines = open(fpath, "r").readlines(); ed.replace_lines(0, ed.get_line_count()-1, lines); del lines; ed.set_caret(0, ed.get_line_count(), 0, 0); 
 
-app_proc(PROC_IDLE, True);
+app_proc(PROC_IDLE, True); ed.action(EDACTION_UPDATE,1);
 t1 = time.time(); ed.cmd(c.cCommand_TextDeleteSelection); t2 = time.time(); print(f"Delete: {t2-t1:.4f}s");
 t1 = time.time(); app_proc(PROC_IDLE, True); t2 = time.time(); print(f"Hang1: {t2-t1:.4f}s");
 t1 = time.time(); ed.action(EDACTION_UPDATE,1); t2 = time.time(); print(f"Hang2: {t2-t1:.4f}s");
 
-app_proc(PROC_IDLE, True);
+app_proc(PROC_IDLE, True); ed.action(EDACTION_UPDATE,1);
 t1 = time.time(); ed.cmd(c.cCommand_Undo); t2 = time.time(); print(f"Undo: {t2-t1:.4f}s");
 t1 = time.time(); app_proc(PROC_IDLE, True); t2 = time.time(); print(f"Hang1: {t2-t1:.4f}s");
 t1 = time.time(); ed.action(EDACTION_UPDATE,1); t2 = time.time(); print(f"Hang2: {t2-t1:.4f}s");
 
-app_proc(PROC_IDLE, True);
+app_proc(PROC_IDLE, True); ed.action(EDACTION_UPDATE,1);
 t1 = time.time(); ed.cmd(c.cCommand_Redo); t2 = time.time(); print(f"Redo: {t2-t1:.4f}s");
 t1 = time.time(); app_proc(PROC_IDLE, True); t2 = time.time(); print(f"Hang1: {t2-t1:.4f}s");
 t1 = time.time(); ed.action(EDACTION_UPDATE,1); t2 = time.time(); print(f"Hang2: {t2-t1:.4f}s"); 
@@ -148,22 +159,24 @@ write 500mb (1M) rand line, select 600k line, delete it, then undo
 ```python
 import os, cudatext as app, cudatext_cmd as cmds, cudax_lib;
 cudax_lib.set_opt('scrollbar_themed', True);
-cudax_lib.set_opt('wrap_enabled_max_lines', 1100000); cudax_lib.set_opt('wrap_mode', 1); file_open(os.path.join(app_path(APP_DIR_SETTINGS), 'user.json')) and (ed.cmd(cmds.cmd_FileSave), ed.cmd(cmds.cmd_FileClose));
+cudax_lib.set_opt('wrap_enabled_max_lines', 1100000);
+cudax_lib.set_opt('wrap_mode', 1);
+ed.cmd(cmds.cmd_OpsReloadAndApply);
 
 import os, tempfile, time, cudatext_cmd as c; file_open(""); app_proc(PROC_IDLE, True); ed.set_prop(PROP_WRAP,1); fpath = os.path.join(tempfile.gettempdir(), filename);
 lines = open(fpath, "r").readlines(); ed.replace_lines(0, ed.get_line_count()-1, lines); del lines; ed.set_caret(0, deleted_lines, 0, 0);
 
-app_proc(PROC_IDLE, True);
+app_proc(PROC_IDLE, True); ed.action(EDACTION_UPDATE,1);
 t1 = time.time(); ed.cmd(c.cCommand_TextDeleteSelection); t2 = time.time(); print(f"Delete: {t2-t1:.4f}s");
 t1 = time.time(); app_proc(PROC_IDLE, True); t2 = time.time(); print(f"Hang1: {t2-t1:.4f}s");
 t1 = time.time(); ed.action(EDACTION_UPDATE,1); t2 = time.time(); print(f"Hang2: {t2-t1:.4f}s");
 
-app_proc(PROC_IDLE, True);
+app_proc(PROC_IDLE, True); ed.action(EDACTION_UPDATE,1);
 t1 = time.time(); ed.cmd(c.cCommand_Undo); t2 = time.time(); print(f"Undo: {t2-t1:.4f}s");
 t1 = time.time(); app_proc(PROC_IDLE, True); t2 = time.time(); print(f"Hang1: {t2-t1:.4f}s");
 t1 = time.time(); ed.action(EDACTION_UPDATE,1); t2 = time.time(); print(f"Hang2: {t2-t1:.4f}s");
 
-app_proc(PROC_IDLE, True);
+app_proc(PROC_IDLE, True); ed.action(EDACTION_UPDATE,1);
 t1 = time.time(); ed.cmd(c.cCommand_Redo); t2 = time.time(); print(f"Redo: {t2-t1:.4f}s");
 t1 = time.time(); app_proc(PROC_IDLE, True); t2 = time.time(); print(f"Hang1: {t2-t1:.4f}s");
 t1 = time.time(); ed.action(EDACTION_UPDATE,1); t2 = time.time(); print(f"Hang2: {t2-t1:.4f}s"); 
@@ -188,7 +201,9 @@ expected results: undo and redo must consume the same time
 ```python
 import os, cudatext as app, cudatext_cmd as cmds, cudax_lib;
 cudax_lib.set_opt('scrollbar_themed', True);
-cudax_lib.set_opt('wrap_enabled_max_lines', 1100000); cudax_lib.set_opt('wrap_mode', 1); file_open(os.path.join(app_path(APP_DIR_SETTINGS), 'user.json')) and (ed.cmd(cmds.cmd_FileSave), ed.cmd(cmds.cmd_FileClose));
+cudax_lib.set_opt('wrap_enabled_max_lines', 1100000);
+cudax_lib.set_opt('wrap_mode', 1);
+ed.cmd(cmds.cmd_OpsReloadAndApply);
 
 import os, tempfile, time, cudatext_cmd as c; file_open(""); app_proc(PROC_IDLE, True); ed.set_prop(PROP_WRAP,1); fpath = os.path.join(tempfile.gettempdir(), filename);
 lines = open(fpath, "r").readlines();
@@ -196,12 +211,12 @@ ed.replace_lines(0, ed.get_line_count()-1, lines);
 ed.replace_lines(0, ed.get_line_count()-1, ["111\n"] + lines + ["222\n"]);
 del lines;
 
-app_proc(PROC_IDLE, True);
+app_proc(PROC_IDLE, True); ed.action(EDACTION_UPDATE,1);
 t1 = time.time(); ed.cmd(c.cCommand_Undo); t2 = time.time(); print(f"Undo: {t2-t1:.4f}s");
 t1 = time.time(); app_proc(PROC_IDLE, True); t2 = time.time(); print(f"Hang1: {t2-t1:.4f}s");
 t1 = time.time(); ed.action(EDACTION_UPDATE,1); t2 = time.time(); print(f"Hang2: {t2-t1:.4f}s");
 
-app_proc(PROC_IDLE, True);
+app_proc(PROC_IDLE, True); ed.action(EDACTION_UPDATE,1);
 t1 = time.time(); ed.cmd(c.cCommand_Redo); t2 = time.time(); print(f"Redo: {t2-t1:.4f}s");
 t1 = time.time(); app_proc(PROC_IDLE, True); t2 = time.time(); print(f"Hang1: {t2-t1:.4f}s");
 t1 = time.time(); ed.action(EDACTION_UPDATE,1); t2 = time.time(); print(f"Hang2: {t2-t1:.4f}s"); 
@@ -223,7 +238,11 @@ expected results: MP7 and MP8 must consume the same time
 ```python
 import os, cudatext as app, cudatext_cmd as cmds, cudax_lib;
 cudax_lib.set_opt('scrollbar_themed', False);
-cudax_lib.set_opt('wrap_enabled_max_lines', 1100000); cudax_lib.set_opt('wrap_mode', 1); file_open(os.path.join(app_path(APP_DIR_SETTINGS), 'user.json')) and (ed.cmd(cmds.cmd_FileSave), ed.cmd(cmds.cmd_FileClose));
+cudax_lib.set_opt('wrap_enabled_max_lines', 1100000);
+cudax_lib.set_opt('wrap_mode', 1);
+ed.cmd(cmds.cmd_OpsReloadAndApply);
+
+app_proc(PROC_IDLE, True); ed.action(EDACTION_UPDATE,1);
 import tempfile, time; fpath = os.path.join(tempfile.gettempdir(), filename); t1 = time.time(); file_open(fpath); t2 = time.time(); print(f"file_open: {t2-t1:.4f}s");
 t1 = time.time(); app_proc(PROC_IDLE, True); t2 = time.time(); print(f"Hang1: {t2-t1:.4f}s");
 t1 = time.time(); ed.action(EDACTION_UPDATE,1); t2 = time.time(); print(f"Hang2: {t2-t1:.4f}s"); 
@@ -240,7 +259,11 @@ expected results: MP7 and MP8 must consume the same time
 ```python
 import os, cudatext as app, cudatext_cmd as cmds, cudax_lib;
 cudax_lib.set_opt('scrollbar_themed', True);
-cudax_lib.set_opt('wrap_enabled_max_lines', 1100000); cudax_lib.set_opt('wrap_mode', 1); file_open(os.path.join(app_path(APP_DIR_SETTINGS), 'user.json')) and (ed.cmd(cmds.cmd_FileSave), ed.cmd(cmds.cmd_FileClose));
+cudax_lib.set_opt('wrap_enabled_max_lines', 1100000);
+cudax_lib.set_opt('wrap_mode', 1);
+ed.cmd(cmds.cmd_OpsReloadAndApply);
+
+app_proc(PROC_IDLE, True); ed.action(EDACTION_UPDATE,1);
 import tempfile, time; fpath = os.path.join(tempfile.gettempdir(), filename); t1 = time.time(); file_open(fpath); t2 = time.time(); print(f"file_open: {t2-t1:.4f}s");
 t1 = time.time(); app_proc(PROC_IDLE, True); t2 = time.time(); print(f"Hang1: {t2-t1:.4f}s");
 t1 = time.time(); ed.action(EDACTION_UPDATE,1); t2 = time.time(); print(f"Hang2: {t2-t1:.4f}s"); 
