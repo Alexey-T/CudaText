@@ -17,4 +17,4 @@ method=del_all
 
 [item50]
 section=events
-events=on_click_gap
+events=on_click_gap~
