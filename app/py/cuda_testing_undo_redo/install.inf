@@ -7,15 +7,15 @@ homepage=https://github.com/Alexey-T/CudaText/issues/6443 https://github.com/Ale
 
 [item1]
 section=commands
-caption=Testing\Testing of Undo/Redo\Run all tests
+caption=Testing\Testing of undo/redo\Run all tests
 method=run_all
 
 [item2]
 section=commands
-caption=Testing\Testing of Undo/Redo\Run single test
+caption=Testing\Testing of undo/redo\Run single test
 method=run_single
 
 [item3]
 section=commands
-caption=Testing\Testing of Undo/Redo\Help
+caption=Testing\Testing of undo/redo\Help
 method=about
