@@ -4862,7 +4862,10 @@ begin
           end;
 
         PROP_MODERN_SCROLLBAR:
-          Ed.OptScrollbarsNew:= ValueBool;
+          begin
+            Ed.OptScrollbarsNew:= ValueBool;
+            Include(Ed.ModifiedOptions, TATEditorModifiedOption.ModernScrollbar);
+          end;
 
         PROP_SAVE_HISTORY:
           begin

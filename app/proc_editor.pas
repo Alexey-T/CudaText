@@ -251,7 +251,9 @@ begin
   Ed.OptShowFontLigatures:= Op.OpFontLigatures;
   Ed.OptFlickerReducingPause:= Op.OpFlickerReducingPause;
 
-  Ed.OptScrollbarsNew:= UiOps.ScrollbarsNew;
+  if not (TATEditorModifiedOption.ModernScrollbar in Ed.ModifiedOptions) then
+    Ed.OptScrollbarsNew:= UiOps.ScrollbarsNew;
+
   Ed.OptSpacingTop:= Op.OpSpacingTop;
   Ed.OptSpacingBottom:= Op.OpSpacingBottom;
 
@@ -554,7 +556,8 @@ begin
   Ed.OptBorderWidthFocused:= ATEditorScale(EditorOps.OpActiveBorderWidth);
   Ed.OptCaretBlinkEnabled:= EditorOps.OpCaretBlinkEn;
   Ed.OptCaretBlinkTime:= EditorOps.OpCaretBlinkTime;
-  Ed.OptScrollbarsNew:= UiOps.ScrollbarsNew;
+  if not (TATEditorModifiedOption.ModernScrollbar in Ed.ModifiedOptions) then
+    Ed.OptScrollbarsNew:= UiOps.ScrollbarsNew;
   Ed.DoubleBuffered:= UiOps.DoubleBuffered;
   Ed.Font.Size:= EditorOps.OpFontSize;
 end;
