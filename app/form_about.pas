@@ -109,6 +109,8 @@ const
     'https://github.com/ildarkhasanshin',
     'Yuriy Balyuk',
     'https://github.com/veksha',
+    '',
+    '#Editor-core optimizations via AI, rework of plugins',
     'Badr Elmers',
     'https://github.com/badrelmers',
     '',
