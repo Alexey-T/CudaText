@@ -197,7 +197,7 @@ NOTES
     in milliseconds, on a regressed one they take seconds - that
     IS the hang being measured.
   * MP tests write the corpus file(s) into the system temp dir
-    under <tempdir>/cuda_testing_undo_redo (kept across runs to
+    under <tempdir>/cuda_testing_perf (kept across runs to
     avoid the costly ~16s / ~1 min regeneration). On each use
     the file size is checked against a hardcoded expected size
     (binary LF newlines); if missing or wrong size the file is
@@ -262,7 +262,7 @@ TH_FAIL_FACTOR = 4.0
 HANG_ABS_FLOOR = 0.7
 
 # temp dir where the MP corpus files are written (kept across runs)
-LOAD_DIR = os.path.join(tempfile.gettempdir(), 'cuda_testing_undo_redo')
+LOAD_DIR = os.path.join(tempfile.gettempdir(), 'cuda_testing_perf')
 
 # Exact byte sizes of the corpus files when written in binary mode
 # with LF newlines (seeded RNG SEED=20260904). Used to decide whether
@@ -1200,7 +1200,10 @@ class Runner:
         # wrap_mode on) so 300k/1M-line docs can wrap and new tabs
         # inherit wrap as the global setting. See _enable_wrap_opts.
         self._enable_wrap_opts()
-        
+
+        cudatext.app_proc(cudatext.PROC_SHOW_SIDEPANEL_SET, False)
+        cudatext.app_proc(cudatext.PROC_SET_WINDOW_STATE, cudatext.WND_MAXIMIZED)
+
         # Capture the user's active editor (independent Editor object -
         # see _ed_focused) and its raw handle separately, so _cleanup
         # can check liveness via cudatext.ed_handles() without calling
