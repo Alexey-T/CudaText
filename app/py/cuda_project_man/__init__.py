@@ -1473,12 +1473,14 @@ class Command:
             if self.options.get('on_start', False):
                 ev.append('on_start')
 
+            '''
             v = self.options.get('check_git', None)
             if v is None:
                 s = ini_read('plugins.ini', 'events', 'cuda_project_man', '')
                 v = 'on_open' in s
             if v:
                 ev.append('on_open')
+            '''
 
             # save events to plugins.ini [events], they will work additionally to install.inf events
             if ev:
@@ -2036,12 +2038,14 @@ class Command:
 
     def on_open(self, ed_self):
 
+        '''
         if self.options.get('check_git', False):
             self.init_panel(False)
 
             if not self.project_file_path:
                 fn = ed_self.get_prop(PROP_FN, '*')
                 self.action_project_for_git(fn)
+        '''
 
         self.on_tab_change(ed_self)
 
