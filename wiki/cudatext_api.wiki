@@ -291,6 +291,7 @@ Parameter "text" is usually string, but can be of other types (bool, int, float,
 ** WND_MINIMIZED: Window is minimized.
 ** WND_FULLSCREEN: Full-screen mode.
 ** WND_FULLSCREEN2: Full-screen and distraction-free mode.
+* PROC_SET_WINDOW_STATE: Sets state of application window. Value must be one of WND_nnnn constants.
 
 ====app_proc - Find/Replace dialog ====
 
@@ -5536,5 +5537,6 @@ It provides:
 * add: Editor.replace_lines can override line-breaks for added lines
 * change: Editor.set_text_line don't allow line with CR LF
 * change: Editor.replace_lines don't allow lines with CR LF, except at the very line-end
+* add: app_proc: PROC_SET_WINDOW_STATE
 
 [[Category:CudaText]]
