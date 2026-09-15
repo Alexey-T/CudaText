@@ -172,21 +172,15 @@ NOTES
   * Do not touch the editor while the suite runs.
   * Each test opens its own tab (tag URTEST_TAB / URTEST_TAB2 /
     URTEST_LOAD) and closes it when done; your tabs are not modified.
-  * While the suite runs, user.json's "wrap_enabled_max_lines" is
-    temporarily set to 1100000 (the suite wraps documents up to 4000
-    lines in the wrap-on runs) and "wrap_mode" is temporarily set
-    to 1 (word wrap on; tabs opened by the suite inherit it as the
-    global wrap setting). Two helpers:
-    Runner._enable_wrap_opts (high max + wrap on; from _setup) and
-    Runner._restore_wrap_opts (user's original values back; from
-    _cleanup, also on FATAL/error paths). All writes go through
-    cudax_lib's get_opt/set_opt, which only change the file on disk:
-    right after each write the helpers open user.json, save it with
-    the editor's save command and close it again, because the running
-    CudaText re-reads its options only when user.json is saved in the
-    editor (or on restart). If the process is killed mid-run, restore
-    the values by hand; the old ones are printed to the console when
-    enable first runs.
+  * While the suite runs, options wrap_enabled_max_lines and
+    wrap_mode are set temporarily via separate
+    app_proc(PROC_CONFIG_READ, {key: value}) calls. This applies
+    them immediately without writing to user.json (changes are
+    lost on restart). Helpers: Runner._enable_wrap_opts (high max
+    + wrap on; from _setup) and Runner._restore_wrap_opts (user's
+    original values back via PROC_CONFIG_READ; from _cleanup).
+    Old values are read once with cudax_lib.get_opt and restored
+    the same way.
   * PROP_UNDO_GROUPED stays True (the CudaText default) for the suite.
     Only tests that need exact per-op undo entries may temporarily
     set it False and must restore True.  See UNDO GROUPING.
@@ -218,23 +212,20 @@ SEED = 20260904
 # temp dir where the file-loading tests (L1..L7) write their corpora
 LOAD_DIR = os.path.join(tempfile.gettempdir(), 'cuda_testing_undo_redo')
 
-# user.json options patched for the duration of a run: CudaText
-# refuses to enable word wrap on documents longer than
-# "wrap_enabled_max_lines" lines. The core suite runs every T*
-# test twice - word wrap off and on (documents up to ~4000
-# lines), so
-# Runner._enable_wrap_opts bumps this limit to 1.1M lines and forces
-# "wrap_mode" to 1 (word wrap on) so tabs the suite opens inherit
-# wrap as the global setting.
-# Runner._restore_wrap_opts writes the user's originals back at
-# the end of the run.
+# Options patched temporarily for the duration of a run via
+# app_proc(PROC_CONFIG_READ, {key: value}) — one key per call,
+# not written to user.json. CudaText refuses to enable word wrap
+# on documents longer than "wrap_enabled_max_lines" lines. The
+# core suite runs every T* test twice (wrap off and on, documents
+# up to ~4000 lines), so Runner._enable_wrap_opts bumps this limit
+# to 1.1M lines and forces wrap_mode to 1. Runner._restore_wrap_opts
+# puts the user's originals back (also via PROC_CONFIG_READ).
 WRAP_MAX_KEY = 'wrap_enabled_max_lines'
 WRAP_MAX_RUN_VALUE = 1100000
 WRAP_MODE_KEY = 'wrap_mode'
 WRAP_MODE_RUN_VALUE = 1
-# the user's original values: saved by Runner._enable_wrap_opts
-# (get_opt) the first time it runs, set back by
-# Runner._restore_wrap_opts (set_opt)
+# the user's original values: saved the first time _enable_wrap_opts
+# runs (via get_opt), restored by Runner._restore_wrap_opts
 WRAP_MAX_OLD = None
 WRAP_MODE_OLD = None
 
@@ -665,19 +656,15 @@ class Runner:
             pass
         cudatext.app_proc(cudatext.PROC_IDLE, True)
 
-    def _resave_user_json(self):
-        cudatext.ed.cmd(cmds.cmd_OpsReloadAndApply)
-
     def _enable_wrap_opts(self):
-        """Enable suite wrap options in user.json and apply them.
+        """Enable suite wrap options temporarily via PROC_CONFIG_READ
+        (one key per call; not written to user.json; lost on restart).
 
         Saves the user's original wrap_enabled_max_lines /
         wrap_mode the first time it is called, then sets
-        wrap_enabled_max_lines to WRAP_MAX_RUN_VALUE (so 300k/1M-line
-        docs can enable wrap) and wrap_mode to WRAP_MODE_RUN_VALUE
-        (word wrap on; new tabs inherit it). set_opt only writes the
-        file on disk: _resave_user_json re-saves user.json in the
-        editor so the running CudaText re-reads the options.
+        wrap_enabled_max_lines to WRAP_MAX_RUN_VALUE (so large docs
+        can enable wrap) and wrap_mode to WRAP_MODE_RUN_VALUE
+        (word wrap on; new tabs inherit it).
         Called from _setup (the wrap-on test runs need it)."""
         global WRAP_MAX_OLD
         global WRAP_MODE_OLD
@@ -695,29 +682,24 @@ class Runner:
             if WRAP_MODE_OLD is None:
                 WRAP_MODE_OLD = cudax_lib.get_opt(
                     WRAP_MODE_KEY, lev=cudax_lib.CONFIG_LEV_DEF)
-        cudax_lib.set_opt(WRAP_MAX_KEY, WRAP_MAX_RUN_VALUE)
-        cudax_lib.set_opt(WRAP_MODE_KEY, WRAP_MODE_RUN_VALUE)
-        self.out('info: user.json: %s: %s -> %s, %s: %s -> %s '
+        cudatext.app_proc(cudatext.PROC_CONFIG_READ, {WRAP_MAX_KEY: WRAP_MAX_RUN_VALUE})
+        cudatext.app_proc(cudatext.PROC_CONFIG_READ, {WRAP_MODE_KEY: WRAP_MODE_RUN_VALUE})
+        self.out('info: PROC_CONFIG_READ: %s: %s -> %s, %s: %s -> %s '
                  '(enable wrap opts)' % (
                      WRAP_MAX_KEY, WRAP_MAX_OLD, WRAP_MAX_RUN_VALUE,
                      WRAP_MODE_KEY, WRAP_MODE_OLD, WRAP_MODE_RUN_VALUE))
-        self._resave_user_json()
 
     def _restore_wrap_opts(self):
-        """Restore the user's original wrap options in user.json.
-
-        Writes WRAP_MAX_OLD / WRAP_MODE_OLD back (if they were saved)
-        and re-applies them via _resave_user_json. Called from
-        _cleanup at the end of the run."""
+        """Restore the user's original wrap options via PROC_CONFIG_READ
+        (one key per call). Called from _cleanup at the end of the run."""
         if WRAP_MAX_OLD is not None:
-            cudax_lib.set_opt(WRAP_MAX_KEY, WRAP_MAX_OLD)
+            cudatext.app_proc(cudatext.PROC_CONFIG_READ, {WRAP_MAX_KEY: WRAP_MAX_OLD})
         if WRAP_MODE_OLD is not None:
-            cudax_lib.set_opt(WRAP_MODE_KEY, WRAP_MODE_OLD)
-        self.out('info: user.json: %s: %s, %s: %s '
+            cudatext.app_proc(cudatext.PROC_CONFIG_READ, {WRAP_MODE_KEY: WRAP_MODE_OLD})
+        self.out('info: PROC_CONFIG_READ: %s: %s, %s: %s '
                  '(restore wrap opts)' % (
                      WRAP_MAX_KEY, WRAP_MAX_OLD,
                      WRAP_MODE_KEY, WRAP_MODE_OLD))
-        self._resave_user_json()
 
     def _setup(self):
         # Enable suite wrap options (high wrap_enabled_max_lines +
@@ -771,11 +753,8 @@ class Runner:
         self.TE = None
 
     def _close_all_suite_tabs(self):
-        """Close tabs tagged URTEST_TAB / URTEST_TAB2 / URTEST_LOAD /
-        URTEST_USERJSON (the last one: a user.json tab left over from
-        _resave_user_json, e.g. if it failed mid-way)."""
-        tags = {'URTEST_TAB', 'URTEST_TAB2', 'URTEST_LOAD',
-                'URTEST_USERJSON'}
+        """Close tabs tagged URTEST_TAB / URTEST_TAB2 / URTEST_LOAD."""
+        tags = {'URTEST_TAB', 'URTEST_TAB2', 'URTEST_LOAD'}
         closed = 0
         handles = list(cudatext.ed_handles())
         for h in handles:
