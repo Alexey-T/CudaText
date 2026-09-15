@@ -274,7 +274,7 @@ Parameter "text" is usually string, but can be of other types (bool, int, float,
 * PROC_WINDOW_TOPMOST_GET: Returns bool flag: main window has "always on top" style.
 * PROC_WINDOW_TOPMOST_SET: Sets bool flag: main window has "always on top" style.
 
-* PROC_CONFIG_READ: Reads param "text" as contents of CudaText JSON configuration file. Param "text" must be string in the JSON format. For example, to change options "tab_spaces" and "tab_size" pass the string <code>'{ "tab_spaces": true, "tab_size": 4 }'</code>. Trailing ";" char is allowed here. Option(s) will be applied in the same way as "user.json" config is applied, but the change is temporary, no disk files are changed in the "settings" folder.
+* PROC_CONFIG_READ: Reads param "text" as contents of CudaText JSON configuration file. Param "text" must be string in the JSON format. For example, to change options "tab_spaces" and "tab_size" pass the string <code>'{ "tab_spaces": true, "tab_size": 4 }'</code>. Trailing "," char is allowed here. Option(s) will be applied in the same way as "user.json" config is applied, but the change is temporary, no disk files are changed in the "settings" folder.
 
 * PROC_CONFIG_NEWDOC_EOL_GET: Returns str: line endings of newly created documents (app option "newdoc_ends").
 * PROC_CONFIG_NEWDOC_EOL_SET: Sets str: line endings of newly created documents.
