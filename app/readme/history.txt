@@ -12,6 +12,7 @@
 + add: much improved speed of inserting _huge_ amount of lines via API replace_lines (by @badrelmers using AI)
 + add: optimized speed of loading big ~500MB files, up to 6x faster now (by @badrelmers using AI)
 * change: Project Manager: return focus to project-treeview after opening a file from treeview by 1-click or dbl-click (thanks @kwappdev)
+* change: Project Manager: disable option "Check Git repo....." because it gave big slowdown
 * change: lexer Bash: highlight '${varname}' as single element, not as bracket+name+bracket
 * change: delete option "undo_pause", it worked poorly anyway
 - fix: some Python APIs, when word-wrap:on and "scrollbar_themed":false, had 2x slowdown (found by @badrelmers, AI could not fix it in 10 attempts, Alexey fixed it)
