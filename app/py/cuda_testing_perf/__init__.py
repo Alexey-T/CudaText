@@ -206,14 +206,15 @@ NOTES
     uses only the ~500 MB 1M file. Delete the directory by hand
     to reclaim space when you no longer need the corpora.
   * While the suite runs, options wrap_enabled_max_lines,
-    wrap_mode and scrollbar_themed are set temporarily via
-    separate app_proc(PROC_CONFIG_READ, {key: value}) calls.
-    This applies them immediately without writing to user.json
-    (changes are lost on restart). Helpers: Runner._enable_wrap_opts
-    (high max + wrap on), Runner._disable_wrap_opts (high max +
-    wrap off), and Runner._restore_opts (user's original values
-    back via PROC_CONFIG_READ; from _cleanup). Old values are
-    read once with cudax_lib.get_opt and restored the same way.
+    wrap_mode and scrollbar_themed are set temporarily via one
+    app_proc(PROC_CONFIG_READ, json_string) call. The param must
+    be a JSON string (like a user.json fragment) with all keys;
+    the change is temporary and not written to disk. Helpers:
+    Runner._enable_wrap_opts (high max + wrap on),
+    Runner._disable_wrap_opts (high max + wrap off), and
+    Runner._restore_opts (user's original values back via
+    PROC_CONFIG_READ; from _cleanup). Old values are read once
+    with cudax_lib.get_opt and restored the same way.
   * PROP_UNDO_GROUPED stays True (the CudaText default) for the suite.
     Forcing it False globally exhausts RAM on the 300k-line perf
     tests (>6 GB).  See UNDO GROUPING.
@@ -236,6 +237,7 @@ import random
 import traceback
 import tempfile
 import gc
+import json
 from functools import partial
 
 import cudatext
@@ -271,14 +273,15 @@ _EXPECTED_CORPUS_SIZES = {
 }
 
 # Options patched temporarily for the duration of a run via
-# app_proc(PROC_CONFIG_READ, {key: value}) — one key per call,
-# not written to user.json. CudaText refuses to enable word wrap
-# on documents longer than "wrap_enabled_max_lines" lines. The
-# suite enables wrap on 300k and 1M-line documents, so
-# Runner._enable_wrap_opts bumps this limit to 1.1M lines and
-# forces wrap_mode to 1. Runner._disable_wrap_opts keeps the high
-# max but sets wrap_mode to 0. Runner._restore_opts puts the
-# user's originals back (also via PROC_CONFIG_READ).
+# app_proc(PROC_CONFIG_READ, json_string) — one JSON string with
+# all keys (like a user.json fragment), not written to disk.
+# CudaText refuses to enable word wrap on documents longer than
+# "wrap_enabled_max_lines" lines. The suite enables wrap on 300k
+# and 1M-line documents, so Runner._enable_wrap_opts bumps this
+# limit to 1.1M lines and forces wrap_mode to 1.
+# Runner._disable_wrap_opts keeps the high max but sets wrap_mode
+# to 0. Runner._restore_opts puts the user's originals back
+# (also via PROC_CONFIG_READ).
 WRAP_MAX_KEY = 'wrap_enabled_max_lines'
 WRAP_MAX_RUN_VALUE = 1100000
 WRAP_MODE_KEY = 'wrap_mode'
@@ -1113,9 +1116,10 @@ class Runner:
         cudatext.app_proc(cudatext.PROC_IDLE, True)
 
     def _set_suite_opts(self, wrap_mode=1, scrollbar_themed=True):
-        """Set the suite options temporarily via PROC_CONFIG_READ
-        (one key per call; not written to user.json; lost on restart).
+        """Set the suite options temporarily via PROC_CONFIG_READ.
 
+        Param must be a JSON string with all keys (like a user.json
+        fragment). Change is temporary — not written to disk.
         Always raises wrap_enabled_max_lines so 300k/1M docs can wrap.
         Sets wrap_mode (0 or 1) and scrollbar_themed. Saves the
         user's original values the first time any of the three keys is
@@ -1137,9 +1141,12 @@ class Runner:
                 SCROLLBAR_THEMED_OLD = cudax_lib.get_opt(
                     SCROLLBAR_THEMED_KEY, lev=cudax_lib.CONFIG_LEV_DEF)
 
-        cudatext.app_proc(cudatext.PROC_CONFIG_READ, {WRAP_MAX_KEY: WRAP_MAX_RUN_VALUE})
-        cudatext.app_proc(cudatext.PROC_CONFIG_READ, {WRAP_MODE_KEY: wrap_mode})
-        cudatext.app_proc(cudatext.PROC_CONFIG_READ, {SCROLLBAR_THEMED_KEY: scrollbar_themed})
+        text = json.dumps({
+            WRAP_MAX_KEY: WRAP_MAX_RUN_VALUE,
+            WRAP_MODE_KEY: wrap_mode,
+            SCROLLBAR_THEMED_KEY: scrollbar_themed,
+        })
+        cudatext.app_proc(cudatext.PROC_CONFIG_READ, text)
         self.out('info: PROC_CONFIG_READ: %s: %s, %s: %s, %s: %s '
                  '(set suite opts)' % (
                      WRAP_MAX_KEY, WRAP_MAX_RUN_VALUE,
@@ -1156,13 +1163,16 @@ class Runner:
 
     def _restore_opts(self):
         """Restore the user's original options via PROC_CONFIG_READ
-        (one key per call)."""
+        (one JSON string with all saved keys)."""
+        d = {}
         if WRAP_MAX_OLD is not None:
-            cudatext.app_proc(cudatext.PROC_CONFIG_READ, {WRAP_MAX_KEY: WRAP_MAX_OLD})
+            d[WRAP_MAX_KEY] = WRAP_MAX_OLD
         if WRAP_MODE_OLD is not None:
-            cudatext.app_proc(cudatext.PROC_CONFIG_READ, {WRAP_MODE_KEY: WRAP_MODE_OLD})
+            d[WRAP_MODE_KEY] = WRAP_MODE_OLD
         if SCROLLBAR_THEMED_OLD is not None:
-            cudatext.app_proc(cudatext.PROC_CONFIG_READ, {SCROLLBAR_THEMED_KEY: SCROLLBAR_THEMED_OLD})
+            d[SCROLLBAR_THEMED_KEY] = SCROLLBAR_THEMED_OLD
+        if d:
+            cudatext.app_proc(cudatext.PROC_CONFIG_READ, json.dumps(d))
         self.out('info: PROC_CONFIG_READ: %s: %s, %s: %s, %s: %s '
                  '(restore opts)' % (
                      WRAP_MAX_KEY, WRAP_MAX_OLD,

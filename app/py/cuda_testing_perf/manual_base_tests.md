@@ -43,9 +43,7 @@ met1 is more correct than met2 because it reproduce exactly the test i run manua
 
 ```python
 import os, cudatext_cmd as cmds;
-app_proc(PROC_CONFIG_READ, {'scrollbar_themed': False});
-app_proc(PROC_CONFIG_READ, {'wrap_enabled_max_lines': 1100000});
-app_proc(PROC_CONFIG_READ, {'wrap_mode': 1});
+app_proc(PROC_CONFIG_READ, '{"scrollbar_themed": false, "wrap_enabled_max_lines": 1100000, "wrap_mode": 1}');
 
 import os, tempfile, time; file_open(""); app_proc(PROC_IDLE, True); ed.set_prop(PROP_WRAP,1); fpath = os.path.join(tempfile.gettempdir(), filename); lines = open(fpath, "r").readlines();
 
@@ -67,9 +65,7 @@ expected results: MP1 and MP2 and MP3 must consume the same time
 
 ```python
 import os, cudatext_cmd as cmds;
-app_proc(PROC_CONFIG_READ, {'scrollbar_themed': True});
-app_proc(PROC_CONFIG_READ, {'wrap_enabled_max_lines': 1100000});
-app_proc(PROC_CONFIG_READ, {'wrap_mode': 1});
+app_proc(PROC_CONFIG_READ, '{"scrollbar_themed": true, "wrap_enabled_max_lines": 1100000, "wrap_mode": 1}');
 
 import os, tempfile, time; file_open(""); app_proc(PROC_IDLE, True); ed.set_prop(PROP_WRAP,1); fpath = os.path.join(tempfile.gettempdir(), filename); lines = open(fpath, "r").readlines();
 
@@ -91,9 +87,7 @@ expected results: MP1 and MP2 and MP3 must consume the same time
 
 ```python
 import os, cudatext_cmd as cmds;
-app_proc(PROC_CONFIG_READ, {'scrollbar_themed': True});
-app_proc(PROC_CONFIG_READ, {'wrap_enabled_max_lines': 1100000});
-app_proc(PROC_CONFIG_READ, {'wrap_mode': 1});
+app_proc(PROC_CONFIG_READ, '{"scrollbar_themed": true, "wrap_enabled_max_lines": 1100000, "wrap_mode": 1}');
 
 import os, tempfile, time; file_open(""); app_proc(PROC_IDLE, True); ed.set_prop(PROP_WRAP,1); fpath = os.path.join(tempfile.gettempdir(), filename); text = open(fpath, "r").read();
 
@@ -114,9 +108,7 @@ write 500mb rand lines, select all, delete it, then undo
 
 ```python
 import os, cudatext_cmd as cmds;
-app_proc(PROC_CONFIG_READ, {'scrollbar_themed': True});
-app_proc(PROC_CONFIG_READ, {'wrap_enabled_max_lines': 1100000});
-app_proc(PROC_CONFIG_READ, {'wrap_mode': 1});
+app_proc(PROC_CONFIG_READ, '{"scrollbar_themed": true, "wrap_enabled_max_lines": 1100000, "wrap_mode": 1}');
 
 import os, tempfile, time, cudatext_cmd as c; file_open(""); app_proc(PROC_IDLE, True); ed.set_prop(PROP_WRAP,1); fpath = os.path.join(tempfile.gettempdir(), filename); 
 lines = open(fpath, "r").readlines(); ed.replace_lines(0, ed.get_line_count()-1, lines); del lines; ed.set_caret(0, ed.get_line_count(), 0, 0); 
@@ -153,9 +145,7 @@ write 500mb (1M) rand line, select 600k line, delete it, then undo
 
 ```python
 import os, cudatext_cmd as cmds;
-app_proc(PROC_CONFIG_READ, {'scrollbar_themed': True});
-app_proc(PROC_CONFIG_READ, {'wrap_enabled_max_lines': 1100000});
-app_proc(PROC_CONFIG_READ, {'wrap_mode': 1});
+app_proc(PROC_CONFIG_READ, '{"scrollbar_themed": true, "wrap_enabled_max_lines": 1100000, "wrap_mode": 1}');
 
 import os, tempfile, time, cudatext_cmd as c; file_open(""); app_proc(PROC_IDLE, True); ed.set_prop(PROP_WRAP,1); fpath = os.path.join(tempfile.gettempdir(), filename);
 lines = open(fpath, "r").readlines(); ed.replace_lines(0, ed.get_line_count()-1, lines); del lines; ed.set_caret(0, deleted_lines, 0, 0);
@@ -194,9 +184,7 @@ expected results: undo and redo must consume the same time
 
 ```python
 import os, cudatext_cmd as cmds;
-app_proc(PROC_CONFIG_READ, {'scrollbar_themed': True});
-app_proc(PROC_CONFIG_READ, {'wrap_enabled_max_lines': 1100000});
-app_proc(PROC_CONFIG_READ, {'wrap_mode': 1});
+app_proc(PROC_CONFIG_READ, '{"scrollbar_themed": true, "wrap_enabled_max_lines": 1100000, "wrap_mode": 1}');
 
 import os, tempfile, time, cudatext_cmd as c; file_open(""); app_proc(PROC_IDLE, True); ed.set_prop(PROP_WRAP,1); fpath = os.path.join(tempfile.gettempdir(), filename);
 lines = open(fpath, "r").readlines();
@@ -230,9 +218,7 @@ expected results: MP7 and MP8 must consume the same time
 
 ```python
 import os, cudatext_cmd as cmds;
-app_proc(PROC_CONFIG_READ, {'scrollbar_themed': False});
-app_proc(PROC_CONFIG_READ, {'wrap_enabled_max_lines': 1100000});
-app_proc(PROC_CONFIG_READ, {'wrap_mode': 1});
+app_proc(PROC_CONFIG_READ, '{"scrollbar_themed": false, "wrap_enabled_max_lines": 1100000, "wrap_mode": 1}');
 
 app_proc(PROC_IDLE, True); ed.action(EDACTION_UPDATE,1);
 import tempfile, time; fpath = os.path.join(tempfile.gettempdir(), filename); t1 = time.time(); file_open(fpath); t2 = time.time(); print(f"file_open: {t2-t1:.4f}s");
@@ -250,9 +236,7 @@ expected results: MP7 and MP8 must consume the same time
 
 ```python
 import os, cudatext_cmd as cmds;
-app_proc(PROC_CONFIG_READ, {'scrollbar_themed': True});
-app_proc(PROC_CONFIG_READ, {'wrap_enabled_max_lines': 1100000});
-app_proc(PROC_CONFIG_READ, {'wrap_mode': 1});
+app_proc(PROC_CONFIG_READ, '{"scrollbar_themed": true, "wrap_enabled_max_lines": 1100000, "wrap_mode": 1}');
 
 app_proc(PROC_IDLE, True); ed.action(EDACTION_UPDATE,1);
 import tempfile, time; fpath = os.path.join(tempfile.gettempdir(), filename); t1 = time.time(); file_open(fpath); t2 = time.time(); print(f"file_open: {t2-t1:.4f}s");
