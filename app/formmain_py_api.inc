@@ -6192,6 +6192,33 @@ begin
             Result:= PyLong_FromLong(Ord(i));
           end;
 
+        APP_PROC_SET_WINDOW_STATE:
+          begin
+            case StrToIntDef(Str, -1) of
+              WND_NORMAL:
+                begin
+                  fmMain.ShowFullscreen:= false;
+                  fmMain.ShowDistractionFree:= false;
+                  fmMain.WindowState:= wsNormal;
+                end;
+              WND_MINIMIZED:
+                begin
+                  fmMain.WindowState:= wsMinimized;
+                end;
+              WND_MAXIMIZED:
+                begin
+                  fmMain.ShowFullscreen:= false;
+                  fmMain.ShowDistractionFree:= false;
+                  fmMain.WindowState:= wsMaximized;
+                end;
+              WND_FULLSCREEN:
+                fmMain.ShowFullscreen:= true;
+              WND_FULLSCREEN2:
+                fmMain.ShowDistractionFree:= true;
+            end;
+            Result:= ReturnNone;
+          end;
+
         APP_PROC_SET_FILE_RECENTS:
           begin
             AppListRecents.Clear;
