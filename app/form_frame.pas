@@ -780,9 +780,9 @@ begin
     Result:= 0
   else
   if FSplitHorz then
-    Result:= EdSecond.Height/Max(Height, 1)
+    Result:= EdSecond.Height/Max(PanelEditors.Height-Splitter.Height, 1)
   else
-    Result:= EdSecond.Width/Max(Width, 1);
+    Result:= EdSecond.Width/Max(PanelEditors.Width-Splitter.Width, 1);
 end;
 
 function TEditorFrame.GetSplitted: boolean;
@@ -1621,14 +1621,16 @@ begin
 
   if FSplitHorz then
   begin
-    N:= Round(AValue*H);
-    EdSecond.Height:= Max(Delta, Min(H-Delta, N));
+    //minus splitter size, so 50% gives equal sizes of both editors
+    N:= Round(AValue*(H-Splitter.Height));
+    EdSecond.Height:= Max(Delta, Min(H-Delta-Splitter.Height, N));
     Splitter.Top:= 0;
   end
   else
   begin
-    N:= Round(AValue*W);
-    EdSecond.Width:= Max(Delta, Min(W-Delta, N));
+    //minus splitter size, so 50% gives equal sizes of both editors
+    N:= Round(AValue*(W-Splitter.Width));
+    EdSecond.Width:= Max(Delta, Min(W-Delta-Splitter.Width, N));
     Splitter.Left:= 0;
   end;
 end;
