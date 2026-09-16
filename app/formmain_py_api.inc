@@ -2315,18 +2315,18 @@ end;
 function api_ed_decor(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
-  PtrText: PChar;
   Ed: TATSynEdit;
-  NId, NLine, NImageIndex, NColor: integer;
-  NFontBold, NFontItalic, NAutoDelete: integer;
+  PtrText, PtrStyle: PChar;
+  StrStyle: string;
+  NId, NLine, NImageIndex, NColor, NAutoDelete: integer;
   NTag: integer;
   Data: TATGutterDecorData;
   ItemPtr: PATGutterDecorItem;
   NCount, i: integer;
 begin
   with AppPython.Engine do
-    if Bool(PyArg_ParseTuple(Args, 'Liiisiiiii:decor',
-            @H, @NId, @NLine, @NTag, @PtrText, @NColor, @NFontBold, @NFontItalic,
+    if Bool(PyArg_ParseTuple(Args, 'Liiisisii:decor',
+            @H, @NId, @NLine, @NTag, @PtrText, @NColor, @PtrStyle,
             @NImageIndex, @NAutoDelete)) then
     begin
       Ed:= PyHelper_EditorFromHandle(H);
@@ -2366,14 +2366,15 @@ begin
             if not Ed.Strings.IsIndexValid(NLine) then
               exit(ReturnFalse);
 
+            StrStyle:= string(PtrStyle);
             Data:= Default(TATGutterDecorData);
             Data.LineNum:= NLine;
             Data.Tag:= NTag;
             Data.DeleteOnDelLine:= Bool(NAutoDelete);
             Data.ImageIndex:= NImageIndex;
             Data.TextAll:= string(PtrText);
-            Data.TextBold:= Bool(NFontBold);
-            Data.TextItalic:= Bool(NFontItalic);
+            Data.TextBold:= Pos('b', StrStyle)>0;
+            Data.TextItalic:= Pos('i', StrStyle)>0;
             data.TextColor:= NColor;
 
             Ed.GutterDecor.Add(Data);

@@ -1482,8 +1482,8 @@ class Editor:
     def bookmark(self, id, nline, nkind=1, ncolor=-1, text='', auto_del=True, show=True, tag=0):
         return ct.ed_bookmark(self.h, id, nline, nkind, ncolor, text, auto_del, show, tag)
 
-    def decor(self, id, line=-1, tag=0, text='', color=0, bold=False, italic=False, image=-1, auto_del=True):
-        return ct.ed_decor(self.h, id, line, tag, text, color, bold, italic, image, auto_del)
+    def decor(self, id, line=-1, tag=0, text='', color=0, style='', image=-1, auto_del=True):
+        return ct.ed_decor(self.h, id, line, tag, text, color, style, image, auto_del)
 
     def lock(self):
         return ct.ed_lock(self.h)
