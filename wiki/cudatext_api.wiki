@@ -5540,6 +5540,6 @@ It provides:
 * add: app_proc: PROC_SET_WINDOW_STATE
 
 1.0.485 (app 1.237.0)
-* change: Editor.decor: removed params "bold", "italic", added instead "style"
+* change: Editor.decor: removed params "bold", "italic", added instead "style" (only Differ plugin used "bold" param, no harm for others)
 
 [[Category:CudaText]]
