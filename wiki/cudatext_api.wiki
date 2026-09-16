@@ -3096,7 +3096,7 @@ Notes:
 
 ===Editor.decor===
 
- decor(id, line=-1, tag=0, text="", color=0, bold=False, italic=False, image=-1, auto_del=True)
+ decor(id, line=-1, tag=0, text="", color=0, style="", image=-1, auto_del=True)
 
 Controls decorations on gutter. It is used to show some visual marks, which look like bookmark icons, but independent of bookmarks. Possible values of "id":
 
@@ -3111,8 +3111,7 @@ Controls decorations on gutter. It is used to show some visual marks, which look
 *** If "text" is not empty, decoration will be text.
 *** If "text" is empty, decoration depends on "image" value, see below.
 ** "color": int, color of text decoration.
-** "bold": bool, use bold font for text decoration.
-** "italic": bool, use italic font for text decoration.
+** "style": str, decoration text will be bold if value has "b", will be italic if value has "i".
 ** "image": int, icon index from decoration imagelist.
 *** If "text" is empty and "image" is >=0, decoration will be icon.
 *** If "text" is empty and "image" is -1, decoratiton will be cell background filled with "color".
@@ -5539,5 +5538,8 @@ It provides:
 * change: Editor.set_text_line don't allow line with CR LF
 * change: Editor.replace_lines don't allow lines with CR LF, except at the very line-end
 * add: app_proc: PROC_SET_WINDOW_STATE
+
+1.0.485 (app 1.237.0)
+* change: Editor.decor: removed params "bold", "italic", added instead "style"
 
 [[Category:CudaText]]
