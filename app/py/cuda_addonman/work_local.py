@@ -191,8 +191,9 @@ def get_installed_addons(ignore={}):
 
     d = os.path.join(DIR_DATA, 'lexliblite')
     if os.path.isdir(d):
+        LITE_EXT = '.cuda-litelexer'
         l = os.listdir(d)
-        l = [i.split('.')[0] for i in l if i.endswith('.cuda-litelexer')]
+        l = [i[:-len(LITE_EXT)] for i in l if i.endswith(LITE_EXT)]
         l = [i for i in l if not i in exclude_lexers_lite]
         l = sorted(l)
         res += [{
