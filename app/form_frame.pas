@@ -258,7 +258,7 @@ type
     procedure EditorOnClickMicroMap(Sender: TObject; AX, AY: integer);
     procedure EditorOnCommand(Sender: TObject; ACmd: integer; AInvoke: TATCommandInvoke; const AText: string; var AHandled: boolean);
     procedure EditorOnCommandAfter(Sender: TObject; ACommand: integer; const AText: string);
-    procedure EditorOnDrawBookmarkIcon(Sender: TObject; C: TCanvas; ALineIndex, ABookmarkIndex: integer; const ARect: TRect; var AHandled: boolean);
+    procedure EditorOnDrawBookmarkIcon(Sender: TObject; C: TCanvas; ALineIndex: integer; const ARect: TRect; ABookmarkKind: word; var AHandled: boolean);
     function EditorOnGetToken(Sender: TObject; AX, AY: integer): TATTokenKind;
     procedure EditorOnPaint(Sender: TObject);
     procedure EditorOnEnter(Sender: TObject);
@@ -3749,26 +3749,20 @@ begin
 end;
 
 procedure TEditorFrame.EditorOnDrawBookmarkIcon(Sender: TObject; C: TCanvas;
-  ALineIndex, ABookmarkIndex: integer; const ARect: TRect; var AHandled: boolean);
-var
-  Ed: TATSynEdit;
-  BmKind: integer;
+  ALineIndex: integer; const ARect: TRect; ABookmarkKind: word;
+  var AHandled: boolean);
 begin
-  if ARect.Left>=ARect.Right then exit;
-  if ABookmarkIndex<0 then exit;
+  if ARect.Width<=0 then exit;
 
-  Ed:= Sender as TATSynEdit;
-  BmKind:= Ed.Strings.Bookmarks[ABookmarkIndex]^.Data.Kind;
-
-  if BmKind<=1 then
+  if ABookmarkKind<=1 then
     exit
   else
-  if (BmKind>=Low(AppBookmarkSetup)) and (BmKind<=High(AppBookmarkSetup)) then
+  if (ABookmarkKind>=Low(AppBookmarkSetup)) and (ABookmarkKind<=High(AppBookmarkSetup)) then
   begin
     AppBookmarkImagelist.Draw(C,
       ARect.Left,
       (ARect.Top+ARect.Bottom-AppBookmarkImagelist.Height) div 2,
-      AppBookmarkSetup[BmKind].ImageIndex);
+      AppBookmarkSetup[ABookmarkKind].ImageIndex);
     AHandled:= true;
   end;
 end;
