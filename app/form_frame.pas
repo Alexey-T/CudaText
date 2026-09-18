@@ -3753,6 +3753,8 @@ procedure TEditorFrame.EditorOnDrawBookmarkIcon(Sender: TObject; C: TCanvas;
   var AHandled: boolean);
 begin
   if ARect.Width<=0 then exit;
+  if ABookmarkKind<Low(AppBookmarkSetup) then
+    ABookmarkKind:= Low(AppBookmarkSetup);
 
   if ABookmarkKind<=1 then
     exit
