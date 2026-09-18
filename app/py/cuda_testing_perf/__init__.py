@@ -69,10 +69,10 @@ UNDO GROUPING (PROP_UNDO_GROUPED)
   (True) globally for the suite.
 
 COMMANDS (menu: Testing / Testing of Performance)
-  Run all tests (300k lines)     run_all_300k:    MP1..MP4 on the
-    300k corpus, plus MP5 and MP6
-  Run all tests (1M lines)       run_all_1M:      MP1..MP4 on the
-    1M corpus, plus MP5 and MP6
+  Run all tests (300k lines)     run_all_300k:    MP1..MP9 on the
+    300k corpus (MP7/MP8 always use the 1M file)
+  Run all tests (1M lines)       run_all_1M:      MP1..MP9 on the
+    1M corpus
   Run single test (300k lines)   run_single_300k: one test of the
     300k catalog, chosen in a dialog
   Run single test (1M lines)     run_single_1M:   one test of the
@@ -94,20 +94,19 @@ THE TWO CORPORA (2026-09-11)
   1M corpus: 1,000,000 random lines of 490..510 chars (~500 MB),
     file cuda_undo_test_rand_1M.txt; MP4 deletes the first
     600,000 lines (600k-of-1M).
-  MP1..MP4 exist once per corpus: the TESTS_300K / TESTS_1M
+  MP1..MP6 and MP9 exist once per corpus: the TESTS_300K / TESTS_1M
   registries bind each test to its corpus's size, and the four
-  commands above select the registry. MP6 (file_open) is the SAME
-  test in both suites: it always opens the 1M-line corpus file,
-  exactly like the manual benchmark. Console use stays possible:
+  commands above select the registry. MP7/MP8 (file_open) always
+  open the 1M-line corpus file, exactly like the manual benchmark.
+  Console use stays possible:
   Runner().run('1M'), Runner().run_single('MP4', '1M'),
   Runner().test_MP1(1000000) etc.
 
 WHAT IT COVERS
-  - MP1..MP6: the 6 manual console benchmarks replicated
-    EXACTLY, command for command, on both corpora. The document
-    is the corpus FILE opened with file_open into its own tab -
-    exactly the manual session's state; no set_text_all, no
-    suite-tab commands anywhere in the setup. The timed part is
+  - MP1..MP9: the manual console benchmarks replicated
+    EXACTLY, command for command, on both corpora (plus MP9).
+    The document is the corpus FILE / set_text_all into its own
+    tab - exactly the manual session's state. The timed part is
     ONLY the manual test's own commands with nothing run in
     between, Hang1/Hang2 are the manual test's two timed calls,
     and every check is read-only and runs after the timing. The
@@ -117,16 +116,16 @@ WHAT IT COVERS
     size does not match the expected deterministic size. Content
     is byte-identical to the benchmark's own corpus file. The
     replicas:
-    MP1 replace_lines(0, get_line_count()-1, open().readlines()),
-    MP2 set_text_all(open().read()), MP3 replace_lines load then
-    set_caret(0, get_line_count(), 0, 0) + TextDeleteSelection +
-    Undo + Redo,
-    MP4 replace_lines load then set_caret(0, ndel, 0, 0) +
-    TextDeleteSelection + Undo + Redo (200k-of-300k on the 300k
-    corpus, 600k-of-1M on the 1M corpus),
-    MP5 replace_lines load then replace_lines(with marker lines) +
-    Undo + Redo (fair big-text undo/redo),
-    MP6 file_open (wrap off then wrap on via global opts)
+    MP1 replace_lines (scrollbar_themed=False),
+    MP2 replace_lines (scrollbar_themed=True),
+    MP3 set_text_all,
+    MP4 select-all + TextDeleteSelection + Undo + Redo,
+    MP5 delete first N lines + Undo + Redo,
+    MP6 fair undo/redo (marker lines),
+    MP7 file_open (scrollbar_themed=False),
+    MP8 file_open (scrollbar_themed=True),
+    MP9 set_text_all + color markers on every other line +
+        replace_lines(["v"]) + Undo (only undo is timed)
 
 THRESHOLDS (loaded from file)
   Every timed quantity - each command's own time, Hang1 and
@@ -2396,6 +2395,114 @@ class Runner:
                 self._set_suite_opts(wrap_mode=w, scrollbar_themed=True)
             self.done()
 
+    def test_MP9(self, nlines=300000):
+        '''MP9: undo text with color markers.
+        Load the corpus via set_text_all (untimed), add green color
+        markers on every other line (untimed), replace the whole
+        document with a single "v" line (untimed), then time Undo
+        (+ Hang1 / Hang2). Measures only undo speed in the presence
+        of many color attributes. Runs wrap=off and wrap=on.
+        No content checks (to avoid extra RAM).
+        '''
+        fpath, t_write = mp_corpus_file(nlines)
+        for w in (0, 1):
+            self.wrap = w
+            b_cmd = baseline('MP9', nlines, 'Undo', 'cmd', wrap=w)
+            b_h1  = baseline('MP9', nlines, 'Undo', 'hang1', wrap=w)
+            b_h2  = baseline('MP9', nlines, 'Undo', 'hang2', wrap=w)
+            TH_UNDO    = th(b_cmd)
+            TH_UNDO_H1 = th(b_h1)
+            TH_UNDO_H2 = th(b_h2)
+            if not self.begin('MP9', 'MP9: Undo of %d lines with color '
+                              'markers (wrap=%s)' % (
+                                  nlines, 'on' if w else 'off')):
+                self.done()
+                continue
+            ed = None
+            try:
+                # ---- setup: empty tab + corpus + markers + replace (untimed)
+                ed, res = self._open_tab(
+                    "", tag='URTEST_LOAD', wrap=w,
+                    title=self._tab_title('MP9', w))
+                self.info('doc', '%s: %d lines, %d bytes%s' % (
+                    fpath, nlines, os.path.getsize(fpath),
+                    (', written in %.1fs' % t_write) if t_write is not None
+                    else ' (already written this run)'))
+                text = open(fpath, 'r').read()
+                self.info('setup', 'set_text_all(%d chars) [untimed]'
+                          % len(text))
+                ed.set_text_all(text)
+                
+                # markers on every other line (green bg, len=480)
+                total_lines = ed.get_line_count()
+                self.info('setup', 'attr(MARKERS_ADD) on every other of '
+                          '%d lines [untimed]' % total_lines)
+                for i in range(0, total_lines, 2):
+                    ed.attr(cudatext.MARKERS_ADD, tag=11, x=0, y=i,
+                            len=480, color_bg=0x00FF00)
+                self.info('setup', 'replace_lines(0, get_line_count()-1, '
+                          '["v"]) [untimed]')
+                ed.replace_lines(0, ed.get_line_count() - 1, ['v'])
+
+                # ---- timed: Undo only (the change being undone is the
+                #      replace_lines that collapsed the marked document)
+                self.info('op', 'Undo (restore text + markers)')
+                # see MP1 for why PROC_IDLE + UPDATE before the first
+                # timed op is necessary (separates Hang1/Hang2 cleanly)
+                cudatext.app_proc(cudatext.PROC_IDLE, True)
+                ed.action(cudatext.EDACTION_UPDATE, 1)
+                t1 = time.time()
+                ed.cmd(cmds.cCommand_Undo)
+                t2 = time.time()
+                t_undo = t2 - t1
+                hu1, hu2 = self._hang(ed)
+                del text
+
+                # ---- per-command profile + thresholds ----
+                perf_fails = []
+                perf_warns = []
+                profiles = [self._judge_cmd(
+                    'Undo', t_undo, hu1, hu2, TH_UNDO, TH_UNDO_H1, TH_UNDO_H2,
+                    perf_fails, perf_warns,
+                    base_total=b_cmd + b_h1 + b_h2,
+                    b_cmd=b_cmd, b_h1=b_h1, b_h2=b_h2)]
+                t_hang = hu1 + hu2
+
+                status = ('FAIL' if perf_fails
+                          else ('WARN' if perf_warns else 'PASS'))
+                self.perf.append({
+                    'id': 'MP9', 'wrap': self.wrap, 'lines': nlines,
+                    'del': 0.0, 'undo': t_undo, 'redo': 0.0,
+                    'hang': t_hang,
+                    'profiles': profiles,
+                    'status': status, 'note': '; '.join(perf_fails +
+                                                        perf_warns),
+                })
+                if perf_fails:
+                    self.cur['bad'] += 1
+                    if self.cur['status'] != 'ERR':
+                        self.cur['status'] = 'FAIL'
+                    self.out('    FAIL  perf: %s' % '; '.join(perf_fails))
+                elif perf_warns:
+                    if self.cur['note']:
+                        self.cur['note'] += '; '
+                    self.cur['note'] = (self.cur['note'] + '; '.join(
+                        perf_warns))[:200]
+                    self.out('    WARN  perf: %s' % '; '.join(perf_warns))
+                else:
+                    self.cur['ok'] += 1
+                    self.out('    ok    perf thresholds')
+            except Exception:
+                self.cur['status'] = 'ERR'
+                tb = traceback.format_exc()
+                self.cur['note'] = tb.strip().splitlines()[-1][:200]
+                self.out('    ERR   exception raised:')
+                for ln in tb.strip().splitlines()[-5:]:
+                    self.out('            ' + ln)
+            finally:
+                self._close_tab(ed)
+            self.done()
+
 
 # ----------------------------------------------------------------------------
 # test registries: one catalog per corpus. MP1..MP4 are bound to the
@@ -2424,6 +2531,8 @@ TESTS_300K = [
      partial(Runner.test_MP7, nlines=1000000)),
     ('MP8', 'file_open, scrollbar_themed=True',
      partial(Runner.test_MP8, nlines=1000000)),
+    ('MP9', 'undo with color markers',
+     partial(Runner.test_MP9, nlines=300000)),
 ]
 
 # 1M corpus: 1,000,000 lines (~500 MB), cuda_undo_test_rand_1M.txt
@@ -2444,6 +2553,8 @@ TESTS_1M = [
      partial(Runner.test_MP7, nlines=1000000)),
     ('MP8', 'file_open, scrollbar_themed=True',
      partial(Runner.test_MP8, nlines=1000000)),
+    ('MP9', 'undo with color markers',
+     partial(Runner.test_MP9, nlines=1000000)),
 ]
 
 # ----------------------------------------------------------------------------
@@ -2454,14 +2565,15 @@ class Command:
 
     def run_all_300k(self):
         """Run ALL performance tests on the 300k-line corpus:
-        MP1..MP4 at 300k lines (MP4 deletes the first 200k) plus
-        MP1/MP2 (replace_lines scrollbar_themed), MP3-MP6 (core), MP7/MP8 (file_open scrollbar_themed)."""
+        MP1..MP6 + MP9 at 300k lines (MP4 deletes the first 200k),
+        plus MP7/MP8 (file_open of the 1M corpus, scrollbar_themed
+        False/True)."""
         Runner().run('300k')
 
     def run_all_1M(self):
         """Run ALL performance tests on the 1M-line corpus:
-        MP1..MP4 at 1M lines (MP4 deletes the first 600k) plus
-        MP1/MP2 (replace_lines scrollbar_themed), MP3-MP6 (core), MP7/MP8 (file_open scrollbar_themed)."""
+        MP1..MP9 at 1M lines (MP4 deletes the first 600k; MP7/MP8
+        are file_open of the same 1M file)."""
         Runner().run('1M')
 
     def run_single_300k(self):

@@ -22,7 +22,7 @@ deleted_lines=200000;
 ```
 
 ```python
-import os, tempfile, random, time; fpath = os.path.join(tempfile.gettempdir(), filename); t1 = time.time(); open(fpath, "w").writelines(os.urandom(random.randint(245, 255)).hex() + "\n" for _ in range(total_lines)); print(f"saved to {fpath} in {time.time()-t1:.4f}s")
+import os, tempfile, random, time; fpath = os.path.join(tempfile.gettempdir(), filename); t1 = time.time(); open(fpath, "w").writelines(os.urandom(random.randint(245, 255)).hex() + "\n" for _ in range(total_lines)); print(f"saved to {fpath} in {time.time()-t1:.4f}s");
 ```
 
 _______________________________________
@@ -249,4 +249,29 @@ Hang1: 0.0030s
 Hang2: 0.0180s
 
 ____________________________________________
+### MP9: undo text with color markers
+write 500mb rand lines 1M lines, mark 500k line, replace all with v, undo 
+
+```python
+import os, cudatext_cmd as cmds;
+app_proc(PROC_CONFIG_READ, '{"scrollbar_themed": true, "wrap_enabled_max_lines": 1100000, "wrap_mode": 1}');
+
+import os, tempfile, time; file_open(""); app_proc(PROC_IDLE, True); ed.set_prop(PROP_WRAP,1); fpath = os.path.join(tempfile.gettempdir(), filename); text = open(fpath, "r").read();
+
+ed.set_text_all(text);
+[ed.attr(MARKERS_ADD,tag=11,x=0,y=i,len=480,color_bg=0x00FF00)for i in range(0,total_lines,2)];
+ed.replace_lines(0, ed.get_line_count()-1, ["v"]);
+
+app_proc(PROC_IDLE, True); ed.action(EDACTION_UPDATE,1);
+t1 = time.time(); ed.cmd(cmds.cCommand_Undo); t2 = time.time(); print(f"Undo: {t2-t1:.4f}s");
+t1 = time.time(); app_proc(PROC_IDLE, True); t2 = time.time(); print(f"Hang1: {t2-t1:.4f}s");
+t1 = time.time(); ed.action(EDACTION_UPDATE,1); t2 = time.time(); print(f"Hang2: {t2-t1:.4f}s");
+
+del text
+```
+
+Undo: 3.7122s
+Hang1: 0.0740s
+Hang2: 0.0280s
+
 

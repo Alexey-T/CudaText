@@ -6,58 +6,63 @@
 
    test  wrap lines   command              cmd     Hang1     Hang2     Total      base  status
    ----------------------------------------------------------------------------------------
-   MP1   off   300000 replace_lines    0.5280s   0.3960s   0.0320s   0.9561s   0.9410s  PASS  
-   MP1   on    300000 replace_lines    0.8841s   0.4000s   0.0360s   1.3201s   1.3311s  PASS  
-   MP2   off   300000 replace_lines    0.5160s   0.3440s   0.0410s   0.9011s   0.8950s  PASS  
-   MP2   on    300000 replace_lines    0.8911s   0.3250s   0.0390s   1.2551s   1.3141s  PASS  
-   MP3   off   300000 set_text_all     0.5810s   0.0860s   0.0230s   0.6900s   0.6840s  PASS  
-   MP3   on    300000 set_text_all     1.1581s   0.1280s   0.0330s   1.3191s   1.3071s  PASS  
-   MP4   off   300000 Delete           0.5100s   0.1080s   0.0180s   0.6360s   0.6340s  PASS  
-                      Undo             0.5540s   0.0510s   0.0210s   0.6260s   0.6980s        
-                      Redo             0.5890s   0.0990s   0.0190s   0.7070s   0.7210s        
-   MP4   on    300000 Delete           0.5240s   0.0980s   0.0180s   0.6400s   0.6330s  PASS  
-                      Undo             0.9161s   0.0740s   0.0390s   1.0291s   1.0621s        
-                      Redo             0.6060s   0.0980s   0.0160s   0.7200s   0.7160s        
-   MP5   off   300000 Delete           0.3430s   0.1090s   0.0440s   0.4960s   0.4880s  PASS  
-                      Undo             0.3810s   0.0800s   0.0230s   0.4840s   0.5120s        
-                      Redo             0.3970s   0.1000s   0.0480s   0.5450s   0.5360s        
-   MP5   on    300000 Delete           0.4340s   0.1040s   0.0320s   0.5700s   0.5620s  PASS  
-                      Undo             0.5380s   0.1000s   0.0370s   0.6750s   0.6520s        
-                      Redo             0.4880s   0.1100s   0.0340s   0.6320s   0.6260s        
-   MP6   off   300000 Undo             1.2251s   0.2050s   0.0420s   1.4721s   1.3951s  PASS  
-                      Redo             1.0941s   0.0970s   0.0500s   1.2411s   1.2911s        
-   MP6   on    300000 Undo             1.8131s   0.1800s   0.0390s   2.0321s   2.0291s  PASS  
-                      Redo             1.6391s   0.2340s   0.0340s   1.9071s   1.8851s        
-   MP7   off  1000000 file_open        1.3661s   0.0020s   0.0180s   1.3861s   1.6271s  PASS  
-   MP7   on   1000000 file_open        2.5041s   0.0020s   0.0180s   2.5241s   2.6101s  PASS  
-   MP8   off  1000000 file_open        1.4201s   0.0020s   0.0230s   1.4451s   1.6691s  PASS  
-   MP8   on   1000000 file_open        2.6822s   0.0030s   0.0180s   2.7032s   2.8362s  PASS  
+   MP1   off   300000 replace_lines    0.5160s   0.1040s   0.0440s   0.6640s   0.9560s  PASS  
+   MP1   on    300000 replace_lines    0.9091s   0.0540s   0.0210s   0.9841s   1.3201s  PASS  
+   MP2   off   300000 replace_lines    0.5260s   0.0960s   0.0280s   0.6500s   0.9010s  PASS  
+   MP2   on    300000 replace_lines    0.9111s   0.2210s   0.0500s   1.1821s   1.2551s  PASS  
+   MP3   off   300000 set_text_all     0.5620s   0.0540s   0.0260s   0.6420s   0.6900s  PASS  
+   MP3   on    300000 set_text_all     1.2381s   0.2240s   0.0520s   1.5141s   1.3191s  PASS  
+   MP4   off   300000 Delete           0.5120s   0.1020s   0.0280s   0.6420s   0.6360s  PASS  
+                      Undo             0.5770s   0.1000s   0.0490s   0.7260s   0.6260s        
+                      Redo             0.6070s   0.1140s   0.0260s   0.7470s   0.7070s        
+   MP4   on    300000 Delete           0.5190s   0.0350s   0.0120s   0.5660s   0.6400s  PASS  
+                      Undo             0.9651s   0.1030s   0.0500s   1.1181s   1.0291s        
+                      Redo             0.6060s   0.1030s   0.0220s   0.7310s   0.7200s        
+   MP5   off   300000 Delete           0.3280s   0.1010s   0.0520s   0.4810s   0.4960s  PASS  
+                      Undo             0.3680s   0.1070s   0.0460s   0.5210s   0.4840s        
+                      Redo             0.3750s   0.0390s   0.0270s   0.4410s   0.5450s        
+   MP5   on    300000 Delete           0.4750s   0.1110s   0.0480s   0.6340s   0.5700s  PASS  
+                      Undo             0.4900s   0.0770s   0.0230s   0.5900s   0.6750s        
+                      Redo             0.5350s   0.1010s   0.0510s   0.6870s   0.6320s        
+   MP6   off   300000 Undo             1.1961s   0.2820s   0.0500s   1.5281s   1.4721s  PASS  
+                      Redo             1.0901s   0.1960s   0.0450s   1.3311s   1.2411s        
+   MP6   on    300000 Undo             1.9521s   0.0530s   0.0240s   2.0291s   2.0321s  PASS  
+                      Redo             1.7561s   0.2200s   0.0440s   2.0201s   1.9071s        
+   MP7   off  1000000 file_open        1.2171s   0.0030s   0.0230s   1.2431s   1.5841s  PASS  
+   MP7   on   1000000 file_open        2.6312s   0.0020s   0.0210s   2.6542s   2.6502s  PASS  
+   MP8   off  1000000 file_open        1.2801s   0.0020s   0.0270s   1.3091s   1.5821s  PASS  
+   MP8   on   1000000 file_open        2.8312s   0.0020s   0.0240s   2.8572s   2.7712s  PASS  
+   MP9   off   300000 Undo             0.8130s   0.1050s   0.0590s   0.9771s   0.9872s  PASS  
+   MP9   on    300000 Undo             1.2021s   0.1000s   0.0500s   1.3521s   1.5523s  PASS  
 
    test  wrap lines   command              cmd     Hang1     Hang2     Total      base  status
    ----------------------------------------------------------------------------------------
-   MP1   off  1000000 replace_lines    1.7421s   0.1850s   0.0320s   1.9591s   2.1741s  PASS  
-   MP1   on   1000000 replace_lines    2.9972s   0.1380s   0.0360s   3.1712s   3.0862s  PASS  
-   MP2   off  1000000 replace_lines    1.7641s   0.3710s   0.0430s   2.1781s   2.1621s  PASS  
-   MP2   on   1000000 replace_lines    2.9742s   0.1770s   0.0390s   3.1902s   3.3032s  PASS  
-   MP3   off  1000000 set_text_all     1.8831s   0.1470s   0.0400s   2.0701s   2.0071s  PASS  
-   MP3   on   1000000 set_text_all     3.2762s   0.2180s   0.0380s   3.5322s   3.5472s  PASS  
-   MP4   off  1000000 Delete           1.9681s   0.0310s   0.0110s   2.0101s   1.9701s  PASS  
-                      Undo             2.0191s   0.0990s   0.0420s   2.1601s   2.0431s        
-                      Redo             2.2461s   0.1000s   0.0190s   2.3651s   2.2541s        
-   MP4   on   1000000 Delete           2.3601s   0.0510s   0.0150s   2.4261s   2.3701s  PASS  
-                      Undo             3.3942s   0.1470s   0.0180s   3.5592s   3.4612s        
-                      Redo             2.3581s   0.0580s   0.0170s   2.4331s   2.3841s        
-   MP5   off  1000000 Delete           2.0331s   0.0620s   0.0350s   2.1301s   1.2491s  PASS  
-                      Undo             1.4081s   0.1010s   0.0430s   1.5521s   1.5161s        
-                      Redo             1.3801s   0.0470s   0.0260s   1.4531s   1.4881s        
-   MP5   on   1000000 Delete           1.8671s   0.4600s   0.0380s   2.3651s   2.2871s  PASS  
-                      Undo             2.5961s   0.0480s   0.0180s   2.6622s   2.8282s        
-                      Redo             1.9111s   0.1080s   0.0360s   2.0551s   1.9231s        
-   MP6   off  1000000 Undo             5.7823s   0.2540s   0.0470s   6.0833s   6.0943s  PASS  
-                      Redo             5.1213s   0.1410s   0.0210s   5.2833s   5.1483s        
-   MP6   on   1000000 Undo             8.5715s   0.5170s   0.0210s   9.1095s   8.6345s  PASS  
-                      Redo             7.2354s   0.8360s   0.0210s   8.0925s   8.2734s        
-   MP7   off  1000000 file_open        1.5631s   0.0030s   0.0180s   1.5841s   1.6271s  PASS  
-   MP7   on   1000000 file_open        2.6302s   0.0030s   0.0170s   2.6502s   2.6101s  PASS  
-   MP8   off  1000000 file_open        1.5571s   0.0030s   0.0220s   1.5821s   1.6691s  PASS  
-   MP8   on   1000000 file_open        2.7492s   0.0030s   0.0190s   2.7712s   2.8362s  PASS  
+   MP1   off  1000000 replace_lines    1.5901s   0.3450s   0.0510s   1.9861s   1.9591s  PASS  
+   MP1   on   1000000 replace_lines    2.8342s   0.1870s   0.0460s   3.0672s   3.1712s  PASS  
+   MP2   off  1000000 replace_lines    1.6091s   0.1990s   0.0590s   1.8671s   2.1781s  PASS  
+   MP2   on   1000000 replace_lines    2.8662s   0.1580s   0.0540s   3.0782s   3.1902s  PASS  
+   MP3   off  1000000 set_text_all     1.8161s   0.4510s   0.0690s   2.3361s   2.0701s  PASS  
+   MP3   on   1000000 set_text_all     3.1652s   0.1270s   0.0460s   3.3382s   3.5322s  PASS  
+   MP4   off  1000000 Delete           1.8361s   0.0260s   0.0140s   1.8761s   2.0101s  PASS  
+                      Undo             1.7371s   0.0940s   0.0590s   1.8901s   2.1601s        
+                      Redo             2.1241s   0.1100s   0.0270s   2.2611s   2.3651s        
+   MP4   on   1000000 Delete           2.2631s   0.0970s   0.0220s   2.3821s   2.4261s  PASS  
+                      Undo             3.0592s   0.0920s   0.0570s   3.2082s   3.5592s        
+                      Redo             2.0951s   0.0810s   0.0260s   2.2021s   2.4331s        
+   MP5   off  1000000 Delete           1.0361s   0.0440s   0.0360s   1.1161s   2.1301s  PASS  
+                      Undo             1.0491s   0.1010s   0.0520s   1.2021s   1.5521s        
+                      Redo             1.1751s   0.1070s   0.0620s   1.3441s   1.4531s        
+   MP5   on   1000000 Delete           2.2221s   0.1040s   0.0500s   2.3761s   2.3651s  PASS  
+                      Undo             2.3081s   0.1100s   0.0470s   2.4651s   2.6621s        
+                      Redo             1.7321s   0.1080s   0.0570s   1.8971s   2.0551s        
+   MP6   off  1000000 Undo             5.3383s   0.0470s   0.0320s   5.4173s   6.0833s  PASS  
+                      Redo             4.4863s   0.3480s   0.0520s   4.8863s   5.2833s        
+   MP6   on   1000000 Undo             7.4064s   0.4520s   0.0340s   7.8925s   9.1095s  PASS  
+                      Redo             6.8144s   0.1010s   0.0260s   6.9414s   8.0924s        
+   MP7   off  1000000 file_open        1.6601s   0.0030s   0.0310s   1.6941s   1.5841s  PASS  
+   MP7   on   1000000 file_open        2.5381s   0.0020s   0.0280s   2.5681s   2.6502s  PASS  
+   MP8   off  1000000 file_open        1.4431s   0.0030s   0.0320s   1.4781s   1.5821s  PASS  
+   MP8   on   1000000 file_open        2.6091s   0.0020s   0.0270s   2.6382s   2.7712s  PASS  
+   MP9   off  1000000 Undo             2.4371s   0.0700s   0.0320s   2.5391s   2.5481s  PASS  
+   MP9   on   1000000 Undo             3.7422s   0.1840s   0.0490s   3.9752s   3.8912s  PASS 
+
