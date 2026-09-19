@@ -526,13 +526,13 @@ object fmMain: TfmMain
       object mnuFontSub: TMenuItem
         Caption = '&Fonts'
         object mnuFontText: TMenuItem
-          Caption = 'Select &document font...'
+          Caption = 'Choose &document font...'
         end
         object mnuFontUi: TMenuItem
-          Caption = 'Select &UI font...'
+          Caption = 'Choose &UI font...'
         end
         object mnuFontOutput: TMenuItem
-          Caption = 'Select &output-panel font...'
+          Caption = 'Choose &output-panel font...'
         end
       end
       object mnuOpLexSub: TMenuItem
@@ -550,23 +550,23 @@ object fmMain: TfmMain
       object mnuThemesSub: TMenuItem
         Caption = 'Themes'
         object mnuOpThemeUi: TMenuItem
-          Caption = 'Settings - theme - U&I'
+          Caption = 'Configure UI-theme...'
         end
         object mnuOpThemeSyntax: TMenuItem
-          Caption = 'Settings - theme - &syntax'
+          Caption = 'Configure syntax-theme...'
         end
         object mnuOpSep2: TMenuItem
           Caption = '-'
         end
         object mnuOpThemes: TMenuItem
-          Caption = 'Select color theme...'
+          Caption = 'Choose theme...'
         end
       end
       object mnuOpUnprinted: TMenuItem
         Caption = 'Unprinted chars...'
       end
       object mnuOpLangs: TMenuItem
-        Caption = 'Select translation...'
+        Caption = 'Choose translation...'
       end
     end
     object mnuSplit: TMenuItem
