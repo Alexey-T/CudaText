@@ -37,7 +37,7 @@ uses
   EncConv,
   TreeFilterEdit,
   {$ifdef LCLGTK2}
-  fix_gtk_clipboard,
+  //fix_gtk_clipboard,
   {$endif}
   fix_focus_window,
   appjsonconfig,
@@ -3346,7 +3346,7 @@ begin
   }
 
   {$ifdef LCLGTK2}
-  FixClipboardFinalization;
+  //FixClipboardFinalization;
   {$endif}
 end;
 
