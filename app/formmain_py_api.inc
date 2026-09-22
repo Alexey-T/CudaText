@@ -3283,6 +3283,50 @@ var
   KeyLine, KeyChar, KeyLen, KeyIndent, KeyFinal, KeyInitial: PPyObject;
   NIndex1, NIndex2: integer;
   NLen, NValid, i: integer;
+
+  //2026.09 fix (memory leak): PyDict_SetItem() does NOT steal the value's
+  //reference (unlike PyList_SetItem() which does) - it increfs's the value,
+  //so the new reference returned by PyLong_FromLong()/PyBool_FromLong() must
+  //be decref'd after insertion. Passing the temp directly,
+  //  PyDict_SetItem(D, K, PyLong_FromLong(V));
+  //leaks that reference on every call: for values outside CPython's small-int
+  //cache (-5..256) it leaks a real 28-byte PyLong per item, and the leaked
+  //blocks pin whole pymalloc pools/arenas after the caller frees the resulting
+  //list (measured ~2GB retained instead of ~600MB on a 1M-lines doc)
+  procedure SetItemLong(ADict, AKey: PPyObject; AValue: LongInt);
+  var
+    Val: PPyObject;
+  begin
+    with AppPython.Engine do
+    begin
+      Val:= PyLong_FromLong(AValue);
+      if Val=nil then
+        raise EPythonError.Create('Cannot create int object');
+      try
+        PyDict_SetItem(ADict, AKey, Val);
+      finally
+        Py_DECREF(Val);
+      end;
+    end;
+  end;
+
+  procedure SetItemBool(ADict, AKey: PPyObject; AValue: LongInt);
+  var
+    Val: PPyObject;
+  begin
+    with AppPython.Engine do
+    begin
+      Val:= PyBool_FromLong(AValue);
+      if Val=nil then
+        raise EPythonError.Create('Cannot create bool object');
+      try
+        PyDict_SetItem(ADict, AKey, Val);
+      finally
+        Py_DECREF(Val);
+      end;
+    end;
+  end;
+
 begin
   with AppPython.Engine do
   begin
@@ -3332,12 +3376,12 @@ begin
       if Template=nil then
         raise EPythonError.Create('Cannot create dict object');
 
-      PyDict_SetItem(Template, KeyLine, PyLong_FromLong(0));
-      PyDict_SetItem(Template, KeyChar, PyLong_FromLong(1));
-      PyDict_SetItem(Template, KeyLen, PyLong_FromLong(0));
-      PyDict_SetItem(Template, KeyIndent, PyLong_FromLong(0));
-      PyDict_SetItem(Template, KeyFinal, PyLong_FromLong(0));
-      PyDict_SetItem(Template, KeyInitial, PyBool_FromLong(1));
+      SetItemLong(Template, KeyLine, 0);
+      SetItemLong(Template, KeyChar, 1);
+      SetItemLong(Template, KeyLen, 0);
+      SetItemLong(Template, KeyIndent, 0);
+      SetItemLong(Template, KeyFinal, 0);
+      SetItemBool(Template, KeyInitial, 1);
 
       //2026.09 (CudaText perf): one bulk read of wrap items instead of NLen
       //property calls (each one: bounds checks + property call chain)
@@ -3355,16 +3399,16 @@ begin
           if PDict=nil then
             raise EPythonError.Create('Cannot create dict object');
 
-          PyDict_SetItem(PDict, KeyLine, PyLong_FromLong(LongInt(WrapItem^.NLineIndex)));
-          PyDict_SetItem(PDict, KeyLen, PyLong_FromLong(LongInt(WrapItem^.NLength)));
+          SetItemLong(PDict, KeyLine, LongInt(WrapItem^.NLineIndex));
+          SetItemLong(PDict, KeyLen, LongInt(WrapItem^.NLength));
           if WrapItem^.NCharIndex<>1 then
-            PyDict_SetItem(PDict, KeyChar, PyLong_FromLong(LongInt(WrapItem^.NCharIndex)));
+            SetItemLong(PDict, KeyChar, LongInt(WrapItem^.NCharIndex));
           if WrapItem^.NIndent<>0 then
-            PyDict_SetItem(PDict, KeyIndent, PyLong_FromLong(LongInt(WrapItem^.NIndent)));
+            SetItemLong(PDict, KeyIndent, LongInt(WrapItem^.NIndent));
           if WrapItem^.NFinal<>TATWrapItemFinal.Final then
-            PyDict_SetItem(PDict, KeyFinal, PyLong_FromLong(Ord(WrapItem^.NFinal)));
+            SetItemLong(PDict, KeyFinal, Ord(WrapItem^.NFinal));
           if not WrapItem^.bInitial then
-            PyDict_SetItem(PDict, KeyInitial, PyBool_FromLong(Ord(WrapItem^.bInitial)));
+            SetItemBool(PDict, KeyInitial, Ord(WrapItem^.bInitial));
 
           PyList_SetItem(Result, i, PDict);
         end;
