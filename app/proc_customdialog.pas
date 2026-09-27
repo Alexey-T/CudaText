@@ -129,6 +129,16 @@ begin
   {$endif}
 end;
 
+procedure DoControl_FixStatusbarHeight(C: TControl); inline;
+//fix issue #6492: when API sets the height of 'statusbar' control,
+//height must be kept on later theme re-apply;
+//TATStatus.AutoSize resets height to DoScale(HeightInitial),
+//so reset HeightInitial to disable that (value 0 = "not set")
+begin
+  if C is TATStatus then
+    TATStatus(C).HeightInitial:= 0;
+end;
+
 function DoControl_GetState_Listview(C: TListView): string; forward;
 
 function DoControl_GetState_CheckListBox(C: TCheckListBox): string;
@@ -1541,7 +1551,10 @@ begin
   C.Width:= NX2-NX1;
   C.Top:= NY1;
   if not DoControl_IsAutoHeight(C) then
+  begin
     C.Height:= NY2-NY1;
+    DoControl_FixStatusbarHeight(C);
+  end;
 end;
 
 
@@ -1746,6 +1759,7 @@ begin
   if AName='h' then
   begin
     C.Height:= StrToIntDef(AValue, C.Height);
+    DoControl_FixStatusbarHeight(C);
     exit;
   end;
 
