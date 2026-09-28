@@ -639,6 +639,15 @@ begin
   SSplitByChar(ASessionId, '|', sSessionFileName, sRootPath);
   if not FileExists(sSessionFileName) then exit;
 
+  //issue #6496: fire it BEFORE session loading does anything else, i.e.
+  //before DoFileCloseAll() below closes all UI-tabs (which fires plugin
+  //events on_close_pre/on_close), so plugins can separate tab-closes
+  //made by session loading from user-made closes.
+  //It's a separate new state, not the earlier APPSTATE_SESSION_LOAD_BEGIN,
+  //because moving LOAD_BEGIN here would change its timing for all
+  //existing plugins (and BEGIN is skipped for empty sessions).
+  DoPyEvent_AppState(APPSTATE_SESSION_LOAD_PRE);
+
   //2026.07: block is commented to avoid session-saving during session-loading, issue #6360
   {
   //fix issue #3734
