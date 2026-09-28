@@ -89,7 +89,7 @@
   "ListFontHilite": "#BFBF00",
   "ListCompletePrefix": "#804080",
   "ListCompleteParams": "#4A7573",
-  "ButtonFont": "#000000",
+  "ButtonFont": "#D0D0D0",
   "ButtonFontDisabled": "#808080",
   "ButtonBgPassive": "#C8C8C8",
   "ButtonBgOver": "#ADAD27",
