@@ -100,6 +100,7 @@ Constants in "on_state":
 * APPSTATE_THEME_SYNTAX: Changed syntax-theme.
 * APPSTATE_GROUPS: Changed UI-tab grouping mode (e.g. via top menu item "Split").
 * APPSTATE_CONFIG_REREAD: App config file is re-read and applied.
+* APPSTATE_SESSION_LOAD_BEGIN_PRE: Session loading is about to begin. It's fired before session loading begins, i.e. before app closes all ui-tabs. Unlike APPSTATE_SESSION_LOAD_BEGIN, it's fired always, even for empty sessions.
 * APPSTATE_SESSION_LOAD_BEGIN: Session loading begins.
 * APPSTATE_SESSION_LOAD: Session loading completes (after APPSTATE_SESSION_LOAD_BEGIN).
 * APPSTATE_SESSION_LOAD_FAIL: Session loading fails (after APPSTATE_SESSION_LOAD_BEGIN).
@@ -5539,5 +5540,8 @@ It provides:
 * change: Editor.set_text_line: don't allow line with CR LF
 * change: Editor.replace_lines: don't allow lines with CR LF, except at the very line-end
 * change: Editor.decor: removed params "bold", "italic", added instead "style" (only Differ plugin used "bold" param, no harm for others)
+
+1.0.485 (app 1.237.0.2)
+* add: on_state: APPSTATE_SESSION_LOAD_BEGIN_PRE
 
 [[Category:CudaText]]
