@@ -1061,7 +1061,13 @@ begin
       Ed:= PyHelper_EditorFromHandle(H);
       Strs:= Ed.Strings;
       if Strs.IsIndexValid(NIndex) and (NValue>=0) and (NValue<=Ord(High(TATLineEnds))) then
+      begin
         Strs.LinesEnds[NIndex]:= TATLineEnds(NValue);
+        //must update the saved 'carets after last edition' (like EditorSetLineFromAPI
+        //does), it's used by Undo/Redo to restore caret pos; without it, the value
+        //stays from some older API call and Redo jumps the caret to that stale position
+        Strs.ActionSaveLastEditionPos(0, NIndex);
+      end;
       Result:= ReturnNone;
     end
   else
@@ -1952,6 +1958,12 @@ begin
         Shift,
         PosAfter);
 
+      //must update the saved 'carets after last edition' (like EditorSetLineFromAPI
+      //does), it's used by Undo/Redo to restore caret pos; without it, the value
+      //stays from some older API call (e.g. set_text_all gives (0,0)) and Redo
+      //jumps the caret to that stale position
+      Strs.ActionSaveLastEditionPos(X1, Y1);
+
       //reset ScrollHorz.Max, it's needed because CudaFormatter can replace long one-liner to short lines
       if bAllText then
         EditorResetHorizontalScrollbarMax(Ed);
@@ -2005,6 +2017,12 @@ begin
           Point(0, Y2+1),
           Point(0, NCount-(Y2-Y1+1)),
           Point(0, Y1+NCount));
+
+        //must update the saved 'carets after last edition' (like EditorSetLineFromAPI
+        //does), it's used by Undo/Redo to restore caret pos; without it, the value
+        //stays from some older API call (e.g. set_text_all gives (0,0)) and Redo
+        //jumps the caret to that stale position
+        Strs.ActionSaveLastEditionPos(0, Y1);
 
         Ed.DoEventChange(Y1);
 
