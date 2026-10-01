@@ -2696,6 +2696,12 @@ begin
     Shift,
     Point(X1, Y1));
 
+  //must update the saved 'carets after last edition' (like EditorSetLineFromAPI
+  //does), it's used by Undo/Redo to restore caret pos; without it, the value
+  //stays from some older API call (e.g. set_text_all gives (0,0)) and Redo
+  //jumps the caret to that stale position
+  Strs.ActionSaveLastEditionPos(X1, Y1);
+
   Ed.DoEventChange(Y1);
   Ed.Update(true);
 end;
@@ -2714,7 +2720,14 @@ begin
 
   //too big index: do append
   if AY>=Strs.Count then
-    Strs.TextAppend(AStr, Shift, APosAfter)
+  begin
+    Strs.TextAppend(AStr, Shift, APosAfter);
+    //must update the saved 'carets after last edition' (like EditorSetLineFromAPI
+    //does), it's used by Undo/Redo to restore caret pos; without it, the value
+    //stays from some older API call (e.g. set_text_all gives (0,0)) and Redo
+    //jumps the caret to that stale position
+    Strs.ActionSaveLastEditionPos(APosAfter.X, APosAfter.Y);
+  end
   else
   begin
     Strs.TextInsert(AX, AY, AStr, false, Shift, APosAfter);
@@ -2723,6 +2736,9 @@ begin
       Point(AX, AY),
       Shift,
       APosAfter);
+    //same as above: update the saved 'carets after last edition',
+    //Redo restores the caret to the position of the API-insert
+    Strs.ActionSaveLastEditionPos(AX, AY);
   end;
 
   Ed.DoEventChange(AY);
