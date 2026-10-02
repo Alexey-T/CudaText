@@ -5,7 +5,7 @@
 
 1.237.1 (2026/09)
 
-+ add: for Differ 2 plugin (Badr is working on it): optimize API ed.get_wrapinfo speed (by @badrelmers using AI)
++ add: for future Differ 2 plugin (@badrelmers is working on it): optimize API ed.get_wrapinfo speed (by @badrelmers using AI)
 - fix: bug visible in Differ 2 plugin: if ui-tab is splitted and paired editor has text and has modified=false, that paired text was not saved to session (by @badrelmers using AI)
 - fix: minor bug with caret position after undo in API ed.insert/replace/replace_lines/delete (by @badrelmers using AI)
 
