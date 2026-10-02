@@ -280,7 +280,7 @@ var
   nLocalGroup, nGlobalGroup, nTabInGroup: integer;
   nCountFiles, nCountUntitled, iSavingTabIndex: integer;
   nNewFrameCount, nPrevFrameCount: integer;
-  bModified, bUntitled: boolean;
+  bModified, bUntitled, bUntitled2: boolean;
   bSessionUpdated, bSessionFileExisted: boolean;
   currFramesEditState: array of TFrameEditState;
   fileWriteTimeBeforeSaving,
@@ -505,14 +505,19 @@ begin
 
         if Frame.EdSecond.Strings.LoadingFromStream then Continue;
 
-        bModified:= Frame.EdSecond.Modified;
+        //same rule as for the 1st half: untitled buffer's text exists only
+        //in the session file, so save it even when it's not modified
+        bUntitled2:= sTabFilename2='';
+        bModified:= Frame.EdSecond.Modified or (bUntitled2 and not Frame.IsEmpty);
         cfg.SetValue(sJsonPath+'/modified', bModified);
         if not bModified then
           cfg.DeleteValue(sJsonPath+'/text');
         cfg.SetValue(sJsonPath+'/file', AppCollapseHomeDirInFilename(sTabFilename2));
 
         if bModified and UiOps.HistoryItems[TAppHistoryElement.Text] then
-          if not Frame.EdSecond.Strings.IsSizeBig(UiOps.MaxSizeForSession) then
+          if (not bUntitled2 and ASaveModifiedFiles) or
+            (bUntitled2 and ASaveUntitledTabs) then
+            if not Frame.EdSecond.Strings.IsSizeBig(UiOps.MaxSizeForSession) then
         begin
           cfg.SetValue(sJsonPath+'/text', Frame.EdSecond.Text);
           cfg.SetValue(sJsonPath+'/ends', Ord(Frame.EdSecond.Strings.Endings));
