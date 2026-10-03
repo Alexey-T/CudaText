@@ -25,7 +25,8 @@ if (TEXT_OS == 'linux') and (TEXT_CPU == 'amd64'):
         pass
 
 DOWNLOAD_PAGE = 'https://sourceforge.net/projects/cudatext/files/release/'
-VERSION_REGEX = r'\b1\.\d{2,3}\.\d+\.\d+\b'
+VERSION_REGEX = r'\b1\.\d{2,3}\.\d{1,2}\.\d{1,2}\b'
+
 if DEBIAN_UBUNTU:
     DOWNLOAD_REGEX = \
         r' href="(\w+://[\w\.]+/projects/cudatext/files/release/([\d\.]+)/cudatext_([\d\.\-]+)_'+ \
