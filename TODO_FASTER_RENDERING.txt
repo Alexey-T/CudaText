@@ -67,5 +67,12 @@ chr($FF01) at X3:Y3
 so all unicode wide widths are considered by values X0, X1, X2, X3, X4.
 so in our low-level procedures (part3) we dont need to handle inter-char deltas.
 
+-------------------
+part5.
+textout of 'gutter' line numbers. must also go into PartsList. 
+so canvas preparing runs only 1 time, then fast textout for all line numbers.
+part5.2
+textout of 'ruler' numbers must go into PartsList too.
+
 
 Alexey Torgashin, 2026/10
