@@ -11,7 +11,7 @@ Plan. todo.
 rework rendering in ATSynEdit.
 
 current approach in ATSynEdit: we call DoPaintLine, which calls LCL ExtTextOut for each colored token/element.
-for each colored token, ATSYnEdit first setups the Canvas's FontColor/FontSize/FontStyles.
+for each colored token, ATSynEdit first setups the Canvas's FontColor/FontSize/FontStyles.
 
 ----------------
 planned approach. part1.
@@ -22,19 +22,22 @@ after all DoPaintLine's for all visible lines ended, we may now render the colle
 render it not like now: 1st token, 2nd token, etc, no, do rendering of the equal-colored-sized-styled
 tokens in batch.
 so, find first used style in TokensList, and do textout of all tokens with this style.
-now, find next used style in TokensList, and do textout.
-etc.
+next, find next used style in TokensList, and do textout. etc.
 so canvas prepearing runs only 1 for each uniq font-style.
 its much faster.
 
+--------------
 part2.
 make TokensList the collection of smaller lists PartsList, where each PartsList has only fragments 
 with the same style.
+in PartsList[i], we need only fields X, Y, Text;
+and FontColor, FontStyle are now props of PartsList[i].
 this will allow to faster find equal styles.
 eg. TokensList has list of item[0] (all tokens with some first style), item[1] (all tokens with some next style) etc.
-now rendering must loop over TokensList, take PartsList[i], prepare canvas 1 time for PartsList[i], do faster textout
-of all items in PartsList[i].
+now rendering must loop over TokensList, prepare canvas 1 time for TokensList[i], do faster textout
+of all items in TokensList[i].
 
+---------------
 part3.
 change/add ATSynEdit units: 
 
@@ -46,5 +49,8 @@ change/add ATSynEdit units:
 - atsynedit_canvasproc_text_cocoa.pas
 
 for each unit:
-a) add there procedure to setup canvas. (same name across all units)
-b) add there very fast procedure to textout one string at given X:Y (again same name across all units).
+a) add there procedure (very low level for widgetset) to setup canvas. (same name across all units)
+b) add there proc (very low level for widgetset, e.g. Gtk3) to textout one string at given X:Y (again same name across all units).
+
+
+Alexey Torgashin, 2026/10
