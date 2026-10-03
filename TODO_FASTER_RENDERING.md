@@ -52,5 +52,20 @@ for each unit:
 a) add there procedure (very low level for widgetset) to setup canvas. (same name across all units)
 b) add there proc (very low level for widgetset, e.g. Gtk3) to textout one string at given X:Y (again same name across all units).
 
+----------------
+part4.
+yet all text fragments which has Unicode chars (eg CJK chars) are calling ExtTextOutW with param
+Dx<>nil (Dx is param to pass inter-char deltas in pixels).
+must change it.
+if text fragment has unicode chars eg `Text='abc'+chr($FF00)+'cd'+chr($FF01)+'ef'`, we must split 
+this fragment by unicode chars to this list: `
+'abc'      at X0:Y0
+chr($FF00) at X1:Y1
+'cd'       at X2:Y2
+chr($FF01) at X3:Y3
+'ef'       at X4:Y4`
+so all unicode wide widths are considered by values X0, X1, X2, X3, X4.
+so in our low-level procedures (part3) we dont need to handle inter-char deltas.
+
 
 Alexey Torgashin, 2026/10
