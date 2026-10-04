@@ -34,7 +34,7 @@ type
     IdleTimer1: TIdleTimer;
     ListboxSyntax: TListBox;
     ListboxUI: TListBox;
-    PanelWarning: TPanel;
+    PanelWarning1: TPanel;
     procedure chkEnableLexChange(Sender: TObject);
     procedure chkSyncChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -73,11 +73,12 @@ var
   Files_sy: TStringList;
   s: string;
 begin
+  PanelWarning1.Caption:= 'Option "ui_theme_auto_mode" is on, so choosing in this dialog is disabled';
+
   Localize;
   DoForm_ScaleAuto(Self, false);
 
-  PanelWarning.Caption:= 'Option "ui_theme_auto_mode" is on, so'#10'choosing in this dialog is disabled';
-  PanelWarning.Visible:= UiOps.ThemeAutoMode;
+  PanelWarning1.Visible:= UiOps.ThemeAutoMode;
   ListboxUI.Enabled:= not UiOps.ThemeAutoMode;
   ListboxSyntax.Enabled:= ListboxUI.Enabled;
 
@@ -234,6 +235,7 @@ begin
 
     with chkEnableLex do Caption:= ini.ReadString(section, 'ele', Caption);
     with chkSync do Caption:= ini.ReadString(section, 'syn', Caption);
+    with PanelWarning1 do Caption:= ini.ReadString(section, 'wrn', Caption);
 
     FThemeDefaultStr:= ini.ReadString('ui', 'deft', FThemeDefaultStr);
   finally

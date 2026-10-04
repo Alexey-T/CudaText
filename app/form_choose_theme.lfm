@@ -17,20 +17,20 @@ object fmChooseTheme: TfmChooseTheme
   OnShow = FormShow
   object GroupUI: TGroupBox
     Left = 6
-    Height = 344
-    Top = 56
+    Height = 336
+    Top = 64
     Width = 178
     Align = alLeft
     BorderSpacing.Left = 6
     BorderSpacing.Top = 6
     BorderSpacing.Bottom = 6
     Caption = 'UI themes'
-    ClientHeight = 325
+    ClientHeight = 317
     ClientWidth = 176
     TabOrder = 0
     object ListboxUI: TListBox
       Left = 0
-      Height = 325
+      Height = 317
       Top = 0
       Width = 176
       Align = alClient
@@ -43,18 +43,18 @@ object fmChooseTheme: TfmChooseTheme
   end
   object GroupSyntax: TGroupBox
     Left = 190
-    Height = 344
-    Top = 56
+    Height = 336
+    Top = 64
     Width = 240
     Align = alClient
     BorderSpacing.Around = 6
     Caption = 'Syntax themes'
-    ClientHeight = 325
+    ClientHeight = 317
     ClientWidth = 238
     TabOrder = 1
     object ListboxSyntax: TListBox
       Left = 0
-      Height = 325
+      Height = 317
       Top = 0
       Width = 238
       Align = alClient
@@ -106,9 +106,9 @@ object fmChooseTheme: TfmChooseTheme
     TabOrder = 2
     OnChange = chkEnableLexChange
   end
-  object PanelWarning: TPanel
+  object PanelWarning1: TPanel
     Left = 0
-    Height = 50
+    Height = 58
     Top = 0
     Width = 436
     Align = alTop
@@ -118,6 +118,7 @@ object fmChooseTheme: TfmChooseTheme
     ParentColor = False
     TabOrder = 5
     Visible = False
+    Wordwrap = True
   end
   object IdleTimer1: TIdleTimer
     AutoEnabled = True
