@@ -1578,6 +1578,10 @@
         <IsPartOfProject Value="True"/>
       </Unit>
       <Unit>
+        <Filename Value="proc_ole_droptarget.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit>
+      <Unit>
         <Filename Value="formmain_themes.inc"/>
         <IsPartOfProject Value="True"/>
       </Unit>
