@@ -34,6 +34,7 @@ type
     IdleTimer1: TIdleTimer;
     ListboxSyntax: TListBox;
     ListboxUI: TListBox;
+    PanelWarning: TPanel;
     procedure chkEnableLexChange(Sender: TObject);
     procedure chkSyncChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -74,6 +75,11 @@ var
 begin
   Localize;
   DoForm_ScaleAuto(Self, false);
+
+  PanelWarning.Caption:= 'Option "ui_theme_auto_mode" is on, so'#10'choosing in this dialog is disabled';
+  PanelWarning.Visible:= UiOps.ThemeAutoMode;
+  ListboxUI.Enabled:= not UiOps.ThemeAutoMode;
+  ListboxSyntax.Enabled:= ListboxUI.Enabled;
 
   ListboxUI.Items.Clear;
   ListboxSyntax.Items.Clear;

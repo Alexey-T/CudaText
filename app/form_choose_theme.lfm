@@ -1,7 +1,7 @@
 object fmChooseTheme: TfmChooseTheme
-  Left = 781
+  Left = 0
   Height = 496
-  Top = 151
+  Top = 0
   Width = 436
   BorderIcons = [biSystemMenu, biMaximize]
   Caption = 'Color theme'
@@ -10,29 +10,29 @@ object fmChooseTheme: TfmChooseTheme
   Constraints.MinHeight = 200
   Constraints.MinWidth = 200
   Position = poScreenCenter
-  LCLVersion = '3.99.0.0'
+  LCLVersion = '4.99.0.0'
   Scaled = False
   OnCreate = FormCreate
   OnResize = FormResize
   OnShow = FormShow
   object GroupUI: TGroupBox
     Left = 6
-    Height = 403
-    Top = 6
+    Height = 344
+    Top = 56
     Width = 178
     Align = alLeft
     BorderSpacing.Left = 6
     BorderSpacing.Top = 6
     BorderSpacing.Bottom = 6
     Caption = 'UI themes'
-    ClientHeight = 384
-    ClientWidth = 174
+    ClientHeight = 325
+    ClientWidth = 176
     TabOrder = 0
     object ListboxUI: TListBox
       Left = 0
-      Height = 384
+      Height = 325
       Top = 0
-      Width = 174
+      Width = 176
       Align = alClient
       ItemHeight = 0
       ScrollWidth = 174
@@ -43,20 +43,20 @@ object fmChooseTheme: TfmChooseTheme
   end
   object GroupSyntax: TGroupBox
     Left = 190
-    Height = 403
-    Top = 6
+    Height = 344
+    Top = 56
     Width = 240
     Align = alClient
     BorderSpacing.Around = 6
     Caption = 'Syntax themes'
-    ClientHeight = 384
-    ClientWidth = 236
+    ClientHeight = 325
+    ClientWidth = 238
     TabOrder = 1
     object ListboxSyntax: TListBox
       Left = 0
-      Height = 384
+      Height = 325
       Top = 0
-      Width = 236
+      Width = 238
       Align = alClient
       ItemHeight = 0
       ScrollWidth = 173
@@ -67,8 +67,8 @@ object fmChooseTheme: TfmChooseTheme
   end
   object ButtonPanel1: TButtonPanel
     Left = 6
-    Height = 27
-    Top = 463
+    Height = 34
+    Top = 456
     Width = 424
     OKButton.Name = 'OKButton'
     OKButton.DefaultCaption = True
@@ -84,8 +84,8 @@ object fmChooseTheme: TfmChooseTheme
   end
   object chkSync: TCheckBox
     Left = 6
-    Height = 21
-    Top = 436
+    Height = 22
+    Top = 428
     Width = 424
     Align = alBottom
     BorderSpacing.Left = 6
@@ -96,8 +96,8 @@ object fmChooseTheme: TfmChooseTheme
   end
   object chkEnableLex: TCheckBox
     Left = 6
-    Height = 21
-    Top = 415
+    Height = 22
+    Top = 406
     Width = 424
     Align = alBottom
     BorderSpacing.Left = 6
@@ -105,6 +105,19 @@ object fmChooseTheme: TfmChooseTheme
     Caption = 'Enable lexer themes (requires CudaText restart)'
     TabOrder = 2
     OnChange = chkEnableLexChange
+  end
+  object PanelWarning: TPanel
+    Left = 0
+    Height = 50
+    Top = 0
+    Width = 436
+    Align = alTop
+    BevelOuter = bvNone
+    Color = 9540086
+    ParentBackground = False
+    ParentColor = False
+    TabOrder = 5
+    Visible = False
   end
   object IdleTimer1: TIdleTimer
     AutoEnabled = True
