@@ -90,9 +90,12 @@ jobs:
 
           mkdir -p "$HOME/fpc"
 
+          # FPC 'main' broke in Sep 2026: the new fcl-svg package fails to
+          # compile on macOS. CudaText doesn't use it, so build the stable
+          # FPC 3.2.x branch (Lazarus 'main' still supports it).
           ./fpclazup \
             --fpcURL="https://gitlab.com/freepascal.org/fpc/source.git" \
-            --fpcBranch=main \
+            --fpcBranch=fixes_3_2 \
             --lazURL="https://gitlab.com/freepascal.org/lazarus/lazarus.git" \
             --lazBranch=main \
             --installdir="$HOME/fpc" \
