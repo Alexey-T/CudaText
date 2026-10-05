@@ -1582,6 +1582,10 @@
         <IsPartOfProject Value="True"/>
       </Unit>
       <Unit>
+        <Filename Value="proc_ole_dragsource.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit>
+      <Unit>
         <Filename Value="formmain_themes.inc"/>
         <IsPartOfProject Value="True"/>
       </Unit>

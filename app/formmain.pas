@@ -110,6 +110,7 @@ uses
   proc_cssprovider,
   {$ifdef MSWINDOWS}
   proc_ole_droptarget,
+  proc_ole_dragsource,
   {$endif}
   form_console,
   form_frame,
@@ -4239,6 +4240,9 @@ begin
   {$ifdef MSWINDOWS}
   //OLE drag&drop of text/URLs from external apps, issue #4894
   InitOleDropSupport;
+  //OLE drag&drop of selected text to other apps, issue #4894:
+  //takes over only when mouse cursor leaves CudaText windows
+  InitOleDragOutSupport(Self);
   {$endif}
 
   _Init_FixSplitters;
