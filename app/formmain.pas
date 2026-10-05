@@ -9272,14 +9272,18 @@ begin
     F.AllowDropFiles:= true;
     F.OnDropFiles:= @FormFloating_OnDropFiles;
 
+    F.ShowInTaskBar:= UiOps.FloatGroupsShowInTaskbar;
+
     {$ifdef MSWINDOWS}
-    //OLE drag&drop of text/URLs from external apps, issue #4894
+    //OLE drag&drop of text/URLs from external apps, issue #4894.
+    //Must be called AFTER setting ShowInTaskBar (it can recreate the
+    //window handle); the manager's internal timer re-registers the
+    //target when the form's handle is created on Show
     if FOleDropManager=nil then
       InitOleDropSupport;
     if FOleDropManager<>nil then
       FOleDropManager.Attach(F);
     {$endif}
-    F.ShowInTaskBar:= UiOps.FloatGroupsShowInTaskbar;
 
     G:= TATGroups.Create(Self);
     G.Pages1.EnabledEmpty:= true;
