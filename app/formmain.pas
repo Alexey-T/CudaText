@@ -480,7 +480,8 @@ type
     procedure InitOleDropSupport;
     procedure OleDrop_OnFiles(Sender: TObject; const FileNames: array of String);
     procedure OleDrop_OnText(Sender: TObject; const AText: string; const AScreenPos: TPoint);
-    function FindEditorUnderCursorPos(const ACursorPos: TPoint): TATSynEdit;
+    function OleDrop_CanDropText(Sender: TObject; const AScreenPos: TPoint): boolean;
+    function FindEditorUnderCursorPos(AForm: TForm; const ACursorPos: TPoint): TATSynEdit;
     {$endif}
     procedure AppPropsEndSession(Sender: TObject);
     procedure AppPropsException(Sender: TObject; E: Exception);
@@ -3519,6 +3520,7 @@ begin
     FOleDropManager:= proc_ole_droptarget.InitOleDropSupport;
     FOleDropManager.OnDropFiles:= @OleDrop_OnFiles;
     FOleDropManager.OnDropText:= @OleDrop_OnText;
+    FOleDropManager.OnCanDropText:= @OleDrop_CanDropText;
   end;
   FOleDropManager.Attach(Self);
 end;
@@ -3534,24 +3536,33 @@ begin
     FormDropFiles(Sender, FileNames);
 end;
 
-function TfmMain.FindEditorUnderCursorPos(const ACursorPos: TPoint): TATSynEdit;
+function TfmMain.FindEditorUnderCursorPos(AForm: TForm;
+  const ACursorPos: TPoint): TATSynEdit;
 var
   Pages: TATPages;
   D: TATTabData;
   Frame: TEditorFrame;
+  G: TATGroups;
 begin
   Result:= nil;
 
-  Pages:= TGroupsHelper.FindPagesUnderCursorPos(ACursorPos, GroupsMain);
-  if Pages=nil then
-    if Assigned(GroupsFloating1) and GroupsFloating1.Visible then
-      Pages:= TGroupsHelper.FindPagesUnderCursorPos(ACursorPos, GroupsFloating1);
-  if Pages=nil then
-    if Assigned(GroupsFloating2) and GroupsFloating2.Visible then
-      Pages:= TGroupsHelper.FindPagesUnderCursorPos(ACursorPos, GroupsFloating2);
-  if Pages=nil then
-    if Assigned(GroupsFloating3) and GroupsFloating3.Visible then
-      Pages:= TGroupsHelper.FindPagesUnderCursorPos(ACursorPos, GroupsFloating3);
+  //OLE drop target of AForm received the drop: the drop position
+  //is over this form (OLE dispatches by window Z-order), so only
+  //editor groups hosted by this form are searched
+  if AForm=FFormFloating1 then
+    G:= GroupsFloating1
+  else
+  if AForm=FFormFloating2 then
+    G:= GroupsFloating2
+  else
+  if AForm=FFormFloating3 then
+    G:= GroupsFloating3
+  else
+    G:= GroupsMain;
+  if G=nil then
+    exit;
+
+  Pages:= TGroupsHelper.FindPagesUnderCursorPos(ACursorPos, G);
   if Pages=nil then
     exit;
 
@@ -3564,8 +3575,24 @@ begin
     exit(Frame.EdFirst);
   if Assigned(Frame.EdSecond) and PtInControl(Frame.EdSecond, ACursorPos) then
     exit(Frame.EdSecond);
-  //cursor is on tabs/panels of the group: use current editor
-  Result:= Frame.EdCurrent;
+  //cursor is over the ui-tabs area / side panels of the group,
+  //over a viewer-only tab, picture tab, or an empty group:
+  //the drop is not accepted (issue #4894)
+  Result:= nil;
+end;
+
+function TfmMain.OleDrop_CanDropText(Sender: TObject;
+  const AScreenPos: TPoint): boolean;
+var
+  Ed: TATSynEdit;
+begin
+  //is a text drop allowed at the pointed position?
+  //called on DragEnter/DragOver of the OLE drop target, must be fast:
+  //it decides if the 'copy' cursor or the 'prohibited' cursor is shown
+  Ed:= nil;
+  if Sender is TForm then
+    Ed:= FindEditorUnderCursorPos(TForm(Sender), AScreenPos);
+  Result:= (Ed<>nil) and (not Ed.ModeReadOnly);
 end;
 
 procedure TfmMain.OleDrop_OnText(Sender: TObject; const AText: string;
@@ -3577,7 +3604,9 @@ var
   PosText: TPoint;
   Details: TATEditorPosDetails;
 begin
-  Ed:= FindEditorUnderCursorPos(AScreenPos);
+  Ed:= nil;
+  if Sender is TForm then
+    Ed:= FindEditorUnderCursorPos(TForm(Sender), AScreenPos);
   if Ed=nil then exit;
   if Ed.ModeReadOnly then exit;
 
@@ -9272,14 +9301,18 @@ begin
     F.AllowDropFiles:= true;
     F.OnDropFiles:= @FormFloating_OnDropFiles;
 
+    F.ShowInTaskBar:= UiOps.FloatGroupsShowInTaskbar;
+
     {$ifdef MSWINDOWS}
-    //OLE drag&drop of text/URLs from external apps, issue #4894
+    //OLE drag&drop of text/URLs from external apps, issue #4894.
+    //Must be called AFTER setting ShowInTaskBar (it can recreate the
+    //window handle); the manager's internal timer re-registers the
+    //target when the form's handle is created on Show
     if FOleDropManager=nil then
       InitOleDropSupport;
     if FOleDropManager<>nil then
       FOleDropManager.Attach(F);
     {$endif}
-    F.ShowInTaskBar:= UiOps.FloatGroupsShowInTaskbar;
 
     G:= TATGroups.Create(Self);
     G.Pages1.EnabledEmpty:= true;
