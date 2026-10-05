@@ -46,10 +46,8 @@ const
   DRAGDROP_E_ALREADYREGISTERED = HRESULT($80040101);
 
 type
-  { clipboard format id, same as Delphi's TClipFormat / FPC's TCLIPFORMAT;
-    cannot alias TCLIPFORMAT directly: FPC is case-insensitive,
-    so "TClipFormat = TCLIPFORMAT" would be a self-referencing definition }
-  TClipFormat = Word;
+  { clipboard format id, alias of FPC's TCLIPFORMAT type from unit ActiveX }
+  TClipFormat = ActiveX.TClipFormat;
 
   { Event fired when text (or URL) is dropped from an external app.
     AScreenPos is the mouse position (in screen coordinates) at drop. }

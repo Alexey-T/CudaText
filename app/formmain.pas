@@ -9170,10 +9170,6 @@ begin
   begin
     InitFloatingForms;
     FFormFloating1.Visible:= AValue;
-    {$ifdef MSWINDOWS}
-    if AValue and (FOleDropManager<>nil) then
-      FOleDropManager.Attach(FFormFloating1);
-    {$endif}
   end;
 end;
 
@@ -9183,10 +9179,6 @@ begin
   begin
     InitFloatingForms;
     FFormFloating2.Visible:= AValue;
-    {$ifdef MSWINDOWS}
-    if AValue and (FOleDropManager<>nil) then
-      FOleDropManager.Attach(FFormFloating2);
-    {$endif}
   end;
 end;
 
@@ -9196,10 +9188,6 @@ begin
   begin
     InitFloatingForms;
     FFormFloating3.Visible:= AValue;
-    {$ifdef MSWINDOWS}
-    if AValue and (FOleDropManager<>nil) then
-      FOleDropManager.Attach(FFormFloating3);
-    {$endif}
   end;
 end;
 
