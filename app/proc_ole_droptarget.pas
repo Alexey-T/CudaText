@@ -104,12 +104,25 @@ type
   private
     FTargets: TFPObjectList; // owns TOleDropTarget objects
     FTimer: TTimer;          // periodically re-registers all targets
+    FWatchTimer: TTimer;     // diagnostics: watches mouse gestures (see unit comment)
     FDragCount: integer;     // >0 while an OLE drag is over one of our windows
+    //state of the drag-watch diagnostic
+    FWatchLMB: boolean;      // left mouse button is down
+    FWatchDrag: boolean;     // button down + cursor moved beyond the drag threshold
+    FWatchAnchor: TPoint;    // cursor position when the button was pressed
+    FWatchOverUs: boolean;   // cursor is over one of our windows
+    FWatchEverOverUs: boolean; // cursor was over our windows at least once
+    FWatchOleActive: boolean;  // our IDropTarget got OLE events during the gesture
+    FWatchStartTick: DWORD;  // GetTickCount when the button was pressed
+    FWatchLastBeat: DWORD;   // tick of the last heartbeat log line
     FOnDropFiles: TDropFilesEvent;
     FOnDropText: TOleDropTextEvent;
     FOnCanDropText: TOleDropTextQueryEvent;
     function FindTarget(AWinControl: TWinControl): TOleDropTarget;
+    function HandleRegistered(H: HWND): boolean;
+    function WatchStateText: string;
     procedure OnReattachTimer(Sender: TObject);
+    procedure OnWatchTimer(Sender: TObject);
   protected
     procedure Notification(AComponent: TComponent; Operation: TOperation); override;
   public
@@ -158,6 +171,8 @@ type
     procedure Attach;
     procedure Detach;
     property WinControl: TWinControl read FWinControl;
+    { window handle currently registered in OLE (0 when not registered) }
+    property RegisteredHandle: HWND read FHandle;
   end;
 
 { Global manager instance, created by InitOleDropSupport(). }
@@ -165,6 +180,17 @@ function OleDropSupport: TOleDropTargetManager;
 
 { Creates the global manager, must be called once from the main form. }
 function InitOleDropSupport: TOleDropTargetManager;
+
+{ Writes one line to the debug log file %TEMP%\cudatext_oledrag.log.
+  Never raises, safe to call from COM callbacks and timers.
+  Public: proc_ole_dragsource logs into the same file. }
+procedure DbgLog(const S: string);
+
+{ Readable name of a clipboard format id, for the log. }
+function ClipboardFormatName(AFormat: TClipFormat): string;
+
+{ HRESULT as readable text, for the log. }
+function HResultText(H: HRESULT): string;
 
 implementation
 
@@ -198,6 +224,8 @@ const
   DV_E_LINDEX_      = HRESULT($80040068);
   DV_E_TYMED_       = HRESULT($80040069);
   DV_E_DVASPECT_    = HRESULT($8004006A);
+  DRAGDROP_S_DROP_  = HRESULT($00040100);
+  DRAGDROP_S_CANCEL_= HRESULT($00040101);
 
 type
   //structure of CF_HDROP data (parsed w/o ShellAPI's DragQueryFile)
@@ -262,11 +290,108 @@ begin
   end;
 end;
 
+{ Class name of a window of this process, for the log. }
+function GetWinClassName(H: HWND): string;
+var
+  Buf: array[0..100] of WideChar;
+  W: UnicodeString;
+  N: integer;
+begin
+  Result:= '';
+  if H=0 then exit;
+  FillChar(Buf, SizeOf(Buf), 0);
+  N:= Windows.GetClassNameW(H, @Buf[0], 100);
+  if N>0 then
+  begin
+    SetString(W, PWideChar(@Buf[0]), N);
+    Result:= string(W);
+  end;
+end;
+
+{ Windows version, via RtlGetVersion (unlike GetVersionEx it is not
+  lied to by compatibility manifests). For the log. }
+function WindowsVersionText: string;
+type
+  TRtlGetVersionFunc = function(var Info: TOSVersionInfoW): LONGBOOL; stdcall;
+var
+  Info: TOSVersionInfoW;
+  F: TRtlGetVersionFunc;
+  P: Pointer;
+begin
+  FillChar(Info, SizeOf(Info), 0);
+  Info.dwOSVersionInfoSize:= SizeOf(Info);
+  P:= GetProcAddress(GetModuleHandleW('ntdll.dll'), 'RtlGetVersion');
+  if P<>nil then
+  begin
+    F:= TRtlGetVersionFunc(P);
+    if F(Info) then
+      exit('Windows '+IntToStr(Info.dwMajorVersion)+'.'+
+        IntToStr(Info.dwMinorVersion)+' build '+IntToStr(Info.dwBuildNumber));
+  end;
+  if GetVersionExW(Info) then
+    Result:= 'Windows '+IntToStr(Info.dwMajorVersion)+'.'+
+      IntToStr(Info.dwMinorVersion)+' build '+IntToStr(Info.dwBuildNumber)
+  else
+    Result:= 'Windows (version unknown)';
+end;
+
+{ Is the process elevated (UAC)? This is important for drag&drop:
+  Windows UIPI blocks OLE drag&drop from non-elevated apps (e.g.
+  Firefox) into elevated apps - such drags never reach DragEnter. }
+function ProcessElevationText: string;
+var
+  Token: THandle;
+  Elev: DWORD; //TOKEN_ELEVATION.TokenIsElevated
+  Len: DWORD;
+begin
+  Result:= 'unknown';
+  if not OpenProcessToken(GetCurrentProcess, TOKEN_QUERY, Token) then
+    exit('OpenProcessToken failed');
+  try
+    Elev:= 0;
+    if GetTokenInformation(Token, TokenElevation, @Elev, SizeOf(Elev), @Len) then
+    begin
+      if Elev<>0 then
+        Result:= 'YES (admin) - note: drags from non-elevated apps are blocked by Windows UIPI'
+      else
+        Result:= 'no';
+    end;
+  finally
+    CloseHandle(Token);
+  end;
+end;
+
+{ Exe file path of this process, for the log. }
+function GetExeFileName: string;
+var
+  Buf: array[0..1000] of WideChar;
+  W: UnicodeString;
+  N: DWORD;
+begin
+  Result:= '';
+  FillChar(Buf, SizeOf(Buf), 0);
+  N:= GetModuleFileNameW(0, @Buf[0], 1000);
+  if (N>0) and (N<1000) then
+  begin
+    SetString(W, PWideChar(@Buf[0]), N);
+    Result:= string(W);
+  end;
+end;
+
+procedure LogEnvironment;
+begin
+  DbgLog('env: '+WindowsVersionText);
+  DbgLog('env: elevated='+ProcessElevationText+' pid='+
+    IntToStr(GetCurrentProcessId)+' exe='+GetExeFileName);
+end;
+
 function HResultText(H: HRESULT): string;
 begin
   case H of
     S_OK: Result:= 'S_OK';
     S_FALSE: Result:= 'S_FALSE';
+    DRAGDROP_S_DROP_: Result:= 'DRAGDROP_S_DROP (dropped)';
+    DRAGDROP_S_CANCEL_: Result:= 'DRAGDROP_S_CANCEL (Esc)';
     E_PENDING_: Result:= 'E_PENDING';
     E_NOTIMPL_: Result:= 'E_NOTIMPL';
     E_FAIL_: Result:= 'E_FAIL';
@@ -758,11 +883,24 @@ begin
   FTimer.Interval:= 500;
   FTimer.OnTimer:= @OnReattachTimer;
   FTimer.Enabled:= true;
+  //diagnostics: watches mouse gestures; the log line 'cursor over our
+  //window' with no DragEnter lines proves that OLE does not deliver
+  //the drag to us (issue #6521 debugging)
+  FWatchTimer:= TTimer.Create(nil);
+  FWatchTimer.Interval:= 150;
+  FWatchTimer.OnTimer:= @OnWatchTimer;
+  FWatchTimer.Enabled:= true;
   DbgLog('OLE drop support initialized');
+  LogEnvironment;
 end;
 
 destructor TOleDropTargetManager.Destroy;
 begin
+  if FWatchTimer<>nil then
+  begin
+    FWatchTimer.Enabled:= false;
+    FreeAndNil(FWatchTimer);
+  end;
   if FTimer<>nil then
   begin
     FTimer.Enabled:= false;
@@ -805,6 +943,113 @@ begin
   //handle is not allocated yet, or when it did not change
   for i:= 0 to FTargets.Count-1 do
     TOleDropTarget(FTargets[i]).Attach;
+end;
+
+function TOleDropTargetManager.HandleRegistered(H: HWND): boolean;
+var
+  i: integer;
+begin
+  Result:= false;
+  if H=0 then exit;
+  for i:= 0 to FTargets.Count-1 do
+    if TOleDropTarget(FTargets[i]).RegisteredHandle=H then
+      exit(true);
+end;
+
+function TOleDropTargetManager.WatchStateText: string;
+begin
+  if FWatchOleActive or (FDragCount>0) then
+    exit('OLE drag is ACTIVE');
+  if (DragManager<>nil) and DragManager.IsDragging then
+    exit('internal CudaText drag, no OLE events is normal here');
+  Result:= 'NO OLE events (external drag does not reach CudaText!)';
+end;
+
+procedure TOleDropTargetManager.OnWatchTimer(Sender: TObject);
+var
+  P: TPoint;
+  Down, OverUs: boolean;
+  H: HWND;
+  Tick: DWORD;
+begin
+  try
+    Down:= (GetAsyncKeyState(VK_LBUTTON) and $8000)<>0;
+    if not Down then
+    begin
+      if FWatchDrag and FWatchEverOverUs then
+        DbgLog('watch: gesture finished (button up) after '+
+          IntToStr(GetTickCount-FWatchStartTick)+' ms');
+      FWatchLMB:= false;
+      FWatchDrag:= false;
+      FWatchOverUs:= false;
+      FWatchEverOverUs:= false;
+      FWatchOleActive:= false;
+      exit;
+    end;
+    if not GetCursorPos(P) then exit;
+
+    if not FWatchLMB then
+    begin
+      //button just pressed
+      FWatchLMB:= true;
+      FWatchDrag:= false;
+      FWatchAnchor:= P;
+      FWatchOverUs:= false;
+      FWatchEverOverUs:= false;
+      FWatchOleActive:= false;
+      FWatchStartTick:= GetTickCount;
+      FWatchLastBeat:= 0;
+      exit;
+    end;
+
+    if not FWatchDrag then
+    begin
+      //distinguish a real drag from a simple click: some cursor
+      //movement beyond the system drag threshold is required
+      if (Abs(P.x-FWatchAnchor.x)>GetSystemMetrics(SM_CXDRAG)) or
+         (Abs(P.y-FWatchAnchor.y)>GetSystemMetrics(SM_CYDRAG)) then
+        FWatchDrag:= true
+      else
+        exit;
+    end;
+
+    //is the cursor over one of our registered windows (or its children)?
+    OverUs:= false;
+    H:= WindowFromPoint(P);
+    while (H<>0) and (not OverUs) do
+    begin
+      OverUs:= HandleRegistered(H);
+      if not OverUs then
+        H:= GetParent(H);
+    end;
+
+    if OverUs and (not FWatchOverUs) then
+    begin
+      FWatchOverUs:= true;
+      FWatchEverOverUs:= true;
+      FWatchLastBeat:= GetTickCount;
+      DbgLog('watch: cursor over our window: '+WatchStateText);
+    end;
+    if (not OverUs) and FWatchOverUs then
+    begin
+      FWatchOverUs:= false;
+      DbgLog('watch: cursor left our window');
+    end;
+
+    //heartbeat: an external drag stays over us without any OLE events
+    if FWatchOverUs and (not FWatchOleActive) and (FDragCount=0) then
+    begin
+      Tick:= GetTickCount;
+      if (FWatchLastBeat=0) or (Tick-FWatchLastBeat>1000) then
+      begin
+        FWatchLastBeat:= Tick;
+        DbgLog('watch: still over our window after '+
+          IntToStr(Tick-FWatchStartTick)+' ms, no OLE events');
+      end;
+    end;
+  except
+    //diagnostics must never break anything
+  end;
 end;
 
 function TOleDropTargetManager.FindTarget(AWinControl: TWinControl): TOleDropTarget;
@@ -880,6 +1125,7 @@ begin
   H:= RegisterDragDrop(FHandle, Intf);
   FRegistered:= (H=S_OK) or (H=DRAGDROP_E_ALREADYREGISTERED);
   DbgLog('RegisterDragDrop hwnd='+IntToHex(Int64(FHandle), 16)+
+    ' class="'+GetWinClassName(FHandle)+'"'+
     ' = '+HResultText(H));
   //drop reference added by the interface cast: it is owned by COM now,
   //but the object is freed by the manager anyway
@@ -1012,7 +1258,11 @@ begin
   //pause the re-attach timer for the whole drag: OLE registration
   //changes during an active drag can disturb the OLE drag loop
   if FManager<>nil then
+  begin
     inc(FManager.FDragCount);
+    //tell the drag-watch diagnostic that OLE events are delivered
+    FManager.FWatchOleActive:= true;
+  end;
   //keep the data object: formats may need to be re-checked on DragOver
   FDataObj:= dataObj;
   FRedetectCount:= 0;

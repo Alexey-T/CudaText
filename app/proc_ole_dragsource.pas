@@ -145,6 +145,10 @@ implementation
 
 {$IFDEF MSWINDOWS}
 
+uses
+  //only for the debug log (DbgLog, ClipboardFormatName, HResultText)
+  proc_ole_droptarget;
+
 var
   MonitorIntf: TOleDragOutMonitor = nil;
 
@@ -259,6 +263,8 @@ function TOleTextDataObject.GetData(const formatetcIn: FORMATETC;
 var
   H: HGLOBAL;
 begin
+  DbgLog('drag-out: target calls GetData('+
+    ClipboardFormatName(formatetcIn.cfFormat)+')');
   FillChar(medium, SizeOf(medium), 0);
 
   if (formatetcIn.dwAspect<>DVASPECT_CONTENT) then
@@ -295,6 +301,8 @@ end;
 
 function TOleTextDataObject.QueryGetData(const pformatetc: FORMATETC): HRESULT; stdcall;
 begin
+  DbgLog('drag-out: target calls QueryGetData('+
+    ClipboardFormatName(pformatetc.cfFormat)+')');
   if (pformatetc.dwAspect<>DVASPECT_CONTENT) then
     exit(DV_E_DVASPECT);
   if (pformatetc.lindex<>-1) then
@@ -328,6 +336,7 @@ function TOleTextDataObject.EnumFormatEtc(dwDirection: DWORD;
 var
   Enum: TOleEnumFormatEtc;
 begin
+  DbgLog('drag-out: target calls EnumFormatEtc');
   Pointer(enumEtc):= nil;
   if dwDirection<>DATADIR_GET then
     exit(E_NOTIMPL);
@@ -562,7 +571,11 @@ begin
         //(which copies by default). Even if a target app wants 'move',
         //it can only get a copy - users expect no text deletion
         //(issue #4894 testing).
+        DbgLog('drag-out: DoDragDrop starts, '+IntToStr(Length(SText))+
+          ' chars selected');
         H:= DoDragDrop(IntfData, IntfSource, DROPEFFECT_COPY, @Effect);
+        DbgLog('drag-out: DoDragDrop ended, result='+HResultText(H)+
+          ', final effect='+IntToHex(Effect, 8));
         //H=DRAGDROP_S_DROP: text is inserted by the target app,
         //source keeps the selection.
         //H=DRAGDROP_S_CANCEL: user pressed Esc, drag aborted,
