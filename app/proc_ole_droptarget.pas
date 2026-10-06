@@ -6,6 +6,7 @@ Implements OLE drag&drop (IDropTarget) support for CudaText on Windows,
 so that text/URLs can be dragged into the app from other applications
 (browser address bar, clipboard managers, other editors, etc).
 Fixes issue: https://github.com/Alexey-T/CudaText/issues/4894
+Fixes issue: https://github.com/Alexey-T/CudaText/issues/6521
 
 This is a compact, self-contained alternative to porting the whole
 Melander's Drag&Drop Components library
@@ -24,6 +25,8 @@ How it works:
   LCL creates/recreates a form's window handle later (e.g. floating
   group forms: handle is created/recreated on show/ShowInTaskBar
   changes, AFTER the initial Attach call - issue #4894 comment).
+  The timer is paused while a drag is in progress: changing OLE
+  registrations during an active drag can disturb the OLE drag loop.
 - On drop, data is extracted from the COM IDataObject:
   * CF_HDROP - filenames, they are reported via OnDropFiles
     (same event format as LCL's OnDropFiles); drops are allowed
@@ -35,18 +38,27 @@ How it works:
   * registered clipboard formats 'UniformResourceLocatorW' /
     'UniformResourceLocator' / 'text/x-moz-url' - URLs from browsers.
 - Data objects of drag sources are handled defensively (issue #6521,
-  modern Firefox builds on win10 show 'prohibited' cursor):
+  drag from Firefox on win10 showed 'prohibited' cursor):
   * drop effects: copy is preferred, but link and move are accepted
     too (e.g. Firefox address-bar drags allow only 'link'); the drop
     handling always inserts the text, it never modifies the source;
-  * format detection: IDataObject.QueryGetData is tried first; if it
-    reports nothing, the format list is enumerated
-    (IEnumFormatEtc); if that fails too, the data object is still
-    accepted over the editor area, and the data is extracted on
-    drop (QueryGetData/EnumFormatEtc of some sources lie);
+  * format detection: IDataObject.QueryGetData is tried first (with
+    both global memory and stream storage mediums); if it reports
+    nothing, the format list is enumerated (IEnumFormatEtc); if that
+    fails too, the data object is still accepted over the editor area,
+    and the data is extracted on drop (QueryGetData/EnumFormatEtc of
+    some sources lie or report formats too late);
+  * if formats were not detected at DragEnter, detection is retried
+    several times on DragOver: some sources populate their format
+    list only after the drag has started;
   * text extraction: data is read from global memory first; if that
-    fails, the same format is requested as IStream and read from
-    the stream (some sources provide text only as a stream).
+    fails, the same format is requested as IStream and read from the
+    stream (some sources provide text only as a stream).
+- All IDropTarget methods are protected from exceptions: an exception
+  must never cross the COM boundary, it would break the whole drop.
+- Debug log: every drag is written to %TEMP%\cudatext_oledrag.log
+  (file is reset at app start). If drag&drop misbehaves with some
+    app, this log shows exactly what was asked and answered.
 - LCL on Windows initializes OLE itself (OleInitialize is called by the
   win32 widgetset), so no extra OLE initialization is done here.
 
@@ -92,6 +104,7 @@ type
   private
     FTargets: TFPObjectList; // owns TOleDropTarget objects
     FTimer: TTimer;          // periodically re-registers all targets
+    FDragCount: integer;     // >0 while an OLE drag is over one of our windows
     FOnDropFiles: TDropFilesEvent;
     FOnDropText: TOleDropTextEvent;
     FOnCanDropText: TOleDropTextQueryEvent;
@@ -120,11 +133,15 @@ type
     FHandle: HWND;
     FRegistered: boolean;
     FRefCount: integer;
-    FHasFiles: boolean; // data object has CF_HDROP
-    FHasText: boolean;  // data object has text/URL format
-    FUnknownData: boolean; // data object hides its formats: allow over editor, extract on drop
+    FHasFiles: boolean;      // data object has CF_HDROP
+    FHasText: boolean;       // data object has text/URL format
+    FUnknownData: boolean;   // data object hides its formats: allow over editor, extract on drop
+    FDataObj: IDataObject;   // data object of the current drag, for re-detection on DragOver
+    FRedetectCount: integer; // how many times formats were re-detected on DragOver
+    FLastOverLog: DWORD;     // last logged DragOver effect (log only changes)
     procedure SetDataFlags(const AData: IDataObject);
     function IsDropAllowedAt(const pt: TPoint): boolean;
+    procedure FinishDrag;
   protected
     //IUnknown
     function QueryInterface({$IFDEF FPC_HAS_CONSTREF}constref{$ELSE}const{$ENDIF} iid: TGuid; out obj): HRESULT; stdcall;
@@ -172,6 +189,16 @@ const
   cUrlFormatNameA = 'UniformResourceLocator';
   cMozUrlFormatName = 'text/x-moz-url';
 
+  //HRESULT values used in the debug log
+  E_PENDING_        = HRESULT($8000000A);
+  E_NOTIMPL_        = HRESULT($80004001);
+  E_FAIL_           = HRESULT($80004005);
+  E_UNEXPECTED_     = HRESULT($8000FFFF);
+  DV_E_FORMATETC_   = HRESULT($80040064);
+  DV_E_LINDEX_      = HRESULT($80040068);
+  DV_E_TYMED_       = HRESULT($80040069);
+  DV_E_DVASPECT_    = HRESULT($8004006A);
+
 type
   //structure of CF_HDROP data (parsed w/o ShellAPI's DragQueryFile)
   POleDropFiles = ^TOleDropFiles;
@@ -182,27 +209,104 @@ type
     fWide: BOOL;   //true: file list is WideChar
   end;
 
-{ helper routines }
+{ ---- debug log (issue #6521: diagnostics for drag&drop problems) ---- }
 
-{ Chooses the drop effect to report to the drag source.
-  Copy is preferred, but link and move are accepted too: some sources
-  (e.g. Firefox address-bar drags) allow only the 'link' effect.
-  The drop handling always inserts the text, it never modifies the
-  source, so which effect is reported only matters for the cursor
-  image and for the drag source's final report. }
-function SelectDropEffect(const dwEffect: DWORD): DWORD;
 var
-  Allowed: DWORD;
+  LogFileInitialized: boolean = false;
+  LogFileNameCache: string = '';
+
+function GetLogFileName: string;
+var
+  Buf: array[0..600] of WideChar;
+  W: UnicodeString;
+  N: DWORD;
 begin
-  Allowed:= dwEffect and (DROPEFFECT_COPY or DROPEFFECT_LINK or DROPEFFECT_MOVE);
-  if (Allowed and DROPEFFECT_COPY)<>0 then
-    exit(DROPEFFECT_COPY);
-  if (Allowed and DROPEFFECT_LINK)<>0 then
-    exit(DROPEFFECT_LINK);
-  if (Allowed and DROPEFFECT_MOVE)<>0 then
-    exit(DROPEFFECT_MOVE);
-  Result:= DROPEFFECT_NONE;
+  if LogFileNameCache='' then
+  begin
+    N:= Windows.GetTempPathW(600, @Buf[0]);
+    if (N>0) and (N<600) then
+    begin
+      SetString(W, PWideChar(@Buf[0]), N);
+      LogFileNameCache:= string(W)+'cudatext_oledrag.log';
+    end
+    else
+      LogFileNameCache:= 'cudatext_oledrag.log';
+  end;
+  Result:= LogFileNameCache;
 end;
+
+{ Writes one line to the debug log, never raises. }
+procedure DbgLog(const S: string);
+var
+  F: TextFile;
+begin
+  try
+    if not LogFileInitialized then
+    begin
+      LogFileInitialized:= true;
+      if FileExists(GetLogFileName) then
+        SysUtils.DeleteFile(GetLogFileName);
+    end;
+    AssignFile(F, GetLogFileName);
+    if FileExists(GetLogFileName) then
+      Append(F)
+    else
+      Rewrite(F);
+    try
+      WriteLn(F, FormatDateTime('hh:nn:ss.zzz', Now), ' ', S);
+    finally
+      CloseFile(F);
+    end;
+  except
+    //logging must never break drag&drop
+  end;
+end;
+
+function HResultText(H: HRESULT): string;
+begin
+  case H of
+    S_OK: Result:= 'S_OK';
+    S_FALSE: Result:= 'S_FALSE';
+    E_PENDING_: Result:= 'E_PENDING';
+    E_NOTIMPL_: Result:= 'E_NOTIMPL';
+    E_FAIL_: Result:= 'E_FAIL';
+    E_UNEXPECTED_: Result:= 'E_UNEXPECTED';
+    DV_E_FORMATETC_: Result:= 'DV_E_FORMATETC';
+    DV_E_LINDEX_: Result:= 'DV_E_LINDEX';
+    DV_E_TYMED_: Result:= 'DV_E_TYMED';
+    DV_E_DVASPECT_: Result:= 'DV_E_DVASPECT';
+  else
+    Result:= IntToHex(H, 8);
+  end;
+end;
+
+{ Readable name of a clipboard format id, for the log. }
+function ClipboardFormatName(AFormat: TClipFormat): string;
+var
+  Buf: array[0..200] of AnsiChar;
+  S: AnsiString;
+  N: integer;
+begin
+  case AFormat of
+    CF_TEXT: exit('CF_TEXT');
+    CF_UNICODETEXT: exit('CF_UNICODETEXT');
+    CF_HDROP: exit('CF_HDROP');
+    CF_OEMTEXT: exit('CF_OEMTEXT');
+    CF_BITMAP: exit('CF_BITMAP');
+    CF_DIB: exit('CF_DIB');
+  end;
+  FillChar(Buf, SizeOf(Buf), 0);
+  N:= Windows.GetClipboardFormatNameA(AFormat, PAnsiChar(@Buf[0]), 200);
+  if N>0 then
+  begin
+    SetString(S, PAnsiChar(@Buf[0]), N);
+    Result:= '"'+string(S)+'"';
+  end
+  else
+    Result:= 'fmt_'+IntToStr(AFormat);
+end;
+
+{ helper routines }
 
 function GetFormatEtc(AFormat: TClipFormat; ATymed: DWORD; out FE: TFormatEtc): boolean;
 begin
@@ -215,25 +319,47 @@ begin
   FE.tymed:= ATymed;
 end;
 
-{ Queries the data object for a format with one storage medium.
-  Some data objects implement QueryGetData for one medium only,
-  so both HGLOBAL and ISTREAM are tried by DataHasFormat. }
+{ Queries the data object for a format with one storage medium. }
 function QueryHasFormat(const AData: IDataObject; AFormat: TClipFormat;
-  ATymed: DWORD): boolean;
+  ATymed: DWORD; out HR: HRESULT): boolean;
 var
   FE: TFormatEtc;
 begin
   Result:= false;
+  HR:= E_FAIL_;
   if AData=nil then exit;
   if not GetFormatEtc(AFormat, ATymed, FE) then exit;
-  Result:= AData.QueryGetData(FE)=S_OK;
+  HR:= AData.QueryGetData(FE);
+  Result:= HR=S_OK;
 end;
 
-function DataHasFormat(const AData: IDataObject; AFormat: TClipFormat): boolean;
+{ Checks the format via QueryGetData, global memory first, then stream.
+  Every answer is written to the debug log. }
+function DataHasFormatLog(const AData: IDataObject; AFormat: TClipFormat): boolean;
+var
+  HR: HRESULT;
 begin
-  Result:= QueryHasFormat(AData, AFormat, TYMED_HGLOBAL);
+  Result:= QueryHasFormat(AData, AFormat, TYMED_HGLOBAL, HR);
+  DbgLog('  QueryGetData('+ClipboardFormatName(AFormat)+', hglobal)='+HResultText(HR));
   if not Result then
-    Result:= QueryHasFormat(AData, AFormat, TYMED_ISTREAM);
+  begin
+    Result:= QueryHasFormat(AData, AFormat, TYMED_ISTREAM, HR);
+    DbgLog('  QueryGetData('+ClipboardFormatName(AFormat)+', istream)='+HResultText(HR));
+  end;
+end;
+
+{ Checks the URL formats via QueryGetData, with logging. }
+function DataHasUrlFormatsLog(const AData: IDataObject): boolean;
+var
+  Id: TClipFormat;
+begin
+  Id:= RegisterClipboardFormat(cUrlFormatNameW);
+  if DataHasFormatLog(AData, Id) then exit(true);
+  Id:= RegisterClipboardFormat(cMozUrlFormatName);
+  if DataHasFormatLog(AData, Id) then exit(true);
+  Id:= RegisterClipboardFormat(cUrlFormatNameA);
+  if DataHasFormatLog(AData, Id) then exit(true);
+  Result:= false;
 end;
 
 { Checks the format by enumerating the data object's format list
@@ -244,7 +370,7 @@ function DataObjectHasFormatId(const AData: IDataObject; AFormat: TClipFormat): 
 var
   Enum: IEnumFORMATETC;
   FE: TFormatEtc;
-  N: DWord;
+  N: ULong;
   i: integer;
 begin
   Result:= false;
@@ -253,28 +379,43 @@ begin
   if AData.EnumFormatEtc(DATADIR_GET, Enum)<>S_OK then exit;
   if Enum=nil then exit;
   Enum.Reset;
-  N:= 0;
   for i:= 1 to 1000 do //defensive cap
   begin
+    N:= 0;
     if Enum.Next(1, FE, @N)<>S_OK then exit;
     if N=0 then exit; //defensive: no item written
     if FE.cfFormat=AFormat then
       exit(true);
-    N:= 0;
   end;
 end;
 
-function DataHasUrlFormat(const AData: IDataObject): boolean;
+{ Enumerates all formats of the data object and writes them to the log. }
+procedure LogDataFormats(const AData: IDataObject);
 var
-  Id: TClipFormat;
+  Enum: IEnumFORMATETC;
+  FE: TFormatEtc;
+  N: ULong;
+  i: integer;
+  S: string;
 begin
-  Id:= RegisterClipboardFormat(cUrlFormatNameW);
-  if DataHasFormat(AData, Id) then exit(true);
-  Id:= RegisterClipboardFormat(cUrlFormatNameA);
-  if DataHasFormat(AData, Id) then exit(true);
-  Id:= RegisterClipboardFormat(cMozUrlFormatName);
-  if DataHasFormat(AData, Id) then exit(true);
-  Result:= false;
+  if AData=nil then exit;
+  if AData.EnumFormatEtc(DATADIR_GET, Enum)<>S_OK then
+  begin
+    DbgLog('  EnumFormatEtc failed');
+    exit;
+  end;
+  if Enum=nil then exit;
+  Enum.Reset;
+  S:= '';
+  for i:= 1 to 100 do
+  begin
+    N:= 0;
+    if Enum.Next(1, FE, @N)<>S_OK then break;
+    if N=0 then break;
+    if S<>'' then S:= S+', ';
+    S:= S+ClipboardFormatName(FE.cfFormat);
+  end;
+  DbgLog('  formats: ['+S+']');
 end;
 
 { Gets HGLOBAL of a format from IDataObject.
@@ -439,7 +580,7 @@ const
   cMaxSize = 64*1024*1024;
 var
   Chunk: array[0..cChunk-1] of Byte;
-  N: DWord;
+  N: DWORD;
   Total: integer;
 begin
   Result:= false;
@@ -462,7 +603,8 @@ end;
 { Extracts the string of a text format from the data object.
   First the data is requested as global memory; if that fails, the
   same format is requested as IStream and read from the stream
-  (some data objects provide their text only as a stream). }
+  (some data objects provide their text only as a stream).
+  Every answer is written to the debug log. }
 function GetDataString(const AData: IDataObject; AFormat: TClipFormat;
   AWide: boolean): string;
 var
@@ -485,8 +627,12 @@ begin
     finally
       ReleaseStgMedium(SM);
     end;
+    DbgLog('  GetData('+ClipboardFormatName(AFormat)+', hglobal): '+
+      IntToStr(Length(Result))+' chars');
     if Result<>'' then exit;
-  end;
+  end
+  else
+    DbgLog('  GetData('+ClipboardFormatName(AFormat)+', hglobal) failed');
 
   //2) stream
   if not GetFormatEtc(AFormat, TYMED_ISTREAM, FE) then exit;
@@ -509,11 +655,17 @@ begin
     finally
       ReleaseStgMedium(SM);
     end;
-  end;
+    DbgLog('  GetData('+ClipboardFormatName(AFormat)+', istream): '+
+      IntToStr(Length(Result))+' chars');
+  end
+  else
+    DbgLog('  GetData('+ClipboardFormatName(AFormat)+', istream) failed');
 end;
 
 { Extracts dropped text: URL formats have priority,
-  then CF_UNICODETEXT, then CF_TEXT. }
+  then CF_UNICODETEXT, then CF_TEXT.
+  Data is requested directly, without QueryGetData first:
+  some data objects report 'no' but still give the data. }
 function GetDroppedText(const AData: IDataObject; out AText: string): boolean;
 var
   Id: TClipFormat;
@@ -523,8 +675,6 @@ begin
   Result:= false;
   AText:= '';
 
-  //URL formats have priority; data is requested directly, without
-  //QueryGetData: some data objects report 'no' but still give the data
   S:= GetDataString(AData, RegisterClipboardFormat(cUrlFormatNameW), true);
   if S<>'' then
   begin
@@ -572,6 +722,28 @@ begin
   Result:= false;
 end;
 
+{ Chooses the drop effect to report to the drag source.
+  Copy is preferred, but link and move are accepted too: some sources
+  (e.g. Firefox address-bar drags) allow only the 'link' effect.
+  The drop handling always inserts the text, it never modifies the
+  source, so which effect is reported only matters for the cursor
+  image and for the drag source's final report. }
+function SelectDropEffect(const dwEffect: DWORD): DWORD;
+var
+  Allowed: DWORD;
+begin
+  Allowed:= dwEffect and (DROPEFFECT_COPY or DROPEFFECT_LINK or DROPEFFECT_MOVE);
+  if (Allowed and DROPEFFECT_COPY)<>0 then
+    exit(DROPEFFECT_COPY);
+  if (Allowed and DROPEFFECT_LINK)<>0 then
+    exit(DROPEFFECT_LINK);
+  if (Allowed and DROPEFFECT_MOVE)<>0 then
+    exit(DROPEFFECT_MOVE);
+  //source reported no usual effect (only e.g. DROPEFFECT_SCROLL):
+  //report copy like other editors do, OLE masks it itself
+  Result:= DROPEFFECT_COPY;
+end;
+
 { TOleDropTargetManager }
 
 constructor TOleDropTargetManager.Create(AOwner: TComponent);
@@ -586,6 +758,7 @@ begin
   FTimer.Interval:= 500;
   FTimer.OnTimer:= @OnReattachTimer;
   FTimer.Enabled:= true;
+  DbgLog('OLE drop support initialized');
 end;
 
 destructor TOleDropTargetManager.Destroy;
@@ -624,6 +797,10 @@ procedure TOleDropTargetManager.OnReattachTimer(Sender: TObject);
 var
   i: integer;
 begin
+  //don't touch OLE registrations while a drag is in progress:
+  //revoking/registering drop targets during an active drag can
+  //disturb the OLE drag loop
+  if FDragCount>0 then exit;
   //Attach() is idempotent and cheap: it exits early when a window
   //handle is not allocated yet, or when it did not change
   for i:= 0 to FTargets.Count-1 do
@@ -702,6 +879,8 @@ begin
   Intf:= IDropTarget(Self);
   H:= RegisterDragDrop(FHandle, Intf);
   FRegistered:= (H=S_OK) or (H=DRAGDROP_E_ALREADYREGISTERED);
+  DbgLog('RegisterDragDrop hwnd='+IntToHex(Int64(FHandle), 16)+
+    ' = '+HResultText(H));
   //drop reference added by the interface cast: it is owned by COM now,
   //but the object is freed by the manager anyway
   Intf:= nil;
@@ -711,6 +890,7 @@ procedure TOleDropTarget.Detach;
 begin
   if FRegistered then
   begin
+    DbgLog('RevokeDragDrop hwnd='+IntToHex(Int64(FHandle), 16));
     RevokeDragDrop(FHandle);
     FRegistered:= false;
   end;
@@ -741,33 +921,44 @@ begin
 end;
 
 procedure TOleDropTarget.SetDataFlags(const AData: IDataObject);
+var
+  IdW, IdA, IdMoz: TClipFormat;
 begin
   FHasFiles:= false;
   FHasText:= false;
   FUnknownData:= false;
-  if AData=nil then exit;
+  if AData=nil then
+  begin
+    DbgLog('  data object is nil');
+    exit;
+  end;
 
   //fast way: QueryGetData (works for most apps)
-  FHasFiles:= DataHasFormat(AData, CF_HDROP);
+  FHasFiles:= DataHasFormatLog(AData, CF_HDROP);
   FHasText:=
     (not FHasFiles) and
-    (DataHasFormat(AData, CF_UNICODETEXT) or
-     DataHasFormat(AData, CF_TEXT) or
-     DataHasUrlFormat(AData));
+    (DataHasFormatLog(AData, CF_UNICODETEXT) or
+     DataHasFormatLog(AData, CF_TEXT) or
+     DataHasUrlFormatsLog(AData));
 
   //fallback: some data objects (e.g. modern Firefox builds on win10,
   //issue #6521) don't answer QueryGetData correctly, but enumerate
   //their formats fine
   if (not FHasFiles) and (not FHasText) then
   begin
+    DbgLog('  query says no: checking the format list');
+    LogDataFormats(AData);
+    IdW:= RegisterClipboardFormat(cUrlFormatNameW);
+    IdA:= RegisterClipboardFormat(cUrlFormatNameA);
+    IdMoz:= RegisterClipboardFormat(cMozUrlFormatName);
     FHasFiles:= DataObjectHasFormatId(AData, CF_HDROP);
     FHasText:=
       (not FHasFiles) and
       (DataObjectHasFormatId(AData, CF_UNICODETEXT) or
        DataObjectHasFormatId(AData, CF_TEXT) or
-       DataObjectHasFormatId(AData, RegisterClipboardFormat(cUrlFormatNameW)) or
-       DataObjectHasFormatId(AData, RegisterClipboardFormat(cMozUrlFormatName)) or
-       DataObjectHasFormatId(AData, RegisterClipboardFormat(cUrlFormatNameA)));
+       DataObjectHasFormatId(AData, IdW) or
+       DataObjectHasFormatId(AData, IdA) or
+       DataObjectHasFormatId(AData, IdMoz));
   end;
 
   //last resort: the data object hides its formats from both
@@ -775,7 +966,10 @@ begin
   //anyway (if OnCanDropText accepts the position) and try the full
   //extraction on Drop; some data objects say 'no' but give the data
   if (not FHasFiles) and (not FHasText) then
+  begin
+    DbgLog('  formats not detected: allowed as unknown data');
     FUnknownData:= true;
+  end;
 end;
 
 { Is the current data object droppable at the given screen position?
@@ -794,34 +988,117 @@ begin
   Result:= FManager.FOnCanDropText(FWinControl, pt);
 end;
 
+{ Resets the drag state, must be called when the drag is over
+  (DragLeave or Drop). }
+procedure TOleDropTarget.FinishDrag;
+begin
+  FHasFiles:= false;
+  FHasText:= false;
+  FUnknownData:= false;
+  FDataObj:= nil;
+  if (FManager<>nil) and (FManager.FDragCount>0) then
+    dec(FManager.FDragCount);
+end;
+
 function TOleDropTarget.DragEnter(const dataObj: IDataObject;
   grfKeyState: DWORD; pt: TPoint; var dwEffect: DWORD): HRESULT; stdcall;
 begin
   Result:= S_OK;
-  SetDataFlags(dataObj);
+  //defensive: if a previous drag was not properly finished
+  //(unpaired DragEnter), reset its state first, so the drag
+  //counter of the manager is never leaked
+  if FDataObj<>nil then
+    FinishDrag;
+  //pause the re-attach timer for the whole drag: OLE registration
+  //changes during an active drag can disturb the OLE drag loop
+  if FManager<>nil then
+    inc(FManager.FDragCount);
+  //keep the data object: formats may need to be re-checked on DragOver
+  FDataObj:= dataObj;
+  FRedetectCount:= 0;
+  FLastOverLog:= $FFFFFFFF;
 
-  if IsDropAllowedAt(pt) then
-    dwEffect:= SelectDropEffect(dwEffect)
-  else
-    dwEffect:= DROPEFFECT_NONE;
+  DbgLog('DragEnter hwnd='+IntToHex(Int64(FHandle), 16)+
+    ' pt='+IntToStr(pt.x)+','+IntToStr(pt.y)+
+    ' effects_in='+IntToHex(dwEffect, 8)+
+    ' keys='+IntToHex(grfKeyState, 8));
+  try
+    try
+      SetDataFlags(dataObj);
+
+      if IsDropAllowedAt(pt) then
+      begin
+        dwEffect:= SelectDropEffect(dwEffect);
+        DbgLog('DragEnter: allowed, effect='+IntToHex(dwEffect, 8));
+      end
+      else
+      begin
+        dwEffect:= DROPEFFECT_NONE;
+        DbgLog('DragEnter: position not allowed');
+      end;
+    except
+      on E: Exception do
+      begin
+        DbgLog('DragEnter exception: '+E.Message);
+        dwEffect:= DROPEFFECT_NONE;
+      end;
+    end;
+  except
+    //never let an exception cross the COM boundary
+  end;
 end;
 
 function TOleDropTarget.DragOver(grfKeyState: DWORD; pt: TPoint;
   var dwEffect: DWORD): HRESULT; stdcall;
 begin
   Result:= S_OK;
-  if IsDropAllowedAt(pt) then
-    dwEffect:= SelectDropEffect(dwEffect)
-  else
-    dwEffect:= DROPEFFECT_NONE;
+  try
+    try
+      //if formats were not detected at DragEnter, retry a few times:
+      //some sources (e.g. Firefox) populate their format list late
+      if FUnknownData and (FDataObj<>nil) and (FRedetectCount<3) then
+      begin
+        inc(FRedetectCount);
+        DbgLog('DragOver: re-detecting formats, try '+IntToStr(FRedetectCount));
+        SetDataFlags(FDataObj);
+      end;
+
+      if IsDropAllowedAt(pt) then
+        dwEffect:= SelectDropEffect(dwEffect)
+      else
+        dwEffect:= DROPEFFECT_NONE;
+
+      //DragOver fires very often: log only when the effect changes
+      if dwEffect<>FLastOverLog then
+      begin
+        FLastOverLog:= dwEffect;
+        DbgLog('DragOver: effect='+IntToHex(dwEffect, 8)+
+          ' pt='+IntToStr(pt.x)+','+IntToStr(pt.y));
+      end;
+    except
+      on E: Exception do
+      begin
+        DbgLog('DragOver exception: '+E.Message);
+        dwEffect:= DROPEFFECT_NONE;
+      end;
+    end;
+  except
+    //never let an exception cross the COM boundary
+  end;
 end;
 
 function TOleDropTarget.DragLeave: HRESULT; stdcall;
 begin
   Result:= S_OK;
-  FHasFiles:= false;
-  FHasText:= false;
-  FUnknownData:= false;
+  try
+    try
+      DbgLog('DragLeave');
+    except
+    end;
+  except
+    //never let an exception cross the COM boundary
+  end;
+  FinishDrag;
 end;
 
 function TOleDropTarget.Drop(const dataObj: IDataObject; grfKeyState: DWORD;
@@ -835,49 +1112,72 @@ begin
   Result:= S_OK;
   dwEffect:= DROPEFFECT_NONE;
 
-  if dataObj=nil then exit;
-  if FManager=nil then exit;
+  if dataObj=nil then
+  begin
+    DbgLog('Drop: data object is nil');
+    FinishDrag;
+    exit;
+  end;
+  if FManager=nil then
+  begin
+    FinishDrag;
+    exit;
+  end;
 
-  SetDataFlags(dataObj);
-
+  DbgLog('Drop: pt='+IntToStr(pt.x)+','+IntToStr(pt.y)+
+    ' effects_in='+IntToHex(dwEffect, 8)+
+    ' keys='+IntToHex(grfKeyState, 8));
   try
-    //files have priority: dropped file(s) from Explorer open like before;
-    //for unknown data objects CF_HDROP is tried here too, then text
-    if FHasFiles or FUnknownData then
-    begin
-      Files:= TStringList.Create;
-      try
-        if GetDroppedFiles(dataObj, Files) then
-        begin
-          dwEffect:= SelectDropEffect(dwEffect);
-          if Assigned(FManager.FOnDropFiles) then
+    try
+      SetDataFlags(dataObj);
+
+      //files have priority: dropped file(s) from Explorer open like before;
+      //for unknown data objects CF_HDROP is tried here too, then text
+      if FHasFiles or FUnknownData then
+      begin
+        Files:= TStringList.Create;
+        try
+          if GetDroppedFiles(dataObj, Files) then
           begin
-            SetLength(FileArr, Files.Count);
-            for i:= 0 to Files.Count-1 do
-              FileArr[i]:= Files[i];
-            FManager.FOnDropFiles(FWinControl, FileArr);
+            dwEffect:= SelectDropEffect(dwEffect);
+            if Assigned(FManager.FOnDropFiles) then
+            begin
+              SetLength(FileArr, Files.Count);
+              for i:= 0 to Files.Count-1 do
+                FileArr[i]:= Files[i];
+              FManager.FOnDropFiles(FWinControl, FileArr);
+            end;
+            DbgLog('Drop: '+IntToStr(Files.Count)+' file(s)');
+            exit;
           end;
-          exit;
+        finally
+          FreeAndNil(Files);
         end;
-      finally
-        FreeAndNil(Files);
+      end;
+
+      //text or URL: only at the position accepted by OnCanDropText
+      //(e.g. only over the editor area, not over the ui-tabs)
+      if IsDropAllowedAt(pt) then
+        if GetDroppedText(dataObj, S) then
+          if S<>'' then
+          begin
+            dwEffect:= SelectDropEffect(dwEffect);
+            if Assigned(FManager.FOnDropText) then
+              FManager.FOnDropText(FWinControl, S, pt);
+            DbgLog('Drop: text, '+IntToStr(Length(S))+' chars');
+          end;
+
+      if dwEffect=DROPEFFECT_NONE then
+        DbgLog('Drop: no data extracted');
+    except
+      on E: Exception do
+      begin
+        DbgLog('Drop exception: '+E.Message);
+        dwEffect:= DROPEFFECT_NONE;
       end;
     end;
-
-    //text or URL: only at the position accepted by OnCanDropText
-    //(e.g. only over the editor area, not over the ui-tabs)
-    if IsDropAllowedAt(pt) then
-      if GetDroppedText(dataObj, S) then
-        if S<>'' then
-        begin
-          dwEffect:= SelectDropEffect(dwEffect);
-          if Assigned(FManager.FOnDropText) then
-            FManager.FOnDropText(FWinControl, S, pt);
-        end;
   finally
-    FHasFiles:= false;
-    FHasText:= false;
-    FUnknownData:= false;
+    FinishDrag;
   end;
 end;
 
