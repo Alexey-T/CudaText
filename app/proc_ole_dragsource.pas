@@ -25,13 +25,13 @@ Details:
 - "Cursor is outside the app": GetCursorPos + WindowFromPoint +
   GetWindowThreadProcessId, window under cursor must belong to
   another process.
-- DoDragDrop is called with DROPEFFECT_COPY or DROPEFFECT_MOVE;
-  if target app reports DROPEFFECT_MOVE, source selection is deleted
-  (like internal drag-move does). Dropping back into a CudaText window
-  is handled by proc_ole_droptarget (inserts text, COPY effect).
-- If the source editor is destroyed during the OLE drag (tab closed
-  etc), it is detected via TComponent.FreeNotification and the
-  deletion is skipped.
+- DoDragDrop is called with DROPEFFECT_COPY only: the dropped text is
+  inserted by the target app, and the source selection is NEVER
+  deleted in CudaText (this matches CudaText's internal behavior for
+  dragging text to another document, which also copies by default;
+  users of issue #4894 expect no deletion). Dropping back into a
+  CudaText window is handled by proc_ole_droptarget (inserts text,
+  COPY effect).
 - Esc cancels the OLE drag at any moment (standard IDropSource
   behavior), source text stays untouched.
 }
@@ -45,7 +45,7 @@ interface
 
 uses
   Windows, ActiveX, Classes, SysUtils, Controls, Forms, ExtCtrls,
-  ATSynEdit, ATSynEdit_Commands;
+  ATSynEdit;
 
 type
   { TOleTextDataObject - implements IDataObject for dragging text out
@@ -126,13 +126,10 @@ type
   private
     FTimer: TTimer;
     FBusy: boolean;            //true while DoDragDrop runs
-    FSourceEditor: TATSynEdit; //drag source, watched via FreeNotification
     procedure OnTimerEvent(Sender: TObject);
     function FindDraggingEditor: TATSynEdit;
     function IsCursorOutsideAppWindows: boolean;
     procedure DoOleDragOut(AEditor: TATSynEdit);
-  protected
-    procedure Notification(AComponent: TComponent; Operation: TOperation); override;
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -528,12 +525,58 @@ begin
   inherited Destroy;
 end;
 
-procedure TOleDragOutMonitor.Notification(AComponent: TComponent;
-  Operation: TOperation);
+procedure TOleDragOutMonitor.DoOleDragOut(AEditor: TATSynEdit);
+var
+  SText: UnicodeString;
+  Data: TOleTextDataObject;
+  Source: TOleDropSource;
+  IntfData: IDataObject;
+  IntfSource: IDropSource;
+  Effect: DWORD;
+  H: HRESULT;
 begin
-  inherited Notification(AComponent, Operation);
-  if (Operation=opRemove) and (AComponent=FSourceEditor) then
-    FSourceEditor:= nil;
+  SText:= AEditor.TextSelected;
+  if SText='' then exit;
+
+  //stop polling: DoDragDrop runs a nested message loop
+  FTimer.Enabled:= false;
+  try
+    //cancel the internal LCL drag: the same happens on Esc keypress.
+    //Internal editor drag&drop is not modified in any way, it just ends
+    //here, because the mouse cursor left the app windows.
+    CancelDrag;
+
+    //clean the leftover drop-marker of the cancelled drag
+    AEditor.Invalidate;
+
+    FBusy:= true;
+    try
+      Data:= TOleTextDataObject.Create(SText);
+      Source:= TOleDropSource.Create;
+      IntfData:= IDataObject(Data);
+      IntfSource:= IDropSource(Source);
+      try
+        Effect:= DROPEFFECT_NONE;
+        //only the COPY effect is allowed: source selection is never
+        //deleted, like CudaText's internal drag to another document
+        //(which copies by default). Even if a target app wants 'move',
+        //it can only get a copy - users expect no text deletion
+        //(issue #4894 testing).
+        H:= DoDragDrop(IntfData, IntfSource, DROPEFFECT_COPY, @Effect);
+        //H=DRAGDROP_S_DROP: text is inserted by the target app,
+        //source keeps the selection.
+        //H=DRAGDROP_S_CANCEL: user pressed Esc, drag aborted,
+        //source keeps the selection.
+      finally
+        IntfData:= nil;
+        IntfSource:= nil;
+      end;
+    finally
+      FBusy:= false;
+    end;
+  finally
+    FTimer.Enabled:= true;
+  end;
 end;
 
 function FindDraggingControl(AControl: TControl): TControl;
@@ -615,70 +658,6 @@ begin
   if Ed.TextSelected='' then exit;
 
   DoOleDragOut(Ed);
-end;
-
-procedure TOleDragOutMonitor.DoOleDragOut(AEditor: TATSynEdit);
-var
-  SText: UnicodeString;
-  Data: TOleTextDataObject;
-  Source: TOleDropSource;
-  IntfData: IDataObject;
-  IntfSource: IDropSource;
-  Effect: DWORD;
-  H: HRESULT;
-begin
-  SText:= AEditor.TextSelected;
-  if SText='' then exit;
-
-  //stop polling: DoDragDrop runs a nested message loop
-  FTimer.Enabled:= false;
-  try
-    //cancel the internal LCL drag: the same happens on Esc keypress.
-    //Internal editor drag&drop is not modified in any way, it just ends
-    //here, because the mouse cursor left the app windows.
-    CancelDrag;
-
-    //clean the leftover drop-marker of the cancelled drag
-    AEditor.Invalidate;
-
-    //watch if the editor gets destroyed during OLE drag (tab closed etc)
-    FSourceEditor:= AEditor;
-    AEditor.FreeNotification(Self);
-
-    FBusy:= true;
-    try
-      Data:= TOleTextDataObject.Create(SText);
-      Source:= TOleDropSource.Create;
-      IntfData:= IDataObject(Data);
-      IntfSource:= IDropSource(Source);
-      try
-        Effect:= DROPEFFECT_NONE;
-        H:= DoDragDrop(IntfData, IntfSource,
-          DROPEFFECT_COPY or DROPEFFECT_MOVE, @Effect);
-
-        if H=DRAGDROP_S_DROP then
-          if Effect=DROPEFFECT_MOVE then
-            if FSourceEditor<>nil then
-              if not FSourceEditor.ModeReadOnly then
-                //target app moved the text out: delete it in the source,
-                //like the internal drag-move of the editor does
-                FSourceEditor.DoCommand(cCommand_TextDeleteSelection,
-                  TATCommandInvoke.Internal);
-      finally
-        IntfData:= nil;
-        IntfSource:= nil;
-      end;
-    finally
-      FBusy:= false;
-      if FSourceEditor<>nil then
-      begin
-        FSourceEditor.RemoveFreeNotification(Self);
-        FSourceEditor:= nil;
-      end;
-    end;
-  finally
-    FTimer.Enabled:= true;
-  end;
 end;
 
 {$ENDIF}
