@@ -3,6 +3,10 @@
   - fixed
   * changed
 
+1.237.2 (2026/10)
+
++ add: Windows: OLE drag&drop of text from/to other applications (by @badrelmers using AI)
+
 1.237.1 (2026/10)
 
 + add: for future Differ 2 plugin (@badrelmers is working on it): optimize API ed.get_wrapinfo speed (by @badrelmers using AI)
