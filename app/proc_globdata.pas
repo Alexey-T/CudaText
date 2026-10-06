@@ -1177,6 +1177,13 @@ type
 var
   AppConsoleQueue: TAppConsoleQueue;
   AppCommandsDelayed: TAppCommandsDelayed;
+  //fix of CPU-eating storm on saving user.json:
+  //dedupe of queued cmd_OpsReloadAndApply commands, see AppCommandPut()
+  AppOpsReloadQueued: boolean;
+  //stats of user.json at the moment of its last loading,
+  //to skip auto-reload when file is saved but not changed; see FrameOnSaveFile()
+  AppUserOptionsLoadedMTime: TDateTime;
+  AppUserOptionsLoadedSize: Int64;
   AppCommandList: TFPList; //has plugin commands from install.inf files
   AppCommand2List: TFPList; //has plugin sub-commands, ie added by API app_proc()
   AppEventList: TFPList;

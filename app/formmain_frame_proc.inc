@@ -331,8 +331,11 @@ begin
     );
 
   //if it's user.json, reread app config (using timer!)
+  //fix of CPU-eating storm on saving user.json:
+  //auto-reload only when file is really changed since last config load
   if SameFileName(fn, AppFile_OptionsUser) then
-    CurrentEditor.DoCommand(cmd_OpsReloadAndApply, TATCommandInvoke.AppInternal);
+    if UserOptionsFileChangedSinceLoad() then
+      CurrentEditor.DoCommand(cmd_OpsReloadAndApply, TATCommandInvoke.AppInternal);
 
   //untitled tab maybe became titled
   UpdateMenuChecks(false);

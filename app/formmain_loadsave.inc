@@ -2007,6 +2007,42 @@ begin
   finally
     cfg.Free;
   end;
+
+  //fix of CPU-eating storm on saving user.json:
+  //remember stats of user.json we've just loaded, so FrameOnSaveFile()
+  //can skip auto-reload of not changed file
+  if AllowGlobalOps and SameFileName(AFileName, AppFile_OptionsUser) then
+    RememberUserOptionsFileStats;
+end;
+
+
+procedure TfmMain.RememberUserOptionsFileStats;
+var
+  SR: TSearchRec;
+begin
+  AppUserOptionsLoadedMTime:= 0;
+  AppUserOptionsLoadedSize:= -1;
+  if FindFirst(AppFile_OptionsUser, faAnyFile, SR)=0 then
+  try
+    AppUserOptionsLoadedMTime:= FileDateToDateTime(SR.Time);
+    AppUserOptionsLoadedSize:= SR.Size;
+  finally
+    FindClose(SR);
+  end;
+end;
+
+function TfmMain.UserOptionsFileChangedSinceLoad: boolean;
+var
+  SR: TSearchRec;
+begin
+  Result:= true;
+  if FindFirst(AppFile_OptionsUser, faAnyFile, SR)=0 then
+  try
+    Result:= (SR.Size<>AppUserOptionsLoadedSize) or
+      (FileDateToDateTime(SR.Time)<>AppUserOptionsLoadedMTime);
+  finally
+    FindClose(SR);
+  end;
 end;
 
 

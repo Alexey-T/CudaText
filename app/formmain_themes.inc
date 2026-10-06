@@ -73,6 +73,42 @@ begin
       );
 end;
 
+function TfmMain.GetThemeRelatedOptionsSignature: string;
+
+  function FileStamp(const AThemeName: UnicodeString; const AExt: string): string;
+  var
+    DT: TDateTime;
+  begin
+    DT:= FileAge(AppDir_DataThemes+DirectorySeparator+AThemeName+AExt);
+    Result:= AThemeName+'|'+FloatToStr(DT);
+  end;
+
+begin
+  //fix of CPU-eating storm on saving user.json:
+  //signature of all options which affect re-applying of UI/syntax themes,
+  //it lets DoApplyUiOps() to skip DoApplyTheme() (which reparses all editor
+  //tabs) when config is reloaded but theme-related options are not changed
+  Result:=
+    FileStamp(UiOps.ThemeUi, AppExtensionThemeUi)+'|'+
+    FileStamp(UiOps.ThemeSyntax, AppExtensionThemeSyntax)+'|'+
+    FileStamp(UiOps.ThemeUi_Light, AppExtensionThemeUi)+'|'+
+    FileStamp(UiOps.ThemeUi_Light, AppExtensionThemeSyntax)+'|'+
+    FileStamp(UiOps.ThemeUi_Dark, AppExtensionThemeUi)+'|'+
+    FileStamp(UiOps.ThemeUi_Dark, AppExtensionThemeSyntax)+'|'+
+    IfThen(UiOps.ThemeAutoMode, '1', '0')+'|'+
+    IfThen(UiOps.LexerThemes, '1', '0')+'|'+
+    IfThen(UiOps.ThemeUi_Loaded, '1', '0')+'|'+
+    IfThen(UiOps.ThemeSyntax_Loaded, '1', '0')+'|'+
+    IfThen(UiOps.ThemedMainMenu, '1', '0')+'|'+
+    UiOps.ThemedMainMenuFontName+'|'+
+    IntToStr(UiOps.ThemedMainMenuFontSize)+'|'+
+    //fonts and scale are used by ApplyThemeToTreeview()/UpdateThemeStatusbar()
+    UiOps.VarFontName+'|'+
+    IntToStr(UiOps.VarFontSize)+'|'+
+    IntToStr(ATEditorScalePercents)+'|'+
+    IntToStr(ATEditorScaleFontPercents);
+end;
+
 procedure TfmMain.DoApplyTheme;
 var
   id: TAppPanelId;
@@ -206,6 +242,11 @@ begin
   {$endif}
 
   DoApplyTheme_ThemedMainMenu;
+
+  //fix of CPU-eating storm on saving user.json:
+  //remember signature of theme-related options used by this theme application,
+  //so next config reload can skip theme re-applying if signature is the same
+  FLastAppliedThemeSig:= GetThemeRelatedOptionsSignature;
 end;
 
 

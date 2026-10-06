@@ -708,6 +708,9 @@ type
     FFindMarkingCaret1st: boolean;
     FDarkNow: boolean;
     FDarkPrev: boolean;
+    //fix of CPU-eating storm on saving user.json:
+    //signature of theme-related options which were used on last DoApplyTheme() call
+    FLastAppliedThemeSig: string;
     FDarkCheckTick: QWORD;
     FShowFullScreen: boolean;
     FShowFullScreen_DisFree: boolean;
@@ -1071,6 +1074,9 @@ type
     procedure DoOps_OpenFile_User;
     procedure DoOps_OpenFile_DefaultAndUser;
     procedure DoOps_LoadOptions(const AFileName: string; var Ops: TEditorOps; AllowGlobalOps: boolean);
+    //fix of CPU-eating storm on saving user.json:
+    procedure RememberUserOptionsFileStats;
+    function UserOptionsFileChangedSinceLoad: boolean;
     procedure DoOps_LoadOptionsFromString(const AString: string);
     procedure DoOps_FindPythonLib(Sender: TObject);
     procedure DoDialogCommands;
@@ -1214,6 +1220,8 @@ type
     procedure UpdateTreeFilter;
 
     procedure DoApplyUiOps;
+    //fix of CPU-eating storm on saving user.json:
+    function GetThemeRelatedOptionsSignature: string;
     procedure DoApplyUiOpsToGroups(G: TATGroups);
     procedure DoApplyInitialGroupSizes;
     procedure DoApplyInitialSidebarPanel;
@@ -1698,6 +1706,13 @@ var
   D: TATTabData;
   N: integer;
 begin
+  //fix of CPU-eating storm on saving user.json:
+  //command "reload/apply config" is idempotent, so skip it if such command
+  //is already queued, duplicated commands were re-applying themes and
+  //reparsing all editor tabs many times
+  if (ACommand=cmd_OpsReloadAndApply) and AppOpsReloadQueued then
+    exit;
+
   Item:= Default(TAppCommandDelayed);
   Item.Code:= ACommand;
   Item.EdAddress:= Ed;
@@ -1722,6 +1737,9 @@ begin
   end;
 
   AppCommandsDelayed.Push(Item);
+
+  if ACommand=cmd_OpsReloadAndApply then
+    AppOpsReloadQueued:= true;
 
   if AForceTimer or IsCommandNeedTimer(ACommand) then
   begin
@@ -1755,6 +1773,9 @@ begin
   Result:= TAppCommandGetStatus.BadCommand;
   Item:= AppCommandsDelayed.Front();
   AppCommandsDelayed.Pop();
+
+  if Item.Code=cmd_OpsReloadAndApply then
+    AppOpsReloadQueued:= false;
 
   if Item.Tabs=nil then exit;
   TabData:= Item.Tabs.GetTabData(Item.TabIndex);
@@ -5035,8 +5056,15 @@ begin
   ToolbarSideLow.UpdateControls;
   ToolbarSideMid.UpdateControls;
 
-  DoApplyTheme;
-  DoApplyTheme_UiAndSyntax;
+  //fix of CPU-eating storm on saving user.json:
+  //re-apply themes (and so reparse ALL editor tabs) only when theme-related
+  //options really changed since last applied theme, it makes config reload
+  //almost instant for all other options
+  if GetThemeRelatedOptionsSignature<>FLastAppliedThemeSig then
+  begin
+    DoApplyTheme;
+    DoApplyTheme_UiAndSyntax;
+  end;
 end;
 
 procedure TfmMain.DoFolderOpen(const ADirName: string; ANewProject: boolean;
