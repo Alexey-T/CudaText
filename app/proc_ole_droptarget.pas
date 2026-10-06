@@ -26,8 +26,12 @@ How it works:
   changes, AFTER the initial Attach call - issue #4894 comment).
 - On drop, data is extracted from the COM IDataObject:
   * CF_HDROP - filenames, they are reported via OnDropFiles
-    (same event format as LCL's OnDropFiles);
+    (same event format as LCL's OnDropFiles); drops are allowed
+    anywhere on the attached window, like LCL's file drops;
   * CF_UNICODETEXT / CF_TEXT - text, it is reported via OnDropText;
+    such drops are allowed only at positions accepted by the
+    OnCanDropText event (e.g. only over the editor area, not over
+    the ui-tabs area - issue #4894);
   * registered clipboard formats 'UniformResourceLocatorW' /
     'UniformResourceLocator' / 'text/x-moz-url' - URLs from browsers.
 - LCL on Windows initializes OLE itself (OleInitialize is called by the
@@ -60,6 +64,13 @@ type
   TOleDropTextEvent = procedure(Sender: TObject;
     const AText: string; const AScreenPos: TPoint) of object;
 
+  { Event fired to ask whether a drop of text (not files) is allowed
+    at the given screen position. Fired on DragEnter/DragOver/Drop of
+    IDropTarget, so the handler must be fast. If event is not assigned,
+    text drops are allowed anywhere on the attached window. }
+  TOleDropTextQueryEvent = function(Sender: TObject;
+    const AScreenPos: TPoint): boolean of object;
+
   TOleDropTarget = class;
 
   { TOleDropTargetManager }
@@ -70,6 +81,7 @@ type
     FTimer: TTimer;          // periodically re-registers all targets
     FOnDropFiles: TDropFilesEvent;
     FOnDropText: TOleDropTextEvent;
+    FOnCanDropText: TOleDropTextQueryEvent;
     function FindTarget(AWinControl: TWinControl): TOleDropTarget;
     procedure OnReattachTimer(Sender: TObject);
   protected
@@ -81,6 +93,7 @@ type
     procedure Detach(AWinControl: TWinControl);
     property OnDropFiles: TDropFilesEvent read FOnDropFiles write FOnDropFiles;
     property OnDropText: TOleDropTextEvent read FOnDropText write FOnDropText;
+    property OnCanDropText: TOleDropTextQueryEvent read FOnCanDropText write FOnCanDropText;
   end;
 
   { TOleDropTarget - implements OLE IDropTarget for one window.
@@ -94,7 +107,10 @@ type
     FHandle: HWND;
     FRegistered: boolean;
     FRefCount: integer;
-    FCanDrop: boolean;
+    FHasFiles: boolean; // data object has CF_HDROP
+    FHasText: boolean;  // data object has text/URL format
+    procedure SetDataFlags(const AData: IDataObject);
+    function IsDropAllowedAt(const pt: TPoint): boolean;
   protected
     //IUnknown
     function QueryInterface({$IFDEF FPC_HAS_CONSTREF}constref{$ELSE}const{$ENDIF} iid: TGuid; out obj): HRESULT; stdcall;
@@ -561,26 +577,42 @@ begin
   Result:= FRefCount;
 end;
 
+procedure TOleDropTarget.SetDataFlags(const AData: IDataObject);
+begin
+  FHasFiles:= false;
+  FHasText:= false;
+  if AData=nil then exit;
+
+  FHasFiles:= DataHasFormat(AData, CF_HDROP);
+  FHasText:=
+    (not FHasFiles) and
+    (DataHasFormat(AData, CF_UNICODETEXT) or
+     DataHasFormat(AData, CF_TEXT) or
+     DataHasUrlFormat(AData));
+end;
+
+{ Is the current data object droppable at the given screen position?
+  Files are droppable anywhere on the attached window (like LCL's
+  OnDropFiles). Text/URL are droppable only at positions accepted
+  by the manager's OnCanDropText event. }
+function TOleDropTarget.IsDropAllowedAt(const pt: TPoint): boolean;
+begin
+  if FHasFiles then
+    exit(true);
+  if not FHasText then
+    exit(false);
+  if (FManager=nil) or (not Assigned(FManager.FOnCanDropText)) then
+    exit(true);
+  Result:= FManager.FOnCanDropText(FWinControl, pt);
+end;
+
 function TOleDropTarget.DragEnter(const dataObj: IDataObject;
   grfKeyState: DWORD; pt: TPoint; var dwEffect: DWORD): HRESULT; stdcall;
 begin
   Result:= S_OK;
-  FCanDrop:= false;
+  SetDataFlags(dataObj);
 
-  if dataObj=nil then
-  begin
-    dwEffect:= DROPEFFECT_NONE;
-    exit;
-  end;
-
-  //check if data object has any format we accept
-  FCanDrop:=
-    DataHasFormat(dataObj, CF_HDROP) or
-    DataHasFormat(dataObj, CF_UNICODETEXT) or
-    DataHasFormat(dataObj, CF_TEXT) or
-    DataHasUrlFormat(dataObj);
-
-  if FCanDrop and ((dwEffect and DROPEFFECT_COPY)<>0) then
+  if IsDropAllowedAt(pt) and ((dwEffect and DROPEFFECT_COPY)<>0) then
     dwEffect:= DROPEFFECT_COPY
   else
     dwEffect:= DROPEFFECT_NONE;
@@ -590,7 +622,7 @@ function TOleDropTarget.DragOver(grfKeyState: DWORD; pt: TPoint;
   var dwEffect: DWORD): HRESULT; stdcall;
 begin
   Result:= S_OK;
-  if FCanDrop and ((dwEffect and DROPEFFECT_COPY)<>0) then
+  if IsDropAllowedAt(pt) and ((dwEffect and DROPEFFECT_COPY)<>0) then
     dwEffect:= DROPEFFECT_COPY
   else
     dwEffect:= DROPEFFECT_NONE;
@@ -599,7 +631,8 @@ end;
 function TOleDropTarget.DragLeave: HRESULT; stdcall;
 begin
   Result:= S_OK;
-  FCanDrop:= false;
+  FHasFiles:= false;
+  FHasText:= false;
 end;
 
 function TOleDropTarget.Drop(const dataObj: IDataObject; grfKeyState: DWORD;
@@ -612,39 +645,48 @@ var
 begin
   Result:= S_OK;
   dwEffect:= DROPEFFECT_NONE;
-  FCanDrop:= false;
 
   if dataObj=nil then exit;
   if FManager=nil then exit;
 
-  //files have priority: dropped file(s) from Explorer open like before
-  Files:= TStringList.Create;
+  SetDataFlags(dataObj);
+
   try
-    if GetDroppedFiles(dataObj, Files) then
+    //files have priority: dropped file(s) from Explorer open like before
+    if FHasFiles then
     begin
-      dwEffect:= DROPEFFECT_COPY;
-      if Assigned(FManager.FOnDropFiles) then
-      begin
-        SetLength(FileArr, Files.Count);
-        for i:= 0 to Files.Count-1 do
-          FileArr[i]:= Files[i];
-        FManager.FOnDropFiles(FWinControl, FileArr);
+      Files:= TStringList.Create;
+      try
+        if GetDroppedFiles(dataObj, Files) then
+        begin
+          dwEffect:= DROPEFFECT_COPY;
+          if Assigned(FManager.FOnDropFiles) then
+          begin
+            SetLength(FileArr, Files.Count);
+            for i:= 0 to Files.Count-1 do
+              FileArr[i]:= Files[i];
+            FManager.FOnDropFiles(FWinControl, FileArr);
+          end;
+          exit;
+        end;
+      finally
+        FreeAndNil(Files);
       end;
-      exit;
     end;
 
-    //text or URL
-    if GetDroppedText(dataObj, S) then
-    begin
-      if S<>'' then
-      begin
-        dwEffect:= DROPEFFECT_COPY;
-        if Assigned(FManager.FOnDropText) then
-          FManager.FOnDropText(FWinControl, S, pt);
-      end;
-    end;
+    //text or URL: only at the position accepted by OnCanDropText
+    //(e.g. only over the editor area, not over the ui-tabs)
+    if IsDropAllowedAt(pt) then
+      if GetDroppedText(dataObj, S) then
+        if S<>'' then
+        begin
+          dwEffect:= DROPEFFECT_COPY;
+          if Assigned(FManager.FOnDropText) then
+            FManager.FOnDropText(FWinControl, S, pt);
+        end;
   finally
-    FreeAndNil(Files);
+    FHasFiles:= false;
+    FHasText:= false;
   end;
 end;
 
