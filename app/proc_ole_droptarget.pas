@@ -34,6 +34,19 @@ How it works:
     the ui-tabs area - issue #4894);
   * registered clipboard formats 'UniformResourceLocatorW' /
     'UniformResourceLocator' / 'text/x-moz-url' - URLs from browsers.
+- Data objects of drag sources are handled defensively (issue #6521,
+  modern Firefox builds on win10 show 'prohibited' cursor):
+  * drop effects: copy is preferred, but link and move are accepted
+    too (e.g. Firefox address-bar drags allow only 'link'); the drop
+    handling always inserts the text, it never modifies the source;
+  * format detection: IDataObject.QueryGetData is tried first; if it
+    reports nothing, the format list is enumerated
+    (IEnumFormatEtc); if that fails too, the data object is still
+    accepted over the editor area, and the data is extracted on
+    drop (QueryGetData/EnumFormatEtc of some sources lie);
+  * text extraction: data is read from global memory first; if that
+    fails, the same format is requested as IStream and read from
+    the stream (some sources provide text only as a stream).
 - LCL on Windows initializes OLE itself (OleInitialize is called by the
   win32 widgetset), so no extra OLE initialization is done here.
 
@@ -109,6 +122,7 @@ type
     FRefCount: integer;
     FHasFiles: boolean; // data object has CF_HDROP
     FHasText: boolean;  // data object has text/URL format
+    FUnknownData: boolean; // data object hides its formats: allow over editor, extract on drop
     procedure SetDataFlags(const AData: IDataObject);
     function IsDropAllowedAt(const pt: TPoint): boolean;
   protected
@@ -170,7 +184,27 @@ type
 
 { helper routines }
 
-function GetFormatEtc(AFormat: TClipFormat; out FE: TFormatEtc): boolean;
+{ Chooses the drop effect to report to the drag source.
+  Copy is preferred, but link and move are accepted too: some sources
+  (e.g. Firefox address-bar drags) allow only the 'link' effect.
+  The drop handling always inserts the text, it never modifies the
+  source, so which effect is reported only matters for the cursor
+  image and for the drag source's final report. }
+function SelectDropEffect(const dwEffect: DWORD): DWORD;
+var
+  Allowed: DWORD;
+begin
+  Allowed:= dwEffect and (DROPEFFECT_COPY or DROPEFFECT_LINK or DROPEFFECT_MOVE);
+  if (Allowed and DROPEFFECT_COPY)<>0 then
+    exit(DROPEFFECT_COPY);
+  if (Allowed and DROPEFFECT_LINK)<>0 then
+    exit(DROPEFFECT_LINK);
+  if (Allowed and DROPEFFECT_MOVE)<>0 then
+    exit(DROPEFFECT_MOVE);
+  Result:= DROPEFFECT_NONE;
+end;
+
+function GetFormatEtc(AFormat: TClipFormat; ATymed: DWORD; out FE: TFormatEtc): boolean;
 begin
   Result:= AFormat<>0;
   if not Result then exit;
@@ -178,16 +212,56 @@ begin
   FE.cfFormat:= AFormat;
   FE.dwAspect:= DVASPECT_CONTENT;
   FE.lindex:= -1;
-  FE.tymed:= TYMED_HGLOBAL;
+  FE.tymed:= ATymed;
 end;
 
-function DataHasFormat(const AData: IDataObject; AFormat: TClipFormat): boolean;
+{ Queries the data object for a format with one storage medium.
+  Some data objects implement QueryGetData for one medium only,
+  so both HGLOBAL and ISTREAM are tried by DataHasFormat. }
+function QueryHasFormat(const AData: IDataObject; AFormat: TClipFormat;
+  ATymed: DWORD): boolean;
 var
   FE: TFormatEtc;
 begin
   Result:= false;
-  if not GetFormatEtc(AFormat, FE) then exit;
+  if AData=nil then exit;
+  if not GetFormatEtc(AFormat, ATymed, FE) then exit;
   Result:= AData.QueryGetData(FE)=S_OK;
+end;
+
+function DataHasFormat(const AData: IDataObject; AFormat: TClipFormat): boolean;
+begin
+  Result:= QueryHasFormat(AData, AFormat, TYMED_HGLOBAL);
+  if not Result then
+    Result:= QueryHasFormat(AData, AFormat, TYMED_ISTREAM);
+end;
+
+{ Checks the format by enumerating the data object's format list
+  (fallback for data objects which don't answer QueryGetData
+  correctly - matching is by clipboard format id, the storage
+  medium advertised by the source is ignored). }
+function DataObjectHasFormatId(const AData: IDataObject; AFormat: TClipFormat): boolean;
+var
+  Enum: IEnumFORMATETC;
+  FE: TFormatEtc;
+  N: DWord;
+  i: integer;
+begin
+  Result:= false;
+  if AData=nil then exit;
+  if AFormat=0 then exit;
+  if AData.EnumFormatEtc(DATADIR_GET, Enum)<>S_OK then exit;
+  if Enum=nil then exit;
+  Enum.Reset;
+  N:= 0;
+  for i:= 1 to 1000 do //defensive cap
+  begin
+    if Enum.Next(1, FE, @N)<>S_OK then exit;
+    if N=0 then exit; //defensive: no item written
+    if FE.cfFormat=AFormat then
+      exit(true);
+    N:= 0;
+  end;
 end;
 
 function DataHasUrlFormat(const AData: IDataObject): boolean;
@@ -214,7 +288,7 @@ var
 begin
   Result:= false;
   AGlobal:= 0;
-  if not GetFormatEtc(AFormat, FE) then exit;
+  if not GetFormatEtc(AFormat, TYMED_HGLOBAL, FE) then exit;
 
   FillChar(SM, SizeOf(SM), 0);
   if AData.GetData(FE, SM)<>S_OK then exit;
@@ -331,11 +405,117 @@ begin
   end;
 end;
 
+{ Extracts zero-terminated text (wide or ansi) from a raw byte buffer. }
+function TextFromBuffer(ABuf: AnsiString; AWide: boolean): string;
+var
+  Uni: UnicodeString;
+  i: integer;
+begin
+  Result:= '';
+  if ABuf='' then exit;
+  if AWide then
+  begin
+    SetLength(Uni, Length(ABuf) div SizeOf(WideChar));
+    if Uni<>'' then
+      Move(ABuf[1], PWideChar(Uni)^, Length(Uni)*SizeOf(WideChar));
+    i:= Pos(WideChar(0), Uni);
+    if i>0 then
+      SetLength(Uni, i-1);
+    Result:= string(Uni);
+  end
+  else
+  begin
+    i:= Pos(AnsiChar(0), ABuf);
+    if i>0 then
+      SetLength(ABuf, i-1);
+    Result:= string(ABuf);
+  end;
+end;
+
+{ Reads the whole IStream content into a raw byte buffer. }
+function ReadStreamBytes(const AStream: IStream; out ABuf: AnsiString): boolean;
+const
+  cChunk = 8192;
+  cMaxSize = 64*1024*1024;
+var
+  Chunk: array[0..cChunk-1] of Byte;
+  N: DWord;
+  Total: integer;
+begin
+  Result:= false;
+  ABuf:= '';
+  if AStream=nil then exit;
+
+  Total:= 0;
+  repeat
+    N:= 0;
+    if AStream.Read(@Chunk[0], cChunk, @N)<>S_OK then exit;
+    if N=0 then break;
+    SetLength(ABuf, Total+integer(N));
+    Move(Chunk[0], ABuf[Total+1], N);
+    inc(Total, N);
+  until Total>=cMaxSize;
+
+  Result:= Total>0;
+end;
+
+{ Extracts the string of a text format from the data object.
+  First the data is requested as global memory; if that fails, the
+  same format is requested as IStream and read from the stream
+  (some data objects provide their text only as a stream). }
+function GetDataString(const AData: IDataObject; AFormat: TClipFormat;
+  AWide: boolean): string;
+var
+  FE: TFormatEtc;
+  SM: TStgMedium;
+  Stream: IStream;
+  Raw: AnsiString;
+begin
+  Result:= '';
+  if (AData=nil) or (AFormat=0) then exit;
+
+  //1) global memory
+  if not GetFormatEtc(AFormat, TYMED_HGLOBAL, FE) then exit;
+  FillChar(SM, SizeOf(SM), 0);
+  if AData.GetData(FE, SM)=S_OK then
+  begin
+    try
+      if (SM.tymed=TYMED_HGLOBAL) and (SM.hGlobal<>0) then
+        Result:= TextFromGlobal(SM.hGlobal, AWide);
+    finally
+      ReleaseStgMedium(SM);
+    end;
+    if Result<>'' then exit;
+  end;
+
+  //2) stream
+  if not GetFormatEtc(AFormat, TYMED_ISTREAM, FE) then exit;
+  FillChar(SM, SizeOf(SM), 0);
+  if AData.GetData(FE, SM)=S_OK then
+  begin
+    try
+      if (SM.tymed=TYMED_ISTREAM) and (SM.pstm<>nil) then
+      begin
+        Stream:= IStream(SM.pstm);
+        try
+          if ReadStreamBytes(Stream, Raw) then
+            Result:= TextFromBuffer(Raw, AWide);
+        finally
+          //release our interface reference before the storage
+          //medium is released (the medium owns its own reference)
+          Stream:= nil;
+        end;
+      end;
+    finally
+      ReleaseStgMedium(SM);
+    end;
+  end;
+end;
+
 { Extracts dropped text: URL formats have priority,
   then CF_UNICODETEXT, then CF_TEXT. }
 function GetDroppedText(const AData: IDataObject; out AText: string): boolean;
 var
-  Global: HGLOBAL;
   Id: TClipFormat;
   S: string;
   i: integer;
@@ -343,68 +523,51 @@ begin
   Result:= false;
   AText:= '';
 
-  Id:= RegisterClipboardFormat(cUrlFormatNameW);
-  if DataHasFormat(AData, Id) then
-    if GetDataHGlobal(AData, Id, Global) then
-    begin
-      try
-        AText:= TextFromGlobal(Global, true);
-      finally
-        ReleaseStgMediumForHGlobal(Global);
-      end;
-      if AText<>'' then exit(true);
-    end;
+  //URL formats have priority; data is requested directly, without
+  //QueryGetData: some data objects report 'no' but still give the data
+  S:= GetDataString(AData, RegisterClipboardFormat(cUrlFormatNameW), true);
+  if S<>'' then
+  begin
+    AText:= S;
+    exit(true);
+  end;
 
+  //content of 'text/x-moz-url' is "url\ntitle"
   Id:= RegisterClipboardFormat(cMozUrlFormatName);
-  if DataHasFormat(AData, Id) then
-    if GetDataHGlobal(AData, Id, Global) then
+  S:= GetDataString(AData, Id, true);
+  if S<>'' then
+  begin
+    i:= Pos(#10, S);
+    if i>0 then
+      S:= Copy(S, 1, i-1);
+    S:= TrimRight(S);
+    if S<>'' then
     begin
-      try
-        //content is "url\ntitle"
-        AText:= TextFromGlobal(Global, true);
-      finally
-        ReleaseStgMediumForHGlobal(Global);
-      end;
-      i:= Pos(#10, AText);
-      if i>0 then
-        AText:= Copy(AText, 1, i-1);
-      AText:= TrimRight(AText);
-      if AText<>'' then exit(true);
+      AText:= S;
+      exit(true);
     end;
+  end;
 
-  Id:= RegisterClipboardFormat(cUrlFormatNameA);
-  if DataHasFormat(AData, Id) then
-    if GetDataHGlobal(AData, Id, Global) then
-    begin
-      try
-        AText:= TextFromGlobal(Global, false);
-      finally
-        ReleaseStgMediumForHGlobal(Global);
-      end;
-      if AText<>'' then exit(true);
-    end;
+  S:= GetDataString(AData, RegisterClipboardFormat(cUrlFormatNameA), false);
+  if S<>'' then
+  begin
+    AText:= S;
+    exit(true);
+  end;
 
-  if DataHasFormat(AData, CF_UNICODETEXT) then
-    if GetDataHGlobal(AData, CF_UNICODETEXT, Global) then
-    begin
-      try
-        AText:= TextFromGlobal(Global, true);
-      finally
-        ReleaseStgMediumForHGlobal(Global);
-      end;
-      if AText<>'' then exit(true);
-    end;
+  S:= GetDataString(AData, CF_UNICODETEXT, true);
+  if S<>'' then
+  begin
+    AText:= S;
+    exit(true);
+  end;
 
-  if DataHasFormat(AData, CF_TEXT) then
-    if GetDataHGlobal(AData, CF_TEXT, Global) then
-    begin
-      try
-        AText:= TextFromGlobal(Global, false);
-      finally
-        ReleaseStgMediumForHGlobal(Global);
-      end;
-      if AText<>'' then exit(true);
-    end;
+  S:= GetDataString(AData, CF_TEXT, false);
+  if S<>'' then
+  begin
+    AText:= S;
+    exit(true);
+  end;
 
   Result:= false;
 end;
@@ -581,25 +744,50 @@ procedure TOleDropTarget.SetDataFlags(const AData: IDataObject);
 begin
   FHasFiles:= false;
   FHasText:= false;
+  FUnknownData:= false;
   if AData=nil then exit;
 
+  //fast way: QueryGetData (works for most apps)
   FHasFiles:= DataHasFormat(AData, CF_HDROP);
   FHasText:=
     (not FHasFiles) and
     (DataHasFormat(AData, CF_UNICODETEXT) or
      DataHasFormat(AData, CF_TEXT) or
      DataHasUrlFormat(AData));
+
+  //fallback: some data objects (e.g. modern Firefox builds on win10,
+  //issue #6521) don't answer QueryGetData correctly, but enumerate
+  //their formats fine
+  if (not FHasFiles) and (not FHasText) then
+  begin
+    FHasFiles:= DataObjectHasFormatId(AData, CF_HDROP);
+    FHasText:=
+      (not FHasFiles) and
+      (DataObjectHasFormatId(AData, CF_UNICODETEXT) or
+       DataObjectHasFormatId(AData, CF_TEXT) or
+       DataObjectHasFormatId(AData, RegisterClipboardFormat(cUrlFormatNameW)) or
+       DataObjectHasFormatId(AData, RegisterClipboardFormat(cMozUrlFormatName)) or
+       DataObjectHasFormatId(AData, RegisterClipboardFormat(cUrlFormatNameA)));
+  end;
+
+  //last resort: the data object hides its formats from both
+  //QueryGetData and EnumFormatEtc - allow it over the editor area
+  //anyway (if OnCanDropText accepts the position) and try the full
+  //extraction on Drop; some data objects say 'no' but give the data
+  if (not FHasFiles) and (not FHasText) then
+    FUnknownData:= true;
 end;
 
 { Is the current data object droppable at the given screen position?
   Files are droppable anywhere on the attached window (like LCL's
-  OnDropFiles). Text/URL are droppable only at positions accepted
-  by the manager's OnCanDropText event. }
+  OnDropFiles). Text/URL (and unknown data, which is handled like
+  text) are droppable only at positions accepted by the manager's
+  OnCanDropText event. }
 function TOleDropTarget.IsDropAllowedAt(const pt: TPoint): boolean;
 begin
   if FHasFiles then
     exit(true);
-  if not FHasText then
+  if not (FHasText or FUnknownData) then
     exit(false);
   if (FManager=nil) or (not Assigned(FManager.FOnCanDropText)) then
     exit(true);
@@ -612,8 +800,8 @@ begin
   Result:= S_OK;
   SetDataFlags(dataObj);
 
-  if IsDropAllowedAt(pt) and ((dwEffect and DROPEFFECT_COPY)<>0) then
-    dwEffect:= DROPEFFECT_COPY
+  if IsDropAllowedAt(pt) then
+    dwEffect:= SelectDropEffect(dwEffect)
   else
     dwEffect:= DROPEFFECT_NONE;
 end;
@@ -622,8 +810,8 @@ function TOleDropTarget.DragOver(grfKeyState: DWORD; pt: TPoint;
   var dwEffect: DWORD): HRESULT; stdcall;
 begin
   Result:= S_OK;
-  if IsDropAllowedAt(pt) and ((dwEffect and DROPEFFECT_COPY)<>0) then
-    dwEffect:= DROPEFFECT_COPY
+  if IsDropAllowedAt(pt) then
+    dwEffect:= SelectDropEffect(dwEffect)
   else
     dwEffect:= DROPEFFECT_NONE;
 end;
@@ -633,6 +821,7 @@ begin
   Result:= S_OK;
   FHasFiles:= false;
   FHasText:= false;
+  FUnknownData:= false;
 end;
 
 function TOleDropTarget.Drop(const dataObj: IDataObject; grfKeyState: DWORD;
@@ -652,14 +841,15 @@ begin
   SetDataFlags(dataObj);
 
   try
-    //files have priority: dropped file(s) from Explorer open like before
-    if FHasFiles then
+    //files have priority: dropped file(s) from Explorer open like before;
+    //for unknown data objects CF_HDROP is tried here too, then text
+    if FHasFiles or FUnknownData then
     begin
       Files:= TStringList.Create;
       try
         if GetDroppedFiles(dataObj, Files) then
         begin
-          dwEffect:= DROPEFFECT_COPY;
+          dwEffect:= SelectDropEffect(dwEffect);
           if Assigned(FManager.FOnDropFiles) then
           begin
             SetLength(FileArr, Files.Count);
@@ -680,13 +870,14 @@ begin
       if GetDroppedText(dataObj, S) then
         if S<>'' then
         begin
-          dwEffect:= DROPEFFECT_COPY;
+          dwEffect:= SelectDropEffect(dwEffect);
           if Assigned(FManager.FOnDropText) then
             FManager.FOnDropText(FWinControl, S, pt);
         end;
   finally
     FHasFiles:= false;
     FHasText:= false;
+    FUnknownData:= false;
   end;
 end;
 
