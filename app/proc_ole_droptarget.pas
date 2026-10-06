@@ -19,6 +19,11 @@ How it works:
   handle of the given TWinControl (main form / floating form).
   OLE drop target of a top-level window automatically receives drops
   which happen over any child controls (editor, tabs, panels).
+- Manager has an internal timer which periodically calls Attach() for
+  all registered TWinControls. It self-heals all registrations when
+  LCL creates/recreates a form's window handle later (e.g. floating
+  group forms: handle is created/recreated on show/ShowInTaskBar
+  changes, AFTER the initial Attach call - issue #4894 comment).
 - On drop, data is extracted from the COM IDataObject:
   * CF_HDROP - filenames, they are reported via OnDropFiles
     (same event format as LCL's OnDropFiles);
@@ -39,7 +44,8 @@ unit proc_ole_droptarget;
 interface
 
 uses
-  Windows, ActiveX, Classes, SysUtils, Contnrs, Controls, Forms;
+  Windows, ActiveX, Classes, SysUtils, Contnrs, Controls, Forms,
+  ExtCtrls;
 
 const
   { not defined in FPC's ActiveX unit }
@@ -58,14 +64,18 @@ type
 
   { TOleDropTargetManager }
 
-  TOleDropTargetManager = class
+  TOleDropTargetManager = class(TComponent)
   private
     FTargets: TFPObjectList; // owns TOleDropTarget objects
+    FTimer: TTimer;          // periodically re-registers all targets
     FOnDropFiles: TDropFilesEvent;
     FOnDropText: TOleDropTextEvent;
     function FindTarget(AWinControl: TWinControl): TOleDropTarget;
+    procedure OnReattachTimer(Sender: TObject);
+  protected
+    procedure Notification(AComponent: TComponent; Operation: TOperation); override;
   public
-    constructor Create;
+    constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
     procedure Attach(AWinControl: TWinControl);
     procedure Detach(AWinControl: TWinControl);
@@ -122,7 +132,7 @@ end;
 function InitOleDropSupport: TOleDropTargetManager;
 begin
   if ManagerIntf=nil then
-    ManagerIntf:= TOleDropTargetManager.Create;
+    ManagerIntf:= TOleDropTargetManager.Create(nil);
   Result:= ManagerIntf;
 end;
 
@@ -385,21 +395,60 @@ end;
 
 { TOleDropTargetManager }
 
-constructor TOleDropTargetManager.Create;
+constructor TOleDropTargetManager.Create(AOwner: TComponent);
 begin
-  inherited;
+  inherited Create(AOwner);
   FTargets:= TFPObjectList.Create(true);
+  //timer re-attaches all drop targets: this heals the registrations
+  //when a form's window handle is created/recreated after Attach()
+  //was called (e.g. floating group forms, which get the handle on
+  //Show, and ShowInTaskBar changes recreate the handle)
+  FTimer:= TTimer.Create(nil);
+  FTimer.Interval:= 500;
+  FTimer.OnTimer:= @OnReattachTimer;
+  FTimer.Enabled:= true;
 end;
 
 destructor TOleDropTargetManager.Destroy;
 begin
+  if FTimer<>nil then
+  begin
+    FTimer.Enabled:= false;
+    FreeAndNil(FTimer);
+  end;
   //revoke all registrations, free all targets
   while FTargets.Count>0 do
     FTargets.Delete(0);
   FreeAndNil(FTargets);
   if ManagerIntf=Self then
     ManagerIntf:= nil;
-  inherited;
+  inherited Destroy;
+end;
+
+procedure TOleDropTargetManager.Notification(AComponent: TComponent;
+  Operation: TOperation);
+var
+  Target: TOleDropTarget;
+begin
+  inherited Notification(AComponent, Operation);
+  //attached TWinControl is being destroyed: forget its drop target,
+  //so the re-attach timer never touches a destroyed control
+  if (Operation=opRemove) and (AComponent is TWinControl) then
+  begin
+    Target:= FindTarget(TWinControl(AComponent));
+    if Target<>nil then
+      FTargets.Remove(Target);
+  end;
+end;
+
+procedure TOleDropTargetManager.OnReattachTimer(Sender: TObject);
+var
+  i: integer;
+begin
+  //Attach() is idempotent and cheap: it exits early when a window
+  //handle is not allocated yet, or when it did not change
+  for i:= 0 to FTargets.Count-1 do
+    TOleDropTarget(FTargets[i]).Attach;
 end;
 
 function TOleDropTargetManager.FindTarget(AWinControl: TWinControl): TOleDropTarget;
@@ -422,6 +471,8 @@ begin
   begin
     Target:= TOleDropTarget.Create(Self, AWinControl);
     FTargets.Add(Target);
+    //get notified when the control is destroyed
+    AWinControl.FreeNotification(Self);
   end;
   Target.Attach;
 end;
@@ -433,6 +484,7 @@ begin
   if AWinControl=nil then exit;
   Target:= FindTarget(AWinControl);
   if Target=nil then exit;
+  AWinControl.RemoveFreeNotification(Self);
   FTargets.Remove(Target);
 end;
 
