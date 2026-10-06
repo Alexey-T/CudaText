@@ -108,6 +108,10 @@ uses
   proc_customdialog_dummy,
   proc_scrollbars,
   proc_cssprovider,
+  {$ifdef MSWINDOWS}
+  proc_ole_droptarget,
+  proc_ole_dragsource,
+  {$endif}
   form_console,
   form_frame,
   form_goto,
@@ -472,6 +476,12 @@ type
     procedure AppPropsActivate(Sender: TObject);
     procedure AppPropsDeactivate(Sender: TObject);
     procedure AppPropsDropFiles(Sender: TObject; const FileNames: array of string);
+    {$ifdef MSWINDOWS}
+    procedure InitOleDropSupport;
+    procedure OleDrop_OnFiles(Sender: TObject; const FileNames: array of String);
+    procedure OleDrop_OnText(Sender: TObject; const AText: string; const AScreenPos: TPoint);
+    function FindEditorUnderCursorPos(const ACursorPos: TPoint): TATSynEdit;
+    {$endif}
     procedure AppPropsEndSession(Sender: TObject);
     procedure AppPropsException(Sender: TObject; E: Exception);
     procedure AppPropsMinimize(Sender: TObject);
@@ -714,6 +724,9 @@ type
     FHandledOnStart2: boolean;
     FHandledOnFocus: boolean;
     FHandledMakeCaretVisible: boolean;
+    {$ifdef MSWINDOWS}
+    FOleDropManager: TOleDropTargetManager;
+    {$endif}
     FWebPanel: TPanel;
     FWebPanelLink: string;
     FMenuVisible: boolean;
@@ -3498,6 +3511,97 @@ begin
   //
 end;
 
+{$ifdef MSWINDOWS}
+procedure TfmMain.InitOleDropSupport;
+begin
+  if FOleDropManager=nil then
+  begin
+    FOleDropManager:= proc_ole_droptarget.InitOleDropSupport;
+    FOleDropManager.OnDropFiles:= @OleDrop_OnFiles;
+    FOleDropManager.OnDropText:= @OleDrop_OnText;
+  end;
+  FOleDropManager.Attach(Self);
+end;
+
+procedure TfmMain.OleDrop_OnFiles(Sender: TObject;
+  const FileNames: array of String);
+begin
+  if (Sender=FFormFloating1) or
+    (Sender=FFormFloating2) or
+    (Sender=FFormFloating3) then
+    FormFloating_OnDropFiles(Sender, FileNames)
+  else
+    FormDropFiles(Sender, FileNames);
+end;
+
+function TfmMain.FindEditorUnderCursorPos(const ACursorPos: TPoint): TATSynEdit;
+var
+  Pages: TATPages;
+  D: TATTabData;
+  Frame: TEditorFrame;
+begin
+  Result:= nil;
+
+  Pages:= TGroupsHelper.FindPagesUnderCursorPos(ACursorPos, GroupsMain);
+  if Pages=nil then
+    if Assigned(GroupsFloating1) and GroupsFloating1.Visible then
+      Pages:= TGroupsHelper.FindPagesUnderCursorPos(ACursorPos, GroupsFloating1);
+  if Pages=nil then
+    if Assigned(GroupsFloating2) and GroupsFloating2.Visible then
+      Pages:= TGroupsHelper.FindPagesUnderCursorPos(ACursorPos, GroupsFloating2);
+  if Pages=nil then
+    if Assigned(GroupsFloating3) and GroupsFloating3.Visible then
+      Pages:= TGroupsHelper.FindPagesUnderCursorPos(ACursorPos, GroupsFloating3);
+  if Pages=nil then
+    exit;
+
+  D:= Pages.Tabs.GetTabData(Pages.Tabs.TabIndex);
+  if (D=nil) or (D.TabObject=nil) or not (D.TabObject is TEditorFrame) then
+    exit;
+  Frame:= TEditorFrame(D.TabObject);
+
+  if PtInControl(Frame.EdFirst, ACursorPos) then
+    exit(Frame.EdFirst);
+  if Assigned(Frame.EdSecond) and PtInControl(Frame.EdSecond, ACursorPos) then
+    exit(Frame.EdSecond);
+  //cursor is on tabs/panels of the group: use current editor
+  Result:= Frame.EdCurrent;
+end;
+
+procedure TfmMain.OleDrop_OnText(Sender: TObject; const AText: string;
+  const AScreenPos: TPoint);
+var
+  Ed: TATSynEdit;
+  P: TPoint;
+  PosCoord: TATPoint;
+  PosText: TPoint;
+  Details: TATEditorPosDetails;
+begin
+  Ed:= FindEditorUnderCursorPos(AScreenPos);
+  if Ed=nil then exit;
+  if Ed.ModeReadOnly then exit;
+
+  //same behavior as drag-drop of text between editor controls
+  Application.BringToFront;
+
+  if ATEditorOptions.MouseDragDropFocusesTargetEditor then
+    Ed.SetFocus;
+
+  P:= Ed.ScreenToClient(AScreenPos);
+  PosCoord.X:= P.X;
+  PosCoord.Y:= P.Y;
+  PosText:= Ed.ClientPosToCaretPos(PosCoord, Details);
+
+  if Ed.Strings.IsIndexValid(PosText.Y) then
+  begin
+    //place caret at the pointed position, then insert dropped text
+    //(same as internal drag-drop of text, see TATSynEdit.DragDrop)
+    Ed.DoCaretSingle(PosText.X, PosText.Y);
+    Ed.DoCommand(cCommand_TextInsert, TATCommandInvoke.AppDragDrop, Utf8Decode(AText));
+  end;
+end;
+{$endif}
+
 procedure TfmMain.AppPropsException(Sender: TObject; E: Exception);
 begin
   AppLogException(E);
@@ -3625,6 +3729,11 @@ begin
   CloseFormAutoCompletion;
 
   AppStopListTimers;
+
+  {$ifdef MSWINDOWS}
+  //revokes all OLE drop target registrations
+  FreeAndNil(FOleDropManager);
+  {$endif}
 
   if Assigned(FFinder) then
     FreeAndNil(FFinder);
@@ -4127,6 +4236,15 @@ var
   Frame: TEditorFrame;
 begin
   _QtCheckLibValidity;
+
+  {$ifdef MSWINDOWS}
+  //OLE drag&drop of text/URLs from external apps, issue #4894
+  InitOleDropSupport;
+  //OLE drag&drop of selected text to other apps, issue #4894:
+  //takes over only when mouse cursor leaves CudaText windows
+  InitOleDragOutSupport(Self);
+  {$endif}
+
   _Init_FixSplitters;
   _Init_DisableSomeMenuItems;
   _Init_SidebarEvents;
@@ -9153,6 +9271,14 @@ begin
 
     F.AllowDropFiles:= true;
     F.OnDropFiles:= @FormFloating_OnDropFiles;
+
+    {$ifdef MSWINDOWS}
+    //OLE drag&drop of text/URLs from external apps, issue #4894
+    if FOleDropManager=nil then
+      InitOleDropSupport;
+    if FOleDropManager<>nil then
+      FOleDropManager.Attach(F);
+    {$endif}
     F.ShowInTaskBar:= UiOps.FloatGroupsShowInTaskbar;
 
     G:= TATGroups.Create(Self);
