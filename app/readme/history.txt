@@ -5,7 +5,7 @@
 
 1.237.2 (2026/10)
 
-+ add: Windows: OLE drag&drop of text from/to other applications (by @badrelmers using AI)
++ add: Windows: OLE drag&drop of text from/to other applications; must work with at least Firefox, Sublime-Text, Notepad++, CopyQ (by @badrelmers using AI)
 
 1.237.1 (2026/10)
 
