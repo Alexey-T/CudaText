@@ -6,6 +6,7 @@
 1.237.2 (2026/10)
 
 + add: Windows: OLE drag&drop of text from/to other applications; tested (Windows 7 ... Windows 11) with Firefox, Sublime-Text, Notepad++, CopyQ (by @badrelmers using AI)
+- fix: possible slowdown (several seconds on @badrelmers PC) on applying options in Options Editor plugin
 
 1.237.1 (2026/10)
 
