@@ -1698,6 +1698,12 @@ var
   D: TATTabData;
   N: integer;
 begin
+  if ACommand=cmd_OpsReloadAndApply then
+  begin
+    if AppCommandsDelayed_Has_OpsReload then exit;
+    AppCommandsDelayed_Has_OpsReload:= true;
+  end;
+
   Item:= Default(TAppCommandDelayed);
   Item.Code:= ACommand;
   Item.EdAddress:= Ed;
@@ -1755,6 +1761,8 @@ begin
   Result:= TAppCommandGetStatus.BadCommand;
   Item:= AppCommandsDelayed.Front();
   AppCommandsDelayed.Pop();
+  if Item.Code=cmd_OpsReloadAndApply then
+    AppCommandsDelayed_Has_OpsReload:= false;
 
   if Item.Tabs=nil then exit;
   TabData:= Item.Tabs.GetTabData(Item.TabIndex);
