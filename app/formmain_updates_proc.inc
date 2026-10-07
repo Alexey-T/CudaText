@@ -753,6 +753,7 @@ begin
   for i:= 0 to FrameCount-1 do
   begin
     F:= Frames[i];
+    Assert(Assigned(F), 'F=nil in DoApplyAllOps');
     DoApplyFrameOps(F, EditorOps, false);
     DoOps_LoadOptionsLexerSpecific(F, F.EdFirst);
     if not F.EditorsLinked then
