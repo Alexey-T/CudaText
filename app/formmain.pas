@@ -1698,14 +1698,14 @@ var
   D: TATTabData;
   N: integer;
 begin
+  {
   if ACommand=cmd_OpsReloadAndApply then
   begin
-    //if AppCommandsDelayed_Has_OpsReload then exit;
-    //AppCommandsDelayed_Has_OpsReload:= true;
     Inc(AppCommandsDelayed_OpsReload);
     if AppCommandsDelayed_OpsReload>1 then
       MsgLogConsole('cmd_OpsReloadAndApply in queue: '+IntToStr(AppCommandsDelayed_OpsReload));
   end;
+  }
 
   Item:= Default(TAppCommandDelayed);
   Item.Code:= ACommand;
@@ -1765,8 +1765,10 @@ begin
   Item:= AppCommandsDelayed.Front();
   AppCommandsDelayed.Pop();
 
+  {
   if Item.Code=cmd_OpsReloadAndApply then
     Dec(AppCommandsDelayed_OpsReload);
+    }
 
   if Item.Tabs=nil then exit;
   TabData:= Item.Tabs.GetTabData(Item.TabIndex);

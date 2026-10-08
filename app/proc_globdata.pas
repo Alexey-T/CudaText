@@ -1177,7 +1177,6 @@ type
 var
   AppConsoleQueue: TAppConsoleQueue;
   AppCommandsDelayed: TAppCommandsDelayed;
-  AppCommandsDelayed_OpsReload: integer;
   AppCommandList: TFPList; //has plugin commands from install.inf files
   AppCommand2List: TFPList; //has plugin sub-commands, ie added by API app_proc()
   AppEventList: TFPList;
