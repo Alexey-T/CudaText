@@ -133,6 +133,7 @@ uses
   form_choose_theme,
   form_unprinted,
   form_rename_file,
+  proc_mem_trim,
   Math;
 
 type
@@ -2749,6 +2750,10 @@ begin
     end;
   end;
   {$endif}
+
+  //OS-level trim of freed memory (Windows: NT-heap decommit + working-set
+  //clear); no-op on other OSes
+  MemTrim_IdleTick;
 end;
 
 procedure TfmMain.TimerStatusClearTimer(Sender: TObject);

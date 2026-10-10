@@ -348,6 +348,7 @@ Actions work with props of Find/Replace dialog, and props of low-level search en
 
 * PROC_GET_OS_SUFFIX: Returns string of OS suffix, which is used in some CudaText option names. Possible values are listed in the "default.json" file.
 * PROC_GET_COMPILER_INFO: Returns information about OS/CPU/WidgetSet CudaText was compiled for, as dict. Dict keys are: "os", "cpu", "widgetset", "fpc".
+* PROC_TRIM_MEMORY: For Windows. Immediately frees to OS the unused memory of CudaText process: compacts all process heaps (heap of app itself, and heaps of loaded DLLs like Python) and clears the process working set. Useful after closing of huge files, so RAM is returned to OS at once. Program already performs such trims automatically after closing of big editor tabs; this action allows plugins to do it on demand. Param "text" is ignored. Returns bool: True if trim was performed, False if OS is not supported.
 
 ====app_proc - Clipboard====
 
@@ -5543,5 +5544,8 @@ It provides:
 
 1.0.485 (app 1.237.1)
 * add: on_state: APPSTATE_SESSION_LOAD_BEGIN_PRE
+
+1.0.486 (app 1.237.2)
+* add: app_proc: PROC_TRIM_MEMORY
 
 [[Category:CudaText]]

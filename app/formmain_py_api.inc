@@ -6389,6 +6389,13 @@ begin
             Result:= ReturnNone;
           end;
 
+        APP_PROC_TRIM_MEMORY:
+          begin
+            //trim freed memory right now: on Windows, HeapCompact of all
+            //process heaps + working-set clear; returns False on other OSes
+            Result:= PyBool_FromLong(Ord(MemTrim_Now));
+          end;
+
         else
           Result:= ReturnNone;
       end;
