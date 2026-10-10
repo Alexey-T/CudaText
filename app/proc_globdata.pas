@@ -1346,7 +1346,8 @@ uses
   ec_syntax_format,
   proc_files,
   proc_colors,
-  proc_lexer_styles;
+  proc_lexer_styles,
+  proc_mem_trim;
 
 
 function MsgBox(const AText: string; AFlags: Longint): integer;
@@ -3441,6 +3442,7 @@ var
   Frame: TObject;
   NTick: QWord;
   NCount: integer;
+  bFreedFrame: boolean;
 begin
   //function is called in IdleTimer, so just exit if watcher thread is busy,
   //we will try this again on next timer tick
@@ -3449,6 +3451,7 @@ begin
   AppEventLister.ResetEvent;
   try
     NTick:= GetTickCount64;
+    bFreedFrame:= false;
     repeat
       NCount:= AppFrameListDeleting.Count;
       if NCount=0 then
@@ -3459,7 +3462,10 @@ begin
       //while this ui-tab has huge file and parsing is running
       try
         if Frame.ClassName<>'' then
+        begin
           Frame.Free;
+          bFreedFrame:= true;
+        end;
       except
       end;
 
@@ -3476,6 +3482,11 @@ begin
     if AppFrameListDeleting.Count=0 then
       AppCommandHandlerIsBusy:= false;
   end;
+
+  //all lazily-deleted frames are freed now: let the idle timer run
+  //an OS-level memory trim (no-op on non-Windows)
+  if bFreedFrame and (AppFrameListDeleting.Count=0) then
+    MemTrim_NotifyBigFree;
 end;
 
 
