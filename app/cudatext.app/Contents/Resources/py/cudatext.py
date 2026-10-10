@@ -839,6 +839,7 @@ DLG_COORD_SCREEN_TO_LOCAL = 41
 
 #storage of live callbacks
 _live = {}
+_one_shot = set()   # sid of TIMER_START_ONE callbacks; removed after they fire
 
 IMAGE_CREATE      = 0
 IMAGE_GET_SIZE    = 1
@@ -1291,13 +1292,27 @@ def bitmap_proc(id_bmp, id_action, param1=0, param2=0):
     return ct.bitmap_proc(id_bmp, id_action, param1, param2)
 
 def _timer_proc_callback_proxy(tag='', info=''):
-    if info in _live:
-        return _live[info](tag)
+    cb = _live.get(info)
+    if cb is None:
+        return
+    # one-shot: drop before calling so a re-arm inside the callback re-registers cleanly
+    if info in _one_shot:
+        _one_shot.discard(info)
+        _live.pop(info, None)
+    return cb(tag)
 
 def timer_proc(id, callback, interval, tag=''):
     if callable(callback):
         sid_callback = str(callback)
-        _live[sid_callback] = callback
+        if id in (TIMER_STOP, TIMER_DELETE):
+            _live.pop(sid_callback, None)
+            _one_shot.discard(sid_callback)
+        else:
+            _live[sid_callback] = callback
+            if id == TIMER_START_ONE:
+                _one_shot.add(sid_callback)
+            else:
+                _one_shot.discard(sid_callback)
         callback = 'module={};func=_timer_proc_callback_proxy;info="{}";'.format(__name__, sid_callback)
     return ct.timer_proc(id, callback, interval, tag)
 
