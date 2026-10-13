@@ -73,6 +73,42 @@ begin
       );
 end;
 
+function TfmMain.GetThemeRelatedOptionsSignature: string;
+
+  function FileStamp(const AThemeName: UnicodeString; const AExt: string): string;
+  var
+    DT: TDateTime;
+  begin
+    if not FileAge(AppDir_DataThemes+DirectorySeparator+AThemeName+AExt, DT) then
+      DT:= 0;
+    Result:= AThemeName+'|'+FloatToStr(DT);
+  end;
+
+begin
+  //signature of all options which affect re-applying of UI/syntax themes:
+  //theme names, mtimes of their theme files, automode, lexer-themes,
+  //themed main-menu font, UI fonts and scale factors
+  Result:=
+    FileStamp(UiOps.ThemeUi, AppExtensionThemeUi)+'|'+
+    FileStamp(UiOps.ThemeSyntax, AppExtensionThemeSyntax)+'|'+
+    FileStamp(UiOps.ThemeUi_Light, AppExtensionThemeUi)+'|'+
+    FileStamp(UiOps.ThemeUi_Light, AppExtensionThemeSyntax)+'|'+
+    FileStamp(UiOps.ThemeUi_Dark, AppExtensionThemeUi)+'|'+
+    FileStamp(UiOps.ThemeUi_Dark, AppExtensionThemeSyntax)+'|'+
+    IfThen(UiOps.ThemeAutoMode, '1', '0')+'|'+
+    IfThen(UiOps.LexerThemes, '1', '0')+'|'+
+    IfThen(UiOps.ThemeUi_Loaded, '1', '0')+'|'+
+    IfThen(UiOps.ThemeSyntax_Loaded, '1', '0')+'|'+
+    IfThen(UiOps.ThemedMainMenu, '1', '0')+'|'+
+    UiOps.ThemedMainMenuFontName+'|'+
+    IntToStr(UiOps.ThemedMainMenuFontSize)+'|'+
+    //fonts and scale are used by ApplyThemeToTreeview()/UpdateThemeStatusbar()
+    UiOps.VarFontName+'|'+
+    IntToStr(UiOps.VarFontSize)+'|'+
+    IntToStr(ATEditorScalePercents)+'|'+
+    IntToStr(ATEditorScaleFontPercents);
+end;
+
 procedure TfmMain.DoApplyTheme;
 var
   id: TAppPanelId;
