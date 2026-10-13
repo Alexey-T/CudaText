@@ -708,6 +708,9 @@ type
     FFindMarkingCaret1st: boolean;
     FDarkNow: boolean;
     FDarkPrev: boolean;
+    //signature of theme-related options of last applied theme,
+    //it lets DoApplyUiOps() skip re-applying of themes
+    FLastAppliedThemeSig: string;
     FDarkCheckTick: QWORD;
     FShowFullScreen: boolean;
     FShowFullScreen_DisFree: boolean;
@@ -1214,6 +1217,8 @@ type
     procedure UpdateTreeFilter;
 
     procedure DoApplyUiOps;
+    //signature of all options which affect re-applying of UI/syntax themes
+    function GetThemeRelatedOptionsSignature: string;
     procedure DoApplyUiOpsToGroups(G: TATGroups);
     procedure DoApplyInitialGroupSizes;
     procedure DoApplyInitialSidebarPanel;
@@ -4905,6 +4910,7 @@ var
   Pages: TATPages;
   F: TEditorFrame;
   i: integer;
+  SNewSignature: string;
 begin
   AppScaleSplitter(AppPanels[TAppPanelId.Side].Splitter);
   AppScaleSplitter(AppPanels[TAppPanelId.Btm].Splitter);
@@ -5049,8 +5055,16 @@ begin
   ToolbarSideLow.UpdateControls;
   ToolbarSideMid.UpdateControls;
 
-  DoApplyTheme;
-  DoApplyTheme_UiAndSyntax;
+  //re-apply themes (which also reparses all editor tabs) only when
+  //theme-related options are changed since last applied theme,
+  //it makes config reload almost instant for all other options
+  SNewSignature:= GetThemeRelatedOptionsSignature;
+  if FLastAppliedThemeSig<>SNewSignature then
+  begin
+    FLastAppliedThemeSig:= SNewSignature;
+    DoApplyTheme;
+    DoApplyTheme_UiAndSyntax;
+  end;
 end;
 
 procedure TfmMain.DoFolderOpen(const ADirName: string; ANewProject: boolean;
