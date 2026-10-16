@@ -69,24 +69,33 @@ def check_cudatext():
         app.msg_status(_('Cannot find app version: '+url))
         return
 
-    items = sorted(items, reverse=True)
-    s_version = items[0]
-    print(_('Found last version: ')+s_version)
+    found_bool = False
+    i = 0
+    i_max = 20
+    items_ = sorted(items, reverse=True)
+    while not found_bool:
+        s_version = items_[i]
 
-    url = DOWNLOAD_PAGE+s_version+'/'
-    app.msg_status(_('Downloading: ')+url, True)
-    get_url(url, fn, True)
-    app.msg_status('')
+        url = DOWNLOAD_PAGE+s_version+'/'
+        get_url(url, fn, True)
+        app.msg_status('')
 
-    if not os.path.isfile(fn):
-        app.msg_status(_('Cannot download: ')+url)
-        return
+        if not os.path.isfile(fn):
+            app.msg_status(_('Cannot download: ')+url)
+            return
 
-    text = open(fn, encoding='utf8').read()
-    items = re.findall(DOWNLOAD_REGEX, text)
-    if not items:
-        app.msg_status(_('Cannot find links: '+url))
-        return
+        text = open(fn, encoding='utf8').read()
+        items = re.findall(DOWNLOAD_REGEX, text)
+        if not items:
+            i += 1
+        else:
+            print(_('Found last version: ')+s_version)
+            app.msg_status(_('Downloading: ')+url, True)
+            found_bool = True
+
+        if i > i_max:
+            app.msg_status(_('Cannot find links: '+url))
+            return
 
     items = sorted(items, key=lambda i:i[REGEX_GROUP_VER], reverse=True)
     print(_('Found links:'))
