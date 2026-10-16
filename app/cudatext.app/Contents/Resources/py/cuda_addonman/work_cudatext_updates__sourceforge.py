@@ -77,7 +77,7 @@ def check_cudatext():
         if i < versions_len:
             s_version = versions[i]
         else:
-            return
+            break
 
         url = DOWNLOAD_PAGE+s_version+'/'
         app.msg_status(_('Downloading: ')+url, True)
@@ -86,7 +86,7 @@ def check_cudatext():
 
         if not os.path.isfile(fn):
             app.msg_status(_('Cannot download: ')+url)
-            return
+            break
 
         text = open(fn, encoding='utf8').read()
         items = re.findall(DOWNLOAD_REGEX, text)
@@ -98,38 +98,41 @@ def check_cudatext():
 
         if i > i_max:
             app.msg_status(_('Cannot find links: '+url))
+            break
+
+    if items:
+        items = sorted(items, key=lambda i:i[REGEX_GROUP_VER], reverse=True)
+        print(_('Found links:'))
+        for i in items:
+            print('  '+i[0])
+
+        url = items[0][0]
+        ver_inet = items[0][REGEX_GROUP_VER]
+        ver_local = app.app_exe_version()
+
+        if versions_ordered(ver_inet, ver_local):
+            msg_ = app.msg_box_ex(
+                _('Check for updates'),
+                _('Latest CudaText is already here.\n\nLocal: {}\nInternet: {}').format(ver_local, ver_inet),
+                [_('OK'), _('Open changelog')],
+                app.MB_ICONINFO
+                )
+            if msg_ == 1:
+                safe_open_url(CHANGELOG_PAGE)
+                app.msg_status(_('Opened changelog link'))
             return
 
-    items = sorted(items, key=lambda i:i[REGEX_GROUP_VER], reverse=True)
-    print(_('Found links:'))
-    for i in items:
-        print('  '+i[0])
-
-    url = items[0][0]
-    ver_inet = items[0][REGEX_GROUP_VER]
-    ver_local = app.app_exe_version()
-
-    if versions_ordered(ver_inet, ver_local):
         msg_ = app.msg_box_ex(
             _('Check for updates'),
-            _('Latest CudaText is already here.\n\nLocal: {}\nInternet: {}').format(ver_local, ver_inet),
-            [_('OK'), _('Open changelog')],
-            app.MB_ICONINFO
+            _('CudaText update is available.\n\nLocal: {}\nInternet: {}').format(ver_local, ver_inet),
+            [_('Cancel'), _('Open download link'), _('Open changelog')],
+            app.MB_ICONQUESTION
             )
         if msg_ == 1:
+            safe_open_url(url)
+            app.msg_status(_('Opened download link'))
+        elif msg_ == 2:
             safe_open_url(CHANGELOG_PAGE)
             app.msg_status(_('Opened changelog link'))
-        return
-
-    msg_ = app.msg_box_ex(
-        _('Check for updates'),
-        _('CudaText update is available.\n\nLocal: {}\nInternet: {}').format(ver_local, ver_inet),
-        [_('Cancel'), _('Open download link'), _('Open changelog')],
-        app.MB_ICONQUESTION
-        )
-    if msg_ == 1:
-        safe_open_url(url)
-        app.msg_status(_('Opened download link'))
-    elif msg_ == 2:
-        safe_open_url(CHANGELOG_PAGE)
-        app.msg_status(_('Opened changelog link'))
+    else:
+        app.msg_status(_('Cannot find links: '+url))
