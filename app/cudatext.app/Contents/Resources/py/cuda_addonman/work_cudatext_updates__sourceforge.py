@@ -67,6 +67,8 @@ def check_cudatext():
 
     text = open(fn, encoding='utf8').read()
     items = re.findall(VERSION_REGEX, text)
+    # unique and sort
+    items = list(dict.fromkeys(items))
     if not items:
         app.msg_status(_('Cannot find app version: '+url))
         return
