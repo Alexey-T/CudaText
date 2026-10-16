@@ -5,6 +5,7 @@
 
 1.237.3 (2026/10)
 
++ add: "Help / Check for updates" supports the case when last cudatext version don't have release for current OS, e.g. when 1.237.2 don't have release for current OS Linux (by @ildarkhasanshin)
 - fix: when big lexer-files are opened, saving of user.json gave too big delay, ie n additional seconds (by @badrelmers using AI)
 
 1.237.2 (2026/10)
