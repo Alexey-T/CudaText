@@ -69,14 +69,18 @@ def check_cudatext():
         app.msg_status(_('Cannot find app version: '+url))
         return
 
-    found_bool = False
     i = 0
     i_max = 20
-    items_ = sorted(items, reverse=True)
-    while not found_bool:
-        s_version = items_[i]
+    versions = sorted(items, reverse=True)
+    versions_len = len(versions)
+    while True:
+        if i < versions_len:
+            s_version = versions[i]
+        else:
+            return
 
         url = DOWNLOAD_PAGE+s_version+'/'
+        app.msg_status(_('Downloading: ')+url, True)
         get_url(url, fn, True)
         app.msg_status('')
 
@@ -90,8 +94,7 @@ def check_cudatext():
             i += 1
         else:
             print(_('Found last version: ')+s_version)
-            app.msg_status(_('Downloading: ')+url, True)
-            found_bool = True
+            break
 
         if i > i_max:
             app.msg_status(_('Cannot find links: '+url))
