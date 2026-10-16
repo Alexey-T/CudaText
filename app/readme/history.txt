@@ -7,6 +7,7 @@
 
 + add: "Help / Check for updates" supports the case when last cudatext version don't have release for current OS, e.g. when 1.237.2 don't have release for current OS Linux (by @ildarkhasanshin)
 - fix: when big lexer-files are opened, saving of user.json gave too big delay, ie n additional seconds (by @badrelmers using AI)
+- fix: making 'pritimive column selection' ("carets_primitive_column_sel": true) over wrapped line worked wrong, so now code disables 'primitive selection' for actually-wrapped lines (thanks @pintassilgo)
 
 1.237.2 (2026/10)
 
