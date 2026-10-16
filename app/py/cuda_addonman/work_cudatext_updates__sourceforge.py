@@ -42,6 +42,8 @@ REGEX_GROUP_VER = 1
 
 CHANGELOG_PAGE = 'https://cudatext.github.io/history.txt'
 
+COUNT_OF_LAST_VERSIONS = 5
+
 def versions_ordered(s1, s2):
     """
     compare "1.10.0" and "1.9.0" correctly
@@ -70,7 +72,6 @@ def check_cudatext():
         return
 
     i = 0
-    i_max = 5
     versions = sorted(items, reverse=True)
     versions_len = len(versions)
     while True:
@@ -96,7 +97,7 @@ def check_cudatext():
             print(_('Found last version: ')+s_version)
             break
 
-        if i > i_max:
+        if i > COUNT_OF_LAST_VERSIONS:
             break
 
     if not items:
