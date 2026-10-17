@@ -466,6 +466,8 @@ begin
   begin
     fmFind.Enabled:= b;
     fmFind.UpdateState(false);
+      //don't use UpdateState(true) here;
+      //it will block the jumping to next match by FindNext from Findbar
   end;
 end;
 
