@@ -690,6 +690,10 @@ begin
   end;
 end;
 
+{$ELSE}
+interface
+implementation
+{$ENDIF}
+
 end.
 
-{$ENDIF}
