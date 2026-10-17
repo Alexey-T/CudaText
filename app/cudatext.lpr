@@ -13,8 +13,13 @@ uses
   form_lexer_lib, form_color_setup, form_about, form_keys, form_char_map,
   form_lexer_style, form_lexer_stylemap, form_key_input, form_addon_report,
   form_confirm_binary, form_choose_theme, proc_globdata, fix_focus_window,
-  form_unprinted, proc_editor_micromap, proc_unique_counter,
-  proc_crash_backup;
+  form_unprinted, proc_editor_micromap, proc_unique_counter, proc_crash_backup,
+  form_find, form_frame, form_menu_py, form_rename_file, proc_appvariant,
+  proc_cmd, proc_colors, proc_cssprovider, proc_customdialog,
+  proc_customdialog_dummy, proc_editor, proc_editor_saving, proc_files,
+  proc_install_zip, proc_keysdialog, proc_lexer_styles, proc_miscutils,
+  proc_msg, proc_ole_dragsource, proc_ole_droptarget, proc_panelhost, proc_py,
+  proc_py_const, proc_scrollbars, proc_str;
 
 {$R *.res}
 
