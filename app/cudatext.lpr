@@ -7,6 +7,7 @@ uses
   cthreads,
   {$ENDIF}
   proc_inittick,
+  proc_heapguard, //pad-to-chunk MM wrapper (issue #6533): must init before Interfaces/LCL
   Interfaces, // this includes the LCL widgetset
   SysUtils, Forms, lazcontrols, FormMain, form_console, form_menu_commands,
   form_goto, form_menu_list, form_tabs_save, form_confirm_rep, form_lexer_prop,
