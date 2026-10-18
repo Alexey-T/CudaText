@@ -3581,6 +3581,9 @@ begin
     true{AllowLoadUndo},
     Mode);
 
+  //force wrapinfo update, to fix issue #6548
+  Ed.UpdateWrapInfo(true, false);
+
   //fix issue #3394
   if EditorsLinked and Splitted and (Ed=EdFirst) then
   begin
