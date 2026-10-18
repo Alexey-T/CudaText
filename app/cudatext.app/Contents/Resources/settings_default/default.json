@@ -855,9 +855,9 @@
   "find_hi_max_line_len": 800000,
 
   //Find dialog option "Highlight all matches": maximal width of the horizontal
-  //scrollbar, for which "Highlight all matches" processes the entire document.
-  //If scrollbar is wider, "Highlight all matches" will find only in the visible
-  //area of the document.
+  //scrollbar (in average characters), for which "Highlight all matches" processes
+  //the entire document. If scrollbar is wider, "Highlight all matches" will find only
+  //in the visible area of the document.
   "find_hi_max_columns": 400,
 
   //When document has count of lines bigger than option value, "Highlight all matches"
