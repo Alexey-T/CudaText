@@ -230,10 +230,10 @@ object SyntAnal18: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Symbol first dash'
+      DisplayName = 'List item'
       StyleName = 'Symbol'
       TokenType = 8
-      Expression = '(?<=^[\x20\x09]*)\-(?=\x20)'
+      Expression = '(?<=^[\x20\x09]*)\-\x20'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -273,7 +273,7 @@ object SyntAnal18: TLibSyntAnalyzer
       DisplayName = 'Block'
       ConditionList = <
         item
-          TokenTypes = 320
+          TokenTypes = 64
         end>
       EndOfTextClose = True
       NameFmt = '%s0'
