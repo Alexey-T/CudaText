@@ -92,7 +92,7 @@ CudaText starts quite fast: about 0.3 sec with about 30 plugins (all preinstalle
 
 ==Performance of loading huge files==
 
-How fast Linux editors open huge files?
+How fast text-editors do open huge files?
 
 Test file has about 300M size, it has 4M ASCII lines, it's created by Python script:
 <syntaxhighlight lang="python">
@@ -102,10 +102,10 @@ for n in range(4*1000*1000):
     f.write(str(n+1)+' '+chr(k%26+ord('a'))*k+'\n')
 </syntaxhighlight>
 
-Testing on Ubuntu 20.04, CPU: Intel Core i3 3GHz, RAM: 12G. Each time is average of 2-3 tries in the same session.
+Testing on Ubuntu 22.04 x64, CPU: Intel Core i3 3GHz, RAM: 12G. Each time is average of 2-3 tries in the same session.
 
-* CudaText 1.211.0: 8 sec
-* Sublime Text 4 4169: 8 sec
+* CudaText 1.237.3: 2 sec
+* Sublime Text 4 4215: 8 sec
 * Geany 1.36: hangs, waited for it 90 sec
 * Kate 23.08.4: 5 sec, then go to end (Ctrl+End hotkey) took additional 30 sec
 * Vim 8.1.1847: 2 sec
