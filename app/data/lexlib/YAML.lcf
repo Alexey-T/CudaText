@@ -187,7 +187,7 @@ object SyntAnal18: TLibSyntAnalyzer
       DisplayName = 'Id value'
       StyleName = 'Id value'
       TokenType = 2
-      Expression = '(?<=\s)[\w\.][\w\.,\-\*&]*'
+      Expression = '(?<=\s)[\w\.][\w\.\-\*&]*'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -203,7 +203,7 @@ object SyntAnal18: TLibSyntAnalyzer
       DisplayName = 'String '#39
       StyleName = 'String'
       TokenType = 4
-      Expression = '(?s)(?<=[\-:]\x20)'#39'('#39#39'|[^'#39'])*('#39'|\Z)'
+      Expression = '(?s)(?<=[\s\[\(\{,;=])'#39'('#39#39'|[^'#39'])*('#39'|\Z)'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -368,7 +368,7 @@ object SyntAnal18: TLibSyntAnalyzer
     'key# : value #Not comment at start'
     'transformers: #Comment'
     '- model: 10.20'
-    '  test "quote" '#39'here'#39': Null'
+    '  test "quote"'
     '  property_map:'
     '    - /some/path: __key__'
     '      external_name: id'
