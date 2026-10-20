@@ -187,7 +187,7 @@ object SyntAnal18: TLibSyntAnalyzer
       DisplayName = 'Id value'
       StyleName = 'Id value'
       TokenType = 2
-      Expression = '(?<=\s)[\w\.][\w\.\-\*]*'
+      Expression = '(?<=\s)[\w\.][\w\.,\-\*&]*'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -225,7 +225,7 @@ object SyntAnal18: TLibSyntAnalyzer
       DisplayName = 'Alias/anchor'
       StyleName = 'Alias'
       TokenType = 11
-      Expression = '(?<=[\s\[])[\*&][^\s,\[\]\{\}]+'
+      Expression = '(?<=[\-\[\{,:]\x20?)[\*&][^\s,\[\]\{\}]+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -361,7 +361,8 @@ object SyntAnal18: TLibSyntAnalyzer
     '- !!dbl_quote: "Tst \" tst\'
     'end"'
     'y: y # first '#39'y'#39' must not be hilited, it'#39's a key'
-    '&anchor-any$_non^space[txt] and *alias-any%chars[txt]'
+    '- &anchor-any$_non^space[txt]'
+    'key: *alias-any%chars[txt]'
     '%Yaml'
     '# Comment'
     'key# : value #Not comment at start'
