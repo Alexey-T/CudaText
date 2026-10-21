@@ -2081,8 +2081,8 @@ begin
       FInitialCaretPos
       );
 
+    //2026.10: disabled this block to avoid redundant statusbar msg "Found N fragment(s)" when user presses F3 in findbar
     {
-    //2026.10: disabled this block to avoid redundant statusbar msg "Found % fragment(s)" when user presses F3 in findbar
     if NMatches>0 then //if no matches, 'Cannot find' msg was already shown
       if Assigned(FOnShowCountInStatusbar) then
         FOnShowCountInStatusbar(NMatches, bInVisibleArea);
