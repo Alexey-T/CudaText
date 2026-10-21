@@ -1039,17 +1039,16 @@ begin
     AFinder.MatchEdPos:= MatchPos;
     AFinder.MatchEdEnd:= MatchEnd;
 
-    if FndResults.Count>0 then
-      for iItem:= 0 to FndResults.Count-1 do
+    for iItem:= 0 to FndResults.Count-1 do
+    begin
+      PtrResult:= PATFinderResult(FndResults.ItemPtrRaw(iItem));
+      if PtrResult^.PosBegin=MatchPos then
       begin
-        PtrResult:= PATFinderResult(FndResults.ItemPtrRaw(iItem));
-        if PtrResult^.PosBegin=MatchPos then
-        begin
-          AMatchIndex:= iItem;
-          AMatchCount:= FndResults.Count;
-          Break;
-        end;
+        AMatchIndex:= iItem;
+        AMatchCount:= FndResults.Count;
+        Break;
       end;
+    end;
   finally
     FreeAndNil(FndResults);
   end;
