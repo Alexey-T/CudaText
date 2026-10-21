@@ -1888,6 +1888,7 @@ procedure TEditorFrame.EditorOnCommand(Sender: TObject; ACmd: integer;
   AInvoke: TATCommandInvoke; const AText: string; var AHandled: boolean);
 var
   Ed: TATSynEdit;
+  CurMacroStrings: TStringList;
   NCarets: integer;
   STextW: UnicodeString;
   ch: WideChar;
@@ -1920,12 +1921,18 @@ begin
         begin
           //auto-close bracket
           if Pos(ch, Ed.OptAutoPairChars)>0 then
-            if EditorAutoPairChar(Ed, ch, MacroStrings) then
+          begin
+            if MacroRecord then
+              CurMacroStrings:= MacroStrings
+            else
+              CurMacroStrings:= nil;
+            if EditorAutoPairChar(Ed, ch, CurMacroStrings) then
             begin
               AHandled:= true;
               Ed.DoEventCarets; //to highlight pair brackets after typing bracket
               exit
             end;
+          end;
 
           //auto-skip closing bracket in case 'f(|)'
           if EditorAutoSkipClosingBracket(Ed, ch) then

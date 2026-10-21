@@ -1325,8 +1325,11 @@ begin
     if not bSel then
     begin
       St.TextInsert(X1, Y1, CharBegin+CharEnd, false, Shift, PosAfter);
-      AMacroStrings.Add(IntToStr(cCommand_TextInsert)+','+UTF8Encode(CharBegin+CharEnd));
-      AMacroStrings.Add(IntToStr(cCommand_KeyLeft));
+      if Assigned(AMacroStrings) then
+      begin
+        AMacroStrings.Add(IntToStr(cCommand_TextInsert)+','+UTF8Encode(CharBegin+CharEnd));
+        AMacroStrings.Add(IntToStr(cCommand_KeyLeft));
+      end;
 
       Ed.UpdateCaretsAndMarkersOnEditing(iCaret+1,
         Point(X1, Y1),
