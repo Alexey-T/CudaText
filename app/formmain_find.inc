@@ -999,9 +999,10 @@ var
   Ed: TATSynEdit;
   FndResults: TATFinderResults;
   PtrResult: PATFinderResult;
-  MatchPos: TPoint;
+  MatchPos, MatchEnd: TPoint;
   iItem: integer;
-  bOldBack, bOldFromCaret: boolean;
+  bOldBack, bOldFromCaret,
+  bOldCaretEvent, bOldChangeEvent, bOldDisableProgress: boolean;
 begin
   AMatchIndex:= -1;
   AMatchCount:= 0;
@@ -1012,17 +1013,31 @@ begin
   if Ed.Strings.Count>UiOps.FindHiAll_MaxLines then exit;
 
   MatchPos:= AFinder.MatchEdPos;
+  MatchEnd:= AFinder.MatchEdEnd;
   if MatchPos.Y<0 then exit;
 
   FndResults:= TATFinderResults.Create;
   try
     bOldBack:= AFinder.OptBack;
     bOldFromCaret:= AFinder.OptFromCaret;
+    bOldCaretEvent:= AFinder.EnableCaretEvent;
+    bOldChangeEvent:= AFinder.EnableChangeEvent;
+    bOldDisableProgress:= AFinder.OptDisableOnProgress;
     AFinder.OptBack:= false;
     AFinder.OptFromCaret:= false;
-    AFinder.DoAction_FindAll(FndResults, false);
+    AFinder.EnableCaretEvent:= false;
+    AFinder.EnableChangeEvent:= false;
+    AFinder.OptDisableOnProgress:= true;
+      AFinder.DoAction_FindAll(FndResults, false);
     AFinder.OptBack:= bOldBack;
     AFinder.OptFromCaret:= bOldFromCaret;
+    AFinder.EnableCaretEvent:= bOldCaretEvent;
+    AFinder.EnableChangeEvent:= bOldChangeEvent;
+    AFinder.OptDisableOnProgress:= bOldDisableProgress;
+
+    //avoid scrolling to the last pos of FindAll
+    AFinder.MatchEdPos:= MatchPos;
+    AFinder.MatchEdEnd:= MatchEnd;
 
     if FndResults.Count>0 then
       for iItem:= 0 to FndResults.Count-1 do
