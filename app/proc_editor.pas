@@ -66,7 +66,7 @@ function EditorGetColorById(Ed: TATSynEdit; const Id: string): TColor;
 function EditorIsAutocompleteCssPosition(Ed: TATSynEdit; AX, AY: integer): boolean;
 function EditorAutoSkipClosingBracket(Ed: TATSynEdit; CharClosing: WideChar): boolean;
 function EditorAutoDeleteClosingBracket(Ed: TATSynEdit): boolean;
-function EditorAutoPairChar(Ed: TATSynEdit; CharBegin: WideChar): boolean;
+function EditorAutoPairChar(Ed: TATSynEdit; CharBegin: WideChar; AMacroStrings: TStringList): boolean;
 procedure EditorCopySelToPrimarySelection(Ed: TATSynEdit; AMaxLineCount: integer);
 procedure EditorCopyLinesWithCarets(Ed: TATSynEdit);
 procedure EditorCopyAsHTML(Ed: TATSynEdit);
@@ -1270,7 +1270,7 @@ begin
       exit(false);
 end;
 
-function EditorAutoPairChar(Ed: TATSynEdit; CharBegin: WideChar): boolean;
+function EditorAutoPairChar(Ed: TATSynEdit; CharBegin: WideChar; AMacroStrings: TStringList): boolean;
 var
   Caret: TATCaretItem;
   St: TATStrings;
@@ -1325,6 +1325,9 @@ begin
     if not bSel then
     begin
       St.TextInsert(X1, Y1, CharBegin+CharEnd, false, Shift, PosAfter);
+      AMacroStrings.Add(IntToStr(cCommand_TextInsert)+','+UTF8Encode(CharBegin+CharEnd));
+      AMacroStrings.Add(IntToStr(cCommand_KeyLeft));
+
       Ed.UpdateCaretsAndMarkersOnEditing(iCaret+1,
         Point(X1, Y1),
         Point(X1, Y1),

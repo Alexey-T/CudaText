@@ -1920,7 +1920,7 @@ begin
         begin
           //auto-close bracket
           if Pos(ch, Ed.OptAutoPairChars)>0 then
-            if EditorAutoPairChar(Ed, ch) then
+            if EditorAutoPairChar(Ed, ch, MacroStrings) then
             begin
               AHandled:= true;
               Ed.DoEventCarets; //to highlight pair brackets after typing bracket
