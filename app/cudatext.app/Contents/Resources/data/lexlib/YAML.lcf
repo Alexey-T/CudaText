@@ -135,23 +135,23 @@ object SyntAnal18: TLibSyntAnalyzer
       DisplayName = 'NewDoc'
       StyleName = 'NewDoc'
       TokenType = 1
-      Expression = '^---.* |'#13#10'^\.\.\.$'
+      Expression = '^---.*|^\.\.\.$'
       ColumnFrom = 0
       ColumnTo = 0
     end
     item
-      DisplayName = 'Id echo'
-      StyleName = 'Id value'
-      TokenType = 6
-      Expression = '(?<=^[\x20\x09]*) echo\b'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
-      DisplayName = 'Id key'
+      DisplayName = 'Key'
       StyleName = 'Id key'
       TokenType = 6
-      Expression = '(?<=^[\x20\x09]*) [\w\.][^\x20\x09:]*? (?=:)'
+      Expression = '(?<=^[\x20\x09]*)[\w\.][^:\n\r"'#39']*?(?=:)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Key quoted'
+      StyleName = 'Id key'
+      TokenType = 6
+      Expression = '(?<=^[\x20\x09]*)"[^"\n\r]*?"(?=:)'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -184,7 +184,7 @@ object SyntAnal18: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Id value'
+      DisplayName = 'Value'
       StyleName = 'Id value'
       TokenType = 2
       Expression = '(?<=\s)[\w\.][\w\.\-\*&]*'
@@ -356,6 +356,10 @@ object SyntAnal18: TLibSyntAnalyzer
     '...'
     'Null, null, no, .NaN, .inf'
     '0x10_af + 0b1_01 + 12.2e+3'
+    '"*not-an-alias": value'
+    '"key: with colon": value'
+    '"key # with hash": value'
+    '"": empty key'
     '- '#39'quoted str'#39
     '- !single_quote: '#39'Tst '#39#39' tst '#39#39' tst'#39
     '- !!dbl_quote: "Tst \" tst\'
