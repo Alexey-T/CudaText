@@ -5,7 +5,9 @@
 
 1.237.4 (2026/10)
 
-+ add: lexer YAML: better rules 'alias', 'anchor', 'single-quote string'; don't show 'list items' in code-tree
++ add: lexer YAML: support keys with spaces, quoted keys
++ add: lexer YAML: better rules 'alias', 'anchor', 'single-quote string'
++ add: lexer YAML: don't show 'list items' in code-tree
 
 1.237.3 (2026/10)
 
