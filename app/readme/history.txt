@@ -8,7 +8,7 @@
 + add: lexer YAML: support keys with spaces, quoted keys
 + add: lexer YAML: better rules 'alias', 'anchor', 'single-quote string'
 + add: lexer YAML: don't show 'list items' in code-tree
-- fix: auto-paired quotes/brackets were not recorded to macros; fixed only for the case: _no_ selection
+- fix: auto-paired quotes/brackets were not recorded to macros; yet it's fixed only for the case: _no_ selection (thanks @ildarkhasanshin)
 
 1.237.3 (2026/10)
 
