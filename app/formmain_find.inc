@@ -994,49 +994,49 @@ begin
   Result:= ' ('+Result+')';
 end;
 
-procedure TfmMain.FinderGetHiAllIndexes(AFinder: TATEditorFinder; out AIndex, ACount: integer);
+procedure TfmMain.FinderGetHiAllIndexes(AFinder: TATEditorFinder; out AMatchIndex, AMatchCount: integer);
 var
   Ed: TATSynEdit;
-  CurAttribs: TATMarkers;
+  FndResults: TATFinderResults;
+  PtrResult: PATFinderResult;
   MatchPos: TPoint;
-  ItemPtr: PATMarkerItem;
-  NAttrCount, iItem: integer;
+  iItem: integer;
+  bOldBack, bOldFromCaret: boolean;
 begin
-  AIndex:= -1;
-  ACount:= 0;
+  AMatchIndex:= -1;
+  AMatchCount:= 0;
 
   if AFinder=nil then exit;
   Ed:= AFinder.Editor;
-  //Assert(Assigned(Ed), 'FinderGetHiAllIndexes: Finder.Editor is nil');
   if Ed=nil then exit;
+  if Ed.Strings.Count>UiOps.FindHiAll_MaxLines then exit;
 
-  //take minimum if MatchEdPos / MatchEdEnd
-  if IsPosSorted(
-    AFinder.MatchEdPos.X,
-    AFinder.MatchEdPos.Y,
-    AFinder.MatchEdEnd.X,
-    AFinder.MatchEdEnd.Y,
-    false)
-  then
-    MatchPos:= AFinder.MatchEdPos
-  else
-    MatchPos:= AFinder.MatchEdEnd;
+  MatchPos:= AFinder.MatchEdPos;
   if MatchPos.Y<0 then exit;
 
-  CurAttribs:= Ed.Attribs;
-  NAttrCount:= CurAttribs.Count;
-  for iItem:= 0 to NAttrCount-1 do
-  begin
-    ItemPtr:= CurAttribs.ItemPtr(iItem);
-    if ItemPtr^.Tag<>UiOps.FindHiAll_TagValue then Continue;
-    Inc(ACount);
-    if AIndex<0 then
-      if ItemPtr^.PosY=MatchPos.Y then
-        //exact X pos is OK
-        if (ItemPtr^.PosX=MatchPos.X) or
-          //not exact X pos can be also OK: when searching backwards for 'dd' with line 'ddd'
-          ({AFinder.OptBack and} (ItemPtr^.PosX<MatchPos.X) and (ItemPtr^.PosX+ItemPtr^.SelX>MatchPos.X)) then
-          AIndex:= ACount-1;
+  FndResults:= TATFinderResults.Create;
+  try
+    bOldBack:= AFinder.OptBack;
+    bOldFromCaret:= AFinder.OptFromCaret;
+    AFinder.OptBack:= false;
+    AFinder.OptFromCaret:= false;
+    AFinder.DoAction_FindAll(FndResults, false);
+    AFinder.OptBack:= bOldBack;
+    AFinder.OptFromCaret:= bOldFromCaret;
+
+    if FndResults.Count>0 then
+      for iItem:= 0 to FndResults.Count-1 do
+      begin
+        PtrResult:= PATFinderResult(FndResults.ItemPtrRaw(iItem));
+        if PtrResult^.PosBegin=MatchPos then
+        begin
+          AMatchIndex:= iItem;
+          AMatchCount:= FndResults.Count;
+          Break;
+        end;
+      end;
+  finally
+    FreeAndNil(FndResults);
   end;
 end;
 

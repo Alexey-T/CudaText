@@ -1127,7 +1127,7 @@ type
     procedure DoToggleToolbar;
     procedure DoToggleStatusbar;
     procedure DoToggleUiTabs;
-    procedure FinderGetHiAllIndexes(AFinder: TATEditorFinder; out AIndex, ACount: integer);
+    procedure FinderGetHiAllIndexes(AFinder: TATEditorFinder; out AMatchIndex, AMatchCount: integer);
     function FinderGetHiAllIndexesString(AFinder: TATEditorFinder): string;
     function FinderOptionsToHint(AFinder: TATEditorFinder; AIsReplace: boolean): string;
     function FinderReplaceAll(Ed: TATSynEdit; AResetCaret: boolean): integer;
