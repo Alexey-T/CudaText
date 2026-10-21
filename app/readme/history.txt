@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.237.4 (2026/10)
+1.237.5 (2026/10)
 
 + add: lexer YAML: support keys with spaces, quoted keys
 + add: lexer YAML: better rules 'alias', 'anchor', 'single-quote string'
@@ -12,18 +12,12 @@
 
 1.237.3 (2026/10)
 
++ add: Windows: OLE drag&drop of text from/to other applications; tested (Windows 7 ... Windows 11) with Firefox, Sublime-Text, Notepad++, CopyQ (by @badrelmers using AI)
 + add: "Help / Check for updates" supports the case when last cudatext version don't have release for current OS, e.g. when 1.237.2 don't have release for current OS Linux (by @ildarkhasanshin)
++ add: for future Differ 2 plugin (@badrelmers is working on it): optimize API ed.get_wrapinfo speed (by @badrelmers using AI)
 - fix: regression: "Reopen" command sometimes shows document as empty (thanks @jczanfona)
 - fix: when big lexer-files are opened, saving of user.json may give too big delay, additional n seconds (by @badrelmers using AI)
 - fix: making 'pritimive column selection' by mouse Alt+drag ("carets_primitive_column_sel": true) over wrapped line worked bad, so now app disables 'primitive selection' mode when affected lines are actually wrapped (thanks @pintassilgo)
-
-1.237.2 (2026/10)
-
-+ add: Windows: OLE drag&drop of text from/to other applications; tested (Windows 7 ... Windows 11) with Firefox, Sublime-Text, Notepad++, CopyQ (by @badrelmers using AI)
-
-1.237.1 (2026/10)
-
-+ add: for future Differ 2 plugin (@badrelmers is working on it): optimize API ed.get_wrapinfo speed (by @badrelmers using AI)
 - fix: bug visible in Differ 2 plugin: if ui-tab is splitted and paired editor has text and has modified=false, that paired text was not saved to session (by @badrelmers using AI)
 - fix: minor bug with caret position after undo in API ed.insert/replace/replace_lines/delete (by @badrelmers using AI)
 
