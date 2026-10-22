@@ -5,6 +5,8 @@
 
 1.237.5 (2026/10)
 
++ add: finder better shows index of found match / count of total matches, in the statusbar: now it occurs always (only if "find_hi_max_lines" is not limiting this), ie user don't need to show findbar, to activate 'Hi' option in the findbar, it is now like in VSCode (idea by @ildarkhasanshin, code by Alexey T and @badrelmers using AI)
++ add: improve Undo/Redo system to feel more like VSCode in edge cases (thanks @pintassilgo, by @badrelmers using AI)
 + add: lexer YAML: support keys with spaces, quoted keys
 + add: lexer YAML: better rules 'alias', 'anchor', 'single-quote string'
 + add: lexer YAML: don't show 'list items' in code-tree
