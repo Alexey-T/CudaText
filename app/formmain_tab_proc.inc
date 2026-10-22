@@ -465,7 +465,11 @@ begin
 
     if (FFinder.Editor=Frame.EdFirst) or
        (FFinder.Editor=Frame.EdSecond) then
+    begin
       FFinder.Editor:= nil;
+      //free the cached FindAll results of the closed document
+      FFinder.ClearFindAllCache;
+    end;
 
     if (AppCodetreeState.Editor=Frame.EdFirst) or
        (AppCodetreeState.Editor=Frame.EdSecond) then
