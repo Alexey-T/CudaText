@@ -17,6 +17,10 @@ uses
   StdCtrls, Forms, ComCtrls, ExtCtrls, Math,
   LCLType,
   LCLIntf,
+  LMessages,
+  {$ifdef windows}
+  Windows,
+  {$endif}
   ListFilterEdit,
   ListViewFilterEdit,
   proc_globdata,
@@ -107,8 +111,10 @@ type
     procedure UTF8KeyPress(var UTF8Key: TUTF8Char); override;
     procedure MouseEnter; override;
     procedure MouseLeave; override;
+    procedure CreateWnd; override;
     procedure DoShow; override;
     procedure DoHide; override;
+    procedure CMIconChanged(var Message: TLMessage); message CM_ICONCHANGED;
     procedure Activate; override;
     procedure Deactivate; override;
     procedure DoClose(var CloseAction: TCloseAction); override;
@@ -141,6 +147,7 @@ type
     BlockedOnFold: boolean;
     BlockedOnUnfold: boolean;
     function IdFocused: integer;
+    procedure FixDialogIcons;
     procedure SetFocus; override;
     constructor Create(TheOwner: TComponent); override;
     destructor Destroy; override;
@@ -359,6 +366,66 @@ begin
   inherited;
 end;
 
+procedure TFormDummy.FixDialogIcons;
+//Fixes bug: api dialog with border DBORDER_DIALOG showed app icon in titlebar
+//after any other api dialog was created with border DBORDER_TOOL / DBORDER_SIZE /
+//DBORDER_SINGLE / DBORDER_TOOLSIZE.
+//Reason: all LCL forms on Windows use one shared window class 'Window'
+//(win32int.pp). LCL TWin32WSCustomForm.SetIcon() writes the app icon into that
+//shared class (SetClassLongPtr GCL_HICON/GCL_HICONSM) each time a form with
+//non-dialog border style is created; bsDialog forms have no own per-window
+//icon, so their titlebars fall back to that shared class icon. Some LCL
+//versions also set the per-window icon (WM_SETICON) for bsDialog forms.
+//Fix (all parts, independent of LCL version internals):
+//1) zero the shared class icon, so bsDialog forms have nothing to fall back to;
+//2) for shown top-level bsDialog api dialogs: remove own per-window icons
+//   (WM_SETICON 0), so no LCL version can put an app icon there;
+//3) repaint shown bsDialog api dialogs, to drop any already painted icon.
+var
+  i: integer;
+  Dlg: TFormDummy;
+begin
+  {$ifdef windows}
+  if AppCustomDialogs=nil then exit;
+  if HandleAllocated then
+  begin
+    Windows.SetClassLongPtr(Handle, Windows.GCL_HICONSM, 0);
+    Windows.SetClassLongPtr(Handle, Windows.GCL_HICON, 0);
+  end;
+
+  for i:= 0 to AppCustomDialogs.Count-1 do
+    if TObject(AppCustomDialogs[i]) is TFormDummy then
+    begin
+      Dlg:= TFormDummy(AppCustomDialogs[i]);
+      if (Dlg.BorderStyle=bsDialog) and (Dlg.Parent=nil) and Dlg.HandleAllocated then
+      begin
+        Windows.SendMessage(Dlg.Handle, Windows.WM_SETICON, Windows.ICON_SMALL, 0);
+        Windows.SendMessage(Dlg.Handle, Windows.WM_SETICON, Windows.ICON_BIG, 0);
+        if Dlg.Visible then
+          Windows.RedrawWindow(Dlg.Handle, nil, 0,
+            Windows.RDW_INVALIDATE or Windows.RDW_FRAME or
+            Windows.RDW_NOCHILDREN or Windows.RDW_ERASE);
+      end;
+    end;
+  {$endif}
+end;
+
+procedure TFormDummy.CreateWnd;
+begin
+  inherited CreateWnd;
+  //runs after every handle creation/recreation (lazy creation at Show,
+  //border change, RecreateWnd) - i.e. after every point where LCL can
+  //write the shared class icon
+  FixDialogIcons;
+end;
+
+procedure TFormDummy.CMIconChanged(var Message: TLMessage);
+begin
+  inherited;
+  //covers icon updates which LCL dispatches via CM_ICONCHANGED message
+  FixDialogIcons;
+end;
+
 procedure TFormDummy.DoShow;
 var
   C: TComponent;
@@ -383,6 +450,9 @@ begin
   end;
 
   DoEvent(-1, FEventOnShow, AppVariantNil);
+
+  //re-fix icons after show, also covers icon changes done by on_show callback
+  FixDialogIcons;
 end;
 
 procedure TFormDummy.DoHide;

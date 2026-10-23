@@ -2408,7 +2408,12 @@ begin
     'tag':
       F.TagString:= AValue;
     'border':
-      F.BorderStyle:= TFormBorderStyle(StrToIntDef(AValue, Ord(bsDialog)));
+      begin
+        F.BorderStyle:= TFormBorderStyle(StrToIntDef(AValue, Ord(bsDialog)));
+        //fix titlebar icons of api dialogs after border change (issue with
+        //shared window class icon, see TFormDummy.FixDialogIcons)
+        F.FixDialogIcons;
+      end;
     'topmost':
       begin
         if AppStrToBool(AValue) then
