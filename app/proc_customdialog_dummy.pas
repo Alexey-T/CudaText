@@ -13,6 +13,9 @@ unit proc_customdialog_dummy;
 interface
 
 uses
+  {$ifdef windows}
+  Windows, LMessages,
+  {$endif}
   Classes, SysUtils, Controls, Graphics,
   StdCtrls, Forms, ComCtrls, ExtCtrls, Math,
   LCLType,
@@ -107,6 +110,9 @@ type
     procedure UTF8KeyPress(var UTF8Key: TUTF8Char); override;
     procedure MouseEnter; override;
     procedure MouseLeave; override;
+    {$ifdef windows}
+    procedure CMIconChanged(var Message: TLMessage); message CM_ICONCHANGED;
+    {$endif}
     procedure DoShow; override;
     procedure DoHide; override;
     procedure Activate; override;
@@ -358,6 +364,64 @@ begin
   FreeAndNil(PrevForms);
   inherited;
 end;
+
+{$ifdef windows}
+procedure TFormDummy.CMIconChanged(var Message: TLMessage);
+var
+  IcoSmall: HICON;
+  IcoBig: HICON;
+begin
+  inherited;
+  if not HandleAllocated then exit;
+
+  //Fix for https://github.com/Alexey-T/CudaText/issues/1922
+  //
+  //Windows paints the caption icon of a top-level window by this chain:
+  //1) per-window icon (WM_SETICON),
+  //2) icon of the window CLASS,
+  //3) default OS icon (this one is skipped for WS_EX_DLGMODALFRAME, which
+  //   LCL already sets for bsDialog forms, so it alone cannot help here).
+  //LCL on Windows uses ONE window class 'Window' for all forms, and every
+  //form icon update (TWin32WSCustomForm.SetIcon) writes that form's icon
+  //into the shared CLASS icon too (SetClassLongPtr GCL_HICONSM/HICON).
+  //For bsDialog forms LCL sets no per-window icon (SetIcon(0,0) means
+  //'fall back to the class icon'), so the caption of a shown DBORDER_DIALOG
+  //form displays whatever the shared class icon holds at paint time: when
+  //forms with other border styles (DBORDER_TOOL, DBORDER_SIZE,
+  //DBORDER_SINGLE, DBORDER_TOOLSIZE), the floating Find dialog, or a
+  //floating editor group are created later, the class icon becomes the app
+  //icon, and already shown DBORDER_DIALOG forms light up with it. This
+  //makes the icon order-dependent: the reported bug.
+  //
+  //The per-window icon (item 1 of the chain) always wins over the class
+  //icon, so it is the only per-form slot that gives a deterministic
+  //caption. Here we pin the real application icon into it: the very same
+  //HICON which LCL itself pins for all other top-level forms
+  //(TCustomForm.SmallIconHandle falls back to Application.SmallIconHandle,
+  //and CudaText never sets per-form icons). So DBORDER_DIALOG dialogs now
+  //always show the app icon, exactly like DBORDER_TOOL/SIZE/SINGLE/
+  //TOOLSIZE dialogs already do. No fake 'transparent icon' is used, and
+  //the shared class icon is not touched, so all other forms keep their
+  //usual icons.
+  if BorderStyle=bsDialog then
+  begin
+    IcoSmall:= Application.SmallIconHandle;
+    IcoBig:= Application.BigIconHandle;
+    if (IcoSmall<>0) or (IcoBig<>0) then
+    begin
+      if IcoSmall<>0 then
+        Windows.SendMessage(Handle, WM_SETICON, ICON_SMALL,
+          Windows.LPARAM(IcoSmall));
+      if IcoBig<>0 then
+        Windows.SendMessage(Handle, WM_SETICON, ICON_BIG,
+          Windows.LPARAM(IcoBig));
+      //LCL notes that frame is not always invalidated by WM_SETICON
+      Windows.RedrawWindow(Handle, nil, 0,
+        RDW_INVALIDATE or RDW_FRAME or RDW_NOCHILDREN or RDW_ERASE);
+    end;
+  end;
+end;
+{$endif}
 
 procedure TFormDummy.DoShow;
 var
