@@ -303,6 +303,7 @@ type
     PictureTypes: UnicodeString;
     DefaultTabSplitIsHorz: boolean;
     MaxFileSizeToOpen: integer;
+    LargeFileViewerSize: integer;
     MaxFileSizeForLexer: integer;
     MaxFileSizeWithoutProgressForm: integer;
     MaxStatusbarMessages: integer;
@@ -1256,6 +1257,7 @@ procedure DoStatusbarHintByTag(AStatus: TATStatus; ATag: PtrInt; const AText: st
 procedure DoStatusbarColorByTag(AStatus: TATStatus; ATag: PtrInt; AColor: TColor);
 
 function IsFileTooBigForOpening(const AFilename: string): boolean;
+function IsFileLargeForViewer(const AFilename: string): boolean;
 function IsFileTooBigForLexer(const AFilename: string): boolean;
 function IsFilenameForLexerDetecter(const AFileName: string): boolean;
 function IsOsFullPath(const S: string): boolean;
@@ -2180,6 +2182,7 @@ begin
 
     DefaultTabSplitIsHorz:= false;
     MaxFileSizeToOpen:= 500;
+    LargeFileViewerSize:= 100;
     MaxFileSizeForLexer:= 2;
     MaxFileSizeWithoutProgressForm:= 10*1024*1024;
     MaxStatusbarMessages:= 35; //Linux gtk2 shows maximal ~38 lines in tooltip
@@ -3315,6 +3318,15 @@ end;
 function IsFileTooBigForOpening(const AFilename: string): boolean;
 begin
   Result:= (AFilename<>'') and (FileSize(AFileName) div (1024*1024) >= UiOps.MaxFileSizeToOpen);
+end;
+
+function IsFileLargeForViewer(const AFilename: string): boolean;
+begin
+  Result:=
+    (AFilename<>'') and
+    FileExists(AFilename) and
+    (UiOps.LargeFileViewerSize>0) and
+    (FileSize(AFilename) div (1024*1024) >= UiOps.LargeFileViewerSize);
 end;
 
 function IsFileTooBigForLexer(const AFilename: string): boolean;
