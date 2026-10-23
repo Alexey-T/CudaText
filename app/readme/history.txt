@@ -3,6 +3,10 @@
   - fixed
   * changed
 
+1.237.6 (2026/10)
+
++ add: finder allows 'Count' action also when document is in the viewer-mode (by @lamugu)
+
 1.237.5 (2026/10)
 
 + add: finder better shows index of found match / count of total matches, in the statusbar: now it occurs always (only if "find_hi_max_lines" is not limiting this), ie user don't need to show findbar, to activate 'Hi' option in the findbar, it is now like in VSCode (idea by @ildarkhasanshin, code by Alexey T and @badrelmers using AI)
