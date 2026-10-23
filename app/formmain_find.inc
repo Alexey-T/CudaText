@@ -211,13 +211,16 @@ var
   Frame: TEditorFrame;
 begin
   Frame:= CurrentFrame;
-  if Assigned(Frame) and (Frame.FrameKind=TAppFrameKind.BinaryViewer) then
+  if Frame=nil then Exit;
+
+  if Frame.FrameKind=TAppFrameKind.BinaryViewer then
     ACounter:= Frame.ViewerCountMatches(FFinder)
   else
   begin
     DoFindMarkingInit(TAppFinderMarking.None);
     ACounter:= FFinder.DoAction_CountAll(false);
   end;
+
   if (ACounter=0) and FFinder.IsRegexBad then
     MsgStatusErrorInRegex
   else
@@ -400,6 +403,11 @@ begin
           else
             ok:= Frame.ViewerFind(FFinder, bHiliteAll, true, Res=TAppFinderOperation.FindPrev);
           FinderShowResultSimple(ok, FFinder);
+        end;
+
+      TAppFinderOperation.CountAll:
+        begin
+          FindDialogDone_CountAll(NCounter);
         end;
     end;
 
