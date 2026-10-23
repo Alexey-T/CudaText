@@ -162,7 +162,7 @@ begin
       MsgStatus(Format(msgStatusFoundFragments, [Matches.Count]), true);
     end
     else
-      FinderShowResult(false, false, FFinder);
+      FinderShowResult(false, false, false, FFinder);
   finally
     FreeAndNil(Matches);
   end;
@@ -187,7 +187,7 @@ begin
   else
     MsgStatus(
       Format(msgStatusFoundFragments, [ACounter]) +
-      FinderOptionsToHint(FFinder, false),
+      FinderOptionsToHint(FFinder, false, false),
       true);
 end;
 
@@ -202,7 +202,7 @@ begin
   else
     MsgStatus(
       Format(msgStatusFoundFragments, [ACounter]) +
-      FinderOptionsToHint(FFinder, false),
+      FinderOptionsToHint(FFinder, false, false),
       true);
 end;
 
@@ -226,7 +226,7 @@ begin
   else
     MsgStatus(
       Format(msgStatusFoundFragments, [ACounter])+
-      FinderOptionsToHint(FFinder, false),
+      FinderOptionsToHint(FFinder, false, Frame.FrameKind=TAppFrameKind.BinaryViewer),
       true);
 end;
 
@@ -242,7 +242,7 @@ begin
   //even if 'Hi' option is on, show results here.
   //TimerHiAllTick will show results again,
   //but we still need to show results here for the F3 pressing in editor (TimerHiAllTick is not called).
-  FinderShowResult(ok, false, FFinder);
+  FinderShowResult(ok, false, false, FFinder);
 end;
 
 procedure TfmMain.FindDialogDone_ReplaceOne(AndStop: boolean);
@@ -256,7 +256,7 @@ begin
     if ok then
       ok:= FFinder.DoAction_FindOrReplace(false, false, bChanged, true);
   FinderUpdateEditor(true);
-  FinderShowResult(ok, true, FFinder);
+  FinderShowResult(ok, true, false, FFinder);
 end;
 
 procedure TfmMain.FindDialogDone_ReplaceAll(var ACounter: integer);
@@ -392,7 +392,7 @@ begin
       TAppFinderOperation.FindFirst:
         begin
           ok:= Frame.ViewerFind(FFinder, bHiliteAll, false, false);
-          FinderShowResultSimple(ok, FFinder);
+          FinderShowResultSimple(ok, true, FFinder);
         end;
 
       TAppFinderOperation.FindNext,
@@ -402,7 +402,7 @@ begin
             ok:= Frame.ViewerFind(FFinder, bHiliteAll, false, false)
           else
             ok:= Frame.ViewerFind(FFinder, bHiliteAll, true, Res=TAppFinderOperation.FindPrev);
-          FinderShowResultSimple(ok, FFinder);
+          FinderShowResultSimple(ok, true, FFinder);
         end;
 
       TAppFinderOperation.CountAll:
@@ -821,7 +821,7 @@ begin
 
   ok:= FFinder.DoAction_FindOrReplace(false, false, bChanged, true);
   FinderUpdateEditor(false);
-  FinderShowResult(ok, false, FFinder);
+  FinderShowResult(ok, false, Frame.FrameKind=TAppFrameKind.BinaryViewer, FFinder);
 end;
 
 procedure TfmMain.DoFindNext(ANext: boolean);
@@ -948,7 +948,7 @@ begin
 
   if SSearchText='' then
   begin
-    FinderShowResult(false, false, FFinder);
+    FinderShowResult(false, false, false, FFinder);
     Exit
   end;
 
@@ -969,7 +969,7 @@ begin
   FinderUpdateEditor(false);
   MsgStatus(
     Format(msgStatusFoundFragments, [NCount])+
-    FinderOptionsToHint(FFinder, false),
+    FinderOptionsToHint(FFinder, false, false),
     true);
 
   UpdateAppForSearch(false, false, true, true, bFocusFindDlg); //hide search progressbar
@@ -989,20 +989,20 @@ begin
     AContinue:= false;
 end;
 
-function TfmMain.FinderOptionsToHint(AFinder: TATEditorFinder; AIsReplace: boolean): string;
+function TfmMain.FinderOptionsToHint(AFinder: TATEditorFinder; AIsReplace, AIsViewer: boolean): string;
 const
   Sep=', ';
 begin
   Result:= '';
-  if AFinder.OptRegex then Result:= Result+msgFinderHintRegex+Sep;
+  if AFinder.OptRegex and not AIsViewer then Result:= Result+msgFinderHintRegex+Sep;
   if AFinder.OptCase then Result:= Result+msgFinderHintCase+Sep;
   if AFinder.OptWords then Result:= Result+msgFinderHintWords+Sep;
-  if AFinder.OptBack then Result:= Result+msgFinderHintBack+Sep;
-  if AFinder.OptWrapped then Result:= Result+msgFinderHintWrapped+Sep;
-  if AFinder.IsSearchWrapped then Result:= Result+msgFinderHintSearchWrapped+Sep;
+  if AFinder.OptBack and not AIsViewer then Result:= Result+msgFinderHintBack+Sep;
+  if AFinder.OptWrapped and not AIsViewer then Result:= Result+msgFinderHintWrapped+Sep;
+  if AFinder.IsSearchWrapped and not AIsViewer then Result:= Result+msgFinderHintSearchWrapped+Sep;
   if AFinder.OptInSelection then Result:= Result+msgFinderHintInSel+Sep;
   if AFinder.OptFromCaret then Result:= Result+msgFinderHintFromCaret+Sep;
-  if AIsReplace then
+  if AIsReplace and not AIsViewer then
     if AFinder.OptPreserveCase then Result:= Result+msgFinderHintPresCase+Sep;
 
   if SEndsWith(Result, Sep) then
@@ -1045,7 +1045,7 @@ begin
     Result:= Format(' [?/%d]', [NCount]);
 end;
 
-procedure TfmMain.FinderShowResult(AFound, AIsReplace: boolean;
+procedure TfmMain.FinderShowResult(AFound, AIsReplace, AIsViewer: boolean;
   AFinder: TATEditorFinder; AScrollToMatch: boolean=true);
 var
   Details: string;
@@ -1054,7 +1054,7 @@ begin
   if AFound then
   begin
     Details:= FinderGetHiAllIndexesString(AFinder);
-    Details+= FinderOptionsToHint(AFinder, AIsReplace);
+    Details+= FinderOptionsToHint(AFinder, AIsReplace, AIsViewer);
     MsgStatus(msgStatusFoundNextMatch+Details, true);
 
     if AScrollToMatch then
@@ -1081,14 +1081,14 @@ begin
     MsgStatusErrorInRegex
   else
     MsgStatus(
-      msgCannotFindMatch+FinderOptionsToHint(AFinder, AIsReplace)+': '+Utf8Encode(AFinder.StrFind),
+      msgCannotFindMatch+FinderOptionsToHint(AFinder, AIsReplace, AIsViewer)+': '+Utf8Encode(AFinder.StrFind),
       true);
 
   if Assigned(fmFind) and fmFind.Visible then
     fmFind.UpdateInputReddishIndicator(AFound);
 end;
 
-procedure TfmMain.FinderShowResultSimple(AFound: boolean; AFinder: TATEditorFinder);
+procedure TfmMain.FinderShowResultSimple(AFound, AIsViewer: boolean; AFinder: TATEditorFinder);
 var
   Details: string;
 begin
@@ -1098,7 +1098,7 @@ begin
     MsgStatus(msgStatusFoundNextMatch+Details, true);
   end
   else
-    FinderShowResult(false, false, AFinder);
+    FinderShowResult(false, false, AIsViewer, AFinder);
 end;
 
 procedure TfmMain.FinderOnConfirmReplace_API(Sender: TObject; APos1,
@@ -1293,7 +1293,7 @@ begin
   end;
 
   ok:= EditorFindCurrentWordOrSel(Ed, ANext, AWordOrSel, bCase, FFinder.OptWrapped, Str);
-  FinderShowResultSimple(ok, FFinder);
+  FinderShowResultSimple(ok, false, FFinder);
 
   //sync Find dialog with text
   if Assigned(fmFind) then
@@ -1752,9 +1752,9 @@ begin
   end;
 end;
 
-procedure TfmMain.FindDialogOnShowResultInStatusbar(AFound: boolean);
+procedure TfmMain.FindDialogOnShowResultInStatusbar(AFound, AIsViewer: boolean);
 begin
-  FinderShowResult(AFound, false, FFinder, false{AScrollToMatch});
+  FinderShowResult(AFound, false, AIsViewer, FFinder, false{AScrollToMatch});
 end;
 
 procedure TfmMain.FindDialogOnShowCountInStatusbar(ACount: integer; AInVisibleArea: boolean);

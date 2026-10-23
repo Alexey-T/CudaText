@@ -104,7 +104,7 @@ type
     AUpdateEnabledAll, ADocumentIsSmall: boolean) of object;
   TAppFinderGetEditor = procedure(out AEditor: TATSynEdit) of object;
   TAppFinderKeyDownEvent = function(AKey: word; AShiftState: TShiftState): boolean of object;
-  TAppFinderShowResultInStatusbar = procedure(AFound: boolean) of object;
+  TAppFinderShowResultInStatusbar = procedure(AFound, AIsViewer: boolean) of object;
   TAppFinderShowCountInStatusbar = procedure(ACount: integer; AInVisibleArea: boolean) of object;
   TAppFinderPyEvent = function(const AState, AValue: string): boolean of object;
 

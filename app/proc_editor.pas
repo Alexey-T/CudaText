@@ -120,7 +120,7 @@ procedure EditorBracket_FindOpeningBracketBackward(Ed: TATSynEdit;
   out FoundX, FoundY: integer);
 
 type
-  TEditorFinderCallback = procedure(AFound: boolean; AFinder: TATEditorFinder) of object;
+  TEditorFinderCallback = procedure(AFound, AIsViewer: boolean; AFinder: TATEditorFinder) of object;
   TEditorHiAllOptions = record
     StrFind: UnicodeString;
     OptInSelection: boolean;
@@ -2304,7 +2304,7 @@ begin
       Finder.OptPreserveCase:= false;
 
       Result:= Finder.DoAction_FindSimple(Point(X2, Y2));
-      AFinderResultCallback(Result, Finder);
+      AFinderResultCallback(Result, false, Finder);
 
       if Result then
       begin

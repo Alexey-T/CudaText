@@ -1102,9 +1102,9 @@ type
     procedure DoDialogFind(AReplaceMode, AUpdateFocus: boolean);
     procedure DoDialogFind_Hide;
     procedure DoDialogFind_Toggle(AReplaceMode, AAndFocus: boolean);
-    procedure FinderShowResult(AFound, AIsReplace: boolean;
+    procedure FinderShowResult(AFound, AIsReplace, AIsViewer: boolean;
       AFinder: TATEditorFinder; AScrollToMatch: boolean=true);
-    procedure FinderShowResultSimple(AFound: boolean; AFinder: TATEditorFinder);
+    procedure FinderShowResultSimple(AFound, AIsViewer: boolean; AFinder: TATEditorFinder);
     procedure DoMoveTabToGroup(AGroupIndex: Integer; AFromCommandPalette: boolean=false);
     function DoFileOpen(AFileName, AFileName2: string; APages: TATPages=nil; const AOptions: string=''): TEditorFrame;
     procedure DoFileOpenDialog(const AOptions: string='');
@@ -1129,7 +1129,7 @@ type
     procedure DoToggleUiTabs;
     procedure FinderGetHiAllIndexes(AFinder: TATEditorFinder; out AMatchIndex, AMatchCount: integer);
     function FinderGetHiAllIndexesString(AFinder: TATEditorFinder): string;
-    function FinderOptionsToHint(AFinder: TATEditorFinder; AIsReplace: boolean): string;
+    function FinderOptionsToHint(AFinder: TATEditorFinder; AIsReplace, AIsViewer: boolean): string;
     function FinderReplaceAll(Ed: TATSynEdit; AResetCaret: boolean): integer;
     procedure FinderShowReplaceReport(ACounter, ATime: integer);
     procedure FinderOnFound(Sender: TObject; APos1, APos2: TPoint);
@@ -1300,7 +1300,7 @@ type
     procedure FindDialogOnChangeOptions(Sender: TObject);
     procedure FindDialogOnChangeVisible(Sender: TObject);
     function FindDialogOnHandleKeyDown(AKey: word; AShiftState: TShiftState): boolean;
-    procedure FindDialogOnShowResultInStatusbar(AFound: boolean);
+    procedure FindDialogOnShowResultInStatusbar(AFound, AIsViewer: boolean);
     procedure FindDialogOnShowCountInStatusbar(ACount: integer; AInVisibleArea: boolean);
     procedure FindDialog_ApplyOptionsString(const AText: string);
     function FindDialog_GetOptionsPyDict: PPyObject;
