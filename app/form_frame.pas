@@ -457,6 +457,7 @@ type
     function PictureSizes: TPoint;
     property PictureScale: integer read GetPictureScale write SetPictureScale;
     function ViewerFind(AFinder: TATEditorFinder; AShowAll, AFindNextOrPrev, AFindPrev: boolean): boolean;
+    function ViewerCountMatches(AFinder: TATEditorFinder): integer;
     //
     property BracketHilite: boolean read FBracketHilite write SetBracketHilite;
     property BracketHiliteUserChanged: boolean read FBracketHiliteUserChanged write FBracketHiliteUserChanged;
@@ -5208,6 +5209,59 @@ begin
     UTF8Encode(AFinder.StrFind),
     Ops,
     NStartPos);
+end;
+
+function TEditorFrame.ViewerCountMatches(AFinder: TATEditorFinder): integer;
+var
+  Search: TATStreamSearch;
+  Options: TATStreamSearchOptions;
+  Encoding: TEncConvId;
+  StartPos, EndPos, NextPos: Int64;
+  CharSize: integer;
+begin
+  Assert(Assigned(Viewer), 'Viewer not inited for count search');
+  Assert(Assigned(FViewerStream), 'Viewer stream not assigned for count search');
+  Assert(AFinder.StrFind<>'', 'Empty search text');
+
+  Options:= [];
+  if AFinder.OptCase then
+    Include(Options, asoCaseSens);
+  if AFinder.OptWords then
+    Include(Options, asoWholeWords);
+
+  CharSize:= Viewer.CharSize;
+  if Viewer.IsModeUnicode then
+    Encoding:= eidCP1252
+  else
+    Encoding:= Viewer.TextEncoding;
+
+  StartPos:= 0;
+  EndPos:= High(Int64);
+  if AFinder.OptInSelection then
+  begin
+    if Viewer.SelLength=0 then
+      Exit(0);
+    StartPos:= Viewer.SelStart;
+    EndPos:= Viewer.SelStart+Viewer.SelLength;
+    Include(Options, asoInSelection);
+  end;
+
+  Search:= TATStreamSearch.Create(nil);
+  try
+    Search.Stream:= FViewerStream;
+    Search.OnProgress:= Viewer.OnSearchProgress;
+    Result:= 0;
+    NextPos:= StartPos;
+    while Search.Find(AFinder.StrFind, NextPos, EndPos, Encoding, CharSize, Options) do
+    begin
+      if Result=MaxInt then
+        raise EOverflow.Create('Too many search matches');
+      Inc(Result);
+      NextPos:= Search.FoundStart + Search.FoundLength div CharSize;
+    end;
+  finally
+    Search.Free;
+  end;
 end;
 
 

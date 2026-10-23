@@ -653,7 +653,7 @@ begin
   FMenuitemFindPrev.Shortcut:= TextToShortCutRaw(UiOps.HotkeyFindPrev);
   FMenuitemFindNext.Caption:= SCaptionFindNext;
   FMenuitemFindNext.Shortcut:= TextToShortCutRaw(UiOps.HotkeyFindNext);
-  FMenuitemCount.Enabled:= not FForViewer;
+  FMenuitemCount.Enabled:= true;
   FMenuitemCount.Caption:= SCaptionCount;
   FMenuitemCount.Shortcut:= TextToShortCutRaw(UiOps.HotkeyCountAll);
   FMenuitemExtract.Enabled:= not FForViewer and chkRegex.Checked;

@@ -207,9 +207,17 @@ begin
 end;
 
 procedure TfmMain.FindDialogDone_CountAll(var ACounter: integer);
+var
+  Frame: TEditorFrame;
 begin
-  DoFindMarkingInit(TAppFinderMarking.None);
-  ACounter:= FFinder.DoAction_CountAll(false);
+  Frame:= CurrentFrame;
+  if Assigned(Frame) and (Frame.FrameKind=TAppFrameKind.BinaryViewer) then
+    ACounter:= Frame.ViewerCountMatches(FFinder)
+  else
+  begin
+    DoFindMarkingInit(TAppFinderMarking.None);
+    ACounter:= FFinder.DoAction_CountAll(false);
+  end;
   if (ACounter=0) and FFinder.IsRegexBad then
     MsgStatusErrorInRegex
   else
