@@ -2834,6 +2834,7 @@ end;
 
 procedure TEditorFrame.DoFileOpen_AsBinary(const AFileName: string; AMode: TATBinHexMode);
 begin
+  TabCaptionReason:= TAppTabCaptionReason.FromFilename;
   FFileName:= AFileName;
   UpdateCaptionFromFilename;
 
@@ -2903,7 +2904,6 @@ begin
   if Visible and Viewer.Visible and Viewer.CanFocus then
     Viewer.SetFocus;
 
-  TabCaption:= ExtractFileName(AFileName);
   DoOnUpdateStatusbar(TAppStatusbarUpdateReason.FileOpen);
 end;
 
