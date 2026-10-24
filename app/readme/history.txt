@@ -5,6 +5,7 @@
 
 1.237.6 (2026/10)
 
++ add: AI Kimi K3 helped to speedup EControl parser by about 30% (found by Alexey T, checked by @badrelmers)
 + add: finder allows 'Count all' action also when document is in the viewer-mode (by @lamugu)
 
 1.237.5 (2026/10)
