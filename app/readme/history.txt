@@ -5,6 +5,7 @@
 
 1.237.6 (2026/10)
 
++ add: new option "ui_large_file_viewer" (default is 100 Mb) forces too huge files to open in viewer-mode (by @lamugu)
 + add: finder allows 'Count' action also when document is in the viewer-mode (by @lamugu)
 
 1.237.5 (2026/10)
