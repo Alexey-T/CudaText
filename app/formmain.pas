@@ -5191,8 +5191,6 @@ var
   nOpenMode, nNonTextMode: TAppOpenMode;
   //
   procedure InitMainVars;
-  var
-    bLargeForViewer: boolean;
   begin
     bSilent:= SubInString('/silent', AOptions);
     bPreviewTab:= SubInString('/preview', AOptions);
@@ -5209,7 +5207,10 @@ var
     bAllowUpdateAddons:= not SubInString('/noupdateaddons', AOptions);
     bAllowDeleted:= SubInString('/allowdeleted', AOptions);
     bDetectedPics:= bAllowPics and IsFilenameListedInExtensionList(AFileName, UiOps.PictureTypes);
-    bLargeForViewer:= (AFileName2='') and (not bDetectedPics) and (not AppSessionIsLoading) and IsFileLargeForViewer(AFileName);
+
+    ////disabled the below line, to avoid unconfirmed opening of huge files in viewer-mode,
+    ////better if app asks what to do via separate dialog
+    //bLargeForViewer:= (AFileName2='') and (not bDetectedPics) and (not AppSessionIsLoading) and IsFileLargeForViewer(AFileName);
 
     nAllowNear:= TAppNewTabNearCurrent.ByOption;
     if SubInString('/donear', AOptions) then
@@ -5232,9 +5233,11 @@ var
     else
     if SubInString('/view-uhex', AOptions) then
       nOpenMode:= TAppOpenMode.ViewUHex
+    {
     else
     if bLargeForViewer then
       nOpenMode:= TAppOpenMode.ViewText
+      }
     else
       nOpenMode:= TAppOpenMode.Editor;
 

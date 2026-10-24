@@ -1413,7 +1413,7 @@ begin
 
   UiOps.MaxFileSizeToOpen:= cfg.GetValue('ui_max_size_open', UiOps.MaxFileSizeToOpen);
   UiOps.MaxFileSizeToOpen:= Min(UiOps.MaxFileSizeToOpen, 2*1024-1); //because TStream.ReadBuffer is called, it can handle only 32-bit LongInt
-  UiOps.LargeFileViewerSize:= cfg.GetValue('ui_large_file_viewer', UiOps.LargeFileViewerSize);
+  //UiOps.LargeFileViewerSize:= cfg.GetValue('ui_large_file_viewer', UiOps.LargeFileViewerSize);
   UiOps.MaxFileSizeForLexer:= cfg.GetValue('ui_max_size_lexer', UiOps.MaxFileSizeForLexer);
   UiOps.MaxStatusbarMessages:= cfg.GetValue('ui_statusbar_hint_lines', UiOps.MaxStatusbarMessages);
   UiOps.MaxLineLenForEditingKeepingLexer:= cfg.GetValue('max_line_len_for_editing_keeping_lexer', UiOps.MaxLineLenForEditingKeepingLexer);
