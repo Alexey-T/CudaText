@@ -5186,11 +5186,13 @@ var
   bSilent, bPreviewTab, bEnableHistory, bEnableLoadUndo, bEnableLoadBookmarks,
   bEnableEventPre, bEnableEventOpened, bEnableEventOpenedNone,
   bAllowZip, bAllowPics, bAllowLexerDetect, bAllowDeleted, bDetectedPics,
-  bAllowUpdateAddons, bAndActivate, bLargeForViewer: boolean;
+  bAllowUpdateAddons, bAndActivate: boolean;
   nAllowNear: TAppNewTabNearCurrent;
   nOpenMode, nNonTextMode: TAppOpenMode;
   //
   procedure InitMainVars;
+  var
+    bLargeForViewer: boolean;
   begin
     bSilent:= SubInString('/silent', AOptions);
     bPreviewTab:= SubInString('/preview', AOptions);
@@ -5216,9 +5218,6 @@ var
     if SubInString('/nonear', AOptions) then
       nAllowNear:= TAppNewTabNearCurrent.Disabled;
 
-    if bLargeForViewer then
-      nOpenMode:= TAppOpenMode.ViewText
-    else
     if SubInString('/view-text', AOptions) then
       nOpenMode:= TAppOpenMode.ViewText
     else
@@ -5233,6 +5232,9 @@ var
     else
     if SubInString('/view-uhex', AOptions) then
       nOpenMode:= TAppOpenMode.ViewUHex
+    else
+    if bLargeForViewer then
+      nOpenMode:= TAppOpenMode.ViewText
     else
       nOpenMode:= TAppOpenMode.Editor;
 
