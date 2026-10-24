@@ -5186,7 +5186,7 @@ var
   bSilent, bPreviewTab, bEnableHistory, bEnableLoadUndo, bEnableLoadBookmarks,
   bEnableEventPre, bEnableEventOpened, bEnableEventOpenedNone,
   bAllowZip, bAllowPics, bAllowLexerDetect, bAllowDeleted, bDetectedPics,
-  bAllowUpdateAddons, bAndActivate: boolean;
+  bAllowUpdateAddons, bAndActivate, bLargeForViewer: boolean;
   nAllowNear: TAppNewTabNearCurrent;
   nOpenMode, nNonTextMode: TAppOpenMode;
   //
@@ -5207,6 +5207,7 @@ var
     bAllowUpdateAddons:= not SubInString('/noupdateaddons', AOptions);
     bAllowDeleted:= SubInString('/allowdeleted', AOptions);
     bDetectedPics:= bAllowPics and IsFilenameListedInExtensionList(AFileName, UiOps.PictureTypes);
+    bLargeForViewer:= (AFileName2='') and (not bDetectedPics) and (not AppSessionIsLoading) and IsFileLargeForViewer(AFileName);
 
     nAllowNear:= TAppNewTabNearCurrent.ByOption;
     if SubInString('/donear', AOptions) then
@@ -5215,6 +5216,9 @@ var
     if SubInString('/nonear', AOptions) then
       nAllowNear:= TAppNewTabNearCurrent.Disabled;
 
+    if bLargeForViewer then
+      nOpenMode:= TAppOpenMode.ViewText
+    else
     if SubInString('/view-text', AOptions) then
       nOpenMode:= TAppOpenMode.ViewText
     else
@@ -5371,13 +5375,6 @@ begin
         exit
       end;
       }
-
-      //open large files in the read-only text viewer
-      if (AFileName2='') and
-         not bDetectedPics and
-         not AppSessionIsLoading and
-         IsFileLargeForViewer(AFileName) then
-        nOpenMode:= TAppOpenMode.ViewText;
 
       //py event
       if bEnableEventPre then
