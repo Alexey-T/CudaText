@@ -5372,6 +5372,13 @@ begin
       end;
       }
 
+      //open large files in the read-only text viewer
+      if (AFileName2='') and
+         not bDetectedPics and
+         not AppSessionIsLoading and
+         IsFileLargeForViewer(AFileName) then
+        nOpenMode:= TAppOpenMode.ViewText;
+
       //py event
       if bEnableEventPre then
       begin
