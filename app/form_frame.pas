@@ -2903,6 +2903,7 @@ begin
   if Visible and Viewer.Visible and Viewer.CanFocus then
     Viewer.SetFocus;
 
+  TabCaption:= ExtractFileName(AFileName);
   DoOnUpdateStatusbar(TAppStatusbarUpdateReason.FileOpen);
 end;
 
