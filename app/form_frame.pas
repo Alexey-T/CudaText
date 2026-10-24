@@ -2911,6 +2911,7 @@ end;
 procedure TEditorFrame.DoFileOpen_AsPicture(const AFileName: string;
   AIsReload: boolean);
 begin
+  TabCaptionReason:= TAppTabCaptionReason.FromFilename;
   FFileName:= AFileName;
   UpdateCaptionFromFilename;
 
