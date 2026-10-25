@@ -332,8 +332,8 @@ object SyntAnal13: TLibSyntAnalyzer
       StatesAbsent = 3073
       TokenType = 15
       Expression = 
-        '\*\*(?=[\l_\x{2026}\?!~\(]) |'#13#10'(?<![\l_\x{2026}\?!\)])__(?=[\l\x' +
-        '{2026}\?!~\*\(])'
+        '\*\*(?=[\l_\x{2026}\?!~\(`]) |'#13#10'(?<![\l_\x{2026}\?!\)])__(?=[\l\' +
+        'x{2026}\?!~\*\(])'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -346,8 +346,8 @@ object SyntAnal13: TLibSyntAnalyzer
       TokenType = 15
       Expression = 
         '(?<=[\l_\x{2026}\?!\.,;:~\*\)>\x{3000}-\x{303F}\x{FF01}-\x{FF60}' +
-        '])__(?![\l\x{2026}\?!]) |'#13#10'(?<=[\l_\x{2026}\?!\.,;:~\)>/\x{3000}' +
-        '-\x{303F}\x{FF01}-\x{FF60}])\*\*'
+        '])__(?![\l\x{2026}\?!]) |'#13#10'(?<=[\l_\x{2026}\?!\.,;:~\)>`/\x{3000' +
+        '}-\x{303F}\x{FF01}-\x{FF60}])\*\*'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -989,7 +989,7 @@ object SyntAnal13: TLibSyntAnalyzer
       StatesAbsent = 3
       StartExpression = '(?s)<style\b.*?>'
       EndExpression = '</style>'
-      SyntAnalyzer = SyntAnal7
+      SyntAnalyzer = SyntAnal6
     end
     item
       DisplayName = 'YAML front matter'
@@ -1007,13 +1007,13 @@ object SyntAnal13: TLibSyntAnalyzer
       DisplayName = 'Fenced block, tick'
       StartExpression = '(?<=^\x20{0,3})`{3,}\x20*\w.*$'
       EndExpression = '(?<=^\x20{0,3})`{3,}\x20*$'
-      SyntAnalyzer = SyntAnal9
+      SyntAnalyzer = SyntAnal8
     end
     item
       DisplayName = 'Fenced block, tilde'
       StartExpression = '(?<=^\x20{0,3})~{3,}\x20*\w.*$'
       EndExpression = '(?<=^\x20{0,3})~{3,}\x20*$'
-      SyntAnalyzer = SyntAnal9
+      SyntAnalyzer = SyntAnal8
     end>
   SampleText.Strings = (
     '---'
