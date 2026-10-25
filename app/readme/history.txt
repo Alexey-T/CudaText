@@ -7,6 +7,7 @@
 
 + add: AI Kimi K3 helped to speedup EControl parser by about 30% (found by Alexey T, checked by @badrelmers)
 + add: finder allows 'Count all' action also when document is in the viewer-mode (by @lamugu)
+- fix: vert scrollbar was little wrong when editor has 'gaps' near last lines (by @slicke)
 
 1.237.5 (2026/10)
 
