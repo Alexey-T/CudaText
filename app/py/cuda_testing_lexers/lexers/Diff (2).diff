@@ -1,0 +1,1420 @@
+diff --git a/src/main.c b/src/main.c
+index 1234567..89abcde 100644
+--- a/src/main.c
++++ b/src/main.c
+@@ -10,7 +10,7 @@ int main(void)
+ context line
+-removed line with 95
++added line with 7351
+ context line 2
+diff --git a/src/file_1175.c b/src/file_1175.c
+index 05fbda5..013fc7e 100644
+--- a/src/file_1175.c
++++ b/src/file_1175.c
+@@ -195,12 +496,4 @@ static int file_1175()
+ int old_code = 778;
+-int removed = 38;
++int added = 662.483;
++int another = 0x77;
+ return old_code;
+
+diff --git a/src/file_3898.c b/src/file_3898.c
+index 0c03b0c..07719a1 100644
+--- a/src/file_3898.c
++++ b/src/file_3898.c
+@@ -176,14 +152,5 @@ static int file_3898()
+ int old_code = 830;
+-int removed = 955;
++int added = 0o170;
++int another = 0x8F;
+ return old_code;
+
+diff --git a/src/file_5098.c b/src/file_5098.c
+index 02ca5db..0e4cb34 100644
+--- a/src/file_5098.c
++++ b/src/file_5098.c
+@@ -353,4 +299,16 @@ static int file_5098()
+ int old_code = 254;
+-int removed = 985;
++int added = 44.49e9;
++int another = 0xE8;
+ return old_code;
+
+diff --git a/src/file_6926.c b/src/file_6926.c
+index 06414e0..0d4f50c 100644
+--- a/src/file_6926.c
++++ b/src/file_6926.c
+@@ -209,8 +59,20 @@ static int file_6926()
+ int old_code = 541;
+-int removed = 468;
++int added = -5437;
++int another = 0x6B;
+ return old_code;
+
+diff --git a/src/file_7670.c b/src/file_7670.c
+index 0f977f5..0ae56b3 100644
+--- a/src/file_7670.c
++++ b/src/file_7670.c
+@@ -73,16 +125,12 @@ static int file_7670()
+ int old_code = 428;
+-int removed = 562;
++int added = 951;
++int another = 0xE6;
+ return old_code;
+
+diff --git a/src/file_9410.c b/src/file_9410.c
+index 049bc23..08f457a 100644
+--- a/src/file_9410.c
++++ b/src/file_9410.c
+@@ -468,19 +287,12 @@ static int file_9410()
+ int old_code = 807;
+-int removed = 215;
++int added = 0o646;
++int another = 0x92;
+ return old_code;
+
+diff --git a/src/file_2917.c b/src/file_2917.c
+index 05d0359..033940a 100644
+--- a/src/file_2917.c
++++ b/src/file_2917.c
+@@ -61,12 +395,16 @@ static int file_2917()
+ int old_code = 902;
+-int removed = 681;
++int added = 390.627;
++int another = 0xC3;
+ return old_code;
+
+diff --git a/src/file_6964.c b/src/file_6964.c
+index 0ac3455..07ab0e5 100644
+--- a/src/file_6964.c
++++ b/src/file_6964.c
+@@ -131,16 +325,3 @@ static int file_6964()
+ int old_code = 968;
+-int removed = 425;
++int added = 0o357;
++int another = 0xA0;
+ return old_code;
+
+diff --git a/src/file_5227.c b/src/file_5227.c
+index 0cebc93..0bb960e 100644
+--- a/src/file_5227.c
++++ b/src/file_5227.c
+@@ -470,7 +330,18 @@ static int file_5227()
+ int old_code = 225;
+-int removed = 306;
++int added = 247.293;
++int another = 0x6C;
+ return old_code;
+
+diff --git a/src/file_6727.c b/src/file_6727.c
+index 02f3f26..057428b 100644
+--- a/src/file_6727.c
++++ b/src/file_6727.c
+@@ -277,18 +403,12 @@ static int file_6727()
+ int old_code = 620;
+-int removed = 99;
++int added = 423;
++int another = 0x12;
+ return old_code;
+
+diff --git a/src/file_1223.c b/src/file_1223.c
+index 036595e..02a94f2 100644
+--- a/src/file_1223.c
++++ b/src/file_1223.c
+@@ -70,16 +380,8 @@ static int file_1223()
+ int old_code = 268;
+-int removed = 803;
++int added = 24.39e4;
++int another = 0x2C;
+ return old_code;
+
+diff --git a/src/file_5160.c b/src/file_5160.c
+index 0a590e8..09a7e6c 100644
+--- a/src/file_5160.c
++++ b/src/file_5160.c
+@@ -431,14 +323,15 @@ static int file_5160()
+ int old_code = 2;
+-int removed = 676;
++int added = 85.5e-6;
++int another = 0x62;
+ return old_code;
+
+
+diff --git a/src/main.c b/src/main.c
+index 1234567..89abcde 100644
+--- a/src/main.c
++++ b/src/main.c
+@@ -10,7 +10,7 @@ int main(void)
+ context line
+-removed line with 83
++added line with 0o617
+ context line 2
+diff --git a/src/file_5078.c b/src/file_5078.c
+index 0fee734..07bfb32 100644
+--- a/src/file_5078.c
++++ b/src/file_5078.c
+@@ -308,5 +344,7 @@ static int file_5078()
+ int old_code = 506;
+-int removed = 750;
++int added = 0xD0D7;
++int another = 0x13;
+ return old_code;
+
+diff --git a/src/file_4246.c b/src/file_4246.c
+index 03088e7..0ce03fb 100644
+--- a/src/file_4246.c
++++ b/src/file_4246.c
+@@ -448,10 +136,9 @@ static int file_4246()
+ int old_code = 129;
+-int removed = 541;
++int added = 791.50;
++int another = 0xCE;
+ return old_code;
+
+diff --git a/src/file_1137.c b/src/file_1137.c
+index 053b917..003fad3 100644
+--- a/src/file_1137.c
++++ b/src/file_1137.c
+@@ -220,13 +14,14 @@ static int file_1137()
+ int old_code = 644;
+-int removed = 914;
++int added = 50.99e-8;
++int another = 0x3F;
+ return old_code;
+
+diff --git a/src/file_6646.c b/src/file_6646.c
+index 07f13fc..0be5fde 100644
+--- a/src/file_6646.c
++++ b/src/file_6646.c
+@@ -420,11 +361,15 @@ static int file_6646()
+ int old_code = 92;
+-int removed = 728;
++int added = 9062;
++int another = 0x65;
+ return old_code;
+
+diff --git a/src/file_9779.c b/src/file_9779.c
+index 02d13ff..0219f78 100644
+--- a/src/file_9779.c
++++ b/src/file_9779.c
+@@ -42,7 +334,5 @@ static int file_9779()
+ int old_code = 376;
+-int removed = 135;
++int added = 5072;
++int another = 0xB1;
+ return old_code;
+
+diff --git a/src/file_691.c b/src/file_691.c
+index 049ff52..03cc48c 100644
+--- a/src/file_691.c
++++ b/src/file_691.c
+@@ -293,18 +305,16 @@ static int file_691()
+ int old_code = 442;
+-int removed = 547;
++int added = 507.526;
++int another = 0xA4;
+ return old_code;
+
+diff --git a/src/file_2860.c b/src/file_2860.c
+index 0ab737f..0736aa4 100644
+--- a/src/file_2860.c
++++ b/src/file_2860.c
+@@ -103,16 +297,7 @@ static int file_2860()
+ int old_code = 741;
+-int removed = 372;
++int added = 19.45e-5;
++int another = 0x7B;
+ return old_code;
+
+diff --git a/src/file_1366.c b/src/file_1366.c
+index 05a4746..0b4783e 100644
+--- a/src/file_1366.c
++++ b/src/file_1366.c
+@@ -86,20 +433,19 @@ static int file_1366()
+ int old_code = 162;
+-int removed = 804;
++int added = 0o155;
++int another = 0xA1;
+ return old_code;
+
+diff --git a/src/file_721.c b/src/file_721.c
+index 01e6b31..098d712 100644
+--- a/src/file_721.c
++++ b/src/file_721.c
+@@ -411,17 +443,12 @@ static int file_721()
+ int old_code = 995;
+-int removed = 953;
++int added = 5513;
++int another = 0xDF;
+ return old_code;
+
+diff --git a/src/file_3543.c b/src/file_3543.c
+index 012e312..0eb88f2 100644
+--- a/src/file_3543.c
++++ b/src/file_3543.c
+@@ -323,15 +404,18 @@ static int file_3543()
+ int old_code = 635;
+-int removed = 298;
++int added = 0o632;
++int another = 0x29;
+ return old_code;
+
+diff --git a/src/file_5141.c b/src/file_5141.c
+index 084c14d..0e4feb7 100644
+--- a/src/file_5141.c
++++ b/src/file_5141.c
+@@ -244,9 +105,4 @@ static int file_5141()
+ int old_code = 34;
+-int removed = 431;
++int added = 4214;
++int another = 0x58;
+ return old_code;
+
+diff --git a/src/file_505.c b/src/file_505.c
+index 0b2e72d..0dddc89 100644
+--- a/src/file_505.c
++++ b/src/file_505.c
+@@ -220,13 +374,8 @@ static int file_505()
+ int old_code = 644;
+-int removed = 367;
++int added = 0x9C2E;
++int another = 0x3C;
+ return old_code;
+
+
+diff --git a/src/main.c b/src/main.c
+index 1234567..89abcde 100644
+--- a/src/main.c
++++ b/src/main.c
+@@ -10,7 +10,7 @@ int main(void)
+ context line
+-removed line with 78
++added line with 199.493
+ context line 2
+diff --git a/src/file_1292.c b/src/file_1292.c
+index 03376b9..00db97d 100644
+--- a/src/file_1292.c
++++ b/src/file_1292.c
+@@ -232,13 +472,10 @@ static int file_1292()
+ int old_code = 735;
+-int removed = 144;
++int added = 0xC2CC;
++int another = 0xD8;
+ return old_code;
+
+diff --git a/src/file_7839.c b/src/file_7839.c
+index 08a2aba..09dd92c 100644
+--- a/src/file_7839.c
++++ b/src/file_7839.c
+@@ -203,19 +424,16 @@ static int file_7839()
+ int old_code = 883;
+-int removed = 835;
++int added = 4370;
++int another = 0x13;
+ return old_code;
+
+diff --git a/src/file_1327.c b/src/file_1327.c
+index 05639eb..04ce069 100644
+--- a/src/file_1327.c
++++ b/src/file_1327.c
+@@ -273,18 +106,19 @@ static int file_1327()
+ int old_code = 864;
+-int removed = 710;
++int added = 449.439;
++int another = 0xE0;
+ return old_code;
+
+diff --git a/src/file_160.c b/src/file_160.c
+index 0ce06b3..064695d 100644
+--- a/src/file_160.c
++++ b/src/file_160.c
+@@ -122,10 +319,6 @@ static int file_160()
+ int old_code = 735;
+-int removed = 934;
++int added = 107.132;
++int another = 0xBB;
+ return old_code;
+
+diff --git a/src/file_8119.c b/src/file_8119.c
+index 00c8971..0af741a 100644
+--- a/src/file_8119.c
++++ b/src/file_8119.c
+@@ -357,3 +396,13 @@ static int file_8119()
+ int old_code = 591;
+-int removed = 69;
++int added = 0o105;
++int another = 0x19;
+ return old_code;
+
+diff --git a/src/file_1413.c b/src/file_1413.c
+index 0a69687..015719a 100644
+--- a/src/file_1413.c
++++ b/src/file_1413.c
+@@ -18,20 +92,17 @@ static int file_1413()
+ int old_code = 57;
+-int removed = 410;
++int added = 739.837;
++int another = 0xC8;
+ return old_code;
+
+diff --git a/src/file_4294.c b/src/file_4294.c
+index 020642e..01f1098 100644
+--- a/src/file_4294.c
++++ b/src/file_4294.c
+@@ -360,18 +193,14 @@ static int file_4294()
+ int old_code = 335;
+-int removed = 954;
++int added = 50.18e1;
++int another = 0x46;
+ return old_code;
+
+diff --git a/src/file_9514.c b/src/file_9514.c
+index 0e0d0d1..0c47fe9 100644
+--- a/src/file_9514.c
++++ b/src/file_9514.c
+@@ -85,15 +66,15 @@ static int file_9514()
+ int old_code = 233;
+-int removed = 136;
++int added = 8480;
++int another = 0x36;
+ return old_code;
+
+diff --git a/src/file_5339.c b/src/file_5339.c
+index 0184d45..0bf5b40 100644
+--- a/src/file_5339.c
++++ b/src/file_5339.c
+@@ -355,5 +189,6 @@ static int file_5339()
+ int old_code = 183;
+-int removed = 368;
++int added = 2956;
++int another = 0x08;
+ return old_code;
+
+diff --git a/src/file_2701.c b/src/file_2701.c
+index 02372bc..033c689 100644
+--- a/src/file_2701.c
++++ b/src/file_2701.c
+@@ -339,13 +390,4 @@ static int file_2701()
+ int old_code = 522;
+-int removed = 26;
++int added = 0o623;
++int another = 0x88;
+ return old_code;
+
+diff --git a/src/file_7949.c b/src/file_7949.c
+index 08d3935..0203eb6 100644
+--- a/src/file_7949.c
++++ b/src/file_7949.c
+@@ -228,14 +338,19 @@ static int file_7949()
+ int old_code = 142;
+-int removed = 307;
++int added = 0o11;
++int another = 0x3C;
+ return old_code;
+
+diff --git a/src/file_3305.c b/src/file_3305.c
+index 035153a..0494876 100644
+--- a/src/file_3305.c
++++ b/src/file_3305.c
+@@ -277,13 +108,5 @@ static int file_3305()
+ int old_code = 495;
+-int removed = 117;
++int added = 584.741;
++int another = 0x65;
+ return old_code;
+
+
+diff --git a/src/main.c b/src/main.c
+index 1234567..89abcde 100644
+--- a/src/main.c
++++ b/src/main.c
+@@ -10,7 +10,7 @@ int main(void)
+ context line
+-removed line with 18
++added line with 7679
+ context line 2
+diff --git a/src/file_8643.c b/src/file_8643.c
+index 013c4d1..05211a7 100644
+--- a/src/file_8643.c
++++ b/src/file_8643.c
+@@ -307,8 +202,3 @@ static int file_8643()
+ int old_code = 142;
+-int removed = 67;
++int added = 58.359;
++int another = 0xD3;
+ return old_code;
+
+diff --git a/src/file_592.c b/src/file_592.c
+index 0e68796..0e40576 100644
+--- a/src/file_592.c
++++ b/src/file_592.c
+@@ -255,3 +203,6 @@ static int file_592()
+ int old_code = 829;
+-int removed = 820;
++int added = -3305;
++int another = 0x9B;
+ return old_code;
+
+diff --git a/src/file_3217.c b/src/file_3217.c
+index 0003297..02a3666 100644
+--- a/src/file_3217.c
++++ b/src/file_3217.c
+@@ -341,8 +170,8 @@ static int file_3217()
+ int old_code = 331;
+-int removed = 622;
++int added = 0xE3EB;
++int another = 0x5E;
+ return old_code;
+
+diff --git a/src/file_1705.c b/src/file_1705.c
+index 0373c9d..00509c0 100644
+--- a/src/file_1705.c
++++ b/src/file_1705.c
+@@ -359,9 +460,3 @@ static int file_1705()
+ int old_code = 554;
+-int removed = 225;
++int added = 0x8643;
++int another = 0xA4;
+ return old_code;
+
+diff --git a/src/file_1880.c b/src/file_1880.c
+index 038f939..03aba89 100644
+--- a/src/file_1880.c
++++ b/src/file_1880.c
+@@ -248,17 +161,6 @@ static int file_1880()
+ int old_code = 579;
+-int removed = 840;
++int added = 57.76e-2;
++int another = 0xB1;
+ return old_code;
+
+diff --git a/src/file_9954.c b/src/file_9954.c
+index 079490e..0ba01b8 100644
+--- a/src/file_9954.c
++++ b/src/file_9954.c
+@@ -219,7 +243,11 @@ static int file_9954()
+ int old_code = 561;
+-int removed = 245;
++int added = 7964;
++int another = 0xCA;
+ return old_code;
+
+diff --git a/src/file_4484.c b/src/file_4484.c
+index 0ec91f4..02d127c 100644
+--- a/src/file_4484.c
++++ b/src/file_4484.c
+@@ -264,20 +380,18 @@ static int file_4484()
+ int old_code = 754;
+-int removed = 403;
++int added = 0x57E;
++int another = 0x4F;
+ return old_code;
+
+diff --git a/src/file_262.c b/src/file_262.c
+index 0c22713..091f395 100644
+--- a/src/file_262.c
++++ b/src/file_262.c
+@@ -103,4 +69,10 @@ static int file_262()
+ int old_code = 370;
+-int removed = 157;
++int added = 0x1BBC;
++int another = 0x64;
+ return old_code;
+
+diff --git a/src/file_4555.c b/src/file_4555.c
+index 018e752..0b38835 100644
+--- a/src/file_4555.c
++++ b/src/file_4555.c
+@@ -256,4 +267,11 @@ static int file_4555()
+ int old_code = 105;
+-int removed = 835;
++int added = 0xC90C;
++int another = 0x29;
+ return old_code;
+
+diff --git a/src/file_6644.c b/src/file_6644.c
+index 0233786..079886f 100644
+--- a/src/file_6644.c
++++ b/src/file_6644.c
+@@ -248,15 +120,10 @@ static int file_6644()
+ int old_code = 273;
+-int removed = 477;
++int added = 389.377;
++int another = 0xFF;
+ return old_code;
+
+diff --git a/src/file_4377.c b/src/file_4377.c
+index 09e20e5..046ce43 100644
+--- a/src/file_4377.c
++++ b/src/file_4377.c
+@@ -201,13 +68,5 @@ static int file_4377()
+ int old_code = 591;
+-int removed = 441;
++int added = 7103;
++int another = 0xAD;
+ return old_code;
+
+diff --git a/src/file_5665.c b/src/file_5665.c
+index 0e317ac..0ac845d 100644
+--- a/src/file_5665.c
++++ b/src/file_5665.c
+@@ -166,19 +477,7 @@ static int file_5665()
+ int old_code = 774;
+-int removed = 227;
++int added = 0o225;
++int another = 0xA6;
+ return old_code;
+
+
+diff --git a/src/main.c b/src/main.c
+index 1234567..89abcde 100644
+--- a/src/main.c
++++ b/src/main.c
+@@ -10,7 +10,7 @@ int main(void)
+ context line
+-removed line with 36
++added line with 0o542
+ context line 2
+diff --git a/src/file_2367.c b/src/file_2367.c
+index 0c139a6..0af58b6 100644
+--- a/src/file_2367.c
++++ b/src/file_2367.c
+@@ -376,10 +33,18 @@ static int file_2367()
+ int old_code = 38;
+-int removed = 734;
++int added = 855;
++int another = 0xBB;
+ return old_code;
+
+diff --git a/src/file_7790.c b/src/file_7790.c
+index 0619f11..02cf010 100644
+--- a/src/file_7790.c
++++ b/src/file_7790.c
+@@ -267,3 +284,3 @@ static int file_7790()
+ int old_code = 567;
+-int removed = 359;
++int added = 0o635;
++int another = 0x31;
+ return old_code;
+
+diff --git a/src/file_5908.c b/src/file_5908.c
+index 020f2e8..0e66c4e 100644
+--- a/src/file_5908.c
++++ b/src/file_5908.c
+@@ -32,9 +191,9 @@ static int file_5908()
+ int old_code = 361;
+-int removed = 567;
++int added = 77.65e-5;
++int another = 0xFC;
+ return old_code;
+
+diff --git a/src/file_237.c b/src/file_237.c
+index 09b70d9..0f18a4b 100644
+--- a/src/file_237.c
++++ b/src/file_237.c
+@@ -26,17 +101,19 @@ static int file_237()
+ int old_code = 641;
+-int removed = 723;
++int added = 2869;
++int another = 0xEF;
+ return old_code;
+
+diff --git a/src/file_1054.c b/src/file_1054.c
+index 06f08e8..080f429 100644
+--- a/src/file_1054.c
++++ b/src/file_1054.c
+@@ -476,10 +378,5 @@ static int file_1054()
+ int old_code = 844;
+-int removed = 1;
++int added = 351.451;
++int another = 0xB9;
+ return old_code;
+
+diff --git a/src/file_5990.c b/src/file_5990.c
+index 000f8aa..0104dac 100644
+--- a/src/file_5990.c
++++ b/src/file_5990.c
+@@ -18,17 +31,18 @@ static int file_5990()
+ int old_code = 460;
+-int removed = 184;
++int added = 6649;
++int another = 0x0E;
+ return old_code;
+
+diff --git a/src/file_58.c b/src/file_58.c
+index 038154d..0ab6c5d 100644
+--- a/src/file_58.c
++++ b/src/file_58.c
+@@ -243,14 +462,17 @@ static int file_58()
+ int old_code = 371;
+-int removed = 850;
++int added = 0o632;
++int another = 0x25;
+ return old_code;
+
+diff --git a/src/file_3301.c b/src/file_3301.c
+index 0b0f36e..0a1a0f7 100644
+--- a/src/file_3301.c
++++ b/src/file_3301.c
+@@ -168,16 +16,7 @@ static int file_3301()
+ int old_code = 23;
+-int removed = 481;
++int added = -6566;
++int another = 0x24;
+ return old_code;
+
+diff --git a/src/file_8225.c b/src/file_8225.c
+index 013b568..08ad716 100644
+--- a/src/file_8225.c
++++ b/src/file_8225.c
+@@ -282,12 +144,5 @@ static int file_8225()
+ int old_code = 188;
+-int removed = 179;
++int added = 17.17e9;
++int another = 0x85;
+ return old_code;
+
+diff --git a/src/file_4491.c b/src/file_4491.c
+index 0bdfa76..0c9ee64 100644
+--- a/src/file_4491.c
++++ b/src/file_4491.c
+@@ -368,19 +206,20 @@ static int file_4491()
+ int old_code = 425;
+-int removed = 182;
++int added = -6837;
++int another = 0xB3;
+ return old_code;
+
+diff --git a/src/file_689.c b/src/file_689.c
+index 097d8eb..0a5241c 100644
+--- a/src/file_689.c
++++ b/src/file_689.c
+@@ -195,5 +129,18 @@ static int file_689()
+ int old_code = 932;
+-int removed = 441;
++int added = 8697;
++int another = 0xCF;
+ return old_code;
+
+diff --git a/src/file_6449.c b/src/file_6449.c
+index 0737b22..0d8952d 100644
+--- a/src/file_6449.c
++++ b/src/file_6449.c
+@@ -9,10 +174,4 @@ static int file_6449()
+ int old_code = 859;
+-int removed = 879;
++int added = 0o750;
++int another = 0xBB;
+ return old_code;
+
+
+diff --git a/src/main.c b/src/main.c
+index 1234567..89abcde 100644
+--- a/src/main.c
++++ b/src/main.c
+@@ -10,7 +10,7 @@ int main(void)
+ context line
+-removed line with 43
++added line with 96.7e9
+ context line 2
+diff --git a/src/file_8614.c b/src/file_8614.c
+index 0550d1d..0483158 100644
+--- a/src/file_8614.c
++++ b/src/file_8614.c
+@@ -215,3 +130,15 @@ static int file_8614()
+ int old_code = 475;
+-int removed = 54;
++int added = 0o26;
++int another = 0x23;
+ return old_code;
+
+diff --git a/src/file_5856.c b/src/file_5856.c
+index 0b989cc..00c5ca1 100644
+--- a/src/file_5856.c
++++ b/src/file_5856.c
+@@ -178,12 +71,11 @@ static int file_5856()
+ int old_code = 314;
+-int removed = 331;
++int added = 0o220;
++int another = 0xF1;
+ return old_code;
+
+diff --git a/src/file_6107.c b/src/file_6107.c
+index 08a8a2f..00c7f2f 100644
+--- a/src/file_6107.c
++++ b/src/file_6107.c
+@@ -483,16 +272,4 @@ static int file_6107()
+ int old_code = 608;
+-int removed = 111;
++int added = 574.47;
++int another = 0x8B;
+ return old_code;
+
+diff --git a/src/file_8661.c b/src/file_8661.c
+index 0a6b98b..0479ba5 100644
+--- a/src/file_8661.c
++++ b/src/file_8661.c
+@@ -17,14 +324,10 @@ static int file_8661()
+ int old_code = 725;
+-int removed = 867;
++int added = 0o567;
++int another = 0x02;
+ return old_code;
+
+diff --git a/src/file_3154.c b/src/file_3154.c
+index 09e76e8..01fdc93 100644
+--- a/src/file_3154.c
++++ b/src/file_3154.c
+@@ -222,14 +312,8 @@ static int file_3154()
+ int old_code = 211;
+-int removed = 232;
++int added = 0x992F;
++int another = 0xAC;
+ return old_code;
+
+diff --git a/src/file_9661.c b/src/file_9661.c
+index 0d4ad69..028fa48 100644
+--- a/src/file_9661.c
++++ b/src/file_9661.c
+@@ -181,9 +307,18 @@ static int file_9661()
+ int old_code = 279;
+-int removed = 124;
++int added = 0xBABC;
++int another = 0x41;
+ return old_code;
+
+diff --git a/src/file_6254.c b/src/file_6254.c
+index 078283d..0404b17 100644
+--- a/src/file_6254.c
++++ b/src/file_6254.c
+@@ -181,11 +185,14 @@ static int file_6254()
+ int old_code = 254;
+-int removed = 234;
++int added = 633;
++int another = 0x3A;
+ return old_code;
+
+diff --git a/src/file_1035.c b/src/file_1035.c
+index 0d5ac26..05923ff 100644
+--- a/src/file_1035.c
++++ b/src/file_1035.c
+@@ -302,5 +167,9 @@ static int file_1035()
+ int old_code = 422;
+-int removed = 527;
++int added = 0x6A14;
++int another = 0x1C;
+ return old_code;
+
+diff --git a/src/file_6107.c b/src/file_6107.c
+index 0ea2008..095fd28 100644
+--- a/src/file_6107.c
++++ b/src/file_6107.c
+@@ -90,3 +500,10 @@ static int file_6107()
+ int old_code = 473;
+-int removed = 671;
++int added = 53.585;
++int another = 0x12;
+ return old_code;
+
+diff --git a/src/file_5944.c b/src/file_5944.c
+index 06fe3e8..04b60aa 100644
+--- a/src/file_5944.c
++++ b/src/file_5944.c
+@@ -359,4 +192,3 @@ static int file_5944()
+ int old_code = 445;
+-int removed = 581;
++int added = 0xF41D;
++int another = 0x6A;
+ return old_code;
+
+diff --git a/src/file_678.c b/src/file_678.c
+index 0486066..0d659b8 100644
+--- a/src/file_678.c
++++ b/src/file_678.c
+@@ -285,20 +70,7 @@ static int file_678()
+ int old_code = 882;
+-int removed = 560;
++int added = 793.868;
++int another = 0x37;
+ return old_code;
+
+diff --git a/src/file_1420.c b/src/file_1420.c
+index 06c6e24..0f19253 100644
+--- a/src/file_1420.c
++++ b/src/file_1420.c
+@@ -183,12 +293,20 @@ static int file_1420()
+ int old_code = 906;
+-int removed = 497;
++int added = -4967;
++int another = 0x8F;
+ return old_code;
+
+
+diff --git a/src/main.c b/src/main.c
+index 1234567..89abcde 100644
+--- a/src/main.c
++++ b/src/main.c
+@@ -10,7 +10,7 @@ int main(void)
+ context line
+-removed line with 15
++added line with 0o710
+ context line 2
+diff --git a/src/file_2468.c b/src/file_2468.c
+index 00a8c3b..09c0e3d 100644
+--- a/src/file_2468.c
++++ b/src/file_2468.c
+@@ -492,17 +86,9 @@ static int file_2468()
+ int old_code = 49;
+-int removed = 602;
++int added = -9338;
++int another = 0xA2;
+ return old_code;
+
+diff --git a/src/file_4842.c b/src/file_4842.c
+index 0dfb79a..0a49b9f 100644
+--- a/src/file_4842.c
++++ b/src/file_4842.c
+@@ -68,16 +427,7 @@ static int file_4842()
+ int old_code = 456;
+-int removed = 561;
++int added = 7121;
++int another = 0xD2;
+ return old_code;
+
+diff --git a/src/file_6474.c b/src/file_6474.c
+index 0c354f5..03f895e 100644
+--- a/src/file_6474.c
++++ b/src/file_6474.c
+@@ -154,18 +242,5 @@ static int file_6474()
+ int old_code = 676;
+-int removed = 141;
++int added = 78.39e-7;
++int another = 0x5C;
+ return old_code;
+
+diff --git a/src/file_9812.c b/src/file_9812.c
+index 059b151..0ac5359 100644
+--- a/src/file_9812.c
++++ b/src/file_9812.c
+@@ -414,3 +67,6 @@ static int file_9812()
+ int old_code = 760;
+-int removed = 229;
++int added = 5099;
++int another = 0x35;
+ return old_code;
+
+diff --git a/src/file_3453.c b/src/file_3453.c
+index 017dacf..020055e 100644
+--- a/src/file_3453.c
++++ b/src/file_3453.c
+@@ -447,7 +445,13 @@ static int file_3453()
+ int old_code = 279;
+-int removed = 447;
++int added = -2586;
++int another = 0xAE;
+ return old_code;
+
+diff --git a/src/file_1633.c b/src/file_1633.c
+index 08d6cfa..0aac9c5 100644
+--- a/src/file_1633.c
++++ b/src/file_1633.c
+@@ -258,9 +280,18 @@ static int file_1633()
+ int old_code = 41;
+-int removed = 75;
++int added = 0o534;
++int another = 0x25;
+ return old_code;
+
+diff --git a/src/file_5098.c b/src/file_5098.c
+index 0b219f8..0c5fec7 100644
+--- a/src/file_5098.c
++++ b/src/file_5098.c
+@@ -486,9 +118,3 @@ static int file_5098()
+ int old_code = 792;
+-int removed = 357;
++int added = -3010;
++int another = 0xB6;
+ return old_code;
+
+diff --git a/src/file_8182.c b/src/file_8182.c
+index 090b0ac..0fef8ac 100644
+--- a/src/file_8182.c
++++ b/src/file_8182.c
+@@ -386,5 +319,18 @@ static int file_8182()
+ int old_code = 547;
+-int removed = 912;
++int added = 6817;
++int another = 0x8B;
+ return old_code;
+
+diff --git a/src/file_5381.c b/src/file_5381.c
+index 0826797..0469ab3 100644
+--- a/src/file_5381.c
++++ b/src/file_5381.c
+@@ -308,20 +106,5 @@ static int file_5381()
+ int old_code = 90;
+-int removed = 935;
++int added = -5141;
++int another = 0xA8;
+ return old_code;
+
+diff --git a/src/file_1206.c b/src/file_1206.c
+index 0b39948..025907c 100644
+--- a/src/file_1206.c
++++ b/src/file_1206.c
+@@ -38,4 +393,11 @@ static int file_1206()
+ int old_code = 241;
+-int removed = 409;
++int added = 19.61e8;
++int another = 0x32;
+ return old_code;
+
+diff --git a/src/file_1596.c b/src/file_1596.c
+index 0b0fe9d..0eaaf9f 100644
+--- a/src/file_1596.c
++++ b/src/file_1596.c
+@@ -94,17 +83,13 @@ static int file_1596()
+ int old_code = 939;
+-int removed = 954;
++int added = 946.790;
++int another = 0x1A;
+ return old_code;
+
+diff --git a/src/file_5117.c b/src/file_5117.c
+index 04ed0e0..0e9adfe 100644
+--- a/src/file_5117.c
++++ b/src/file_5117.c
+@@ -245,16 +171,3 @@ static int file_5117()
+ int old_code = 918;
+-int removed = 195;
++int added = 6433;
++int another = 0xB6;
+ return old_code;
+
+
+diff --git a/src/main.c b/src/main.c
+index 1234567..89abcde 100644
+--- a/src/main.c
++++ b/src/main.c
+@@ -10,7 +10,7 @@ int main(void)
+ context line
+-removed line with 81
++added line with 0o67
+ context line 2
+diff --git a/src/file_712.c b/src/file_712.c
+index 0e73f5f..0f73ffd 100644
+--- a/src/file_712.c
++++ b/src/file_712.c
+@@ -162,7 +364,20 @@ static int file_712()
+ int old_code = 14;
+-int removed = 315;
++int added = 0xC604;
++int another = 0x8B;
+ return old_code;
+
+diff --git a/src/file_8784.c b/src/file_8784.c
+index 006da26..000297c 100644
+--- a/src/file_8784.c
++++ b/src/file_8784.c
+@@ -168,15 +408,16 @@ static int file_8784()
+ int old_code = 713;
+-int removed = 580;
++int added = 0o760;
++int another = 0xCB;
+ return old_code;
+
+diff --git a/src/file_6966.c b/src/file_6966.c
+index 066952a..07de5c6 100644
+--- a/src/file_6966.c
++++ b/src/file_6966.c
+@@ -76,9 +67,20 @@ static int file_6966()
+ int old_code = 302;
+-int removed = 271;
++int added = 575.654;
++int another = 0xF3;
+ return old_code;
+
+diff --git a/src/file_271.c b/src/file_271.c
+index 059fb34..09a1e7d 100644
+--- a/src/file_271.c
++++ b/src/file_271.c
+@@ -205,10 +481,6 @@ static int file_271()
+ int old_code = 375;
+-int removed = 704;
++int added = 4.57e0;
++int another = 0x82;
+ return old_code;
+
+diff --git a/src/file_5013.c b/src/file_5013.c
+index 0f94192..07753dc 100644
+--- a/src/file_5013.c
++++ b/src/file_5013.c
+@@ -149,3 +119,15 @@ static int file_5013()
+ int old_code = 273;
+-int removed = 722;
++int added = 0xCAD0;
++int another = 0x29;
+ return old_code;
+
+diff --git a/src/file_9902.c b/src/file_9902.c
+index 0f785c1..029e02a 100644
+--- a/src/file_9902.c
++++ b/src/file_9902.c
+@@ -235,15 +496,11 @@ static int file_9902()
+ int old_code = 41;
+-int removed = 773;
++int added = 0o235;
++int another = 0x9B;
+ return old_code;
+
+diff --git a/src/file_8888.c b/src/file_8888.c
+index 07f423b..0f15bdc 100644
+--- a/src/file_8888.c
++++ b/src/file_8888.c
+@@ -203,12 +267,3 @@ static int file_8888()
+ int old_code = 535;
+-int removed = 117;
++int added = 0x39E9;
++int another = 0xD6;
+ return old_code;
+
+diff --git a/src/file_1968.c b/src/file_1968.c
+index 00ba0b9..0a80024 100644
+--- a/src/file_1968.c
++++ b/src/file_1968.c
+@@ -289,7 +117,13 @@ static int file_1968()
+ int old_code = 888;
+-int removed = 61;
++int added = -8113;
++int another = 0x84;
+ return old_code;
+
+diff --git a/src/file_6485.c b/src/file_6485.c
+index 0580007..00b24ba 100644
+--- a/src/file_6485.c
++++ b/src/file_6485.c
+@@ -217,12 +323,11 @@ static int file_6485()
+ int old_code = 450;
+-int removed = 653;
++int added = 0o660;
++int another = 0x6B;
+ return old_code;
+
+diff --git a/src/file_806.c b/src/file_806.c
+index 00618ca..0a6e514 100644
+--- a/src/file_806.c
++++ b/src/file_806.c
+@@ -232,9 +214,6 @@ static int file_806()
+ int old_code = 929;
+-int removed = 905;
++int added = 551;
++int another = 0x5F;
+ return old_code;
+
+diff --git a/src/file_9034.c b/src/file_9034.c
+index 0805599..03c298d 100644
+--- a/src/file_9034.c
++++ b/src/file_9034.c
+@@ -119,19 +180,18 @@ static int file_9034()
+ int old_code = 854;
+-int removed = 710;
++int added = 0x9943;
++int another = 0xE0;
+ return old_code;
+
+diff --git a/src/file_111.c b/src/file_111.c
+index 0ed9f1d..0a9a3e0 100644
+--- a/src/file_111.c
++++ b/src/file_111.c
+@@ -172,15 +34,19 @@ static int file_111()
+ int old_code = 312;
+-int removed = 404;
++int added = 4755;
++int another = 0x9A;
+ return old_code;
+
+
+diff --git a/src/main.c b/src/main.c
+index 1234567..89abcde 100644
+--- a/src/main.c
++++ b/src/main.c
+@@ -10,7 +10,7 @@ int main(void)
+ context line
+-removed line with 66
++added line with 0o316
+ context line 2
+diff --git a/src/file_5560.c b/src/file_5560.c
+index 05d10e9..0fce105 100644
+--- a/src/file_5560.c
++++ b/src/file_5560.c
+@@ -292,13 +271,14 @@ static int file_5560()
+ int old_code = 90;
+-int removed = 935;
++int added = -4739;
++int another = 0xC7;
+ return old_code;
+
+diff --git a/src/file_4412.c b/src/file_4412.c
+index 0bc90c0..0ac10d3 100644
+--- a/src/file_4412.c
++++ b/src/file_4412.c
+@@ -418,4 +199,6 @@ static int file_4412()
+ int old_code = 665;
+-int removed = 965;
++int added = 6269;
++int another = 0xC1;
+ return old_code;
+
+diff --git a/src/file_1986.c b/src/file_1986.c
+index 09253ae..01a86de 100644
+--- a/src/file_1986.c
++++ b/src/file_1986.c
+@@ -197,7 +304,9 @@ static int file_1986()
+ int old_code = 39;
+-int removed = 830;
++int added = 580;
++int another = 0x31;
+ return old_code;
+
+diff --git a/src/file_2179.c b/src/file_2179.c
+index 03acac7..033e64c 100644
+--- a/src/file_2179.c
++++ b/src/file_2179.c
+@@ -207,20 +476,11 @@ static int file_2179()
+ int old_code = 253;
+-int removed = 293;
++int added = 0o376;
++int another = 0x30;
+ return old_code;
+
+diff --git a/src/file_4975.c b/src/file_4975.c
+index 077b83c..05a68b2 100644
+--- a/src/file_4975.c
++++ b/src/file_4975.c
+@@ -358,17 +270,4 @@ static int file_4975()
+ int old_code = 311;
+-int removed = 82;
++int added = 4158;
++int another = 0xA8;
+ return old_code;
+
+diff --git a/src/file_8982.c b/src/file_8982.c
+index 01150cd..0457e94 100644
+--- a/src/file_8982.c
++++ b/src/file_8982.c
+@@ -270,16 +388,7 @@ static int file_8982()
+ int old_code = 467;
+-int removed = 565;
++int added = 209;
++int another = 0x8C;
+ return old_code;
+
+diff --git a/src/file_4630.c b/src/file_4630.c
+index 0ebfeb2..0217ccd 100644
+--- a/src/file_4630.c
++++ b/src/file_4630.c
+@@ -203,11 +442,12 @@ static int file_4630()
+ int old_code = 172;
+-int removed = 833;
++int added = 4321;
++int another = 0x8C;
+ return old_code;
+
+diff --git a/src/file_4724.c b/src/file_4724.c
+index 0af22c8..0752a2f 100644
+--- a/src/file_4724.c
++++ b/src/file_4724.c
+@@ -53,11 +333,3 @@ static int file_4724()
+ int old_code = 229;
+-int removed = 830;
++int added = 2715;
++int another = 0xD9;
+ return old_code;
+
+diff --git a/src/file_2860.c b/src/file_2860.c
+index 033ff8f..0dd0f73 100644
+--- a/src/file_2860.c
++++ b/src/file_2860.c
+@@ -394,19 +234,17 @@ static int file_2860()
+ int old_code = 515;
+-int removed = 822;
++int added = 2061;
++int another = 0x37;
+ return old_code;
+
+diff --git a/src/file_8421.c b/src/file_8421.c
+index 0d45d02..0bc4a9e 100644
+--- a/src/file_8421.c
++++ b/src/file_8421.c
+@@ -146,12 +56,9 @@ static int file_8421()
+ int old_code = 415;
+-int removed = 829;
++int added = 21.86e-5;
++int another = 0xBA;
+ return old_code;
+
+diff --git a/src/file_4619.c b/src/file_4619.c
+index 0091d99..0daaf9c 100644
+--- a/src/file_4619.c
++++ b/src/file_4619.c
+@@ -471,8 +64,9 @@ static int file_4619()
+ int old_code = 183;
+-int removed = 823;
++int added = 0o770;
++int another = 0x47;
+ return old_code;
+
+diff --git a/src/file_3564.c b/src/file_3564.c
+index 00c1df1..0e05041 100644
+--- a/src/file_3564.c
++++ b/src/file_3564.c
+@@ -126,20 +278,14 @@ static int file_3564()
+ int old_code = 370;
+-int removed = 956;
++int added = -8382;
++int another = 0xE1;
+ return old_code;
+
+
+diff --git a/src/main.c b/src/main.c
+index 1234567..89abcde 100644
+--- a/src/main.c
++++ b/src/main.c
+@@ -10,7 +10,7 @@ int main(void)
+ context line
+-removed line with 91
++added line with 3856
+ context line 2
+diff --git a/src/file_63.c b/src/file_63.c
+index 083a600..0f50ebe 100644
+--- a/src/file_63.c
++++ b/src/file_63.c
+@@ -134,20 +354,11 @@ static int file_63()
+ int old_code = 63;
+-int removed = 696;
++int added = 0o705;
++int another = 0x62;
+ return old_code;
+
+diff --git a/src/file_170.c b/src/file_170.c
+index 06dc47a..0ccb81f 100644
+--- a/src/file_170.c
++++ b/src/file_170.c
+@@ -90,13 +11,4 @@ static int file_170()
+ int old_code = 273;
+-int removed = 63;
++int added = 9821;
++int another = 0x8F;
+ return old_code;
+
+diff --git a/src/file_900.c b/src/file_900.c
+index 0cba63e..063eb7f 100644
+--- a/src/file_900.c
++++ b/src/file_900.c
+@@ -472,12 +246,11 @@ static int file_900()
+ int old_code = 675;
+-int removed = 62;
++int added = 1.88e7;
++int another = 0x2B;
+ return old_code;
+
+diff --git a/src/file_7855.c b/src/file_7855.c
+index 027021b..0330beb 100644
+--- a/src/file_7855.c
++++ b/src/file_7855.c
+@@ -225,17 +417,6 @@ static int file_7855()
+ int old_code = 980;
+-int removed = 952;
++int added = 752.412;
++int another = 0x9E;
+ return old_code;
+
+diff --git a/src/file_803.c b/src/file_803.c
+index 0529400..0f16aa4 100644
+--- a/src/file_803.c
++++ b/src/file_803.c
+@@ -78,14 +227,14 @@ static int file_803()
+ int old_code = 483;
+-int removed = 281;
++int added = 472.22;
++int another = 0xBD;
+ return old_code;
+
+diff --git a/src/file_43.c b/src/file_43.c
+index 01040a9..0e51d9b 100644
+--- a/src/file_43.c
++++ b/src/file_43.c
+@@ -221,18 +281,4 @@ static int file_43()
+ int old_code = 722;
+-int removed = 532;
++int added = 0o376;
++int another = 0xBF;
+ return old_code;
+
+diff --git a/src/file_4907.c b/src/file_4907.c
+index 0741193..0861363 100644
+--- a/src/file_4907.c
++++ b/src/file_4907.c
+@@ -269,3 +394,8 @@ static int file_4907()
+ int old_code = 880;
+-int removed = 203;
++int added = 5654;
++int another = 0xD4;
+ return old_code;
+
+diff --git a/src/file_5849.c b/src/file_5849.c
+index 0418674..0729b93 100644
+--- a/src/file_5849.c
++++ b/src/file_5849.c
+@@ -368,3 +16,18 @@ static int file_5849()
+ int old_code = 851;
+-int removed = 392;
++int added = 1820;
++int another = 0x5F;
+ return old_code;
+
+diff --git a/src/file_7465.c b/src/file_7465.c
+index 053ec0f..0c85390 100644
+--- a/src/file_7465.c
++++ b/src/file_7465.c
+@@ -66,4 +439,18 @@ static int file_7465()
+ int old_code = 185;
+-int removed = 56;
++int added = 0x1742;
++int another = 0x0E;
+ return old_code;
+
+diff --git a/src/file_4831.c b/src/file_4831.c
+index 0bca10b..08ef16d 100644
+--- a/src/file_4831.c
++++ b/src/file_4831.c
+@@ -350,13 +194,14 @@ static int file_4831()
+ int old_code = 203;
+-int removed = 728;
++int added = 43.81e-4;
++int another = 0x69;
+ return old_code;
+
+diff --git a/src/file_5732.c b/src/file_5732.c
+index 0418a55..05af0f6 100644
+--- a/src/file_5732.c
++++ b/src/file_5732.c
+@@ -234,3 +130,10 @@ static int file_5732()
+ int old_code = 921;
+-int removed = 225;
++int added = -9426;
++int another = 0x20;
+ return old_code;
+
+diff --git a/src/file_2728.c b/src/file_2728.c
+index 079297d..0387271 100644
+--- a/src/file_2728.c
++++ b/src/file_2728.c
+@@ -464,3 +226,13 @@ static int file_2728()
+ int old_code = 559;
+-int removed = 278;
++int added = 0xD699;
++int another = 0xD7;
+ return old_code;
+
+

@@ -1,0 +1,13 @@
+--- a/file_v1.txt	2025-07-08 18:00:00.000000000 +0100
++++ b/file_v2.txt	2025-07-08 18:05:00.000000000 +0100
+@@ -1,6 +1,6 @@
+-Line 1: This is the original first line.
++Line 1: This is the updated first line.
+-Line 2: This line will be deleted.
+ Line 3: This line will be modified.
++Line 3: This line has been modified.
+ Line 4: This line remains unchanged.
+ Line 5: Another unchanged line.
+-Line 6: This line is unique to version 1.
++Line 7: This is a new line added in version 2.
++Line 8: Yet another new line.

@@ -1,0 +1,378 @@
+{
+  "name": "benchmark",
+  "version": "1.2.28",
+  "active": true,
+  "ratio": -7345,
+  "tags": ["alpha", "beta", "gamma"],
+  "empty": null,
+  "nested": {
+    "list": [
+      { "id": 0, "name": "item-311", "score": 561.522, "ok": true },
+      { "id": 1, "name": "item-7", "score": 203, "ok": false },
+      { "id": 2, "name": "item-166", "score": 6544, "ok": false },
+      { "id": 3, "name": "item-936", "score": 880.235, "ok": false },
+      { "id": 4, "name": "item-103", "score": 6495, "ok": false },
+      { "id": 5, "name": "item-649", "score": 0xF9EE, "ok": true },
+      { "id": 6, "name": "item-580", "score": 0x320D, "ok": false },
+      { "id": 7, "name": "item-109", "score": 0xE146, "ok": false },
+      { "id": 8, "name": "item-935", "score": 0xC913, "ok": false },
+      { "id": 9, "name": "item-218", "score": 3609, "ok": false },
+      { "id": 10, "name": "item-378", "score": 0x67E7, "ok": true },
+      { "id": 11, "name": "item-990", "score": 0o764, "ok": true },
+      { "id": -1, "name": "last", "score": 0.0, "ok": false }
+    ],
+    "note": "line1\nline2\t with escapes \"quoted\""
+  }
+}
+
+{
+  "name": "benchmark",
+  "version": "1.14.29",
+  "active": true,
+  "ratio": -4771,
+  "tags": ["alpha", "beta", "gamma"],
+  "empty": null,
+  "nested": {
+    "list": [
+      { "id": 0, "name": "item-405", "score": 509, "ok": true },
+      { "id": 1, "name": "item-56", "score": 0o504, "ok": false },
+      { "id": 2, "name": "item-943", "score": 0o502, "ok": true },
+      { "id": 3, "name": "item-663", "score": 4933, "ok": false },
+      { "id": 4, "name": "item-41", "score": 8361, "ok": true },
+      { "id": 5, "name": "item-347", "score": 11.43e-6, "ok": true },
+      { "id": 6, "name": "item-839", "score": 0xC302, "ok": true },
+      { "id": 7, "name": "item-108", "score": 72.25e-2, "ok": false },
+      { "id": 8, "name": "item-960", "score": 0x449D, "ok": false },
+      { "id": 9, "name": "item-305", "score": -110, "ok": false },
+      { "id": 10, "name": "item-847", "score": 0x4FEC, "ok": false },
+      { "id": 11, "name": "item-256", "score": 1087, "ok": false },
+      { "id": -1, "name": "last", "score": 0.0, "ok": false }
+    ],
+    "note": "line1\nline2\t with escapes \"quoted\""
+  }
+}
+
+{
+  "name": "benchmark",
+  "version": "2.11.86",
+  "active": true,
+  "ratio": 150,
+  "tags": ["alpha", "beta", "gamma"],
+  "empty": null,
+  "nested": {
+    "list": [
+      { "id": 0, "name": "item-949", "score": 0x381, "ok": true },
+      { "id": 1, "name": "item-626", "score": 0x342, "ok": true },
+      { "id": 2, "name": "item-168", "score": 2, "ok": false },
+      { "id": 3, "name": "item-29", "score": 0o677, "ok": true },
+      { "id": 4, "name": "item-836", "score": 776, "ok": false },
+      { "id": 5, "name": "item-26", "score": 5.24e8, "ok": false },
+      { "id": 6, "name": "item-424", "score": 76.24e-2, "ok": false },
+      { "id": 7, "name": "item-234", "score": -2735, "ok": true },
+      { "id": 8, "name": "item-518", "score": 0o735, "ok": true },
+      { "id": 9, "name": "item-404", "score": 27.78e6, "ok": false },
+      { "id": 10, "name": "item-821", "score": 771.334, "ok": true },
+      { "id": 11, "name": "item-874", "score": 147.808, "ok": false },
+      { "id": -1, "name": "last", "score": 0.0, "ok": false }
+    ],
+    "note": "line1\nline2\t with escapes \"quoted\""
+  }
+}
+
+{
+  "name": "benchmark",
+  "version": "1.17.91",
+  "active": true,
+  "ratio": 800.141,
+  "tags": ["alpha", "beta", "gamma"],
+  "empty": null,
+  "nested": {
+    "list": [
+      { "id": 0, "name": "item-33", "score": -7503, "ok": true },
+      { "id": 1, "name": "item-889", "score": 90.30e6, "ok": true },
+      { "id": 2, "name": "item-326", "score": 0x952C, "ok": true },
+      { "id": 3, "name": "item-506", "score": 58.13e7, "ok": true },
+      { "id": 4, "name": "item-328", "score": 0o503, "ok": false },
+      { "id": 5, "name": "item-711", "score": 55.60e-7, "ok": false },
+      { "id": 6, "name": "item-406", "score": 83.433, "ok": false },
+      { "id": 7, "name": "item-869", "score": 234.531, "ok": true },
+      { "id": 8, "name": "item-488", "score": 5272, "ok": true },
+      { "id": 9, "name": "item-233", "score": 0x9686, "ok": false },
+      { "id": 10, "name": "item-453", "score": 0xC585, "ok": false },
+      { "id": 11, "name": "item-525", "score": 0o12, "ok": true },
+      { "id": -1, "name": "last", "score": 0.0, "ok": false }
+    ],
+    "note": "line1\nline2\t with escapes \"quoted\""
+  }
+}
+
+{
+  "name": "benchmark",
+  "version": "0.9.22",
+  "active": true,
+  "ratio": 0o562,
+  "tags": ["alpha", "beta", "gamma"],
+  "empty": null,
+  "nested": {
+    "list": [
+      { "id": 0, "name": "item-807", "score": 2.82e4, "ok": true },
+      { "id": 1, "name": "item-258", "score": 0o61, "ok": false },
+      { "id": 2, "name": "item-398", "score": 54.8e-9, "ok": true },
+      { "id": 3, "name": "item-621", "score": 801.257, "ok": true },
+      { "id": 4, "name": "item-918", "score": 609.774, "ok": false },
+      { "id": 5, "name": "item-200", "score": 297.657, "ok": true },
+      { "id": 6, "name": "item-465", "score": 0o154, "ok": true },
+      { "id": 7, "name": "item-871", "score": 220.332, "ok": false },
+      { "id": 8, "name": "item-657", "score": 9736, "ok": true },
+      { "id": 9, "name": "item-174", "score": 3850, "ok": false },
+      { "id": 10, "name": "item-793", "score": 8088, "ok": true },
+      { "id": 11, "name": "item-904", "score": 0x3683, "ok": false },
+      { "id": -1, "name": "last", "score": 0.0, "ok": false }
+    ],
+    "note": "line1\nline2\t with escapes \"quoted\""
+  }
+}
+
+{
+  "name": "benchmark",
+  "version": "0.12.20",
+  "active": true,
+  "ratio": 421.821,
+  "tags": ["alpha", "beta", "gamma"],
+  "empty": null,
+  "nested": {
+    "list": [
+      { "id": 0, "name": "item-383", "score": 0x7107, "ok": false },
+      { "id": 1, "name": "item-931", "score": 0x14DC, "ok": false },
+      { "id": 2, "name": "item-297", "score": 910.971, "ok": true },
+      { "id": 3, "name": "item-655", "score": -9176, "ok": true },
+      { "id": 4, "name": "item-356", "score": 0o345, "ok": false },
+      { "id": 5, "name": "item-211", "score": 680.659, "ok": true },
+      { "id": 6, "name": "item-343", "score": 0x747B, "ok": false },
+      { "id": 7, "name": "item-481", "score": 0x468, "ok": false },
+      { "id": 8, "name": "item-240", "score": 95.87e6, "ok": false },
+      { "id": 9, "name": "item-864", "score": 5343, "ok": true },
+      { "id": 10, "name": "item-316", "score": 0o442, "ok": true },
+      { "id": 11, "name": "item-169", "score": 3809, "ok": false },
+      { "id": -1, "name": "last", "score": 0.0, "ok": false }
+    ],
+    "note": "line1\nline2\t with escapes \"quoted\""
+  }
+}
+
+{
+  "name": "benchmark",
+  "version": "3.19.9",
+  "active": true,
+  "ratio": 93.91e-5,
+  "tags": ["alpha", "beta", "gamma"],
+  "empty": null,
+  "nested": {
+    "list": [
+      { "id": 0, "name": "item-786", "score": 463.317, "ok": false },
+      { "id": 1, "name": "item-889", "score": 2993, "ok": false },
+      { "id": 2, "name": "item-429", "score": 0x394C, "ok": false },
+      { "id": 3, "name": "item-473", "score": 39.40e6, "ok": false },
+      { "id": 4, "name": "item-543", "score": 3841, "ok": true },
+      { "id": 5, "name": "item-574", "score": 0o646, "ok": true },
+      { "id": 6, "name": "item-435", "score": 3876, "ok": true },
+      { "id": 7, "name": "item-798", "score": 35.883, "ok": false },
+      { "id": 8, "name": "item-462", "score": 4.27e-8, "ok": false },
+      { "id": 9, "name": "item-29", "score": 4448, "ok": true },
+      { "id": 10, "name": "item-600", "score": 83.67e8, "ok": true },
+      { "id": 11, "name": "item-905", "score": 632.676, "ok": true },
+      { "id": -1, "name": "last", "score": 0.0, "ok": false }
+    ],
+    "note": "line1\nline2\t with escapes \"quoted\""
+  }
+}
+
+{
+  "name": "benchmark",
+  "version": "3.12.68",
+  "active": true,
+  "ratio": 804,
+  "tags": ["alpha", "beta", "gamma"],
+  "empty": null,
+  "nested": {
+    "list": [
+      { "id": 0, "name": "item-923", "score": 4664, "ok": true },
+      { "id": 1, "name": "item-535", "score": 1219, "ok": true },
+      { "id": 2, "name": "item-257", "score": 0x4274, "ok": true },
+      { "id": 3, "name": "item-860", "score": 102.198, "ok": false },
+      { "id": 4, "name": "item-772", "score": 911.350, "ok": true },
+      { "id": 5, "name": "item-609", "score": 0xF0FE, "ok": false },
+      { "id": 6, "name": "item-513", "score": 0o557, "ok": true },
+      { "id": 7, "name": "item-970", "score": 0x74C7, "ok": true },
+      { "id": 8, "name": "item-206", "score": -8863, "ok": false },
+      { "id": 9, "name": "item-946", "score": 0o743, "ok": false },
+      { "id": 10, "name": "item-974", "score": 0xE444, "ok": false },
+      { "id": 11, "name": "item-597", "score": 3111, "ok": true },
+      { "id": -1, "name": "last", "score": 0.0, "ok": false }
+    ],
+    "note": "line1\nline2\t with escapes \"quoted\""
+  }
+}
+
+{
+  "name": "benchmark",
+  "version": "3.19.89",
+  "active": true,
+  "ratio": -466,
+  "tags": ["alpha", "beta", "gamma"],
+  "empty": null,
+  "nested": {
+    "list": [
+      { "id": 0, "name": "item-295", "score": 0xA27F, "ok": false },
+      { "id": 1, "name": "item-269", "score": 0x30F4, "ok": true },
+      { "id": 2, "name": "item-128", "score": 6758, "ok": true },
+      { "id": 3, "name": "item-579", "score": 0o441, "ok": false },
+      { "id": 4, "name": "item-3", "score": 0o713, "ok": true },
+      { "id": 5, "name": "item-911", "score": 4716, "ok": true },
+      { "id": 6, "name": "item-108", "score": 0x5BF6, "ok": true },
+      { "id": 7, "name": "item-578", "score": 0o201, "ok": true },
+      { "id": 8, "name": "item-743", "score": 3395, "ok": false },
+      { "id": 9, "name": "item-160", "score": 0o544, "ok": true },
+      { "id": 10, "name": "item-340", "score": 0xE8F8, "ok": true },
+      { "id": 11, "name": "item-348", "score": 1735, "ok": true },
+      { "id": -1, "name": "last", "score": 0.0, "ok": false }
+    ],
+    "note": "line1\nline2\t with escapes \"quoted\""
+  }
+}
+
+{
+  "name": "benchmark",
+  "version": "3.14.28",
+  "active": true,
+  "ratio": 0x268D,
+  "tags": ["alpha", "beta", "gamma"],
+  "empty": null,
+  "nested": {
+    "list": [
+      { "id": 0, "name": "item-516", "score": 0xDBCB, "ok": false },
+      { "id": 1, "name": "item-7", "score": 69.58e-1, "ok": false },
+      { "id": 2, "name": "item-629", "score": 0xE66F, "ok": true },
+      { "id": 3, "name": "item-465", "score": 5.69e-2, "ok": false },
+      { "id": 4, "name": "item-370", "score": 42.14e5, "ok": true },
+      { "id": 5, "name": "item-192", "score": 50.33e-2, "ok": true },
+      { "id": 6, "name": "item-965", "score": 1068, "ok": false },
+      { "id": 7, "name": "item-705", "score": 3813, "ok": false },
+      { "id": 8, "name": "item-486", "score": 277.544, "ok": true },
+      { "id": 9, "name": "item-713", "score": 0xF847, "ok": true },
+      { "id": 10, "name": "item-288", "score": 669.601, "ok": true },
+      { "id": 11, "name": "item-991", "score": 4102, "ok": false },
+      { "id": -1, "name": "last", "score": 0.0, "ok": false }
+    ],
+    "note": "line1\nline2\t with escapes \"quoted\""
+  }
+}
+
+{
+  "name": "benchmark",
+  "version": "0.16.40",
+  "active": true,
+  "ratio": 666.321,
+  "tags": ["alpha", "beta", "gamma"],
+  "empty": null,
+  "nested": {
+    "list": [
+      { "id": 0, "name": "item-628", "score": 6728, "ok": true },
+      { "id": 1, "name": "item-375", "score": 0xE069, "ok": true },
+      { "id": 2, "name": "item-80", "score": 0xE390, "ok": false },
+      { "id": 3, "name": "item-121", "score": 0o413, "ok": true },
+      { "id": 4, "name": "item-459", "score": 88.73e-9, "ok": false },
+      { "id": 5, "name": "item-447", "score": 0o60, "ok": false },
+      { "id": 6, "name": "item-131", "score": 856.928, "ok": true },
+      { "id": 7, "name": "item-362", "score": 0x7BB5, "ok": true },
+      { "id": 8, "name": "item-73", "score": 83.9e-3, "ok": false },
+      { "id": 9, "name": "item-457", "score": -3273, "ok": false },
+      { "id": 10, "name": "item-882", "score": 0o225, "ok": false },
+      { "id": 11, "name": "item-717", "score": 31.89e-6, "ok": true },
+      { "id": -1, "name": "last", "score": 0.0, "ok": false }
+    ],
+    "note": "line1\nline2\t with escapes \"quoted\""
+  }
+}
+
+{
+  "name": "benchmark",
+  "version": "2.9.85",
+  "active": true,
+  "ratio": 402,
+  "tags": ["alpha", "beta", "gamma"],
+  "empty": null,
+  "nested": {
+    "list": [
+      { "id": 0, "name": "item-349", "score": 0o157, "ok": false },
+      { "id": 1, "name": "item-624", "score": 2393, "ok": true },
+      { "id": 2, "name": "item-129", "score": 1882, "ok": false },
+      { "id": 3, "name": "item-473", "score": 9766, "ok": true },
+      { "id": 4, "name": "item-646", "score": 0o431, "ok": true },
+      { "id": 5, "name": "item-661", "score": 6.866, "ok": true },
+      { "id": 6, "name": "item-261", "score": 0x603, "ok": true },
+      { "id": 7, "name": "item-810", "score": 5831, "ok": true },
+      { "id": 8, "name": "item-121", "score": 1179, "ok": true },
+      { "id": 9, "name": "item-372", "score": 221.4, "ok": true },
+      { "id": 10, "name": "item-149", "score": 0o347, "ok": true },
+      { "id": 11, "name": "item-377", "score": -2259, "ok": false },
+      { "id": -1, "name": "last", "score": 0.0, "ok": false }
+    ],
+    "note": "line1\nline2\t with escapes \"quoted\""
+  }
+}
+
+{
+  "name": "benchmark",
+  "version": "2.16.36",
+  "active": true,
+  "ratio": 211,
+  "tags": ["alpha", "beta", "gamma"],
+  "empty": null,
+  "nested": {
+    "list": [
+      { "id": 0, "name": "item-104", "score": 30.81e-8, "ok": true },
+      { "id": 1, "name": "item-601", "score": 0x1833, "ok": true },
+      { "id": 2, "name": "item-175", "score": 65.57e0, "ok": false },
+      { "id": 3, "name": "item-524", "score": 0o311, "ok": true },
+      { "id": 4, "name": "item-956", "score": 0o472, "ok": true },
+      { "id": 5, "name": "item-747", "score": 0x4AF0, "ok": true },
+      { "id": 6, "name": "item-889", "score": -4529, "ok": true },
+      { "id": 7, "name": "item-898", "score": 5047, "ok": false },
+      { "id": 8, "name": "item-982", "score": 84.55e-7, "ok": true },
+      { "id": 9, "name": "item-600", "score": 5666, "ok": true },
+      { "id": 10, "name": "item-139", "score": -5636, "ok": false },
+      { "id": 11, "name": "item-326", "score": 485.120, "ok": false },
+      { "id": -1, "name": "last", "score": 0.0, "ok": false }
+    ],
+    "note": "line1\nline2\t with escapes \"quoted\""
+  }
+}
+
+{
+  "name": "benchmark",
+  "version": "3.3.56",
+  "active": true,
+  "ratio": 0o124,
+  "tags": ["alpha", "beta", "gamma"],
+  "empty": null,
+  "nested": {
+    "list": [
+      { "id": 0, "name": "item-83", "score": 8660, "ok": true },
+      { "id": 1, "name": "item-668", "score": 0o753, "ok": false },
+      { "id": 2, "name": "item-438", "score": 59.21e2, "ok": true },
+      { "id": 3, "name": "item-621", "score": 697.256, "ok": false },
+      { "id": 4, "name": "item-698", "score": 0x2F6E, "ok": true },
+      { "id": 5, "name": "item-727", "score": -6301, "ok": false },
+      { "id": 6, "name": "item-848", "score": 79.77e-3, "ok": false },
+      { "id": 7, "name": "item-408", "score": 275.836, "ok": false },
+      { "id": 8, "name": "item-485", "score": 36.938, "ok": true },
+      { "id": 9, "name": "item-467", "score": -8175, "ok": false },
+      { "id": 10, "name": "item-868", "score": -8854, "ok": true },
+      { "id": 11, "name": "item-348", "score": 7972, "ok": true },
+      { "id": -1, "name": "last", "score": 0.0, "ok": false }
+    ],
+    "note": "line1\nline2\t with escapes \"quoted\""
+  }
+}
+

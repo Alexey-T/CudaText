@@ -1,0 +1,1526 @@
+{# Sample Jinja2 template for lexer benchmarking #}
+{% set app_name = 'benchmark' %}
+{% set max_items = 187 %}
+{% set items = ['alpha', 'beta', 'gamma'] %}
+
+{{ app_name | upper }} report
+=======================
+
+{% if items %}
+Items:
+{% for item in items %}
+  - {{ loop.index }}. {{ item }} ({{ item | length }} chars)
+{% endfor %}
+{% else %}
+No items found.
+{% endif %}
+
+{# generated block 0 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-0-0', 56.1e4) }}
+{% endfor %}
+
+{# generated block 1 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-1-0', 3794) }}
+{% endfor %}
+
+{# generated block 2 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-2-0', 0xD683) }}
+{% endfor %}
+
+{# generated block 3 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-3-6', 3867) }}
+{% endfor %}
+
+{# generated block 4 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-4-2', 65.38e9) }}
+{% endfor %}
+
+{# generated block 5 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-5-6', 6298) }}
+{% endfor %}
+
+{# generated block 6 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-6-7', -6841) }}
+{% endfor %}
+
+{# generated block 7 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-7-6', 368.616) }}
+{% endfor %}
+
+{# generated block 8 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-8-2', -8253) }}
+{% endfor %}
+
+{# generated block 9 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-9-3', 7854) }}
+{% endfor %}
+
+{% include 'footer.j2' ignore missing %}
+
+{# Sample Jinja2 template for lexer benchmarking #}
+{% set app_name = 'benchmark' %}
+{% set max_items = 408 %}
+{% set items = ['alpha', 'beta', 'gamma'] %}
+
+{{ app_name | upper }} report
+=======================
+
+{% if items %}
+Items:
+{% for item in items %}
+  - {{ loop.index }}. {{ item }} ({{ item | length }} chars)
+{% endfor %}
+{% else %}
+No items found.
+{% endif %}
+
+{# generated block 0 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-0-2', 0x63A9) }}
+{% endfor %}
+
+{# generated block 1 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-1-8', -3117) }}
+{% endfor %}
+
+{# generated block 2 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-2-3', 62.46e-5) }}
+{% endfor %}
+
+{# generated block 3 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-3-6', 0o76) }}
+{% endfor %}
+
+{# generated block 4 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-4-2', 442.53) }}
+{% endfor %}
+
+{# generated block 5 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-5-8', 0o742) }}
+{% endfor %}
+
+{# generated block 6 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-6-6', 6897) }}
+{% endfor %}
+
+{# generated block 7 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-7-9', -6026) }}
+{% endfor %}
+
+{# generated block 8 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-8-4', 36.5e-1) }}
+{% endfor %}
+
+{# generated block 9 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-9-2', 926.584) }}
+{% endfor %}
+
+{% include 'footer.j2' ignore missing %}
+
+{# Sample Jinja2 template for lexer benchmarking #}
+{% set app_name = 'benchmark' %}
+{% set max_items = 736 %}
+{% set items = ['alpha', 'beta', 'gamma'] %}
+
+{{ app_name | upper }} report
+=======================
+
+{% if items %}
+Items:
+{% for item in items %}
+  - {{ loop.index }}. {{ item }} ({{ item | length }} chars)
+{% endfor %}
+{% else %}
+No items found.
+{% endif %}
+
+{# generated block 0 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-0-3', 6890) }}
+{% endfor %}
+
+{# generated block 1 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-1-8', 0xE1AA) }}
+{% endfor %}
+
+{# generated block 2 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-2-2', 0o64) }}
+{% endfor %}
+
+{# generated block 3 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-3-4', -6870) }}
+{% endfor %}
+
+{# generated block 4 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-4-7', 4709) }}
+{% endfor %}
+
+{# generated block 5 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-5-1', 4811) }}
+{% endfor %}
+
+{# generated block 6 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-6-6', 5133) }}
+{% endfor %}
+
+{# generated block 7 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-7-5', 0xDCC2) }}
+{% endfor %}
+
+{# generated block 8 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-8-2', 0o621) }}
+{% endfor %}
+
+{# generated block 9 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-9-9', 647.318) }}
+{% endfor %}
+
+{% include 'footer.j2' ignore missing %}
+
+{# Sample Jinja2 template for lexer benchmarking #}
+{% set app_name = 'benchmark' %}
+{% set max_items = 121 %}
+{% set items = ['alpha', 'beta', 'gamma'] %}
+
+{{ app_name | upper }} report
+=======================
+
+{% if items %}
+Items:
+{% for item in items %}
+  - {{ loop.index }}. {{ item }} ({{ item | length }} chars)
+{% endfor %}
+{% else %}
+No items found.
+{% endif %}
+
+{# generated block 0 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-0-1', 479.467) }}
+{% endfor %}
+
+{# generated block 1 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-1-3', -8673) }}
+{% endfor %}
+
+{# generated block 2 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-2-5', 20.51e-6) }}
+{% endfor %}
+
+{# generated block 3 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-3-2', 3251) }}
+{% endfor %}
+
+{# generated block 4 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-4-1', 0o165) }}
+{% endfor %}
+
+{# generated block 5 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-5-8', 0o35) }}
+{% endfor %}
+
+{# generated block 6 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-6-6', -2855) }}
+{% endfor %}
+
+{# generated block 7 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-7-7', 667.793) }}
+{% endfor %}
+
+{# generated block 8 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-8-2', 9164) }}
+{% endfor %}
+
+{# generated block 9 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-9-9', 1138) }}
+{% endfor %}
+
+{% include 'footer.j2' ignore missing %}
+
+{# Sample Jinja2 template for lexer benchmarking #}
+{% set app_name = 'benchmark' %}
+{% set max_items = 63 %}
+{% set items = ['alpha', 'beta', 'gamma'] %}
+
+{{ app_name | upper }} report
+=======================
+
+{% if items %}
+Items:
+{% for item in items %}
+  - {{ loop.index }}. {{ item }} ({{ item | length }} chars)
+{% endfor %}
+{% else %}
+No items found.
+{% endif %}
+
+{# generated block 0 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-0-7', 0x6E0C) }}
+{% endfor %}
+
+{# generated block 1 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-1-3', 8988) }}
+{% endfor %}
+
+{# generated block 2 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-2-5', 6278) }}
+{% endfor %}
+
+{# generated block 3 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-3-9', 441.676) }}
+{% endfor %}
+
+{# generated block 4 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-4-9', 3598) }}
+{% endfor %}
+
+{# generated block 5 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-5-9', 55.832) }}
+{% endfor %}
+
+{# generated block 6 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-6-8', 1.96e8) }}
+{% endfor %}
+
+{# generated block 7 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-7-8', 0xD8B4) }}
+{% endfor %}
+
+{# generated block 8 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-8-7', 0o324) }}
+{% endfor %}
+
+{# generated block 9 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-9-4', -459) }}
+{% endfor %}
+
+{% include 'footer.j2' ignore missing %}
+
+{# Sample Jinja2 template for lexer benchmarking #}
+{% set app_name = 'benchmark' %}
+{% set max_items = 972 %}
+{% set items = ['alpha', 'beta', 'gamma'] %}
+
+{{ app_name | upper }} report
+=======================
+
+{% if items %}
+Items:
+{% for item in items %}
+  - {{ loop.index }}. {{ item }} ({{ item | length }} chars)
+{% endfor %}
+{% else %}
+No items found.
+{% endif %}
+
+{# generated block 0 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-0-8', 0x61ED) }}
+{% endfor %}
+
+{# generated block 1 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-1-8', 4205) }}
+{% endfor %}
+
+{# generated block 2 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-2-6', 0xC604) }}
+{% endfor %}
+
+{# generated block 3 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-3-5', 0x1382) }}
+{% endfor %}
+
+{# generated block 4 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-4-9', 24.6e9) }}
+{% endfor %}
+
+{# generated block 5 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-5-5', 4645) }}
+{% endfor %}
+
+{# generated block 6 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-6-6', 14.408) }}
+{% endfor %}
+
+{# generated block 7 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-7-6', 87.64e0) }}
+{% endfor %}
+
+{# generated block 8 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-8-1', 0o11) }}
+{% endfor %}
+
+{# generated block 9 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-9-8', 73.41e-3) }}
+{% endfor %}
+
+{% include 'footer.j2' ignore missing %}
+
+{# Sample Jinja2 template for lexer benchmarking #}
+{% set app_name = 'benchmark' %}
+{% set max_items = 784 %}
+{% set items = ['alpha', 'beta', 'gamma'] %}
+
+{{ app_name | upper }} report
+=======================
+
+{% if items %}
+Items:
+{% for item in items %}
+  - {{ loop.index }}. {{ item }} ({{ item | length }} chars)
+{% endfor %}
+{% else %}
+No items found.
+{% endif %}
+
+{# generated block 0 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-0-3', 700.969) }}
+{% endfor %}
+
+{# generated block 1 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-1-3', -7020) }}
+{% endfor %}
+
+{# generated block 2 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-2-2', 0o4) }}
+{% endfor %}
+
+{# generated block 3 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-3-0', 0x7205) }}
+{% endfor %}
+
+{# generated block 4 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-4-4', 0o467) }}
+{% endfor %}
+
+{# generated block 5 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-5-9', 6939) }}
+{% endfor %}
+
+{# generated block 6 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-6-5', -6823) }}
+{% endfor %}
+
+{# generated block 7 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-7-2', 84.30e0) }}
+{% endfor %}
+
+{# generated block 8 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-8-9', 243.219) }}
+{% endfor %}
+
+{# generated block 9 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-9-0', -4299) }}
+{% endfor %}
+
+{% include 'footer.j2' ignore missing %}
+
+{# Sample Jinja2 template for lexer benchmarking #}
+{% set app_name = 'benchmark' %}
+{% set max_items = 714 %}
+{% set items = ['alpha', 'beta', 'gamma'] %}
+
+{{ app_name | upper }} report
+=======================
+
+{% if items %}
+Items:
+{% for item in items %}
+  - {{ loop.index }}. {{ item }} ({{ item | length }} chars)
+{% endfor %}
+{% else %}
+No items found.
+{% endif %}
+
+{# generated block 0 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-0-2', 5967) }}
+{% endfor %}
+
+{# generated block 1 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-1-0', 0o340) }}
+{% endfor %}
+
+{# generated block 2 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-2-7', 8084) }}
+{% endfor %}
+
+{# generated block 3 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-3-9', 0x76EC) }}
+{% endfor %}
+
+{# generated block 4 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-4-2', 9427) }}
+{% endfor %}
+
+{# generated block 5 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-5-0', 51.96e4) }}
+{% endfor %}
+
+{# generated block 6 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-6-7', 6988) }}
+{% endfor %}
+
+{# generated block 7 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-7-1', 0x60B7) }}
+{% endfor %}
+
+{# generated block 8 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-8-9', 0o533) }}
+{% endfor %}
+
+{# generated block 9 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-9-1', 0o561) }}
+{% endfor %}
+
+{% include 'footer.j2' ignore missing %}
+
+{# Sample Jinja2 template for lexer benchmarking #}
+{% set app_name = 'benchmark' %}
+{% set max_items = 269 %}
+{% set items = ['alpha', 'beta', 'gamma'] %}
+
+{{ app_name | upper }} report
+=======================
+
+{% if items %}
+Items:
+{% for item in items %}
+  - {{ loop.index }}. {{ item }} ({{ item | length }} chars)
+{% endfor %}
+{% else %}
+No items found.
+{% endif %}
+
+{# generated block 0 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-0-1', 692) }}
+{% endfor %}
+
+{# generated block 1 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-1-4', 0x44E1) }}
+{% endfor %}
+
+{# generated block 2 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-2-7', 0xB624) }}
+{% endfor %}
+
+{# generated block 3 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-3-7', 4760) }}
+{% endfor %}
+
+{# generated block 4 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-4-4', 2547) }}
+{% endfor %}
+
+{# generated block 5 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-5-6', 94.97e-3) }}
+{% endfor %}
+
+{# generated block 6 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-6-0', 87.74e-6) }}
+{% endfor %}
+
+{# generated block 7 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-7-4', 0o222) }}
+{% endfor %}
+
+{# generated block 8 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-8-2', 0o115) }}
+{% endfor %}
+
+{# generated block 9 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-9-7', 25.69e-3) }}
+{% endfor %}
+
+{% include 'footer.j2' ignore missing %}
+
+{# Sample Jinja2 template for lexer benchmarking #}
+{% set app_name = 'benchmark' %}
+{% set max_items = 35 %}
+{% set items = ['alpha', 'beta', 'gamma'] %}
+
+{{ app_name | upper }} report
+=======================
+
+{% if items %}
+Items:
+{% for item in items %}
+  - {{ loop.index }}. {{ item }} ({{ item | length }} chars)
+{% endfor %}
+{% else %}
+No items found.
+{% endif %}
+
+{# generated block 0 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-0-3', 600) }}
+{% endfor %}
+
+{# generated block 1 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-1-0', 0xB103) }}
+{% endfor %}
+
+{# generated block 2 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-2-2', 0xE7EE) }}
+{% endfor %}
+
+{# generated block 3 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-3-4', 65.30e-2) }}
+{% endfor %}
+
+{# generated block 4 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-4-8', 574.964) }}
+{% endfor %}
+
+{# generated block 5 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-5-2', 76.1e8) }}
+{% endfor %}
+
+{# generated block 6 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-6-7', 714.578) }}
+{% endfor %}
+
+{# generated block 7 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-7-4', 3036) }}
+{% endfor %}
+
+{# generated block 8 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-8-4', 0o113) }}
+{% endfor %}
+
+{# generated block 9 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-9-4', 55.25e5) }}
+{% endfor %}
+
+{% include 'footer.j2' ignore missing %}
+
+{# Sample Jinja2 template for lexer benchmarking #}
+{% set app_name = 'benchmark' %}
+{% set max_items = 665 %}
+{% set items = ['alpha', 'beta', 'gamma'] %}
+
+{{ app_name | upper }} report
+=======================
+
+{% if items %}
+Items:
+{% for item in items %}
+  - {{ loop.index }}. {{ item }} ({{ item | length }} chars)
+{% endfor %}
+{% else %}
+No items found.
+{% endif %}
+
+{# generated block 0 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-0-1', 17.11e-9) }}
+{% endfor %}
+
+{# generated block 1 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-1-5', 0xFDF5) }}
+{% endfor %}
+
+{# generated block 2 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-2-1', 758) }}
+{% endfor %}
+
+{# generated block 3 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-3-7', 933.722) }}
+{% endfor %}
+
+{# generated block 4 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-4-0', 4991) }}
+{% endfor %}
+
+{# generated block 5 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-5-3', 1236) }}
+{% endfor %}
+
+{# generated block 6 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-6-6', 835) }}
+{% endfor %}
+
+{# generated block 7 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-7-5', 51.864) }}
+{% endfor %}
+
+{# generated block 8 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-8-3', 26.78e-4) }}
+{% endfor %}
+
+{# generated block 9 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-9-7', 435.378) }}
+{% endfor %}
+
+{% include 'footer.j2' ignore missing %}
+
+{# Sample Jinja2 template for lexer benchmarking #}
+{% set app_name = 'benchmark' %}
+{% set max_items = 571 %}
+{% set items = ['alpha', 'beta', 'gamma'] %}
+
+{{ app_name | upper }} report
+=======================
+
+{% if items %}
+Items:
+{% for item in items %}
+  - {{ loop.index }}. {{ item }} ({{ item | length }} chars)
+{% endfor %}
+{% else %}
+No items found.
+{% endif %}
+
+{# generated block 0 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-0-0', 0o770) }}
+{% endfor %}
+
+{# generated block 1 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-1-3', 353) }}
+{% endfor %}
+
+{# generated block 2 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-2-4', 13.73e-5) }}
+{% endfor %}
+
+{# generated block 3 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-3-5', 0xC6F8) }}
+{% endfor %}
+
+{# generated block 4 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-4-1', 0x2ED4) }}
+{% endfor %}
+
+{# generated block 5 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-5-3', 0o417) }}
+{% endfor %}
+
+{# generated block 6 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-6-8', 0o240) }}
+{% endfor %}
+
+{# generated block 7 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-7-1', 0xB901) }}
+{% endfor %}
+
+{# generated block 8 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-8-6', 79.32e-7) }}
+{% endfor %}
+
+{# generated block 9 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-9-3', 2778) }}
+{% endfor %}
+
+{% include 'footer.j2' ignore missing %}
+
+{# Sample Jinja2 template for lexer benchmarking #}
+{% set app_name = 'benchmark' %}
+{% set max_items = 84 %}
+{% set items = ['alpha', 'beta', 'gamma'] %}
+
+{{ app_name | upper }} report
+=======================
+
+{% if items %}
+Items:
+{% for item in items %}
+  - {{ loop.index }}. {{ item }} ({{ item | length }} chars)
+{% endfor %}
+{% else %}
+No items found.
+{% endif %}
+
+{# generated block 0 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-0-0', 0o750) }}
+{% endfor %}
+
+{# generated block 1 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-1-4', 0x3346) }}
+{% endfor %}
+
+{# generated block 2 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-2-0', 0o647) }}
+{% endfor %}
+
+{# generated block 3 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-3-1', 5302) }}
+{% endfor %}
+
+{# generated block 4 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-4-0', 0x1ACD) }}
+{% endfor %}
+
+{# generated block 5 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-5-6', 0o171) }}
+{% endfor %}
+
+{# generated block 6 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-6-6', 0o572) }}
+{% endfor %}
+
+{# generated block 7 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-7-4', 86.17e-5) }}
+{% endfor %}
+
+{# generated block 8 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-8-4', 597.993) }}
+{% endfor %}
+
+{# generated block 9 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-9-8', 3775) }}
+{% endfor %}
+
+{% include 'footer.j2' ignore missing %}
+
+{# Sample Jinja2 template for lexer benchmarking #}
+{% set app_name = 'benchmark' %}
+{% set max_items = 304 %}
+{% set items = ['alpha', 'beta', 'gamma'] %}
+
+{{ app_name | upper }} report
+=======================
+
+{% if items %}
+Items:
+{% for item in items %}
+  - {{ loop.index }}. {{ item }} ({{ item | length }} chars)
+{% endfor %}
+{% else %}
+No items found.
+{% endif %}
+
+{# generated block 0 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-0-0', 1304) }}
+{% endfor %}
+
+{# generated block 1 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-1-1', 0o613) }}
+{% endfor %}
+
+{# generated block 2 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-2-9', 8621) }}
+{% endfor %}
+
+{# generated block 3 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-3-7', -5728) }}
+{% endfor %}
+
+{# generated block 4 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-4-3', 0o605) }}
+{% endfor %}
+
+{# generated block 5 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-5-4', 65.41e2) }}
+{% endfor %}
+
+{# generated block 6 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-6-3', 83.4e8) }}
+{% endfor %}
+
+{# generated block 7 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-7-3', 870) }}
+{% endfor %}
+
+{# generated block 8 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-8-8', 82.7e-4) }}
+{% endfor %}
+
+{# generated block 9 #}
+{% macro render_row(name, value) -%}
+| {{ name }} | {{ '%0.3f' | format(value) }} |
+{%- endmacro %}
+
+{% for i in range(3) %}
+{{ render_row('row-9-5', 739.904) }}
+{% endfor %}
+
+{% include 'footer.j2' ignore missing %}
+

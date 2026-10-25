@@ -1,0 +1,27 @@
+{
+  "lexer": "AWK",
+  "fold_count": 21,
+  "folds": [
+    {"x": 6, "y": 3, "x2": 1, "y2": 25, "staple": true, "folded": false, "hint": "{ ... }", "tag": 0},
+    {"x": 4, "y": 4, "x2": 75, "y2": 5, "staple": false, "folded": false, "hint": "//...", "tag": 254},
+    {"x": 4, "y": 13, "x2": 37, "y2": 15, "staple": false, "folded": false, "hint": "//...", "tag": 254},
+    {"x": 8, "y": 30, "x2": 1, "y2": 32, "staple": true, "folded": false, "hint": "{ ... }", "tag": 0},
+    {"x": 15, "y": 35, "x2": 1, "y2": 49, "staple": true, "folded": false, "hint": "{ ... }", "tag": 0},
+    {"x": 4, "y": 36, "x2": 70, "y2": 37, "staple": false, "folded": false, "hint": "//...", "tag": 254},
+    {"x": 4, "y": 46, "x2": 52, "y2": 47, "staple": false, "folded": false, "hint": "//...", "tag": 254},
+    {"x": 0, "y": 51, "x2": 62, "y2": 52, "staple": false, "folded": false, "hint": "//...", "tag": 254},
+    {"x": 32, "y": 53, "x2": 1, "y2": 55, "staple": true, "folded": false, "hint": "{ ... }", "tag": 0},
+    {"x": 0, "y": 57, "x2": 56, "y2": 58, "staple": false, "folded": false, "hint": "//...", "tag": 254},
+    {"x": 14, "y": 59, "x2": 1, "y2": 61, "staple": true, "folded": false, "hint": "{ ... }", "tag": 0},
+    {"x": 0, "y": 63, "x2": 31, "y2": 65, "staple": false, "folded": false, "hint": "//...", "tag": 254},
+    {"x": 0, "y": 66, "x2": 1, "y2": 79, "staple": true, "folded": false, "hint": "{ ... }", "tag": 0},
+    {"x": 4, "y": 68, "x2": 74, "y2": 74, "staple": false, "folded": false, "hint": "//...", "tag": 254},
+    {"x": 31, "y": 76, "x2": 5, "y2": 78, "staple": true, "folded": false, "hint": "{ ... }", "tag": 0},
+    {"x": 4, "y": 83, "x2": 1, "y2": 104, "staple": true, "folded": false, "hint": "{ ... }", "tag": 0},
+    {"x": 30, "y": 85, "x2": 5, "y2": 88, "staple": true, "folded": false, "hint": "{ ... ", "tag": 0},
+    {"x": 11, "y": 89, "x2": 5, "y2": 91, "staple": true, "folded": false, "hint": "{ ... }", "tag": 0},
+    {"x": 4, "y": 94, "x2": 46, "y2": 95, "staple": false, "folded": false, "hint": "//...", "tag": 254},
+    {"x": 38, "y": 96, "x2": 5, "y2": 98, "staple": true, "folded": false, "hint": "{ ... }", "tag": 0},
+    {"x": 0, "y": 106, "x2": 81, "y2": 107, "staple": false, "folded": false, "hint": "//...", "tag": 254}
+  ]
+}

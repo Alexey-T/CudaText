@@ -1,0 +1,1980 @@
+// Sample Sass for lexer benchmarking
+
+$max-items: 464
+$prefix: "bench-"
+$colors: (
+  "primary": #336699,
+  "accent": #ff8800,
+  "muted": #999999
+);
+
+@mixin flex-center($direction: row) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: $direction;
+}
+
+@function score($weight) {
+  @if $weight < 0 {
+    @return 0;
+  }
+  @return $weight  * 66.21e-6;
+}
+
+// generated mod_4521
+.#{$prefix}mod_4521 {
+  @include flex-center(column);
+  padding: 15px 12px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(5) * 1px;
+  }
+}
+
+// generated mod_5139
+.#{$prefix}mod_5139 {
+  @include flex-center(column);
+  padding: 8px 22px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(19) * 1px;
+  }
+}
+
+// generated mod_6089
+.#{$prefix}mod_6089 {
+  @include flex-center(column);
+  padding: 6px 20px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(14) * 1px;
+  }
+}
+
+// generated mod_5311
+.#{$prefix}mod_5311 {
+  @include flex-center(column);
+  padding: 15px 23px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(17) * 1px;
+  }
+}
+
+// generated mod_1812
+.#{$prefix}mod_1812 {
+  @include flex-center(column);
+  padding: 27px 7px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(4) * 1px;
+  }
+}
+
+// generated mod_7586
+.#{$prefix}mod_7586 {
+  @include flex-center(column);
+  padding: 17px 7px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(9) * 1px;
+  }
+}
+
+// generated mod_7618
+.#{$prefix}mod_7618 {
+  @include flex-center(column);
+  padding: 31px 26px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(2) * 1px;
+  }
+}
+
+// generated mod_3382
+.#{$prefix}mod_3382 {
+  @include flex-center(column);
+  padding: 2px 28px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(7) * 1px;
+  }
+}
+
+// generated mod_7912
+.#{$prefix}mod_7912 {
+  @include flex-center(column);
+  padding: 30px 19px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(14) * 1px;
+  }
+}
+
+// generated mod_9208
+.#{$prefix}mod_9208 {
+  @include flex-center(column);
+  padding: 30px 17px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(16) * 1px;
+  }
+}
+
+@media (min-width: 600px) {
+  .#{$prefix}wrapper {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+// Sample Sass for lexer benchmarking
+
+$max-items: 993
+$prefix: "bench-"
+$colors: (
+  "primary": #336699,
+  "accent": #ff8800,
+  "muted": #999999
+);
+
+@mixin flex-center($direction: row) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: $direction;
+}
+
+@function score($weight) {
+  @if $weight < 0 {
+    @return 0;
+  }
+  @return $weight  * 0o626;
+}
+
+// generated mod_8557
+.#{$prefix}mod_8557 {
+  @include flex-center(column);
+  padding: 31px 11px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(20) * 1px;
+  }
+}
+
+// generated mod_2573
+.#{$prefix}mod_2573 {
+  @include flex-center(column);
+  padding: 28px 14px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(18) * 1px;
+  }
+}
+
+// generated mod_555
+.#{$prefix}mod_555 {
+  @include flex-center(column);
+  padding: 31px 10px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(1) * 1px;
+  }
+}
+
+// generated mod_2826
+.#{$prefix}mod_2826 {
+  @include flex-center(column);
+  padding: 30px 28px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(3) * 1px;
+  }
+}
+
+// generated mod_669
+.#{$prefix}mod_669 {
+  @include flex-center(column);
+  padding: 23px 23px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(6) * 1px;
+  }
+}
+
+// generated mod_9042
+.#{$prefix}mod_9042 {
+  @include flex-center(column);
+  padding: 21px 19px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(13) * 1px;
+  }
+}
+
+// generated mod_4161
+.#{$prefix}mod_4161 {
+  @include flex-center(column);
+  padding: 21px 3px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(12) * 1px;
+  }
+}
+
+// generated mod_6557
+.#{$prefix}mod_6557 {
+  @include flex-center(column);
+  padding: 27px 25px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(10) * 1px;
+  }
+}
+
+// generated mod_1868
+.#{$prefix}mod_1868 {
+  @include flex-center(column);
+  padding: 14px 10px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(19) * 1px;
+  }
+}
+
+// generated mod_8336
+.#{$prefix}mod_8336 {
+  @include flex-center(column);
+  padding: 29px 15px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(1) * 1px;
+  }
+}
+
+@media (min-width: 600px) {
+  .#{$prefix}wrapper {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+// Sample Sass for lexer benchmarking
+
+$max-items: 486
+$prefix: "bench-"
+$colors: (
+  "primary": #336699,
+  "accent": #ff8800,
+  "muted": #999999
+);
+
+@mixin flex-center($direction: row) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: $direction;
+}
+
+@function score($weight) {
+  @if $weight < 0 {
+    @return 0;
+  }
+  @return $weight  * 0xC172;
+}
+
+// generated mod_7829
+.#{$prefix}mod_7829 {
+  @include flex-center(column);
+  padding: 25px 26px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(18) * 1px;
+  }
+}
+
+// generated mod_3646
+.#{$prefix}mod_3646 {
+  @include flex-center(column);
+  padding: 9px 4px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(8) * 1px;
+  }
+}
+
+// generated mod_5223
+.#{$prefix}mod_5223 {
+  @include flex-center(column);
+  padding: 19px 32px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(18) * 1px;
+  }
+}
+
+// generated mod_7673
+.#{$prefix}mod_7673 {
+  @include flex-center(column);
+  padding: 3px 29px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(12) * 1px;
+  }
+}
+
+// generated mod_1060
+.#{$prefix}mod_1060 {
+  @include flex-center(column);
+  padding: 14px 17px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(18) * 1px;
+  }
+}
+
+// generated mod_1511
+.#{$prefix}mod_1511 {
+  @include flex-center(column);
+  padding: 25px 30px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(3) * 1px;
+  }
+}
+
+// generated mod_1697
+.#{$prefix}mod_1697 {
+  @include flex-center(column);
+  padding: 27px 6px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(16) * 1px;
+  }
+}
+
+// generated mod_8745
+.#{$prefix}mod_8745 {
+  @include flex-center(column);
+  padding: 12px 14px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(4) * 1px;
+  }
+}
+
+// generated mod_8707
+.#{$prefix}mod_8707 {
+  @include flex-center(column);
+  padding: 24px 22px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(1) * 1px;
+  }
+}
+
+// generated mod_164
+.#{$prefix}mod_164 {
+  @include flex-center(column);
+  padding: 10px 7px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(6) * 1px;
+  }
+}
+
+@media (min-width: 600px) {
+  .#{$prefix}wrapper {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+// Sample Sass for lexer benchmarking
+
+$max-items: 54
+$prefix: "bench-"
+$colors: (
+  "primary": #336699,
+  "accent": #ff8800,
+  "muted": #999999
+);
+
+@mixin flex-center($direction: row) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: $direction;
+}
+
+@function score($weight) {
+  @if $weight < 0 {
+    @return 0;
+  }
+  @return $weight  * 6.26e-9;
+}
+
+// generated mod_2174
+.#{$prefix}mod_2174 {
+  @include flex-center(column);
+  padding: 8px 2px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(16) * 1px;
+  }
+}
+
+// generated mod_3604
+.#{$prefix}mod_3604 {
+  @include flex-center(column);
+  padding: 28px 9px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(9) * 1px;
+  }
+}
+
+// generated mod_6413
+.#{$prefix}mod_6413 {
+  @include flex-center(column);
+  padding: 16px 16px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(8) * 1px;
+  }
+}
+
+// generated mod_9213
+.#{$prefix}mod_9213 {
+  @include flex-center(column);
+  padding: 16px 30px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(3) * 1px;
+  }
+}
+
+// generated mod_225
+.#{$prefix}mod_225 {
+  @include flex-center(column);
+  padding: 32px 26px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(13) * 1px;
+  }
+}
+
+// generated mod_2946
+.#{$prefix}mod_2946 {
+  @include flex-center(column);
+  padding: 16px 9px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(3) * 1px;
+  }
+}
+
+// generated mod_5227
+.#{$prefix}mod_5227 {
+  @include flex-center(column);
+  padding: 31px 32px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(3) * 1px;
+  }
+}
+
+// generated mod_4727
+.#{$prefix}mod_4727 {
+  @include flex-center(column);
+  padding: 18px 4px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(15) * 1px;
+  }
+}
+
+// generated mod_2553
+.#{$prefix}mod_2553 {
+  @include flex-center(column);
+  padding: 19px 31px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(11) * 1px;
+  }
+}
+
+// generated mod_449
+.#{$prefix}mod_449 {
+  @include flex-center(column);
+  padding: 18px 26px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(20) * 1px;
+  }
+}
+
+@media (min-width: 600px) {
+  .#{$prefix}wrapper {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+// Sample Sass for lexer benchmarking
+
+$max-items: 192
+$prefix: "bench-"
+$colors: (
+  "primary": #336699,
+  "accent": #ff8800,
+  "muted": #999999
+);
+
+@mixin flex-center($direction: row) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: $direction;
+}
+
+@function score($weight) {
+  @if $weight < 0 {
+    @return 0;
+  }
+  @return $weight  * 0o502;
+}
+
+// generated mod_2638
+.#{$prefix}mod_2638 {
+  @include flex-center(column);
+  padding: 16px 19px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(11) * 1px;
+  }
+}
+
+// generated mod_1644
+.#{$prefix}mod_1644 {
+  @include flex-center(column);
+  padding: 4px 6px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(19) * 1px;
+  }
+}
+
+// generated mod_5341
+.#{$prefix}mod_5341 {
+  @include flex-center(column);
+  padding: 20px 2px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(5) * 1px;
+  }
+}
+
+// generated mod_3091
+.#{$prefix}mod_3091 {
+  @include flex-center(column);
+  padding: 6px 16px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(16) * 1px;
+  }
+}
+
+// generated mod_7510
+.#{$prefix}mod_7510 {
+  @include flex-center(column);
+  padding: 7px 8px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(5) * 1px;
+  }
+}
+
+// generated mod_7717
+.#{$prefix}mod_7717 {
+  @include flex-center(column);
+  padding: 13px 27px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(6) * 1px;
+  }
+}
+
+// generated mod_3346
+.#{$prefix}mod_3346 {
+  @include flex-center(column);
+  padding: 12px 5px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(3) * 1px;
+  }
+}
+
+// generated mod_889
+.#{$prefix}mod_889 {
+  @include flex-center(column);
+  padding: 11px 30px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(11) * 1px;
+  }
+}
+
+// generated mod_842
+.#{$prefix}mod_842 {
+  @include flex-center(column);
+  padding: 16px 14px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(9) * 1px;
+  }
+}
+
+// generated mod_8654
+.#{$prefix}mod_8654 {
+  @include flex-center(column);
+  padding: 23px 32px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(7) * 1px;
+  }
+}
+
+@media (min-width: 600px) {
+  .#{$prefix}wrapper {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+// Sample Sass for lexer benchmarking
+
+$max-items: 903
+$prefix: "bench-"
+$colors: (
+  "primary": #336699,
+  "accent": #ff8800,
+  "muted": #999999
+);
+
+@mixin flex-center($direction: row) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: $direction;
+}
+
+@function score($weight) {
+  @if $weight < 0 {
+    @return 0;
+  }
+  @return $weight  * 0o50;
+}
+
+// generated mod_2868
+.#{$prefix}mod_2868 {
+  @include flex-center(column);
+  padding: 8px 4px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(1) * 1px;
+  }
+}
+
+// generated mod_7477
+.#{$prefix}mod_7477 {
+  @include flex-center(column);
+  padding: 6px 19px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(7) * 1px;
+  }
+}
+
+// generated mod_4979
+.#{$prefix}mod_4979 {
+  @include flex-center(column);
+  padding: 32px 20px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(17) * 1px;
+  }
+}
+
+// generated mod_3589
+.#{$prefix}mod_3589 {
+  @include flex-center(column);
+  padding: 24px 19px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(2) * 1px;
+  }
+}
+
+// generated mod_9214
+.#{$prefix}mod_9214 {
+  @include flex-center(column);
+  padding: 23px 30px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(1) * 1px;
+  }
+}
+
+// generated mod_3762
+.#{$prefix}mod_3762 {
+  @include flex-center(column);
+  padding: 15px 28px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(13) * 1px;
+  }
+}
+
+// generated mod_8057
+.#{$prefix}mod_8057 {
+  @include flex-center(column);
+  padding: 20px 28px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(1) * 1px;
+  }
+}
+
+// generated mod_3164
+.#{$prefix}mod_3164 {
+  @include flex-center(column);
+  padding: 14px 17px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(9) * 1px;
+  }
+}
+
+// generated mod_5640
+.#{$prefix}mod_5640 {
+  @include flex-center(column);
+  padding: 17px 32px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(9) * 1px;
+  }
+}
+
+// generated mod_5202
+.#{$prefix}mod_5202 {
+  @include flex-center(column);
+  padding: 9px 32px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(12) * 1px;
+  }
+}
+
+@media (min-width: 600px) {
+  .#{$prefix}wrapper {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+// Sample Sass for lexer benchmarking
+
+$max-items: 628
+$prefix: "bench-"
+$colors: (
+  "primary": #336699,
+  "accent": #ff8800,
+  "muted": #999999
+);
+
+@mixin flex-center($direction: row) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: $direction;
+}
+
+@function score($weight) {
+  @if $weight < 0 {
+    @return 0;
+  }
+  @return $weight  * 0xF31F;
+}
+
+// generated mod_987
+.#{$prefix}mod_987 {
+  @include flex-center(column);
+  padding: 12px 19px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(3) * 1px;
+  }
+}
+
+// generated mod_4552
+.#{$prefix}mod_4552 {
+  @include flex-center(column);
+  padding: 9px 5px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(3) * 1px;
+  }
+}
+
+// generated mod_74
+.#{$prefix}mod_74 {
+  @include flex-center(column);
+  padding: 26px 10px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(2) * 1px;
+  }
+}
+
+// generated mod_6853
+.#{$prefix}mod_6853 {
+  @include flex-center(column);
+  padding: 16px 16px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(11) * 1px;
+  }
+}
+
+// generated mod_4618
+.#{$prefix}mod_4618 {
+  @include flex-center(column);
+  padding: 25px 30px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(12) * 1px;
+  }
+}
+
+// generated mod_8516
+.#{$prefix}mod_8516 {
+  @include flex-center(column);
+  padding: 6px 12px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(15) * 1px;
+  }
+}
+
+// generated mod_7540
+.#{$prefix}mod_7540 {
+  @include flex-center(column);
+  padding: 21px 15px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(17) * 1px;
+  }
+}
+
+// generated mod_3598
+.#{$prefix}mod_3598 {
+  @include flex-center(column);
+  padding: 20px 25px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(16) * 1px;
+  }
+}
+
+// generated mod_561
+.#{$prefix}mod_561 {
+  @include flex-center(column);
+  padding: 14px 28px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(12) * 1px;
+  }
+}
+
+// generated mod_871
+.#{$prefix}mod_871 {
+  @include flex-center(column);
+  padding: 31px 15px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(18) * 1px;
+  }
+}
+
+@media (min-width: 600px) {
+  .#{$prefix}wrapper {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+// Sample Sass for lexer benchmarking
+
+$max-items: 907
+$prefix: "bench-"
+$colors: (
+  "primary": #336699,
+  "accent": #ff8800,
+  "muted": #999999
+);
+
+@mixin flex-center($direction: row) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: $direction;
+}
+
+@function score($weight) {
+  @if $weight < 0 {
+    @return 0;
+  }
+  @return $weight  * 186.23;
+}
+
+// generated mod_5558
+.#{$prefix}mod_5558 {
+  @include flex-center(column);
+  padding: 11px 9px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(18) * 1px;
+  }
+}
+
+// generated mod_4419
+.#{$prefix}mod_4419 {
+  @include flex-center(column);
+  padding: 24px 5px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(2) * 1px;
+  }
+}
+
+// generated mod_8358
+.#{$prefix}mod_8358 {
+  @include flex-center(column);
+  padding: 26px 12px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(14) * 1px;
+  }
+}
+
+// generated mod_632
+.#{$prefix}mod_632 {
+  @include flex-center(column);
+  padding: 15px 15px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(12) * 1px;
+  }
+}
+
+// generated mod_962
+.#{$prefix}mod_962 {
+  @include flex-center(column);
+  padding: 24px 9px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(6) * 1px;
+  }
+}
+
+// generated mod_4310
+.#{$prefix}mod_4310 {
+  @include flex-center(column);
+  padding: 21px 8px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(3) * 1px;
+  }
+}
+
+// generated mod_2722
+.#{$prefix}mod_2722 {
+  @include flex-center(column);
+  padding: 7px 3px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(1) * 1px;
+  }
+}
+
+// generated mod_854
+.#{$prefix}mod_854 {
+  @include flex-center(column);
+  padding: 32px 4px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(20) * 1px;
+  }
+}
+
+// generated mod_1135
+.#{$prefix}mod_1135 {
+  @include flex-center(column);
+  padding: 28px 16px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(12) * 1px;
+  }
+}
+
+// generated mod_5712
+.#{$prefix}mod_5712 {
+  @include flex-center(column);
+  padding: 20px 15px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(10) * 1px;
+  }
+}
+
+@media (min-width: 600px) {
+  .#{$prefix}wrapper {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+// Sample Sass for lexer benchmarking
+
+$max-items: 66
+$prefix: "bench-"
+$colors: (
+  "primary": #336699,
+  "accent": #ff8800,
+  "muted": #999999
+);
+
+@mixin flex-center($direction: row) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: $direction;
+}
+
+@function score($weight) {
+  @if $weight < 0 {
+    @return 0;
+  }
+  @return $weight  * 971.80;
+}
+
+// generated mod_1633
+.#{$prefix}mod_1633 {
+  @include flex-center(column);
+  padding: 8px 30px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(6) * 1px;
+  }
+}
+
+// generated mod_3018
+.#{$prefix}mod_3018 {
+  @include flex-center(column);
+  padding: 21px 13px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(4) * 1px;
+  }
+}
+
+// generated mod_7536
+.#{$prefix}mod_7536 {
+  @include flex-center(column);
+  padding: 24px 31px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(15) * 1px;
+  }
+}
+
+// generated mod_7290
+.#{$prefix}mod_7290 {
+  @include flex-center(column);
+  padding: 27px 18px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(15) * 1px;
+  }
+}
+
+// generated mod_7267
+.#{$prefix}mod_7267 {
+  @include flex-center(column);
+  padding: 16px 6px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(5) * 1px;
+  }
+}
+
+// generated mod_717
+.#{$prefix}mod_717 {
+  @include flex-center(column);
+  padding: 20px 19px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(14) * 1px;
+  }
+}
+
+// generated mod_2202
+.#{$prefix}mod_2202 {
+  @include flex-center(column);
+  padding: 25px 24px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(6) * 1px;
+  }
+}
+
+// generated mod_712
+.#{$prefix}mod_712 {
+  @include flex-center(column);
+  padding: 32px 32px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(3) * 1px;
+  }
+}
+
+// generated mod_7146
+.#{$prefix}mod_7146 {
+  @include flex-center(column);
+  padding: 24px 13px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(13) * 1px;
+  }
+}
+
+// generated mod_9639
+.#{$prefix}mod_9639 {
+  @include flex-center(column);
+  padding: 22px 18px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(3) * 1px;
+  }
+}
+
+@media (min-width: 600px) {
+  .#{$prefix}wrapper {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+// Sample Sass for lexer benchmarking
+
+$max-items: 156
+$prefix: "bench-"
+$colors: (
+  "primary": #336699,
+  "accent": #ff8800,
+  "muted": #999999
+);
+
+@mixin flex-center($direction: row) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: $direction;
+}
+
+@function score($weight) {
+  @if $weight < 0 {
+    @return 0;
+  }
+  @return $weight  * 0x153F;
+}
+
+// generated mod_1995
+.#{$prefix}mod_1995 {
+  @include flex-center(column);
+  padding: 16px 2px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(6) * 1px;
+  }
+}
+
+// generated mod_6146
+.#{$prefix}mod_6146 {
+  @include flex-center(column);
+  padding: 30px 14px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(8) * 1px;
+  }
+}
+
+// generated mod_5851
+.#{$prefix}mod_5851 {
+  @include flex-center(column);
+  padding: 11px 29px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(5) * 1px;
+  }
+}
+
+// generated mod_1431
+.#{$prefix}mod_1431 {
+  @include flex-center(column);
+  padding: 5px 17px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(14) * 1px;
+  }
+}
+
+// generated mod_3975
+.#{$prefix}mod_3975 {
+  @include flex-center(column);
+  padding: 24px 12px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(13) * 1px;
+  }
+}
+
+// generated mod_8648
+.#{$prefix}mod_8648 {
+  @include flex-center(column);
+  padding: 16px 29px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(8) * 1px;
+  }
+}
+
+// generated mod_8019
+.#{$prefix}mod_8019 {
+  @include flex-center(column);
+  padding: 25px 23px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(16) * 1px;
+  }
+}
+
+// generated mod_4103
+.#{$prefix}mod_4103 {
+  @include flex-center(column);
+  padding: 2px 32px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(6) * 1px;
+  }
+}
+
+// generated mod_8146
+.#{$prefix}mod_8146 {
+  @include flex-center(column);
+  padding: 7px 32px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(2) * 1px;
+  }
+}
+
+// generated mod_1267
+.#{$prefix}mod_1267 {
+  @include flex-center(column);
+  padding: 31px 23px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(17) * 1px;
+  }
+}
+
+@media (min-width: 600px) {
+  .#{$prefix}wrapper {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+// Sample Sass for lexer benchmarking
+
+$max-items: 657
+$prefix: "bench-"
+$colors: (
+  "primary": #336699,
+  "accent": #ff8800,
+  "muted": #999999
+);
+
+@mixin flex-center($direction: row) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: $direction;
+}
+
+@function score($weight) {
+  @if $weight < 0 {
+    @return 0;
+  }
+  @return $weight  * -3154;
+}
+
+// generated mod_8069
+.#{$prefix}mod_8069 {
+  @include flex-center(column);
+  padding: 27px 18px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(14) * 1px;
+  }
+}
+
+// generated mod_2387
+.#{$prefix}mod_2387 {
+  @include flex-center(column);
+  padding: 12px 5px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(7) * 1px;
+  }
+}
+
+// generated mod_2686
+.#{$prefix}mod_2686 {
+  @include flex-center(column);
+  padding: 21px 22px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(16) * 1px;
+  }
+}
+
+// generated mod_7141
+.#{$prefix}mod_7141 {
+  @include flex-center(column);
+  padding: 12px 23px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(12) * 1px;
+  }
+}
+
+// generated mod_6274
+.#{$prefix}mod_6274 {
+  @include flex-center(column);
+  padding: 3px 4px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(20) * 1px;
+  }
+}
+
+// generated mod_9124
+.#{$prefix}mod_9124 {
+  @include flex-center(column);
+  padding: 3px 13px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(14) * 1px;
+  }
+}
+
+// generated mod_5802
+.#{$prefix}mod_5802 {
+  @include flex-center(column);
+  padding: 17px 8px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(3) * 1px;
+  }
+}
+
+// generated mod_5266
+.#{$prefix}mod_5266 {
+  @include flex-center(column);
+  padding: 23px 13px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(2) * 1px;
+  }
+}
+
+// generated mod_2911
+.#{$prefix}mod_2911 {
+  @include flex-center(column);
+  padding: 6px 19px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(15) * 1px;
+  }
+}
+
+// generated mod_4212
+.#{$prefix}mod_4212 {
+  @include flex-center(column);
+  padding: 3px 17px;
+  color: map-get($colors, "primary");
+
+  &:hover {
+    color: map-get($colors, "accent");
+  }
+
+  .item-#{$m} & {
+    margin-top: score(13) * 1px;
+  }
+}
+
+@media (min-width: 600px) {
+  .#{$prefix}wrapper {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+

@@ -1,0 +1,20 @@
+{
+  "lexer": "Diff",
+  "line_count": 13,
+  "token_count": 13,
+  "tokens": [
+    {"str": "--- a/file_v1.txt\t2025-07-08 18:00:00.000000000 +0100", "style": "File names", "x1": 0, "y1": 0, "x2": 53, "y2": 0, "ki": 0, "ks": "a"},
+    {"str": "+++ b/file_v2.txt\t2025-07-08 18:05:00.000000000 +0100", "style": "File names", "x1": 0, "y1": 1, "x2": 53, "y2": 1, "ki": 0, "ks": "a"},
+    {"str": "@@ -1,6 +1,6 @@", "style": "Chunk start", "x1": 0, "y1": 2, "x2": 15, "y2": 2, "ki": 1, "ks": "a"},
+    {"str": "-Line 1: This is the original first line.", "style": "Deleted line", "x1": 0, "y1": 3, "x2": 41, "y2": 3, "ki": 2, "ks": "a"},
+    {"str": "+Line 1: This is the updated first line.", "style": "Added line", "x1": 0, "y1": 4, "x2": 40, "y2": 4, "ki": 2, "ks": "a"},
+    {"str": "-Line 2: This line will be deleted.", "style": "Deleted line", "x1": 0, "y1": 5, "x2": 35, "y2": 5, "ki": 2, "ks": "a"},
+    {"str": " Line 3: This line will be modified.", "style": "Context", "x1": 0, "y1": 6, "x2": 36, "y2": 6, "ki": 3, "ks": "a"},
+    {"str": "+Line 3: This line has been modified.", "style": "Added line", "x1": 0, "y1": 7, "x2": 37, "y2": 7, "ki": 2, "ks": "a"},
+    {"str": " Line 4: This line remains unchanged.", "style": "Context", "x1": 0, "y1": 8, "x2": 37, "y2": 8, "ki": 3, "ks": "a"},
+    {"str": " Line 5: Another unchanged line.", "style": "Context", "x1": 0, "y1": 9, "x2": 32, "y2": 9, "ki": 3, "ks": "a"},
+    {"str": "-Line 6: This line is unique to version 1.", "style": "Deleted line", "x1": 0, "y1": 10, "x2": 42, "y2": 10, "ki": 2, "ks": "a"},
+    {"str": "+Line 7: This is a new line added in version 2.", "style": "Added line", "x1": 0, "y1": 11, "x2": 47, "y2": 11, "ki": 2, "ks": "a"},
+    {"str": "+Line 8: Yet another new line.", "style": "Added line", "x1": 0, "y1": 12, "x2": 30, "y2": 12, "ki": 2, "ks": "a"}
+  ]
+}

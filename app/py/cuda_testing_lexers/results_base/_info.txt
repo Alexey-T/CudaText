@@ -1,0 +1,10 @@
+Snapshot created by plugin "cuda_testing_lexers"
+date: 2026-10-25 03:40:12
+cudatext version: 1.237.5.0
+parse method: ed.action(EDACTION_LEXER_SCAN, "0")
+verification: token window at the file end is complete
+and stable, and the full token list reaches the
+last non-blank line of the file
+session settings: pinned temporarily via
+  app_proc(PROC_CONFIG_READ), user.json untouched
+session settings json: {"auto_fold_comments": 2, "lexer_folding_max_lines": 1500000, "ui_max_size_lexer": 500, "fold_style": 4, "max_line_len_parsed": 40000000, "wrap_enabled_max_lines": 2100000, "max_line_len_for_editing_keeping_lexer": 0}

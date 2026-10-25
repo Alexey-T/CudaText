@@ -1,0 +1,55 @@
+# Log File Example - Common Patterns
+
+# Header (optional, but sometimes present at the start of a new log file or session)
+# Application: MyWebApp
+# Version: 2.1.0
+# Environment: Production
+# Hostname: webserver-01.example.com
+# Log Level Threshold: INFO
+# Start Time: 2025-07-08 18:53:00.123
+
+# --- Log Entries (most common format: Timestamp [Level] [Logger/Component] Message [Optional_Details]) ---
+
+2025-07-08 18:53:00.123 [INFO] [com.example.webapp.StartupListener] Application initialized successfully.
+2025-07-08 18:53:00.150 [DEBUG] [com.example.webapp.ConfigLoader] Loading configuration from /etc/app/config.ini
+2025-07-08 18:53:00.200 [WARN] [com.example.webapp.DatabaseConnector] Database connection pool nearing exhaustion. Available: 5, Max: 50.
+2025-07-08 18:53:00.255 [INFO] [com.example.webapp.UserService] User 'john.doe@example.com' logged in from 192.168.1.100. Session ID: abc123def456.
+2025-07-08 18:53:00.300 [ERROR] [com.example.webapp.OrderProcessor] Failed to process order #12345: Insufficient stock for product ID 789.
+2025-07-08 18:53:00.310 [FATAL] [com.example.webapp.Main] Unrecoverable error: System shutting down due to critical resource failure.
+
+# --- Log Entry with Stack Trace (for errors/exceptions) ---
+
+2025-07-08 18:53:01.005 [ERROR] [com.example.webapp.UserService] Error retrieving user profile for ID 5001.
+java.sql.SQLException: User not found in database
+    at com.example.webapp.UserService.getUserProfile(UserService.java:120)
+    at com.example.webapp.UserProfileServlet.doGet(UserProfileServlet.java:45)
+    at javax.servlet.http.HttpServlet.service(HttpServlet.java:687)
+    at javax.servlet.http.HttpServlet.service(HttpServlet.java:790)
+    at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+    at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+    at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:198)
+    at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96)
+    at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:478)
+    at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:140)
+    at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:80)
+    at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:87)
+    at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:342)
+    at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:800)
+    at org.apache.coyote.Abstract  ProcessorLight.process(AbstractProcessorLight.java:66)
+    at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:790)
+    at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1468)
+    at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+    at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+    at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+    at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+    at java.lang.Thread.run(Thread.java:748)
+
+# --- CSV-like Log Entry (less common for general logs, more for audit/specific data) ---
+# Date,Time,Level,Component,Message,UserID,TransactionID
+2025-07-08,18:53:01.500,AUDIT,PaymentGateway,Payment processed successfully,user123,TXN7890123
+2025-07-08,18:53:01.600,AUDIT,Inventory,Stock updated for P987,user456,TXN7890124
+
+# --- JSON Log Entry (increasingly popular for structured logging) ---
+{"timestamp": "2025-07-08T18:53:02.000Z", "level": "INFO", "logger": "com.example.api.OrderController", "message": "API request received", "method": "POST", "path": "/orders", "clientIp": "192.168.1.101"}
+{"timestamp": "2025-07-08T18:53:02.100Z", "level": "WARN", "logger": "com.example.api.AuthService", "message": "Authentication failed", "username": "baduser", "ip": "203.0.113.5", "errorCode": 401}
+{"timestamp": "2025-07-08T18:53:02.500Z", "level": "ERROR", "logger": "com.example.api.PaymentService", "message": "Payment gateway timeout", "orderId": "ORD9876", "gatewayResponseCode": "TIMEOUT", "exception": {"type": "SocketTimeoutException", "message": "Connection timed out"}}

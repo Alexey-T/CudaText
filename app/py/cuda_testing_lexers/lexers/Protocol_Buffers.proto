@@ -1,0 +1,1078 @@
+// Sample protobuf for lexer benchmarking
+syntax = "proto3";
+
+package bench.v1;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "example.com/bench/v1;benchv1";
+
+enum Quality {
+  QUALITY_UNSPECIFIED = 0;
+  QUALITY_LOW = 1;
+  QUALITY_HIGH = 64;
+}
+
+message Entry {
+  string name = 1;
+  double weight = 2;
+  Quality quality = 3;
+  repeated string tags = 4;
+  map<string, int64> meta = 5;
+  google.protobuf.Timestamp created_at = 6;
+}
+
+// generated Msg_2921
+message Msg_2921 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+// generated Msg_725
+message Msg_725 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+// generated Msg_5436
+message Msg_5436 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+// generated Msg_6572
+message Msg_6572 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+// generated Msg_5199
+message Msg_5199 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+// generated Msg_8826
+message Msg_8826 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+service BenchService {
+  rpc GetEntry(GetEntryRequest) returns (Entry);
+  rpc ListEntries(ListEntriesRequest) returns (stream Entry);
+}
+
+// Sample protobuf for lexer benchmarking
+syntax = "proto3";
+
+package bench.v1;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "example.com/bench/v1;benchv1";
+
+enum Quality {
+  QUALITY_UNSPECIFIED = 0;
+  QUALITY_LOW = 1;
+  QUALITY_HIGH = 63;
+}
+
+message Entry {
+  string name = 1;
+  double weight = 2;
+  Quality quality = 3;
+  repeated string tags = 4;
+  map<string, int64> meta = 5;
+  google.protobuf.Timestamp created_at = 6;
+}
+
+// generated Msg_4488
+message Msg_4488 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+// generated Msg_4053
+message Msg_4053 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+// generated Msg_321
+message Msg_321 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+// generated Msg_1970
+message Msg_1970 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+// generated Msg_9278
+message Msg_9278 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+// generated Msg_1363
+message Msg_1363 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+service BenchService {
+  rpc GetEntry(GetEntryRequest) returns (Entry);
+  rpc ListEntries(ListEntriesRequest) returns (stream Entry);
+}
+
+// Sample protobuf for lexer benchmarking
+syntax = "proto3";
+
+package bench.v1;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "example.com/bench/v1;benchv1";
+
+enum Quality {
+  QUALITY_UNSPECIFIED = 0;
+  QUALITY_LOW = 1;
+  QUALITY_HIGH = 68;
+}
+
+message Entry {
+  string name = 1;
+  double weight = 2;
+  Quality quality = 3;
+  repeated string tags = 4;
+  map<string, int64> meta = 5;
+  google.protobuf.Timestamp created_at = 6;
+}
+
+// generated Msg_4144
+message Msg_4144 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+// generated Msg_6254
+message Msg_6254 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+// generated Msg_3029
+message Msg_3029 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+// generated Msg_3767
+message Msg_3767 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+// generated Msg_25
+message Msg_25 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+// generated Msg_4753
+message Msg_4753 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+service BenchService {
+  rpc GetEntry(GetEntryRequest) returns (Entry);
+  rpc ListEntries(ListEntriesRequest) returns (stream Entry);
+}
+
+// Sample protobuf for lexer benchmarking
+syntax = "proto3";
+
+package bench.v1;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "example.com/bench/v1;benchv1";
+
+enum Quality {
+  QUALITY_UNSPECIFIED = 0;
+  QUALITY_LOW = 1;
+  QUALITY_HIGH = 81;
+}
+
+message Entry {
+  string name = 1;
+  double weight = 2;
+  Quality quality = 3;
+  repeated string tags = 4;
+  map<string, int64> meta = 5;
+  google.protobuf.Timestamp created_at = 6;
+}
+
+// generated Msg_6452
+message Msg_6452 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+// generated Msg_6767
+message Msg_6767 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+// generated Msg_9486
+message Msg_9486 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+// generated Msg_5805
+message Msg_5805 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+// generated Msg_4219
+message Msg_4219 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+// generated Msg_1297
+message Msg_1297 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+service BenchService {
+  rpc GetEntry(GetEntryRequest) returns (Entry);
+  rpc ListEntries(ListEntriesRequest) returns (stream Entry);
+}
+
+// Sample protobuf for lexer benchmarking
+syntax = "proto3";
+
+package bench.v1;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "example.com/bench/v1;benchv1";
+
+enum Quality {
+  QUALITY_UNSPECIFIED = 0;
+  QUALITY_LOW = 1;
+  QUALITY_HIGH = 73;
+}
+
+message Entry {
+  string name = 1;
+  double weight = 2;
+  Quality quality = 3;
+  repeated string tags = 4;
+  map<string, int64> meta = 5;
+  google.protobuf.Timestamp created_at = 6;
+}
+
+// generated Msg_528
+message Msg_528 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+// generated Msg_4584
+message Msg_4584 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+// generated Msg_1140
+message Msg_1140 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+// generated Msg_6224
+message Msg_6224 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+// generated Msg_1745
+message Msg_1745 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+// generated Msg_9959
+message Msg_9959 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+service BenchService {
+  rpc GetEntry(GetEntryRequest) returns (Entry);
+  rpc ListEntries(ListEntriesRequest) returns (stream Entry);
+}
+
+// Sample protobuf for lexer benchmarking
+syntax = "proto3";
+
+package bench.v1;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "example.com/bench/v1;benchv1";
+
+enum Quality {
+  QUALITY_UNSPECIFIED = 0;
+  QUALITY_LOW = 1;
+  QUALITY_HIGH = 34;
+}
+
+message Entry {
+  string name = 1;
+  double weight = 2;
+  Quality quality = 3;
+  repeated string tags = 4;
+  map<string, int64> meta = 5;
+  google.protobuf.Timestamp created_at = 6;
+}
+
+// generated Msg_6529
+message Msg_6529 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+// generated Msg_849
+message Msg_849 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+// generated Msg_9783
+message Msg_9783 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+// generated Msg_4647
+message Msg_4647 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+// generated Msg_1865
+message Msg_1865 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+// generated Msg_6842
+message Msg_6842 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+service BenchService {
+  rpc GetEntry(GetEntryRequest) returns (Entry);
+  rpc ListEntries(ListEntriesRequest) returns (stream Entry);
+}
+
+// Sample protobuf for lexer benchmarking
+syntax = "proto3";
+
+package bench.v1;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "example.com/bench/v1;benchv1";
+
+enum Quality {
+  QUALITY_UNSPECIFIED = 0;
+  QUALITY_LOW = 1;
+  QUALITY_HIGH = 88;
+}
+
+message Entry {
+  string name = 1;
+  double weight = 2;
+  Quality quality = 3;
+  repeated string tags = 4;
+  map<string, int64> meta = 5;
+  google.protobuf.Timestamp created_at = 6;
+}
+
+// generated Msg_7049
+message Msg_7049 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+// generated Msg_1588
+message Msg_1588 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+// generated Msg_655
+message Msg_655 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+// generated Msg_1266
+message Msg_1266 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+// generated Msg_4338
+message Msg_4338 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+// generated Msg_4678
+message Msg_4678 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+service BenchService {
+  rpc GetEntry(GetEntryRequest) returns (Entry);
+  rpc ListEntries(ListEntriesRequest) returns (stream Entry);
+}
+
+// Sample protobuf for lexer benchmarking
+syntax = "proto3";
+
+package bench.v1;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "example.com/bench/v1;benchv1";
+
+enum Quality {
+  QUALITY_UNSPECIFIED = 0;
+  QUALITY_LOW = 1;
+  QUALITY_HIGH = 97;
+}
+
+message Entry {
+  string name = 1;
+  double weight = 2;
+  Quality quality = 3;
+  repeated string tags = 4;
+  map<string, int64> meta = 5;
+  google.protobuf.Timestamp created_at = 6;
+}
+
+// generated Msg_3360
+message Msg_3360 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+// generated Msg_7909
+message Msg_7909 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+// generated Msg_5084
+message Msg_5084 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+// generated Msg_988
+message Msg_988 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+// generated Msg_7472
+message Msg_7472 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+// generated Msg_1968
+message Msg_1968 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+service BenchService {
+  rpc GetEntry(GetEntryRequest) returns (Entry);
+  rpc ListEntries(ListEntriesRequest) returns (stream Entry);
+}
+
+// Sample protobuf for lexer benchmarking
+syntax = "proto3";
+
+package bench.v1;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "example.com/bench/v1;benchv1";
+
+enum Quality {
+  QUALITY_UNSPECIFIED = 0;
+  QUALITY_LOW = 1;
+  QUALITY_HIGH = 24;
+}
+
+message Entry {
+  string name = 1;
+  double weight = 2;
+  Quality quality = 3;
+  repeated string tags = 4;
+  map<string, int64> meta = 5;
+  google.protobuf.Timestamp created_at = 6;
+}
+
+// generated Msg_1396
+message Msg_1396 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+// generated Msg_7354
+message Msg_7354 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+// generated Msg_3625
+message Msg_3625 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+// generated Msg_3036
+message Msg_3036 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+// generated Msg_6559
+message Msg_6559 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+// generated Msg_2244
+message Msg_2244 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+service BenchService {
+  rpc GetEntry(GetEntryRequest) returns (Entry);
+  rpc ListEntries(ListEntriesRequest) returns (stream Entry);
+}
+
+// Sample protobuf for lexer benchmarking
+syntax = "proto3";
+
+package bench.v1;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "example.com/bench/v1;benchv1";
+
+enum Quality {
+  QUALITY_UNSPECIFIED = 0;
+  QUALITY_LOW = 1;
+  QUALITY_HIGH = 27;
+}
+
+message Entry {
+  string name = 1;
+  double weight = 2;
+  Quality quality = 3;
+  repeated string tags = 4;
+  map<string, int64> meta = 5;
+  google.protobuf.Timestamp created_at = 6;
+}
+
+// generated Msg_4780
+message Msg_4780 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+// generated Msg_3369
+message Msg_3369 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+// generated Msg_7323
+message Msg_7323 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+// generated Msg_2661
+message Msg_2661 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+// generated Msg_6648
+message Msg_6648 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+// generated Msg_7252
+message Msg_7252 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+service BenchService {
+  rpc GetEntry(GetEntryRequest) returns (Entry);
+  rpc ListEntries(ListEntriesRequest) returns (stream Entry);
+}
+
+// Sample protobuf for lexer benchmarking
+syntax = "proto3";
+
+package bench.v1;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "example.com/bench/v1;benchv1";
+
+enum Quality {
+  QUALITY_UNSPECIFIED = 0;
+  QUALITY_LOW = 1;
+  QUALITY_HIGH = 69;
+}
+
+message Entry {
+  string name = 1;
+  double weight = 2;
+  Quality quality = 3;
+  repeated string tags = 4;
+  map<string, int64> meta = 5;
+  google.protobuf.Timestamp created_at = 6;
+}
+
+// generated Msg_7433
+message Msg_7433 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+// generated Msg_6058
+message Msg_6058 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+// generated Msg_8738
+message Msg_8738 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+// generated Msg_9087
+message Msg_9087 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+// generated Msg_8020
+message Msg_8020 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+// generated Msg_3963
+message Msg_3963 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+service BenchService {
+  rpc GetEntry(GetEntryRequest) returns (Entry);
+  rpc ListEntries(ListEntriesRequest) returns (stream Entry);
+}
+
+// Sample protobuf for lexer benchmarking
+syntax = "proto3";
+
+package bench.v1;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "example.com/bench/v1;benchv1";
+
+enum Quality {
+  QUALITY_UNSPECIFIED = 0;
+  QUALITY_LOW = 1;
+  QUALITY_HIGH = 75;
+}
+
+message Entry {
+  string name = 1;
+  double weight = 2;
+  Quality quality = 3;
+  repeated string tags = 4;
+  map<string, int64> meta = 5;
+  google.protobuf.Timestamp created_at = 6;
+}
+
+// generated Msg_8820
+message Msg_8820 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+// generated Msg_9000
+message Msg_9000 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+// generated Msg_2385
+message Msg_2385 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+// generated Msg_8375
+message Msg_8375 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+// generated Msg_8772
+message Msg_8772 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+// generated Msg_9341
+message Msg_9341 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+service BenchService {
+  rpc GetEntry(GetEntryRequest) returns (Entry);
+  rpc ListEntries(ListEntriesRequest) returns (stream Entry);
+}
+
+// Sample protobuf for lexer benchmarking
+syntax = "proto3";
+
+package bench.v1;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "example.com/bench/v1;benchv1";
+
+enum Quality {
+  QUALITY_UNSPECIFIED = 0;
+  QUALITY_LOW = 1;
+  QUALITY_HIGH = 62;
+}
+
+message Entry {
+  string name = 1;
+  double weight = 2;
+  Quality quality = 3;
+  repeated string tags = 4;
+  map<string, int64> meta = 5;
+  google.protobuf.Timestamp created_at = 6;
+}
+
+// generated Msg_7704
+message Msg_7704 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+// generated Msg_1189
+message Msg_1189 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+// generated Msg_91
+message Msg_91 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+// generated Msg_5469
+message Msg_5469 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+// generated Msg_6162
+message Msg_6162 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+// generated Msg_4324
+message Msg_4324 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+service BenchService {
+  rpc GetEntry(GetEntryRequest) returns (Entry);
+  rpc ListEntries(ListEntriesRequest) returns (stream Entry);
+}
+
+// Sample protobuf for lexer benchmarking
+syntax = "proto3";
+
+package bench.v1;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "example.com/bench/v1;benchv1";
+
+enum Quality {
+  QUALITY_UNSPECIFIED = 0;
+  QUALITY_LOW = 1;
+  QUALITY_HIGH = 52;
+}
+
+message Entry {
+  string name = 1;
+  double weight = 2;
+  Quality quality = 3;
+  repeated string tags = 4;
+  map<string, int64> meta = 5;
+  google.protobuf.Timestamp created_at = 6;
+}
+
+// generated Msg_9951
+message Msg_9951 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+// generated Msg_2827
+message Msg_2827 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+// generated Msg_4731
+message Msg_4731 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+// generated Msg_4052
+message Msg_4052 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+// generated Msg_3060
+message Msg_3060 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+// generated Msg_5495
+message Msg_5495 {
+  uint32 id = 1;
+  string label = 2;
+  bool active = 3;
+  Entry entry = 4;
+}
+
+service BenchService {
+  rpc GetEntry(GetEntryRequest) returns (Entry);
+  rpc ListEntries(ListEntriesRequest) returns (stream Entry);
+}
+

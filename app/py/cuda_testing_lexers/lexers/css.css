@@ -1,0 +1,404 @@
+/* This is a multi-line comment in CSS. */
+/* Single-line comments are not officially part of the CSS spec,
+   but many preprocessors like Sass/Less support // for convenience.
+   Stick to /* ... */ for standard CSS. */
+
+
+/* 1. Basic Rule Structure */
+/* A CSS rule consists of a selector and a declaration block. */
+
+/* Selector: Targets HTML elements */
+/* Declaration Block: Contains one or more declarations,
+   each with a property and a value. */
+
+/* Comment */
+
+ 
+.name, .name2:suffix { 
+  font-size: 10em + 2.em;
+  --my-var: -10.2e+2; /* custom prop; float */
+  background: url("../img.gif") no-repeat;
+  -ms-zoom: 100%; 
+  -ms-hmm: Olive+yellow;
+}
+
+#footer {color: #AA00BBee;}
+
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    .input_size_m .input__control {
+        border-left: 10px solid transparent
+   }
+}
+
+@media all and (min-width: 0) {
+    .button_size_m {
+        line-height: 32px
+   }
+}
+
+.button_size_m #id {
+    padding: 0 15px
+}
+
+@supports not (-webkit-backdrop-filter: blur(10px)) {
+  background: rgba(230, 230, 230, 1);
+}
+
+
+/* Example: Select all <h1> elements and set their color to blue */
+h1 {
+  color: blue; /* Property: color, Value: blue */
+  font-size: 2em; /* 'em' is a relative unit, 2 times the parent's font-size */
+  text-align: center;
+}
+
+/* 2. Selectors (How to target HTML elements) */
+
+/* Type Selector: Selects all elements of a given HTML tag name */
+p {
+  line-height: 1.6;
+}
+
+/* Class Selector: Selects elements with a specific 'class' attribute */
+/* HTML: <div class="my-class">...</div> */
+.my-class {
+  background-color: lightgray;
+  padding: 15px;
+}
+
+/* ID Selector: Selects a single element with a specific 'id' attribute */
+/* HTML: <div id="unique-id">...</div>
+   IDs should be unique per page! */
+#unique-id {
+  border: 1px solid black;
+  margin-top: 20px;
+}
+
+/* Universal Selector: Selects all elements on the page */
+* {
+  box-sizing: border-box; /* A common reset for layout consistency */
+}
+
+/* Attribute Selector: Selects elements with a specific attribute or attribute value */
+/* Selects all <a> elements with an 'href' attribute */
+a[href] {
+  text-decoration: none;
+}
+/* Selects all <input> elements with type="text" */
+input[type="text"] {
+  border: 1px solid #ccc;
+}
+/* Selects elements where the attribute value contains a specific substring */
+[class*="icon"] {
+  font-family: 'Font Awesome';
+}
+
+/* Descendant Selector: Selects elements that are descendants of another element */
+div p { /* Selects all <p> elements that are inside a <div> */
+  color: #333;
+}
+
+/* Child Selector: Selects elements that are direct children of another element */
+ul > li { /* Selects all <li> elements that are direct children of a <ul> */
+  list-style-type: square;
+}
+
+/* Adjacent Sibling Selector: Selects an element immediately preceded by another */
+h2 + p { /* Selects a <p> element immediately following an <h2> */
+  margin-top: 0;
+}
+
+/* General Sibling Selector: Selects an element preceded by another sibling */
+h3 ~ p { /* Selects all <p> elements that are siblings of an <h3> (after it) */
+  background-color: #f9f9f9;
+}
+
+/* Grouping Selector: Apply the same styles to multiple selectors */
+h1, h2, h3, h4, h5, h6 {
+  font-family: sans-serif;
+  margin-bottom: 0.5em;
+}
+
+/* Pseudo-classes: Select elements based on a special state */
+/* When a link is hovered over */
+a:hover {
+  color: red;
+  text-decoration: underline;
+}
+/* When a link has been visited */
+a:visited {
+  color: purple;
+}
+/* When an input field is focused */
+input:focus {
+  outline: 2px solid blue;
+}
+/* First child of its parent */
+li:first-child {
+  font-weight: bold;
+}
+/* Last child of its parent */
+li:last-child {
+  border-bottom: none;
+}
+/* Every nth child */
+li:nth-child(odd) { /* or 2n+1, or even/2n */
+  background-color: #f0f0f0;
+}
+
+/* Pseudo-elements: Style specific parts of an element */
+/* First line of a paragraph */
+p::first-line {
+  font-variant: small-caps;
+}
+/* First letter of a paragraph */
+p::first-letter {
+  font-size: 200%;
+  float: left;
+}
+/* Insert content before an element */
+.warning::before {
+  content: "Warning: ";
+  font-weight: bold;
+  color: orange;
+}
+/* Insert content after an element */
+.link::after {
+  content: " \2192"; /* Unicode arrow character */
+}
+
+/* 3. Combinators (Combining selectors) */
+/* Already covered in section 2 with Descendant, Child, Adjacent, General Sibling */
+
+/* 4. Declaration Properties and Values */
+
+/* Colors */
+.color-examples {
+  color: #ff0000;      /* Hexadecimal RGB */
+  background-color: rgb(0, 128, 0); /* RGB function */
+  border-color: rgba(255, 0, 0, 0.5); /* RGBA (includes alpha/opacity) */
+  text-shadow: 2px 2px 4px hsla(240, 100%, 50%, 0.7); /* HSLA (Hue, Saturation, Lightness, Alpha) */
+  outline-color: currentColor; /* Keyword for the element's current 'color' value */
+}
+
+/* Units */
+.units-examples {
+  width: 50%;         /* Percentage relative to parent */
+  height: 200px;      /* Pixels (absolute) */
+  margin: 1em 2rem;   /* 'em' relative to font-size of element, 'rem' relative to root (html) font-size */
+  padding: 1vh 2vw;   /* 'vh' viewport height, 'vw' viewport width */
+  font-size: 16px;
+  line-height: 1.5;   /* Unitless, relative to font-size */
+}
+
+/* Box Model Properties */
+.box-model {
+  width: 300px;
+  height: 150px;
+  padding: 20px;        /* Space between content and border */
+  border: 5px solid red; /* Border thickness, style, color */
+  margin: 30px auto;    /* Space outside the border (top/bottom 30px, left/right auto for centering) */
+  box-sizing: border-box; /* Includes padding and border in width/height calculation */
+}
+
+/* Typography Properties */
+.typography {
+  font-family: 'Arial', sans-serif; /* Fallback fonts */
+  font-size: 16px;
+  font-weight: bold; /* or 400, 700, etc. */
+  font-style: italic;
+  text-decoration: underline;
+  text-align: right;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  word-spacing: 2px;
+  white-space: nowrap; /* Prevents text from wrapping */
+}
+
+/* Background Properties */
+.background-styles {
+  background-color: #eee;
+  background-image: url('images/background.png'); /* Path to an image */
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover; /* or contain, 100% 100%, 200px auto */
+  background-attachment: fixed; /* Scrolls with page or fixed */
+  /* Shorthand: */
+  background: #eee url('images/background.png') no-repeat center center / cover fixed;
+}
+
+/* Positioning Properties */
+.positioned-element {
+  position: relative; /* Relative to its normal position */
+  top: 10px;
+  left: 20px;
+  z-index: 10; /* Stacking order, higher values appear on top */
+}
+
+.absolute-element {
+  position: absolute; /* Relative to its nearest positioned ancestor */
+  top: 50px;
+  right: 50px;
+}
+
+.fixed-element {
+  position: fixed; /* Relative to the viewport, stays in place on scroll */
+  bottom: 0;
+  left: 0;
+}
+
+/* Display Properties */
+.display-examples {
+  display: block;        /* Takes full width, starts new line */
+  display: inline;       /* Takes only necessary width, no new line */
+  display: inline-block; /* Inline but allows width/height/margin/padding */
+  display: flex;         /* Enables Flexbox layout */
+  display: grid;         /* Enables CSS Grid layout */
+  display: none;         /* Hides the element entirely */
+}
+
+/* Flexbox Properties (applied to a flex container) */
+.flex-container {
+  display: flex;
+  flex-direction: row; /* or column, row-reverse, column-reverse */
+  justify-content: center; /* How items are distributed along main axis */
+  align-items: center;   /* How items are distributed along cross axis */
+  flex-wrap: wrap;       /* Whether items wrap to new lines */
+}
+/* Flexbox properties (applied to flex items) */
+.flex-item {
+  flex-grow: 1;    /* Allows item to grow */
+  flex-shrink: 1;  /* Allows item to shrink */
+  flex-basis: 0;   /* Initial size (shorthand 'flex: 1 1 0;') */
+  order: 2;        /* Order in which items appear */
+  align-self: flex-start; /* Override align-items for individual item */
+}
+
+/* Grid Properties (applied to a grid container) */
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr; /* Defines 3 columns with fractional units */
+  grid-template-rows: auto 100px;     /* Defines rows */
+  gap: 10px;                          /* Space between grid items */
+}
+/* Grid properties (applied to grid items) */
+.grid-item {
+  grid-column: 1 / span 2; /* Spans from column line 1 to 2 columns total */
+  grid-row: 1;             /* Starts at row line 1 */
+}
+
+/* Transitions */
+.transition-box {
+  width: 100px;
+  height: 100px;
+  background-color: blue;
+  transition-property: background-color, width; /* Properties to animate */
+  transition-duration: 0.5s;                 /* How long the animation takes */
+  transition-timing-function: ease-in-out;   /* Speed curve of the animation */
+  transition-delay: 0.1s;                    /* Delay before animation starts */
+  /* Shorthand: */
+  transition: background-color 0.5s ease-in-out 0.1s, width 0.5s ease-in-out;
+}
+.transition-box:hover {
+  background-color: green;
+  width: 200px;
+}
+
+/* Animations (Keyframes) */
+@keyframes fadeInOut {
+  0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; }
+}
+.animated-element {
+  animation-name: fadeInOut;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+  animation-direction: alternate; /* Plays forward then backward */
+  /* Shorthand: */
+  animation: fadeInOut 2s infinite ease-in-out alternate;
+}
+
+/* 5. Responsive Design (Media Queries) */
+/* Apply styles only when certain conditions are met (e.g., screen size) */
+@media screen and (max-width: 768px) {
+  /* Styles applied on screens up to 768px wide */
+  body {
+    font-size: 14px;
+  }
+  .my-class {
+    padding: 10px;
+  }
+}
+
+@media print {
+  /* Styles for printing the page */
+  body {
+    background-color: white;
+    color: black;
+  }
+  nav {
+    display: none; /* Hide navigation when printing */
+  }
+}
+
+/* 6. Variables (Custom Properties) - CSS Custom Properties (CSS Variables) */
+:root { /* The :root pseudo-class selects the <html> element */
+  --main-color: #3498db; /* Define a custom property */
+  --panel-background: #f0f0f0;
+  --spacing-unit: 10px;
+}
+
+.themed-element {
+  background-color: var(--panel-background); /* Use the custom property */
+  color: var(--main-color);
+  padding: var(--spacing-unit);
+}
+
+/* 7. Specificity and Cascade */
+/* The cascade determines which CSS rule applies when multiple rules target the same element.
+   Order of importance (highest to lowest):
+   1. Inline styles (style="" attribute in HTML)
+   2. IDs (#id)
+   3. Classes (.class), Attributes ([attr]), Pseudo-classes (:hover)
+   4. Elements (div), Pseudo-elements (::before)
+   5. Universal selector (*), inherited values
+
+   !important overrides all specificity rules (use sparingly).
+*/
+.my-element {
+  color: green; /* This will be overridden by the ID if it exists */
+}
+#my-element-id {
+  color: red; /* This will apply */
+}
+/* p { color: blue !important; } */ /* This would override everything for paragraphs */
+
+/* 8. Shorthand Properties */
+/* Many properties have shorthand versions to combine multiple declarations */
+.shorthand-example {
+  margin: 10px 20px 30px 40px; /* top right bottom left */
+  padding: 5px 10px;         /* top/bottom left/right */
+  border: 1px solid black;
+  font: italic bold 16px/1.5 Arial, sans-serif; /* style weight size/line-height family */
+}
+
+/* 9. Imports (Rarely used in modern CSS, usually handled by build tools) */
+/* @import url("other-styles.css"); */ /* Imports another CSS file */
+
+/* 10. Layers (Newer feature for managing cascade) - CSS @layer */
+/* @layer base, components, utilities; */
+
+/* @layer base {
+  body {
+    font-family: sans-serif;
+  }
+}
+
+@layer components {
+  .button {
+    padding: 10px 20px;
+    background-color: var(--main-color);
+  }
+} */
