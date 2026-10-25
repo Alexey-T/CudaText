@@ -1,0 +1,21 @@
+{
+  "lexer": "JSON",
+  "fold_count": 15,
+  "folds": [
+    {"x": 0, "y": 0, "x2": 1, "y2": 62, "staple": true, "folded": false, "hint": "{ ... }", "tag": 0},
+    {"x": 2, "y": 7, "x2": 3, "y2": 17, "staple": true, "folded": false, "hint": "\"metadata\": { ... }", "tag": 0},
+    {"x": 4, "y": 10, "x2": 5, "y2": 16, "staple": true, "folded": false, "hint": "\"tags\": [ ... ]", "tag": 0},
+    {"x": 2, "y": 18, "x2": 3, "y2": 54, "staple": true, "folded": false, "hint": "\"products\": [ ... ]", "tag": 0},
+    {"x": 4, "y": 19, "x2": 5, "y2": 44, "staple": true, "folded": false, "hint": "{ ... }", "tag": 0},
+    {"x": 6, "y": 24, "x2": 74, "y2": 24, "staple": true, "folded": false, "hint": "\"features\": [ ... ]", "tag": 0},
+    {"x": 6, "y": 25, "x2": 7, "y2": 29, "staple": true, "folded": false, "hint": "\"dimensions\": { ... }", "tag": 0},
+    {"x": 6, "y": 30, "x2": 7, "y2": 43, "staple": true, "folded": false, "hint": "\"reviews\": [ ... ]", "tag": 0},
+    {"x": 8, "y": 31, "x2": 9, "y2": 36, "staple": true, "folded": false, "hint": "{ ... }", "tag": 0},
+    {"x": 8, "y": 37, "x2": 9, "y2": 42, "staple": true, "folded": false, "hint": "{ ... }", "tag": 0},
+    {"x": 4, "y": 45, "x2": 5, "y2": 53, "staple": true, "folded": false, "hint": "{ ... }", "tag": 0},
+    {"x": 6, "y": 50, "x2": 55, "y2": 50, "staple": true, "folded": false, "hint": "\"features\": [ ... ]", "tag": 0},
+    {"x": 6, "y": 52, "x2": 19, "y2": 52, "staple": true, "folded": false, "hint": "\"reviews\": [ ... ]", "tag": 0},
+    {"x": 2, "y": 55, "x2": 3, "y2": 61, "staple": true, "folded": false, "hint": "\"contactInfo\": { ... }", "tag": 0},
+    {"x": 4, "y": 57, "x2": 5, "y2": 60, "staple": true, "folded": false, "hint": "\"phoneNumbers\": [ ... ]", "tag": 0}
+  ]
+}

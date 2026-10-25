@@ -1,0 +1,1269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Sample XML for lexer benchmarking -->
+<catalog xmlns="urn:bench" xmlns:x="urn:extra" version="1.3">
+  <metadata>
+    <title>Sample &amp; Demo</title>
+    <count>703</count>
+  </metadata>
+  <record id="0" type="beta">
+    <name>Record &lt;0&gt;</name>
+    <value unit="ms">0x3BD4</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="1" type="gamma">
+    <name>Record &lt;1&gt;</name>
+    <value unit="ms">0x9950</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="2" type="alpha">
+    <name>Record &lt;2&gt;</name>
+    <value unit="ms">0x9E1D</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="3" type="beta">
+    <name>Record &lt;3&gt;</name>
+    <value unit="ms">-5300</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="4" type="gamma">
+    <name>Record &lt;4&gt;</name>
+    <value unit="ms">86.27e-2</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="5" type="beta">
+    <name>Record &lt;5&gt;</name>
+    <value unit="ms">7427</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="6" type="beta">
+    <name>Record &lt;6&gt;</name>
+    <value unit="ms">7528</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="7" type="beta">
+    <name>Record &lt;7&gt;</name>
+    <value unit="ms">75.13e8</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="8" type="gamma">
+    <name>Record &lt;8&gt;</name>
+    <value unit="ms">0o166</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="9" type="beta">
+    <name>Record &lt;9&gt;</name>
+    <value unit="ms">89.28e7</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="10" type="alpha">
+    <name>Record &lt;10&gt;</name>
+    <value unit="ms">271.503</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="11" type="alpha">
+    <name>Record &lt;11&gt;</name>
+    <value unit="ms">7258</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+</catalog>
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Sample XML for lexer benchmarking -->
+<catalog xmlns="urn:bench" xmlns:x="urn:extra" version="1.6">
+  <metadata>
+    <title>Sample &amp; Demo</title>
+    <count>162</count>
+  </metadata>
+  <record id="0" type="beta">
+    <name>Record &lt;0&gt;</name>
+    <value unit="ms">7386</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="1" type="beta">
+    <name>Record &lt;1&gt;</name>
+    <value unit="ms">34.24e-7</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="2" type="beta">
+    <name>Record &lt;2&gt;</name>
+    <value unit="ms">-5770</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="3" type="gamma">
+    <name>Record &lt;3&gt;</name>
+    <value unit="ms">822.956</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="4" type="gamma">
+    <name>Record &lt;4&gt;</name>
+    <value unit="ms">12.7e6</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="5" type="alpha">
+    <name>Record &lt;5&gt;</name>
+    <value unit="ms">61.55e-1</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="6" type="beta">
+    <name>Record &lt;6&gt;</name>
+    <value unit="ms">39.77e2</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="7" type="gamma">
+    <name>Record &lt;7&gt;</name>
+    <value unit="ms">0o247</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="8" type="alpha">
+    <name>Record &lt;8&gt;</name>
+    <value unit="ms">73.500</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="9" type="alpha">
+    <name>Record &lt;9&gt;</name>
+    <value unit="ms">0x6B3D</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="10" type="gamma">
+    <name>Record &lt;10&gt;</name>
+    <value unit="ms">3.8e-1</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="11" type="gamma">
+    <name>Record &lt;11&gt;</name>
+    <value unit="ms">6872</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+</catalog>
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Sample XML for lexer benchmarking -->
+<catalog xmlns="urn:bench" xmlns:x="urn:extra" version="1.9">
+  <metadata>
+    <title>Sample &amp; Demo</title>
+    <count>158</count>
+  </metadata>
+  <record id="0" type="beta">
+    <name>Record &lt;0&gt;</name>
+    <value unit="ms">5217</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="1" type="alpha">
+    <name>Record &lt;1&gt;</name>
+    <value unit="ms">0x3ABE</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="2" type="alpha">
+    <name>Record &lt;2&gt;</name>
+    <value unit="ms">7460</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="3" type="alpha">
+    <name>Record &lt;3&gt;</name>
+    <value unit="ms">0x4D65</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="4" type="beta">
+    <name>Record &lt;4&gt;</name>
+    <value unit="ms">114.292</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="5" type="gamma">
+    <name>Record &lt;5&gt;</name>
+    <value unit="ms">-4706</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="6" type="alpha">
+    <name>Record &lt;6&gt;</name>
+    <value unit="ms">0xF5BA</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="7" type="gamma">
+    <name>Record &lt;7&gt;</name>
+    <value unit="ms">0x739D</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="8" type="gamma">
+    <name>Record &lt;8&gt;</name>
+    <value unit="ms">7568</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="9" type="gamma">
+    <name>Record &lt;9&gt;</name>
+    <value unit="ms">1177</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="10" type="alpha">
+    <name>Record &lt;10&gt;</name>
+    <value unit="ms">-1695</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="11" type="gamma">
+    <name>Record &lt;11&gt;</name>
+    <value unit="ms">0x3F52</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+</catalog>
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Sample XML for lexer benchmarking -->
+<catalog xmlns="urn:bench" xmlns:x="urn:extra" version="1.1">
+  <metadata>
+    <title>Sample &amp; Demo</title>
+    <count>489</count>
+  </metadata>
+  <record id="0" type="alpha">
+    <name>Record &lt;0&gt;</name>
+    <value unit="ms">24.58e-6</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="1" type="beta">
+    <name>Record &lt;1&gt;</name>
+    <value unit="ms">0o670</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="2" type="alpha">
+    <name>Record &lt;2&gt;</name>
+    <value unit="ms">-6083</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="3" type="gamma">
+    <name>Record &lt;3&gt;</name>
+    <value unit="ms">-9621</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="4" type="beta">
+    <name>Record &lt;4&gt;</name>
+    <value unit="ms">7104</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="5" type="gamma">
+    <name>Record &lt;5&gt;</name>
+    <value unit="ms">0o300</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="6" type="gamma">
+    <name>Record &lt;6&gt;</name>
+    <value unit="ms">0xBBBB</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="7" type="alpha">
+    <name>Record &lt;7&gt;</name>
+    <value unit="ms">798</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="8" type="alpha">
+    <name>Record &lt;8&gt;</name>
+    <value unit="ms">0xBC2D</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="9" type="gamma">
+    <name>Record &lt;9&gt;</name>
+    <value unit="ms">269.82</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="10" type="beta">
+    <name>Record &lt;10&gt;</name>
+    <value unit="ms">27.0e-6</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="11" type="alpha">
+    <name>Record &lt;11&gt;</name>
+    <value unit="ms">283.461</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+</catalog>
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Sample XML for lexer benchmarking -->
+<catalog xmlns="urn:bench" xmlns:x="urn:extra" version="1.1">
+  <metadata>
+    <title>Sample &amp; Demo</title>
+    <count>868</count>
+  </metadata>
+  <record id="0" type="gamma">
+    <name>Record &lt;0&gt;</name>
+    <value unit="ms">-3845</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="1" type="beta">
+    <name>Record &lt;1&gt;</name>
+    <value unit="ms">0o517</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="2" type="gamma">
+    <name>Record &lt;2&gt;</name>
+    <value unit="ms">70.2e0</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="3" type="alpha">
+    <name>Record &lt;3&gt;</name>
+    <value unit="ms">0x277B</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="4" type="gamma">
+    <name>Record &lt;4&gt;</name>
+    <value unit="ms">-5770</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="5" type="gamma">
+    <name>Record &lt;5&gt;</name>
+    <value unit="ms">2587</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="6" type="gamma">
+    <name>Record &lt;6&gt;</name>
+    <value unit="ms">597.495</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="7" type="beta">
+    <name>Record &lt;7&gt;</name>
+    <value unit="ms">59.19e1</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="8" type="beta">
+    <name>Record &lt;8&gt;</name>
+    <value unit="ms">0o147</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="9" type="beta">
+    <name>Record &lt;9&gt;</name>
+    <value unit="ms">7777</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="10" type="beta">
+    <name>Record &lt;10&gt;</name>
+    <value unit="ms">91.45e-8</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="11" type="beta">
+    <name>Record &lt;11&gt;</name>
+    <value unit="ms">0xE678</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+</catalog>
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Sample XML for lexer benchmarking -->
+<catalog xmlns="urn:bench" xmlns:x="urn:extra" version="1.8">
+  <metadata>
+    <title>Sample &amp; Demo</title>
+    <count>470</count>
+  </metadata>
+  <record id="0" type="gamma">
+    <name>Record &lt;0&gt;</name>
+    <value unit="ms">222.802</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="1" type="gamma">
+    <name>Record &lt;1&gt;</name>
+    <value unit="ms">0x3426</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="2" type="alpha">
+    <name>Record &lt;2&gt;</name>
+    <value unit="ms">718</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="3" type="gamma">
+    <name>Record &lt;3&gt;</name>
+    <value unit="ms">140.71</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="4" type="alpha">
+    <name>Record &lt;4&gt;</name>
+    <value unit="ms">999.122</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="5" type="gamma">
+    <name>Record &lt;5&gt;</name>
+    <value unit="ms">7132</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="6" type="alpha">
+    <name>Record &lt;6&gt;</name>
+    <value unit="ms">-671</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="7" type="beta">
+    <name>Record &lt;7&gt;</name>
+    <value unit="ms">-5145</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="8" type="beta">
+    <name>Record &lt;8&gt;</name>
+    <value unit="ms">-451</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="9" type="gamma">
+    <name>Record &lt;9&gt;</name>
+    <value unit="ms">0o55</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="10" type="gamma">
+    <name>Record &lt;10&gt;</name>
+    <value unit="ms">23.43e-7</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="11" type="beta">
+    <name>Record &lt;11&gt;</name>
+    <value unit="ms">4687</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+</catalog>
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Sample XML for lexer benchmarking -->
+<catalog xmlns="urn:bench" xmlns:x="urn:extra" version="1.9">
+  <metadata>
+    <title>Sample &amp; Demo</title>
+    <count>686</count>
+  </metadata>
+  <record id="0" type="alpha">
+    <name>Record &lt;0&gt;</name>
+    <value unit="ms">14.91e-4</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="1" type="alpha">
+    <name>Record &lt;1&gt;</name>
+    <value unit="ms">74.59e2</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="2" type="alpha">
+    <name>Record &lt;2&gt;</name>
+    <value unit="ms">7393</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="3" type="alpha">
+    <name>Record &lt;3&gt;</name>
+    <value unit="ms">50.37e4</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="4" type="gamma">
+    <name>Record &lt;4&gt;</name>
+    <value unit="ms">0o671</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="5" type="gamma">
+    <name>Record &lt;5&gt;</name>
+    <value unit="ms">795.640</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="6" type="alpha">
+    <name>Record &lt;6&gt;</name>
+    <value unit="ms">0o565</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="7" type="beta">
+    <name>Record &lt;7&gt;</name>
+    <value unit="ms">2768</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="8" type="alpha">
+    <name>Record &lt;8&gt;</name>
+    <value unit="ms">1324</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="9" type="gamma">
+    <name>Record &lt;9&gt;</name>
+    <value unit="ms">637</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="10" type="beta">
+    <name>Record &lt;10&gt;</name>
+    <value unit="ms">7476</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="11" type="alpha">
+    <name>Record &lt;11&gt;</name>
+    <value unit="ms">863.72</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+</catalog>
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Sample XML for lexer benchmarking -->
+<catalog xmlns="urn:bench" xmlns:x="urn:extra" version="1.2">
+  <metadata>
+    <title>Sample &amp; Demo</title>
+    <count>969</count>
+  </metadata>
+  <record id="0" type="gamma">
+    <name>Record &lt;0&gt;</name>
+    <value unit="ms">9499</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="1" type="beta">
+    <name>Record &lt;1&gt;</name>
+    <value unit="ms">89.76e5</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="2" type="alpha">
+    <name>Record &lt;2&gt;</name>
+    <value unit="ms">7431</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="3" type="alpha">
+    <name>Record &lt;3&gt;</name>
+    <value unit="ms">0o341</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="4" type="beta">
+    <name>Record &lt;4&gt;</name>
+    <value unit="ms">0o145</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="5" type="beta">
+    <name>Record &lt;5&gt;</name>
+    <value unit="ms">8664</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="6" type="beta">
+    <name>Record &lt;6&gt;</name>
+    <value unit="ms">0x918B</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="7" type="alpha">
+    <name>Record &lt;7&gt;</name>
+    <value unit="ms">0x404D</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="8" type="beta">
+    <name>Record &lt;8&gt;</name>
+    <value unit="ms">0o457</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="9" type="gamma">
+    <name>Record &lt;9&gt;</name>
+    <value unit="ms">-137</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="10" type="gamma">
+    <name>Record &lt;10&gt;</name>
+    <value unit="ms">785</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="11" type="alpha">
+    <name>Record &lt;11&gt;</name>
+    <value unit="ms">7.49e-8</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+</catalog>
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Sample XML for lexer benchmarking -->
+<catalog xmlns="urn:bench" xmlns:x="urn:extra" version="1.9">
+  <metadata>
+    <title>Sample &amp; Demo</title>
+    <count>166</count>
+  </metadata>
+  <record id="0" type="alpha">
+    <name>Record &lt;0&gt;</name>
+    <value unit="ms">0x22A4</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="1" type="alpha">
+    <name>Record &lt;1&gt;</name>
+    <value unit="ms">-5869</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="2" type="beta">
+    <name>Record &lt;2&gt;</name>
+    <value unit="ms">0o263</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="3" type="gamma">
+    <name>Record &lt;3&gt;</name>
+    <value unit="ms">68.58e-8</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="4" type="alpha">
+    <name>Record &lt;4&gt;</name>
+    <value unit="ms">796</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="5" type="gamma">
+    <name>Record &lt;5&gt;</name>
+    <value unit="ms">7344</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="6" type="alpha">
+    <name>Record &lt;6&gt;</name>
+    <value unit="ms">0o544</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="7" type="beta">
+    <name>Record &lt;7&gt;</name>
+    <value unit="ms">9330</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="8" type="alpha">
+    <name>Record &lt;8&gt;</name>
+    <value unit="ms">7668</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="9" type="gamma">
+    <name>Record &lt;9&gt;</name>
+    <value unit="ms">0x351A</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="10" type="beta">
+    <name>Record &lt;10&gt;</name>
+    <value unit="ms">-5481</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+  <record id="11" type="alpha">
+    <name>Record &lt;11&gt;</name>
+    <value unit="ms">0o352</value>
+    <x:tags>a, b</x:tags>
+    <!-- nested group -->
+    <group>
+      <item flag="true"/>
+      <item flag="false"/>
+    </group>
+    <raw><![CDATA[raw <content> & (stuff)]]></raw>
+  </record>
+</catalog>
+

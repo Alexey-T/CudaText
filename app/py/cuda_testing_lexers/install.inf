@@ -1,0 +1,26 @@
+[info]
+title=Testing Lexers
+desc=Testing of lexers before/after patches of the lexer engine (EControl). Parses a corpus of test files and saves/compares lexer data (tokens, folding) as JSON snapshots.
+type=cudatext-plugin
+subdir=cuda_testing_lexers
+homepage=
+
+[item1]
+section=commands
+caption=Testing\Testing of Lexers\Make snapshot
+method=make_snapshot
+
+[item2]
+section=commands
+caption=Testing\Testing of Lexers\Compare results
+method=compare_results
+
+[item3]
+section=commands
+caption=Testing\Testing of Lexers\Compare two folders...
+method=compare_two_folders
+
+[item4]
+section=commands
+caption=Testing\Testing of Lexers\Open folder...
+method=open_dir

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<library>
+    <book id="bk101" category="fiction">
+        <!-- <title lang="en">The Great Adventure</title> -->
+        <author>Jane Doe</author>
+        <year>2005</year>
+        <price>25.99</price>
+        <description>
+            An exciting journey through uncharted territories.
+            This description can contain
+            multiple lines and special characters like &amp; (ampersand)
+            or &lt; (less than).
+        </description>
+    </book>
+
+    <book id="bk102" category="non-fiction">
+        <title lang="en">Understanding XML</title>
+        <author>John Smith</author>
+        <year>2018</year>
+        <price>39.50</price>
+        <topics>
+            <topic>Data Serialization</topic>
+            <topic>Markup Languages</topic>
+            <topic>Web Services</topic>
+        </topics>
+        <availability status="in-stock"/>
+    </book>
+
+    <book id="bk103" category="science">
+        <title lang="fr">La Science Expliquée</title>
+        <author>Marie Curie</author>
+        <year>1998</year>
+        <price>45.00</price>
+        <publication_details publisher="Science Books Inc.">
+            <city>Paris</city>
+            <country>France</country>
+        </publication_details>
+    </book>
+
+    <emptyElement/>
+
+    <codeExample>
+        <![CDATA[
+            function greeting(name) {
+                if (name === "World") {
+                    console.log("<p>Hello World!</p>");
+                }
+            }
+        ]]>
+    </codeExample>
+
+    <?xml-stylesheet type="text/xsl" href="library.xsl"?>
+
+</library>

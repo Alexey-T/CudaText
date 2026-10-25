@@ -1,0 +1,151 @@
+# YAML Syntax Example
+
+# 1. Basic Key-Value Pairs (Mappings/Dictionaries)
+# Indentation matters greatly in YAML. Use spaces, not tabs.
+name: John Doe
+age: 30
+isStudent: false # Boolean values
+height: 1.75     # Floating-point numbers
+id: 101          # Integers
+birthDate: 1995-03-15 # Dates (parsed as strings or date objects depending on parser)
+email: john.doe@example.com
+
+# Strings can often be unquoted, but quotes are necessary for:
+# - Strings that start or end with spaces
+# - Strings that contain special characters (:, -, [, ], {, }, #, &, *, !, |, >, ', ", %, @, `)
+# - Strings that look like numbers, booleans, or null
+unquoted_string: Hello, YAML!
+quoted_string: "This string has spaces at the end. "
+another_quoted_string: 'This string has an apostrophe''s problem.' # Escaping single quote
+
+# Multi-line strings:
+# | (Literal block scalar) - keeps newlines and leading/trailing spaces
+literal_block: |
+  This is a
+  multi-line string.
+  It preserves
+  all line breaks and
+  leading indentation.
+
+# > (Folded block scalar) - folds newlines into spaces, unless explicitly indented
+folded_block: >
+  This is a long
+  multi-line string that
+  will be folded into a
+  single line by most parsers.
+
+# 2. Lists (Sequences/Arrays)
+# Use hyphens followed by a space for list items.
+fruits:
+  - Apple
+  - Banana
+  - Orange
+
+# Lists can also contain mappings
+people:
+  - name: Alice
+    age: 25
+    city: New York
+  - name: Bob
+    age: 35
+    city: London
+
+# Inline lists (Flow style)
+colors: [red, green, blue]
+coordinates: [[10, 20], [30, 40]]
+
+# 3. Nested Structures
+# Combine mappings and lists
+company:
+  name: Tech Solutions Inc.
+  address:
+    street: 123 Main St
+    city: Anytown
+    zip: 12345
+  departments:
+    - name: Engineering
+      employees:
+        - name: Charlie
+          role: Developer
+        - name: Diana
+          role: Lead
+    - name: Marketing
+      employees:
+        - name: Eve
+          role: Specialist
+
+# 4. Null Values
+# Represented by `null` or `~`
+nullable_field: null
+another_null_field: ~
+
+# 5. Anchors and Aliases (for reusability)
+# Define a block with & followed by a name
+# Refer to it later with * followed by the name
+default_shipping_address: &shipping_address
+  street: 456 Oak Ave
+  city: Smallville
+  state: CA
+  zip: 98765
+
+customer_info:
+  id: 1
+  name: First Customer
+  address: *shipping_address # Uses the default shipping address
+
+vendor_info:
+  id: 2
+  name: Main Vendor
+  address: *shipping_address # Also uses the default shipping address
+
+# You can also merge existing mappings using <<: *anchor
+# This is useful for inheriting properties and then overriding/adding
+product_template: &base_product
+  type: electronic
+  status: available
+  dimensions:
+    length: 10
+    width: 5
+    height: 2
+
+laptop:
+  <<: *base_product # Inherit properties from product_template
+  name: Pro Laptop
+  price: 1200.00
+  dimensions: # Override dimensions
+    length: 14
+    width: 9
+    height: 1
+
+# 6. Comments
+# Single-line comments start with #
+# They can be on their own line or at the end of a line.
+
+# 7. Document Separators
+# --- indicates the start of a new YAML document in a single file
+# ... indicates the end of a YAML document (optional)
+
+--- # Start of a new document
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-app-pod
+spec:
+  containers:
+    - name: my-app-container
+      image: my-app-image:latest
+      ports:
+        - containerPort: 80
+
+--- # Another document
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-app-service
+spec:
+  selector:
+    app: my-app-pod
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80

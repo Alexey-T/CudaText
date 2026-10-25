@@ -1,0 +1,12 @@
+{
+  "lexer": "Ini files",
+  "fold_count": 6,
+  "folds": [
+    {"x": 0, "y": 2, "x2": 25, "y2": 4, "staple": false, "folded": false, "hint": "//...", "tag": 254},
+    {"x": 0, "y": 6, "x2": 34, "y2": 14, "staple": false, "folded": false, "hint": "[Database]", "tag": 0},
+    {"x": 0, "y": 16, "x2": 28, "y2": 29, "staple": false, "folded": false, "hint": "[ApplicationSettings]", "tag": 0},
+    {"x": 0, "y": 31, "x2": 32, "y2": 42, "staple": false, "folded": false, "hint": "[UserPreferences]", "tag": 0},
+    {"x": 0, "y": 44, "x2": 13, "y2": 49, "staple": false, "folded": false, "hint": "[Network]", "tag": 0},
+    {"x": 0, "y": 51, "x2": 21, "y2": 54, "staple": false, "folded": false, "hint": "[Misc]", "tag": 0}
+  ]
+}

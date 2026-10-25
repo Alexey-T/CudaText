@@ -1,0 +1,1782 @@
+# Sample YAML for lexer benchmarking
+name: benchmark
+version: 0.18.56
+enabled: true
+ratio: 0x699D
+
+defaults: &defaults
+  retries: 1
+  message: "hello \"world\""
+  flags:
+    - alpha
+    - beta
+
+environments:
+  env0:
+    <<: *defaults
+    host: host-41.example.com
+    port: 28939
+    items:
+      - name: item-0
+        value: -6550
+        active: true
+      - name: item-1
+        value: 0o731
+        active: true
+      - name: item-2
+        value: 31.31e-5
+        active: false
+  env1:
+    <<: *defaults
+    host: host-93.example.com
+    port: 38731
+    items:
+      - name: item-0
+        value: 0o566
+        active: true
+      - name: item-1
+        value: 64.10e2
+        active: false
+      - name: item-2
+        value: 0o606
+        active: false
+  env2:
+    <<: *defaults
+    host: host-41.example.com
+    port: 25607
+    items:
+      - name: item-0
+        value: 0o362
+        active: true
+      - name: item-1
+        value: 660.873
+        active: false
+      - name: item-2
+        value: 0x5105
+        active: true
+  env3:
+    <<: *defaults
+    host: host-23.example.com
+    port: 13506
+    items:
+      - name: item-0
+        value: 9843
+        active: false
+      - name: item-1
+        value: 868.228
+        active: true
+      - name: item-2
+        value: -7637
+        active: false
+  env4:
+    <<: *defaults
+    host: host-43.example.com
+    port: 54760
+    items:
+      - name: item-0
+        value: 427.787
+        active: false
+      - name: item-1
+        value: 0o411
+        active: true
+      - name: item-2
+        value: 582.944
+        active: false
+  env5:
+    <<: *defaults
+    host: host-14.example.com
+    port: 9513
+    items:
+      - name: item-0
+        value: 0o610
+        active: false
+      - name: item-1
+        value: 259.61
+        active: true
+      - name: item-2
+        value: 66.12e-4
+        active: true
+  env6:
+    <<: *defaults
+    host: host-63.example.com
+    port: 3406
+    items:
+      - name: item-0
+        value: -4348
+        active: true
+      - name: item-1
+        value: 0o646
+        active: true
+      - name: item-2
+        value: 0xCDC5
+        active: true
+  env7:
+    <<: *defaults
+    host: host-65.example.com
+    port: 13741
+    items:
+      - name: item-0
+        value: 318.389
+        active: false
+      - name: item-1
+        value: 261.690
+        active: true
+      - name: item-2
+        value: 5406
+        active: false
+  env8:
+    <<: *defaults
+    host: host-21.example.com
+    port: 27434
+    items:
+      - name: item-0
+        value: 0xBE7A
+        active: true
+      - name: item-1
+        value: 2.21e2
+        active: false
+      - name: item-2
+        value: 38.47e-6
+        active: true
+  env9:
+    <<: *defaults
+    host: host-29.example.com
+    port: 14990
+    items:
+      - name: item-0
+        value: 8020
+        active: false
+      - name: item-1
+        value: 6748
+        active: true
+      - name: item-2
+        value: 299.89
+        active: false
+
+multiline: |
+  first line
+  second line
+folded: >
+  folded text
+  continues here
+
+# Sample YAML for lexer benchmarking
+name: benchmark
+version: 1.1.96
+enabled: true
+ratio: 7447
+
+defaults: &defaults
+  retries: 9
+  message: "hello \"world\""
+  flags:
+    - alpha
+    - beta
+
+environments:
+  env0:
+    <<: *defaults
+    host: host-30.example.com
+    port: 40173
+    items:
+      - name: item-0
+        value: 0x9E51
+        active: true
+      - name: item-1
+        value: -7627
+        active: true
+      - name: item-2
+        value: 0xEF13
+        active: true
+  env1:
+    <<: *defaults
+    host: host-10.example.com
+    port: 45611
+    items:
+      - name: item-0
+        value: 7110
+        active: false
+      - name: item-1
+        value: 0o422
+        active: false
+      - name: item-2
+        value: 712.742
+        active: false
+  env2:
+    <<: *defaults
+    host: host-99.example.com
+    port: 40825
+    items:
+      - name: item-0
+        value: 0xFD72
+        active: true
+      - name: item-1
+        value: 0o663
+        active: true
+      - name: item-2
+        value: -5207
+        active: true
+  env3:
+    <<: *defaults
+    host: host-72.example.com
+    port: 48574
+    items:
+      - name: item-0
+        value: 9742
+        active: false
+      - name: item-1
+        value: 5535
+        active: false
+      - name: item-2
+        value: 1011
+        active: true
+  env4:
+    <<: *defaults
+    host: host-71.example.com
+    port: 37008
+    items:
+      - name: item-0
+        value: 9731
+        active: false
+      - name: item-1
+        value: 0o345
+        active: true
+      - name: item-2
+        value: 0x5838
+        active: true
+  env5:
+    <<: *defaults
+    host: host-37.example.com
+    port: 38600
+    items:
+      - name: item-0
+        value: 2638
+        active: true
+      - name: item-1
+        value: 0o722
+        active: true
+      - name: item-2
+        value: 1545
+        active: true
+  env6:
+    <<: *defaults
+    host: host-57.example.com
+    port: 18347
+    items:
+      - name: item-0
+        value: 3508
+        active: true
+      - name: item-1
+        value: 7115
+        active: false
+      - name: item-2
+        value: 0o523
+        active: true
+  env7:
+    <<: *defaults
+    host: host-39.example.com
+    port: 2554
+    items:
+      - name: item-0
+        value: 0xF219
+        active: true
+      - name: item-1
+        value: 0x109E
+        active: false
+      - name: item-2
+        value: 0xD546
+        active: true
+  env8:
+    <<: *defaults
+    host: host-57.example.com
+    port: 36408
+    items:
+      - name: item-0
+        value: 0xEB73
+        active: true
+      - name: item-1
+        value: 0xC8A9
+        active: false
+      - name: item-2
+        value: -9090
+        active: true
+  env9:
+    <<: *defaults
+    host: host-78.example.com
+    port: 49552
+    items:
+      - name: item-0
+        value: 0x19C2
+        active: true
+      - name: item-1
+        value: 7202
+        active: true
+      - name: item-2
+        value: 5641
+        active: false
+
+multiline: |
+  first line
+  second line
+folded: >
+  folded text
+  continues here
+
+# Sample YAML for lexer benchmarking
+name: benchmark
+version: 3.9.53
+enabled: true
+ratio: 7966
+
+defaults: &defaults
+  retries: 2
+  message: "hello \"world\""
+  flags:
+    - alpha
+    - beta
+
+environments:
+  env0:
+    <<: *defaults
+    host: host-98.example.com
+    port: 44770
+    items:
+      - name: item-0
+        value: 0o631
+        active: false
+      - name: item-1
+        value: 94
+        active: false
+      - name: item-2
+        value: 0o605
+        active: true
+  env1:
+    <<: *defaults
+    host: host-32.example.com
+    port: 43221
+    items:
+      - name: item-0
+        value: 5482
+        active: true
+      - name: item-1
+        value: 91.62e6
+        active: false
+      - name: item-2
+        value: 1489
+        active: true
+  env2:
+    <<: *defaults
+    host: host-54.example.com
+    port: 51004
+    items:
+      - name: item-0
+        value: 9980
+        active: false
+      - name: item-1
+        value: 0x93AB
+        active: false
+      - name: item-2
+        value: 89.87e-2
+        active: true
+  env3:
+    <<: *defaults
+    host: host-14.example.com
+    port: 24514
+    items:
+      - name: item-0
+        value: 83.19e0
+        active: true
+      - name: item-1
+        value: 0xE8EB
+        active: false
+      - name: item-2
+        value: 0o112
+        active: true
+  env4:
+    <<: *defaults
+    host: host-99.example.com
+    port: 26574
+    items:
+      - name: item-0
+        value: 1097
+        active: true
+      - name: item-1
+        value: 4389
+        active: false
+      - name: item-2
+        value: -5324
+        active: true
+  env5:
+    <<: *defaults
+    host: host-32.example.com
+    port: 50087
+    items:
+      - name: item-0
+        value: 36.8e3
+        active: true
+      - name: item-1
+        value: -9137
+        active: false
+      - name: item-2
+        value: 2124
+        active: true
+  env6:
+    <<: *defaults
+    host: host-68.example.com
+    port: 64224
+    items:
+      - name: item-0
+        value: 645.555
+        active: true
+      - name: item-1
+        value: 2.8e1
+        active: true
+      - name: item-2
+        value: 834.873
+        active: false
+  env7:
+    <<: *defaults
+    host: host-57.example.com
+    port: 54191
+    items:
+      - name: item-0
+        value: 0o724
+        active: true
+      - name: item-1
+        value: 0x3E82
+        active: true
+      - name: item-2
+        value: 0xF94B
+        active: false
+  env8:
+    <<: *defaults
+    host: host-96.example.com
+    port: 62866
+    items:
+      - name: item-0
+        value: 7079
+        active: false
+      - name: item-1
+        value: 0x5B1B
+        active: false
+      - name: item-2
+        value: 725.219
+        active: true
+  env9:
+    <<: *defaults
+    host: host-77.example.com
+    port: 30135
+    items:
+      - name: item-0
+        value: 1991
+        active: true
+      - name: item-1
+        value: 0o227
+        active: true
+      - name: item-2
+        value: 33.54e9
+        active: false
+
+multiline: |
+  first line
+  second line
+folded: >
+  folded text
+  continues here
+
+# Sample YAML for lexer benchmarking
+name: benchmark
+version: 3.4.42
+enabled: true
+ratio: 0x8E87
+
+defaults: &defaults
+  retries: 9
+  message: "hello \"world\""
+  flags:
+    - alpha
+    - beta
+
+environments:
+  env0:
+    <<: *defaults
+    host: host-88.example.com
+    port: 24766
+    items:
+      - name: item-0
+        value: 0x21B0
+        active: true
+      - name: item-1
+        value: 446.249
+        active: false
+      - name: item-2
+        value: 0o642
+        active: false
+  env1:
+    <<: *defaults
+    host: host-92.example.com
+    port: 43409
+    items:
+      - name: item-0
+        value: 5272
+        active: false
+      - name: item-1
+        value: 47.25e7
+        active: true
+      - name: item-2
+        value: 0o305
+        active: false
+  env2:
+    <<: *defaults
+    host: host-74.example.com
+    port: 30686
+    items:
+      - name: item-0
+        value: 7482
+        active: false
+      - name: item-1
+        value: 0x8D9B
+        active: true
+      - name: item-2
+        value: 0o746
+        active: false
+  env3:
+    <<: *defaults
+    host: host-51.example.com
+    port: 14692
+    items:
+      - name: item-0
+        value: 0o636
+        active: true
+      - name: item-1
+        value: 175.701
+        active: true
+      - name: item-2
+        value: 6962
+        active: false
+  env4:
+    <<: *defaults
+    host: host-79.example.com
+    port: 57676
+    items:
+      - name: item-0
+        value: 109.747
+        active: false
+      - name: item-1
+        value: 3005
+        active: true
+      - name: item-2
+        value: 93.46e5
+        active: false
+  env5:
+    <<: *defaults
+    host: host-79.example.com
+    port: 27612
+    items:
+      - name: item-0
+        value: 0o175
+        active: true
+      - name: item-1
+        value: 1202
+        active: true
+      - name: item-2
+        value: 0o363
+        active: true
+  env6:
+    <<: *defaults
+    host: host-73.example.com
+    port: 30996
+    items:
+      - name: item-0
+        value: 0o105
+        active: false
+      - name: item-1
+        value: 1870
+        active: true
+      - name: item-2
+        value: 6243
+        active: false
+  env7:
+    <<: *defaults
+    host: host-32.example.com
+    port: 59349
+    items:
+      - name: item-0
+        value: 5343
+        active: true
+      - name: item-1
+        value: 0x4488
+        active: true
+      - name: item-2
+        value: 97.978
+        active: true
+  env8:
+    <<: *defaults
+    host: host-90.example.com
+    port: 28930
+    items:
+      - name: item-0
+        value: 0o625
+        active: false
+      - name: item-1
+        value: 1755
+        active: true
+      - name: item-2
+        value: 0xC3BB
+        active: false
+  env9:
+    <<: *defaults
+    host: host-86.example.com
+    port: 42614
+    items:
+      - name: item-0
+        value: 7837
+        active: true
+      - name: item-1
+        value: 416.997
+        active: false
+      - name: item-2
+        value: 8342
+        active: true
+
+multiline: |
+  first line
+  second line
+folded: >
+  folded text
+  continues here
+
+# Sample YAML for lexer benchmarking
+name: benchmark
+version: 3.10.95
+enabled: true
+ratio: 0xD74F
+
+defaults: &defaults
+  retries: 4
+  message: "hello \"world\""
+  flags:
+    - alpha
+    - beta
+
+environments:
+  env0:
+    <<: *defaults
+    host: host-54.example.com
+    port: 62646
+    items:
+      - name: item-0
+        value: 0o432
+        active: false
+      - name: item-1
+        value: 0x60AC
+        active: false
+      - name: item-2
+        value: 0o413
+        active: false
+  env1:
+    <<: *defaults
+    host: host-27.example.com
+    port: 17256
+    items:
+      - name: item-0
+        value: 41.36e8
+        active: true
+      - name: item-1
+        value: 0xD4F1
+        active: false
+      - name: item-2
+        value: 3342
+        active: true
+  env2:
+    <<: *defaults
+    host: host-18.example.com
+    port: 12494
+    items:
+      - name: item-0
+        value: 3460
+        active: true
+      - name: item-1
+        value: 0o75
+        active: true
+      - name: item-2
+        value: 7217
+        active: false
+  env3:
+    <<: *defaults
+    host: host-47.example.com
+    port: 45965
+    items:
+      - name: item-0
+        value: -5693
+        active: false
+      - name: item-1
+        value: 3308
+        active: false
+      - name: item-2
+        value: 0o613
+        active: false
+  env4:
+    <<: *defaults
+    host: host-2.example.com
+    port: 18671
+    items:
+      - name: item-0
+        value: 47.62e6
+        active: true
+      - name: item-1
+        value: 59.0e7
+        active: false
+      - name: item-2
+        value: -6435
+        active: false
+  env5:
+    <<: *defaults
+    host: host-78.example.com
+    port: 53445
+    items:
+      - name: item-0
+        value: -1920
+        active: true
+      - name: item-1
+        value: 38.71e-9
+        active: false
+      - name: item-2
+        value: 1966
+        active: false
+  env6:
+    <<: *defaults
+    host: host-31.example.com
+    port: 48345
+    items:
+      - name: item-0
+        value: 0.42e6
+        active: true
+      - name: item-1
+        value: 0o53
+        active: false
+      - name: item-2
+        value: 0o406
+        active: true
+  env7:
+    <<: *defaults
+    host: host-46.example.com
+    port: 50231
+    items:
+      - name: item-0
+        value: 54.828
+        active: true
+      - name: item-1
+        value: 304
+        active: true
+      - name: item-2
+        value: 41.93e9
+        active: true
+  env8:
+    <<: *defaults
+    host: host-59.example.com
+    port: 3249
+    items:
+      - name: item-0
+        value: 0xDF2
+        active: true
+      - name: item-1
+        value: 0o326
+        active: false
+      - name: item-2
+        value: 68.64e5
+        active: true
+  env9:
+    <<: *defaults
+    host: host-97.example.com
+    port: 14869
+    items:
+      - name: item-0
+        value: 351.887
+        active: false
+      - name: item-1
+        value: 0x1A6B
+        active: true
+      - name: item-2
+        value: 0xD894
+        active: true
+
+multiline: |
+  first line
+  second line
+folded: >
+  folded text
+  continues here
+
+# Sample YAML for lexer benchmarking
+name: benchmark
+version: 2.6.31
+enabled: true
+ratio: 0o110
+
+defaults: &defaults
+  retries: 2
+  message: "hello \"world\""
+  flags:
+    - alpha
+    - beta
+
+environments:
+  env0:
+    <<: *defaults
+    host: host-45.example.com
+    port: 64290
+    items:
+      - name: item-0
+        value: 0x1B76
+        active: false
+      - name: item-1
+        value: 0xAB04
+        active: false
+      - name: item-2
+        value: 2725
+        active: false
+  env1:
+    <<: *defaults
+    host: host-64.example.com
+    port: 27155
+    items:
+      - name: item-0
+        value: 0o147
+        active: false
+      - name: item-1
+        value: -1161
+        active: true
+      - name: item-2
+        value: 0x96D7
+        active: false
+  env2:
+    <<: *defaults
+    host: host-76.example.com
+    port: 20788
+    items:
+      - name: item-0
+        value: 0x22E1
+        active: true
+      - name: item-1
+        value: -2631
+        active: false
+      - name: item-2
+        value: 3590
+        active: false
+  env3:
+    <<: *defaults
+    host: host-45.example.com
+    port: 19047
+    items:
+      - name: item-0
+        value: 98.76e-1
+        active: false
+      - name: item-1
+        value: 810.221
+        active: false
+      - name: item-2
+        value: -4562
+        active: false
+  env4:
+    <<: *defaults
+    host: host-48.example.com
+    port: 60847
+    items:
+      - name: item-0
+        value: -8920
+        active: false
+      - name: item-1
+        value: 808.258
+        active: false
+      - name: item-2
+        value: 7576
+        active: true
+  env5:
+    <<: *defaults
+    host: host-84.example.com
+    port: 62803
+    items:
+      - name: item-0
+        value: 0.44e-9
+        active: false
+      - name: item-1
+        value: 0x52D7
+        active: false
+      - name: item-2
+        value: 933.840
+        active: true
+  env6:
+    <<: *defaults
+    host: host-18.example.com
+    port: 42647
+    items:
+      - name: item-0
+        value: 29.75e2
+        active: false
+      - name: item-1
+        value: 0x5B08
+        active: true
+      - name: item-2
+        value: 90.88e5
+        active: false
+  env7:
+    <<: *defaults
+    host: host-3.example.com
+    port: 42402
+    items:
+      - name: item-0
+        value: 42.36e-4
+        active: true
+      - name: item-1
+        value: 41.78e6
+        active: true
+      - name: item-2
+        value: 612.25
+        active: false
+  env8:
+    <<: *defaults
+    host: host-50.example.com
+    port: 28901
+    items:
+      - name: item-0
+        value: 123.329
+        active: true
+      - name: item-1
+        value: 53.13e-4
+        active: false
+      - name: item-2
+        value: 35.80e5
+        active: true
+  env9:
+    <<: *defaults
+    host: host-68.example.com
+    port: 42523
+    items:
+      - name: item-0
+        value: 0x96E0
+        active: true
+      - name: item-1
+        value: 0o536
+        active: false
+      - name: item-2
+        value: 3381
+        active: false
+
+multiline: |
+  first line
+  second line
+folded: >
+  folded text
+  continues here
+
+# Sample YAML for lexer benchmarking
+name: benchmark
+version: 1.19.48
+enabled: true
+ratio: 0o355
+
+defaults: &defaults
+  retries: 2
+  message: "hello \"world\""
+  flags:
+    - alpha
+    - beta
+
+environments:
+  env0:
+    <<: *defaults
+    host: host-89.example.com
+    port: 2789
+    items:
+      - name: item-0
+        value: 2343
+        active: true
+      - name: item-1
+        value: 6344
+        active: false
+      - name: item-2
+        value: -9407
+        active: false
+  env1:
+    <<: *defaults
+    host: host-53.example.com
+    port: 48295
+    items:
+      - name: item-0
+        value: 915.178
+        active: false
+      - name: item-1
+        value: 0x6E17
+        active: true
+      - name: item-2
+        value: 57.526
+        active: false
+  env2:
+    <<: *defaults
+    host: host-42.example.com
+    port: 30109
+    items:
+      - name: item-0
+        value: 8982
+        active: false
+      - name: item-1
+        value: 7464
+        active: false
+      - name: item-2
+        value: 445
+        active: true
+  env3:
+    <<: *defaults
+    host: host-73.example.com
+    port: 54384
+    items:
+      - name: item-0
+        value: 1464
+        active: false
+      - name: item-1
+        value: 785.593
+        active: true
+      - name: item-2
+        value: 7084
+        active: false
+  env4:
+    <<: *defaults
+    host: host-7.example.com
+    port: 48938
+    items:
+      - name: item-0
+        value: 9857
+        active: true
+      - name: item-1
+        value: 0x9C16
+        active: false
+      - name: item-2
+        value: 0o210
+        active: true
+  env5:
+    <<: *defaults
+    host: host-93.example.com
+    port: 33870
+    items:
+      - name: item-0
+        value: 6089
+        active: false
+      - name: item-1
+        value: 0o37
+        active: true
+      - name: item-2
+        value: 6948
+        active: false
+  env6:
+    <<: *defaults
+    host: host-18.example.com
+    port: 44062
+    items:
+      - name: item-0
+        value: 5093
+        active: true
+      - name: item-1
+        value: 3353
+        active: false
+      - name: item-2
+        value: 0x49F9
+        active: false
+  env7:
+    <<: *defaults
+    host: host-61.example.com
+    port: 8511
+    items:
+      - name: item-0
+        value: 4876
+        active: true
+      - name: item-1
+        value: 0o731
+        active: false
+      - name: item-2
+        value: 61.44e6
+        active: true
+  env8:
+    <<: *defaults
+    host: host-38.example.com
+    port: 28898
+    items:
+      - name: item-0
+        value: 686.87
+        active: false
+      - name: item-1
+        value: 0o226
+        active: false
+      - name: item-2
+        value: 0xC97F
+        active: true
+  env9:
+    <<: *defaults
+    host: host-72.example.com
+    port: 11951
+    items:
+      - name: item-0
+        value: 8086
+        active: true
+      - name: item-1
+        value: 484
+        active: false
+      - name: item-2
+        value: 0x27FD
+        active: true
+
+multiline: |
+  first line
+  second line
+folded: >
+  folded text
+  continues here
+
+# Sample YAML for lexer benchmarking
+name: benchmark
+version: 3.9.52
+enabled: true
+ratio: 13.69e9
+
+defaults: &defaults
+  retries: 1
+  message: "hello \"world\""
+  flags:
+    - alpha
+    - beta
+
+environments:
+  env0:
+    <<: *defaults
+    host: host-72.example.com
+    port: 6394
+    items:
+      - name: item-0
+        value: 0o635
+        active: false
+      - name: item-1
+        value: 67.448
+        active: false
+      - name: item-2
+        value: -2378
+        active: true
+  env1:
+    <<: *defaults
+    host: host-21.example.com
+    port: 41249
+    items:
+      - name: item-0
+        value: 0o522
+        active: false
+      - name: item-1
+        value: 0o252
+        active: true
+      - name: item-2
+        value: 119.162
+        active: true
+  env2:
+    <<: *defaults
+    host: host-28.example.com
+    port: 36365
+    items:
+      - name: item-0
+        value: 0o713
+        active: true
+      - name: item-1
+        value: -6540
+        active: false
+      - name: item-2
+        value: 0o100
+        active: true
+  env3:
+    <<: *defaults
+    host: host-78.example.com
+    port: 19108
+    items:
+      - name: item-0
+        value: 0xE07B
+        active: false
+      - name: item-1
+        value: 534.672
+        active: false
+      - name: item-2
+        value: 0o670
+        active: true
+  env4:
+    <<: *defaults
+    host: host-58.example.com
+    port: 39607
+    items:
+      - name: item-0
+        value: 4860
+        active: true
+      - name: item-1
+        value: 0.53e-1
+        active: false
+      - name: item-2
+        value: 7979
+        active: false
+  env5:
+    <<: *defaults
+    host: host-27.example.com
+    port: 36757
+    items:
+      - name: item-0
+        value: 156.621
+        active: false
+      - name: item-1
+        value: 0x3348
+        active: false
+      - name: item-2
+        value: 407
+        active: true
+  env6:
+    <<: *defaults
+    host: host-27.example.com
+    port: 58820
+    items:
+      - name: item-0
+        value: 0o532
+        active: true
+      - name: item-1
+        value: 747.790
+        active: false
+      - name: item-2
+        value: -1808
+        active: true
+  env7:
+    <<: *defaults
+    host: host-56.example.com
+    port: 55971
+    items:
+      - name: item-0
+        value: 1514
+        active: false
+      - name: item-1
+        value: 8040
+        active: false
+      - name: item-2
+        value: 0o101
+        active: true
+  env8:
+    <<: *defaults
+    host: host-85.example.com
+    port: 32614
+    items:
+      - name: item-0
+        value: 5900
+        active: true
+      - name: item-1
+        value: 0o274
+        active: false
+      - name: item-2
+        value: 6909
+        active: false
+  env9:
+    <<: *defaults
+    host: host-83.example.com
+    port: 64618
+    items:
+      - name: item-0
+        value: 0o233
+        active: true
+      - name: item-1
+        value: 74.90e8
+        active: false
+      - name: item-2
+        value: 0o251
+        active: true
+
+multiline: |
+  first line
+  second line
+folded: >
+  folded text
+  continues here
+
+# Sample YAML for lexer benchmarking
+name: benchmark
+version: 2.19.69
+enabled: true
+ratio: 9881
+
+defaults: &defaults
+  retries: 5
+  message: "hello \"world\""
+  flags:
+    - alpha
+    - beta
+
+environments:
+  env0:
+    <<: *defaults
+    host: host-46.example.com
+    port: 29426
+    items:
+      - name: item-0
+        value: 0x10DF
+        active: true
+      - name: item-1
+        value: 0o151
+        active: true
+      - name: item-2
+        value: -3251
+        active: false
+  env1:
+    <<: *defaults
+    host: host-6.example.com
+    port: 31163
+    items:
+      - name: item-0
+        value: 0o174
+        active: true
+      - name: item-1
+        value: 0o732
+        active: false
+      - name: item-2
+        value: 2739
+        active: true
+  env2:
+    <<: *defaults
+    host: host-7.example.com
+    port: 21374
+    items:
+      - name: item-0
+        value: 4814
+        active: true
+      - name: item-1
+        value: 0xE42E
+        active: false
+      - name: item-2
+        value: 0xEC50
+        active: true
+  env3:
+    <<: *defaults
+    host: host-54.example.com
+    port: 6306
+    items:
+      - name: item-0
+        value: 0o637
+        active: false
+      - name: item-1
+        value: 6351
+        active: true
+      - name: item-2
+        value: 9649
+        active: true
+  env4:
+    <<: *defaults
+    host: host-39.example.com
+    port: 61393
+    items:
+      - name: item-0
+        value: 24.5e-6
+        active: true
+      - name: item-1
+        value: 0o122
+        active: false
+      - name: item-2
+        value: 977.388
+        active: false
+  env5:
+    <<: *defaults
+    host: host-18.example.com
+    port: 54275
+    items:
+      - name: item-0
+        value: 862.944
+        active: false
+      - name: item-1
+        value: 80.138
+        active: false
+      - name: item-2
+        value: 87.935
+        active: true
+  env6:
+    <<: *defaults
+    host: host-92.example.com
+    port: 22273
+    items:
+      - name: item-0
+        value: 40.250
+        active: true
+      - name: item-1
+        value: 918.204
+        active: false
+      - name: item-2
+        value: 6717
+        active: false
+  env7:
+    <<: *defaults
+    host: host-35.example.com
+    port: 10281
+    items:
+      - name: item-0
+        value: 0o526
+        active: false
+      - name: item-1
+        value: 4215
+        active: false
+      - name: item-2
+        value: 69.16e1
+        active: false
+  env8:
+    <<: *defaults
+    host: host-65.example.com
+    port: 56659
+    items:
+      - name: item-0
+        value: 0xF01
+        active: false
+      - name: item-1
+        value: 0xDD9B
+        active: false
+      - name: item-2
+        value: 627.182
+        active: true
+  env9:
+    <<: *defaults
+    host: host-19.example.com
+    port: 33195
+    items:
+      - name: item-0
+        value: 0o172
+        active: false
+      - name: item-1
+        value: 9906
+        active: true
+      - name: item-2
+        value: 0xE0E1
+        active: true
+
+multiline: |
+  first line
+  second line
+folded: >
+  folded text
+  continues here
+
+# Sample YAML for lexer benchmarking
+name: benchmark
+version: 3.2.1
+enabled: true
+ratio: 0o404
+
+defaults: &defaults
+  retries: 6
+  message: "hello \"world\""
+  flags:
+    - alpha
+    - beta
+
+environments:
+  env0:
+    <<: *defaults
+    host: host-75.example.com
+    port: 34160
+    items:
+      - name: item-0
+        value: 0x9718
+        active: false
+      - name: item-1
+        value: 0o715
+        active: false
+      - name: item-2
+        value: 0o205
+        active: false
+  env1:
+    <<: *defaults
+    host: host-69.example.com
+    port: 36547
+    items:
+      - name: item-0
+        value: 0o321
+        active: false
+      - name: item-1
+        value: 2458
+        active: false
+      - name: item-2
+        value: 0o673
+        active: true
+  env2:
+    <<: *defaults
+    host: host-71.example.com
+    port: 52984
+    items:
+      - name: item-0
+        value: 0o534
+        active: true
+      - name: item-1
+        value: 0o336
+        active: false
+      - name: item-2
+        value: 94.34e-5
+        active: true
+  env3:
+    <<: *defaults
+    host: host-15.example.com
+    port: 3190
+    items:
+      - name: item-0
+        value: 359.647
+        active: false
+      - name: item-1
+        value: 5.72e-9
+        active: false
+      - name: item-2
+        value: 9830
+        active: false
+  env4:
+    <<: *defaults
+    host: host-35.example.com
+    port: 29423
+    items:
+      - name: item-0
+        value: 20.969
+        active: false
+      - name: item-1
+        value: 395.605
+        active: true
+      - name: item-2
+        value: 34.60e8
+        active: false
+  env5:
+    <<: *defaults
+    host: host-35.example.com
+    port: 64272
+    items:
+      - name: item-0
+        value: 11.71e9
+        active: true
+      - name: item-1
+        value: 1685
+        active: true
+      - name: item-2
+        value: 7535
+        active: false
+  env6:
+    <<: *defaults
+    host: host-76.example.com
+    port: 42324
+    items:
+      - name: item-0
+        value: 0xE854
+        active: false
+      - name: item-1
+        value: 0o130
+        active: false
+      - name: item-2
+        value: -8445
+        active: false
+  env7:
+    <<: *defaults
+    host: host-27.example.com
+    port: 10032
+    items:
+      - name: item-0
+        value: 6049
+        active: true
+      - name: item-1
+        value: 0o541
+        active: false
+      - name: item-2
+        value: 0xC8DD
+        active: false
+  env8:
+    <<: *defaults
+    host: host-20.example.com
+    port: 32216
+    items:
+      - name: item-0
+        value: 31.58e-4
+        active: false
+      - name: item-1
+        value: -2915
+        active: false
+      - name: item-2
+        value: 0o260
+        active: true
+  env9:
+    <<: *defaults
+    host: host-96.example.com
+    port: 16896
+    items:
+      - name: item-0
+        value: 623.383
+        active: true
+      - name: item-1
+        value: 551.539
+        active: true
+      - name: item-2
+        value: 109.720
+        active: true
+
+multiline: |
+  first line
+  second line
+folded: >
+  folded text
+  continues here
+
+# Sample YAML for lexer benchmarking
+name: benchmark
+version: 0.0.53
+enabled: true
+ratio: 0o216
+
+defaults: &defaults
+  retries: 4
+  message: "hello \"world\""
+  flags:
+    - alpha
+    - beta
+
+environments:
+  env0:
+    <<: *defaults
+    host: host-50.example.com
+    port: 6241
+    items:
+      - name: item-0
+        value: 41.23e-6
+        active: false
+      - name: item-1
+        value: 0o203
+        active: false
+      - name: item-2
+        value: 0x3FCF
+        active: false
+  env1:
+    <<: *defaults
+    host: host-51.example.com
+    port: 56558
+    items:
+      - name: item-0
+        value: 0o712
+        active: true
+      - name: item-1
+        value: 0o12
+        active: false
+      - name: item-2
+        value: 0o324
+        active: true
+  env2:
+    <<: *defaults
+    host: host-43.example.com
+    port: 58733
+    items:
+      - name: item-0
+        value: 0o375
+        active: true
+      - name: item-1
+        value: 4496
+        active: false
+      - name: item-2
+        value: 833.563
+        active: true
+  env3:
+    <<: *defaults
+    host: host-39.example.com
+    port: 27839
+    items:
+      - name: item-0
+        value: 8064
+        active: true
+      - name: item-1
+        value: 338.261
+        active: true
+      - name: item-2
+        value: -475
+        active: true
+  env4:
+    <<: *defaults
+    host: host-47.example.com
+    port: 20617
+    items:
+      - name: item-0
+        value: 506
+        active: true
+      - name: item-1
+        value: 5.52e-6
+        active: false
+      - name: item-2
+        value: 0o11
+        active: false
+  env5:
+    <<: *defaults
+    host: host-25.example.com
+    port: 53900
+    items:
+      - name: item-0
+        value: 3520
+        active: true
+      - name: item-1
+        value: -4211
+        active: true
+      - name: item-2
+        value: 261.857
+        active: false
+  env6:
+    <<: *defaults
+    host: host-62.example.com
+    port: 21478
+    items:
+      - name: item-0
+        value: 34.19e9
+        active: false
+      - name: item-1
+        value: 407.964
+        active: true
+      - name: item-2
+        value: 9282
+        active: true
+  env7:
+    <<: *defaults
+    host: host-13.example.com
+    port: 14367
+    items:
+      - name: item-0
+        value: 955
+        active: true
+      - name: item-1
+        value: 0o757
+        active: false
+      - name: item-2
+        value: 92.2e-4
+        active: true
+  env8:
+    <<: *defaults
+    host: host-27.example.com
+    port: 47232
+    items:
+      - name: item-0
+        value: 0xBA05
+        active: false
+      - name: item-1
+        value: 44.26e5
+        active: false
+      - name: item-2
+        value: -391
+        active: false
+  env9:
+    <<: *defaults
+    host: host-96.example.com
+    port: 63380
+    items:
+      - name: item-0
+        value: 14.37e7
+        active: false
+      - name: item-1
+        value: 0xB1A8
+        active: true
+      - name: item-2
+        value: 0o563
+        active: true
+
+multiline: |
+  first line
+  second line
+folded: >
+  folded text
+  continues here
+

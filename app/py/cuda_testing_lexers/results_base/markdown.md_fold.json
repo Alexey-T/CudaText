@@ -1,0 +1,10 @@
+{
+  "lexer": "Markdown",
+  "fold_count": 4,
+  "folds": [
+    {"x": 0, "y": 79, "x2": 3, "y2": 87, "staple": false, "folded": false, "hint": "```python\n", "tag": 0},
+    {"x": 0, "y": 80, "x2": 19, "y2": 86, "staple": true, "folded": false, "hint": "def factorial...", "tag": 0},
+    {"x": 4, "y": 81, "x2": 19, "y2": 86, "staple": true, "folded": false, "hint": "if n == 0:\n ...", "tag": 0},
+    {"x": 4, "y": 83, "x2": 19, "y2": 86, "staple": true, "folded": false, "hint": "else:\n ...", "tag": 0}
+  ]
+}

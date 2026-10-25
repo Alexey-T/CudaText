@@ -1,0 +1,2072 @@
+= Benchmark Sample
+Author Name <author@example.com>
+v1.0, 2026-01-01: First draft
+
+== Introduction
+
+This is *bold*, this is _italic_, this is `mono`.
+An https://example.com[external link] and a footnote:[footnote text].
+
+.Numbered title
+====
+Example block content
+with more text
+====
+
+* item one
+* item two
+** nested item
+
+. first
+. second
+
+[source,python]
+----
+def hello():
+    print("hello")
+----
+
+== Section 0: Part_8062
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 20 | 3656
+| beta | -1822 | 9.60e-7
+|===
+
+== Section 1: Part_7172
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 99.51e2 | 24.63e9
+| beta | 5148 | 4274
+|===
+
+== Section 2: Part_5978
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 0x3F46 | 119.526
+| beta | 3940 | 0o3
+|===
+
+== Section 3: Part_7697
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 5577 | 0o756
+| beta | 0x126 | 8.82e-1
+|===
+
+== Section 4: Part_5676
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 0o125 | 0o20
+| beta | 746.137 | 0xE530
+|===
+
+== Section 5: Part_2529
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 434.731 | -1124
+| beta | 4.8e-3 | 0x2D66
+|===
+
+== Section 6: Part_5292
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 84.0e-8 | 379.872
+| beta | 66.67e-9 | 4268
+|===
+
+== Section 7: Part_4346
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 0xF23B | 19.43e3
+| beta | 0x1663 | 269.346
+|===
+
+== Section 8: Part_1393
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 895.785 | 7039
+| beta | 0o755 | 45.197
+|===
+
+== Section 9: Part_9964
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | -3766 | 0o605
+| beta | 7.77e-4 | 1868
+|===
+
+= Benchmark Sample
+Author Name <author@example.com>
+v1.0, 2026-01-01: First draft
+
+== Introduction
+
+This is *bold*, this is _italic_, this is `mono`.
+An https://example.com[external link] and a footnote:[footnote text].
+
+.Numbered title
+====
+Example block content
+with more text
+====
+
+* item one
+* item two
+** nested item
+
+. first
+. second
+
+[source,python]
+----
+def hello():
+    print("hello")
+----
+
+== Section 0: Part_5116
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 620.746 | 4032
+| beta | 0o643 | 457.540
+|===
+
+== Section 1: Part_54
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 23.837 | 4500
+| beta | 631.212 | 1398
+|===
+
+== Section 2: Part_7796
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 4763 | 57.79e-1
+| beta | 16.84e-2 | 83.130
+|===
+
+== Section 3: Part_2517
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 9178 | 0x861E
+| beta | 384.689 | 0x7AD7
+|===
+
+== Section 4: Part_5894
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 0x61F6 | 4237
+| beta | 56.87e-2 | -2012
+|===
+
+== Section 5: Part_7935
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | -5847 | 3956
+| beta | 0xD532 | 647.773
+|===
+
+== Section 6: Part_6250
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 4385 | 65.47e-2
+| beta | 684.463 | 0x1D68
+|===
+
+== Section 7: Part_2417
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 771.923 | 0o362
+| beta | 8.50e-5 | 148.815
+|===
+
+== Section 8: Part_7843
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 3856 | 457.555
+| beta | 223.224 | 0o254
+|===
+
+== Section 9: Part_5388
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 677.902 | -5967
+| beta | 34.45e8 | 0x5978
+|===
+
+= Benchmark Sample
+Author Name <author@example.com>
+v1.0, 2026-01-01: First draft
+
+== Introduction
+
+This is *bold*, this is _italic_, this is `mono`.
+An https://example.com[external link] and a footnote:[footnote text].
+
+.Numbered title
+====
+Example block content
+with more text
+====
+
+* item one
+* item two
+** nested item
+
+. first
+. second
+
+[source,python]
+----
+def hello():
+    print("hello")
+----
+
+== Section 0: Part_2736
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 5562 | 145
+| beta | 0o537 | -7235
+|===
+
+== Section 1: Part_8178
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 660.615 | 201.86
+| beta | 0xCD6B | 0o213
+|===
+
+== Section 2: Part_5497
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 0x32DB | 93.46e9
+| beta | 0o631 | 153.996
+|===
+
+== Section 3: Part_5345
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 0o531 | 0o522
+| beta | -5210 | 5214
+|===
+
+== Section 4: Part_1341
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 0o153 | 0o7
+| beta | 0o715 | 169.832
+|===
+
+== Section 5: Part_8355
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 466.782 | 0x7BB2
+| beta | 563.598 | 0x4BF6
+|===
+
+== Section 6: Part_4331
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 48 | 647.243
+| beta | 0xB610 | 689.256
+|===
+
+== Section 7: Part_5179
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 0x5829 | 834.652
+| beta | -5918 | 16.83e7
+|===
+
+== Section 8: Part_189
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 39.31e-2 | -7591
+| beta | 7631 | 355.244
+|===
+
+== Section 9: Part_7910
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 505.536 | 0xB6D4
+| beta | 32.4e7 | 0x134A
+|===
+
+= Benchmark Sample
+Author Name <author@example.com>
+v1.0, 2026-01-01: First draft
+
+== Introduction
+
+This is *bold*, this is _italic_, this is `mono`.
+An https://example.com[external link] and a footnote:[footnote text].
+
+.Numbered title
+====
+Example block content
+with more text
+====
+
+* item one
+* item two
+** nested item
+
+. first
+. second
+
+[source,python]
+----
+def hello():
+    print("hello")
+----
+
+== Section 0: Part_7163
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 679.968 | 0o54
+| beta | 0o663 | 0xEA9F
+|===
+
+== Section 1: Part_2844
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 326 | 0xC7E2
+| beta | 0x67B6 | 38.41e8
+|===
+
+== Section 2: Part_532
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 5849 | -7522
+| beta | 5447 | 4181
+|===
+
+== Section 3: Part_5210
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 829.452 | 0x6C51
+| beta | 781.873 | 0xD32C
+|===
+
+== Section 4: Part_3576
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 0o637 | 1935
+| beta | 308.208 | 0o573
+|===
+
+== Section 5: Part_5585
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 0x3432 | 41.74e4
+| beta | 6749 | -9054
+|===
+
+== Section 6: Part_3916
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 8743 | -6909
+| beta | 46.63e4 | 83.94e-4
+|===
+
+== Section 7: Part_3332
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 0x4BA2 | 97.97e-1
+| beta | 0x76B8 | 0o360
+|===
+
+== Section 8: Part_1504
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 602.314 | 399.889
+| beta | 216.428 | 0xAC57
+|===
+
+== Section 9: Part_5999
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 449.421 | 0.79e7
+| beta | -3409 | 5735
+|===
+
+= Benchmark Sample
+Author Name <author@example.com>
+v1.0, 2026-01-01: First draft
+
+== Introduction
+
+This is *bold*, this is _italic_, this is `mono`.
+An https://example.com[external link] and a footnote:[footnote text].
+
+.Numbered title
+====
+Example block content
+with more text
+====
+
+* item one
+* item two
+** nested item
+
+. first
+. second
+
+[source,python]
+----
+def hello():
+    print("hello")
+----
+
+== Section 0: Part_4680
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 23.33e-9 | 10.85e9
+| beta | 46.58e-1 | 586.70
+|===
+
+== Section 1: Part_5681
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 5223 | -5672
+| beta | 96.76e-5 | 840.623
+|===
+
+== Section 2: Part_2931
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 0x6DA3 | 0x5D15
+| beta | 923.772 | 9312
+|===
+
+== Section 3: Part_9698
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 1952 | 127.687
+| beta | 32.27e-5 | 8449
+|===
+
+== Section 4: Part_8594
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 3122 | 635
+| beta | 48.17e-6 | 73.70e1
+|===
+
+== Section 5: Part_7775
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 0x5207 | 0x5891
+| beta | 7801 | -2357
+|===
+
+== Section 6: Part_700
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 0o362 | 52.50e-2
+| beta | 0x9F5 | 51.82e5
+|===
+
+== Section 7: Part_5205
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 4426 | 0o421
+| beta | 895.842 | 0o510
+|===
+
+== Section 8: Part_5600
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 9532 | 3959
+| beta | 96.40e-7 | 7981
+|===
+
+== Section 9: Part_4030
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 0o235 | 0xC3E
+| beta | 0x6D47 | -3140
+|===
+
+= Benchmark Sample
+Author Name <author@example.com>
+v1.0, 2026-01-01: First draft
+
+== Introduction
+
+This is *bold*, this is _italic_, this is `mono`.
+An https://example.com[external link] and a footnote:[footnote text].
+
+.Numbered title
+====
+Example block content
+with more text
+====
+
+* item one
+* item two
+** nested item
+
+. first
+. second
+
+[source,python]
+----
+def hello():
+    print("hello")
+----
+
+== Section 0: Part_8701
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | -1606 | 81.93e4
+| beta | 0o516 | 2471
+|===
+
+== Section 1: Part_2475
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 8886 | 6741
+| beta | 0xD1EB | 467.130
+|===
+
+== Section 2: Part_4925
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 0xB240 | 9379
+| beta | 649.352 | 74.14e-2
+|===
+
+== Section 3: Part_589
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 0o121 | 845.393
+| beta | 35.90e7 | 190.752
+|===
+
+== Section 4: Part_2920
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 43.81e-7 | 64.493
+| beta | 1605 | 903.543
+|===
+
+== Section 5: Part_4371
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 0xB095 | 10.37e-5
+| beta | 0x2EAC | 0xE497
+|===
+
+== Section 6: Part_7270
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 0o642 | 0o453
+| beta | 69.40e-9 | 0o233
+|===
+
+== Section 7: Part_8287
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 710.894 | 57.86e2
+| beta | 0xCC8D | 473.268
+|===
+
+== Section 8: Part_1653
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 326 | 41.21e-8
+| beta | 3145 | 0o712
+|===
+
+== Section 9: Part_7195
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 0x3DAD | 0o766
+| beta | 6767 | 0o556
+|===
+
+= Benchmark Sample
+Author Name <author@example.com>
+v1.0, 2026-01-01: First draft
+
+== Introduction
+
+This is *bold*, this is _italic_, this is `mono`.
+An https://example.com[external link] and a footnote:[footnote text].
+
+.Numbered title
+====
+Example block content
+with more text
+====
+
+* item one
+* item two
+** nested item
+
+. first
+. second
+
+[source,python]
+----
+def hello():
+    print("hello")
+----
+
+== Section 0: Part_184
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 0o346 | -8111
+| beta | 98.43e9 | 328.444
+|===
+
+== Section 1: Part_2918
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 379.534 | 4046
+| beta | 0o475 | 0o34
+|===
+
+== Section 2: Part_5949
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 8200 | 58.64e-3
+| beta | 0o133 | 0o120
+|===
+
+== Section 3: Part_8549
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 0o161 | 614.662
+| beta | 0o226 | -244
+|===
+
+== Section 4: Part_4101
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 19.42e3 | 5788
+| beta | 344.22 | 768.498
+|===
+
+== Section 5: Part_4094
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 3060 | 0o32
+| beta | 3752 | 0o427
+|===
+
+== Section 6: Part_8712
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 3642 | -272
+| beta | 71.51e-8 | 4259
+|===
+
+== Section 7: Part_6528
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 0x3BBE | 0x46CA
+| beta | 4216 | -6893
+|===
+
+== Section 8: Part_5499
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 0x37A3 | -3466
+| beta | 0o267 | 0x9776
+|===
+
+== Section 9: Part_8756
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 640 | 0o304
+| beta | 60.57e2 | 282.526
+|===
+
+= Benchmark Sample
+Author Name <author@example.com>
+v1.0, 2026-01-01: First draft
+
+== Introduction
+
+This is *bold*, this is _italic_, this is `mono`.
+An https://example.com[external link] and a footnote:[footnote text].
+
+.Numbered title
+====
+Example block content
+with more text
+====
+
+* item one
+* item two
+** nested item
+
+. first
+. second
+
+[source,python]
+----
+def hello():
+    print("hello")
+----
+
+== Section 0: Part_2330
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 3696 | 0o606
+| beta | 40.37e9 | 19.79e7
+|===
+
+== Section 1: Part_175
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 0xDACD | 3426
+| beta | -1476 | 0x5C6E
+|===
+
+== Section 2: Part_8735
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 0x60F | 485.462
+| beta | 0xC81E | 0o550
+|===
+
+== Section 3: Part_978
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 0xDD87 | 21.12e-8
+| beta | 92.73e-7 | 3530
+|===
+
+== Section 4: Part_8318
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 0xE849 | 0x213C
+| beta | 83.40e-7 | 145.661
+|===
+
+== Section 5: Part_6283
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 943.575 | 4825
+| beta | 965 | 7185
+|===
+
+== Section 6: Part_8245
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 1011 | 0o65
+| beta | 0o475 | 787.580
+|===
+
+== Section 7: Part_3801
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 9097 | 8.76e-5
+| beta | 213 | 0xB424
+|===
+
+== Section 8: Part_4250
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 220.287 | 27.0e-1
+| beta | 64.440 | 0o415
+|===
+
+== Section 9: Part_714
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 192.577 | 0x80FB
+| beta | 0x59AD | 66.44e4
+|===
+
+= Benchmark Sample
+Author Name <author@example.com>
+v1.0, 2026-01-01: First draft
+
+== Introduction
+
+This is *bold*, this is _italic_, this is `mono`.
+An https://example.com[external link] and a footnote:[footnote text].
+
+.Numbered title
+====
+Example block content
+with more text
+====
+
+* item one
+* item two
+** nested item
+
+. first
+. second
+
+[source,python]
+----
+def hello():
+    print("hello")
+----
+
+== Section 0: Part_9306
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 0o334 | 0x15C8
+| beta | 0x4E4A | 0x1892
+|===
+
+== Section 1: Part_4701
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 207.915 | 0x5796
+| beta | 636.856 | 0o110
+|===
+
+== Section 2: Part_8454
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 0o564 | 1087
+| beta | 0x5B84 | 0xF1EB
+|===
+
+== Section 3: Part_4827
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 0x3FF6 | 0o463
+| beta | 29.31e-2 | 0xAB77
+|===
+
+== Section 4: Part_7940
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 5072 | 552.363
+| beta | 529.466 | 24.24e6
+|===
+
+== Section 5: Part_4339
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | -8747 | 3679
+| beta | 29.46e-2 | 95.51e5
+|===
+
+== Section 6: Part_6590
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 998.586 | 5236
+| beta | 131.876 | 0x3655
+|===
+
+== Section 7: Part_6326
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 0x6EE1 | 0o753
+| beta | 4087 | 5424
+|===
+
+== Section 8: Part_158
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 2095 | -5175
+| beta | -4267 | 56.42e0
+|===
+
+== Section 9: Part_2392
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 1225 | -1756
+| beta | 248.379 | 9163
+|===
+
+= Benchmark Sample
+Author Name <author@example.com>
+v1.0, 2026-01-01: First draft
+
+== Introduction
+
+This is *bold*, this is _italic_, this is `mono`.
+An https://example.com[external link] and a footnote:[footnote text].
+
+.Numbered title
+====
+Example block content
+with more text
+====
+
+* item one
+* item two
+** nested item
+
+. first
+. second
+
+[source,python]
+----
+def hello():
+    print("hello")
+----
+
+== Section 0: Part_7501
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 0o115 | 15.663
+| beta | -9980 | 0o672
+|===
+
+== Section 1: Part_2178
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 0xA2D2 | 2671
+| beta | -4531 | 782.813
+|===
+
+== Section 2: Part_2216
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 0o13 | 675.924
+| beta | 644.940 | -181
+|===
+
+== Section 3: Part_3730
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 0xD113 | 175.861
+| beta | 0x64E4 | 28.581
+|===
+
+== Section 4: Part_5770
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 5176 | 2491
+| beta | 0x559B | 80.20e9
+|===
+
+== Section 5: Part_1081
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 38.7e5 | 0o105
+| beta | 2484 | 8054
+|===
+
+== Section 6: Part_8549
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 322.24 | 0o217
+| beta | 909.80 | 0o401
+|===
+
+== Section 7: Part_1997
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 0o713 | 23.24e8
+| beta | 0x55CB | 0x2A40
+|===
+
+== Section 8: Part_4328
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 0xE8D0 | 7922
+| beta | 0o154 | 22.8e-2
+|===
+
+== Section 9: Part_7081
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 7096 | 725
+| beta | 470.503 | 0x987D
+|===
+
+= Benchmark Sample
+Author Name <author@example.com>
+v1.0, 2026-01-01: First draft
+
+== Introduction
+
+This is *bold*, this is _italic_, this is `mono`.
+An https://example.com[external link] and a footnote:[footnote text].
+
+.Numbered title
+====
+Example block content
+with more text
+====
+
+* item one
+* item two
+** nested item
+
+. first
+. second
+
+[source,python]
+----
+def hello():
+    print("hello")
+----
+
+== Section 0: Part_7868
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 74.127 | 39.42e-1
+| beta | 13.54e0 | 62.20e-7
+|===
+
+== Section 1: Part_8190
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 0x6940 | 0x9BC7
+| beta | 66.77e-3 | 71.24e3
+|===
+
+== Section 2: Part_9826
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | -1221 | -5678
+| beta | 2401 | 0xF06D
+|===
+
+== Section 3: Part_130
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 91.31e2 | 474.302
+| beta | 564.36 | 6864
+|===
+
+== Section 4: Part_5821
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 7648 | 0xF1
+| beta | 0x2776 | 0xB9D9
+|===
+
+== Section 5: Part_736
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 80.70e-6 | 8084
+| beta | 0o561 | 73.23e-3
+|===
+
+== Section 6: Part_770
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | -4817 | 379.638
+| beta | 0o461 | -9744
+|===
+
+== Section 7: Part_6105
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 0o561 | 0xD6F1
+| beta | 3710 | 76.92e-7
+|===
+
+== Section 8: Part_174
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 0o434 | 680
+| beta | 0o662 | 16.59e8
+|===
+
+== Section 9: Part_6669
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 2208 | 552.304
+| beta | -6067 | 8052
+|===
+
+= Benchmark Sample
+Author Name <author@example.com>
+v1.0, 2026-01-01: First draft
+
+== Introduction
+
+This is *bold*, this is _italic_, this is `mono`.
+An https://example.com[external link] and a footnote:[footnote text].
+
+.Numbered title
+====
+Example block content
+with more text
+====
+
+* item one
+* item two
+** nested item
+
+. first
+. second
+
+[source,python]
+----
+def hello():
+    print("hello")
+----
+
+== Section 0: Part_1278
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 623.988 | 0o714
+| beta | 0xBFAA | 19.40e4
+|===
+
+== Section 1: Part_1955
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | -1246 | 68.32e-7
+| beta | 326 | 0o306
+|===
+
+== Section 2: Part_6971
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 7610 | 45.14e-4
+| beta | 61.41e4 | 0x5EA3
+|===
+
+== Section 3: Part_3075
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | -5969 | 0o614
+| beta | 0x7471 | -9640
+|===
+
+== Section 4: Part_6352
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 0x929A | 908.721
+| beta | 0xD262 | 75.1e-5
+|===
+
+== Section 5: Part_5061
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 0x35B2 | -7841
+| beta | 2207 | -9378
+|===
+
+== Section 6: Part_5236
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 0x6E9E | 0x942F
+| beta | 0o403 | 0x1A5F
+|===
+
+== Section 7: Part_7402
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 6227 | 4823
+| beta | -4842 | 0xC4B3
+|===
+
+== Section 8: Part_3105
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 8032 | 5496
+| beta | 9479 | 43.12e7
+|===
+
+== Section 9: Part_6971
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 0o466 | 486.427
+| beta | 79.41e3 | 0o515
+|===
+
+= Benchmark Sample
+Author Name <author@example.com>
+v1.0, 2026-01-01: First draft
+
+== Introduction
+
+This is *bold*, this is _italic_, this is `mono`.
+An https://example.com[external link] and a footnote:[footnote text].
+
+.Numbered title
+====
+Example block content
+with more text
+====
+
+* item one
+* item two
+** nested item
+
+. first
+. second
+
+[source,python]
+----
+def hello():
+    print("hello")
+----
+
+== Section 0: Part_8361
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 43.86e3 | 5631
+| beta | 669.163 | 2.39e-6
+|===
+
+== Section 1: Part_2022
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 6981 | 58.354
+| beta | 0x4FB2 | 0o364
+|===
+
+== Section 2: Part_4336
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 49.94e-9 | 6115
+| beta | 544.410 | 990.691
+|===
+
+== Section 3: Part_5232
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 75.42e-3 | 0o355
+| beta | 58.62e4 | 926.337
+|===
+
+== Section 4: Part_7410
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 219.852 | -3841
+| beta | 0x76FC | 0o640
+|===
+
+== Section 5: Part_1745
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 0o754 | 668.38
+| beta | 3894 | -1162
+|===
+
+== Section 6: Part_9251
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 0o326 | 0x7F47
+| beta | 7436 | 53.59e0
+|===
+
+== Section 7: Part_6769
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 4505 | 578
+| beta | 0xB68B | 0x97D4
+|===
+
+== Section 8: Part_3660
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 0x7FDF | 0o150
+| beta | 0o724 | 923.661
+|===
+
+== Section 9: Part_8882
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 534.538 | 3065
+| beta | 0xF4A7 | 5150
+|===
+
+= Benchmark Sample
+Author Name <author@example.com>
+v1.0, 2026-01-01: First draft
+
+== Introduction
+
+This is *bold*, this is _italic_, this is `mono`.
+An https://example.com[external link] and a footnote:[footnote text].
+
+.Numbered title
+====
+Example block content
+with more text
+====
+
+* item one
+* item two
+** nested item
+
+. first
+. second
+
+[source,python]
+----
+def hello():
+    print("hello")
+----
+
+== Section 0: Part_5079
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 0x9485 | 2774
+| beta | 0o546 | 64.16e8
+|===
+
+== Section 1: Part_604
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 0xBB7 | 415.671
+| beta | 6354 | 6448
+|===
+
+== Section 2: Part_5405
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | -830 | 5259
+| beta | 11.23e-7 | 81.9e3
+|===
+
+== Section 3: Part_6937
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 9407 | -4589
+| beta | -2487 | 853.92
+|===
+
+== Section 4: Part_1767
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 628.641 | 96.80e7
+| beta | 0o747 | 0o667
+|===
+
+== Section 5: Part_4160
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 4091 | 0xA1E7
+| beta | 49.44e-3 | 0x6D2C
+|===
+
+== Section 6: Part_2292
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | -2628 | 597.986
+| beta | 35.6e-9 | 7978
+|===
+
+== Section 7: Part_680
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 2211 | 0o230
+| beta | 761.831 | 585.867
+|===
+
+== Section 8: Part_1124
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 0o45 | 0o343
+| beta | -2151 | 6743
+|===
+
+== Section 9: Part_8125
+
+A table:
+
+[cols="1,1,1", options="header"]
+|===
+| Name | Value | Score
+
+| alpha | 5038 | 9466
+| beta | 752.792 | 91.61e-9
+|===
+

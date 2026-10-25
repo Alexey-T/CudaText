@@ -1,0 +1,1330 @@
+# Sample GraphQL schema for lexer benchmarking
+"""
+Documentation string
+with several lines
+"""
+type Query {
+  entry(id: ID!): Entry
+  entries(first: Int = 13, after: String): [Entry!]!
+}
+
+type Entry {
+  id: ID!
+  name: String!
+  weight: Float!
+  quality: Quality!
+  tags: [String!]!
+}
+
+enum Quality {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+input EntryFilter {
+  minWeight: Float = 8211
+  quality: Quality
+}
+
+# generated query 0
+query GetEntries0($filter: EntryFilter) {
+  entries(first: 11, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# generated query 1
+query GetEntries1($filter: EntryFilter) {
+  entries(first: 1, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# generated query 2
+query GetEntries2($filter: EntryFilter) {
+  entries(first: 11, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# generated query 3
+query GetEntries3($filter: EntryFilter) {
+  entries(first: 14, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# generated query 4
+query GetEntries4($filter: EntryFilter) {
+  entries(first: 12, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# generated query 5
+query GetEntries5($filter: EntryFilter) {
+  entries(first: 1, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# Sample GraphQL schema for lexer benchmarking
+"""
+Documentation string
+with several lines
+"""
+type Query {
+  entry(id: ID!): Entry
+  entries(first: Int = 9, after: String): [Entry!]!
+}
+
+type Entry {
+  id: ID!
+  name: String!
+  weight: Float!
+  quality: Quality!
+  tags: [String!]!
+}
+
+enum Quality {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+input EntryFilter {
+  minWeight: Float = 0o536
+  quality: Quality
+}
+
+# generated query 0
+query GetEntries0($filter: EntryFilter) {
+  entries(first: 19, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# generated query 1
+query GetEntries1($filter: EntryFilter) {
+  entries(first: 18, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# generated query 2
+query GetEntries2($filter: EntryFilter) {
+  entries(first: 13, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# generated query 3
+query GetEntries3($filter: EntryFilter) {
+  entries(first: 13, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# generated query 4
+query GetEntries4($filter: EntryFilter) {
+  entries(first: 8, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# generated query 5
+query GetEntries5($filter: EntryFilter) {
+  entries(first: 2, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# Sample GraphQL schema for lexer benchmarking
+"""
+Documentation string
+with several lines
+"""
+type Query {
+  entry(id: ID!): Entry
+  entries(first: Int = 18, after: String): [Entry!]!
+}
+
+type Entry {
+  id: ID!
+  name: String!
+  weight: Float!
+  quality: Quality!
+  tags: [String!]!
+}
+
+enum Quality {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+input EntryFilter {
+  minWeight: Float = 0o502
+  quality: Quality
+}
+
+# generated query 0
+query GetEntries0($filter: EntryFilter) {
+  entries(first: 20, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# generated query 1
+query GetEntries1($filter: EntryFilter) {
+  entries(first: 1, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# generated query 2
+query GetEntries2($filter: EntryFilter) {
+  entries(first: 19, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# generated query 3
+query GetEntries3($filter: EntryFilter) {
+  entries(first: 12, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# generated query 4
+query GetEntries4($filter: EntryFilter) {
+  entries(first: 6, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# generated query 5
+query GetEntries5($filter: EntryFilter) {
+  entries(first: 6, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# Sample GraphQL schema for lexer benchmarking
+"""
+Documentation string
+with several lines
+"""
+type Query {
+  entry(id: ID!): Entry
+  entries(first: Int = 7, after: String): [Entry!]!
+}
+
+type Entry {
+  id: ID!
+  name: String!
+  weight: Float!
+  quality: Quality!
+  tags: [String!]!
+}
+
+enum Quality {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+input EntryFilter {
+  minWeight: Float = 55.43e-1
+  quality: Quality
+}
+
+# generated query 0
+query GetEntries0($filter: EntryFilter) {
+  entries(first: 6, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# generated query 1
+query GetEntries1($filter: EntryFilter) {
+  entries(first: 11, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# generated query 2
+query GetEntries2($filter: EntryFilter) {
+  entries(first: 4, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# generated query 3
+query GetEntries3($filter: EntryFilter) {
+  entries(first: 16, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# generated query 4
+query GetEntries4($filter: EntryFilter) {
+  entries(first: 11, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# generated query 5
+query GetEntries5($filter: EntryFilter) {
+  entries(first: 16, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# Sample GraphQL schema for lexer benchmarking
+"""
+Documentation string
+with several lines
+"""
+type Query {
+  entry(id: ID!): Entry
+  entries(first: Int = 30, after: String): [Entry!]!
+}
+
+type Entry {
+  id: ID!
+  name: String!
+  weight: Float!
+  quality: Quality!
+  tags: [String!]!
+}
+
+enum Quality {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+input EntryFilter {
+  minWeight: Float = 0x3B81
+  quality: Quality
+}
+
+# generated query 0
+query GetEntries0($filter: EntryFilter) {
+  entries(first: 14, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# generated query 1
+query GetEntries1($filter: EntryFilter) {
+  entries(first: 10, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# generated query 2
+query GetEntries2($filter: EntryFilter) {
+  entries(first: 7, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# generated query 3
+query GetEntries3($filter: EntryFilter) {
+  entries(first: 8, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# generated query 4
+query GetEntries4($filter: EntryFilter) {
+  entries(first: 14, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# generated query 5
+query GetEntries5($filter: EntryFilter) {
+  entries(first: 18, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# Sample GraphQL schema for lexer benchmarking
+"""
+Documentation string
+with several lines
+"""
+type Query {
+  entry(id: ID!): Entry
+  entries(first: Int = 9, after: String): [Entry!]!
+}
+
+type Entry {
+  id: ID!
+  name: String!
+  weight: Float!
+  quality: Quality!
+  tags: [String!]!
+}
+
+enum Quality {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+input EntryFilter {
+  minWeight: Float = 0x7439
+  quality: Quality
+}
+
+# generated query 0
+query GetEntries0($filter: EntryFilter) {
+  entries(first: 8, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# generated query 1
+query GetEntries1($filter: EntryFilter) {
+  entries(first: 16, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# generated query 2
+query GetEntries2($filter: EntryFilter) {
+  entries(first: 10, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# generated query 3
+query GetEntries3($filter: EntryFilter) {
+  entries(first: 6, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# generated query 4
+query GetEntries4($filter: EntryFilter) {
+  entries(first: 14, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# generated query 5
+query GetEntries5($filter: EntryFilter) {
+  entries(first: 8, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# Sample GraphQL schema for lexer benchmarking
+"""
+Documentation string
+with several lines
+"""
+type Query {
+  entry(id: ID!): Entry
+  entries(first: Int = 28, after: String): [Entry!]!
+}
+
+type Entry {
+  id: ID!
+  name: String!
+  weight: Float!
+  quality: Quality!
+  tags: [String!]!
+}
+
+enum Quality {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+input EntryFilter {
+  minWeight: Float = 0o105
+  quality: Quality
+}
+
+# generated query 0
+query GetEntries0($filter: EntryFilter) {
+  entries(first: 16, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# generated query 1
+query GetEntries1($filter: EntryFilter) {
+  entries(first: 13, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# generated query 2
+query GetEntries2($filter: EntryFilter) {
+  entries(first: 11, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# generated query 3
+query GetEntries3($filter: EntryFilter) {
+  entries(first: 12, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# generated query 4
+query GetEntries4($filter: EntryFilter) {
+  entries(first: 9, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# generated query 5
+query GetEntries5($filter: EntryFilter) {
+  entries(first: 1, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# Sample GraphQL schema for lexer benchmarking
+"""
+Documentation string
+with several lines
+"""
+type Query {
+  entry(id: ID!): Entry
+  entries(first: Int = 39, after: String): [Entry!]!
+}
+
+type Entry {
+  id: ID!
+  name: String!
+  weight: Float!
+  quality: Quality!
+  tags: [String!]!
+}
+
+enum Quality {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+input EntryFilter {
+  minWeight: Float = 867.398
+  quality: Quality
+}
+
+# generated query 0
+query GetEntries0($filter: EntryFilter) {
+  entries(first: 1, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# generated query 1
+query GetEntries1($filter: EntryFilter) {
+  entries(first: 20, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# generated query 2
+query GetEntries2($filter: EntryFilter) {
+  entries(first: 11, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# generated query 3
+query GetEntries3($filter: EntryFilter) {
+  entries(first: 11, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# generated query 4
+query GetEntries4($filter: EntryFilter) {
+  entries(first: 9, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# generated query 5
+query GetEntries5($filter: EntryFilter) {
+  entries(first: 9, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# Sample GraphQL schema for lexer benchmarking
+"""
+Documentation string
+with several lines
+"""
+type Query {
+  entry(id: ID!): Entry
+  entries(first: Int = 16, after: String): [Entry!]!
+}
+
+type Entry {
+  id: ID!
+  name: String!
+  weight: Float!
+  quality: Quality!
+  tags: [String!]!
+}
+
+enum Quality {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+input EntryFilter {
+  minWeight: Float = 0x71E3
+  quality: Quality
+}
+
+# generated query 0
+query GetEntries0($filter: EntryFilter) {
+  entries(first: 3, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# generated query 1
+query GetEntries1($filter: EntryFilter) {
+  entries(first: 6, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# generated query 2
+query GetEntries2($filter: EntryFilter) {
+  entries(first: 1, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# generated query 3
+query GetEntries3($filter: EntryFilter) {
+  entries(first: 12, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# generated query 4
+query GetEntries4($filter: EntryFilter) {
+  entries(first: 19, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# generated query 5
+query GetEntries5($filter: EntryFilter) {
+  entries(first: 9, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# Sample GraphQL schema for lexer benchmarking
+"""
+Documentation string
+with several lines
+"""
+type Query {
+  entry(id: ID!): Entry
+  entries(first: Int = 15, after: String): [Entry!]!
+}
+
+type Entry {
+  id: ID!
+  name: String!
+  weight: Float!
+  quality: Quality!
+  tags: [String!]!
+}
+
+enum Quality {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+input EntryFilter {
+  minWeight: Float = 3573
+  quality: Quality
+}
+
+# generated query 0
+query GetEntries0($filter: EntryFilter) {
+  entries(first: 16, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# generated query 1
+query GetEntries1($filter: EntryFilter) {
+  entries(first: 2, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# generated query 2
+query GetEntries2($filter: EntryFilter) {
+  entries(first: 8, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# generated query 3
+query GetEntries3($filter: EntryFilter) {
+  entries(first: 20, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# generated query 4
+query GetEntries4($filter: EntryFilter) {
+  entries(first: 11, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# generated query 5
+query GetEntries5($filter: EntryFilter) {
+  entries(first: 7, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# Sample GraphQL schema for lexer benchmarking
+"""
+Documentation string
+with several lines
+"""
+type Query {
+  entry(id: ID!): Entry
+  entries(first: Int = 19, after: String): [Entry!]!
+}
+
+type Entry {
+  id: ID!
+  name: String!
+  weight: Float!
+  quality: Quality!
+  tags: [String!]!
+}
+
+enum Quality {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+input EntryFilter {
+  minWeight: Float = 6154
+  quality: Quality
+}
+
+# generated query 0
+query GetEntries0($filter: EntryFilter) {
+  entries(first: 7, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# generated query 1
+query GetEntries1($filter: EntryFilter) {
+  entries(first: 14, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# generated query 2
+query GetEntries2($filter: EntryFilter) {
+  entries(first: 3, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# generated query 3
+query GetEntries3($filter: EntryFilter) {
+  entries(first: 4, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# generated query 4
+query GetEntries4($filter: EntryFilter) {
+  entries(first: 8, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# generated query 5
+query GetEntries5($filter: EntryFilter) {
+  entries(first: 17, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# Sample GraphQL schema for lexer benchmarking
+"""
+Documentation string
+with several lines
+"""
+type Query {
+  entry(id: ID!): Entry
+  entries(first: Int = 49, after: String): [Entry!]!
+}
+
+type Entry {
+  id: ID!
+  name: String!
+  weight: Float!
+  quality: Quality!
+  tags: [String!]!
+}
+
+enum Quality {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+input EntryFilter {
+  minWeight: Float = 9814
+  quality: Quality
+}
+
+# generated query 0
+query GetEntries0($filter: EntryFilter) {
+  entries(first: 20, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# generated query 1
+query GetEntries1($filter: EntryFilter) {
+  entries(first: 14, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# generated query 2
+query GetEntries2($filter: EntryFilter) {
+  entries(first: 12, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# generated query 3
+query GetEntries3($filter: EntryFilter) {
+  entries(first: 10, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# generated query 4
+query GetEntries4($filter: EntryFilter) {
+  entries(first: 4, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# generated query 5
+query GetEntries5($filter: EntryFilter) {
+  entries(first: 16, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# Sample GraphQL schema for lexer benchmarking
+"""
+Documentation string
+with several lines
+"""
+type Query {
+  entry(id: ID!): Entry
+  entries(first: Int = 49, after: String): [Entry!]!
+}
+
+type Entry {
+  id: ID!
+  name: String!
+  weight: Float!
+  quality: Quality!
+  tags: [String!]!
+}
+
+enum Quality {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+input EntryFilter {
+  minWeight: Float = 75.53e-5
+  quality: Quality
+}
+
+# generated query 0
+query GetEntries0($filter: EntryFilter) {
+  entries(first: 13, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# generated query 1
+query GetEntries1($filter: EntryFilter) {
+  entries(first: 10, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# generated query 2
+query GetEntries2($filter: EntryFilter) {
+  entries(first: 1, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# generated query 3
+query GetEntries3($filter: EntryFilter) {
+  entries(first: 20, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# generated query 4
+query GetEntries4($filter: EntryFilter) {
+  entries(first: 14, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# generated query 5
+query GetEntries5($filter: EntryFilter) {
+  entries(first: 12, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# Sample GraphQL schema for lexer benchmarking
+"""
+Documentation string
+with several lines
+"""
+type Query {
+  entry(id: ID!): Entry
+  entries(first: Int = 36, after: String): [Entry!]!
+}
+
+type Entry {
+  id: ID!
+  name: String!
+  weight: Float!
+  quality: Quality!
+  tags: [String!]!
+}
+
+enum Quality {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+input EntryFilter {
+  minWeight: Float = 0o215
+  quality: Quality
+}
+
+# generated query 0
+query GetEntries0($filter: EntryFilter) {
+  entries(first: 8, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# generated query 1
+query GetEntries1($filter: EntryFilter) {
+  entries(first: 17, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# generated query 2
+query GetEntries2($filter: EntryFilter) {
+  entries(first: 5, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# generated query 3
+query GetEntries3($filter: EntryFilter) {
+  entries(first: 15, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# generated query 4
+query GetEntries4($filter: EntryFilter) {
+  entries(first: 4, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+
+# generated query 5
+query GetEntries5($filter: EntryFilter) {
+  entries(first: 17, after: null, filter: $filter) {
+    id
+    name
+    weight
+    quality
+    tags
+  }
+}
+

@@ -1,0 +1,1162 @@
+# Sample TOML for lexer benchmarking
+title = "benchmark"
+version = 3.20.12
+enabled = true
+ratio = 5338
+
+[owner]
+name = "demo user"
+dob = 2020-01-12T00:00:00Z
+
+[database]
+host = "127.0.0.1"
+ports = [ 1397, 8497, 1315 ]
+enabled = false
+
+[servers.srv0]
+host = "srv-0.example.com"
+port = 7502
+weight = 0.174
+tags = [ "alpha", "beta" ]
+
+[servers.srv1]
+host = "srv-1.example.com"
+port = 47975
+weight = 0.833
+tags = [ "alpha", "beta" ]
+
+[servers.srv2]
+host = "srv-2.example.com"
+port = 53674
+weight = 0.434
+tags = [ "alpha", "beta" ]
+
+[servers.srv3]
+host = "srv-3.example.com"
+port = 8648
+weight = 0.401
+tags = [ "alpha", "beta" ]
+
+[servers.srv4]
+host = "srv-4.example.com"
+port = 38676
+weight = 0.438
+tags = [ "alpha", "beta" ]
+
+[servers.srv5]
+host = "srv-5.example.com"
+port = 44607
+weight = 0.767
+tags = [ "alpha", "beta" ]
+
+[servers.srv6]
+host = "srv-6.example.com"
+port = 52716
+weight = 0.220
+tags = [ "alpha", "beta" ]
+
+[servers.srv7]
+host = "srv-7.example.com"
+port = 58116
+weight = 0.727
+tags = [ "alpha", "beta" ]
+
+[servers.srv8]
+host = "srv-8.example.com"
+port = 61838
+weight = 0.351
+tags = [ "alpha", "beta" ]
+
+[servers.srv9]
+host = "srv-9.example.com"
+port = 15430
+weight = 0.429
+tags = [ "alpha", "beta" ]
+
+[[products]]
+name = "first"
+price = 7051
+
+[[products]]
+name = "second"
+price = 0o335
+
+# Sample TOML for lexer benchmarking
+title = "benchmark"
+version = 0.1.34
+enabled = true
+ratio = 544.442
+
+[owner]
+name = "demo user"
+dob = 2020-01-26T00:00:00Z
+
+[database]
+host = "127.0.0.1"
+ports = [ 4738, 3092, 4470 ]
+enabled = false
+
+[servers.srv0]
+host = "srv-0.example.com"
+port = 30534
+weight = 0.866
+tags = [ "alpha", "beta" ]
+
+[servers.srv1]
+host = "srv-1.example.com"
+port = 59128
+weight = 0.606
+tags = [ "alpha", "beta" ]
+
+[servers.srv2]
+host = "srv-2.example.com"
+port = 6753
+weight = 0.939
+tags = [ "alpha", "beta" ]
+
+[servers.srv3]
+host = "srv-3.example.com"
+port = 12202
+weight = 0.789
+tags = [ "alpha", "beta" ]
+
+[servers.srv4]
+host = "srv-4.example.com"
+port = 3687
+weight = 0.783
+tags = [ "alpha", "beta" ]
+
+[servers.srv5]
+host = "srv-5.example.com"
+port = 41248
+weight = 0.099
+tags = [ "alpha", "beta" ]
+
+[servers.srv6]
+host = "srv-6.example.com"
+port = 24287
+weight = 0.073
+tags = [ "alpha", "beta" ]
+
+[servers.srv7]
+host = "srv-7.example.com"
+port = 55460
+weight = 0.848
+tags = [ "alpha", "beta" ]
+
+[servers.srv8]
+host = "srv-8.example.com"
+port = 50511
+weight = 0.804
+tags = [ "alpha", "beta" ]
+
+[servers.srv9]
+host = "srv-9.example.com"
+port = 12494
+weight = 0.573
+tags = [ "alpha", "beta" ]
+
+[[products]]
+name = "first"
+price = 0o443
+
+[[products]]
+name = "second"
+price = 61.187
+
+# Sample TOML for lexer benchmarking
+title = "benchmark"
+version = 3.9.87
+enabled = true
+ratio = 7911
+
+[owner]
+name = "demo user"
+dob = 2020-01-24T00:00:00Z
+
+[database]
+host = "127.0.0.1"
+ports = [ 8494, 7874, 5817 ]
+enabled = false
+
+[servers.srv0]
+host = "srv-0.example.com"
+port = 49450
+weight = 0.842
+tags = [ "alpha", "beta" ]
+
+[servers.srv1]
+host = "srv-1.example.com"
+port = 58892
+weight = 0.352
+tags = [ "alpha", "beta" ]
+
+[servers.srv2]
+host = "srv-2.example.com"
+port = 53338
+weight = 0.601
+tags = [ "alpha", "beta" ]
+
+[servers.srv3]
+host = "srv-3.example.com"
+port = 37729
+weight = 0.498
+tags = [ "alpha", "beta" ]
+
+[servers.srv4]
+host = "srv-4.example.com"
+port = 40252
+weight = 0.585
+tags = [ "alpha", "beta" ]
+
+[servers.srv5]
+host = "srv-5.example.com"
+port = 39803
+weight = 0.739
+tags = [ "alpha", "beta" ]
+
+[servers.srv6]
+host = "srv-6.example.com"
+port = 34485
+weight = 0.132
+tags = [ "alpha", "beta" ]
+
+[servers.srv7]
+host = "srv-7.example.com"
+port = 43317
+weight = 0.500
+tags = [ "alpha", "beta" ]
+
+[servers.srv8]
+host = "srv-8.example.com"
+port = 35740
+weight = 0.309
+tags = [ "alpha", "beta" ]
+
+[servers.srv9]
+host = "srv-9.example.com"
+port = 58484
+weight = 0.223
+tags = [ "alpha", "beta" ]
+
+[[products]]
+name = "first"
+price = 0x4EEE
+
+[[products]]
+name = "second"
+price = 34.45e2
+
+# Sample TOML for lexer benchmarking
+title = "benchmark"
+version = 3.11.16
+enabled = true
+ratio = 9664
+
+[owner]
+name = "demo user"
+dob = 2020-01-14T00:00:00Z
+
+[database]
+host = "127.0.0.1"
+ports = [ 9116, 6625, 3091 ]
+enabled = false
+
+[servers.srv0]
+host = "srv-0.example.com"
+port = 29756
+weight = 0.401
+tags = [ "alpha", "beta" ]
+
+[servers.srv1]
+host = "srv-1.example.com"
+port = 27739
+weight = 0.143
+tags = [ "alpha", "beta" ]
+
+[servers.srv2]
+host = "srv-2.example.com"
+port = 62047
+weight = 0.624
+tags = [ "alpha", "beta" ]
+
+[servers.srv3]
+host = "srv-3.example.com"
+port = 32170
+weight = 0.706
+tags = [ "alpha", "beta" ]
+
+[servers.srv4]
+host = "srv-4.example.com"
+port = 30382
+weight = 0.404
+tags = [ "alpha", "beta" ]
+
+[servers.srv5]
+host = "srv-5.example.com"
+port = 26344
+weight = 0.388
+tags = [ "alpha", "beta" ]
+
+[servers.srv6]
+host = "srv-6.example.com"
+port = 54042
+weight = 0.699
+tags = [ "alpha", "beta" ]
+
+[servers.srv7]
+host = "srv-7.example.com"
+port = 24481
+weight = 0.916
+tags = [ "alpha", "beta" ]
+
+[servers.srv8]
+host = "srv-8.example.com"
+port = 54527
+weight = 0.680
+tags = [ "alpha", "beta" ]
+
+[servers.srv9]
+host = "srv-9.example.com"
+port = 2793
+weight = 0.800
+tags = [ "alpha", "beta" ]
+
+[[products]]
+name = "first"
+price = 6308
+
+[[products]]
+name = "second"
+price = 0x4AF0
+
+# Sample TOML for lexer benchmarking
+title = "benchmark"
+version = 0.10.38
+enabled = true
+ratio = 3002
+
+[owner]
+name = "demo user"
+dob = 2020-01-23T00:00:00Z
+
+[database]
+host = "127.0.0.1"
+ports = [ 4242, 2883, 3841 ]
+enabled = false
+
+[servers.srv0]
+host = "srv-0.example.com"
+port = 31114
+weight = 0.489
+tags = [ "alpha", "beta" ]
+
+[servers.srv1]
+host = "srv-1.example.com"
+port = 17906
+weight = 0.463
+tags = [ "alpha", "beta" ]
+
+[servers.srv2]
+host = "srv-2.example.com"
+port = 39304
+weight = 0.140
+tags = [ "alpha", "beta" ]
+
+[servers.srv3]
+host = "srv-3.example.com"
+port = 4745
+weight = 0.430
+tags = [ "alpha", "beta" ]
+
+[servers.srv4]
+host = "srv-4.example.com"
+port = 24083
+weight = 0.000
+tags = [ "alpha", "beta" ]
+
+[servers.srv5]
+host = "srv-5.example.com"
+port = 3351
+weight = 0.905
+tags = [ "alpha", "beta" ]
+
+[servers.srv6]
+host = "srv-6.example.com"
+port = 59726
+weight = 0.508
+tags = [ "alpha", "beta" ]
+
+[servers.srv7]
+host = "srv-7.example.com"
+port = 11910
+weight = 0.017
+tags = [ "alpha", "beta" ]
+
+[servers.srv8]
+host = "srv-8.example.com"
+port = 33337
+weight = 0.623
+tags = [ "alpha", "beta" ]
+
+[servers.srv9]
+host = "srv-9.example.com"
+port = 61306
+weight = 0.280
+tags = [ "alpha", "beta" ]
+
+[[products]]
+name = "first"
+price = 74.567
+
+[[products]]
+name = "second"
+price = 3083
+
+# Sample TOML for lexer benchmarking
+title = "benchmark"
+version = 0.4.95
+enabled = true
+ratio = 0x954E
+
+[owner]
+name = "demo user"
+dob = 2020-01-26T00:00:00Z
+
+[database]
+host = "127.0.0.1"
+ports = [ 2846, 7896, 7121 ]
+enabled = false
+
+[servers.srv0]
+host = "srv-0.example.com"
+port = 65076
+weight = 0.624
+tags = [ "alpha", "beta" ]
+
+[servers.srv1]
+host = "srv-1.example.com"
+port = 42927
+weight = 0.693
+tags = [ "alpha", "beta" ]
+
+[servers.srv2]
+host = "srv-2.example.com"
+port = 25226
+weight = 0.926
+tags = [ "alpha", "beta" ]
+
+[servers.srv3]
+host = "srv-3.example.com"
+port = 3861
+weight = 0.197
+tags = [ "alpha", "beta" ]
+
+[servers.srv4]
+host = "srv-4.example.com"
+port = 53794
+weight = 0.278
+tags = [ "alpha", "beta" ]
+
+[servers.srv5]
+host = "srv-5.example.com"
+port = 50302
+weight = 0.194
+tags = [ "alpha", "beta" ]
+
+[servers.srv6]
+host = "srv-6.example.com"
+port = 38787
+weight = 0.337
+tags = [ "alpha", "beta" ]
+
+[servers.srv7]
+host = "srv-7.example.com"
+port = 13013
+weight = 0.458
+tags = [ "alpha", "beta" ]
+
+[servers.srv8]
+host = "srv-8.example.com"
+port = 40112
+weight = 0.225
+tags = [ "alpha", "beta" ]
+
+[servers.srv9]
+host = "srv-9.example.com"
+port = 28090
+weight = 0.226
+tags = [ "alpha", "beta" ]
+
+[[products]]
+name = "first"
+price = 0x6382
+
+[[products]]
+name = "second"
+price = 0o262
+
+# Sample TOML for lexer benchmarking
+title = "benchmark"
+version = 2.11.59
+enabled = true
+ratio = 5459
+
+[owner]
+name = "demo user"
+dob = 2020-01-24T00:00:00Z
+
+[database]
+host = "127.0.0.1"
+ports = [ 2194, 2745, 2319 ]
+enabled = false
+
+[servers.srv0]
+host = "srv-0.example.com"
+port = 41312
+weight = 0.015
+tags = [ "alpha", "beta" ]
+
+[servers.srv1]
+host = "srv-1.example.com"
+port = 33309
+weight = 0.353
+tags = [ "alpha", "beta" ]
+
+[servers.srv2]
+host = "srv-2.example.com"
+port = 48869
+weight = 0.440
+tags = [ "alpha", "beta" ]
+
+[servers.srv3]
+host = "srv-3.example.com"
+port = 13871
+weight = 0.968
+tags = [ "alpha", "beta" ]
+
+[servers.srv4]
+host = "srv-4.example.com"
+port = 11202
+weight = 0.781
+tags = [ "alpha", "beta" ]
+
+[servers.srv5]
+host = "srv-5.example.com"
+port = 1645
+weight = 0.802
+tags = [ "alpha", "beta" ]
+
+[servers.srv6]
+host = "srv-6.example.com"
+port = 55372
+weight = 0.645
+tags = [ "alpha", "beta" ]
+
+[servers.srv7]
+host = "srv-7.example.com"
+port = 40835
+weight = 0.335
+tags = [ "alpha", "beta" ]
+
+[servers.srv8]
+host = "srv-8.example.com"
+port = 15351
+weight = 0.487
+tags = [ "alpha", "beta" ]
+
+[servers.srv9]
+host = "srv-9.example.com"
+port = 40325
+weight = 0.352
+tags = [ "alpha", "beta" ]
+
+[[products]]
+name = "first"
+price = -6491
+
+[[products]]
+name = "second"
+price = -2291
+
+# Sample TOML for lexer benchmarking
+title = "benchmark"
+version = 2.2.10
+enabled = true
+ratio = 6.30e-8
+
+[owner]
+name = "demo user"
+dob = 2020-01-04T00:00:00Z
+
+[database]
+host = "127.0.0.1"
+ports = [ 7639, 3036, 3808 ]
+enabled = false
+
+[servers.srv0]
+host = "srv-0.example.com"
+port = 39168
+weight = 0.032
+tags = [ "alpha", "beta" ]
+
+[servers.srv1]
+host = "srv-1.example.com"
+port = 45179
+weight = 0.143
+tags = [ "alpha", "beta" ]
+
+[servers.srv2]
+host = "srv-2.example.com"
+port = 23041
+weight = 0.838
+tags = [ "alpha", "beta" ]
+
+[servers.srv3]
+host = "srv-3.example.com"
+port = 18317
+weight = 0.172
+tags = [ "alpha", "beta" ]
+
+[servers.srv4]
+host = "srv-4.example.com"
+port = 45363
+weight = 0.166
+tags = [ "alpha", "beta" ]
+
+[servers.srv5]
+host = "srv-5.example.com"
+port = 35542
+weight = 0.670
+tags = [ "alpha", "beta" ]
+
+[servers.srv6]
+host = "srv-6.example.com"
+port = 64690
+weight = 0.450
+tags = [ "alpha", "beta" ]
+
+[servers.srv7]
+host = "srv-7.example.com"
+port = 57266
+weight = 0.957
+tags = [ "alpha", "beta" ]
+
+[servers.srv8]
+host = "srv-8.example.com"
+port = 44066
+weight = 0.686
+tags = [ "alpha", "beta" ]
+
+[servers.srv9]
+host = "srv-9.example.com"
+port = 62931
+weight = 0.099
+tags = [ "alpha", "beta" ]
+
+[[products]]
+name = "first"
+price = 2448
+
+[[products]]
+name = "second"
+price = 563.695
+
+# Sample TOML for lexer benchmarking
+title = "benchmark"
+version = 0.0.49
+enabled = true
+ratio = 475.662
+
+[owner]
+name = "demo user"
+dob = 2020-01-01T00:00:00Z
+
+[database]
+host = "127.0.0.1"
+ports = [ 3526, 5542, 1117 ]
+enabled = false
+
+[servers.srv0]
+host = "srv-0.example.com"
+port = 25428
+weight = 0.019
+tags = [ "alpha", "beta" ]
+
+[servers.srv1]
+host = "srv-1.example.com"
+port = 58687
+weight = 0.551
+tags = [ "alpha", "beta" ]
+
+[servers.srv2]
+host = "srv-2.example.com"
+port = 42553
+weight = 0.227
+tags = [ "alpha", "beta" ]
+
+[servers.srv3]
+host = "srv-3.example.com"
+port = 45313
+weight = 0.050
+tags = [ "alpha", "beta" ]
+
+[servers.srv4]
+host = "srv-4.example.com"
+port = 49398
+weight = 0.276
+tags = [ "alpha", "beta" ]
+
+[servers.srv5]
+host = "srv-5.example.com"
+port = 17859
+weight = 0.999
+tags = [ "alpha", "beta" ]
+
+[servers.srv6]
+host = "srv-6.example.com"
+port = 24917
+weight = 0.206
+tags = [ "alpha", "beta" ]
+
+[servers.srv7]
+host = "srv-7.example.com"
+port = 58765
+weight = 0.051
+tags = [ "alpha", "beta" ]
+
+[servers.srv8]
+host = "srv-8.example.com"
+port = 4651
+weight = 0.681
+tags = [ "alpha", "beta" ]
+
+[servers.srv9]
+host = "srv-9.example.com"
+port = 30312
+weight = 0.478
+tags = [ "alpha", "beta" ]
+
+[[products]]
+name = "first"
+price = 0x2023
+
+[[products]]
+name = "second"
+price = 988.594
+
+# Sample TOML for lexer benchmarking
+title = "benchmark"
+version = 1.3.80
+enabled = true
+ratio = 2810
+
+[owner]
+name = "demo user"
+dob = 2020-01-05T00:00:00Z
+
+[database]
+host = "127.0.0.1"
+ports = [ 1928, 4650, 4460 ]
+enabled = false
+
+[servers.srv0]
+host = "srv-0.example.com"
+port = 62546
+weight = 0.581
+tags = [ "alpha", "beta" ]
+
+[servers.srv1]
+host = "srv-1.example.com"
+port = 17056
+weight = 0.106
+tags = [ "alpha", "beta" ]
+
+[servers.srv2]
+host = "srv-2.example.com"
+port = 10861
+weight = 0.936
+tags = [ "alpha", "beta" ]
+
+[servers.srv3]
+host = "srv-3.example.com"
+port = 3656
+weight = 0.151
+tags = [ "alpha", "beta" ]
+
+[servers.srv4]
+host = "srv-4.example.com"
+port = 22324
+weight = 0.790
+tags = [ "alpha", "beta" ]
+
+[servers.srv5]
+host = "srv-5.example.com"
+port = 12266
+weight = 0.959
+tags = [ "alpha", "beta" ]
+
+[servers.srv6]
+host = "srv-6.example.com"
+port = 53330
+weight = 0.730
+tags = [ "alpha", "beta" ]
+
+[servers.srv7]
+host = "srv-7.example.com"
+port = 31832
+weight = 0.157
+tags = [ "alpha", "beta" ]
+
+[servers.srv8]
+host = "srv-8.example.com"
+port = 63953
+weight = 0.325
+tags = [ "alpha", "beta" ]
+
+[servers.srv9]
+host = "srv-9.example.com"
+port = 18485
+weight = 0.733
+tags = [ "alpha", "beta" ]
+
+[[products]]
+name = "first"
+price = 568.801
+
+[[products]]
+name = "second"
+price = 8350
+
+# Sample TOML for lexer benchmarking
+title = "benchmark"
+version = 0.9.7
+enabled = true
+ratio = 5056
+
+[owner]
+name = "demo user"
+dob = 2020-01-14T00:00:00Z
+
+[database]
+host = "127.0.0.1"
+ports = [ 9090, 4217, 6832 ]
+enabled = false
+
+[servers.srv0]
+host = "srv-0.example.com"
+port = 52378
+weight = 0.137
+tags = [ "alpha", "beta" ]
+
+[servers.srv1]
+host = "srv-1.example.com"
+port = 40550
+weight = 0.458
+tags = [ "alpha", "beta" ]
+
+[servers.srv2]
+host = "srv-2.example.com"
+port = 51029
+weight = 0.876
+tags = [ "alpha", "beta" ]
+
+[servers.srv3]
+host = "srv-3.example.com"
+port = 59830
+weight = 0.284
+tags = [ "alpha", "beta" ]
+
+[servers.srv4]
+host = "srv-4.example.com"
+port = 63047
+weight = 0.273
+tags = [ "alpha", "beta" ]
+
+[servers.srv5]
+host = "srv-5.example.com"
+port = 27379
+weight = 0.847
+tags = [ "alpha", "beta" ]
+
+[servers.srv6]
+host = "srv-6.example.com"
+port = 51847
+weight = 0.172
+tags = [ "alpha", "beta" ]
+
+[servers.srv7]
+host = "srv-7.example.com"
+port = 52975
+weight = 0.011
+tags = [ "alpha", "beta" ]
+
+[servers.srv8]
+host = "srv-8.example.com"
+port = 19815
+weight = 0.552
+tags = [ "alpha", "beta" ]
+
+[servers.srv9]
+host = "srv-9.example.com"
+port = 32653
+weight = 0.078
+tags = [ "alpha", "beta" ]
+
+[[products]]
+name = "first"
+price = 209.185
+
+[[products]]
+name = "second"
+price = -3562
+
+# Sample TOML for lexer benchmarking
+title = "benchmark"
+version = 0.17.77
+enabled = true
+ratio = 5625
+
+[owner]
+name = "demo user"
+dob = 2020-01-08T00:00:00Z
+
+[database]
+host = "127.0.0.1"
+ports = [ 9706, 3525, 5139 ]
+enabled = false
+
+[servers.srv0]
+host = "srv-0.example.com"
+port = 49748
+weight = 0.278
+tags = [ "alpha", "beta" ]
+
+[servers.srv1]
+host = "srv-1.example.com"
+port = 17066
+weight = 0.666
+tags = [ "alpha", "beta" ]
+
+[servers.srv2]
+host = "srv-2.example.com"
+port = 47429
+weight = 0.252
+tags = [ "alpha", "beta" ]
+
+[servers.srv3]
+host = "srv-3.example.com"
+port = 46358
+weight = 0.860
+tags = [ "alpha", "beta" ]
+
+[servers.srv4]
+host = "srv-4.example.com"
+port = 60954
+weight = 0.466
+tags = [ "alpha", "beta" ]
+
+[servers.srv5]
+host = "srv-5.example.com"
+port = 2232
+weight = 0.066
+tags = [ "alpha", "beta" ]
+
+[servers.srv6]
+host = "srv-6.example.com"
+port = 47519
+weight = 0.173
+tags = [ "alpha", "beta" ]
+
+[servers.srv7]
+host = "srv-7.example.com"
+port = 35983
+weight = 0.126
+tags = [ "alpha", "beta" ]
+
+[servers.srv8]
+host = "srv-8.example.com"
+port = 40609
+weight = 0.897
+tags = [ "alpha", "beta" ]
+
+[servers.srv9]
+host = "srv-9.example.com"
+port = 27865
+weight = 0.848
+tags = [ "alpha", "beta" ]
+
+[[products]]
+name = "first"
+price = 7973
+
+[[products]]
+name = "second"
+price = 4820
+
+# Sample TOML for lexer benchmarking
+title = "benchmark"
+version = 2.13.37
+enabled = true
+ratio = 4412
+
+[owner]
+name = "demo user"
+dob = 2020-01-19T00:00:00Z
+
+[database]
+host = "127.0.0.1"
+ports = [ 4779, 2785, 1096 ]
+enabled = false
+
+[servers.srv0]
+host = "srv-0.example.com"
+port = 23235
+weight = 0.264
+tags = [ "alpha", "beta" ]
+
+[servers.srv1]
+host = "srv-1.example.com"
+port = 64946
+weight = 0.598
+tags = [ "alpha", "beta" ]
+
+[servers.srv2]
+host = "srv-2.example.com"
+port = 22264
+weight = 0.715
+tags = [ "alpha", "beta" ]
+
+[servers.srv3]
+host = "srv-3.example.com"
+port = 26405
+weight = 0.099
+tags = [ "alpha", "beta" ]
+
+[servers.srv4]
+host = "srv-4.example.com"
+port = 21953
+weight = 0.611
+tags = [ "alpha", "beta" ]
+
+[servers.srv5]
+host = "srv-5.example.com"
+port = 58059
+weight = 0.122
+tags = [ "alpha", "beta" ]
+
+[servers.srv6]
+host = "srv-6.example.com"
+port = 19832
+weight = 0.710
+tags = [ "alpha", "beta" ]
+
+[servers.srv7]
+host = "srv-7.example.com"
+port = 49640
+weight = 0.353
+tags = [ "alpha", "beta" ]
+
+[servers.srv8]
+host = "srv-8.example.com"
+port = 50507
+weight = 0.724
+tags = [ "alpha", "beta" ]
+
+[servers.srv9]
+host = "srv-9.example.com"
+port = 53489
+weight = 0.356
+tags = [ "alpha", "beta" ]
+
+[[products]]
+name = "first"
+price = 300.939
+
+[[products]]
+name = "second"
+price = 0x7F6E
+
+# Sample TOML for lexer benchmarking
+title = "benchmark"
+version = 3.12.49
+enabled = true
+ratio = 9974
+
+[owner]
+name = "demo user"
+dob = 2020-01-17T00:00:00Z
+
+[database]
+host = "127.0.0.1"
+ports = [ 4468, 6451, 6152 ]
+enabled = false
+
+[servers.srv0]
+host = "srv-0.example.com"
+port = 25870
+weight = 0.856
+tags = [ "alpha", "beta" ]
+
+[servers.srv1]
+host = "srv-1.example.com"
+port = 29506
+weight = 0.261
+tags = [ "alpha", "beta" ]
+
+[servers.srv2]
+host = "srv-2.example.com"
+port = 61852
+weight = 0.285
+tags = [ "alpha", "beta" ]
+
+[servers.srv3]
+host = "srv-3.example.com"
+port = 3023
+weight = 0.732
+tags = [ "alpha", "beta" ]
+
+[servers.srv4]
+host = "srv-4.example.com"
+port = 1399
+weight = 0.243
+tags = [ "alpha", "beta" ]
+
+[servers.srv5]
+host = "srv-5.example.com"
+port = 37173
+weight = 0.373
+tags = [ "alpha", "beta" ]
+
+[servers.srv6]
+host = "srv-6.example.com"
+port = 21621
+weight = 0.702
+tags = [ "alpha", "beta" ]
+
+[servers.srv7]
+host = "srv-7.example.com"
+port = 20232
+weight = 0.854
+tags = [ "alpha", "beta" ]
+
+[servers.srv8]
+host = "srv-8.example.com"
+port = 49224
+weight = 0.896
+tags = [ "alpha", "beta" ]
+
+[servers.srv9]
+host = "srv-9.example.com"
+port = 26873
+weight = 0.349
+tags = [ "alpha", "beta" ]
+
+[[products]]
+name = "first"
+price = 507.102
+
+[[products]]
+name = "second"
+price = 165.437
+

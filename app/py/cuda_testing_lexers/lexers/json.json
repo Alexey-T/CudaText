@@ -1,0 +1,63 @@
+{
+  // "title": "Comprehensive JSON Syntax Example",
+  badkey
+  "title": "Comprehensive JSON Syntax Example",
+  "version": 1.0,
+  "isPublished": true,
+  "author": null,
+  "metadata": {
+    "creationDate": "2025-07-08T18:46:32Z",
+    "encoding": "UTF-8",
+    "tags": [
+      "data-format",
+      "example",
+      "structure",
+      "web",
+      "api"
+    ]
+  },
+  "products": [
+    {
+      "id": "PROD001",
+      "name": "Laptop Pro 15",
+      "price": 1200.50,
+      "isInStock": true,
+      "features": ["Intel i7", "16GB RAM", "512GB SSD", "Full HD Display"],
+      "dimensions": {
+        "width": 35.7,
+        "height": 2.5,
+        "depth": 24.3
+      },
+      "reviews": [
+        {
+          "reviewer": "Alice",
+          "rating": 5,
+          "comment": "Amazing performance!",
+          "date": "2024-11-20"
+        },
+        {
+          "reviewer": "Bob",
+          "rating": 4,
+          "comment": "Good value for money.",
+          "date": "2025-01-15"
+        }
+      ]
+    },
+    {
+      "id": "PROD002",
+      "name": "Wireless Mouse",
+      "price": 25.00,
+      "isInStock": false,
+      "features": ["Ergonomic design", "Bluetooth 5.0"],
+      "dimensions": null,
+      "reviews": []
+    }
+  ],
+  "contactInfo": {
+    "email": "info@example.com",
+    "phoneNumbers": [
+      "+1-555-123-4567",
+      "+44-20-7123-4567"
+    ]
+  }
+}

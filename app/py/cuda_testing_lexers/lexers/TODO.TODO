@@ -1,0 +1,33 @@
+
+How to Use PlainTasks:
+
+  Projects:
+   - item1
+   + item2
+   [-] item3
+
+ New one:
+   - item4
+   + item5
+   [x] item6
+     [+] item7
+        + item   
+          text
+   [-] item
+     [] item
+     [] item  
+
+Priority:
+  [] become @critical
+  [] item @high
+  [] item @low
+  [] item @today
+
+Time Tracking:
+  [] item @started(13-10-25 15:20)
+  [] item @toggle(14-10-13 16:14)
+  [] item @created(14-12-24 15:57)
+
+✔ doneeee @critical @done(26-05-18 19:36)
+✘ canceledddd @created(26-05-18 19:35) @cancelled(26-05-18 19:36) @wasted(1min)
+☐ do this and that

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<!doctype test="123">
+<!-- comment -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML with Inline CSS & JS Example</title>
+
+    <style>
+        /* This is an internal CSS rule, affecting all <h2> elements */
+        h2 {
+            color: darkgreen;
+            color: #fb0;
+            text-decoration: underline;
+        }
+
+        #internalCssDiv {
+            border: 2px dashed orange;
+            padding: 10px;
+        }
+    </style>
+
+    <script type="text/javascript" src="<?=SITE_TEMPLATE_PATH?>/js/jquery.js">
+        // This is internal JavaScript code
+        function showAlert(message) {
+            alert("Internal JS Alert: " + message);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const internalDiv = document.getElementById('internalJsDiv');
+            if (internalDiv) {
+                internalDiv.style.backgroundColor = '#e0ffff'; /* Light cyan */
+                internalDiv.innerHTML += '<p>This paragraph was added by internal JavaScript!</p>';
+            }
+        });
+    </script>
+</head>
+<body>
+    <svg> <filter type="table"> </svg>
+    
+    <h1 color=#dde color=yellow color=violet >Text &nbsp;</h1> 
+
+    <h1>HTML Structure Basics</h1>
+    <h3>Another Heading</h3>
+
+    <p>This is a standard paragraph of text.</p>
+
+    <p style="color: blue; font-size: 1.2em; background-color: yellow; padding: 5px;">
+        This paragraph has <strong>inline CSS</strong> applied directly using the <code>style</code> attribute.
+        Notice how its styles override the general paragraph styles if any were set globally.
+    </p>
+
+    <div id="inlineCssDiv" style="border: 2px solid purple; margin: 15px; background-color: #f0e6fa;">
+        <p style="font-style: italic;">This div also has inline CSS for its border, margin, and background.</p>
+        <span style="font-weight: bold; color: crimson;">And this span has its own inline styles.</span>
+    </div>
+
+    <div id="internalCssDiv">
+        <p>This div is styled by internal CSS in the <code>&lt;head&gt;</code> section.</p>
+    </div>
+
+    <p>Visit <a href="https://www.google.com" target="_blank" style="color: darkorange; text-decoration: none;">Google</a> for searches.</p>
+
+    <img src="https://via.placeholder.com/150" alt="A placeholder image" width="150" height="150" 
+         style="border: 3px dashed gray; border-radius: 8px; display: block; margin: 20px auto;">
+
+    <h3>Unordered List (Bullet Points)</h3>
+    <ul style="list-style-type: circle; color: darkcyan;">
+        <li>Item One</li>
+        <li>Item Two</li>
+        <li style="font-weight: bold;">Item Three (with inline style)</li>
+    </ul>
+
+    <h3>Ordered List (Numbered)</h3>
+    <ol style="list-style-type: upper-roman; color: sienna;">
+        <li>First Step</li>
+        <li>Second Step</li>
+        <li>Third Step</li>
+    </ol>
+
+    <table style="width: 80%; border-collapse: collapse; margin-top: 20px;">
+        <caption style="font-weight: bold; margin-bottom: 5px;">Sample Data Table</caption>
+        <thead style="background-color: #333; color: white;">
+            <tr>
+                <th style="padding: 8px; border: 1px solid #ddd;">Header 1</th>
+                <th style="padding: 8px; border: 1px solid #ddd;">Header 2</th>
+            </tr>
+        </thead>
+    </table>
+
+    <h3 style="margin-top: 30px;">Simple Form</h3>
+    <form style="border: 1px solid #ccc; padding: 20px; border-radius: 5px; background-color: #f9f9f9;">
+        <label for="username" style="display: block; margin-bottom: 5px; font-weight: bold;">Username:</label>
+        <input type="text" id="username" name="username" placeholder="Enter your username"
+               style="width: calc(100% - 12px); padding: 8px; margin-bottom: 10px; border: 1px solid #aaa; border-radius: 3px;">
+        <br>
+        <label for="password" style="display: block; margin-bottom: 5px; font-weight: bold;">Password:</label>
+        <input type="password" id="password" name="password" placeholder="Enter your password"
+               style="width: calc(100% - 12px); padding: 8px; margin-bottom: 10px; border: 1px solid #aaa; border-radius: 3px;">
+        <br>
+        <button type="submit" style="background-color: #4CAF50; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer;">
+            Submit
+        </button>
+    </form>
+
+    <h3 style="margin-top: 30px;">Inline JavaScript Interaction</h3>
+    
+    <button onclick="alert('Hello from inline JavaScript!');" 
+            style="background-color: dodgerblue; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer; margin-right: 10px;">
+        Click Me (Inline Alert)
+    </button>
+
+    <button onmouseover="this.style.backgroundColor='darkred';" 
+            onmouseout="this.style.backgroundColor='red';" 
+            style="background-color: red; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer;">
+        Hover Over Me (Inline Style Change)
+    </button>
+    
+    <p id="counter" style="margin-top: 15px; font-size: 1.1em;">Click count: <span style="font-weight: bold;">0</span></p>
+    <button onclick="
+        let countSpan = document.querySelector('#counter span');
+        let currentCount = parseInt(countSpan.innerText);
+        countSpan.innerText = currentCount + 1;
+        if (currentCount + 1 >= 3) {
+            this.style.backgroundColor = 'green';
+            this.innerText = 'More Clicks!';
+        }
+    " style="background-color: gray; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer;">
+        Count Clicks (Inline Logic)
+    </button>
+
+    <div id="internalJsDiv" style="padding: 15px; border: 1px solid lightgray; margin-top: 20px;">
+        <p>This div will be modified by internal JavaScript.</p>
+    </div>
+
+    <button onclick="showAlert('This alert uses the internal JS function!');" 
+            style="background-color: purple; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer; margin-top: 15px;">
+        Call Internal JS Function
+    </button>
+
+    <div style="background-color: #e6ffe6; padding: 20px; margin-top: 20px;">
+        This is a generic block-level container (div) with its own styles.
+        <span style="color: blueviolet; font-style: italic;">And this is an inline-level container (span) within it.</span>
+    </div>
+
+    </body>
+</html>

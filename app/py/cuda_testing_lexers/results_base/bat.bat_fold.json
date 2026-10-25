@@ -1,0 +1,25 @@
+{
+  "lexer": "Batch files",
+  "fold_count": 19,
+  "folds": [
+    {"x": 0, "y": 1, "x2": 95, "y2": 3, "staple": false, "folded": false, "hint": "//...", "tag": 254},
+    {"x": 0, "y": 6, "x2": 14, "y2": 9, "staple": false, "folded": false, "hint": "//...", "tag": 254},
+    {"x": 0, "y": 12, "x2": 14, "y2": 13, "staple": false, "folded": false, "hint": "//...", "tag": 254},
+    {"x": 0, "y": 37, "x2": 78, "y2": 39, "staple": false, "folded": false, "hint": "//...", "tag": 254},
+    {"x": 0, "y": 79, "x2": 78, "y2": 81, "staple": false, "folded": false, "hint": "//...", "tag": 254},
+    {"x": 0, "y": 106, "x2": 78, "y2": 108, "staple": false, "folded": false, "hint": "//...", "tag": 254},
+    {"x": 0, "y": 123, "x2": 81, "y2": 124, "staple": false, "folded": false, "hint": "//...", "tag": 254},
+    {"x": 0, "y": 141, "x2": 74, "y2": 142, "staple": false, "folded": false, "hint": "//...", "tag": 254},
+    {"x": 0, "y": 159, "x2": 38, "y2": 160, "staple": false, "folded": false, "hint": "//...", "tag": 254},
+    {"x": 0, "y": 180, "x2": 65, "y2": 181, "staple": false, "folded": false, "hint": "//...", "tag": 254},
+    {"x": 0, "y": 190, "x2": 58, "y2": 191, "staple": false, "folded": false, "hint": "//...", "tag": 254},
+    {"x": 0, "y": 234, "x2": 77, "y2": 235, "staple": false, "folded": false, "hint": "//...", "tag": 254},
+    {"x": 0, "y": 237, "x2": 78, "y2": 239, "staple": false, "folded": false, "hint": "//...", "tag": 254},
+    {"x": 0, "y": 280, "x2": 78, "y2": 282, "staple": false, "folded": false, "hint": "//...", "tag": 254},
+    {"x": 0, "y": 287, "x2": 73, "y2": 290, "staple": false, "folded": false, "hint": "//...", "tag": 254},
+    {"x": 0, "y": 299, "x2": 78, "y2": 301, "staple": false, "folded": false, "hint": "//...", "tag": 254},
+    {"x": 0, "y": 322, "x2": 44, "y2": 323, "staple": false, "folded": false, "hint": "//...", "tag": 254},
+    {"x": 0, "y": 333, "x2": 78, "y2": 335, "staple": false, "folded": false, "hint": "//...", "tag": 254},
+    {"x": 0, "y": 352, "x2": 78, "y2": 354, "staple": false, "folded": false, "hint": "//...", "tag": 254}
+  ]
+}

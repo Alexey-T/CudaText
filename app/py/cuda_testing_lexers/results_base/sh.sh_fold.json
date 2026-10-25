@@ -1,0 +1,30 @@
+{
+  "lexer": "Bash script",
+  "fold_count": 24,
+  "folds": [
+    {"x": 0, "y": 0, "x2": 74, "y2": 3, "staple": false, "folded": false, "hint": "//...", "tag": 254},
+    {"x": 0, "y": 16, "x2": 15, "y2": 16, "staple": false, "folded": false, "hint": "function echo {\n", "tag": 0},
+    {"x": 14, "y": 16, "x2": 1, "y2": 18, "staple": false, "folded": false, "hint": "{ ... }", "tag": 0},
+    {"x": 12, "y": 20, "x2": 1, "y2": 21, "staple": false, "folded": false, "hint": "{ ... }", "tag": 0},
+    {"x": 0, "y": 26, "x2": 4, "y2": 32, "staple": true, "folded": false, "hint": "do\n ...", "tag": 0},
+    {"x": 3, "y": 29, "x2": 5, "y2": 31, "staple": true, "folded": false, "hint": "if [[ \"$len\" -lt \"$MINLEN\" && \"$line\" =~ \\[*\\.\\] ]]\n ...", "tag": 0},
+    {"x": 0, "y": 66, "x2": 86, "y2": 67, "staple": false, "folded": false, "hint": "//...", "tag": 254},
+    {"x": 0, "y": 113, "x2": 2, "y2": 119, "staple": true, "folded": false, "hint": "if [[ \"$my_number\" -eq 10 ]]; then # -eq for equality (numbers)\n ...", "tag": 0},
+    {"x": 0, "y": 121, "x2": 81, "y2": 123, "staple": false, "folded": false, "hint": "//...", "tag": 254},
+    {"x": 0, "y": 127, "x2": 2, "y2": 129, "staple": true, "folded": false, "hint": "if [[ -f \"$file_to_check\" ]]; then # -f checks if it's a regular file\n ...", "tag": 0},
+    {"x": 0, "y": 131, "x2": 2, "y2": 133, "staple": true, "folded": false, "hint": "if [[ -d \"/tmp\" ]]; then # -d checks if it's a directory\n ...", "tag": 0},
+    {"x": 17, "y": 138, "x2": 4, "y2": 140, "staple": true, "folded": false, "hint": "do\n ...", "tag": 0},
+    {"x": 40, "y": 144, "x2": 4, "y2": 146, "staple": true, "folded": false, "hint": "do\n ...", "tag": 0},
+    {"x": 19, "y": 151, "x2": 4, "y2": 153, "staple": true, "folded": false, "hint": "do\n ...", "tag": 0},
+    {"x": 26, "y": 160, "x2": 4, "y2": 164, "staple": true, "folded": false, "hint": "do\n ...", "tag": 0},
+    {"x": 0, "y": 169, "x2": 4, "y2": 176, "staple": true, "folded": false, "hint": "case \"$color\" in\n", "tag": 0},
+    {"x": 13, "y": 183, "x2": 1, "y2": 185, "staple": false, "folded": false, "hint": "{ ... }", "tag": 0},
+    {"x": 14, "y": 191, "x2": 1, "y2": 197, "staple": false, "folded": false, "hint": "{ ... }", "tag": 0},
+    {"x": 16, "y": 204, "x2": 1, "y2": 206, "staple": false, "folded": false, "hint": "{ ... }", "tag": 0},
+    {"x": 30, "y": 306, "x2": 4, "y2": 308, "staple": true, "folded": false, "hint": "do\n ...", "tag": 0},
+    {"x": 28, "y": 324, "x2": 4, "y2": 326, "staple": true, "folded": false, "hint": "do\n ...", "tag": 0},
+    {"x": 17, "y": 348, "x2": 4, "y2": 350, "staple": true, "folded": false, "hint": "do\n ...", "tag": 0},
+    {"x": 0, "y": 358, "x2": 2, "y2": 360, "staple": true, "folded": false, "hint": "if [[ $? -ne 0 ]]; then\n ...", "tag": 0},
+    {"x": 0, "y": 362, "x2": 84, "y2": 367, "staple": false, "folded": false, "hint": "//...", "tag": 254}
+  ]
+}
