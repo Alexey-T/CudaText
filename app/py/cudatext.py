@@ -1256,12 +1256,82 @@ def _menu_proc_callback_proxy(info=''):
     if info in _live:
         return _live[info]()
 
+#menu callback bookkeeping: engine frees menu items on MENU_CLEAR/MENU_REMOVE
+#without notifying Python, so remember here which menu holds which pinned callback
+_menu_items = {}   # id_menu -> { id_item -> sid or None }, all Python-added items
+_menu_owner  = {}  # id_item -> id_menu, reverse map
+_menu_refs   = {}  # sid -> number of live menu items using this sid
+
+def _menu_sid(id_menu, callback):
+    #sid is namespaced with the menu id, so menu cleanup never touches entries
+    #pinned by button_proc()/toolbar_proc()/timer_proc()/dlg_proc(),
+    #which use bare str(callback) / '<dlg>:<callback>' keys
+    return 'm' + str(id_menu) + ':' + str(callback)
+
+def _menu_cb_release(sid):
+    if not sid:
+        return
+    n = _menu_refs.get(sid, 0) - 1
+    if n > 0:
+        _menu_refs[sid] = n
+    else:
+        _menu_refs.pop(sid, None)
+        _live.pop(sid, None)
+
+def _menu_forget_children(id_menu):
+    """Engine frees all items nested under id_menu: release their callbacks."""
+    stack = [str(id_menu)]
+    while stack:
+        children = _menu_items.pop(stack.pop(), None)
+        if not children:
+            continue
+        for id_item, sid in children.items():
+            _menu_owner.pop(id_item, None)
+            _menu_cb_release(sid)
+            stack.append(id_item) #nested Python-made submenus
+
+def _menu_forget_item(id_item):
+    """Engine frees one item with all its children: release its callback too."""
+    id_item = str(id_item)
+    id_parent = _menu_owner.pop(id_item, None)
+    if id_parent is not None:
+        children = _menu_items.get(id_parent)
+        if children:
+            sid = children.pop(id_item, None)
+            if not children:
+                _menu_items.pop(id_parent, None)
+            _menu_cb_release(sid)
+    _menu_forget_children(id_item)
+
 def menu_proc(id_menu, id_action, command="", caption="", index=-1, hotkey="", tag=""):
-    if callable(command):
-        sid_callback = str(command)
+    id_menu = str(id_menu)
+    had_callback = callable(command)
+    sid_callback = ''
+
+    if had_callback:
+        sid_callback = _menu_sid(id_menu, command)
         _live[sid_callback] = command
         command = 'module={};func=_menu_proc_callback_proxy;info="{}";'.format(__name__, sid_callback)
-    return ct.menu_proc(str(id_menu), id_action, to_str(command), caption, index, hotkey, tag)
+
+    res = ct.menu_proc(id_menu, id_action, to_str(command), caption, index, hotkey, tag)
+
+    #keep _live in sync with the engine-side lifetime of menu items
+    if id_action == MENU_ADD:
+        if res:
+            #engine returns handle of the added item ('' if item was not created)
+            _menu_items.setdefault(id_menu, {})[res] = sid_callback if had_callback else None
+            _menu_owner[res] = id_menu
+            if had_callback:
+                _menu_refs[sid_callback] = _menu_refs.get(sid_callback, 0) + 1
+        elif had_callback and _menu_refs.get(sid_callback, 0)==0:
+            #item not created (e.g. empty caption): don't keep the callback pinned
+            _live.pop(sid_callback, None)
+    elif id_action == MENU_CLEAR:
+        _menu_forget_children(id_menu)
+    elif id_action == MENU_REMOVE:
+        _menu_forget_item(id_menu)
+
+    return res
 
 def button_proc(id_button, id_action, value=''):
     if callable(value):
