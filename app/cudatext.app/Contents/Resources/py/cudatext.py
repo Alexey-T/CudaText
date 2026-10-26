@@ -1333,12 +1333,59 @@ def menu_proc(id_menu, id_action, command="", caption="", index=-1, hotkey="", t
 
     return res
 
+#button callback bookkeeping: button_proc(..., BTN_SET_DATA1, callable)
+#pins the click-callback in TATButton.DataString (engine runs it on click);
+#the engine frees buttons without notifying Python (with the whole dialog on
+#DLG_FREE/DLG_CTL_DELETE_ALL, one by one on DLG_CTL_DELETE, with the toolbar
+#on TOOLBAR_DELETE_BUTTON/DELETE_ALL and toolbar death), so remember which
+#button handle holds which pinned callback
+_button_data = {}   # button handle -> sid pinned via BTN_SET_DATA1
+
+def _button_sid(id_button, callback):
+    #sid is namespaced with the button handle, like menu/toolbar sids
+    #('m<id>:', 't<id>:'), so button cleanup never touches entries pinned by
+    #other APIs, which use bare str(callback) / '<dlg>:<callback>' keys
+    return 'b' + str(id_button) + ':' + str(callback)
+
+def _button_cb_release(sid):
+    if sid:
+        _live.pop(sid, None)
+
+def _button_forget(id_button):
+    """Engine freed the button (or replaced its DataString): release."""
+    sid = _button_data.pop(str(id_button), None)
+    _button_cb_release(sid)
+
 def button_proc(id_button, id_action, value=''):
-    if callable(value):
-        sid_callback = str(value)
-        _live[sid_callback] = value
+    had_callback = callable(value)
+    sid_callback = ''
+
+    if had_callback:
+        sid_callback = _button_sid(id_button, value)
+        if id_action == BTN_SET_DATA1:
+            #the only button action the engine dispatches (DataString is run
+            #on click; verified in engines 1.160/1.190/master, all other
+            #actions just store the string as inert data): pin only it
+            _live[sid_callback] = value
         value = 'module={};func=_menu_proc_callback_proxy;info="{}";'.format(__name__, sid_callback)
-    return ct.button_proc(id_button, id_action, to_str(value))
+
+    res = ct.button_proc(id_button, id_action, to_str(value))
+
+    #keep _live in sync with the engine-side DataString of the button;
+    #only BTN_SET_DATA1 carries a click-callback, and setting it to plain
+    #data (e.g. int command) replaces the callback
+    if id_action == BTN_SET_DATA1:
+        key = str(id_button)
+        old_sid = _button_data.get(key)
+        if had_callback:
+            if old_sid != sid_callback:
+                _button_cb_release(old_sid)
+                _button_data[key] = sid_callback
+        elif old_sid is not None:
+            _button_data.pop(key, None)
+            _button_cb_release(old_sid)
+
+    return res
 
 def listbox_proc(id_listbox, id_action, index=0, text="", tag=0):
     return ct.listbox_proc(id_listbox, id_action, index, to_str(text), to_str(tag))
@@ -1370,7 +1417,8 @@ def _toolbar_forget_bar(id_bar):
     """Engine freed the toolbar with all its buttons: release callbacks."""
     btns = _toolbar_btns.pop(str(id_bar), None)
     if btns:
-        for sid in btns.values():
+        for h, sid in btns.items():
+            _button_forget(h)
             _toolbar_cb_release(sid)
 
 def toolbar_proc(id_bar, id_action, text="", text2="", command=0, index=-1, index2=-1):
@@ -1394,6 +1442,19 @@ def toolbar_proc(id_bar, id_action, text="", text2="", command=0, index=-1, inde
             elif _toolbar_refs.get(sid_callback, 0)==0:
                 #button not created (e.g. bad toolbar handle): don't pin the callback
                 _live.pop(sid_callback, None)
+        elif res:
+            #button added without callback: remember its handle anyway, so a
+            #click-callback pinned later via button_proc(BTN_SET_DATA1)
+            #is released when this button dies with the toolbar
+            _toolbar_btns.setdefault(str(id_bar), {}).setdefault(str(res), None)
+    elif id_action == TOOLBAR_GET_BUTTON_HANDLE:
+        if res:
+            #same for buttons not added via toolbar_proc (e.g. app-side bars)
+            _toolbar_btns.setdefault(str(id_bar), {}).setdefault(str(res), None)
+    elif id_action == TOOLBAR_GET_BUTTON_HANDLES:
+        if isinstance(res, (list, tuple)):
+            for h in res:
+                _toolbar_btns.setdefault(str(id_bar), {}).setdefault(str(h), None)
     elif id_action == TOOLBAR_DELETE_BUTTON:
         btns = _toolbar_btns.get(str(id_bar))
         if btns:
@@ -1403,6 +1464,7 @@ def toolbar_proc(id_bar, id_action, text="", text2="", command=0, index=-1, inde
             if alive is not None:
                 alive = set(map(str, alive))
                 for h in [h for h in btns if h not in alive]:
+                    _button_forget(h)
                     _toolbar_cb_release(btns.pop(h))
                 if not btns:
                     _toolbar_btns.pop(str(id_bar), None)
@@ -1516,6 +1578,10 @@ def _alter_live(id_dialog, prop, callback_name):
 _dlg_ctl_toolbar = {}  # id_dialog -> set of ctl indexes of 'toolbar' controls
 _dlg_ctl_names   = {}  # (id_dialog, ctl_name) -> ctl index, of those controls
 _dlg_toolbars    = {}  # id_dialog -> { ctl index -> toolbar handle }
+#dialog controls with fetched handles: button_proc(..., BTN_SET_DATA1,
+#callable) pins a click-callback into a control (e.g. 'button_ex'); remember
+#ctl handles, so such callbacks are released when the control (or dialog) dies
+_dlg_ctl_handles = {}  # id_dialog -> { ctl index -> ctl handle }
 
 def _dlg_ctl_index(id_dialog, index, name):
     """Ctl index the engine resolves for this name/index pair (name wins)."""
@@ -1530,6 +1596,15 @@ def _dlg_ctl_index(id_dialog, index, name):
 def _dlg_ctl_deleted(id_dialog, index):
     """Engine freed the control at index: clean records, shift the rest."""
     key = str(id_dialog)
+    hh = _dlg_ctl_handles.get(key)
+    if hh is not None:
+        h = hh.pop(index, None)
+        if h is not None:
+            _button_forget(h)
+        if not hh:
+            _dlg_ctl_handles.pop(key, None)
+        else:
+            _dlg_ctl_handles[key] = { (i-1 if i>index else i): v for i,v in hh.items() }
     tbs = _dlg_toolbars.get(key)
     if tbs is not None:
         if index in tbs:
@@ -1556,6 +1631,8 @@ def _dlg_ctl_deleted(id_dialog, index):
 def _dlg_forget_all_ctls(id_dialog):
     """Engine freed all controls of the dialog (DLG_CTL_DELETE_ALL / DLG_FREE)."""
     key = str(id_dialog)
+    for h in _dlg_ctl_handles.pop(key, {}).values():
+        _button_forget(h)
     for tb in _dlg_toolbars.pop(key, {}).values():
         _toolbar_forget_bar(tb)
     _dlg_ctl_toolbar.pop(key, None)
@@ -1579,9 +1656,10 @@ def dlg_proc(id_dialog, id_action, prop='', index=-1, index2=-1, name=''):
             if k.startswith('on_'):
                 _alter_live(id_dialog, prop, k)
 
-    #control being deleted: find its index to clean toolbar bookkeeping
+    #control being deleted: find its index to clean toolbar/button bookkeeping
     dying_ctl = None
-    if id_action == DLG_CTL_DELETE and str(id_dialog) in _dlg_ctl_toolbar:
+    if id_action == DLG_CTL_DELETE and (
+        str(id_dialog) in _dlg_ctl_toolbar or str(id_dialog) in _dlg_ctl_handles):
         dying_ctl = _dlg_ctl_index(id_dialog, index, name)
         if dying_ctl is not None and dying_ctl >= 0:
             #engine no-ops for bad index: don't shift bookkeeping then
@@ -1600,10 +1678,14 @@ def dlg_proc(id_dialog, id_action, prop='', index=-1, index2=-1, name=''):
         and index in _dlg_ctl_toolbar.get(str(id_dialog), ())):
             _dlg_ctl_names[(str(id_dialog), prop['name'])] = index
     elif id_action == DLG_CTL_HANDLE:
-        s = _dlg_ctl_toolbar.get(str(id_dialog))
-        if res and s:
+        if res:
             i = _dlg_ctl_index(id_dialog, index, name)
-            if i in s:
+            if i is not None and i >= 0:
+                #remember the ctl handle, so a click-callback pinned later
+                #via button_proc(BTN_SET_DATA1) is released when the ctl dies
+                _dlg_ctl_handles.setdefault(str(id_dialog), {})[i] = res
+            s = _dlg_ctl_toolbar.get(str(id_dialog))
+            if s and i in s:
                 _dlg_toolbars.setdefault(str(id_dialog), {})[i] = res
     elif id_action == DLG_CTL_DELETE:
         if dying_ctl is not None:
