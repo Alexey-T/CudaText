@@ -1490,7 +1490,7 @@ def bitmap_proc(id_bmp, id_action, param1=0, param2=0):
 #identically and their TIMER_STOP must find the running timer. Namespaced
 #with 'r' so timer cleanup never touches entries pinned by menu_proc()/
 #toolbar_proc()/button_proc()/dlg_proc(), which use 'm<id>:'/'t<id>:'/
-#'b<handle>:'/'<dlg>:' keys.
+#'b<handle>:'/'d<id>:' keys.
 def _timer_sid(callback):
     return 'r' + str(callback)
 
@@ -1598,12 +1598,90 @@ def _dlg_proc_callback_proxy(id_dlg, id_ctl, data='', info=''):
     if info in _live:
         return _live[info](id_dlg, id_ctl, data=data)
 
-def _alter_live(id_dialog, prop, callback_name):
-    callback_param = prop[callback_name]
-    if callable(callback_param):
-        sid_callback = '{}:{}'.format(id_dialog, callback_param)
-        _live[sid_callback] = callback_param
+#dialog callback bookkeeping: dlg_proc() pins callables passed in on_*
+#props, dialog-level ones (on_close, on_resize, ...) set via DLG_PROP_SET and
+#control-level ones (on_change, on_click, ...) set via DLG_CTL_PROP_SET. The
+#engine stores the callback string on the form or on the control and fires it
+#while that object lives, so a pin must die exactly when the stored string
+#dies: when its slot (ctl index, prop name) gets another value, when the
+#control dies (DLG_CTL_DELETE / DLG_CTL_DELETE_ALL), or when the form dies
+#(DLG_FREE). One callable can sit in several slots of one dialog (same sid),
+#so a sid is released only when its last slot goes. Sids are namespaced with
+#'d' so dialog cleanup never touches entries pinned by menu_proc()/
+#toolbar_proc()/button_proc()/timer_proc(), which use 'm<id>:'/'t<id>:'/
+#'b<handle>:'/'r' keys.
+_dlg_slots = {}  # id_dialog -> { (ctl index, -1 for form-level, prop): sid }
+
+_DLG_PROXY_PREFIX = 'module={};func=_dlg_proc_callback_proxy;'.format(__name__)
+
+def _dlg_sid(id_dialog, callback):
+    return 'd{}:{}'.format(id_dialog, callback)
+
+def _dlg_slot_drop(key_dialog, slot):
+    """One slot got another value: unpin its sid if no slot uses it anymore."""
+    slots = _dlg_slots.get(key_dialog)
+    if not slots or slot not in slots:
+        return
+    sid = slots.pop(slot)
+    if sid not in slots.values():
+        _live.pop(sid, None)
+    if not slots:
+        _dlg_slots.pop(key_dialog, None)
+
+def _dlg_slots_drop_ctl(key_dialog, index):
+    """Control at index died: drop its slots, shift the higher ctl indexes."""
+    slots = _dlg_slots.get(key_dialog)
+    if slots is None:
+        return
+    for slot in [s for s in slots if s[0] == index]:
+        sid = slots.pop(slot)
+        if sid not in slots.values():
+            _live.pop(sid, None)
+    if slots:
+        _dlg_slots[key_dialog] = { ((i-1 if i > index else i), n): s
+                                   for (i, n), s in slots.items() }
+    else:
+        _dlg_slots.pop(key_dialog, None)
+
+def _dlg_slots_drop_ctls(key_dialog):
+    """All controls died (DLG_CTL_DELETE_ALL); form-level slots (-1) survive."""
+    slots = _dlg_slots.get(key_dialog)
+    if not slots:
+        return
+    for slot in [s for s in slots if s[0] >= 0]:
+        sid = slots.pop(slot)
+        if sid not in slots.values():
+            _live.pop(sid, None)
+    if not slots:
+        _dlg_slots.pop(key_dialog, None)
+
+def _dlg_slots_drop_all(key_dialog):
+    """The form died (DLG_FREE): every stored callback string died with it."""
+    for sid in set(_dlg_slots.pop(key_dialog, {}).values()):
+        _live.pop(sid, None)
+
+def _dlg_alter_prop(id_dialog, prop, callback_name, ctl_index):
+    value = prop[callback_name]
+    if callable(value):
+        sid_callback = _dlg_sid(id_dialog, value)
+        _live[sid_callback] = value
         prop[callback_name] = 'module={};func=_dlg_proc_callback_proxy;info="{}";'.format(__name__, sid_callback)
+        #record the slot; release what this slot pinned before, if anything
+        key_dialog = str(id_dialog)
+        slots = _dlg_slots.setdefault(key_dialog, {})
+        slot = (ctl_index, callback_name)
+        old_sid = slots.get(slot)
+        slots[slot] = sid_callback
+        if old_sid is not None and old_sid != sid_callback and old_sid not in slots.values():
+            _live.pop(old_sid, None)
+    elif isinstance(value, str) and value.startswith(_DLG_PROXY_PREFIX):
+        #re-send of a dict already converted by an earlier dlg_proc call: the
+        #engine re-installs the same proxy string, the slot keeps its pin
+        pass
+    else:
+        #non-callable value: the engine replaces the stored callback string
+        #with it, our pin for this slot can never fire again
+        _dlg_slot_drop(str(id_dialog), (ctl_index, callback_name))
 
 #dialog toolbars: 'toolbar'-type dialog controls are used with toolbar_proc();
 #when such control (or the whole dialog) is freed, the engine frees its buttons too
@@ -1622,12 +1700,27 @@ def _dlg_ctl_index(id_dialog, index, name):
         if n is None:
             #name was not set via index-based PROP_SET: ask the engine
             n = ct.dlg_proc(id_dialog, DLG_CTL_FIND, name, -1, -1, '')
+            if isinstance(n, int) and n >= 0:
+                #cache only hits: a missed name can still be given to a
+                #control later, a cached miss would hide it forever
+                _dlg_ctl_names[(str(id_dialog), name)] = n
         return n
     return index
 
 def _dlg_ctl_deleted(id_dialog, index):
     """Engine freed the control at index: clean records, shift the rest."""
     key = str(id_dialog)
+    sl = _dlg_slots.get(key)
+    if sl is not None:
+        for slot in [s for s in sl if s[0] == index]:
+            sid = sl.pop(slot)
+            if sid not in sl.values():
+                _live.pop(sid, None)
+        if sl:
+            _dlg_slots[key] = { ((i-1 if i > index else i), n): s
+                                for (i, n), s in sl.items() }
+        else:
+            _dlg_slots.pop(key, None)
     hh = _dlg_ctl_handles.get(key)
     if hh is not None:
         h = hh.pop(index, None)
@@ -1674,41 +1767,73 @@ def _dlg_forget_all_ctls(id_dialog):
 def dlg_proc(id_dialog, id_action, prop='', index=-1, index2=-1, name=''):
     #print('#dlg_proc id_action='+str(id_action)+' prop='+repr(prop))
 
-    #cleanup storage of live callbacks
+    #the form is about to be freed: all its stored callback strings die now
     if id_action == DLG_FREE:
-        for k in [k for k in _live if k.startswith(str(id_dialog)+':')]:
-            _live.pop(k)
+        _dlg_slots_drop_all(str(id_dialog))
 
     #support live callbacks by replacing them to str
     if isinstance(prop, dict):
         if 'resize' in prop and 'border' in prop:
             del prop['resize']
 
-        for k in prop:
-            if k.startswith('on_'):
-                _alter_live(id_dialog, prop, k)
+        if id_action in (DLG_PROP_SET, DLG_CTL_PROP_SET):
+            #only these two actions make the engine store prop dicts, so only
+            #they may pin; slot key = ctl index (resolved like the engine
+            #does: name wins), -1 for the form itself
+            ctl_index = -1
+            if id_action == DLG_CTL_PROP_SET:
+                ctl_index = _dlg_ctl_index(id_dialog, index, name)
+                if not isinstance(ctl_index, int) or ctl_index < 0:
+                    #no such control (bad index/name, bad form handle): the
+                    #engine silently ignores the whole prop dict, keep the
+                    #pin registry untouched as well
+                    ctl_index = None
+            if ctl_index is not None:
+                for k in prop:
+                    if k.startswith('on_'):
+                        _dlg_alter_prop(id_dialog, prop, k, ctl_index)
 
-    #control being deleted: find its index to clean toolbar/button bookkeeping
+    #control being deleted: find its index to clean the bookkeeping
     dying_ctl = None
+    pre_count = None
     if id_action == DLG_CTL_DELETE and (
-        str(id_dialog) in _dlg_ctl_toolbar or str(id_dialog) in _dlg_ctl_handles):
+        str(id_dialog) in _dlg_ctl_toolbar or str(id_dialog) in _dlg_ctl_handles
+        or str(id_dialog) in _dlg_slots):
         dying_ctl = _dlg_ctl_index(id_dialog, index, name)
-        if dying_ctl is not None and dying_ctl >= 0:
-            #engine no-ops for bad index: don't shift bookkeeping then
-            n = ct.dlg_proc(id_dialog, DLG_CTL_COUNT, '', -1, -1, '')
-            if not (isinstance(n, int) and dying_ctl < n):
+        if not (isinstance(dying_ctl, int) and dying_ctl >= 0):
+            dying_ctl = None
+        else:
+            #engine no-ops for a bad index/name and still returns None: the
+            #component counts prove whether a control really died
+            pre_count = ct.dlg_proc(id_dialog, DLG_CTL_COUNT, '', -1, -1, '')
+            if not (isinstance(pre_count, int) and dying_ctl < pre_count):
                 dying_ctl = None
 
     res = ct.dlg_proc(id_dialog, id_action, to_str(prop), index, index2, name)
 
-    #keep toolbar bookkeeping in sync with engine-side lifetime of controls
-    if id_action == DLG_CTL_ADD:
+    #keep the bookkeeping in sync with engine-side lifetime of controls
+    if id_action == DLG_CREATE:
+        if isinstance(res, int) and res:
+            #a fresh form cannot have records yet; these can only be stale
+            #leftovers of an unfreed form whose handle got reused - release
+            #them (pins too, not just the records)
+            _dlg_slots_drop_all(str(res))
+            _dlg_forget_all_ctls(res)
+    elif id_action == DLG_CTL_ADD:
         if prop == 'toolbar' and isinstance(res, int):
             _dlg_ctl_toolbar.setdefault(str(id_dialog), set()).add(res)
     elif id_action == DLG_CTL_PROP_SET:
-        if (isinstance(prop, dict) and 'name' in prop and index >= 0
-        and index in _dlg_ctl_toolbar.get(str(id_dialog), ())):
-            _dlg_ctl_names[(str(id_dialog), prop['name'])] = index
+        if isinstance(prop, dict) and prop.get('name'):
+            #remember name -> ctl index for name-based calls; drop other
+            #names of this control, a rename makes them stale
+            i = _dlg_ctl_index(id_dialog, index, name)
+            if isinstance(i, int) and i >= 0:
+                dkey = str(id_dialog)
+                _dlg_ctl_names[(dkey, prop['name'])] = i
+                for kn in [kn for kn in _dlg_ctl_names
+                           if kn[0] == dkey and kn[1] != prop['name']
+                           and _dlg_ctl_names[kn] == i]:
+                    _dlg_ctl_names.pop(kn)
     elif id_action == DLG_CTL_HANDLE:
         if res:
             i = _dlg_ctl_index(id_dialog, index, name)
@@ -1721,8 +1846,16 @@ def dlg_proc(id_dialog, id_action, prop='', index=-1, index2=-1, name=''):
                 _dlg_toolbars.setdefault(str(id_dialog), {})[i] = res
     elif id_action == DLG_CTL_DELETE:
         if dying_ctl is not None:
-            _dlg_ctl_deleted(id_dialog, dying_ctl)
-    elif id_action in (DLG_CTL_DELETE_ALL, DLG_FREE):
+            post_count = ct.dlg_proc(id_dialog, DLG_CTL_COUNT, '', -1, -1, '')
+            if (isinstance(post_count, int) and isinstance(pre_count, int)
+            and post_count < pre_count):
+                #a control really died (engine gives no other signal)
+                _dlg_ctl_deleted(id_dialog, dying_ctl)
+    elif id_action == DLG_CTL_DELETE_ALL:
+        _dlg_forget_all_ctls(id_dialog)
+        #the form survives, its own on_* props stay armed
+        _dlg_slots_drop_ctls(str(id_dialog))
+    elif id_action == DLG_FREE:
         _dlg_forget_all_ctls(id_dialog)
 
     if id_action == DLG_SHOW_MODAL:
