@@ -1343,12 +1343,73 @@ def button_proc(id_button, id_action, value=''):
 def listbox_proc(id_listbox, id_action, index=0, text="", tag=0):
     return ct.listbox_proc(id_listbox, id_action, index, to_str(text), to_str(tag))
 
+#toolbar callback bookkeeping: the engine frees toolbar buttons on
+#TOOLBAR_DELETE_BUTTON/TOOLBAR_DELETE_ALL (and together with the whole toolbar,
+#e.g. when a dialog with a 'toolbar' control is freed) without notifying
+#Python, so remember which button of which toolbar holds which pinned callback
+_toolbar_btns = {}   # id_bar -> { btn_handle -> sid }
+_toolbar_refs = {}   # sid -> number of live buttons using this sid
+
+def _toolbar_sid(id_bar, callback):
+    #sid is namespaced with the toolbar id, like menu sids ('m<id>:'),
+    #so toolbar cleanup never touches entries pinned by other APIs,
+    #which use bare str(callback) / '<dlg>:<callback>' keys
+    return 't' + str(id_bar) + ':' + str(callback)
+
+def _toolbar_cb_release(sid):
+    if not sid:
+        return
+    n = _toolbar_refs.get(sid, 0) - 1
+    if n > 0:
+        _toolbar_refs[sid] = n
+    else:
+        _toolbar_refs.pop(sid, None)
+        _live.pop(sid, None)
+
+def _toolbar_forget_bar(id_bar):
+    """Engine freed the toolbar with all its buttons: release callbacks."""
+    btns = _toolbar_btns.pop(str(id_bar), None)
+    if btns:
+        for sid in btns.values():
+            _toolbar_cb_release(sid)
+
 def toolbar_proc(id_bar, id_action, text="", text2="", command=0, index=-1, index2=-1):
-    if callable(command):
-        sid_callback = str(command)
+    had_callback = callable(command)
+    sid_callback = ''
+
+    if had_callback:
+        sid_callback = _toolbar_sid(id_bar, command)
         _live[sid_callback] = command
         command = 'module={};func=_menu_proc_callback_proxy;info="{}";'.format(__name__, sid_callback)
-    return ct.toolbar_proc(id_bar, id_action, text, text2, str(command), index, index2)
+
+    res = ct.toolbar_proc(id_bar, id_action, text, text2, str(command), index, index2)
+
+    #keep _live in sync with engine-side lifetime of toolbar buttons
+    if id_action in (TOOLBAR_ADD_ITEM, TOOLBAR_ADD_MENU):
+        if had_callback:
+            if res:
+                #engine returns the handle of the added button (None if not created)
+                _toolbar_btns.setdefault(str(id_bar), {})[str(res)] = sid_callback
+                _toolbar_refs[sid_callback] = _toolbar_refs.get(sid_callback, 0) + 1
+            elif _toolbar_refs.get(sid_callback, 0)==0:
+                #button not created (e.g. bad toolbar handle): don't pin the callback
+                _live.pop(sid_callback, None)
+    elif id_action == TOOLBAR_DELETE_BUTTON:
+        btns = _toolbar_btns.get(str(id_bar))
+        if btns:
+            #button dies by index; ask the engine which button handles remain,
+            #this also heals tracking if buttons died by other reasons
+            alive = ct.toolbar_proc(id_bar, TOOLBAR_GET_BUTTON_HANDLES, '', '', '', -1, -1)
+            if alive is not None:
+                alive = set(map(str, alive))
+                for h in [h for h in btns if h not in alive]:
+                    _toolbar_cb_release(btns.pop(h))
+                if not btns:
+                    _toolbar_btns.pop(str(id_bar), None)
+    elif id_action == TOOLBAR_DELETE_ALL:
+        _toolbar_forget_bar(id_bar)
+
+    return res
 
 def statusbar_proc(id_bar, id_action, index=-1, tag=0, value=""):
     return ct.statusbar_proc(id_bar, id_action, index, tag, to_str(value))
@@ -1450,6 +1511,57 @@ def _alter_live(id_dialog, prop, callback_name):
         _live[sid_callback] = callback_param
         prop[callback_name] = 'module={};func=_dlg_proc_callback_proxy;info="{}";'.format(__name__, sid_callback)
 
+#dialog toolbars: 'toolbar'-type dialog controls are used with toolbar_proc();
+#when such control (or the whole dialog) is freed, the engine frees its buttons too
+_dlg_ctl_toolbar = {}  # id_dialog -> set of ctl indexes of 'toolbar' controls
+_dlg_ctl_names   = {}  # (id_dialog, ctl_name) -> ctl index, of those controls
+_dlg_toolbars    = {}  # id_dialog -> { ctl index -> toolbar handle }
+
+def _dlg_ctl_index(id_dialog, index, name):
+    """Ctl index the engine resolves for this name/index pair (name wins)."""
+    if name:
+        n = _dlg_ctl_names.get((str(id_dialog), name))
+        if n is None:
+            #name was not set via index-based PROP_SET: ask the engine
+            n = ct.dlg_proc(id_dialog, DLG_CTL_FIND, name, -1, -1, '')
+        return n
+    return index
+
+def _dlg_ctl_deleted(id_dialog, index):
+    """Engine freed the control at index: clean records, shift the rest."""
+    key = str(id_dialog)
+    tbs = _dlg_toolbars.get(key)
+    if tbs is not None:
+        if index in tbs:
+            _toolbar_forget_bar(tbs.pop(index))
+        if not tbs:
+            _dlg_toolbars.pop(key, None)
+        else:
+            _dlg_toolbars[key] = { (i-1 if i>index else i): h for i,h in tbs.items() }
+    s = _dlg_ctl_toolbar.get(key)
+    if s is not None:
+        s.discard(index)
+        s = { i-1 if i>index else i for i in s }
+        if s:
+            _dlg_ctl_toolbar[key] = s
+        else:
+            _dlg_ctl_toolbar.pop(key, None)
+    for k in [k for k in _dlg_ctl_names if k[0]==key]:
+        i = _dlg_ctl_names[k]
+        if i==index:
+            _dlg_ctl_names.pop(k, None)
+        elif i>index:
+            _dlg_ctl_names[k] = i-1
+
+def _dlg_forget_all_ctls(id_dialog):
+    """Engine freed all controls of the dialog (DLG_CTL_DELETE_ALL / DLG_FREE)."""
+    key = str(id_dialog)
+    for tb in _dlg_toolbars.pop(key, {}).values():
+        _toolbar_forget_bar(tb)
+    _dlg_ctl_toolbar.pop(key, None)
+    for k in [k for k in _dlg_ctl_names if k[0]==key]:
+        _dlg_ctl_names.pop(k, None)
+
 def dlg_proc(id_dialog, id_action, prop='', index=-1, index2=-1, name=''):
     #print('#dlg_proc id_action='+str(id_action)+' prop='+repr(prop))
 
@@ -1467,7 +1579,38 @@ def dlg_proc(id_dialog, id_action, prop='', index=-1, index2=-1, name=''):
             if k.startswith('on_'):
                 _alter_live(id_dialog, prop, k)
 
+    #control being deleted: find its index to clean toolbar bookkeeping
+    dying_ctl = None
+    if id_action == DLG_CTL_DELETE and str(id_dialog) in _dlg_ctl_toolbar:
+        dying_ctl = _dlg_ctl_index(id_dialog, index, name)
+        if dying_ctl is not None and dying_ctl >= 0:
+            #engine no-ops for bad index: don't shift bookkeeping then
+            n = ct.dlg_proc(id_dialog, DLG_CTL_COUNT, '', -1, -1, '')
+            if not (isinstance(n, int) and dying_ctl < n):
+                dying_ctl = None
+
     res = ct.dlg_proc(id_dialog, id_action, to_str(prop), index, index2, name)
+
+    #keep toolbar bookkeeping in sync with engine-side lifetime of controls
+    if id_action == DLG_CTL_ADD:
+        if prop == 'toolbar' and isinstance(res, int):
+            _dlg_ctl_toolbar.setdefault(str(id_dialog), set()).add(res)
+    elif id_action == DLG_CTL_PROP_SET:
+        if (isinstance(prop, dict) and 'name' in prop and index >= 0
+        and index in _dlg_ctl_toolbar.get(str(id_dialog), ())):
+            _dlg_ctl_names[(str(id_dialog), prop['name'])] = index
+    elif id_action == DLG_CTL_HANDLE:
+        s = _dlg_ctl_toolbar.get(str(id_dialog))
+        if res and s:
+            i = _dlg_ctl_index(id_dialog, index, name)
+            if i in s:
+                _dlg_toolbars.setdefault(str(id_dialog), {})[i] = res
+    elif id_action == DLG_CTL_DELETE:
+        if dying_ctl is not None:
+            _dlg_ctl_deleted(id_dialog, dying_ctl)
+    elif id_action in (DLG_CTL_DELETE_ALL, DLG_FREE):
+        _dlg_forget_all_ctls(id_dialog)
+
     if id_action == DLG_SHOW_MODAL:
         _dlg_proc_wait(id_dialog)
     return res
