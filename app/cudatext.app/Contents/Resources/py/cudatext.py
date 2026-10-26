@@ -1484,6 +1484,16 @@ def canvas_proc(id_canvas, id_action, text='', color=-1, size=-1, x=-1, y=-1, x2
 def bitmap_proc(id_bmp, id_action, param1=0, param2=0):
     return ct.bitmap_proc(id_bmp, id_action, param1, param2)
 
+#timer callback bookkeeping: the engine identifies a timer by its callback
+#STRING (module/func/info), so the sid must stay a pure function of the
+#callable, str(callback): re-accessed bound methods (self.on_tick) stringify
+#identically and their TIMER_STOP must find the running timer. Namespaced
+#with 'r' so timer cleanup never touches entries pinned by menu_proc()/
+#toolbar_proc()/button_proc()/dlg_proc(), which use 'm<id>:'/'t<id>:'/
+#'b<handle>:'/'<dlg>:' keys.
+def _timer_sid(callback):
+    return 'r' + str(callback)
+
 def _timer_proc_callback_proxy(tag='', info=''):
     cb = _live.get(info)
     if cb is None:
@@ -1495,19 +1505,41 @@ def _timer_proc_callback_proxy(tag='', info=''):
     return cb(tag)
 
 def timer_proc(id, callback, interval, tag=''):
-    if callable(callback):
-        sid_callback = str(callback)
-        if id in (TIMER_STOP, TIMER_DELETE):
+    if not callable(callback):
+        return ct.timer_proc(id, callback, interval, tag)
+
+    sid_callback = _timer_sid(callback)
+    str_callback = 'module={};func=_timer_proc_callback_proxy;info="{}";'.format(__name__, sid_callback)
+
+    if id in (TIMER_STOP, TIMER_DELETE):
+        _one_shot.discard(sid_callback)
+        res = ct.timer_proc(id, str_callback, interval, tag)
+        if res or sid_callback in _live:
+            #engine disabled/freed the timer; or no timer is left for this
+            #callback string, i.e. it died app-side without a Python call -
+            #it can never fire again (engine drops ticks of unknown timers),
+            #so release the pinned callback in both cases
             _live.pop(sid_callback, None)
-            _one_shot.discard(sid_callback)
-        else:
-            _live[sid_callback] = callback
-            if id == TIMER_START_ONE:
-                _one_shot.add(sid_callback)
-            else:
-                _one_shot.discard(sid_callback)
-        callback = 'module={};func=_timer_proc_callback_proxy;info="{}";'.format(__name__, sid_callback)
-    return ct.timer_proc(id, callback, interval, tag)
+        elif any(k.startswith('r') for k in _live):
+            #some other timer is still running: the passed callable (fresh
+            #lambda/partial?) matches no engine timer, stop did not happen
+            print('WARNING: timer_proc(TIMER_STOP/TIMER_DELETE): no running timer for callback '+
+                  str(callback)+'; pass the same callable object which started the timer')
+        return res
+
+    #TIMER_START / TIMER_START_ONE; engine returns None for other action ids
+    _live[sid_callback] = callback
+    if id == TIMER_START_ONE:
+        _one_shot.add(sid_callback)
+    else:
+        _one_shot.discard(sid_callback)
+    res = ct.timer_proc(id, str_callback, interval, tag)
+    if not res:
+        #engine did not arm a timer (unknown action id, app terminating):
+        #don't keep the callback pinned
+        _live.pop(sid_callback, None)
+        _one_shot.discard(sid_callback)
+    return res
 
 
 def to_str(v, escape=False):
