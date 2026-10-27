@@ -142,7 +142,7 @@ begin
   TimerStatusWork.Enabled:= true;
 end;
 
-procedure TfmMain.UpdateSidebarButtonFind;
+procedure TfmMain.UpdateSidebarButton_Findbar;
 begin
   if ToolbarSideMid.ButtonCount>0 then
     ToolbarSideMid.Buttons[0].Checked:= Assigned(fmFind) and fmFind.Visible;

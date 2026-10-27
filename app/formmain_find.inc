@@ -1769,7 +1769,7 @@ end;
 
 procedure TfmMain.FindDialogOnChangeVisible(Sender: TObject);
 begin
-  UpdateSidebarButtonFind;
+  UpdateSidebarButton_Findbar;
 end;
 
 procedure TfmMain.UpdateFindDialogParent;

@@ -1200,7 +1200,7 @@ type
     procedure UpdateToolbarButton_BySubMenu(AToolbar: TATFlatToolbar; APopupDropdown: TPopupMenu; AEnabled: boolean);
     procedure UpdateToolbarButtons(F: TEditorFrame);
     procedure UpdateToolbarButtons_UndoAndRedo(Sender: TObject);
-    procedure UpdateSidebarButtonFind;
+    procedure UpdateSidebarButton_Findbar;
     procedure UpdateTabCaptionsFromFolders;
     procedure UpdateTabsActiveColor(F: TEditorFrame);
     procedure UpdateTree(AFill: boolean; AConsiderTreeVisible: boolean=true);
