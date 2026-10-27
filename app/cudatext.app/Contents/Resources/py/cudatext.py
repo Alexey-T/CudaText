@@ -1256,12 +1256,71 @@ def _menu_proc_callback_proxy(info=''):
     if info in _live:
         return _live[info]()
 
+#menu callback bookkeeping: menu_proc() pins callables in _live, the engine
+#stores only the resulting string and frees it with the menu item, without
+#notifying Python. Remember here which menu holds which pinned callback, so
+#the pin can be released when the engine frees the item.
+_menu_items = {}   # id_menu -> { id_item -> sid or None }, all Python-added items
+
+def _pin_release(sid):
+    """Release the _live pin of sid, unless a pinned place still uses it.
+
+    One callback can be pinned by several APIs at once (a menu item and a
+    timer, a dialog prop and a toolbar button...), and all pins use the same
+    key str(callback), so a pin may only be dropped when the bookkeeping of
+    no API still references its sid.
+    """
+    if not sid:
+        return
+    if any(sid in items.values() for items in _menu_items.values()):
+        return
+    _live.pop(sid, None)
+
+def _menu_forget(id_menu):
+    """Engine freed all items of id_menu, with their nested submenus."""
+    stack = [str(id_menu)]
+    while stack:
+        children = _menu_items.pop(stack.pop(), None)
+        if not children:
+            continue
+        for id_item, sid in children.items():
+            _pin_release(sid)
+            stack.append(id_item) #the item may parent a Python-made submenu
+
+def _menu_forget_item(id_item):
+    """Engine freed one item, with its nested submenu."""
+    id_item = str(id_item)
+    for key in list(_menu_items):
+        children = _menu_items[key]
+        if id_item in children:
+            _pin_release(children.pop(id_item))
+            if not children:
+                _menu_items.pop(key, None)
+            break
+    _menu_forget(id_item)
+
 def menu_proc(id_menu, id_action, command="", caption="", index=-1, hotkey="", tag=""):
+    sid_callback = None
     if callable(command):
         sid_callback = str(command)
         _live[sid_callback] = command
         command = 'module={};func=_menu_proc_callback_proxy;info="{}";'.format(__name__, sid_callback)
-    return ct.menu_proc(str(id_menu), id_action, to_str(command), caption, index, hotkey, tag)
+
+    res = ct.menu_proc(str(id_menu), id_action, to_str(command), caption, index, hotkey, tag)
+
+    #keep _live in sync with the engine-side lifetime of menu items
+    if id_action == MENU_ADD:
+        if res:
+            #engine returns the handle of the added item ('' if not created)
+            _menu_items.setdefault(str(id_menu), {})[str(res)] = sid_callback
+        else:
+            _pin_release(sid_callback) #item not created: don't keep the pin
+    elif id_action == MENU_CLEAR:
+        _menu_forget(id_menu)
+    elif id_action == MENU_REMOVE:
+        _menu_forget_item(id_menu)
+
+    return res
 
 def button_proc(id_button, id_action, value=''):
     if callable(value):
