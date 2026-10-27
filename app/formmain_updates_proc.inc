@@ -110,6 +110,31 @@ begin
   end;
 end;
 
+procedure TfmMain.UpdateToolbarButton_BySubMenu(AToolbar: TATFlatToolbar;
+  APopupDropdown: TPopupMenu; AEnabled: boolean);
+var
+  Btn: TATButton;
+  i: integer;
+begin
+  //during drag&drop, avoid changing button's Enabled property,
+  //it can crash in DragManager
+  if DragManager.IsDragging then exit;
+
+  for i:= 0 to AToolbar.ButtonCount-1 do
+  begin
+    Btn:= AToolbar.Buttons[i];
+    if Btn.PopupDropdown=APopupDropdown then
+    begin
+      if (Btn.Enabled<>AEnabled) then
+      begin
+        Btn.Enabled:= AEnabled;
+        Btn.Invalidate;
+      end;
+      exit
+    end;
+  end;
+end;
+
 
 procedure TfmMain.UpdateStatusbar;
 begin
@@ -182,6 +207,9 @@ begin
   UpdateToolbarButton(ToolbarMain, cCommand_ToggleMicromap, Ed.OptMicromapVisible, bEditor);
   UpdateToolbarButton(ToolbarMain, cCommand_ToggleRuler, Ed.OptRulerVisible, bEditor);
   UpdateToolbarButton(ToolbarMain, cCommand_ToggleUnprinted, bShowNonPrinted, bEditor or bBinViewer);
+
+  UpdateToolbarButton_BySubMenu(ToolbarMain, PopupToolbarCase, bEditor);
+  UpdateToolbarButton_BySubMenu(ToolbarMain, PopupToolbarComment, bEditor);
 
   {
   //not needed yet

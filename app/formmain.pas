@@ -1197,6 +1197,7 @@ type
     procedure UpdateStatusbar_ForFrame(AStatus: TATStatus; F: TEditorFrame);
     procedure UpdateStatusbar_RealWork;
     procedure UpdateToolbarButton(AToolbar: TATFlatToolbar; ACmd: integer; AChecked, AEnabled: boolean);
+    procedure UpdateToolbarButton_BySubMenu(AToolbar: TATFlatToolbar; APopupDropdown: TPopupMenu; AEnabled: boolean);
     procedure UpdateToolbarButtons(F: TEditorFrame);
     procedure UpdateToolbarButtons_UndoAndRedo(Sender: TObject);
     procedure UpdateSidebarButtonFind;
