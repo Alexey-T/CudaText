@@ -5547,6 +5547,7 @@ var
   Str, Str1, Str2, Str3: string;
   StrCaption, StrFilename, StrCmd, StrIndex: string;
   SplitVert, SplitVisible, ok: boolean;
+  Canceled: boolean;
   SplitPos, SplitTotal: integer;
   ClipExData: TATEditorClipboardExData;
   Params: TAppVariantArray;
@@ -5621,6 +5622,16 @@ begin
           begin
             ok:= AppClipboardSavePictureToFile(Str);
             Result:= PyBool_FromLong(Ord(ok));
+          end;
+
+        APP_PROC_DRAG_FILES:
+          begin
+            {$ifdef windows}
+            ok:= AppDragFiles(Str, Canceled);
+            Result:= PyBool_FromLong(Ord(ok));
+            {$else}
+            Result:= PyBool_FromLong(0);
+            {$endif}
           end;
 
         APP_PROC_GET_COMMANDS:

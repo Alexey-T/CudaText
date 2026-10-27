@@ -19,7 +19,11 @@ uses
   proc_customdialog_dummy, proc_editor, proc_editor_saving, proc_files,
   proc_install_zip, proc_keysdialog, proc_lexer_styles, proc_miscutils,
   proc_msg, proc_ole_dragsource, proc_ole_droptarget, proc_panelhost, proc_py,
-  proc_py_const, proc_scrollbars, proc_str;
+  proc_py_const, proc_scrollbars, proc_str
+  {$ifdef windows}
+  , proc_windows_dragfiles
+  {$endif}
+  ;
 
 {$R *.res}
 
