@@ -660,6 +660,7 @@ begin
   end;
 
   AutoScroll:= not FImageFit;
+  FImage.AntialiasingMode:= amOn; //paints smooth image when it's zoomed out
   FImage.AutoSize:= (not FImageFit) and (FImageZoom=100);
   FImage.Stretch:= not FImage.AutoSize;
 
