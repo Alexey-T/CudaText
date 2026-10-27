@@ -168,11 +168,12 @@ begin
   UpdateToolbarButton(ToolbarMain, cCommand_ClipboardCut, false, bEditable);
   UpdateToolbarButton(ToolbarMain, cCommand_ClipboardPaste, false, bEditable);
 
+  //undo/redo:
+  //updated in method UpdateToolbarButtons_UndoAndRedo
+  //which is fired by TATSynEdit.OnEnabledUndoRedoChanged + focus_changed
+
   UpdateToolbarButton(ToolbarMain, cCommand_TextIndent, false, bEditable);
   UpdateToolbarButton(ToolbarMain, cCommand_TextUnindent, false, bEditable);
-
-  //buttons undo/redo are updated in method UpdateToolbarButtons_UndoAndRedo
-  //which is fired by TATSynEdit.OnEnabledUndoRedoChanged + focus_changed
 
   UpdateToolbarButton(ToolbarMain, cCommand_ToggleOverwrite, Ed.ModeOverwrite, bEditor);
   UpdateToolbarButton(ToolbarMain, cCommand_ToggleReadOnly, Ed.ModeReadOnly, bEditor);
