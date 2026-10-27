@@ -111,19 +111,35 @@ end;
 
 procedure TfmMain.UpdateToolbarButtons_UndoAndRedo(Sender: TObject);
 var
+  Frame: TEditorFrame;
   Ed: TATSynEdit;
   St: TATStrings;
+  bEnableUndo, bEnableRedo: boolean;
 begin
   //during drag-drop, avoid changing button's Enabled to false - it will call
   //TControl.CaptureChanged which calls TDragPerformer.DragStop,
   //which causes crash in TDragPerformer.DragMove
   if DragManager.IsDragging then exit;
 
-  Ed:= CurrentEditor;
-  if Ed=nil then exit;
-  St:= Ed.Strings;
-  UpdateToolbarButton(ToolbarMain, cCommand_Undo, false, not St.ReadOnly and not St.UndoEmpty);
-  UpdateToolbarButton(ToolbarMain, cCommand_Redo, false, not St.ReadOnly and not St.RedoEmpty);
+  Frame:= CurrentFrame;
+  if Frame=nil then exit;
+
+  if Frame.FrameKind=TAppFrameKind.Editor then
+  begin
+    Ed:= Frame.EdCurrent;
+    if Ed=nil then exit;
+    St:= Ed.Strings;
+    bEnableUndo:= not St.ReadOnly and not St.UndoEmpty;
+    bEnableRedo:= not St.ReadOnly and not St.RedoEmpty;
+  end
+  else
+  begin
+    bEnableUndo:= false;
+    bEnableRedo:= false;
+  end;
+
+  UpdateToolbarButton(ToolbarMain, cCommand_Undo, false, bEnableUndo);
+  UpdateToolbarButton(ToolbarMain, cCommand_Redo, false, bEnableRedo);
 end;
 
 

@@ -163,9 +163,11 @@ begin
   end;
 
   UpdateToolbarButton(ToolbarMain, cmd_FileSave, false, bEditor);
+
   UpdateToolbarButton(ToolbarMain, cCommand_ClipboardCopy, false, bEditor or bBinViewer);
   UpdateToolbarButton(ToolbarMain, cCommand_ClipboardCut, false, bEditable);
   UpdateToolbarButton(ToolbarMain, cCommand_ClipboardPaste, false, bEditable);
+
   UpdateToolbarButton(ToolbarMain, cCommand_TextIndent, false, bEditable);
   UpdateToolbarButton(ToolbarMain, cCommand_TextUnindent, false, bEditable);
 
