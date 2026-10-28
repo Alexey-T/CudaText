@@ -1423,6 +1423,8 @@ class DialogMK2:
                         prop={'cap': _('Help'),
                             'w': w,
                             'h': h,
+                            'w_min': 400,
+                            'h_min': 300,
                             'border': DBORDER_SIZE,
                             'color': color_form_bg,
                             }
