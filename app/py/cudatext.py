@@ -840,6 +840,7 @@ DLG_COORD_SCREEN_TO_LOCAL = 41
 #storage of live callbacks
 _live = {}
 _one_shot = set()   # sid of TIMER_START_ONE callbacks; removed after they fire
+_timer_pins = set()  # sid of currently armed timers
 
 IMAGE_CREATE      = 0
 IMAGE_GET_SIZE    = 1
@@ -1274,6 +1275,8 @@ def _pin_release(sid):
         return
     if any(sid in items.values() for items in _menu_items.values()):
         return
+    if sid in _timer_pins:
+        return
     _live.pop(sid, None)
 
 def _menu_forget(id_menu):
@@ -1357,23 +1360,35 @@ def _timer_proc_callback_proxy(tag='', info=''):
     # one-shot: drop before calling so a re-arm inside the callback re-registers cleanly
     if info in _one_shot:
         _one_shot.discard(info)
-        _live.pop(info, None)
+        _timer_pins.discard(info)
+        _pin_release(info)
     return cb(tag)
 
 def timer_proc(id, callback, interval, tag=''):
+    started = False
     if callable(callback):
         sid_callback = str(callback)
         if id in (TIMER_STOP, TIMER_DELETE):
-            _live.pop(sid_callback, None)
             _one_shot.discard(sid_callback)
+            _timer_pins.discard(sid_callback)
+            _pin_release(sid_callback)
         else:
             _live[sid_callback] = callback
+            _timer_pins.add(sid_callback)
+            started = True
             if id == TIMER_START_ONE:
                 _one_shot.add(sid_callback)
             else:
                 _one_shot.discard(sid_callback)
         callback = 'module={};func=_timer_proc_callback_proxy;info="{}";'.format(__name__, sid_callback)
-    return ct.timer_proc(id, callback, interval, tag)
+    res = ct.timer_proc(id, callback, interval, tag)
+    if started and not res:
+        #engine did not arm a timer (unknown action id, app terminating):
+        #don't keep the callback pinned
+        _timer_pins.discard(sid_callback)
+        _one_shot.discard(sid_callback)
+        _pin_release(sid_callback)
+    return res
 
 
 def to_str(v, escape=False):
