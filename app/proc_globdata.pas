@@ -4413,7 +4413,7 @@ initialization
 
   GlobalApplyPopupTheme:= @UpdateMenuTheming_PopupMenu_Win32;
 
-  EControlErrorLogFilename:= 'cudatext.error';
+  EControlErrorLogFilename:= 'cudatext_error.log';
 
 
 finalization
