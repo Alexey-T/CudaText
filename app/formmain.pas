@@ -3246,14 +3246,27 @@ procedure InitAdditionalCommandLineOptions(
 procedure TfmMain.DoOps_OnCreate;
 begin
   //must load window position in OnCreate to fix flickering with maximized window, Win10
-  InitAdditionalCommandLineOptions(
-    FOption_WindowPos,
-    FOption_AllowSessionLoad,
-    FOption_AllowSessionSave,
-    FOption_StartupCommand,
-    FCmdlineFileCount);
+  try
+    InitAdditionalCommandLineOptions(
+      FOption_WindowPos,
+      FOption_AllowSessionLoad,
+      FOption_AllowSessionSave,
+      FOption_StartupCommand,
+      FCmdlineFileCount);
+  except
+    on E: Exception do
+      AppLogException(E, 'DoOps_OnCreate: InitAdditionalCommandLineOptions');
+  end;
+
   EditorCachedOpsId:= 'user';
-  DoOps_LoadOptions(AppFile_OptionsUser, EditorOps, true); //before LoadHistory
+
+  try
+    DoOps_LoadOptions(AppFile_OptionsUser, EditorOps, true); //before LoadHistory
+  except
+    on E: Exception do
+      AppLogException(E, 'DoOps_OnCreate: DoOps_LoadOptions');
+  end;
+
   DoFileOpen('', '', nil, '/noevent /noopenedevent /nononeevent'); //before LoadHistory
 
   try
