@@ -3653,7 +3653,7 @@ end;
 
 procedure TfmMain.AppPropsException(Sender: TObject; E: Exception);
 begin
-  AppLogException(E);
+  AppLogException(E, 'AppPropsException()');
 end;
 
 procedure TfmMain.AppPropsMinimize(Sender: TObject);
