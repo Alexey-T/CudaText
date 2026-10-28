@@ -1197,8 +1197,8 @@ Additional types, supported only by "dlg_proc":
 * "border": int: Border-style of form, one of DBORDER_nnn constants.
 ** DBORDER_NONE: No visible border, not resizable.
 ** DBORDER_SIZE: Standard resizable border (on Windows: with Minimize/Maximize buttons).
-** DBORDER_SINGLE: Single-line border, not resizable (on Windows: form has icon and Minimize button).
-** DBORDER_DIALOG: Standard dialog box border, not resizable (on Windows: form has no icon nor Minimize button).
+** DBORDER_SINGLE: Single-line border, not resizable (on Windows: form has Minimize button).
+** DBORDER_DIALOG: Standard dialog box border, not resizable (on Windows: form has no Minimize button).
 ** DBORDER_TOOL: Like DBORDER_SINGLE but with a smaller caption.
 ** DBORDER_TOOLSIZE: Like DBORDER_SIZE but with a smaller caption.
 
