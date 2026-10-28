@@ -10,10 +10,10 @@
 + add: toolbar buttons "undo"/"case convertion"/"comments" are now disabled for picture viewer / binary viewer
 + add: picture viewer uses smoothing (anti-aliasing) if zoomed-out
 * change: Windows: on exception, app writes 'cudatext.error' near 'cudatext.exe' (before: to the TEMP folder on Windows)
-- fix: in prev versions, if exception (eg file-opening error of 'history.json') occurs on startup, it gave corrupted look of GUI; now corrupted look should not happen, and in the case of startup errors, app writes 'cudatext.error' log
 - fix: vertical scrollbar can't reach the end when 'gaps' make the text taller than the editor (patch by @slicke)
 - fix: lexer Markdown: bug with backticks in bold-blocks
 - fix: lexer HTML: regression with quoted strings in !DOCTYPE tag
+- fix: in prev versions, if exception (eg file-opening error of 'history.json') occurs on startup, it gave corrupted look of GUI; now corrupted look should not happen; and in the case of startup errors app writes more details to the 'cudatext.error'
 
 1.237.5 (2026/10)
 
