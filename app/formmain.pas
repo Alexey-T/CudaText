@@ -4367,11 +4367,34 @@ begin
 
   FHandledOnShowPartly:= true;
 
-  _Init_ApiOnStart;
-  _Init_KeymapMain;
-  _Init_KeymapNoneForEmpty;
-  _Init_StartupSession;
-  _Init_WindowMaximized; //after StartupSession to fix #4219
+  try
+    _Init_ApiOnStart;
+  except
+    on E: Exception do
+      AppLogException(E, 'FormShow: _Init_ApiOnStart');
+  end;
+
+  try
+    _Init_KeymapMain;
+    _Init_KeymapNoneForEmpty;
+  except
+    on E: Exception do
+      AppLogException(E, 'FormShow: _Init_KeymapMain, _Init_KeymapNoneForEmpty');
+  end;
+
+  try
+    _Init_StartupSession;
+  except
+    on E: Exception do
+      AppLogException(E, 'FormShow: _Init_StartupSession');
+  end;
+
+  try
+    _Init_WindowMaximized; //after StartupSession to fix #4219
+  except
+    on E: Exception do
+      AppLogException(E, 'FormShow: _Init_WindowMaximized');
+  end;
 
   //after on_start, because ConfigToolbar is slow with visible toolbar
   _Init_DarkModeVars;
