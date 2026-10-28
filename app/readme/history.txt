@@ -14,7 +14,7 @@
 - fix: vertical scrollbar can't reach the end when 'gaps' make the text taller than the editor (patch by @slicke)
 - fix: lexer Markdown: bug with backticks in bold-blocks
 - fix: lexer HTML: regression with quoted strings in !DOCTYPE tag
-- fix: in prev versions, if exception (eg file-opening error of 'history.json') occurs on startup, it gave corrupted look of GUI; now corrupted look should not happen; and in the case of startup errors app writes more details to the 'cudatext.error'
+- fix: in prev versions, if exception (eg file-opening error of 'history.json') occurs on startup, it gave corrupted look of GUI; now corrupted look should not happen; and in the case of startup errors app writes more details to the 'cudatext_error.log'
 
 1.237.5 (2026/10)
 
