@@ -4450,7 +4450,10 @@ begin
     _Init_StartupSession;
   except
     on E: Exception do
+    begin
       AppLogException(E, 'FormShow: _Init_StartupSession');
+      MsgLogConsole('ERROR: Cannot load startup session, check contents of cudatext_error.log');
+    end;
   end;
 
   try
