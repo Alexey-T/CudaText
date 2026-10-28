@@ -3264,7 +3264,10 @@ begin
     DoOps_LoadOptions(AppFile_OptionsUser, EditorOps, true); //before LoadHistory
   except
     on E: Exception do
+    begin
       AppLogException(E, 'DoOps_OnCreate: DoOps_LoadOptions');
+      MsgLogConsole('ERROR: Cannot read options file, check contents of cudatext_error.log');
+    end;
   end;
 
   try
@@ -3278,21 +3281,30 @@ begin
     DoOps_LoadToolbarIcons;
   except
     on E: Exception do
+    begin
       AppLogException(E, 'DoOps_OnCreate: DoOps_LoadToolbarIcons');
+      MsgLogConsole('ERROR: Cannot load toolbar icons, check contents of cudatext_error.log');
+    end;
   end;
 
   try
     DoOps_LoadSidebarIcons; //before LoadPlugins (for sidebar icons)
   except
     on E: Exception do
+    begin
       AppLogException(E, 'DoOps_OnCreate: DoOps_LoadSidebarIcons');
+      MsgLogConsole('ERROR: Cannot load sidebar icons, check contents of cudatext_error.log');
+    end;
   end;
 
   try
     InitPyEngine; //before LoadPlugins
   except
     on E: Exception do
+    begin
       AppLogException(E, 'DoOps_OnCreate: InitPyEngine');
+      MsgLogConsole('ERROR: Cannot init Python, check contents of cudatext_error.log');
+    end;
   end;
 
   if not AppManagerThread.Finished then
@@ -3302,14 +3314,20 @@ begin
     DoOps_LoadPlugins(false); //before LoadHistory (for on_open for restored session)
   except
     on E: Exception do
+    begin
       AppLogException(E, 'DoOps_OnCreate: DoOps_LoadPlugins');
+      MsgLogConsole('ERROR: Cannot load all plugins, check contents of cudatext_error.log');
+    end;
   end;
 
   try
     DoOps_LoadHistory;
   except
     on E: Exception do
+    begin
       AppLogException(E, 'DoOps_OnCreate: DoOps_LoadHistory');
+      MsgLogConsole('ERROR: Cannot read history file, check contents of cudatext_error.log');
+    end;
   end;
 end;
 
