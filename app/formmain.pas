@@ -3266,7 +3266,7 @@ begin
     on E: Exception do
     begin
       AppLogException(E, 'DoOps_OnCreate: DoOps_LoadOptions');
-      MsgLogConsole('ERROR: Cannot read options file, check contents of cudatext_error.log');
+      MsgLogConsole('ERROR: Cannot read options file, check contents of '+EControlErrorLogFilename);
     end;
   end;
 
@@ -3283,7 +3283,7 @@ begin
     on E: Exception do
     begin
       AppLogException(E, 'DoOps_OnCreate: DoOps_LoadToolbarIcons');
-      MsgLogConsole('ERROR: Cannot load toolbar icons, check contents of cudatext_error.log');
+      MsgLogConsole('ERROR: Cannot load toolbar icons, check contents of '+EControlErrorLogFilename);
     end;
   end;
 
@@ -3293,7 +3293,7 @@ begin
     on E: Exception do
     begin
       AppLogException(E, 'DoOps_OnCreate: DoOps_LoadSidebarIcons');
-      MsgLogConsole('ERROR: Cannot load sidebar icons, check contents of cudatext_error.log');
+      MsgLogConsole('ERROR: Cannot load sidebar icons, check contents of '+EControlErrorLogFilename);
     end;
   end;
 
@@ -3303,7 +3303,7 @@ begin
     on E: Exception do
     begin
       AppLogException(E, 'DoOps_OnCreate: InitPyEngine');
-      MsgLogConsole('ERROR: Cannot init Python, check contents of cudatext_error.log');
+      MsgLogConsole('ERROR: Cannot init Python, check contents of '+EControlErrorLogFilename);
     end;
   end;
 
@@ -3316,7 +3316,7 @@ begin
     on E: Exception do
     begin
       AppLogException(E, 'DoOps_OnCreate: DoOps_LoadPlugins');
-      MsgLogConsole('ERROR: Cannot load all plugins, check contents of cudatext_error.log');
+      MsgLogConsole('ERROR: Cannot load all plugins, check contents of '+EControlErrorLogFilename);
     end;
   end;
 
@@ -3326,7 +3326,7 @@ begin
     on E: Exception do
     begin
       AppLogException(E, 'DoOps_OnCreate: DoOps_LoadHistory');
-      MsgLogConsole('ERROR: Cannot read history file, check contents of cudatext_error.log');
+      MsgLogConsole('ERROR: Cannot read history file, check contents of '+EControlErrorLogFilename);
     end;
   end;
 end;
@@ -4452,7 +4452,7 @@ begin
     on E: Exception do
     begin
       AppLogException(E, 'FormShow: _Init_StartupSession');
-      MsgLogConsole('ERROR: Cannot load startup session, check contents of cudatext_error.log');
+      MsgLogConsole('ERROR: Cannot load startup session, check contents of '+EControlErrorLogFilename);
     end;
   end;
 
