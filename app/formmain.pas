@@ -4423,20 +4423,53 @@ begin
       AppLogException(E, 'FormShow: AppPanels[i].UpdateButtons, UpdateStatusbar, DoApplyInitialWindowPos');
   end;
 
-  if AppPanels[TAppPanelId.Btm].Visible then
-    if AppPanels[TAppPanelId.Btm].LastActivePanel='' then
-      DoShowConsole(false);
-  AppFormUnlock(Self);
-  DoLoadCommandLine; //after AppFormUnlock, to fix #4445
+  try
+    if AppPanels[TAppPanelId.Btm].Visible then
+      if AppPanels[TAppPanelId.Btm].LastActivePanel='' then
+        DoShowConsole(false);
+  except
+    on E: Exception do
+      AppLogException(E, 'FormShow: DoShowConsole');
+  end;
+
+  try
+    AppFormUnlock(Self);
+  except
+    on E: Exception do
+      AppLogException(E, 'FormShow: AppFormUnlock');
+  end;
+
+  try
+    DoLoadCommandLine; //after AppFormUnlock, to fix #4445
+  except
+    on E: Exception do
+      AppLogException(E, 'FormShow: DoLoadCommandLine');
+  end;
 
   //postpone parsing until frames are shown
-  AppAllowFrameParsing:= true;
-  DoShowForVisibleFrames;
+  try
+    AppAllowFrameParsing:= true;
+    DoShowForVisibleFrames;
+  except
+    on E: Exception do
+      AppLogException(E, 'FormShow: DoShowForVisibleFrames');
+  end;
 
   FHandledUntilFirstFocus:= true;
 
-  _Init_FrameFocus;
-  _Init_ShowStartupTimes;
+  try
+    _Init_FrameFocus;
+  except
+    on E: Exception do
+      AppLogException(E, 'FormShow: _Init_FrameFocus');
+  end;
+
+  try
+    _Init_ShowStartupTimes;
+  except
+    on E: Exception do
+      AppLogException(E, 'FormShow: _Init_ShowStartupTimes');
+  end;
 
   AppPython.DisableTiming;
   ShowWelcomeInfo;
