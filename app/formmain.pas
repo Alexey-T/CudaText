@@ -4283,6 +4283,7 @@ procedure TfmMain.FormShow(Sender: TObject);
   //
 var
   Frame: TEditorFrame;
+  N: integer;
 begin
   _QtCheckLibValidity;
 
@@ -4397,14 +4398,30 @@ begin
   end;
 
   //after on_start, because ConfigToolbar is slow with visible toolbar
-  _Init_DarkModeVars;
-  DoApplyUiOps;
-  DoApplyInitialSidebarPanel;
+  try
+    _Init_DarkModeVars;
+  except
+    on E: Exception do
+      AppLogException(E, 'FormShow: _Init_DarkModeVars');
+  end;
 
-  AppPanels[TAppPanelId.Side].UpdateButtons;
-  AppPanels[TAppPanelId.Btm].UpdateButtons;
-  UpdateStatusbar;
-  DoApplyInitialWindowPos;
+  try
+    DoApplyUiOps;
+    DoApplyInitialSidebarPanel;
+  except
+    on E: Exception do
+      AppLogException(E, 'FormShow: DoApplyUiOps, DoApplyInitialSidebarPanel');
+  end;
+
+  try
+    AppPanels[TAppPanelId.Side].UpdateButtons;
+    AppPanels[TAppPanelId.Btm].UpdateButtons;
+    UpdateStatusbar;
+    DoApplyInitialWindowPos;
+  except
+    on E: Exception do
+      AppLogException(E, 'FormShow: AppPanels[i].UpdateButtons, UpdateStatusbar, DoApplyInitialWindowPos');
+  end;
 
   if AppPanels[TAppPanelId.Btm].Visible then
     if AppPanels[TAppPanelId.Btm].LastActivePanel='' then
