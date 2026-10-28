@@ -3256,16 +3256,43 @@ begin
   DoOps_LoadOptions(AppFile_OptionsUser, EditorOps, true); //before LoadHistory
   DoFileOpen('', '', nil, '/noevent /noopenedevent /nononeevent'); //before LoadHistory
 
-  DoOps_LoadToolbarIcons;
-  DoOps_LoadSidebarIcons; //before LoadPlugins (for sidebar icons)
+  try
+    DoOps_LoadToolbarIcons;
+  except
+    on E: Exception do
+      AppLogException(E, 'DoOps_OnCreate: DoOps_LoadToolbarIcons');
+  end;
 
-  InitPyEngine; //before LoadPlugins
+  try
+    DoOps_LoadSidebarIcons; //before LoadPlugins (for sidebar icons)
+  except
+    on E: Exception do
+      AppLogException(E, 'DoOps_OnCreate: DoOps_LoadSidebarIcons');
+  end;
+
+  try
+    InitPyEngine; //before LoadPlugins
+  except
+    on E: Exception do
+      AppLogException(E, 'DoOps_OnCreate: InitPyEngine');
+  end;
 
   if not AppManagerThread.Finished then
     AppManagerThread.WaitFor; //before LoadPlugins (for LexerDetecter)
 
-  DoOps_LoadPlugins(false); //before LoadHistory (for on_open for restored session)
-  DoOps_LoadHistory;
+  try
+    DoOps_LoadPlugins(false); //before LoadHistory (for on_open for restored session)
+  except
+    on E: Exception do
+      AppLogException(E, 'DoOps_OnCreate: DoOps_LoadPlugins');
+  end;
+
+  try
+    DoOps_LoadHistory;
+  except
+    on E: Exception do
+      AppLogException(E, 'DoOps_OnCreate: DoOps_LoadHistory');
+  end;
 end;
 
 procedure TfmMain.DoCloseAllTabs_Old;
