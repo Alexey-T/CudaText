@@ -4287,16 +4287,38 @@ begin
   _QtCheckLibValidity;
 
   {$ifdef MSWINDOWS}
-  //OLE drag&drop of text/URLs from external apps, issue #4894
-  InitOleDropSupport;
-  //OLE drag&drop of selected text to other apps, issue #4894:
-  //takes over only when mouse cursor leaves CudaText windows
-  InitOleDragOutSupport(Self);
+  try
+    //OLE drag&drop of text/URLs from external apps, issue #4894
+    InitOleDropSupport;
+    //OLE drag&drop of selected text to other apps, issue #4894:
+    //takes over only when mouse cursor leaves CudaText windows
+    InitOleDragOutSupport(Self);
+  except
+    on E: Exception do
+      AppLogException(E, 'FormShow: InitOleDropSupport, InitOleDragOutSupport');
+  end;
   {$endif}
 
-  _Init_FixSplitters;
-  _Init_DisableSomeMenuItems;
-  _Init_SidebarEvents;
+  try
+    _Init_FixSplitters;
+  except
+    on E: Exception do
+      AppLogException(E, 'FormShow._Init_FixSplitters');
+  end;
+
+  try
+    _Init_DisableSomeMenuItems;
+  except
+    on E: Exception do
+      AppLogException(E, 'FormShow._Init_DisableSomeMenuItems');
+  end;
+
+  try
+    _Init_SidebarEvents;
+  except
+    on E: Exception do
+      AppLogException(E, 'FormShow._Init_SidebarEvents');
+  end;
 
   if FHandledOnShowPartly then exit;
 
