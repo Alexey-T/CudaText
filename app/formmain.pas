@@ -4303,30 +4303,46 @@ begin
     _Init_FixSplitters;
   except
     on E: Exception do
-      AppLogException(E, 'FormShow._Init_FixSplitters');
+      AppLogException(E, 'FormShow: _Init_FixSplitters');
   end;
 
   try
     _Init_DisableSomeMenuItems;
   except
     on E: Exception do
-      AppLogException(E, 'FormShow._Init_DisableSomeMenuItems');
+      AppLogException(E, 'FormShow: _Init_DisableSomeMenuItems');
   end;
 
   try
     _Init_SidebarEvents;
   except
     on E: Exception do
-      AppLogException(E, 'FormShow._Init_SidebarEvents');
+      AppLogException(E, 'FormShow: _Init_SidebarEvents');
   end;
 
   if FHandledOnShowPartly then exit;
 
-  DoApplyInitialGroupSizes; //before AppFormLock to solve bad group-splitters pos, issue #3067
-  AppFormLock(Self);
+  try
+    DoApplyInitialGroupSizes; //before AppFormLock to solve bad group-splitters pos, issue #3067
+  except
+    on E: Exception do
+      AppLogException(E, 'FormShow: DoApplyInitialGroupSizes');
+  end;
 
-  DoApplyFont_Text;
-  DoApplyFont_Ui;
+  try
+    AppFormLock(Self);
+  except
+    on E: Exception do
+      AppLogException(E, 'FormShow: AppFormLock');
+  end;
+
+  try
+    DoApplyFont_Text;
+    DoApplyFont_Ui;
+  except
+    on E: Exception do
+      AppLogException(E, 'FormShow: DoApplyFont_Text, DoApplyFont_Ui');
+  end;
 
   fmConsole.EdInput.OptMouseMiddleClickAction:= TATEditorMiddleClickAction(EditorOps.OpMouseMiddleClickAction);
   if Assigned(CodeTreeFilterInput) then
