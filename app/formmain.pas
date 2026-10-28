@@ -4471,21 +4471,36 @@ begin
       AppLogException(E, 'FormShow: _Init_ShowStartupTimes');
   end;
 
-  AppPython.DisableTiming;
-  ShowWelcomeInfo;
+  try
+    AppPython.DisableTiming;
+    ShowWelcomeInfo;
+  except
+    on E: Exception do
+      AppLogException(E, 'FormShow: AppPython.DisableTiming, ShowWelcomeInfo');
+  end;
 
-  if UiOps.NewdocLexer<>'' then
-    if FrameCount=1 then
+  try
+    if UiOps.NewdocLexer<>'' then
+      if FrameCount=1 then
+      begin
+        Frame:= Frames[0];
+        if Frame.IsEmpty and (Frame.LexerName[Frame.EdFirst]='') then
+          DoApplyNewdocLexer(Frame);
+      end;
+  except
+    on E: Exception do
+      AppLogException(E, 'FormShow: DoApplyNewdocLexer');
+  end;
+
+  try
+    if UiOps.NotificationEnabled then
     begin
-      Frame:= Frames[0];
-      if Frame.IsEmpty and (Frame.LexerName[Frame.EdFirst]='') then
-        DoApplyNewdocLexer(Frame);
+      AppNotifThread:= TAppNotifThread.Create(false);
+      AppNotifThread.Priority:= tpLower;
     end;
-
-  if UiOps.NotificationEnabled then
-  begin
-    AppNotifThread:= TAppNotifThread.Create(false);
-    AppNotifThread.Priority:= tpLower;
+  except
+    on E: Exception do
+      AppLogException(E, 'FormShow: AppNotifThread setup');
   end;
 
   FHandledOnShowFully:= true;
