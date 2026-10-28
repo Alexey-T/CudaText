@@ -1279,6 +1279,8 @@ def _pin_release(sid):
         return
     if any(sid in btns.values() for btns in _toolbar_btns.values()):
         return
+    if sid in _button_data.values():
+        return
     _live.pop(sid, None)
 
 def _menu_forget(id_menu):
@@ -1327,12 +1329,36 @@ def menu_proc(id_menu, id_action, command="", caption="", index=-1, hotkey="", t
 
     return res
 
+#button callback bookkeeping: only BTN_SET_DATA1 installs a string the
+#engine actually runs (on click; other actions store it as inert data), so
+#only that action pins the callable - and no api call releases such a pin
+#when the button is deleted or its value replaced. Remember it here per
+#button handle; release on replace, and when the button dies with its
+#toolbar (TOOLBAR_DELETE_BUTTON / TOOLBAR_DELETE_ALL, via the toolbar
+#bookkeeping).
+_button_data = {}    # btn handle -> sid (only BTN_SET_DATA1 with a callable)
+
 def button_proc(id_button, id_action, value=''):
+    sid_callback = None
     if callable(value):
         sid_callback = str(value)
-        _live[sid_callback] = value
+        if id_action == BTN_SET_DATA1:
+            _live[sid_callback] = value
         value = 'module={};func=_menu_proc_callback_proxy;info="{}";'.format(__name__, sid_callback)
-    return ct.button_proc(id_button, id_action, to_str(value))
+
+    res = ct.button_proc(id_button, id_action, to_str(value))
+
+    #keep _live in sync with the engine-side DataString of the button;
+    #setting it to another value (e.g. int command) replaces the callback
+    if id_action == BTN_SET_DATA1:
+        key = str(id_button)
+        old_sid = _button_data.pop(key, None)
+        if sid_callback:
+            _button_data[key] = sid_callback
+        if old_sid is not None and old_sid != sid_callback:
+            _pin_release(old_sid)
+
+    return res
 
 def listbox_proc(id_listbox, id_action, index=0, text="", tag=0):
     return ct.listbox_proc(id_listbox, id_action, index, to_str(text), to_str(tag))
@@ -1374,9 +1400,11 @@ def toolbar_proc(id_bar, id_action, text="", text2="", command=0, index=-1, inde
                 _pin_release(btns.pop(str(dying)))
                 if not btns:
                     _toolbar_btns.pop(str(id_bar), None)
+            _pin_release(_button_data.pop(str(dying), None))
     elif id_action == TOOLBAR_DELETE_ALL:
-        for sid in _toolbar_btns.pop(str(id_bar), {}).values():
+        for btn_handle, sid in _toolbar_btns.pop(str(id_bar), {}).items():
             _pin_release(sid)
+            _pin_release(_button_data.pop(btn_handle, None))
 
     return res
 
