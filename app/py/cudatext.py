@@ -1277,6 +1277,8 @@ def _pin_release(sid):
         return
     if sid in _timer_pins:
         return
+    if any(sid in btns.values() for btns in _toolbar_btns.values()):
+        return
     _live.pop(sid, None)
 
 def _menu_forget(id_menu):
@@ -1335,12 +1337,48 @@ def button_proc(id_button, id_action, value=''):
 def listbox_proc(id_listbox, id_action, index=0, text="", tag=0):
     return ct.listbox_proc(id_listbox, id_action, index, to_str(text), to_str(tag))
 
+#toolbar callback bookkeeping: toolbar_proc() pins callables in _live, the
+#engine stores the string on the button and frees it with the button,
+#without notifying Python - no api call releases such a pin. Remember here
+#which toolbar holds which pinned callback, so the pin is released when the
+#button is deleted, and kept while any button still uses it (a callback
+#shared with a menu item or an armed timer must survive their release).
+_toolbar_btns = {}  # id_bar -> { btn handle -> sid or None }, all Python-added buttons
+
 def toolbar_proc(id_bar, id_action, text="", text2="", command=0, index=-1, index2=-1):
+    sid_callback = None
     if callable(command):
         sid_callback = str(command)
         _live[sid_callback] = command
         command = 'module={};func=_menu_proc_callback_proxy;info="{}";'.format(__name__, sid_callback)
-    return ct.toolbar_proc(id_bar, id_action, text, text2, str(command), index, index2)
+
+    #button deleted by index: ask the engine for its handle before the
+    #delete (the delete is by index, the bookkeeping is by handle)
+    dying = None
+    if id_action == TOOLBAR_DELETE_BUTTON and str(id_bar) in _toolbar_btns:
+        dying = ct.toolbar_proc(id_bar, TOOLBAR_GET_BUTTON_HANDLE, '', '', '', index, -1)
+
+    res = ct.toolbar_proc(id_bar, id_action, text, text2, str(command), index, index2)
+
+    #keep _live in sync with engine-side lifetime of toolbar buttons
+    if id_action in (TOOLBAR_ADD_ITEM, TOOLBAR_ADD_MENU):
+        if res:
+            #engine returns the handle of the added button (None if not created)
+            _toolbar_btns.setdefault(str(id_bar), {})[str(res)] = sid_callback
+        else:
+            _pin_release(sid_callback) #button not created: don't keep the pin
+    elif id_action == TOOLBAR_DELETE_BUTTON:
+        if dying is not None:
+            btns = _toolbar_btns.get(str(id_bar))
+            if btns is not None and str(dying) in btns:
+                _pin_release(btns.pop(str(dying)))
+                if not btns:
+                    _toolbar_btns.pop(str(id_bar), None)
+    elif id_action == TOOLBAR_DELETE_ALL:
+        for sid in _toolbar_btns.pop(str(id_bar), {}).values():
+            _pin_release(sid)
+
+    return res
 
 def statusbar_proc(id_bar, id_action, index=-1, tag=0, value=""):
     return ct.statusbar_proc(id_bar, id_action, index, tag, to_str(value))
