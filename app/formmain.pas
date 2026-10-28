@@ -4344,16 +4344,26 @@ begin
       AppLogException(E, 'FormShow: DoApplyFont_Text, DoApplyFont_Ui');
   end;
 
-  fmConsole.EdInput.OptMouseMiddleClickAction:= TATEditorMiddleClickAction(EditorOps.OpMouseMiddleClickAction);
-  if Assigned(CodeTreeFilterInput) then
-  begin
-    CodeTreeFilterInput.OptMouseMiddleClickAction:= TATEditorMiddleClickAction(EditorOps.OpMouseMiddleClickAction);
-    EditorCaretShapeFromString(CodeTreeFilterInput.CaretShapeNormal, EditorOps.OpCaretViewNormal);
-    EditorCaretShapeFromString(CodeTreeFilterInput.CaretShapeOverwrite, EditorOps.OpCaretViewOverwrite);
+  try
+    fmConsole.EdInput.OptMouseMiddleClickAction:= TATEditorMiddleClickAction(EditorOps.OpMouseMiddleClickAction);
+    if Assigned(CodeTreeFilterInput) then
+    begin
+      CodeTreeFilterInput.OptMouseMiddleClickAction:= TATEditorMiddleClickAction(EditorOps.OpMouseMiddleClickAction);
+      EditorCaretShapeFromString(CodeTreeFilterInput.CaretShapeNormal, EditorOps.OpCaretViewNormal);
+      EditorCaretShapeFromString(CodeTreeFilterInput.CaretShapeOverwrite, EditorOps.OpCaretViewOverwrite);
+    end;
+  except
+    on E: Exception do
+      AppLogException(E, 'FormShow: fmConsole.EdInput setup, CodeTreeFilterInput setup');
   end;
 
-  if FConsoleMustShow then
-    DoShowConsole(false);
+  try
+    if FConsoleMustShow then
+      DoShowConsole(false);
+  except
+    on E: Exception do
+      AppLogException(E, 'FormShow: DoShowConsole');
+  end;
 
   FHandledOnShowPartly:= true;
 
