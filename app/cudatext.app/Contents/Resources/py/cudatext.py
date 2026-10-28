@@ -1472,6 +1472,23 @@ def dlg_proc(id_dialog, id_action, prop='', index=-1, index2=-1, name=''):
                 _alter_live(id_dialog, prop, k)
 
     res = ct.dlg_proc(id_dialog, id_action, to_str(prop), index, index2, name)
+
+    #callbacks passed in the create dict were pinned under the placeholder
+    #id_dialog=0 ('0:<callback>'); the DLG_FREE cleanup above scans for the
+    #real handle prefix and could never match them, so no api call could
+    #release such a pin. Re-key it to the real handle, and the existing
+    #DLG_FREE cleanup releases it like every other dlg pin.
+    if id_action == DLG_CREATE:
+        keys = [k for k in _live if k.startswith('0:')]
+        if res:
+            pre = str(res)+':'
+            for k in keys:
+                _live[pre+k[2:]] = _live.pop(k)
+        else:
+            #form was not created: the strings can never fire
+            for k in keys:
+                _live.pop(k)
+
     if id_action == DLG_SHOW_MODAL:
         _dlg_proc_wait(id_dialog)
     return res
