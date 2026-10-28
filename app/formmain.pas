@@ -4507,22 +4507,38 @@ begin
   FNeedUpdateMenuPlugins:= true;
   UpdateMenuChecks;
 
-  _Init_CheckExePath;
+  try
+    _Init_CheckExePath;
 
-  //fix wrong caret/staples pos, #4559
-  _Init_ForceRepaintEditor;
+    //fix wrong caret/staples pos, #4559
+    _Init_ForceRepaintEditor;
 
-  _Init_ShortcutsForCustomizedMainMenu;
+    _Init_ShortcutsForCustomizedMainMenu;
+  except
+    on E: Exception do
+      AppLogException(E, 'FormShow: _Init_CheckExePath, _Init_ForceRepaintEditor, _Init_ShortcutsForCustomizedMainMenu');
+  end;
 
-  if not FHandledOnStart2 then
-  begin
-    FHandledOnStart2:= true;
-    DoPyEvent(nil, TAppPyEvent.OnStart2, []);
+  try
+    if not FHandledOnStart2 then
+    begin
+      FHandledOnStart2:= true;
+      DoPyEvent(nil, TAppPyEvent.OnStart2, []);
+    end;
+  except
+    on E: Exception do
+      AppLogException(E, 'FormShow: OnStart2');
   end;
 
   AppFormShowCompleted:= true;
-  if Assigned(fmConsole) then
-    fmConsole.FlushConsole;
+
+  try
+    if Assigned(fmConsole) then
+      fmConsole.FlushConsole;
+  except
+    on E: Exception do
+      AppLogException(E, 'FormShow: fmConsole.FlushConsole');
+  end;
 
   if FStartupShowFloating1 or
      FStartupShowFloating2 or
