@@ -3267,7 +3267,12 @@ begin
       AppLogException(E, 'DoOps_OnCreate: DoOps_LoadOptions');
   end;
 
-  DoFileOpen('', '', nil, '/noevent /noopenedevent /nononeevent'); //before LoadHistory
+  try
+    DoFileOpen('', '', nil, '/noevent /noopenedevent /nononeevent'); //before LoadHistory
+  except
+    on E: Exception do
+      AppLogException(E, 'DoOps_OnCreate: DoFileOpen("")');
+  end;
 
   try
     DoOps_LoadToolbarIcons;
