@@ -1526,7 +1526,7 @@ def _alter_live(id_dialog, prop, callback_name):
 #pinned callbacks with it - no api call releases them after that. Remember
 #the handles DLG_CTL_HANDLE hands out, so what they pinned is released when
 #the control (or the whole form) dies.
-_dlg_handles = {}   # id_dialog -> { ctl index -> ctl handle (from DLG_CTL_HANDLE) }
+_dlg_handles = {}   # id_dialog -> set of ctl handles (from DLG_CTL_HANDLE)
 
 def _handle_released(h):
     """Engine freed a control handle we handed out: release what it pinned."""
@@ -1536,19 +1536,6 @@ def _handle_released(h):
         _pin_release(_button_data.pop(btn_handle, None))
     _pin_release(_button_data.pop(h, None))
 
-def _dlg_ctl_handle_deleted(id_dialog, index):
-    """Engine freed the control at index: release its handle, shift the rest."""
-    key = str(id_dialog)
-    hh = _dlg_handles.get(key)
-    if hh is not None:
-        h = hh.pop(index, None)
-        if h is not None:
-            _handle_released(h)
-        if hh:
-            _dlg_handles[key] = { (i-1 if i > index else i): v for i, v in hh.items() }
-        else:
-            _dlg_handles.pop(key, None)
-
 def dlg_proc(id_dialog, id_action, prop='', index=-1, index2=-1, name=''):
     #print('#dlg_proc id_action='+str(id_action)+' prop='+repr(prop))
 
@@ -1557,7 +1544,7 @@ def dlg_proc(id_dialog, id_action, prop='', index=-1, index2=-1, name=''):
         for k in [k for k in _live if k.startswith(str(id_dialog)+':')]:
             _live.pop(k)
         #hosted controls die with the form: release what they pinned
-        for h in _dlg_handles.pop(str(id_dialog), {}).values():
+        for h in _dlg_handles.pop(str(id_dialog), set()):
             _handle_released(h)
 
     #support live callbacks by replacing them to str
@@ -1566,20 +1553,14 @@ def dlg_proc(id_dialog, id_action, prop='', index=-1, index2=-1, name=''):
             if k.startswith('on_'):
                 _alter_live(id_dialog, prop, k)
 
-    #control being deleted: resolve its index to release its handle record
+    #control being deleted: ask the engine for its handle before the delete.
+    #the engine resolves DLG_CTL_DELETE by name-then-index, exactly like this
+    #DLG_CTL_HANDLE call with the same params does, and frees the resolved
+    #control without any further check - so a truthy handle proves the delete
+    #really kills it (a bad index/name resolves to nothing, handle is None)
     dying = None
-    pre_count = None
-    if id_action == DLG_CTL_DELETE:
-        if name:
-            n = ct.dlg_proc(id_dialog, DLG_CTL_FIND, name, -1, -1, '')
-            if isinstance(n, int) and n >= 0:
-                dying = n
-        elif isinstance(index, int) and index >= 0:
-            dying = index
-        if dying is not None:
-            #engine no-ops for a bad index/name and still returns None: the
-            #component count proves whether a control really died
-            pre_count = ct.dlg_proc(id_dialog, DLG_CTL_COUNT, '', -1, -1, '')
+    if id_action == DLG_CTL_DELETE and (name or (isinstance(index, int) and index >= 0)):
+        dying = ct.dlg_proc(id_dialog, DLG_CTL_HANDLE, '', index, -1, name)
 
     res = ct.dlg_proc(id_dialog, id_action, to_str(prop), index, index2, name)
 
@@ -1599,24 +1580,24 @@ def dlg_proc(id_dialog, id_action, prop='', index=-1, index2=-1, name=''):
             for k in keys:
                 _live.pop(k)
     elif id_action == DLG_CTL_DELETE:
-        if dying is not None:
-            post_count = ct.dlg_proc(id_dialog, DLG_CTL_COUNT, '', -1, -1, '')
-            if (isinstance(post_count, int) and isinstance(pre_count, int)
-            and post_count < pre_count):
-                #a control really died (engine gives no other signal)
-                _dlg_ctl_handle_deleted(id_dialog, dying)
+        if dying:
+            #the control died, with everything pinned on its handle
+            _handle_released(dying)
+            hh = _dlg_handles.get(str(id_dialog))
+            if hh is not None:
+                hh.discard(dying)
+                if not hh:
+                    _dlg_handles.pop(str(id_dialog), None)
     elif id_action == DLG_CTL_DELETE_ALL:
         #the form survives, its controls die
-        for h in _dlg_handles.pop(str(id_dialog), {}).values():
+        for h in _dlg_handles.pop(str(id_dialog), set()):
             _handle_released(h)
     elif id_action == DLG_CTL_HANDLE:
         if res:
             #remember the ctl handle, so what is later pinned on it
             #(toolbar buttons of a 'toolbar' control) is released
             #when the control (or the whole form) dies
-            i = ct.dlg_proc(id_dialog, DLG_CTL_FIND, name, -1, -1, '') if name else index
-            if isinstance(i, int) and i >= 0:
-                _dlg_handles.setdefault(str(id_dialog), {})[i] = res
+            _dlg_handles.setdefault(str(id_dialog), set()).add(res)
 
     if id_action == DLG_SHOW_MODAL:
         _dlg_proc_wait(id_dialog)
