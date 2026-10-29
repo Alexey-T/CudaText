@@ -1214,7 +1214,7 @@
           <Version Value="11"/>
           <PathDelim Value="\"/>
           <Target>
-            <Filename Value="bin\linux-amd64-debug\cudatext"/>
+            <Filename Value="bin\linux-amd64-gtk2-debug\cudatext"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>

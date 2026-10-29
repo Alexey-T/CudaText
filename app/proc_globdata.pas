@@ -21,6 +21,9 @@ uses
   Win32Proc,
   //Registry,
   {$endif}
+  {$IFDEF UNIX}
+  lnfodwrf, // for Dwarf* debug info
+  {$ENDIF}
   Classes, SysUtils, Forms, Controls, Menus, ExtCtrls,
   Dialogs, Graphics,
   StrUtils,
