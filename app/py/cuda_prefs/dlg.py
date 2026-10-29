@@ -1411,7 +1411,6 @@ class DialogMK2:
 
     def dlg_help(self, *args, **vargs):
         if self._h_help == None:
-            w, h = 600, 450
             self._h_help = dlg_proc(0, DLG_CREATE)
 
             colors = app_proc(PROC_THEME_UI_DICT_GET, '')
@@ -1421,8 +1420,8 @@ class DialogMK2:
 
             dlg_proc(self._h_help, DLG_PROP_SET,
                         prop={'cap': _('Help'),
-                            'w': w,
-                            'h': h,
+                            'w': 600,
+                            'h': 450,
                             'w_min': 400,
                             'h_min': 300,
                             'border': DBORDER_SIZE,
