@@ -292,6 +292,8 @@ class Command:
     action_cut_activate = False
 
     def __init__(self):
+        self.file_drag_start = None
+        self.tree_index = None
         settings_dir = Path(app_path(APP_DIR_SETTINGS))
         self.options_filename = settings_dir / "cuda_project_man.json"
         if self.options_filename.exists():
@@ -358,6 +360,7 @@ class Command:
         toolbar_proc(self.h_bar, TOOLBAR_UPDATE)
 
         n = dlg_proc(self.h_dlg, DLG_CTL_ADD, prop='treeview')
+        self.tree_index = n
         dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, index=n, prop={
             'name':'tree',
             'a_t':('bar', ']'),
@@ -367,6 +370,9 @@ class Command:
             'on_unfold': 'cuda_project_man.tree_on_unfold',
             'on_click': 'cuda_project_man.tree_on_click',
             'on_click_dbl': 'cuda_project_man.tree_on_click_dbl',
+            'on_mouse_down': self.tree_mouse_down,
+            'on_mouse_move': self.tree_mouse_move,
+            'on_mouse_up': self.tree_mouse_up,
             } )
 
         self.tree = dlg_proc(self.h_dlg, DLG_CTL_HANDLE, index=n)
@@ -419,6 +425,31 @@ class Command:
         else:
             ed.cmd(cudatext_cmd.cmd_ShowSidePanelAsIs)
             app_proc(PROC_SIDEPANEL_ACTIVATE, self.title)
+
+    def tree_mouse_down(self, id_dlg, id_ctl, data='', info=''):
+        if isinstance(data, dict) and data.get('btn', -1) == 0:
+            self.file_drag_start = (int(data.get('x', 0)), int(data.get('y', 0)))
+        else:
+            self.file_drag_start = None
+
+    def tree_mouse_move(self, id_dlg, id_ctl, data='', info=''):
+        if self.file_drag_start is None or not isinstance(data, dict):
+            return
+        x = int(data.get('x', 0))
+        y = int(data.get('y', 0))
+        if max(abs(x-self.file_drag_start[0]), abs(y-self.file_drag_start[1])) <= 5:
+            return
+        node = self.selected
+        self.file_drag_start = None
+        if not node or self.tree_index is None:
+            return
+        path = str(self.get_location_by_index(node))
+        if path and os.path.exists(path):
+            dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, index=self.tree_index,
+                     prop={'drag_files': path})
+
+    def tree_mouse_up(self, id_dlg, id_ctl, data='', info=''):
+        self.file_drag_start = None
 
     @property
     def selected(self):

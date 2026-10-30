@@ -106,6 +106,9 @@ uses
   proc_keysdialog,
   proc_customdialog,
   proc_customdialog_dummy,
+  {$ifdef windows}
+  proc_windows_dragfiles,
+  {$endif}
   proc_scrollbars,
   proc_cssprovider,
   {$ifdef MSWINDOWS}

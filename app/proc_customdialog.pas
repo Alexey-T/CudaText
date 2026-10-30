@@ -1841,6 +1841,12 @@ begin
     exit;
   end;
 
+  if AName='drag_files' then
+  begin
+    Props.FDragFiles:= AValue;
+    exit;
+  end;
+
   if AName='border' then
   begin
     DoControl_SetBorder(C, AppStrToBool(AValue));
@@ -2619,6 +2625,7 @@ begin
     SetDictKey_NotEmpty(Result, 'on_mouse_down', Props.FEventOnMouseDown);
     SetDictKey_NotEmpty(Result, 'on_mouse_up', Props.FEventOnMouseUp);
     SetDictKey_NotEmpty(Result, 'on_mouse_move', Props.FEventOnMouseMove);
+  SetDictKey_NotEmpty(Result, 'drag_files', Props.FDragFiles);
     SetDictKey_NotEmpty(Result, 'on_editor_caret', Props.FEventOnEditorCaret);
     SetDictKey_NotEmpty(Result, 'on_editor_scroll', Props.FEventOnEditorScroll);
     SetDictKey_NotEmpty(Result, 'on_editor_key_down', Props.FEventOnEditorKeyDown);
