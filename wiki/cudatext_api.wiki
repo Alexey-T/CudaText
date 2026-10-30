@@ -349,7 +349,7 @@ Actions work with props of Find/Replace dialog, and props of low-level search en
 * PROC_GET_OS_SUFFIX: Returns string of OS suffix, which is used in some CudaText option names. Possible values are listed in the "default.json" file.
 * PROC_GET_COMPILER_INFO: Returns information about OS/CPU/WidgetSet CudaText was compiled for, as dict. Dict keys are: "os", "cpu", "widgetset", "fpc".
 
-* PROC_DRAG_FILES: Windows only. Mouse-drag file(s) out of the application to external apps (Explorer, etc). Param "text" must be absolute filename or filenames separated by chr(1). Returns bool: the drop was accepted by the target.
+* PROC_DRAG_FILES: Windows only. Mouse-drag file(s) out of the application to external apps (Explorer, etc). Param "text" must be filename or filenames separated by chr(1). This is the alternative way to initiate drag-and-drop to external apps, eg Project Manager plugin don't need this action, it just sets the "drag_files" property of the treeview control. Returns bool: the drop was accepted by the target; on non-Windows returns False.
 
 ====app_proc - Clipboard====
 
@@ -1300,7 +1300,7 @@ How to get nice key description in "on_key_down", e.g. "Ctrl+Alt+Esc" from id_ct
 
 * "p": str: Name of control's parent control, or empty if the form is used as a parent. Coordinates x/y of a control are relative to the current parent, so control is attached to its parent. For example, you can place several controls on a "panel" control (panel can have hidden border), then change this panel's coordinates to visually move all child controls. Special case: to place control on PageControl's page with index N, specify such parent: pages_name+"."+str(N).
 
-* "drag_files": Works on Windows only. Full filename or filenames separated by chr(1), to mouse-drag to external apps (Explorer etc). Usually this property should be set during "on_mouse_move" event.
+* "drag_files": Works on Windows only. Full filename or filenames separated by chr(1), to mouse-drag to external apps (Explorer etc). Usually this property should be set during "on_mouse_move" control's event, so control will automatically initiate drag-and-drop. This is the main way to initiate the drag-and-drop to external apps, the alternative way exists too: <code>app_proc(PROC_DRAG_FILES, filenames)</code>.
 
 Special properties for control "listview":
 
