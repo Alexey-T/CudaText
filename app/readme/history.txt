@@ -3,6 +3,10 @@
   - fixed
   * changed
 
+1.238.1 (2026/11)
+
++ add: Windows: support drag-and-drop from Project Manager to external apps: Explorer, archivers, mail clients etc (patch by @lamugu)
+
 1.238.0 (2026/10)
 
 + add: using AI (Kimi K3, Z.ai), we reduced parse time of EControl lexer parser on big files by 40...60% (by Alexey T, @badrelmers)
