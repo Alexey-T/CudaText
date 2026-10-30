@@ -16,8 +16,8 @@ uses
   ATBinHex;
 
 const
-  cAppExeVersion = '1.238.0.0';
-  cAppApiVersion = '1.0.485';
+  cAppExeVersion = '1.238.1.0';
+  cAppApiVersion = '1.0.486';
 
 const
   cOptionSystemSuffix =

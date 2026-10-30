@@ -349,6 +349,8 @@ Actions work with props of Find/Replace dialog, and props of low-level search en
 * PROC_GET_OS_SUFFIX: Returns string of OS suffix, which is used in some CudaText option names. Possible values are listed in the "default.json" file.
 * PROC_GET_COMPILER_INFO: Returns information about OS/CPU/WidgetSet CudaText was compiled for, as dict. Dict keys are: "os", "cpu", "widgetset", "fpc".
 
+* PROC_DRAG_FILES: Windows only. Mouse-drag file(s) out of the application to external apps (Explorer, etc). Param "text" must be absolute filename or filenames separated by chr(1). Returns bool: the drop was accepted by the target.
+
 ====app_proc - Clipboard====
 
 * PROC_GET_CLIP: Returns clipboard text.
@@ -1297,6 +1299,8 @@ How to get nice key description in "on_key_down", e.g. "Ctrl+Alt+Esc" from id_ct
 ** ALIGN_BOTTOM: glued to the bottom of parent (only prop "h" has meaning).
 
 * "p": str: Name of control's parent control, or empty if the form is used as a parent. Coordinates x/y of a control are relative to the current parent, so control is attached to its parent. For example, you can place several controls on a "panel" control (panel can have hidden border), then change this panel's coordinates to visually move all child controls. Special case: to place control on PageControl's page with index N, specify such parent: pages_name+"."+str(N).
+
+* "drag_files": Works on Windows only. Full filename or filenames separated by chr(1), to mouse-drag to external apps (Explorer etc). Usually this property should be set during "on_mouse_move" event.
 
 Special properties for control "listview":
 
@@ -5543,5 +5547,9 @@ It provides:
 
 1.0.485 (app 1.237.1)
 * add: on_state: APPSTATE_SESSION_LOAD_BEGIN_PRE
+
+1.0.486 (app 1.238.1)
+* add: app_proc: PROC_DRAG_FILES
+* add: dlg_proc: control's property "drag_files"
 
 [[Category:CudaText]]
