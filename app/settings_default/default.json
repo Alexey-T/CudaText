@@ -1658,10 +1658,6 @@
   //Value is internally limited by 2047.
   "ui_max_size_open": 500,
 
-  //Open files at or above this size in the read-only text viewer, in Mb.
-  //Value 0: disable automatic large-file viewer mode.
-  "ui_large_file_viewer": 100,
-
   //Maximal file size, for which allowed to use lexers, in Mb.
   //  It's important for JSON, XML: if file is bigger, than lite lexer (JSON ^, XML ^)
   //  will be used instead of normal lexer.
