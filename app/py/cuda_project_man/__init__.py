@@ -41,6 +41,72 @@ DEF_SES = 'default'+OS_SUFFIX+'.cuda-session'
 global_project_info = {}
 sort_order = 'ext'
 
+# Project file format version written by this plugin. Files without a
+# "version" key are the old format (version 1) and are upgraded on open.
+PROJECT_FORMAT_VERSION = 2
+
+
+def load_project_file(path):
+    """Load and validate a .cuda-proj file.
+    Returns (data, error): exactly one of them is non-None.
+    `data` is the parsed JSON dict; `error` is a string 'kind[:detail]'
+    with kind one of: io, empty, json, type, nodes, sessions."""
+    try:
+        with open(path, encoding='utf8') as fin:
+            text = fin.read()
+    except OSError as ex:
+        return None, 'io: %s' % ex
+
+    if not text.strip():
+        return None, 'empty'
+
+    try:
+        data = json.loads(text)
+    except ValueError as ex:
+        return None, 'json: %s' % ex
+
+    if not isinstance(data, dict):
+        return None, 'type'
+
+    nodes = data.get('nodes')
+    if nodes is not None:
+        if not isinstance(nodes, list) or not all(isinstance(n, str) for n in nodes):
+            return None, 'nodes'
+
+    sessions = data.get('sessions')
+    if sessions is not None and not isinstance(sessions, dict):
+        return None, 'sessions'
+
+    return data, None
+
+
+def normalize_project_data(data):
+    """Ensure a project dict has all standard keys with correct types.
+    Only adds missing keys / fixes types; never removes user keys.
+    - def_session: if it doesn't name an existing session, it is set to the
+      first session name (or '' when the project has no sessions yet —
+      one is created on the first save).
+    Does not touch the 'version' key (managed by the save/open code)."""
+    if not isinstance(data, dict):
+        data = {}
+    if not isinstance(data.get('nodes'), list):
+        data['nodes'] = []
+    else:
+        data['nodes'] = [n for n in data['nodes'] if isinstance(n, str)]
+    if not isinstance(data.get('vars'), list):
+        data['vars'] = []
+    if not isinstance(data.get('mainfile'), str):
+        data['mainfile'] = ''
+    if not isinstance(data.get('unfold'), list):
+        data['unfold'] = []
+    if not isinstance(data.get('sessions'), dict):
+        data['sessions'] = {}
+    names = list(data['sessions'].keys())
+    if data.get('def_session') not in names:
+        data['def_session'] = names[0] if names else ''
+    return data
+
+
 def is_session_name(s):
     allowed = string.ascii_letters+string.digits+'., ()-+_$%='
     for ch in s:
@@ -217,6 +283,7 @@ class Command:
     menuitems = (
         # item_caption, item_parent, item_types, item_action, item_hotkey
         (_("New project..."), "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_new_project", ""),
+        (_("Save current session as new project..."), "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_save_session_as_project", ""),
         (_("Open project..."), "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_open_project", ""),
         (_("Recent projects"), "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "collect_recent_projects", ""),
         ("-", "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "", ""),
@@ -596,7 +663,7 @@ class Command:
                     app_proc(PROC_SAVE_SESSION, cur_fn + '|/sessions/' + cur_sess)
             self.close_all_tabs()
 
-        self.project = dict(nodes=[])
+        self.project = normalize_project_data(dict(nodes=[]))
         self.project_file_path = None
         self.update_global_data()
         self.goto_history = []
@@ -1044,7 +1111,7 @@ class Command:
             items_root = tree_proc(self.tree, TREE_ITEM_ENUM_EX, 0)
             tree_proc(self.tree, TREE_ITEM_SELECT, items_root[0]['id'])
 
-            nodes = map(Path, self.project["nodes"])
+            nodes = map(Path, self.project.get("nodes", []))
             if sort_order != '':
                 nodes = sorted(nodes, key=Command.node_ordering_direntry)
         else:
@@ -1146,23 +1213,39 @@ class Command:
         path = Path(path)
         if path.suffix != PROJECT_EXTENSION:
             path = path.parent / (path.name + PROJECT_EXTENSION)
+
+        if (self.project_file_path
+        and os.path.normpath(str(self.project_file_path)) == os.path.normpath(str(path))):
+            msg_status(_('Project is already opened'))
+            return
+
+        self._create_project_file(path, close_tabs=True)
+        msg_status(_("Created project: ") + os.path.basename(str(path)))
+
+    def _create_project_file(self, path, close_tabs=True):
+        """Create a new project file at `path` and make it the current
+        project. Saves the current project (and its session slot) first.
+        With close_tabs=True all tabs are closed and session 'session1'
+        starts empty (used by New project); with close_tabs=False the
+        current tabs are embedded as session 'session1' (used by
+        'Save current session as new project...')."""
+
         path_str = str(path)
 
+        # Save the current project and its session slot before switching
         if self.project_file_path:
             self.action_save_project_as(self.project_file_path)
-
-        # Save current session to its slot before switching
-        if self.project_file_path:
             cur_fn = str(self.project_file_path)
             cur_sess = self.session_cur_name()
             if cur_fn and cur_sess:
                 app_proc(PROC_SAVE_SESSION, cur_fn + '|/sessions/' + cur_sess)
 
-        # Close all tabs (clear modified, unpin, close)
-        self.close_all_tabs()
+        if close_tabs:
+            # Close all tabs (clear modified, unpin, close)
+            self.close_all_tabs()
 
         # Reset project state
-        self.project = dict(nodes=[])
+        self.project = normalize_project_data(dict(nodes=[]))
         self.project_file_path = path
         self.update_global_data()
         self.goto_history = []
@@ -1171,8 +1254,10 @@ class Command:
         app_proc(PROC_SET_FOLDER, '')
         app_proc(PROC_SET_PROJECT, path_str)
 
-        # Save the empty project file
+        # Save the initial project file (current format version)
         d = copy.deepcopy(self.project)
+        d['version'] = PROJECT_FORMAT_VERSION
+        d['def_session'] = 'session1'
         with path.open("w", encoding='utf8') as fout:
             json.dump(d, fout, indent=2)
 
@@ -1181,13 +1266,19 @@ class Command:
         app_proc(PROC_SAVE_SESSION, sess1)
         app_proc(PROC_SET_SESSION, sess1)
 
-        # Set session1 as default session in the project file
+        # Make sure session1 is the default session in the file, and
+        # refresh the in-memory project from the file on disk
+        try:
+            with open(path_str, 'r', encoding='utf8') as f:
+                data = json.load(f)
+            if data.get('def_session') != 'session1':
+                data['def_session'] = 'session1'
+                with open(path_str, 'w', encoding='utf8') as f:
+                    json.dump(data, f, indent=2)
+            self.project = normalize_project_data(data)
+        except (OSError, ValueError):
+            pass
         self.project['def_session'] = 'session1'
-        with open(path_str, 'r', encoding='utf8') as f:
-            data = json.load(f)
-        data['def_session'] = 'session1'
-        with open(path_str, 'w', encoding='utf8') as f:
-            json.dump(data, f, indent=2)
 
         self.update_global_data()
         self.add_recent(path_str)
@@ -1196,7 +1287,32 @@ class Command:
         self.save_options()
 
         self.action_refresh()
-        msg_status(_("Created project: ") + os.path.basename(path_str))
+
+    def action_save_session_as_project(self, info=None):
+        """Save the current editor state as a NEW project: prompts for the
+        .cuda-proj location, embeds the currently open tabs as session
+        'session1', makes it the default session and switches to the new
+        project. Open tabs are NOT closed — the current state becomes the
+        new project's session. (Migration helper for the old workflow which
+        kept sessions in external .cuda-session files.)"""
+
+        path = info
+        if path is None:
+            path = dlg_file(False, "", "", PROJECT_DIALOG_FILTER)
+        if not path:
+            return
+
+        path = Path(path)
+        if path.suffix != PROJECT_EXTENSION:
+            path = path.parent / (path.name + PROJECT_EXTENSION)
+
+        if (self.project_file_path
+        and os.path.normpath(str(self.project_file_path)) == os.path.normpath(str(path))):
+            msg_status(_('This file is already the current project'))
+            return
+
+        self._create_project_file(path, close_tabs=False)
+        msg_status(_("Created project from current session: ") + os.path.basename(str(path)))
 
     def action_save_project(self):
         """Save project in place. Falls back to Save as... if no path yet."""
@@ -1209,15 +1325,10 @@ class Command:
         """Close the current project: save session, close all tabs, load
         default.cuda-session (restoring, not overwriting, its tabs)."""
 
+        # Saving the project also saves the current session into its slot
+        # inside the project file
         if self.project_file_path:
             self.action_save_project_as(self.project_file_path)
-
-        # Save current session to its slot
-        if self.project_file_path:
-            cur_fn = str(self.project_file_path)
-            cur_sess = self.session_cur_name()
-            if cur_fn and cur_sess:
-                app_proc(PROC_SAVE_SESSION, cur_fn + '|/sessions/' + cur_sess)
 
         # Close all tabs
         self.close_all_tabs()
@@ -1234,7 +1345,7 @@ class Command:
         """Reset project state without touching tabs or sessions. Used when
         an external session switch is detected — the foreign session is now
         active and we must detach from the project without disrupting it."""
-        self.project = dict(nodes=[])
+        self.project = normalize_project_data(dict(nodes=[]))
         self.project_file_path = None
         self.update_global_data()
         self.goto_history = []
@@ -1252,76 +1363,147 @@ class Command:
         path = info
         if path is None:
             path = dlg_file(True, "", "", PROJECT_DIALOG_FILTER)
-        if path:
-            proj_dir = os.path.dirname(path)
+        if not path:
+            return
 
-            if Path(path).exists():
-                # Save the current session to its slot, then close all tabs.
-                # Skipped when load_session=False (on_start when CudaText
-                # already loaded the project session from history.json).
-                if load_session:
-                    if self.project_file_path:
-                        cur_fn = str(self.project_file_path)
-                        cur_sess = self.session_cur_name()
-                        if cur_fn and cur_sess:
-                            app_proc(PROC_SAVE_SESSION, cur_fn + '|/sessions/' + cur_sess)
-                    self.close_all_tabs()
+        if not Path(path).exists():
+            msg_status(_("Project file not found: ") + collapse_filename(str(path)))
+            return
 
-                print(_('Loading project: ') + collapse_filename(path))
-                with open(path, encoding='utf8') as fin:
-                    self.project = json.load(fin)
+        proj_dir = os.path.dirname(path)
 
-                    if 'nodes' in self.project:
-                        for i in range(len(self.project['nodes'])):
-                            node = self.project['nodes'][i]
-                            # normalize os separators
-                            node = os.path.normpath(node)
-                            self.project['nodes'][i] = expand_macros(proj_dir, node)
+        # Load and validate the project file BEFORE closing any tab, so a
+        # broken file leaves the editor state untouched
+        print(_('Loading project: ') + collapse_filename(path))
+        data, err = load_project_file(path)
+        if err:
+            self._report_project_load_error(path, err)
+            return
 
-                        # delete orphan items
-                        bads = [fn for fn in self.project["nodes"] if not os.path.exists(fn)]
-                        '''
-                        for fn in bads:
-                            self.project["nodes"].remove(fn)
-                        '''
+        ver = data.get('version', 1)
+        if not isinstance(ver, int):
+            ver = 1
+        if ver > PROJECT_FORMAT_VERSION:
+            msg_box(
+                _('Cannot open project:\n%s\n\nThe file uses project format version %d, but this Project Manager supports only version %d. Please update CudaText and its plugins.') %
+                    (collapse_filename(str(path)), ver, PROJECT_FORMAT_VERSION),
+                MB_OK + MB_ICONERROR)
+            return
 
-                    #print('Loaded project:', self.project)
-                    self.project_file_path = Path(path)
-                    self.add_recent(path)
-                    self.action_refresh()
-                    self.options['on_start'] = True
-                    self.save_events()
-                    self.save_options()
-
-                self.update_global_data()
-                self.goto_history = []
-
-                for fn in self.project["nodes"]:
-                    if os.path.isdir(fn):
-                        app_proc(PROC_SET_FOLDER, fn)
-                        self.cur_dir = fn
-                        break
-
-                app_proc(PROC_SET_PROJECT, path)
-
-                s = _("Opened project: ") + os.path.basename(path)
-                if bads:
-                    s += ', ' + _('%d deleted item(s)')%len(bads)
-                msg_status(s)
-
-                if load_session:
-                    sess = self.project.get('def_session', '')
-                    if sess not in ('', '-'):
-                        sess_path = str(path) + '|/sessions/' + sess
-                        app_proc(PROC_SET_SESSION, sess_path)
-                        app_proc(PROC_LOAD_SESSION, sess_path)
-                if 'unfold' in self.project:
-                    unfolds = self.project['unfold']
-                    for i in range(len(unfolds)):
-                        unfolds[i] = expand_macros(proj_dir, unfolds[i])
-                    self.enum_all_setfolds(unfolds)
+        if ver < PROJECT_FORMAT_VERSION:
+            # Old format: normalize the structure in memory, then offer the
+            # one-time upgrade of the file on disk
+            data = normalize_project_data(data)
+            msgtext = _(
+                'Old project format detected in:\n%s\n\n'
+                'The file will be upgraded to the current format (version %d).\n'
+                'Only missing standard keys are added, your data is not removed.\n\n'
+                'Note: sessions are now stored inside the project file. If you used\n'
+                'an external session file (.cuda-session) with this project, import it\n'
+                'after opening via the session menu: "Import external session...".\n\n'
+                'See readme.txt in the plugin folder for details.'
+                ) % (collapse_filename(str(path)), PROJECT_FORMAT_VERSION)
+            if msg_box(msgtext, MB_OKCANCEL + MB_ICONWARNING) == ID_OK:
+                try:
+                    data['version'] = PROJECT_FORMAT_VERSION
+                    with open(path, 'w', encoding='utf8') as fout:
+                        json.dump(data, fout, indent=2)
+                except OSError as ex:
+                    msg_status(_('Cannot upgrade project file: %s') % ex)
             else:
-                msg_status(_("Project file not found: ") + collapse_filename(str(path)))
+                msg_status(_('Project not opened'))
+                return
+        else:
+            data = normalize_project_data(data)
+
+        # Save the current session to its slot, then close all tabs.
+        # Skipped when load_session=False (on_start when CudaText
+        # already loaded the project session from history.json).
+        if load_session:
+            if self.project_file_path:
+                cur_fn = str(self.project_file_path)
+                cur_sess = self.session_cur_name()
+                if cur_fn and cur_sess:
+                    app_proc(PROC_SAVE_SESSION, cur_fn + '|/sessions/' + cur_sess)
+            self.close_all_tabs()
+
+        # Adopt the validated project
+        self.project = data
+        for i in range(len(self.project['nodes'])):
+            node = self.project['nodes'][i]
+            # normalize os separators
+            node = os.path.normpath(node)
+            self.project['nodes'][i] = expand_macros(proj_dir, node)
+
+        # detect orphan items (only reported, not removed)
+        bads = [fn for fn in self.project["nodes"] if not os.path.exists(fn)]
+
+        self.project_file_path = Path(path)
+        self.add_recent(path)
+        self.action_refresh()
+        self.options['on_start'] = True
+        self.save_events()
+        self.save_options()
+
+        self.update_global_data()
+        self.goto_history = []
+
+        for fn in self.project["nodes"]:
+            if os.path.isdir(fn):
+                app_proc(PROC_SET_FOLDER, fn)
+                self.cur_dir = fn
+                break
+
+        app_proc(PROC_SET_PROJECT, path)
+
+        s = _("Opened project: ") + os.path.basename(path)
+        if bads:
+            s += ', ' + _('%d deleted item(s)')%len(bads)
+        msg_status(s)
+
+        if load_session:
+            sess = self.project.get('def_session', '')
+            if sess not in ('', '-'):
+                sess_path = str(path) + '|/sessions/' + sess
+                app_proc(PROC_SET_SESSION, sess_path)
+                app_proc(PROC_LOAD_SESSION, sess_path)
+        if 'unfold' in self.project:
+            unfolds = self.project['unfold']
+            for i in range(len(unfolds)):
+                unfolds[i] = expand_macros(proj_dir, unfolds[i])
+            self.enum_all_setfolds(unfolds)
+
+    def _report_project_load_error(self, path, err):
+        """Show a dialog for a project file that failed validation.
+        An empty (0-byte) file is special-cased: it holds no data, so the
+        user is offered to create a new empty project in it."""
+
+        err_kind = err.split(':', 1)[0]
+        err_detail = err.split(':', 1)[1] if ':' in err else ''
+
+        if err_kind == 'empty':
+            if msg_box(
+                _('The project file is empty:\n%s\n\nCreate a new empty project in this file?') %
+                    collapse_filename(str(path)),
+                MB_OKCANCEL + MB_ICONQUESTION) == ID_OK:
+                self._create_project_file(Path(path), close_tabs=True)
+            else:
+                msg_status(_('Project not opened'))
+            return
+
+        reasons = {
+            'io': _('Cannot read the file.'),
+            'json': _('The file does not contain valid JSON.'),
+            'type': _('The file is not a CudaText project (a JSON object is expected).'),
+            'nodes': _('The file is not a valid CudaText project ("nodes" must be a list of paths).'),
+            'sessions': _('The file is not a valid CudaText project ("sessions" must be an object).'),
+        }
+        reason = reasons.get(err_kind, err)
+        if err_detail:
+            reason += '\n' + err_detail
+
+        msg_box(_('Cannot open project file:\n%s\n\n%s') % (collapse_filename(str(path)), reason),
+            MB_OK + MB_ICONERROR)
 
     def action_add_folder(self):
         fn = dlg_dir("")
@@ -1412,18 +1594,26 @@ class Command:
             if 'nodes' in d:
                 for i in range(len(d['nodes'])):
                     d['nodes'][i] = collapse_macros(proj_dir, d['nodes'][i])
+            d.setdefault('nodes', [])
 
             unfolds = []
             self.enum_all_getfolds(unfolds)
             unfolds = list(map(lambda x: collapse_macros(proj_dir, x), unfolds))
             d['unfold'] = unfolds
+            d['version'] = PROJECT_FORMAT_VERSION
 
-            self.session_save_as(False)
-            self.session_def(False)
-
+            # Point the plugin to the new path BEFORE saving the session,
+            # so the session is embedded into the new file, not the old one
             self.project_file_path = path
             with path.open("w", encoding='utf8') as fout:
                 json.dump(d, fout, indent=2)
+
+            # Save the current session into the file and (re)set the default
+            # session. Both round-trip the JSON file on disk, so they run
+            # AFTER the initial write — no final rewrite with stale data
+            # (previously the last write clobbered the just-saved session).
+            self.session_save_as(False)
+            self.session_def(False)
 
             # any saving of project file makes on_start On
             self.options['on_start'] = True
@@ -1469,11 +1659,11 @@ class Command:
 
         menu_proc(self.h_menu_cfg, MENU_ADD, caption='-')
         id = menu_proc(self.h_menu_cfg, MENU_ADD, command='cuda_project_man.session_save_as', caption=_('Save session as...'))
-        if self.is_project_empty():
+        if not self.project_file_path:
             menu_proc(id, MENU_SET_ENABLED, command=False)
 
         id = menu_proc(self.h_menu_cfg, MENU_ADD, command='cuda_project_man.session_save_inplace', caption=_('Save session'))
-        if self.is_project_empty() or not self.session_cur_name():
+        if (not self.project_file_path) or (not self.session_cur_name()):
             menu_proc(id, MENU_SET_ENABLED, command=False)
 
         id = menu_proc(self.h_menu_cfg, MENU_ADD, command='cuda_project_man.session_delete', caption=_('Delete session...'))
@@ -1484,12 +1674,16 @@ class Command:
         if not names:
             menu_proc(id, MENU_SET_ENABLED, command=False)
 
+        id = menu_proc(self.h_menu_cfg, MENU_ADD, command='cuda_project_man.action_import_external_session', caption=_('Import external session...'))
+        if not self.project_file_path:
+            menu_proc(id, MENU_SET_ENABLED, command=False)
+
         menu_proc(self.h_menu_cfg, MENU_SHOW)
 
     def update_global_data(self):
         global global_project_info
         global_project_info['filename'] = str(self.project_file_path) if self.project_file_path else ''
-        global_project_info['nodes'] = self.project['nodes']
+        global_project_info['nodes'] = self.project.get('nodes', [])
         global_project_info['vars'] = self.project.setdefault('vars', [])
         global_project_info['mainfile'] = self.project.setdefault('mainfile', '')
 
@@ -2196,7 +2390,7 @@ class Command:
             msg_status(_('Project main file is not set'))
 
     def is_project_empty(self):
-        return not bool(self.project['nodes'])
+        return not bool(self.project.get('nodes'))
 
     def enum_all_files(self):
         files, dirs = [], []
@@ -2263,7 +2457,7 @@ class Command:
                 app_proc(PROC_SIDEPANEL_ACTIVATE, self.title)
 
                 # Reset project state (no tab closing, no session operations)
-                self.project = dict(nodes=[], vars=[], mainfile='')
+                self.project = normalize_project_data(dict(nodes=[], vars=[], mainfile=''))
                 self.project_file_path = Path(PROJECT_TEMP_FILENAME)
                 self.update_global_data()
                 self.goto_history = []
@@ -2283,6 +2477,7 @@ class Command:
                 proj_dir = os.path.dirname(PROJECT_TEMP_FILENAME)
                 d['nodes'] = [collapse_macros(proj_dir, n) for n in d['nodes']]
                 d['unfold'] = [collapse_macros(proj_dir, u) for u in d['unfold']]
+                d['version'] = PROJECT_FORMAT_VERSION
                 with open(PROJECT_TEMP_FILENAME, 'w', encoding='utf8') as fout:
                     json.dump(d, fout, indent=2)
 
@@ -2306,7 +2501,7 @@ class Command:
 
     def session_cur_name(self):
 
-        fn_proj = str(self.project_file_path)
+        fn_proj = str(self.project_file_path) if self.project_file_path else ''
         if not fn_proj:
             return ''
 
@@ -2324,13 +2519,16 @@ class Command:
     def session_get_names(self):
 
         res = []
-        fn = str(self.project_file_path)
+        fn = str(self.project_file_path) if self.project_file_path else ''
         if fn and os.path.isfile(fn):
-            with open(fn, 'r', encoding='utf8') as f:
-                data = json.load(f)
-                k = data.get('sessions')
-                if type(k)==dict:
-                    res = list(k.keys())
+            try:
+                with open(fn, 'r', encoding='utf8') as f:
+                    data = json.load(f)
+                    k = data.get('sessions')
+                    if type(k)==dict:
+                        res = list(k.keys())
+            except (OSError, ValueError):
+                pass
         return res
 
     def session_def(self, is_request=True):
@@ -2367,10 +2565,6 @@ class Command:
                 json.dump(data, f, indent=2)
 
     def session_delete(self):
-
-        if self.is_project_empty():
-            msg_status(_('Project is empty'))
-            return
 
         names = self.session_get_names()
         if not names:
@@ -2412,12 +2606,9 @@ class Command:
 
     def session_save_as(self, is_request=True):
 
-        fn = str(self.project_file_path)
+        fn = str(self.project_file_path) if self.project_file_path else ''
         if not fn:
             msg_status(_('Untitled project'))
-
-        if self.is_project_empty():
-            msg_status(_('Project is empty'))
             return
 
         if is_request:
@@ -2451,9 +2642,12 @@ class Command:
         app_proc(PROC_SET_SESSION, sess)
 
         # update "self.project" dict
-        with open(fn, 'r', encoding='utf8') as f:
-            _newdata = json.load(f)
-        self.project['sessions'] = _newdata['sessions']
+        try:
+            with open(fn, 'r', encoding='utf8') as f:
+                _newdata = json.load(f)
+            self.project['sessions'] = _newdata.get('sessions', {})
+        except (OSError, ValueError):
+            pass
 
     def session_load_menu(self):
 
@@ -2472,7 +2666,7 @@ class Command:
             msg_status(_('Project session "%s" not found')%name)
             return
 
-        fn = str(self.project_file_path)
+        fn = str(self.project_file_path) if self.project_file_path else ''
         if not fn:
             msg_status(_('Untitled project'))
             return
@@ -2497,6 +2691,75 @@ class Command:
         fn += '|/sessions/'+name
         app_proc(PROC_SET_SESSION, fn)
         app_proc(PROC_LOAD_SESSION, fn)
+
+    def action_import_external_session(self):
+        """Import an external .cuda-session file into the current project
+        as an internal session. Migration helper for the old (pre-
+        versioning) workflow which allowed external session files to be
+        used with projects."""
+
+        if not self.project_file_path:
+            msg_status(_('No project open'))
+            return
+
+        fn = dlg_file(True, "", "", _("CudaText sessions") + "|*.cuda-session")
+        if not fn:
+            return
+
+        try:
+            with open(fn, encoding='utf8') as f:
+                ses_data = json.load(f)
+        except (OSError, ValueError) as ex:
+            msg_box(_('Cannot read session file:\n%s\n\n%s') % (collapse_filename(fn), ex),
+                MB_OK + MB_ICONERROR)
+            return
+
+        if not isinstance(ses_data, dict):
+            msg_box(_('File is not a valid CudaText session:\n%s') % collapse_filename(fn),
+                MB_OK + MB_ICONERROR)
+            return
+
+        # session name from the file name, sanitized and made unique
+        base = os.path.splitext(os.path.basename(fn))[0]
+        allowed = string.ascii_letters + string.digits + '., ()-+_$%='
+        base = ''.join(ch if ch in allowed else '_' for ch in base) or 'imported'
+        names = self.session_get_names()
+        name = base
+        n = 2
+        while name in names:
+            name = '%s_%d' % (base, n)
+            n += 1
+
+        # store the session inside the project file
+        fn_proj = str(self.project_file_path)
+        try:
+            with open(fn_proj, 'r', encoding='utf8') as f:
+                data = json.load(f)
+        except (OSError, ValueError) as ex:
+            msg_box(_('Cannot read project file:\n%s\n\n%s') % (collapse_filename(fn_proj), ex),
+                MB_OK + MB_ICONERROR)
+            return
+
+        data.setdefault('sessions', {})
+        data['sessions'][name] = ses_data
+        if data.get('def_session', '') not in data['sessions']:
+            data['def_session'] = name
+
+        try:
+            with open(fn_proj, 'w', encoding='utf8') as f:
+                json.dump(data, f, indent=2)
+        except OSError as ex:
+            msg_box(_('Cannot write project file:\n%s\n\n%s') % (collapse_filename(fn_proj), ex),
+                MB_OK + MB_ICONERROR)
+            return
+
+        # update the in-memory project
+        self.project['sessions'] = data['sessions']
+        self.project['def_session'] = data['def_session']
+
+        msg_box(
+            _('Imported session "%s" into the project.\n\nLoad it when needed via the "Project sessions" menu.') % name,
+            MB_OK + MB_ICONINFO)
 
     def is_project_filename(self, filename):
         '''Deprecated func'''

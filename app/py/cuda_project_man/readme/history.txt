@@ -1,3 +1,39 @@
+2026.11.01 (@badrelmers)
++ project file versioning: files are written with "version": 2; opening a
+  version-less (old format) file shows a one-time upgrade dialog which only
+  adds missing standard keys (nothing is removed), as promised in #6352
++ command "Save current session as new project..." (current tabs become
+  session "session1" of a new project, tabs stay open), as promised in #6352
++ command "Import external session..." (migrates an external .cuda-session
+  file into the project as an internal session; first import becomes the
+  default if the project had none), as promised in #6352
++ opening an empty (0-byte) project file offers to create a new project in it
++ project files are fully validated on open: unreadable / invalid JSON /
+  not a JSON object / wrong "nodes" or "sessions" types are reported with
+  a dialog; files with a format version newer than supported are refused
++ def_session is auto-filled with the first existing session when opening
+  old projects that have sessions but no default session
+* session_save_as no longer refuses node-less projects: every project now
+  keeps a session, even before any folder/file is added (per #6352 design)
+* "Save session as..." / "Save session" menu items are enabled whenever a
+  project file exists, not only when the project has root nodes
+* the temporary git auto-project file is also written with "version": 2
+- fixed: KeyError 'nodes' when opening old project files without the "nodes"
+  key (files that only ever held sessions); the plugin used to stay
+  half-open and then crash on every later command (Close project, Project
+  session menu, Open/New project, recent projects, exit) until restart
+- fixed: tabs were closed before the newly opened project file was
+  validated — a broken file is now reported with all tabs intact
+- fixed: action_save_project_as wrote a stale copy of the embedded sessions
+  over the just-saved session (session state could lag one save behind; on
+  exit the latest tab state could be lost)
+- fixed: "Save project as..." saved the session into the old file path
+  instead of the newly chosen one
+- fixed: str(None) made the "Untitled project" guard in session_save_as /
+  session_load / session_cur_name / session_get_names ineffective
+  (produced 'None|/sessions/...' session pointers)
+- fixed: missing return after "Untitled project" message in session_save_as
+
 2026.10.31 (@badrelmers)
 * per review by Alexey-T: install.inf no longer declares non-lazy on_start —
   all install.inf events are lazy ('~'), so they never load the plugin on start;

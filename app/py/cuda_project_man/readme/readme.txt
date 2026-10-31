@@ -16,6 +16,8 @@ CONCEPTS
 
 Project file (.cuda-proj)
   A JSON file that stores:
+  - version: project file format version (currently 2); files without
+    this key are the old format and are upgraded on first open
   - nodes: list of top-level folders/files you added (the project "roots")
   - vars: optional name=value variables used by macros
   - mainfile: optional path to the project's "main" file
@@ -58,6 +60,14 @@ PROJECT FILE
       a session named "session1" inside it, and loads that session. Any
       currently open project is saved and closed first. Cancel the dialog
       to abort — no untitled or temporary project is created.
+
+  Save current session as new project...
+      Saves the current editor state (all open tabs) as a NEW project:
+      prompts for a .cuda-proj location, embeds the current tabs as a
+      session named "session1", makes it the default, and switches to
+      the new project. Tabs are not closed. Handy to turn the current
+      working set into a project in one step, and to migrate the old
+      workflow that kept sessions in external .cuda-session files.
 
   Open project...
       Opens an existing .cuda-proj file. Saves the current project's
@@ -142,6 +152,14 @@ SESSION (gear icon in toolbar)
   Set default session...
       Prompts to pick a session and marks it as the project's default.
       The default session is the one that loads when the project opens.
+
+  Import external session...
+      Imports an external .cuda-session file into the project as an
+      internal session, named after the file. If the project has no
+      default session yet, the imported session becomes the default.
+      Load it afterwards from this same session menu. Migration helper
+      for the old (pre-versioning) workflow that kept project sessions
+      in separate files.
 
 GENERAL
   Refresh (F5)
@@ -264,6 +282,25 @@ External session switch detection
   session is loaded — the foreign session simply takes over, and the
   project's saved session is protected from being overwritten.
 
+Old project format (upgrade)
+  Project files carry a "version" key (current format version: 2).
+  Files created by older plugin versions have no version key. When such
+  a file is opened, the plugin shows a one-time dialog and upgrades the
+  file: it only ADDS missing standard keys ("nodes", "vars", "mainfile",
+  "unfold", "def_session", "version") — no existing content is
+  removed. If the project contains sessions but no default session,
+  the first session becomes the default. Files marked with a version
+  newer than the plugin supports are refused with an explanation
+  (update CudaText / plugins first).
+
+Broken project files
+  Before opening, project files are validated. Unreadable files,
+  invalid JSON, non-object JSON, or wrong key types ("nodes" must be a
+  list of paths, "sessions" an object) are reported with a dialog and
+  the project is not opened; the editor state is left untouched.
+  An empty (0-byte) file is special-cased: since it holds no data, the
+  plugin offers to create a new empty project in it.
+
 Exit
   On CudaText exit, the current project is saved (if it has a file
   path). The temporary git auto-project is excluded — it is never
@@ -274,9 +311,11 @@ Exit
 PROJECT FILE FORMAT
 ------------------------------------------------------------------------------
 
-A .cuda-proj file is JSON. Minimal example (no sessions):
+A .cuda-proj file is JSON. Every file written by the plugin carries
+"version": 2 (the current format version). Minimal example (no sessions):
 
   {
+    "version": 2,
     "nodes": ["C:\\code\\myapp"],
     "vars": ["ProjDir=C:\\code\\myapp"],
     "mainfile": "",
@@ -286,6 +325,7 @@ A .cuda-proj file is JSON. Minimal example (no sessions):
 With a default session:
 
   {
+    "version": 2,
     "nodes": ["C:\\code\\myapp"],
     "vars": [],
     "mainfile": "",
@@ -301,6 +341,12 @@ With a default session:
 
   The session internals ("tabs", "carets", etc.) are managed by
   CudaText's session API.
+
+Files without the "version" key (created by older plugin versions) are
+opened normally: the structure is normalized in memory and the user is
+offered a one-time upgrade of the file (see AUTOMATIC BEHAVIORS above).
+Missing standard keys are always auto-filled, so hand-edited or partial
+files load fine as long as the present keys have the right types.
 
 Paths inside "nodes" and "unfold" support the {ProjDir} macro: if a
 path starts with the project file's directory, it is stored relative

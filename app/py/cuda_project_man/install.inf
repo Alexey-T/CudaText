@@ -118,10 +118,20 @@ section=commands
 caption=&Project Manager\Delete session...
 method=session_delete
 
+[item83]
+section=commands
+caption=&Project Manager\Import &external session...
+method=action_import_external_session
+
 [item85]
 section=commands
 caption=&Project Manager\Set default session...
 method=session_def
+
+[item86]
+section=commands
+caption=&Project Manager\Save current session as new project...
+method=action_save_session_as_project
 
 [item91]
 section=commands
