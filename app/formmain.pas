@@ -112,8 +112,8 @@ uses
   proc_scrollbars,
   proc_cssprovider,
   {$ifdef MSWINDOWS}
-  proc_ole_droptarget,
-  proc_ole_dragsource,
+  proc_windows_droptarget,
+  proc_windows_dragsource,
   {$endif}
   form_console,
   form_frame,
@@ -3603,7 +3603,7 @@ procedure TfmMain.InitOleDropSupport;
 begin
   if FOleDropManager=nil then
   begin
-    FOleDropManager:= proc_ole_droptarget.InitOleDropSupport;
+    FOleDropManager:= proc_windows_droptarget.InitOleDropSupport;
     FOleDropManager.OnDropFiles:= @OleDrop_OnFiles;
     FOleDropManager.OnDropText:= @OleDrop_OnText;
     FOleDropManager.OnCanDropText:= @OleDrop_CanDropText;

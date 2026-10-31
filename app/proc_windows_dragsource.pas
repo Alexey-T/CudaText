@@ -30,12 +30,12 @@ Details:
   deleted in CudaText (this matches CudaText's internal behavior for
   dragging text to another document, which also copies by default;
   users of issue #4894 expect no deletion). Dropping back into a
-  CudaText window is handled by proc_ole_droptarget (inserts text,
+  CudaText window is handled by proc_windows_droptarget (inserts text,
   COPY effect).
 - Esc cancels the OLE drag at any moment (standard IDropSource
   behavior), source text stays untouched.
 }
-unit proc_ole_dragsource;
+unit proc_windows_dragsource;
 
 {$mode objfpc}{$H+}
 

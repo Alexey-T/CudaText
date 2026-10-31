@@ -40,7 +40,7 @@ How it works:
 Note: if the LCL recreates the window handle of an attached form
 (rare case), call Attach() again to re-register the drop target.
 }
-unit proc_ole_droptarget;
+unit proc_windows_droptarget;
 
 {$mode objfpc}{$H+}
 {$IFDEF MSWINDOWS}

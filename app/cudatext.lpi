@@ -1601,11 +1601,11 @@
         <IsPartOfProject Value="True"/>
       </Unit>
       <Unit>
-        <Filename Value="proc_ole_droptarget.pas"/>
+        <Filename Value="proc_windows_droptarget.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit>
       <Unit>
-        <Filename Value="proc_ole_dragsource.pas"/>
+        <Filename Value="proc_windows_dragsource.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit>
       <Unit>
