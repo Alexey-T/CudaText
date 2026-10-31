@@ -324,11 +324,23 @@ TECHNICAL NOTES
   by the on_open_pre event.
 
 - The plugin subscribes to these events (declared in install.inf):
-  on_open_pre (for .cuda-proj files), on_delete_file, on_tab_change,
-  on_exit, on_state, on_start. Most are always subscribed. on_open
-  is conditional — only subscribed when the "check_git" option is
-  enabled (managed via plugins.ini to avoid overhead when the
-  feature is off, since on_open fires on every file open).
+  on_open_pre (for .cuda-proj files only), on_delete_file, on_tab_change,
+  on_open, on_exit, on_state. All of them are lazy (the '~' suffix in
+  install.inf): lazy events never load the plugin, their handlers only
+  run when the plugin is already loaded (on_exit is always lazy in
+  CudaText anyway). So install.inf never causes the plugin to load on
+  start.
+
+- on_start and on_open are subscribed additionally via plugins.ini
+  [events], which the plugin writes itself:
+  - on_start is subscribed when a project was opened/created/saved
+    (the hidden "on_start" option). This way CudaText loads the plugin
+    on start only for users who really used projects on the previous
+    run; users who don't use Project Manager keep a fast start, the
+    plugin is not loaded at all.
+  - on_open is subscribed only when the "check_git" option is enabled
+    (it fires on every file open, so the subscription is managed via
+    plugins.ini to avoid overhead when the feature is off).
 
 - on_start auto-opens the most recent project on CudaText startup.
   It reads history.json to check which session CudaText is restoring:

@@ -1,3 +1,15 @@
+2026.10.31 (@badrelmers)
+* per review by Alexey-T: install.inf no longer declares non-lazy on_start —
+  all install.inf events are lazy ('~'), so they never load the plugin on start;
+  CudaText stays fast for users who don't use Project Manager at all
+* on_start is again subscribed conditionally via plugins.ini [events]:
+  the plugin writes it when a project is opened/created/saved (hidden option
+  "on_start" restored for this), and removes it otherwise
+* on_open (check_git) subscription via plugins.ini restored and the on_open
+  handler re-enabled
+* options on_start, on_start_activate added to the defaults dict so they
+  survive save_options filtering and persist in cuda_project_man.json
+
 2026.07.24 (@badrelmers)
 + command "New project" now prompts for save location and creates session "session1" inside the project
 + command "Save project" (in-place save, no dialog)
@@ -5,7 +17,6 @@
 + command "Save session" (in-place save to current session slot)
 + menu item "Project properties..." in Project menu
 + on_state event subscription for external session switch detection
-+ on_start, on_state events declared in install.inf (no longer conditional via plugins.ini)
 + settings auto-merge: missing options are filled from defaults on load, stale options are dropped on save
 + options check_git, icon_theme, toolbar_theme added to defaults dict so they persist
 + history.json read on startup to detect session/project mismatch and avoid "save changes?" prompts
@@ -20,7 +31,8 @@
 * on_exit skips saving the temporary git auto-project
 * check_git option disabled by default
 * options dialog: removed dead "Suggest to close tabs not belonging to project" option
-* on_start no longer uses an internal flag — always auto-opens most recent project if session matches
+* on_start auto-opens the most recent project if the restored session matches
+  (runs only when the plugin is loaded at start via plugins.ini subscription)
 * rewritten documentation (readme.txt)
 - removed command "Clear project..." (redundant with New project + overwrite)
 - removed command "Forget session, close all tabs" (dangerous — overwrote default session)

@@ -101,11 +101,9 @@ def dialog_config(op):
             'val='+bool_to_str(op.get('preview', True)) ])]
         +[c1.join(['type=check', 'pos=6,288,400,0', 'cap='+_('Open files by &double-click'),
             'val='+bool_to_str(op.get('d_click', False)) ])]
-        +[c1.join(['type=check', 'pos=6,314,400,0', 'en=0', 'cap='+_('On opening file in Git/SVN repo, create project from repo (*)'),
+        +[c1.join(['type=check', 'pos=6,314,400,0', 'cap='+_('On opening file in Git/SVN repo, create temporary project from repo (*)'),
             'val='+bool_to_str(op.get('check_git', False)) ])]
-        +[c1.join(['type=check', 'pos=6,340,400,0', 'cap='+_('Suggest to close tabs not belonging to project'),
-            'val='+bool_to_str(op.get('close_ext', True)) ])]
-        +[c1.join(['type=check', 'pos=6,366,400,0', 'cap='+_('Always sync project-tree with current editor file'),
+        +[c1.join(['type=check', 'pos=6,340,400,0', 'cap='+_('Always sync project-tree with current editor file'),
             'val='+bool_to_str(op.get('always_sync', False)) ])]
 
         +[c1.join(['type=label', 'pos=6,374,130,0', 'cap='+_('File type icons:')])]

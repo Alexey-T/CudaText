@@ -285,6 +285,8 @@ class Command:
         "goto_open": False,
         "sort_order": "ext",
         "always_sync": False,
+        "on_start": False,
+        "on_start_activate": False,
         "check_git": False,
         "icon_theme": "vscode_16x16",
         "toolbar_theme": "default_16x16",
@@ -1189,6 +1191,7 @@ class Command:
 
         self.update_global_data()
         self.add_recent(path_str)
+        self.options['on_start'] = True
         self.save_events()
         self.save_options()
 
@@ -1286,6 +1289,7 @@ class Command:
                     self.project_file_path = Path(path)
                     self.add_recent(path)
                     self.action_refresh()
+                    self.options['on_start'] = True
                     self.save_events()
                     self.save_options()
 
@@ -1421,6 +1425,8 @@ class Command:
             with path.open("w", encoding='utf8') as fout:
                 json.dump(d, fout, indent=2)
 
+            # any saving of project file makes on_start On
+            self.options['on_start'] = True
             self.save_events()
 
             self.update_global_data()
@@ -1622,27 +1628,24 @@ class Command:
             self.save_events()
 
     def save_events(self):
-            # on_start and on_state are always subscribed via install.inf,
-            # so we only need to handle on_open conditionally (for check_git).
-            ev = []
+        # Events on_start/on_open are subscribed via plugins.ini (in
+        # addition to the lazy '~' events of install.inf). CudaText loads
+        # this plugin on start only when on_start is subscribed here, so
+        # users who don't use Project Manager get a fast start: the plugin
+        # is not loaded at all.
+        ev = []
 
-            if self.options.get('on_start', False):
-                ev.append('on_start')
+        if self.options.get('on_start', False):
+            ev.append('on_start')
 
-            '''
-            v = self.options.get('check_git', None)
-            if v is None:
-                s = ini_read('plugins.ini', 'events', 'cuda_project_man', '')
-                v = 'on_open' in s
-            if v:
-                ev.append('on_open')
-            '''
+        if self.options.get('check_git', False):
+            ev.append('on_open')
 
-            # save events to plugins.ini [events], they work additionally to install.inf events
-            if ev:
-                ini_write('plugins.ini', 'events', 'cuda_project_man', ','.join(ev))
-            else:
-                ini_proc(INI_DELETE_KEY, 'plugins.ini', 'events', 'cuda_project_man')
+        # save events to plugins.ini [events], they work additionally to install.inf events
+        if ev:
+            ini_write('plugins.ini', 'events', 'cuda_project_man', ','.join(ev))
+        else:
+            ini_proc(INI_DELETE_KEY, 'plugins.ini', 'events', 'cuda_project_man')
 
     def config_proj(self):
         if not self.tree:
@@ -1666,10 +1669,12 @@ class Command:
             return False
 
     def on_start(self, ed_self):
-        # on_start is always subscribed via install.inf. Auto-open the most
-        # recent project, but only if CudaText is restoring that project's
-        # session (detected via history.json). If history.json points at a
-        # different session, detach silently to avoid overwriting it.
+        # on_start is subscribed via plugins.ini, so it only runs when the
+        # plugin was loaded on start, i.e. when a project was used on the
+        # previous run. Auto-open the most recent project, but only if
+        # CudaText is restoring that project's session (detected via
+        # history.json). If history.json points at a different session,
+        # detach silently to avoid overwriting it.
         and_activate = self.options.get("on_start_activate", False)
         self.init_panel(and_activate)
 
@@ -2234,14 +2239,12 @@ class Command:
 
     def on_open(self, ed_self):
 
-        '''
         if self.options.get('check_git', False):
             self.init_panel(False)
 
             if not self.project_file_path:
                 fn = ed_self.get_prop(PROP_FN, '*')
                 self.action_project_for_git(fn)
-        '''
 
         self.on_tab_change(ed_self)
 
@@ -2284,6 +2287,7 @@ class Command:
                     json.dump(d, fout, indent=2)
 
                 self.add_recent(PROJECT_TEMP_FILENAME)
+                self.options['on_start'] = True
                 self.save_events()
                 self.save_options()
 
