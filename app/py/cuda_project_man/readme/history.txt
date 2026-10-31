@@ -1,4 +1,17 @@
 2026.11.01 (@badrelmers)
++ old-format project files are upgraded automatically on open, without a
+  confirmation dialog: a backup of the original is saved next to the file
+  ("<file>.bak", or "<file>.<date>.bak" when that name is taken — existing
+  backups are never overwritten), then the file is rewritten in the current
+  format; the status bar and console report the upgrade and the backup name
+  (the user can delete the backup when everything works fine)
++ when the on-disk upgrade is impossible (read-only folder, locked file),
+  the project still opens with the upgraded data in memory and the file is
+  upgraded on the first successful save
++ when a sibling "<project>.cuda-session" file is detected during an
+  upgrade, a console hint points to "Import external session..."
+
+2026.11.01 (@badrelmers)
 + project file versioning: files are written with "version": 2; opening a
   version-less (old format) file shows a one-time upgrade dialog which only
   adds missing standard keys (nothing is removed), as promised in #6352

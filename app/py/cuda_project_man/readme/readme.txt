@@ -282,16 +282,31 @@ External session switch detection
   session is loaded — the foreign session simply takes over, and the
   project's saved session is protected from being overwritten.
 
-Old project format (upgrade)
+Old project format (automatic upgrade)
   Project files carry a "version" key (current format version: 2).
-  Files created by older plugin versions have no version key. When such
-  a file is opened, the plugin shows a one-time dialog and upgrades the
-  file: it only ADDS missing standard keys ("nodes", "vars", "mainfile",
-  "unfold", "def_session", "version") — no existing content is
-  removed. If the project contains sessions but no default session,
-  the first session becomes the default. Files marked with a version
-  newer than the plugin supports are refused with an explanation
-  (update CudaText / plugins first).
+  Files created by older plugin versions have no version key. Such a
+  file is upgraded automatically when it is opened — no dialog is
+  shown. First a backup of the original file is saved next to it:
+  "<file>.bak" (if that name is already taken, "<file>.<date>.bak" —
+  an existing backup is never overwritten); then the file is
+  rewritten. The upgrade only ADDS missing standard keys ("nodes",
+  "vars", "mainfile", "unfold", "def_session", "version") — no
+  existing content is removed. If the project contains sessions but
+  no default session, the first session becomes the default.
+
+  The status bar and the console panel report the upgrade and the
+  backup file name; you can delete the backup file when everything
+  works fine. If the folder is read-only or the file cannot be
+  written, the project still opens with the upgraded data in memory,
+  and the file on disk is upgraded on the first successful save.
+
+  Tip for the old external-session workflow: if a
+  "<project>.cuda-session" file exists next to the project, a hint is
+  printed in the console panel — use "Import external session..." in
+  the sessions menu to embed it into the project.
+
+  Files marked with a version newer than the plugin supports are
+  refused with an explanation (update CudaText / plugins first).
 
 Broken project files
   Before opening, project files are validated. Unreadable files,
@@ -343,10 +358,11 @@ With a default session:
   CudaText's session API.
 
 Files without the "version" key (created by older plugin versions) are
-opened normally: the structure is normalized in memory and the user is
-offered a one-time upgrade of the file (see AUTOMATIC BEHAVIORS above).
-Missing standard keys are always auto-filled, so hand-edited or partial
-files load fine as long as the present keys have the right types.
+opened normally: the structure is normalized in memory and the file is
+upgraded on disk automatically, with a backup of the original kept
+next to it (see AUTOMATIC BEHAVIORS above). Missing standard keys are
+always auto-filled, so hand-edited or partial files load fine as long
+as the present keys have the right types.
 
 Paths inside "nodes" and "unfold" support the {ProjDir} macro: if a
 path starts with the project file's directory, it is stored relative

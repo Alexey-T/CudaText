@@ -107,6 +107,30 @@ def normalize_project_data(data):
     return data
 
 
+def make_project_backup(path):
+    """Copy a project file to a backup next to it, before an automatic
+    upgrade rewrites the file. Backup name: '<file>.bak'; if that name is
+    already taken (an earlier upgrade, or the user's own file), a
+    timestamped name '<file>.<yymmdd_hhmmss>.bak' is used — an existing
+    backup is never overwritten.
+    Returns the backup path, or None when the copy failed (read-only
+    folder, locked file, ...)."""
+    from datetime import datetime
+    import shutil
+    p = Path(path)
+    bak = p.with_name(p.name + '.bak')
+    if bak.exists():
+        stamp = datetime.now().strftime('%y%m%d_%H%M%S')
+        bak = p.with_name('%s.%s.bak' % (p.name, stamp))
+        if bak.exists():
+            return None
+    try:
+        shutil.copy2(str(p), str(bak))
+    except OSError:
+        return None
+    return bak
+
+
 def is_session_name(s):
     allowed = string.ascii_letters+string.digits+'., ()-+_$%='
     for ch in s:
@@ -1385,34 +1409,20 @@ class Command:
             ver = 1
         if ver > PROJECT_FORMAT_VERSION:
             msg_box(
-                _('Cannot open project:\n%s\n\nThe file uses project format version %d, but this Project Manager supports only version %d. Please update CudaText and its plugins.') %
+                _('Cannot open project:\n%s\n\nThe file uses project format version %d,\nbut this Project Manager supports only version %d.\nPlease update CudaText and its plugins.') %
                     (collapse_filename(str(path)), ver, PROJECT_FORMAT_VERSION),
                 MB_OK + MB_ICONERROR)
             return
 
         if ver < PROJECT_FORMAT_VERSION:
-            # Old format: normalize the structure in memory, then offer the
-            # one-time upgrade of the file on disk
+            # Old format: normalize the structure in memory, then upgrade the
+            # file on disk automatically. The upgrade only adds missing
+            # standard keys and a backup of the original is kept next to the
+            # file, so it is lossless and reversible — no confirmation dialog
+            # is needed (a blocking prompt would only prevent users from
+            # opening their own projects; the file is rewritten on exit anyway).
             data = normalize_project_data(data)
-            msgtext = _(
-                'Old project format detected in:\n%s\n\n'
-                'The file will be upgraded to the current format (version %d).\n'
-                'Only missing standard keys are added, your data is not removed.\n\n'
-                'Note: sessions are now stored inside the project file. If you used\n'
-                'an external session file (.cuda-session) with this project, import it\n'
-                'after opening via the session menu: "Import external session...".\n\n'
-                'See readme.txt in the plugin folder for details.'
-                ) % (collapse_filename(str(path)), PROJECT_FORMAT_VERSION)
-            if msg_box(msgtext, MB_OKCANCEL + MB_ICONWARNING) == ID_OK:
-                try:
-                    data['version'] = PROJECT_FORMAT_VERSION
-                    with open(path, 'w', encoding='utf8') as fout:
-                        json.dump(data, fout, indent=2)
-                except OSError as ex:
-                    msg_status(_('Cannot upgrade project file: %s') % ex)
-            else:
-                msg_status(_('Project not opened'))
-                return
+            self.upgrade_project_file_on_disk(path, data)
         else:
             data = normalize_project_data(data)
 
@@ -1472,6 +1482,55 @@ class Command:
             for i in range(len(unfolds)):
                 unfolds[i] = expand_macros(proj_dir, unfolds[i])
             self.enum_all_setfolds(unfolds)
+
+    def upgrade_project_file_on_disk(self, path, data):
+        """Rewrite an old-format (version-less) project file in the current
+        format, after normalize_project_data() was applied to `data`.
+
+        A backup of the original file is saved next to it first (see
+        make_project_backup). When the backup or the write fails (read-only
+        folder, locked file, ...), the project is still opened with the
+        upgraded data in memory and the file on disk is upgraded on the
+        first successful save — opening a project must never be blocked.
+        The user is informed via the status bar and the console panel.
+        """
+        data['version'] = PROJECT_FORMAT_VERSION
+
+        bak = make_project_backup(path)
+        if bak is None:
+            msg_status(_('Project opened; its file could not be upgraded on disk'))
+            print(_('Project Manager: cannot back up old project file, '
+                'the file on disk was not upgraded: ') + collapse_filename(path))
+            print(_('Project Manager: it will get the current format on the first successful save'))
+            return
+
+        try:
+            with open(path, 'w', encoding='utf8') as fout:
+                json.dump(data, fout, indent=2)
+        except OSError as ex:
+            msg_status(_('Project opened; its file could not be upgraded on disk'))
+            print(_('Project Manager: cannot upgrade project file on disk: %s') % ex)
+            print(_('Project Manager: the original file is kept in the backup: ') +
+                collapse_filename(str(bak)))
+            print(_('Project Manager: it will get the current format on the first successful save'))
+            return
+
+        msg_status(_('Project file upgraded to v%d (backup: %s)') %
+            (PROJECT_FORMAT_VERSION, os.path.basename(bak)))
+        print(_('Project Manager: old project file was upgraded to format v%d: ') %
+            PROJECT_FORMAT_VERSION + collapse_filename(path))
+        print(_('Project Manager: backup of the original saved as: ') +
+            collapse_filename(str(bak)))
+        print(_('Project Manager: you can delete the backup file if everything works fine'))
+
+        # tip for the old (pre-versioning) workflow: a sibling external
+        # session file can be embedded into the project
+        ses = Path(path).with_suffix('.cuda-session')
+        if ses.exists():
+            print(_('Project Manager: found an external session file: ') +
+                collapse_filename(str(ses)))
+            print(_('Project Manager: to embed it into the project, use '
+                '"Import external session..." in the sessions menu'))
 
     def _report_project_load_error(self, path, err):
         """Show a dialog for a project file that failed validation.
