@@ -1,4 +1,23 @@
 2026.11.01 (@badrelmers)
+- restored "menu=op" in install.inf for "Project properties..." and
+  "Config..." (upstream had it on both): the two settings dialogs are
+  also shown in CudaText's Settings menu — the key was wrongly dropped
+  as stale in the menu rework
++ context menu: added the commands that were only in the Plugins menu —
+  "Add current file", "Add all opened files", "Add folder of current
+  file" (in "Root nodes"), "Go to main file", "Open main file", "Show
+  current file in project tree" and "Config..." (top level, Config at
+  the very end)
++ Plugins menu: added "Clean up missing paths..." (was only in the panel
+  context menu), closing the "Add to project" group
+* context menu reorganized for quicker navigation: the top level now
+  groups panel commands (Refresh, Show current file in project tree),
+  navigation (Go to file..., Go to main file, Open main file), "Project
+  sessions" and "Config..."; in "Selected file", "Set as main file"
+  moved next to "Open in default application" (project-specific actions
+  first, generic file operations below)
+
+2026.11.01 (@badrelmers)
 - fixed: switching project sessions could lose changes — "Save session as..."
   only wrote the new session, so the previously active session kept its old
   state; now switching ALWAYS saves the active session into its slot first,

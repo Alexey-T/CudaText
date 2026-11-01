@@ -115,6 +115,17 @@ ROOT NODES (Contents)
   Add file...
       Adds a file to the project's root list.
 
+  Add current file
+      Adds the file open in the editor to the project's root list.
+
+  Add all opened files
+      Adds every file open in the editor (all tab groups) to the
+      project's root list.
+
+  Add folder of current file
+      Adds the folder containing the file open in the editor to the
+      project's root list.
+
   Stop tracking this folder/file
       Removes the selected top-level entry from the project. The actual
       file or folder on disk is NOT deleted — it is simply no longer
@@ -124,6 +135,7 @@ ROOT NODES (Contents)
       Scans the project's root list and removes any entries whose paths
       no longer exist on disk (e.g., deleted or moved folders). Shows
       a confirmation dialog listing the paths to be removed.
+      Also in the Plugins menu.
 
 SELECTED FOLDER (when a folder is right-clicked)
   New file... (Ctrl+N), New folder... (F7)
@@ -136,11 +148,13 @@ SELECTED FOLDER (when a folder is right-clicked)
 
 SELECTED FILE (when a file is right-clicked)
   Open in default application
+  Set as main file
+      Marks the file as the project's "main" file (used by "Go to main
+      file", "Open main file" and the {ProjMainFile} variables).
   Cut / Copy / Paste
   Copy path, Copy relative path
   Rename... (F2), Duplicate..., Delete (Del)
   Reveal in file manager
-  Set as main file
   Properties... (Alt+Enter)
 
 PROJECT SESSIONS (toolbar gear button, or the context-menu
@@ -188,8 +202,25 @@ GENERAL (context menu top level)
   Refresh (F5)
       Re-reads the project file and refreshes the tree.
 
+  Show current file in project tree
+      Highlights the current editor file in the tree (same as the
+      toolbar button and the Plugins-menu command).
+
   Go to file...
       Opens a dialog to quickly jump to any file in the project tree.
+
+  Go to main file
+      Highlights the project's main file in the tree.
+
+  Open main file
+      Opens the project's main file in the editor.
+
+  Project sessions >
+      Same items as the toolbar sessions menu.
+
+  Config...
+      Opens the plugin options dialog. Also in the Plugins menu and in
+      CudaText's Settings menu.
 
 
 ------------------------------------------------------------------------------
@@ -221,14 +252,25 @@ PLUGINS MENU COMMANDS
 
 All commands are in the top menu: Plugins > Project Manager (and in the
 command palette). They are grouped by purpose, most used first, with
-separators between the groups:
+separators between the groups.
+
+The panel context menu and the Plugins menu share every command that
+makes sense in both places: project lifecycle (create/open/save/close),
+"Add..." commands and "Clean up missing paths...", navigation (Go to
+file / Go to main file / Open main file / Show current file in project
+tree), sessions and options. Commands that need a selected tree node
+(New file/folder, Cut/Copy/Paste, Rename, Delete, Find in folder,
+Set as main file, ...) live only in the context menu; commands about
+the editor as a whole (Show/focus panel, Open all project files...,
+Close tabs not belonging to project) live only in the Plugins menu.
 
   Show Project panel / Show and focus Project panel
       Open (and focus) the Project side panel.
 
   Go to file..., Go to main file, Open main file,
   Open all project files..., Show current file in project tree
-      Quick navigation inside the project.
+      Quick navigation inside the project. "Show current file in project
+      tree" is also in the panel context menu and on the toolbar.
 
   Create new empty project... / Create new project from open tabs... /
   Open project... / Open recent project... / Save project /
@@ -239,8 +281,12 @@ separators between the groups:
 
   Add to project: folder... / file... / current file /
   all opened files / folder of the current file
-      Adding roots to the project; "folder..." and "file..." open a
-      browse dialog (same actions as in the panel context menu).
+  Clean up missing paths...
+      Managing the project's root list: adding roots ("folder..." and
+      "file..." open a browse dialog) and dropping roots whose paths no
+      longer exist. Same actions as the "Root nodes" section of the
+      panel context menu (there, "Stop tracking this folder/file"
+      removes the selected root as well).
 
   Project sessions >
       Submenu with Open session..., Save session, Save session as...,
@@ -257,14 +303,18 @@ separators between the groups:
       without any dialogs — unsaved changes in them are discarded.
 
   Project properties... / Config...
-      Project variables and main file; plugin options.
+      Project variables and main file; plugin options. Both are also
+      added to CudaText's Settings menu (the "menu=op" key in
+      install.inf), so they are reachable without opening the Plugins
+      menu; "Config..." is in the panel context menu as well.
 
 
 ------------------------------------------------------------------------------
 OPTIONS
 ------------------------------------------------------------------------------
 
-Open via the menu: Project Manager > Config... or right-click > Options...
+Open via the menu: Project Manager > Config..., the panel context menu
+(Config..., at the bottom), or CudaText's Settings menu
 
   Ignore files:           Semicolon-separated mask of filenames to hide
                           in the tree (e.g., "*.tmp;*.bak").
@@ -470,6 +520,12 @@ TECHNICAL NOTES
 
 - Sessions are stored inside the .cuda-proj file using CudaText's
   "project|/sessions/name" session pointer format.
+
+- install.inf marks "Project properties..." and "Config..." with
+  "menu=op": CudaText also shows these two commands in its Settings
+  menu, so the plugin's dialogs are reachable from there too. Commands
+  that make no sense without a selected tree node are context-menu
+  only and are not declared in install.inf at all.
 
 - "last_session" (the session to load when the project is opened) is
   updated in the project file every time a project session becomes

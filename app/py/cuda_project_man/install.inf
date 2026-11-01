@@ -136,25 +136,30 @@ method=add_current_dir
 
 [item27]
 section=commands
+caption=&Project Manager\Clean up missing paths...
+method=action_remove_deleted_nodes
+
+[item28]
+section=commands
 caption=&Project Manager\-
 method=_
 
-[item28]
+[item29]
 section=commands
 caption=&Project Manager\Project sessions\Open session...
 method=session_load_menu
 
-[item29]
+[item30]
 section=commands
 caption=&Project Manager\Project sessions\Save session
 method=session_save_inplace
 
-[item30]
+[item31]
 section=commands
 caption=&Project Manager\Project sessions\Save session as...
 method=session_save_as
 
-[item31]
+[item32]
 section=commands
 caption=&Project Manager\Project sessions\Delete session...
 method=session_delete
@@ -188,8 +193,10 @@ method=_
 section=commands
 caption=&Project Manager\&Project properties...
 method=config_proj
+menu=op
 
 [item39]
 section=commands
 caption=&Project Manager\&Config...
 method=config
+menu=op
