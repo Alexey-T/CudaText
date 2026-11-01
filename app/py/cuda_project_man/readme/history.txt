@@ -1,4 +1,50 @@
 2026.11.01 (@badrelmers)
+- second full data-loss audit; all fixes below are for bugs found in it
+- fixed: unsaved text could be lost when tabs were closed without their
+  session being saved first. CudaText sessions store the text of
+  modified and untitled tabs, so a state saved into a session loses
+  nothing — but these flows closed tabs with no session save at all:
+  "Open project..." / "Open recent project..." / opening a .cuda-proj
+  from File>Open with NO project open (the open tabs belonged to the
+  app session, which was never written), "Close project" and "Create
+  new empty project..." with no project open, and "Open session..."
+  picking the session that was ALREADY active (the save was skipped for
+  it). Now every flow that closes tabs first saves the state into the
+  session it belongs to (the project's session slot, or the app's own
+  session file when no project is open — the file CudaText's autosave
+  writes anyway); if that save fails, tabs keep their "modified" flag
+  and CudaText's own "save changes?" prompt appears — unsaved text is
+  never discarded silently
+- "Save project as...": the active session now keeps its NAME in the
+  new file (it was reset to "session1"), and the old project file gets
+  the latest state too (it used to lag one save behind)
+- all project/options file writes are now atomic (write to a temp file,
+  then replace): a crash, power loss or full disk can no longer leave a
+  truncated .cuda-proj behind, which would have destroyed ALL project
+  data (nodes + every embedded session); either the file is replaced
+  completely or the previous complete file stays
+- fixed: "Clean up missing paths..." skipped entries when several
+  missing paths stood next to each other (the node list was modified
+  while being iterated) — with three consecutive missing paths only two
+  were reported and one stayed in the project
+- fixed: "Delete session..." could crash with KeyError right after
+  updating the file, when the in-memory session list lagged behind the
+  project file
+- deleting the ACTIVE session now lets CudaText ask "save changes?" for
+  modified tabs before they close (the session is deleted on purpose,
+  but files can still be saved to disk)
+- startup with a session-less project file (left over by old builds)
+  now creates "session1" immediately (a project is itself a session, it
+  always keeps one); previously this waited for the ~40s session
+  autosave
+- folder paste no longer uses distutils (removed in Python 3.12) and no
+  longer silently merges into an existing folder — shutil.copytree
+  refuses to overwrite and reports an error
+- readme.txt: internal implementation details moved to the new
+  doc_for_dev.md (for plugin authors); the user documentation now
+  describes only user-visible behavior
+
+2026.11.01 (@badrelmers)
 - fixed severe data loss: text typed in a session was lost after a restart
   if the user switched to another session before closing CudaText (switch
   session1 -> session2, close, restart, switch back -> old text). CudaText

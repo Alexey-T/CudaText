@@ -136,6 +136,29 @@ def is_session_name(s):
             return False
     return True
 
+
+def write_json_file(path, data):
+    """Write `data` as pretty JSON to `path`, atomically: the JSON goes to a
+    temporary file next to the target first, which then replaces the target
+    in one step. A crash / power loss / full disk in the middle of the write
+    can never leave a truncated file behind — for a .cuda-proj file that
+    would lose ALL project data (nodes + every embedded session). Either
+    the file is replaced completely, or the previous complete file stays
+    intact and the error propagates to the caller (callers report OSError
+    to the user)."""
+    tmp = str(path) + '.tmp' + str(os.getpid())
+    try:
+        with open(tmp, 'w', encoding='utf8') as fout:
+            json.dump(data, fout, indent=2)
+        os.replace(tmp, str(path))
+    finally:
+        # the replace didn't happen -> remove the temp file
+        if os.path.exists(tmp):
+            try:
+                os.unlink(tmp)
+            except OSError:
+                pass
+
 def _file_open(fn, options=''):
     gr = ed.get_prop(PROP_INDEX_GROUP)
     #print('Opening file in group %d'%gr)
@@ -915,9 +938,14 @@ class Command:
                 if self.action_cut_activate:
                     shutil.move(str(location), new_location)
                 else:
-                    from distutils.dir_util import copy_tree
-                    copy_tree(str(location), new_location)
-                    shutil.copystat(str(location), new_location)
+                    # shutil, not the removed distutils (gone in Python 3.12);
+                    # copytree refuses to overwrite an existing folder, while
+                    # distutils copy_tree silently merged into it
+                    try:
+                        shutil.copytree(str(location), new_location)
+                    except OSError as ex:
+                        msg_status(_('Cannot copy folder: ') + str(ex))
+                        return
             self.action_refresh()
 
     def get_w_h(self):
@@ -1266,8 +1294,10 @@ class Command:
                 app_proc(PROC_SAVE_SESSION, cur_fn + '|/sessions/' + cur_sess)
 
         if close_tabs:
-            # Close all tabs (clear modified, unpin, close)
-            self.close_all_tabs()
+            # Close all tabs (the current state is saved into its session
+            # first, so unsaved text is not lost — see
+            # _close_tabs_saving_state)
+            self._close_tabs_saving_state()
 
         # Reset project state
         self.project = normalize_project_data(dict(nodes=[]))
@@ -1283,8 +1313,7 @@ class Command:
         d = copy.deepcopy(self.project)
         d['version'] = PROJECT_FORMAT_VERSION
         d['last_session'] = 'session1'
-        with path.open("w", encoding='utf8') as fout:
-            json.dump(d, fout, indent=2)
+        write_json_file(path, d)
 
         # Create session1 inside the project and set as active
         sess1 = path_str + '|/sessions/session1'
@@ -1351,8 +1380,10 @@ class Command:
         if self.project_file_path:
             self.action_save_project_as(self.project_file_path)
 
-        # Close all tabs
-        self.close_all_tabs()
+        # Close all tabs. The current state is saved into the session it
+        # belongs to first (the project's session slot / the app's session
+        # file), so unsaved text is not lost — see _close_tabs_saving_state.
+        self._close_tabs_saving_state()
 
         # Forget the project BEFORE touching the app session: the
         # _set_session/PROC_LOAD_SESSION calls below fire app state events,
@@ -1404,8 +1435,7 @@ class Command:
             if data.get('last_session') != name or 'def_session' in data:
                 data['last_session'] = name
                 data.pop('def_session', None)
-                with open(fn_proj, 'w', encoding='utf8') as f:
-                    json.dump(data, f, indent=2)
+                write_json_file(fn_proj, data)
         except (OSError, ValueError):
             pass
         self.project['last_session'] = name
@@ -1514,12 +1544,7 @@ class Command:
         # Skipped when load_session=False (on_start when CudaText
         # already loaded the project session from history.json).
         if load_session:
-            if self.project_file_path:
-                cur_fn = str(self.project_file_path)
-                cur_sess = self.session_cur_name()
-                if cur_fn and cur_sess:
-                    app_proc(PROC_SAVE_SESSION, cur_fn + '|/sessions/' + cur_sess)
-            self.close_all_tabs()
+            self._close_tabs_saving_state()
 
         # Adopt the validated project
         self.project = data
@@ -1580,6 +1605,19 @@ class Command:
                         self.project['sessions'] = json.load(f).get('sessions', {})
                 except (OSError, ValueError):
                     pass
+        elif not self.project.get('sessions'):
+            # Startup path (load_session=False): CudaText is restoring the
+            # project's session from history.json itself. If the file has
+            # no sessions at all (left over by old builds), create
+            # 'session1' from the restored state now — a project is itself
+            # a session, it always keeps one (otherwise the ~40 s session
+            # autosave would write the app session pointer's sub-key into
+            # the file only much later, and the sessions menu would be
+            # empty meanwhile).
+            sess_path = str(path) + '|/sessions/session1'
+            if app_proc(PROC_SAVE_SESSION, sess_path):
+                self._set_session(sess_path)
+                self._sync_sessions_from_disk()
         if 'unfold' in self.project:
             unfolds = self.project['unfold']
             for i in range(len(unfolds)):
@@ -1623,8 +1661,7 @@ class Command:
             return
 
         try:
-            with open(path, 'w', encoding='utf8') as fout:
-                json.dump(data, fout, indent=2)
+            write_json_file(path, data)
         except OSError as ex:
             msg_status(_('Project opened; its file could not be upgraded on disk'))
             print(_('Project Manager: cannot upgrade project file on disk: %s') % ex)
@@ -1723,7 +1760,10 @@ class Command:
             return
 
         nodes_deleted = []
-        for node in self.project["nodes"]:
+        # iterate over a COPY: removing from the same list that is being
+        # iterated skips every second matching entry (two adjacent missing
+        # paths -> only the first one was removed)
+        for node in list(self.project["nodes"]):
             path_ = Path(node)
             if not path_.exists():
                 self.project["nodes"].remove(str(path_))
@@ -1791,8 +1831,17 @@ class Command:
             # the OLD project file are carried over to the new file.
             old_path = str(self.project_file_path) if self.project_file_path else ''
             target = str(path)
+            carry_name = ''
             if old_path and os.path.normpath(old_path) != os.path.normpath(target):
                 src = old_path      # Save As: carry the open project's sessions
+                # Save the active session into the OLD project first, so it
+                # doesn't lag one state behind, and remember its name — the
+                # current state must land in the new file under the SAME
+                # session name, not a generic 'session1'
+                cur_sess = self.session_cur_name()
+                if cur_sess:
+                    app_proc(PROC_SAVE_SESSION, old_path + '|/sessions/' + cur_sess)
+                    carry_name = cur_sess
             elif os.path.isfile(target):
                 src = target        # normal save: the file being rewritten
             else:
@@ -1807,15 +1856,14 @@ class Command:
             # Point the plugin to the new path BEFORE saving the session,
             # so the session is embedded into the new file, not the old one
             self.project_file_path = path
-            with path.open("w", encoding='utf8') as fout:
-                json.dump(d, fout, indent=2)
+            write_json_file(path, d)
 
             # Save the current session into the file. This round-trips the
             # JSON file on disk, so it runs AFTER the initial write — no
             # final rewrite with stale data (previously the last write
             # clobbered the just-saved session). _set_session inside also
             # persists "last_session".
-            self.session_save_as(False)
+            self.session_save_as(False, sess_name=carry_name)
 
             # any saving of project file makes on_start On
             self.options['on_start'] = True
@@ -1925,8 +1973,7 @@ class Command:
         defaults = type(self).options
         d = {k: copy.deepcopy(v) for k, v in self.options.items() if k in defaults}
         d["recent_projects"] = [collapse_macros('', fn) for fn in d.get("recent_projects", [])]
-        with self.options_filename.open(mode="w", encoding='utf8') as fout:
-            json.dump(d, fout, indent=2)
+        write_json_file(self.options_filename, d)
 
     def menu_recents(self):
         items = list(self.options["recent_projects"])
@@ -2640,8 +2687,11 @@ class Command:
             if res2 is None:
                 return
             repl = rest[res2]
-            # no need to save the doomed session's state — it is deleted
-            self.close_all_tabs()
+            # no need to save the doomed session's state — it is deleted.
+            # Tabs keep their 'modified' flag, so CudaText asks "save
+            # changes?" for unsaved text — the session is deleted on
+            # purpose, but files can still be saved to disk.
+            self.close_all_tabs(silent=False)
             ptr = str(fn) + '|/sessions/' + repl
             self._set_session(ptr)
             app_proc(PROC_LOAD_SESSION, ptr)
@@ -2649,24 +2699,27 @@ class Command:
         # 1. delete the session from the .cuda-proj file
         with open(fn, 'r', encoding='utf8') as f:
             data = json.load(f)
-        if data.get('sessions'):
-            del data['sessions'][name]
+        if isinstance(data.get('sessions'), dict):
+            data['sessions'].pop(name, None)
         if data.get('last_session') == name:
             rest = list((data.get('sessions') or {}).keys())
             data['last_session'] = rest[0] if rest else ''
         data.pop('def_session', None)
-        with open(fn, 'w', encoding='utf8') as f:
-            json.dump(data, f, indent=2)
+        write_json_file(fn, data)
 
-        # 2. delete from the in-memory project dict too
-        if self.project.get('sessions'):
-            del self.project['sessions'][name]
+        # 2. delete from the in-memory project dict too (pop, not del: the
+        # in-memory copy may lag the file — a KeyError here would crash
+        # the command right after the file was already updated)
+        if isinstance(self.project.get('sessions'), dict):
+            self.project['sessions'].pop(name, None)
         if self.project.get('last_session') == name:
-            self.project['last_session'] = data['last_session']
+            self.project['last_session'] = data.get('last_session', '')
+        elif not self.project.get('last_session'):
+            self.project['last_session'] = data.get('last_session', '')
 
         msg_status(_('Deleted session: ') + name)
 
-    def session_save_as(self, is_request=True):
+    def session_save_as(self, is_request=True, sess_name=None):
         """Save the current editor state as a session of the project.
 
         Interactive (menu command "Save session as..."): asks for the new
@@ -2678,7 +2731,9 @@ class Command:
 
         Non-interactive (called after saving the project file): saves the
         current state into the current session slot, or 'session1' if
-        none is active."""
+        none is active. `sess_name` (used by "Save project as...") keeps
+        the active session's NAME in the new file instead of the generic
+        'session1' — the session keeps its identity across the save-as."""
 
         fn = str(self.project_file_path) if self.project_file_path else ''
         if not fn:
@@ -2704,7 +2759,7 @@ class Command:
                     continue
                 break
         else:
-            s = self.session_cur_name() or 'session1'
+            s = sess_name or self.session_cur_name() or 'session1'
 
         # the changes were made while the current session was active:
         # save them into it as well, before switching to the new one
@@ -2749,18 +2804,23 @@ class Command:
             msg_status(_('Untitled project'))
             return
 
-        # always save the current session before switching
+        # always save the current session before switching (or RE-loading
+        # the same one: its unsaved text goes into the slot and is restored
+        # from there — skipping the save discarded it silently)
         cur_sess = self.session_cur_name()
-        if cur_sess and cur_sess != name:
-            app_proc(PROC_SAVE_SESSION, fn + '|/sessions/' + cur_sess)
+        saved = False
+        if cur_sess:
+            saved = bool(app_proc(PROC_SAVE_SESSION, fn + '|/sessions/' + cur_sess))
             # the app wrote the session straight into the project file;
             # refresh the in-memory copy (see _sync_sessions_from_disk)
             self._sync_sessions_from_disk()
 
         # Close ALL tabs in ALL groups, without switching the session
         # pointer to DEF_SES — we're switching between sessions within
-        # the same project, not leaving the project.
-        self.close_all_tabs()
+        # the same project, not leaving the project. When the slot save
+        # above failed, tabs keep their 'modified' flag so CudaText asks
+        # "save changes?" — unsaved text is never discarded silently.
+        self.close_all_tabs(silent=saved)
 
         fn += '|/sessions/'+name
         self._set_session(fn)
@@ -2821,8 +2881,7 @@ class Command:
             data['last_session'] = name
 
         try:
-            with open(fn_proj, 'w', encoding='utf8') as f:
-                json.dump(data, f, indent=2)
+            write_json_file(fn_proj, data)
         except OSError as ex:
             msg_box(_('Cannot write project file:\n%s\n\n%s') % (collapse_filename(fn_proj), ex),
                 MB_OK + MB_ICONERROR)
@@ -2896,18 +2955,64 @@ class Command:
         changes (the old behavior of the main command)."""
         self.close_foreign_tabs(confirm=False)
 
-    def close_all_tabs(self):
+    def close_all_tabs(self, silent=True):
         """Close all tabs in all groups without changing the session pointer.
-        Clears PROP_MODIFIED and unpins pinned tabs first, so no "save
-        changes?" prompt appears and no tabs leak into the next project.
+
+        silent=True: clears PROP_MODIFIED and unpins pinned tabs first, so
+        no "save changes?" prompt appears — ONLY for callers that have just
+        saved the state into a session (PROC_SAVE_SESSION also stores the
+        text of modified and untitled tabs, so a saved state loses nothing),
+        or that discard the state on purpose.
+
+        silent=False: keeps PROP_MODIFIED, so CudaText itself asks "save
+        changes?" for every modified tab — used when the state could NOT be
+        saved into any session; unsaved text is never discarded silently.
         Does NOT switch to DEF_SES — that's the caller's responsibility."""
         import cudatext_cmd as cmds
         for h in ed_handles():
             e = Editor(h)
-            e.set_prop(PROP_MODIFIED, False)
+            if silent:
+                e.set_prop(PROP_MODIFIED, False)
             if e.get_prop(PROP_TAB_PINNED):
                 e.set_prop(PROP_TAB_PINNED, False)
         ed.cmd(cmds.cmd_FileCloseAll)
+
+    def _save_session_before_close_tabs(self):
+        """Best-effort save of the current editor state into the session it
+        belongs to, right before close_all_tabs() closes the tabs — the
+        state (INCLUDING the text of modified and untitled tabs, which the
+        app embeds into the session) must be stored somewhere before the
+        buffers are gone.
+
+        - While a project session is active: the project's session slot.
+        - Otherwise (no project open, e.g. about to open/create a project):
+          the app's current session file (typically default.cuda-session) —
+          the very file CudaText's ~40 s session autosave and its exit save
+          write anyway, so this cannot harm an external session; with no
+          project open it IS the user's working session.
+
+        Returns True when the state was stored. Callers pass this to
+        close_all_tabs(silent=...): when False, CudaText's own "save
+        changes?" prompt appears for modified tabs instead."""
+        fn_proj = str(self.project_file_path) if self.project_file_path else ''
+        cur = self.session_cur_name()
+        if fn_proj and cur:
+            if bool(app_proc(PROC_SAVE_SESSION, fn_proj + '|/sessions/' + cur)):
+                self._sync_sessions_from_disk()
+                return True
+            return False
+        ptr = app_path(APP_FILE_SESSION)
+        if not ptr:
+            return False
+        return bool(app_proc(PROC_SAVE_SESSION, ptr))
+
+    def _close_tabs_saving_state(self):
+        """Close all tabs, saving the current state into the session it
+        belongs to first (see _save_session_before_close_tabs). Used by
+        open/close/create-project flows, where the tabs about to be closed
+        don't belong to the session that is loaded next."""
+        saved = self._save_session_before_close_tabs()
+        self.close_all_tabs(silent=saved)
 
     def on_delete_file(self, ed_self, fn):
 

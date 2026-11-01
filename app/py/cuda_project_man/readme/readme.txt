@@ -88,8 +88,8 @@ PROJECT FILE
 
   Save project as...
       Prompts for a new file location and saves the project there. The
-      current session is saved into the project file under its current
-      name (or "session1" if none is active).
+      current session keeps its name in the new file, and both the old
+      and the new file get the latest session states.
 
   Close project
       Saves the current session, closes all tabs, and loads the default
@@ -168,8 +168,10 @@ PROJECT SESSIONS (toolbar gear button, or the context-menu
       are never lost (no prompt — CudaText's session autosave would
       write the state out within ~40 seconds anyway, so asking first
       would only create a state the autosave overwrites moments later).
-      "Save session as..." behaves the same way: the current session
-      gets the changes too, and the new session starts as a copy of it.
+      The saved state includes the text of unsaved tabs (see
+      AUTOMATIC BEHAVIORS below). "Save session as..." behaves the same
+      way: the current session gets the changes too, and the new
+      session starts as a copy of it.
 
   Save session
       Saves the current editor state into the current session slot
@@ -304,9 +306,8 @@ Close tabs not belonging to project) live only in the Plugins menu.
 
   Project properties... / Config...
       Project variables and main file; plugin options. Both are also
-      added to CudaText's Settings menu (the "menu=op" key in
-      install.inf), so they are reachable without opening the Plugins
-      menu; "Config..." is in the panel context menu as well.
+      added to CudaText's Settings menu; "Config..." is in the panel
+      context menu as well.
 
 
 ------------------------------------------------------------------------------
@@ -366,33 +367,39 @@ AUTOMATIC BEHAVIORS
 
 Startup
   When CudaText starts, if a project was previously open, the plugin
-  reads history.json to determine which session CudaText is restoring:
+  checks which session CudaText is restoring:
 
   - If the session belongs to the most-recent project, the project
     metadata is loaded and CudaText's session restore proceeds
     normally — CudaText itself restores the last used session (it is
-    also recorded in the project file as "last_session", so the
-    project reopens with it later). No extra prompts, no session
-    switching.
+    also recorded in the project file, so the project reopens with it
+    later). No extra prompts, no session switching.
 
-  - If the session belongs to a different project (e.g., history.json
-    was manually edited), or is a plain non-project session, the
-    plugin detaches from the project silently. The session's tabs
-    load without interruption, and the project panel stays empty.
+  - If the session belongs to a different project, or is a plain
+    non-project session, the plugin detaches from the project silently.
+    The session's tabs load without interruption, and the project
+    panel stays empty.
 
 External session switch detection
-  While a project is open, only that project's internal sessions are
-  ever loaded or saved. If the app's session no longer belongs to the
-  open project, the plugin detaches from the project silently. No tabs
-  are closed, no default session is loaded — the foreign session simply
-  takes over, and the project's saved session is protected from being
-  overwritten. This is detected via two app state events:
-  - APPSTATE_SESSION_SET: another plugin (e.g. a session manager)
-    changed the app's session via PROC_SET_SESSION (issue #6366);
-  - APPSTATE_SESSION_LOAD: a session that doesn't belong to the open
-    project was loaded (a direct PROC_LOAD_SESSION call).
-  Session changes made by the Project Manager itself never trigger
-  this.
+  While a project is open, only that project's sessions are ever
+  loaded or saved. If the app is switched to a session that does not
+  belong to the open project (by another session-manager plugin, or a
+  manual command), the plugin detaches from the project silently.
+  No tabs are closed, no default session is loaded — the other session
+  simply takes over, and the project's saved sessions are protected
+  from being overwritten by it. Session switches made by the Project
+  Manager itself never trigger this.
+
+Unsaved text when switching sessions or projects
+  Sessions store more than the list of open tabs: the text typed but
+  not yet saved to disk is stored inside the session too, and comes
+  back as an unsaved tab when the session is loaded again. Before any
+  command closes tabs (switching sessions, opening/creating/closing a
+  project), the current state is saved into the session it belongs to,
+  so unsaved text is never lost. If storing the state fails (for
+  example a read-only project file), CudaText's own "save changes?"
+  prompt appears for modified tabs instead — nothing is discarded
+  silently.
 
 Old project format (automatic upgrade)
   Project files carry a "version" key (current format version: 2).
@@ -482,63 +489,28 @@ project file and its referenced folders together).
 
 
 ------------------------------------------------------------------------------
-TECHNICAL NOTES
+NOTES
 ------------------------------------------------------------------------------
-
-- Only root nodes (top-level folders/files) are stored in the project.
-  Folder contents are enumerated on demand when you expand a node.
 
 - "Stop tracking this folder/file" only removes the top-level entry
   you right-clicked. If you right-click a file inside a tracked
   folder, the command walks up to the folder's root entry.
 
-- Opening a .cuda-proj file directly (via File > Open or command line)
-  loads it as a project instead of showing raw JSON. This is handled
-  by the on_open_pre event.
+- Opening a .cuda-proj file directly (via File > Open or the command
+  line) opens it as a project instead of showing raw JSON.
 
-- The plugin subscribes to these events (declared in install.inf):
-  on_open_pre (for .cuda-proj files only), on_delete_file, on_tab_change,
-  on_exit, on_state. All of them are lazy (the '~' suffix in
-  install.inf): lazy events never load the plugin, their handlers only
-  run when the plugin is already loaded (on_exit is always lazy in
-  CudaText anyway). So install.inf never causes the plugin to load on
-  start.
+- The most recent project reopens automatically on CudaText start.
+  The plugin itself is only loaded on start when a project was used in
+  the previous run, so users who don't use projects keep CudaText's
+  fast startup.
 
-- on_start is subscribed additionally via plugins.ini [events], which
-  the plugin writes itself, when a project was opened/created/saved
-  (the hidden "on_start" option). This way CudaText loads the plugin
-  on start only for users who really used projects on the previous
-  run; users who don't use Project Manager keep a fast start, the
-  plugin is not loaded at all.
+- The session loaded when a project is opened is the one that was used
+  last in it; it is remembered in the project file on every session
+  switch.
 
-- on_start auto-opens the most recent project on CudaText startup.
-  It reads history.json to check which session CudaText is restoring:
-  if it matches the most-recent project, the project metadata loads
-  (CudaText's session restore proceeds normally). If it doesn't match
-  (e.g. history.json was manually edited, or a different session is
-  active), the project detaches silently to protect its session data.
-
-- Sessions are stored inside the .cuda-proj file using CudaText's
-  "project|/sessions/name" session pointer format.
-
-- install.inf marks "Project properties..." and "Config..." with
-  "menu=op": CudaText also shows these two commands in its Settings
-  menu, so the plugin's dialogs are reachable from there too. Commands
-  that make no sense without a selected tree node are context-menu
-  only and are not declared in install.inf at all.
-
-- "last_session" (the session to load when the project is opened) is
-  updated in the project file every time a project session becomes
-  active, so the project always reopens with the session that was used
-  last. Older project files carrying the removed "def_session" key are
-  migrated to "last_session" on open.
-
-- While a project is open, every session pointer the plugin sets points
-  INSIDE that project's file. The only moment an external session is
-  loaded is "Close project" — the project is forgotten first, then the
-  default CudaText session is restored. This is what keeps external
-  session files (like default.cuda-session) from being overwritten by
-  the ~40-second session autosave while project tabs are open.
+- Developer documentation (design concepts, session handling rules,
+  file format details for plugin authors) is in the file
+  doc_for_dev.md next to the plugin source code.
 
 
 ------------------------------------------------------------------------------
