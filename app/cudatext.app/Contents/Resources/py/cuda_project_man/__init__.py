@@ -33,13 +33,101 @@ if IS_WIN:
 
 PROJECT_EXTENSION = ".cuda-proj"
 PROJECT_DIALOG_FILTER = _("CudaText projects") + "|*" + PROJECT_EXTENSION
-PROJECT_UNSAVED_NAME = _("(Unsaved project)")
-PROJECT_TEMP_FILENAME = os.path.join(app_path(APP_DIR_SETTINGS), 'temporary'+PROJECT_EXTENSION)
+PROJECT_UNSAVED_NAME = _("(No project)")
 NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD = range(4)
 OS_SUFFIX = app_proc(PROC_GET_OS_SUFFIX, '')
 DEF_SES = 'default'+OS_SUFFIX+'.cuda-session'
+
 global_project_info = {}
 sort_order = 'ext'
+
+# Project file format version written by this plugin. Files without a
+# "version" key are the old format (version 1) and are upgraded on open.
+PROJECT_FORMAT_VERSION = 2
+
+
+def load_project_file(path):
+    """Load and validate a .cuda-proj file.
+    Returns (data, error): exactly one of them is non-None.
+    `data` is the parsed JSON dict; `error` is a string 'kind[:detail]'
+    with kind one of: io, empty, json, type, nodes, sessions."""
+    try:
+        with open(path, encoding='utf8') as fin:
+            text = fin.read()
+    except OSError as ex:
+        return None, 'io: %s' % ex
+
+    if not text.strip():
+        return None, 'empty'
+
+    try:
+        data = json.loads(text)
+    except ValueError as ex:
+        return None, 'json: %s' % ex
+
+    if not isinstance(data, dict):
+        return None, 'type'
+
+    nodes = data.get('nodes')
+    if nodes is not None:
+        if not isinstance(nodes, list) or not all(isinstance(n, str) for n in nodes):
+            return None, 'nodes'
+
+    sessions = data.get('sessions')
+    if sessions is not None and not isinstance(sessions, dict):
+        return None, 'sessions'
+
+    return data, None
+
+
+def normalize_project_data(data):
+    """Ensure a project dict has all standard keys with correct types.
+    Only adds missing keys / fixes types; never removes user keys.
+    - last_session: name of the session that was used last; filled when a
+      session is switched to, and loaded when the project is opened.
+    Does not touch the 'version' key (managed by the save/open code)."""
+    if not isinstance(data, dict):
+        data = {}
+    if not isinstance(data.get('nodes'), list):
+        data['nodes'] = []
+    else:
+        data['nodes'] = [n for n in data['nodes'] if isinstance(n, str)]
+    if not isinstance(data.get('vars'), list):
+        data['vars'] = []
+    if not isinstance(data.get('mainfile'), str):
+        data['mainfile'] = ''
+    if not isinstance(data.get('unfold'), list):
+        data['unfold'] = []
+    if not isinstance(data.get('sessions'), dict):
+        data['sessions'] = {}
+    if not isinstance(data.get('last_session'), str):
+        data['last_session'] = ''
+    return data
+
+
+def make_project_backup(path):
+    """Copy a project file to a backup next to it, before an automatic
+    upgrade rewrites the file. Backup name: '<file>.bak'; if that name is
+    already taken (an earlier upgrade, or the user's own file), a
+    timestamped name '<file>.<yymmdd_hhmmss>.bak' is used — an existing
+    backup is never overwritten.
+    Returns the backup path, or None when the copy failed (read-only
+    folder, locked file, ...)."""
+    from datetime import datetime
+    import shutil
+    p = Path(path)
+    bak = p.with_name(p.name + '.bak')
+    if bak.exists():
+        stamp = datetime.now().strftime('%y%m%d_%H%M%S')
+        bak = p.with_name('%s.%s.bak' % (p.name, stamp))
+        if bak.exists():
+            return None
+    try:
+        shutil.copy2(str(p), str(bak))
+    except OSError:
+        return None
+    return bak
+
 
 def is_session_name(s):
     allowed = string.ascii_letters+string.digits+'., ()-+_$%='
@@ -47,6 +135,29 @@ def is_session_name(s):
         if not ch in allowed:
             return False
     return True
+
+
+def write_json_file(path, data):
+    """Write `data` as pretty JSON to `path`, atomically: the JSON goes to a
+    temporary file next to the target first, which then replaces the target
+    in one step. A crash / power loss / full disk in the middle of the write
+    can never leave a truncated file behind — for a .cuda-proj file that
+    would lose ALL project data (nodes + every embedded session). Either
+    the file is replaced completely, or the previous complete file stays
+    intact and the error propagates to the caller (callers report OSError
+    to the user)."""
+    tmp = str(path) + '.tmp' + str(os.getpid())
+    try:
+        with open(tmp, 'w', encoding='utf8') as fout:
+            json.dump(data, fout, indent=2)
+        os.replace(tmp, str(path))
+    finally:
+        # the replace didn't happen -> remove the temp file
+        if os.path.exists(tmp):
+            try:
+                os.unlink(tmp)
+            except OSError:
+                pass
 
 def _file_open(fn, options=''):
     gr = ed.get_prop(PROP_INDEX_GROUP)
@@ -212,22 +323,33 @@ class Command:
     goto_history = []
     cur_dir = ''
     project_file_path = None
+    # guard for on_state(APPSTATE_SESSION_SET): True while the plugin
+    # itself changes the app session (see Command._set_session)
+    _session_set_by_plugin = False
 
     title ="Project" # No _() here, the translation is offered in "translation template.ini".
     menuitems = (
         # item_caption, item_parent, item_types, item_action, item_hotkey
-        (_("New project"), "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_new_project", ""),
+        (_("Create new empty project..."), "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_new_project", ""),
+        (_("Create new project from open tabs..."), "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_save_session_as_project", ""),
         (_("Open project..."), "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_open_project", ""),
         (_("Recent projects"), "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "collect_recent_projects", ""),
+        ("-", "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "", ""),
+        (_("Save project"), "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_save_project", ""),
         (_("Save project as..."), "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_save_project_as", ""),
+        (_("Close project"), "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_close_project", ""),
+        (_("Open project folder"), "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_open_project_folder", ""),
+        ("-", "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "", ""),
+        (_("Project properties..."), "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_project_properties", ""),
 
         (_("Add folder..."), "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_add_folder", ""),
         (_("Add file..."), "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_add_file", ""),
+        (_("Add current file"), "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.add_current_file", ""),
+        (_("Add all opened files"), "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.add_opened_files", ""),
+        (_("Add folder of current file"), "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.add_current_dir", ""),
         ("-", "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "", ""),
-        (_("Clear project..."), "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_clear_project", ""),
-        ("-", "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "", ""),
-        (_("Remove root node"), "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_remove_node", ""),
-        (_("Remove deleted root nodes..."), "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_remove_deleted_nodes", ""),
+        (_("Stop tracking this folder/file"), "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_remove_node", ""),
+        (_("Clean up missing paths..."), "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_remove_deleted_nodes", ""),
 
         (_("New file..."), "dir", [NODE_DIR], "cuda_project_man.action_new_file", S_CTRL_NAME + "+N"),
         (_("New folder..."), "dir", [NODE_DIR], "cuda_project_man.action_new_directory", "F7"),
@@ -245,10 +367,11 @@ class Command:
         ("-", "dir", [NODE_DIR], "", ""),
         (_("Find in folder..."), "dir", [NODE_DIR], "cuda_project_man.action_find_in_directory", ""),
         ("-", "dir", [NODE_DIR], "", ""),
-        (_("Focus in file manager"), "dir", [NODE_DIR], "cuda_project_man.action_focus_in_fileman", ""),
+        (_("Reveal in file manager"), "dir", [NODE_DIR], "cuda_project_man.action_focus_in_fileman", ""),
         (_("Properties..."), "dir", [NODE_DIR], "cuda_project_man.action_get_properties", "Alt+Enter"),
 
         (_("Open in default application"), "file", [NODE_FILE], "cuda_project_man.action_open_def", ""),
+        (_("Set as main file"), "file", [NODE_FILE], "cuda_project_man.action_set_as_main_file", ""),
         ("-", "file", [NODE_FILE], "", ""),
         (_("Cut"), "file", [NODE_FILE], "cuda_project_man.action_cut", S_CTRL_NAME + "+X"),
         (_("Copy"), "file", [NODE_FILE], "cuda_project_man.action_copy", S_CTRL_NAME + "+C"),
@@ -261,14 +384,20 @@ class Command:
         (_("Duplicate..."), "file", [NODE_FILE], "cuda_project_man.action_duplicate", ""),
         (_("Delete"), "file", [NODE_FILE], "cuda_project_man.action_delete_file", "Del"),
         ("-", "file", [NODE_FILE], "", ""),
-        (_("Focus in file manager"), "file", [NODE_FILE], "cuda_project_man.action_focus_in_fileman", ""),
-        (_("Set as main file"), "file", [NODE_FILE], "cuda_project_man.action_set_as_main_file", ""),
+        (_("Reveal in file manager"), "file", [NODE_FILE], "cuda_project_man.action_focus_in_fileman", ""),
         (_("Properties..."), "file", [NODE_FILE], "cuda_project_man.action_get_properties", "Alt+Enter"),
 
         ("-"   , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "", ""),
         (_("Refresh"), "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_refresh", "F5"),
+        (_("Show current file in project tree"), "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.sync_to_ed", ""),
         ("-"   , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "", ""),
         (_("Go to file...")  , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_go_to_file", ""),
+        (_("Go to main file"), "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.goto_main", ""),
+        (_("Open main file"), "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.open_main", ""),
+        ("-"   , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "", ""),
+        (_("Project sessions"), "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "sessions_submenu", ""),
+        ("-"   , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "", ""),
+        (_("Config..."), "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_config", ""),
     )
 
     options = {
@@ -282,7 +411,14 @@ class Command:
         "goto_open": False,
         "sort_order": "ext",
         "always_sync": False,
+        "on_start": False,
+        "on_start_activate": False,
+        "icon_theme": "vscode_16x16",
+        "toolbar_theme": "default_16x16",
     }
+    # Default options used as the base when loading from disk: any key
+    # missing from the loaded file is filled in from here, so settings
+    # stay fresh after adding/removing options in code.
 
     tree = None
     h_dlg = None
@@ -292,15 +428,25 @@ class Command:
     action_cut_activate = False
 
     def __init__(self):
+        self.file_drag_start = None
+        self.tree_index = None
         settings_dir = Path(app_path(APP_DIR_SETTINGS))
         self.options_filename = settings_dir / "cuda_project_man.json"
+        # Start from a fresh copy of the defaults, then merge the loaded
+        # file on top. This ensures newly added options appear even in old
+        # config files, while preserving the user's existing values.
+        self.options = copy.deepcopy(self.options)
         if self.options_filename.exists():
-            with self.options_filename.open(encoding='utf8') as fin:
-                self.options = json.load(fin)
+            try:
+                with self.options_filename.open(encoding='utf8') as fin:
+                    loaded = json.load(fin)
+                self.options.update(loaded)
                 if "recent_projects" in self.options:
                     self.options["recent_projects"] = [expand_macros('', fn) for fn in self.options["recent_projects"]]
+            except Exception:
+                pass
 
-        self.new_project(False, False) # don't forget session in on_start
+        self.new_project() # reset to the "no project" state
 
 
     def init_form_main(self):
@@ -341,14 +487,14 @@ class Command:
         toolbar_proc(self.h_bar, TOOLBAR_THEME)
         _toolbar_add_btn(self.h_bar, hint=_('Recent projects'), icon=icon_recents, command='cuda_project_man.menu_recents' )
         _toolbar_add_btn(self.h_bar, hint=_('Open project'), icon=icon_open, command='cuda_project_man.action_open_project' )
-        _toolbar_add_btn(self.h_bar, hint=_('Save project as'), icon=icon_save, command='cuda_project_man.action_save_project_as' )
+        _toolbar_add_btn(self.h_bar, hint=_('Save project'), icon=icon_save, command='cuda_project_man.action_save_project' )
         _toolbar_add_btn(self.h_bar, hint='-' )
         _toolbar_add_btn(self.h_bar, hint=_('Add folder'), icon=icon_add_dir, command='cuda_project_man.action_add_folder' )
         _toolbar_add_btn(self.h_bar, hint=_('Add file'), icon=icon_add_file, command='cuda_project_man.action_add_file' )
         # _toolbar_add_btn(self.h_bar, hint=_('Remove node'), icon=icon_del, command='cuda_project_man.action_remove_node' )
         _toolbar_add_btn(self.h_bar, hint='-' )
         _toolbar_add_btn(self.h_bar, hint=_('Project sessions'), icon=icon_cfg, command='cuda_project_man.menu_cfg')
-        _toolbar_add_btn(self.h_bar, hint=_('Sync project-tree with current editor file'), icon=icon_sync, command='cuda_project_man.sync_to_ed' )
+        _toolbar_add_btn(self.h_bar, hint=_('Show current file in project tree'), icon=icon_sync, command='cuda_project_man.sync_to_ed' )
 
         btn_count = toolbar_proc(self.h_bar, TOOLBAR_GET_COUNT)
         self.h_btn_sync = toolbar_proc(self.h_bar, TOOLBAR_GET_BUTTON_HANDLE, index=btn_count-1)
@@ -358,6 +504,7 @@ class Command:
         toolbar_proc(self.h_bar, TOOLBAR_UPDATE)
 
         n = dlg_proc(self.h_dlg, DLG_CTL_ADD, prop='treeview')
+        self.tree_index = n
         dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, index=n, prop={
             'name':'tree',
             'a_t':('bar', ']'),
@@ -367,6 +514,9 @@ class Command:
             'on_unfold': 'cuda_project_man.tree_on_unfold',
             'on_click': 'cuda_project_man.tree_on_click',
             'on_click_dbl': 'cuda_project_man.tree_on_click_dbl',
+            'on_mouse_down': self.tree_mouse_down,
+            'on_mouse_move': self.tree_mouse_move,
+            'on_mouse_up': self.tree_mouse_up,
             } )
 
         self.tree = dlg_proc(self.h_dlg, DLG_CTL_HANDLE, index=n)
@@ -420,6 +570,31 @@ class Command:
             ed.cmd(cudatext_cmd.cmd_ShowSidePanelAsIs)
             app_proc(PROC_SIDEPANEL_ACTIVATE, self.title)
 
+    def tree_mouse_down(self, id_dlg, id_ctl, data='', info=''):
+        if isinstance(data, dict) and data.get('btn', -1) == 0:
+            self.file_drag_start = (int(data.get('x', 0)), int(data.get('y', 0)))
+        else:
+            self.file_drag_start = None
+
+    def tree_mouse_move(self, id_dlg, id_ctl, data='', info=''):
+        if self.file_drag_start is None or not isinstance(data, dict):
+            return
+        x = int(data.get('x', 0))
+        y = int(data.get('y', 0))
+        if max(abs(x-self.file_drag_start[0]), abs(y-self.file_drag_start[1])) <= 5:
+            return
+        node = self.selected
+        self.file_drag_start = None
+        if not node or self.tree_index is None:
+            return
+        path = str(self.get_location_by_index(node))
+        if path and os.path.exists(path):
+            dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, index=self.tree_index,
+                     prop={'drag_files': path})
+
+    def tree_mouse_up(self, id_dlg, id_ctl, data='', info=''):
+        self.file_drag_start = None
+
     @property
     def selected(self):
         return tree_proc(self.tree, TREE_ITEM_GET_SELECTED)
@@ -469,7 +644,7 @@ class Command:
             else:
                 menu_use = menu_all
 
-            if item_action == "collect_recent_projects":
+            if item_action in ("collect_recent_projects", "sessions_submenu"):
                 action = ""
             else:
                 action = item_action
@@ -484,6 +659,9 @@ class Command:
                     if os.sep in path:
                         action = str.format("module=cuda_project_man;cmd=action_open_project;info={};", path)
                         self.add_context_menu_node(menu_added, action, nice_filename(path))
+
+            elif item_action == "sessions_submenu":
+                self.fill_sessions_menu(menu_added)
 
     @staticmethod
     def node_ordering(node):
@@ -521,12 +699,6 @@ class Command:
 
     def add_node(self, path):
         if path:
-            # on adding _first_ node to _untitled_ proj, name the proj as 'temporary' and save it
-            if not self.project["nodes"] and not self.project_file_path:
-                self.action_save_project_as(PROJECT_TEMP_FILENAME)
-                self.add_recent(PROJECT_TEMP_FILENAME)
-                self.save_options()
-
             if path in self.project["nodes"]:
                 return
 
@@ -537,14 +709,11 @@ class Command:
             if self.project_file_path:
                 self.action_save_project_as(self.project_file_path)
 
-    def new_project(self, forget_session=True, apply_on_start=True):
-        if self.project_file_path:
-            self.action_save_project_as(self.project_file_path)
-
-        if forget_session:
-            self.session_forget()
-
-        self.project = dict(nodes=[])
+    def new_project(self):
+        """Reset the plugin state to "no project". Only used at plugin
+        startup, when nothing is open yet — it never touches sessions,
+        tabs or files."""
+        self.project = normalize_project_data(dict(nodes=[]))
         self.project_file_path = None
         self.update_global_data()
         self.goto_history = []
@@ -552,12 +721,6 @@ class Command:
 
         app_proc(PROC_SET_FOLDER, '')
         app_proc(PROC_SET_PROJECT, '')
-
-        self.close_foreign_tabs(True)
-
-        if apply_on_start:
-            self.options['on_start'] = False
-            self.save_events()
 
     def add_recent(self, path):
         recent = self.options["recent_projects"]
@@ -605,7 +768,7 @@ class Command:
             os.system('open "%s"'%sfn)
         elif suffix=='__haiku':
             #Haiku
-            msg_status('TODO: implement "Open in default app" for Haiku')
+            msg_status('"Open in default application" is not implemented for this OS')
         else:
             #other Unixes
             os.spawnvp(os.P_WAIT, 'xdg-open', ('xdg-open', fn.as_uri()))
@@ -628,7 +791,7 @@ class Command:
             os.system('open --new --reveal '+sfn.replace(' ', '\\ '))
         elif suffix=='__haiku':
             #Haiku
-            msg_status('"Focus in file manager" not implemented for this OS')
+            msg_status('"Reveal in file manager" is not implemented for this OS')
         else:
             #Linux and others
             if os.spawnvp(os.P_WAIT, 'dbus-send', ('dbus-send', '--session', '--dest=org.freedesktop.FileManager1', '--type=method_call', '--print-reply', '/org/freedesktop/FileManager1', 'org.freedesktop.FileManager1.ShowItems', 'array:string:'+fn.as_uri(), 'string:')):
@@ -775,9 +938,14 @@ class Command:
                 if self.action_cut_activate:
                     shutil.move(str(location), new_location)
                 else:
-                    from distutils.dir_util import copy_tree
-                    copy_tree(str(location), new_location)
-                    shutil.copystat(str(location), new_location)
+                    # shutil, not the removed distutils (gone in Python 3.12);
+                    # copytree refuses to overwrite an existing folder, while
+                    # distutils copy_tree silently merged into it
+                    try:
+                        shutil.copytree(str(location), new_location)
+                    except OSError as ex:
+                        msg_status(_('Cannot copy folder: ') + str(ex))
+                        return
             self.action_refresh()
 
     def get_w_h(self):
@@ -904,7 +1072,7 @@ class Command:
             app_proc(PROC_SET_FOLDER, path)
             self.cur_dir = path
 
-        msg_status(_("Deleted dir: ") + str(location.name))
+        msg_status(_("Deleted folder: ") + str(location.name))
 
     def action_new_directory(self):
         location = Path(self.get_location_by_index(self.selected))
@@ -935,7 +1103,7 @@ class Command:
                     'wk_incl': '*'
                     }})
             except ImportError:
-                msg_box(_('Plugin "Find in Files" or "Find in Files 4" is not installed, install it first'), MB_OK + MB_ICONERROR)
+                msg_box(_('Plugin "Find in Files" or "Find in Files 4" is not installed; install it first'), MB_OK + MB_ICONERROR)
 
 
     def action_refresh(self, parent=None):
@@ -996,7 +1164,7 @@ class Command:
             items_root = tree_proc(self.tree, TREE_ITEM_ENUM_EX, 0)
             tree_proc(self.tree, TREE_ITEM_SELECT, items_root[0]['id'])
 
-            nodes = map(Path, self.project["nodes"])
+            nodes = map(Path, self.project.get("nodes", []))
             if sort_order != '':
                 nodes = sorted(nodes, key=Command.node_ordering_direntry)
         else:
@@ -1085,76 +1253,477 @@ class Command:
         if unfold:
             tree_proc(self.tree, TREE_ITEM_UNFOLD, parent)
 
-    def action_new_project(self):
-        self.session_save(True)
-        self.new_project()
+    def action_new_project(self, info=None):
+        """Create a new project. Prompts for save location, creates an empty
+        session called 'session1' inside the project, and loads it."""
+
+        path = info
+        if path is None:
+            path = dlg_file(False, "", "", PROJECT_DIALOG_FILTER)
+        if not path:
+            return
+
+        path = Path(path)
+        if path.suffix != PROJECT_EXTENSION:
+            path = path.parent / (path.name + PROJECT_EXTENSION)
+
+        if (self.project_file_path
+        and os.path.normpath(str(self.project_file_path)) == os.path.normpath(str(path))):
+            msg_status(_('Project is already open'))
+            return
+
+        self._create_project_file(path, close_tabs=True)
+        msg_status(_("Created project: ") + os.path.basename(str(path)))
+
+    def _create_project_file(self, path, close_tabs=True):
+        """Create a new project file at `path` and make it the current
+        project. Saves the current project (and its session slot) first.
+        With close_tabs=True all tabs are closed and session 'session1'
+        starts empty (used by New project); with close_tabs=False the
+        current tabs are embedded as session 'session1' (used by
+        'New project from open tabs...')."""
+
+        path_str = str(path)
+
+        # Save the current project and its session slot before switching
+        if self.project_file_path:
+            self.action_save_project_as(self.project_file_path)
+            cur_fn = str(self.project_file_path)
+            cur_sess = self.session_cur_name()
+            if cur_fn and cur_sess:
+                app_proc(PROC_SAVE_SESSION, cur_fn + '|/sessions/' + cur_sess)
+
+        if close_tabs:
+            # Close all tabs (the current state is saved into its session
+            # first, so unsaved text is not lost — see
+            # _close_tabs_saving_state)
+            self._close_tabs_saving_state()
+
+        # Reset project state
+        self.project = normalize_project_data(dict(nodes=[]))
+        self.project_file_path = path
+        self.update_global_data()
+        self.goto_history = []
+        self.cur_dir = ''
+
+        app_proc(PROC_SET_FOLDER, '')
+        app_proc(PROC_SET_PROJECT, path_str)
+
+        # Save the initial project file (current format version)
+        d = copy.deepcopy(self.project)
+        d['version'] = PROJECT_FORMAT_VERSION
+        d['last_session'] = 'session1'
+        write_json_file(path, d)
+
+        # Create session1 inside the project and set as active
+        sess1 = path_str + '|/sessions/session1'
+        app_proc(PROC_SAVE_SESSION, sess1)
+        self._set_session(sess1)
+
+        # refresh the in-memory project from the file on disk (it now
+        # contains session1 and last_session)
+        try:
+            with open(path_str, 'r', encoding='utf8') as f:
+                data = json.load(f)
+            self.project = normalize_project_data(data)
+        except (OSError, ValueError):
+            pass
+        self.project['last_session'] = 'session1'
+
+        self.update_global_data()
+        self.add_recent(path_str)
+        self.options['on_start'] = True
+        self.save_events()
+        self.save_options()
+
         self.action_refresh()
 
-    def action_open_project(self, info=None):
+    def action_save_session_as_project(self, info=None):
+        """Save the current editor state as a NEW project: prompts for the
+        .cuda-proj location, embeds the currently open tabs as session
+        'session1', makes it the default session and switches to the new
+        project. Open tabs are NOT closed — the current state becomes the
+        new project's session. (Migration helper for the old workflow which
+        kept sessions in external .cuda-session files.)"""
+
+        path = info
+        if path is None:
+            path = dlg_file(False, "", "", PROJECT_DIALOG_FILTER)
+        if not path:
+            return
+
+        path = Path(path)
+        if path.suffix != PROJECT_EXTENSION:
+            path = path.parent / (path.name + PROJECT_EXTENSION)
+
+        if (self.project_file_path
+        and os.path.normpath(str(self.project_file_path)) == os.path.normpath(str(path))):
+            msg_status(_('This file is already the current project'))
+            return
+
+        self._create_project_file(path, close_tabs=False)
+        msg_status(_("Created project from current session: ") + os.path.basename(str(path)))
+
+    def action_save_project(self):
+        """Save project in place. Falls back to Save as... if no path yet."""
+        if self.project_file_path:
+            self.action_save_project_as(self.project_file_path)
+        else:
+            self.action_save_project_as()
+
+    def action_close_project(self):
+        """Close the current project: save session, close all tabs, load
+        default.cuda-session (restoring, not overwriting, its tabs)."""
+
+        # Saving the project also saves the current session into its slot
+        # inside the project file
+        if self.project_file_path:
+            self.action_save_project_as(self.project_file_path)
+
+        # Close all tabs. The current state is saved into the session it
+        # belongs to first (the project's session slot / the app's session
+        # file), so unsaved text is not lost — see _close_tabs_saving_state.
+        self._close_tabs_saving_state()
+
+        # Forget the project BEFORE touching the app session: the
+        # _set_session/PROC_LOAD_SESSION calls below fire app state events,
+        # and the on_state handler must not see a foreign session with a
+        # still-open project.
+        self._close_project_silent()
+
+        # No project is loaded anymore: the plugin must not load at the
+        # next CudaText start. Remove the on_start subscription from
+        # plugins.ini [events] (a later open/create/save of a project
+        # subscribes it again).
+        self._update_on_start_subscription(False)
+
+        # Load default session via PROC_LOAD_SESSION (reads, doesn't overwrite)
+        self._set_session(DEF_SES)
+        default_sess_path = os.path.join(app_path(APP_DIR_SETTINGS), DEF_SES)
+        app_proc(PROC_LOAD_SESSION, default_sess_path)
+
+        msg_status(_("Project closed"))
+
+    def _set_session(self, ptr):
+        """app_proc(PROC_SET_SESSION, ...) wrapper for session changes made
+        by the plugin itself. Sets a guard flag so the on_state handler
+        doesn't treat our own change as an external session switch (which
+        would close the project); see APPSTATE_SESSION_SET, issue #6366.
+        Also records project sessions as the project's "last_session" —
+        the session loaded the next time the project is opened."""
+        self._session_set_by_plugin = True
+        try:
+            app_proc(PROC_SET_SESSION, ptr)
+        finally:
+            self._session_set_by_plugin = False
+        self._remember_last_session(ptr)
+
+    def _remember_last_session(self, ptr):
+        """Store the session named by `ptr` as the project's "last_session"
+        (in memory and in the project file on disk), so the project reopens
+        with the session that was used last.
+        Only INTERNAL session pointers (own .cuda-proj path +
+        "|/sessions/" + name) are recorded — external session pointers
+        (e.g. the default cuda-session) never change, and never overwrite,
+        the project's last used session. Also drops the removed
+        "def_session" key still present in older project files."""
+        fn_proj = str(self.project_file_path) if self.project_file_path else ''
+        if not fn_proj or '|/sessions/' not in ptr:
+            return
+        if not ptr.startswith(fn_proj + '|/sessions/'):
+            return
+        name = ptr.split('|/sessions/', 1)[1]
+        if not name:
+            return
+        try:
+            with open(fn_proj, 'r', encoding='utf8') as f:
+                data = json.load(f)
+            if data.get('last_session') != name or 'def_session' in data:
+                data['last_session'] = name
+                data.pop('def_session', None)
+                write_json_file(fn_proj, data)
+        except (OSError, ValueError):
+            pass
+        self.project['last_session'] = name
+
+    @staticmethod
+    def _read_session_keys(path):
+        """Read the 'sessions' and 'last_session' keys from a .cuda-proj
+        file on disk. Returns a dict holding only the keys that were found
+        with valid types; {} when the file cannot be read or parsed.
+        CudaText writes session sub-keys straight into the project file
+        (PROC_SAVE_SESSION on session switches, the ~40 s session
+        autosave, the save on exit), bypassing every in-memory copy —
+        the file on disk is the only up-to-date source for them."""
+        try:
+            with open(path, 'r', encoding='utf8') as f:
+                data = json.load(f)
+        except (OSError, ValueError):
+            return {}
+        res = {}
+        if isinstance(data, dict):
+            if isinstance(data.get('sessions'), dict):
+                res['sessions'] = data['sessions']
+            if isinstance(data.get('last_session'), str):
+                res['last_session'] = data['last_session']
+        return res
+
+    def _sync_sessions_from_disk(self):
+        """Refresh the in-memory project's 'sessions' and 'last_session'
+        from the project file on disk. Must be called after anything
+        saves a session into the file (PROC_SAVE_SESSION), so that a
+        later project-file save can never write stale session data back
+        over the file — that reverted every non-current session to an
+        old state and silently lost typed text (found via on_exit)."""
+        if not self.project_file_path:
+            return
+        fresh = self._read_session_keys(str(self.project_file_path))
+        if 'sessions' in fresh:
+            self.project['sessions'] = fresh['sessions']
+        if 'last_session' in fresh:
+            self.project['last_session'] = fresh['last_session']
+
+    def _close_project_silent(self):
+        """Reset project state without touching tabs or sessions. Used when
+        an external session switch is detected — the foreign session is now
+        active and we must detach from the project without disrupting it."""
+        self.project = normalize_project_data(dict(nodes=[]))
+        self.project_file_path = None
+        self.update_global_data()
+        self.goto_history = []
+        self.cur_dir = ''
+
+        app_proc(PROC_SET_FOLDER, '')
+        app_proc(PROC_SET_PROJECT, '')
+
+        self.action_refresh()
+
+    def action_open_project(self, info=None, load_session=True):
         if self.project_file_path:
             self.action_save_project_as(self.project_file_path)
 
         path = info
         if path is None:
             path = dlg_file(True, "", "", PROJECT_DIALOG_FILTER)
-        if path:
-            self.session_save(True)
+        if not path:
+            return
 
-            proj_dir = os.path.dirname(path)
+        if not Path(path).exists():
+            msg_status(_("Project file not found: ") + collapse_filename(str(path)))
+            return
 
-            if Path(path).exists():
-                print(_('Loading project: ') + collapse_filename(path))
-                with open(path, encoding='utf8') as fin:
-                    self.project = json.load(fin)
+        proj_dir = os.path.dirname(path)
 
-                    if 'nodes' in self.project:
-                        for i in range(len(self.project['nodes'])):
-                            node = self.project['nodes'][i]
-                            # normalize os separators
-                            node = os.path.normpath(node)
-                            self.project['nodes'][i] = expand_macros(proj_dir, node)
+        # Load and validate the project file BEFORE closing any tab, so a
+        # broken file leaves the editor state untouched
+        print(_('Loading project: ') + collapse_filename(path))
+        data, err = load_project_file(path)
+        if err:
+            self._report_project_load_error(path, err)
+            return
 
-                        # delete orphan items
-                        bads = [fn for fn in self.project["nodes"] if not os.path.exists(fn)]
-                        '''
-                        for fn in bads:
-                            self.project["nodes"].remove(fn)
-                        '''
+        ver = data.get('version', 1)
+        if not isinstance(ver, int):
+            ver = 1
+        if ver > PROJECT_FORMAT_VERSION:
+            msg_box(
+                _('Cannot open project:\n%s\n\nThe file uses project format version %d,\nbut this Project Manager supports only version %d.\nPlease update CudaText and its plugins.') %
+                    (collapse_filename(str(path)), ver, PROJECT_FORMAT_VERSION),
+                MB_OK + MB_ICONERROR)
+            return
 
-                    #print('Loaded project:', self.project)
-                    self.project_file_path = Path(path)
-                    self.add_recent(path)
-                    self.action_refresh()
-                    self.options['on_start'] = True
-                    self.save_events()
-                    self.save_options()
+        if ver < PROJECT_FORMAT_VERSION:
+            # Old format: normalize the structure in memory, then upgrade the
+            # file on disk automatically. The upgrade only adds missing
+            # standard keys and a backup of the original is kept next to the
+            # file, so it is lossless and reversible — no confirmation dialog
+            # is needed (a blocking prompt would only prevent users from
+            # opening their own projects; the file is rewritten on exit anyway).
+            data = normalize_project_data(data)
+            self._migrate_last_session(data)
+            self.upgrade_project_file_on_disk(path, data)
+        else:
+            data = normalize_project_data(data)
+            self._migrate_last_session(data)
 
-                self.update_global_data()
-                self.goto_history = []
+        # Save the current session to its slot, then close all tabs.
+        # Skipped when load_session=False (on_start when CudaText
+        # already loaded the project session from history.json).
+        if load_session:
+            self._close_tabs_saving_state()
 
-                for fn in self.project["nodes"]:
-                    if os.path.isdir(fn):
-                        app_proc(PROC_SET_FOLDER, fn)
-                        self.cur_dir = fn
-                        break
+        # Adopt the validated project
+        self.project = data
+        for i in range(len(self.project['nodes'])):
+            node = self.project['nodes'][i]
+            # normalize os separators
+            node = os.path.normpath(node)
+            self.project['nodes'][i] = expand_macros(proj_dir, node)
 
-                app_proc(PROC_SET_PROJECT, path)
+        # detect orphan items (only reported, not removed)
+        bads = [fn for fn in self.project["nodes"] if not os.path.exists(fn)]
 
-                s = _("Opened project: ") + os.path.basename(path)
-                if bads:
-                    s += ', ' + _('%d deleted item(s)')%len(bads)
-                msg_status(s)
+        self.project_file_path = Path(path)
+        self.add_recent(path)
+        self.action_refresh()
+        self.options['on_start'] = True
+        self.save_events()
+        self.save_options()
 
-                sess = self.project.get('def_session', '')
-                if sess not in ('', '-'):
-                    self.session_load(sess, False)
-                if 'unfold' in self.project:
-                    unfolds = self.project['unfold']
-                    for i in range(len(unfolds)):
-                        unfolds[i] = expand_macros(proj_dir, unfolds[i])
-                    self.enum_all_setfolds(unfolds)
+        self.update_global_data()
+        self.goto_history = []
+
+        for fn in self.project["nodes"]:
+            if os.path.isdir(fn):
+                app_proc(PROC_SET_FOLDER, fn)
+                self.cur_dir = fn
+                break
+
+        app_proc(PROC_SET_PROJECT, path)
+
+        s = _("Opened project: ") + os.path.basename(path)
+        if bads:
+            s += ', ' + _('%d missing item(s)')%len(bads)
+        msg_status(s)
+
+        if load_session:
+            names = list(self.project.get('sessions', {}).keys())
+            if names:
+                # load the session that was used last (the first one when
+                # the project has no "last_session" yet or it names a
+                # session that no longer exists)
+                sess = self.project.get('last_session', '')
+                if sess not in names:
+                    sess = names[0]
+                sess_path = str(path) + '|/sessions/' + sess
+                self._set_session(sess_path)
+                app_proc(PROC_LOAD_SESSION, sess_path)
             else:
-                msg_status(_("Project file not found: ") + collapse_filename(str(path)))
+                # A project always keeps at least one session (a project is
+                # itself a session): create 'session1' from the current
+                # (empty) state, so the app session stays inside the project
+                # and can never leak onto an external session file.
+                sess_path = str(path) + '|/sessions/session1'
+                app_proc(PROC_SAVE_SESSION, sess_path)
+                self._set_session(sess_path)
+                try:
+                    with open(path, 'r', encoding='utf8') as f:
+                        self.project['sessions'] = json.load(f).get('sessions', {})
+                except (OSError, ValueError):
+                    pass
+        elif not self.project.get('sessions'):
+            # Startup path (load_session=False): CudaText is restoring the
+            # project's session from history.json itself. If the file has
+            # no sessions at all (left over by old builds), create
+            # 'session1' from the restored state now — a project is itself
+            # a session, it always keeps one (otherwise the ~40 s session
+            # autosave would write the app session pointer's sub-key into
+            # the file only much later, and the sessions menu would be
+            # empty meanwhile).
+            sess_path = str(path) + '|/sessions/session1'
+            if app_proc(PROC_SAVE_SESSION, sess_path):
+                self._set_session(sess_path)
+                self._sync_sessions_from_disk()
+        if 'unfold' in self.project:
+            unfolds = self.project['unfold']
+            for i in range(len(unfolds)):
+                unfolds[i] = expand_macros(proj_dir, unfolds[i])
+            self.enum_all_setfolds(unfolds)
+
+    @staticmethod
+    def _migrate_last_session(data):
+        """Migrate the removed 'def_session' key (written by earlier
+        builds) to 'last_session'. Files with neither key get their
+        last_session filled when a session is switched to / the project
+        is opened."""
+        if 'def_session' in data:
+            # 'not data.get(...)' also covers the '' normalize may have
+            # just inserted for a missing key
+            if not data.get('last_session'):
+                data['last_session'] = data['def_session']
+            del data['def_session']
+        if not isinstance(data.get('last_session'), str):
+            data['last_session'] = ''
+
+    def upgrade_project_file_on_disk(self, path, data):
+        """Rewrite an old-format (version-less) project file in the current
+        format, after normalize_project_data() was applied to `data`.
+
+        A backup of the original file is saved next to it first (see
+        make_project_backup). When the backup or the write fails (read-only
+        folder, locked file, ...), the project is still opened with the
+        upgraded data in memory and the file on disk is upgraded on the
+        first successful save — opening a project must never be blocked.
+        The user is informed via the status bar and the console panel.
+        """
+        data['version'] = PROJECT_FORMAT_VERSION
+
+        bak = make_project_backup(path)
+        if bak is None:
+            msg_status(_('Project opened; its file could not be upgraded on disk'))
+            print(_('Project Manager: cannot back up old project file, '
+                'the file on disk was not upgraded: ') + collapse_filename(path))
+            print(_('Project Manager: it will get the current format on the first successful save'))
+            return
+
+        try:
+            write_json_file(path, data)
+        except OSError as ex:
+            msg_status(_('Project opened; its file could not be upgraded on disk'))
+            print(_('Project Manager: cannot upgrade project file on disk: %s') % ex)
+            print(_('Project Manager: the original file is kept in the backup: ') +
+                collapse_filename(str(bak)))
+            print(_('Project Manager: it will get the current format on the first successful save'))
+            return
+
+        msg_status(_('Project file upgraded to v%d (backup: %s)') %
+            (PROJECT_FORMAT_VERSION, os.path.basename(bak)))
+        print(_('Project Manager: old project file was upgraded to format v%d: ') %
+            PROJECT_FORMAT_VERSION + collapse_filename(path))
+        print(_('Project Manager: backup of the original saved as: ') +
+            collapse_filename(str(bak)))
+        print(_('Project Manager: you can delete the backup file if everything works fine'))
+
+        # tip for the old (pre-versioning) workflow: a sibling external
+        # session file can be embedded into the project
+        ses = Path(path).with_suffix('.cuda-session')
+        if ses.exists():
+            print(_('Project Manager: found an external session file: ') +
+                collapse_filename(str(ses)))
+            print(_('Project Manager: to embed it into the project, use '
+                '"Import external session..." in the sessions menu'))
+
+    def _report_project_load_error(self, path, err):
+        """Show a dialog for a project file that failed validation.
+        An empty (0-byte) file is special-cased: it holds no data, so the
+        user is offered to create a new empty project in it."""
+
+        err_kind = err.split(':', 1)[0]
+        err_detail = err.split(':', 1)[1] if ':' in err else ''
+
+        if err_kind == 'empty':
+            if msg_box(
+                _('The project file is empty:\n%s\n\nCreate a new empty project in this file?') %
+                    collapse_filename(str(path)),
+                MB_OKCANCEL + MB_ICONQUESTION) == ID_OK:
+                self._create_project_file(Path(path), close_tabs=True)
+            else:
+                msg_status(_('No project open'))
+            return
+
+        reasons = {
+            'io': _('Cannot read the file.'),
+            'json': _('The file does not contain valid JSON.'),
+            'type': _('The file is not a CudaText project (a JSON object is expected).'),
+            'nodes': _('The file is not a valid CudaText project ("nodes" must be a list of paths).'),
+            'sessions': _('The file is not a valid CudaText project ("sessions" must be an object).'),
+        }
+        reason = reasons.get(err_kind, err)
+        if err_detail:
+            reason += '\n' + err_detail
+
+        msg_box(_('Cannot open project file:\n%s\n\n%s') % (collapse_filename(str(path)), reason),
+            MB_OK + MB_ICONERROR)
 
     def action_add_folder(self):
         fn = dlg_dir("")
@@ -1186,45 +1755,34 @@ class Command:
                 app_proc(PROC_SET_FOLDER, '')
                 self.cur_dir = ''
         else:
-            msg_box(_('Cannot find path "%s" in root nodes list') % path, MB_OK or MB_ICONERROR)
+            msg_box(_('Cannot find path "%s" in root nodes list') % path, MB_OK + MB_ICONERROR)
 
         if self.project_file_path:
             self.action_save_project_as(self.project_file_path)
 
     def action_remove_deleted_nodes(self):
 
-        if msg_box(_("Remove deleted nodes?"), MB_OKCANCEL + MB_ICONWARNING) != ID_OK:
+        if msg_box(_("Remove missing paths from the project?"), MB_OKCANCEL + MB_ICONWARNING) != ID_OK:
             return
 
         nodes_deleted = []
-        for node in self.project["nodes"]:
+        # iterate over a COPY: removing from the same list that is being
+        # iterated skips every second matching entry (two adjacent missing
+        # paths -> only the first one was removed)
+        for node in list(self.project["nodes"]):
             path_ = Path(node)
             if not path_.exists():
                 self.project["nodes"].remove(str(path_))
                 nodes_deleted.append(str(path_))
 
         if len(nodes_deleted) > 0:
-            msg = ', '.join(nodes_deleted)
             self.action_refresh()
 
             if self.project_file_path:
                 self.action_save_project_as(self.project_file_path)
+            msg_status(_('Removed missing paths: ') + ', '.join(nodes_deleted))
         else:
-            msg = '-'
-
-        msg_status(_("[Project] Remove deleted nodes: ") + msg)
-
-    def action_clear_project(self):
-
-        if msg_box(_("Clear project?"), MB_OKCANCEL + MB_ICONWARNING) != ID_OK:
-            return
-
-        self.session_forget()
-        self.session_delete_all()
-        self.project["nodes"].clear()
-        if self.project_file_path:
-            self.action_save_project_as(self.project_file_path)
-        self.action_refresh()
+            msg_status(_('No missing paths'))
 
     def action_set_as_main_file(self):
 
@@ -1257,19 +1815,69 @@ class Command:
             if 'nodes' in d:
                 for i in range(len(d['nodes'])):
                     d['nodes'][i] = collapse_macros(proj_dir, d['nodes'][i])
+            d.setdefault('nodes', [])
 
             unfolds = []
             self.enum_all_getfolds(unfolds)
             unfolds = list(map(lambda x: collapse_macros(proj_dir, x), unfolds))
             d['unfold'] = unfolds
+            d['version'] = PROJECT_FORMAT_VERSION
 
+            # 'sessions' and 'last_session' in the in-memory project can be
+            # STALE: CudaText writes session sub-keys straight into the
+            # project file on disk (PROC_SAVE_SESSION on session switches,
+            # the ~40 s session autosave, the save on exit), and those
+            # writes don't pass through this dict. Dumping the dict here
+            # would revert every session except the current one to an old
+            # state — silent data loss (text typed in a session before
+            # switching away from it reappeared as the old text after a
+            # CudaText restart). Always take the fresh values from the
+            # file on disk; the in-memory copy is only the fallback for a
+            # first-ever save. For Save-As to a new path, the sessions of
+            # the OLD project file are carried over to the new file.
+            old_path = str(self.project_file_path) if self.project_file_path else ''
+            target = str(path)
+            carry_name = ''
+            if old_path and os.path.normpath(old_path) != os.path.normpath(target):
+                src = old_path      # Save As: carry the open project's sessions
+                # Save the active session into the OLD project first, so it
+                # doesn't lag one state behind, and remember its name — the
+                # current state must land in the new file under the SAME
+                # session name, not a generic 'session1'
+                cur_sess = self.session_cur_name()
+                if cur_sess:
+                    app_proc(PROC_SAVE_SESSION, old_path + '|/sessions/' + cur_sess)
+                    carry_name = cur_sess
+            elif os.path.isfile(target):
+                src = target        # normal save: the file being rewritten
+            else:
+                src = ''
+            if src:
+                fresh = self._read_session_keys(src)
+                if 'sessions' in fresh:
+                    d['sessions'] = fresh['sessions']
+                if 'last_session' in fresh:
+                    d['last_session'] = fresh['last_session']
+
+            # Point the plugin to the new path BEFORE saving the session,
+            # so the session is embedded into the new file, not the old one
             self.project_file_path = path
-            with path.open("w", encoding='utf8') as fout:
-                json.dump(d, fout, indent=2)
+            write_json_file(path, d)
 
-            # any saving of project file makes on_start On
+            # Save the current session into the file. This round-trips the
+            # JSON file on disk, so it runs AFTER the initial write — no
+            # final rewrite with stale data (previously the last write
+            # clobbered the just-saved session). _set_session inside also
+            # persists "last_session".
+            self.session_save_as(False, sess_name=carry_name)
+
+            # any saving of project file makes on_start On: a project is
+            # in use, so the plugin must load at the next CudaText start
+            # (save_options persists the on_start flag for consistency;
+            # plugins.ini is what CudaText actually reads on start)
             self.options['on_start'] = True
             self.save_events()
+            self.save_options()
 
             self.update_global_data()
             print(_('Saving project: ') + collapse_filename(str(path)))
@@ -1290,53 +1898,58 @@ class Command:
         self.config()
 
     def menu_cfg(self):
+        """Toolbar button "Project sessions": show the session menu."""
         if self.h_menu_cfg is None:
             self.h_menu_cfg = menu_proc(0, MENU_CREATE)
         menu_proc(self.h_menu_cfg, MENU_CLEAR)
 
+        self.fill_sessions_menu(self.h_menu_cfg)
+
+        menu_proc(self.h_menu_cfg, MENU_SHOW)
+
+    def fill_sessions_menu(self, menu):
+        """Fill the given menu with the project-session commands: the list
+        of the project's sessions plus save/delete/default/import items.
+        Used both for the toolbar button menu (menu_cfg) and for the
+        "Project sessions" submenu of the panel context menu."""
         cur_name = self.session_cur_name()
 
         names = self.session_get_names()
         if names:
             for (index, name) in enumerate(names):
-                id = menu_proc(self.h_menu_cfg, MENU_ADD,
+                id = menu_proc(menu, MENU_ADD,
                     command="module=cuda_project_man;cmd=session_load;info=%s;"%name,
                     caption=_('Project session:')+' '+name
                     )
                 if name==cur_name:
                     menu_proc(id, MENU_SET_ENABLED, command=False)
         else:
-            id = menu_proc(self.h_menu_cfg, MENU_ADD, caption=_('Project session:'))
+            id = menu_proc(menu, MENU_ADD, caption=_('Project session:'))
             menu_proc(id, MENU_SET_ENABLED, command=False)
 
-        menu_proc(self.h_menu_cfg, MENU_ADD, caption='-')
-        id = menu_proc(self.h_menu_cfg, MENU_ADD, command='cuda_project_man.session_save_as', caption=_('Save session...'))
-        if self.is_project_empty():
+        menu_proc(menu, MENU_ADD, caption='-')
+
+        id = menu_proc(menu, MENU_ADD, command='cuda_project_man.session_save_inplace', caption=_('Save session'))
+        if (not self.project_file_path) or (not cur_name):
             menu_proc(id, MENU_SET_ENABLED, command=False)
 
-        id = menu_proc(self.h_menu_cfg, MENU_ADD, command='cuda_project_man.session_delete', caption=_('Delete session...'))
-        if not names:
+        id = menu_proc(menu, MENU_ADD, command='cuda_project_man.session_save_as', caption=_('Save session as...'))
+        if not self.project_file_path:
             menu_proc(id, MENU_SET_ENABLED, command=False)
 
-        id = menu_proc(self.h_menu_cfg, MENU_ADD, command='cuda_project_man.session_def', caption=_('Set default session...'))
-        if not names:
+        id = menu_proc(menu, MENU_ADD, command='cuda_project_man.session_delete', caption=_('Delete session...'))
+        # a project must always keep at least one session
+        if len(names) < 2:
             menu_proc(id, MENU_SET_ENABLED, command=False)
 
-        id = menu_proc(self.h_menu_cfg, MENU_ADD, command='cuda_project_man.session_forget_ex', caption=_('Forget session, close all tabs'))
-        sess = app_path(APP_FILE_SESSION)
-        if os.path.basename(sess)==DEF_SES:
+        id = menu_proc(menu, MENU_ADD, command='cuda_project_man.action_import_external_session', caption=_('Import external session...'))
+        if not self.project_file_path:
             menu_proc(id, MENU_SET_ENABLED, command=False)
-
-        #menu_proc(self.h_menu_cfg, MENU_ADD, caption='-')
-        #menu_proc(self.h_menu_cfg, MENU_ADD, command='cuda_project_man.action_project_properties', caption=_('Project properties...'))
-        #menu_proc(self.h_menu_cfg, MENU_ADD, command='cuda_project_man.action_config', caption=_('Project Manager options...'))
-
-        menu_proc(self.h_menu_cfg, MENU_SHOW)
 
     def update_global_data(self):
         global global_project_info
         global_project_info['filename'] = str(self.project_file_path) if self.project_file_path else ''
-        global_project_info['nodes'] = self.project['nodes']
+        global_project_info['nodes'] = self.project.get('nodes', [])
         global_project_info['vars'] = self.project.setdefault('vars', [])
         global_project_info['mainfile'] = self.project.setdefault('mainfile', '')
 
@@ -1364,10 +1977,13 @@ class Command:
         return Path(p.get('data', ''))
 
     def save_options(self):
-        d = copy.deepcopy(self.options)
-        d["recent_projects"] = [collapse_macros('', fn) for fn in d["recent_projects"]]
-        with self.options_filename.open(mode="w", encoding='utf8') as fout:
-            json.dump(d, fout, indent=2)
+        # Only save keys that exist in the current defaults dict. This
+        # automatically drops stale keys that were removed from the code,
+        # keeping the config file clean and in sync with the code.
+        defaults = type(self).options
+        d = {k: copy.deepcopy(v) for k, v in self.options.items() if k in defaults}
+        d["recent_projects"] = [collapse_macros('', fn) for fn in d.get("recent_projects", [])]
+        write_json_file(self.options_filename, d)
 
     def menu_recents(self):
         items = list(self.options["recent_projects"])
@@ -1404,23 +2020,68 @@ class Command:
         app_proc(PROC_SET_FOLDER, path)
         self.cur_dir = path
 
-    def new_project_open_dir(self):
+    def _new_project_from_dir(self, fn):
+        """Create a project from folder `fn` in one step: the project file
+        is created inside the folder, named after the folder (e.g. "myapp"
+        -> "myapp/myapp.cuda-proj") — no second "save as" dialog. If the
+        folder already contains that project file, it is simply opened
+        instead."""
 
-        fn = dlg_dir("")
-        if fn is None: return
+        if not os.path.isdir(fn):
+            print(_('Project Manager: folder not found: ') + fn)
+            return
+
+        #expand "." to fully qualified name
+        fn = os.path.abspath(fn)
 
         if is_locked(fn):
             print(_('Project Manager: folder is locked: ') + fn)
             return
 
-        self.init_panel()
-        self.action_new_project()
-        self.add_node(fn)
-        self.do_unfold_first()
+        base = os.path.basename(fn.rstrip('\\/')) or 'project'
+        proj = os.path.join(fn, base + PROJECT_EXTENSION)
+
+        if os.path.isfile(proj):
+            # the folder already has a project: open it instead
+            self.action_open_project(proj)
+            return
+
+        if not os.access(fn, os.W_OK):
+            msg_status(_('Cannot create project file in a read-only folder'))
+            return
+
+        try:
+            self._create_project_file(Path(proj))
+            self.add_node(fn)
+            self.do_unfold_first()
+        except OSError as ex:
+            msg_status(_('Cannot create project file: %s') % ex)
+            return
 
         app_proc(PROC_SIDEPANEL_ACTIVATE, self.title)
+        msg_status(_('Created project: ') + os.path.basename(proj))
+
+    def new_project_open_dir(self):
+        """CudaText's "File - Open folder..." command (the core calls this
+        method by name, it is not in this plugin's own menus): pick a
+        folder and make a project from it in one step, see
+        _new_project_from_dir."""
+
+        fn = dlg_dir("")
+        if fn is None: return
+
+        self.init_panel()
+        self._new_project_from_dir(fn)
 
     def open_dir(self, dirname, new_proj=False):
+        """Called by CudaText itself when a folder is dragged from the OS
+        file manager and dropped onto the editor (the core calls this
+        method by name, it is not in this plugin's own menus). The folder
+        is added as a root node of the current project; with no project
+        open, of a new untitled project (it is saved to disk when the
+        user saves the project). new_proj=True (not used by the current
+        core) makes a new project from the folder in one step, like
+        "File - Open folder..."."""
 
         if not os.path.isdir(dirname):
             print(_('Project Manager: folder not found: ') + dirname)
@@ -1435,11 +2096,10 @@ class Command:
 
         self.init_panel()
         if new_proj:
-            self.action_new_project()
-        self.add_node(dirname)
-        if new_proj:
-            self.do_unfold_first()
+            self._new_project_from_dir(dirname)
+            return
 
+        self.add_node(dirname)
         app_proc(PROC_SIDEPANEL_ACTIVATE, self.title)
 
     def on_open_pre(self, ed_self, filename):
@@ -1451,6 +2111,12 @@ class Command:
     def on_exit(self, ed_self):
         if self.project_file_path:
             self.action_save_project_as(self.project_file_path)
+        else:
+            # No project is loaded at exit: the plugin must not load at
+            # the next CudaText start. It would only find a non-project
+            # session in history.json and detach again. Remove the on_start
+            # subscription from plugins.ini [events].
+            self._update_on_start_subscription(False)
 
     def config(self):
 
@@ -1465,32 +2131,53 @@ class Command:
                     })
                 button_proc(self.h_btn_sync, BTN_SET_VISIBLE, not self.options.get('always_sync', False))
 
-            self.save_events()
+            # keep the on_start subscription in sync with the project
+            # state (the hidden on_start option is not in the dialog; a
+            # stale True in a hand-edited options file must not
+            # re-subscribe the plugin with no project open)
+            self._update_on_start_subscription(bool(self.project_file_path))
+
+    def _update_on_start_subscription(self, loaded):
+        """Keep the on_start subscription in plugins.ini [events] in sync
+        with whether a project is loaded. CudaText loads this plugin at
+        start ONLY to restore an open project's session (the lazy '~'
+        events of install.inf still work and load it on demand), so
+        plugins.ini must not keep a stale on_start key.
+
+        The key is subscribed by every project open/create/save (they set
+        options['on_start']=True and call save_events). This method is the
+        single unsubscribe point, called on EVERY path that ends with no
+        project: "Close project", the on_start detach branches (foreign
+        or plain session restored at start), the external-session-switch
+        close in on_state, and on_exit with no project. With no project
+        loaded the plugin then never loads at the next CudaText start.
+
+        The hidden on_start option is set off, which makes save_events()
+        delete the plugins.ini key, and the option file records it too."""
+        self.options['on_start'] = bool(loaded)
+        self.save_events()
+        self.save_options()
 
     def save_events(self):
-            ev = []
+        # The on_start event is subscribed via plugins.ini (in addition
+        # to the lazy '~' events of install.inf). CudaText loads this
+        # plugin on start only when on_start is subscribed here, so
+        # users who don't use Project Manager get a fast start: the
+        # plugin is not loaded at all.
+        ev = []
 
-            if self.options.get('on_start', False):
-                ev.append('on_start')
+        if self.options.get('on_start', False):
+            ev.append('on_start')
 
-            '''
-            v = self.options.get('check_git', None)
-            if v is None:
-                s = ini_read('plugins.ini', 'events', 'cuda_project_man', '')
-                v = 'on_open' in s
-            if v:
-                ev.append('on_open')
-            '''
-
-            # save events to plugins.ini [events], they will work additionally to install.inf events
-            if ev:
-                ini_write('plugins.ini', 'events', 'cuda_project_man', ','.join(ev))
-            else:
-                ini_proc(INI_DELETE_KEY, 'plugins.ini', 'events', 'cuda_project_man')
+        # save events to plugins.ini [events], they work additionally to install.inf events
+        if ev:
+            ini_write('plugins.ini', 'events', 'cuda_project_man', ','.join(ev))
+        else:
+            ini_proc(INI_DELETE_KEY, 'plugins.ini', 'events', 'cuda_project_man')
 
     def config_proj(self):
         if not self.tree:
-            msg_status(_('Project not loaded'))
+            msg_status(_('No project open'))
             return
 
         from .projman_dlg import dialog_proj_prop
@@ -1510,64 +2197,61 @@ class Command:
             return False
 
     def on_start(self, ed_self):
+        # on_start is subscribed via plugins.ini, so it only runs when the
+        # plugin was loaded on start, i.e. when a project was used on the
+        # previous run. Auto-open the most recent project, but only if
+        # CudaText is restoring that project's session (detected via
+        # history.json). If history.json points at a different session,
+        # detach silently to avoid overwriting it.
         and_activate = self.options.get("on_start_activate", False)
         self.init_panel(and_activate)
 
         items = self.options.get("recent_projects", [])
         if items:
-            self.action_open_project(items[0])
+            # Read history.json to see which session CudaText is loading.
+            # The "session" key is "project_path|/sessions/name" for a
+            # project session, or a plain filename (e.g. default.cuda-session)
+            # for a non-project session.
+            history_path = os.path.join(app_path(APP_DIR_SETTINGS), 'history.json')
+            sess_ptr = ''
+            try:
+                with open(history_path, encoding='utf8') as f:
+                    hist = json.load(f)
+                sess_ptr = hist.get('session', '')
+            except Exception:
+                pass
 
-    def contextmenu_add_dir(self):
-        self.init_panel()
-        self.action_add_folder()
-
-    def contextmenu_add_file(self):
-        self.init_panel()
-        self.action_add_file()
-
-    def contextmenu_new_proj(self):
-        self.init_panel()
-        self.action_new_project()
-
-    def contextmenu_open_proj(self):
-        self.init_panel()
-        self.action_open_project()
-
-    def contextmenu_save_proj_as(self):
-        self.init_panel()
-        self.action_save_project_as()
-
-    def contextmenu_refresh(self):
-        self.init_panel()
-        self.action_refresh()
-
-    def contextmenu_remove_node(self):
-        self.init_panel()
-        self.action_remove_node()
-
-    def contextmenu_remove_deleted_nodes(self):
-        self.init_panel()
-        self.action_remove_deleted_nodes()
-
-    def contextmenu_clear_proj(self):
-        self.init_panel()
-        self.action_clear_project()
-
-    def contextmenu_set_as_main_file(self):
-        self.init_panel()
-        self.action_set_as_main_file()
-
-    def contextmenu_copy_relative_path(self):
-        self.init_panel()
-        self.action_copy_relative_path()
-
-    def contextmenu_find_in_directory(self):
-        self.init_panel()
-        self.action_find_in_directory()
-
-    def contextmenu_focus_in_fileman(self):
-        self.init_panel()
-        self.action_focus_in_fileman()
+            if sess_ptr and '|' in sess_ptr:
+                proj_in_hist = sess_ptr.split('|', 1)[0]
+                if os.path.normpath(proj_in_hist) == os.path.normpath(items[0]):
+                    # CudaText is loading this project's session — let it
+                    # proceed, just load the project metadata (no session
+                    # save/close/load, which would prompt for modified tabs).
+                    # CudaText restores the last used session itself; only
+                    # record it in the project file as "last_session".
+                    self.action_open_project(items[0], load_session=False)
+                    self._remember_last_session(sess_ptr)
+                else:
+                    # CudaText is loading a session that belongs to a
+                    # DIFFERENT project. This happens if history.json was
+                    # changed manually after CudaText was closed. Close the
+                    # project silently (no tab closing, no DEF_SES load)
+                    # so the foreign session's tabs stay open and the
+                    # project's session isn't overwritten.
+                    self._close_project_silent()
+                    # No project is in use now — also drop the on_start
+                    # subscription, so the next start doesn't load the
+                    # plugin just to detach again.
+                    self._update_on_start_subscription(False)
+            else:
+                # No project session in history.json (either empty or a
+                # plain session like default.cuda-session). Don't auto-open
+                # the project — let the foreign/default session stand.
+                self._close_project_silent()
+                # No project is in use now — also drop the on_start
+                # subscription, so the next start doesn't load the
+                # plugin just to detach again.
+                self._update_on_start_subscription(False)
 
     def enum_all(self, callback):
         """
@@ -1716,7 +2400,7 @@ class Command:
     def menu_goto(self):
         """ Show menu-dialog with all files in project, and jump to chosen file """
         if not self.tree:
-            msg_status(_('Project not opened'))
+            msg_status(_('No project open'))
             return
 
         files = self.enum_all_files()
@@ -1750,19 +2434,19 @@ class Command:
 
     def jump_to_filename(self, filename, and_open=False):
         """ Find filename in entire project and focus its tree node """
-        msg_status(_('Project jump: ') + collapse_filename(filename))
+        msg_status(_('Located in project: ') + collapse_filename(filename))
         return self.enum_all_fn(filename, and_open)
 
     def sync_to_ed(self):
         """ Jump to active editor file, if it's in project """
         if not self.tree:
-            msg_status(_('Project not loaded'))
+            msg_status(_('No project open'))
             return
 
         fn = ed.get_prop(PROP_FN, '*')
         if fn:
             if self.jump_to_filename(fn): #gets False if found
-                msg_status(_('Cannot jump to file: ') + collapse_filename(fn))
+                msg_status(_('Not found in project: ') + collapse_filename(fn))
 
 
     def tree_on_unfold(self, id_dlg, id_ctl, data='', info=''):
@@ -1975,10 +2659,51 @@ class Command:
             fn = e.get_prop(PROP_FN, '*')
             self.add_node(fn)
 
+    def add_folder(self):
+        """Command "Add to project: folder...": pick a folder and add it
+        to the project."""
+        self.init_panel()
+        self.action_add_folder()
+
+    def add_file(self):
+        """Command "Add to project: file...": pick a file and add it
+        to the project."""
+        self.init_panel()
+        self.action_add_file()
+
+    def action_open_project_folder(self):
+        """Open the folder that contains the project's .cuda-proj file in
+        the OS file manager (Windows Explorer, Finder, ...). Added folders
+        are not used here — they already have "Reveal in file manager"
+        in their own context menu."""
+        if not self.project_file_path:
+            msg_status(_('No project open'))
+            return
+
+        path = str(self.project_file_path.parent)
+        if not path or not os.path.isdir(path):
+            msg_status(_('Project folder not found: ') + path)
+            return
+
+        suffix = OS_SUFFIX
+        if suffix=='':
+            #Windows
+            import subprocess
+            subprocess.Popen(('explorer.exe', path), shell=True)
+        elif suffix=='__mac':
+            #macOS
+            os.system('open "%s"'%path)
+        elif suffix=='__haiku':
+            #Haiku
+            msg_status('"Open project folder" is not implemented for this OS')
+        else:
+            #Linux and other Unixes
+            os.spawnvp(os.P_WAIT, 'xdg-open', ('xdg-open', Path(path).as_uri()))
+
 
     def goto_main(self):
         if not self.tree:
-            msg_status(_('Project not opened'))
+            msg_status(_('No project open'))
             return
 
         fn = self.project.get('mainfile', '')
@@ -1995,7 +2720,7 @@ class Command:
             msg_status(_('Project main file is not set'))
 
     def is_project_empty(self):
-        return not bool(self.project['nodes'])
+        return not bool(self.project.get('nodes'))
 
     def enum_all_files(self):
         files, dirs = [], []
@@ -2020,7 +2745,7 @@ class Command:
 
     def open_all(self):
         if not self.tree:
-            msg_status(_('Project not opened'))
+            msg_status(_('No project open'))
             return
 
         files = self.enum_all_files()
@@ -2036,43 +2761,9 @@ class Command:
             if i%10==0:
                 app_proc(PROC_IDLE, False)
 
-    def on_open(self, ed_self):
-
-        '''
-        if self.options.get('check_git', False):
-            self.init_panel(False)
-
-            if not self.project_file_path:
-                fn = ed_self.get_prop(PROP_FN, '*')
-                self.action_project_for_git(fn)
-        '''
-
-        self.on_tab_change(ed_self)
-
-    def action_project_for_git(self, filename):
-
-        dir = os.path.dirname(filename)
-        while True:
-            fn = os.path.join(dir, '.git')
-            fn2 = os.path.join(dir, '.svn')
-            if os.path.isdir(fn) or os.path.isdir(fn2):
-                self.init_panel()
-                self.new_project(True, False)
-                self.add_node(dir)
-                self.jump_to_filename(filename)
-                print(_('Project Manager: opened project for version-controlled folder: ')+dir)
-                return
-
-            d = os.path.dirname(dir)
-            if d=='/':
-                return
-            if d==dir:
-                return
-            dir = d
-
     def session_cur_name(self):
 
-        fn_proj = str(self.project_file_path)
+        fn_proj = str(self.project_file_path) if self.project_file_path else ''
         if not fn_proj:
             return ''
 
@@ -2090,51 +2781,40 @@ class Command:
     def session_get_names(self):
 
         res = []
-        fn = str(self.project_file_path)
+        fn = str(self.project_file_path) if self.project_file_path else ''
         if fn and os.path.isfile(fn):
-            with open(fn, 'r', encoding='utf8') as f:
-                data = json.load(f)
-                k = data.get('sessions')
-                if type(k)==dict:
-                    res = list(k.keys())
+            try:
+                with open(fn, 'r', encoding='utf8') as f:
+                    data = json.load(f)
+                    k = data.get('sessions')
+                    if type(k)==dict:
+                        res = list(k.keys())
+            except (OSError, ValueError):
+                pass
         return res
 
-    def session_def(self):
-
-        names = self.session_get_names()
-        if not names:
-            return msg_status(_('No project sessions'))
-        names = [_('(none)')]+names
-
-        curname = self.project.get('def_session', '')
-        if curname in names:
-            focused = names.index(curname)
-        else:
-            focused = 0
-
-        res = dlg_menu(DMENU_LIST, names, focused=focused, caption=_('Set default project session'))
-        if res is None:
-            return
-        curname = names[res] if res>0 else ''
-        self.project['def_session'] = curname
-
-        fn = self.project_file_path
-        if fn and os.path.isfile(fn):
-            with open(fn, 'r', encoding='utf8') as f:
-                data = json.load(f)
-            data['def_session'] = curname
-            with open(fn, 'w', encoding='utf8') as f:
-                json.dump(data, f, indent=2)
-
     def session_delete(self):
+        """Delete a session from the project.
 
-        if self.is_project_empty():
-            msg_status(_('Project is empty'))
-            return
+        A project must always keep at least one session (a project is
+        itself a session), so the last remaining session cannot be
+        deleted — the menu item is disabled and the command explains why.
+
+        When the deleted session is the active one, the user picks another
+        session OF THE PROJECT to load instead. The app session never
+        leaves the project for an external one (switching to e.g.
+        default.cuda-session while the project stays open would let the
+        session autosave overwrite that external file — data loss)."""
 
         names = self.session_get_names()
         if not names:
             return msg_status(_('No project sessions'))
+
+        if len(names) == 1:
+            msg_box(
+                _('The project has only one session, "%s".\n\nA project always keeps at least one session, so it cannot be deleted.') % names[0],
+                MB_OK + MB_ICONINFO)
+            return
 
         res = dlg_menu(DMENU_LIST, names, caption=_('Delete project session'))
         if res is None:
@@ -2142,72 +2822,105 @@ class Command:
         name = names[res]
 
         fn = self.project_file_path
-        if fn and os.path.isfile(fn):
-            # 1. delete session from .cuda-proj file
-            with open(fn, 'r', encoding='utf8') as f:
-                data = json.load(f)
-            if data.get('sessions'):
-                del data['sessions'][name]
-            with open(fn, 'w', encoding='utf8') as f:
-                json.dump(data, f, indent=2)
-
-            # 2. also delete from memory dict (self.project)
-            if self.project.get('sessions'):
-                del self.project['sessions'][name]
-
-            # 3. and forget current session if name is the same
-            if name == self.session_cur_name():
-                app_proc(PROC_SET_SESSION, DEF_SES)
-
-    def session_delete_all(self):
-
-        fn = self.project_file_path
-        if fn and os.path.isfile(fn):
-            with open(fn, 'r', encoding='utf8') as f:
-                data = json.load(f)
-            if data.get('sessions'):
-                del data['sessions']
-            with open(fn, 'w', encoding='utf8') as f:
-                json.dump(data, f, indent=2)
-
-    def session_save_as(self):
-
-        fn = str(self.project_file_path)
-        if not fn:
-            msg_status(_('Untitled project'))
-
-        if self.is_project_empty():
-            msg_status(_('Project is empty'))
+        if not (fn and os.path.isfile(fn)):
             return
 
-        self.close_foreign_tabs(True)
+        # deleting the ACTIVE session: let the user pick another session
+        # of this project to load instead (never an external session)
+        if name == self.session_cur_name():
+            rest = [n for n in names if n != name]
+            res2 = dlg_menu(DMENU_LIST, rest,
+                caption=_('Session to load instead of "%s"') % name)
+            if res2 is None:
+                return
+            repl = rest[res2]
+            # no need to save the doomed session's state — it is deleted.
+            # Tabs keep their 'modified' flag, so CudaText asks "save
+            # changes?" for unsaved text — the session is deleted on
+            # purpose, but files can still be saved to disk.
+            self.close_all_tabs(silent=False)
+            ptr = str(fn) + '|/sessions/' + repl
+            self._set_session(ptr)
+            app_proc(PROC_LOAD_SESSION, ptr)
+
+        # 1. delete the session from the .cuda-proj file
+        with open(fn, 'r', encoding='utf8') as f:
+            data = json.load(f)
+        if isinstance(data.get('sessions'), dict):
+            data['sessions'].pop(name, None)
+        if data.get('last_session') == name:
+            rest = list((data.get('sessions') or {}).keys())
+            data['last_session'] = rest[0] if rest else ''
+        data.pop('def_session', None)
+        write_json_file(fn, data)
+
+        # 2. delete from the in-memory project dict too (pop, not del: the
+        # in-memory copy may lag the file — a KeyError here would crash
+        # the command right after the file was already updated)
+        if isinstance(self.project.get('sessions'), dict):
+            self.project['sessions'].pop(name, None)
+        if self.project.get('last_session') == name:
+            self.project['last_session'] = data.get('last_session', '')
+        elif not self.project.get('last_session'):
+            self.project['last_session'] = data.get('last_session', '')
+
+        msg_status(_('Deleted session: ') + name)
+
+    def session_save_as(self, is_request=True, sess_name=None):
+        """Save the current editor state as a session of the project.
+
+        Interactive (menu command "Save session as..."): asks for the new
+        session's name. The state is written BOTH to the new session and
+        to the currently active session — the changes were made while it
+        was active, so they belong to it (switching sessions always saves
+        the active one too). No tabs are closed: the full current state
+        (including tabs not belonging to the project) is saved as is.
+
+        Non-interactive (called after saving the project file): saves the
+        current state into the current session slot, or 'session1' if
+        none is active. `sess_name` (used by "Save project as...") keeps
+        the active session's NAME in the new file instead of the generic
+        'session1' — the session keeps its identity across the save-as."""
+
+        fn = str(self.project_file_path) if self.project_file_path else ''
+        if not fn:
+            msg_status(_('Untitled project'))
+            return
 
         names = self.session_get_names()
-        s = 'new'
-        while True:
-            s = dlg_input(_('Save session with name:'), s)
-            if s is None:
-                return
-            s = s.strip()
-            if not s:
-                msg_status(_('Empty session name'))
-                continue
-            if not is_session_name(s):
-                msg_status(_('Not allowed char(s) in the session name'))
-                continue
-            if s in names:
-                msg_status(_('Session "%s" already exists')%s)
-                continue
-            break
+        if is_request:
+            s = 'new'
+            while True:
+                s = dlg_input(_('Save session with name:'), s)
+                if s is None:
+                    return
+                s = s.strip()
+                if not s:
+                    msg_status(_('Empty session name'))
+                    continue
+                if not is_session_name(s):
+                    msg_status(_('Not allowed char(s) in the session name'))
+                    continue
+                if s in names:
+                    msg_status(_('Session "%s" already exists')%s)
+                    continue
+                break
+        else:
+            s = sess_name or self.session_cur_name() or 'session1'
+
+        # the changes were made while the current session was active:
+        # save them into it as well, before switching to the new one
+        cur_sess = self.session_cur_name()
+        if is_request and cur_sess and cur_sess != s:
+            app_proc(PROC_SAVE_SESSION, fn + '|/sessions/' + cur_sess)
 
         sess = fn+'|/sessions/'+s
         app_proc(PROC_SAVE_SESSION, sess)
-        app_proc(PROC_SET_SESSION, sess)
+        self._set_session(sess)
 
-        # update "self.project" dict
-        with open(fn, 'r', encoding='utf8') as f:
-            _newdata = json.load(f)
-        self.project['sessions'] = _newdata['sessions']
+        # the app wrote the session straight into the project file;
+        # refresh the in-memory copy (see _sync_sessions_from_disk)
+        self._sync_sessions_from_disk()
 
     def session_load_menu(self):
 
@@ -2217,7 +2930,14 @@ class Command:
             return
         self.session_load(names[res])
 
-    def session_load(self, name='', confirm_save=True):
+    def session_load(self, name=''):
+        """Load another session of the current project.
+
+        The active session is ALWAYS saved into its slot first — changes
+        are never lost on switching, and no prompt is shown: CudaText's
+        session autosave writes the state out every ~40 seconds anyway,
+        so asking adds nothing (the only thing the "No" answer did was
+        create a state the autosave would overwrite moments later)."""
 
         if not name:
             return
@@ -2226,39 +2946,113 @@ class Command:
             msg_status(_('Project session "%s" not found')%name)
             return
 
-        fn = str(self.project_file_path)
+        fn = str(self.project_file_path) if self.project_file_path else ''
         if not fn:
             msg_status(_('Untitled project'))
+            return
 
-        if confirm_save:
-            sess = app_path(APP_FILE_SESSION)
-            sess = collapse_filename(sess)
-            if msg_box(_('Save current state to the session "%s"?')%sess, MB_OKCANCEL+MB_ICONQUESTION)==ID_OK:
-                app_proc(PROC_SAVE_SESSION, sess)
+        # always save the current session before switching (or RE-loading
+        # the same one: its unsaved text goes into the slot and is restored
+        # from there — skipping the save discarded it silently)
+        cur_sess = self.session_cur_name()
+        saved = False
+        if cur_sess:
+            saved = bool(app_proc(PROC_SAVE_SESSION, fn + '|/sessions/' + cur_sess))
+            # the app wrote the session straight into the project file;
+            # refresh the in-memory copy (see _sync_sessions_from_disk)
+            self._sync_sessions_from_disk()
 
-        app_proc(PROC_SET_SESSION, DEF_SES)
+        # Close ALL tabs in ALL groups, without switching the session
+        # pointer to DEF_SES — we're switching between sessions within
+        # the same project, not leaving the project. When the slot save
+        # above failed, tabs keep their 'modified' flag so CudaText asks
+        # "save changes?" — unsaved text is never discarded silently.
+        self.close_all_tabs(silent=saved)
 
         fn += '|/sessions/'+name
+        self._set_session(fn)
         app_proc(PROC_LOAD_SESSION, fn)
 
-    def is_project_filename(self, filename):
-        '''Deprecated func'''
+    def action_import_external_session(self):
+        """Import an external .cuda-session file into the current project
+        as an internal session. Migration helper for the old (pre-
+        versioning) workflow which allowed external session files to be
+        used with projects."""
 
-        if not filename:
-            return False
-        for fn in self.project["nodes"]:
-            if os.path.isdir(fn):
-                if filename.startswith(fn+os.sep):
-                    return True
-            else:
-                if filename==fn:
-                    return True
-        return False
+        if not self.project_file_path:
+            msg_status(_('No project open'))
+            return
+
+        fn = dlg_file(True, "", "", _("CudaText sessions") + "|*.cuda-session")
+        if not fn:
+            return
+
+        try:
+            with open(fn, encoding='utf8') as f:
+                ses_data = json.load(f)
+        except (OSError, ValueError) as ex:
+            msg_box(_('Cannot read session file:\n%s\n\n%s') % (collapse_filename(fn), ex),
+                MB_OK + MB_ICONERROR)
+            return
+
+        if not isinstance(ses_data, dict):
+            msg_box(_('File is not a valid CudaText session:\n%s') % collapse_filename(fn),
+                MB_OK + MB_ICONERROR)
+            return
+
+        # session name from the file name, sanitized and made unique
+        base = os.path.splitext(os.path.basename(fn))[0]
+        allowed = string.ascii_letters + string.digits + '., ()-+_$%='
+        base = ''.join(ch if ch in allowed else '_' for ch in base) or 'imported'
+        names = self.session_get_names()
+        name = base
+        n = 2
+        while name in names:
+            name = '%s_%d' % (base, n)
+            n += 1
+
+        # store the session inside the project file
+        fn_proj = str(self.project_file_path)
+        try:
+            with open(fn_proj, 'r', encoding='utf8') as f:
+                data = json.load(f)
+        except (OSError, ValueError) as ex:
+            msg_box(_('Cannot read project file:\n%s\n\n%s') % (collapse_filename(fn_proj), ex),
+                MB_OK + MB_ICONERROR)
+            return
+
+        data.setdefault('sessions', {})
+        data['sessions'][name] = ses_data
+        data.pop('def_session', None)
+        if data.get('last_session', '') not in data['sessions']:
+            data['last_session'] = name
+
+        try:
+            write_json_file(fn_proj, data)
+        except OSError as ex:
+            msg_box(_('Cannot write project file:\n%s\n\n%s') % (collapse_filename(fn_proj), ex),
+                MB_OK + MB_ICONERROR)
+            return
+
+        # update the in-memory project
+        self.project['sessions'] = data['sessions']
+        self.project['last_session'] = data['last_session']
+
+        msg_box(
+            _('Imported session "%s" into the project.\n\nLoad it when needed via the "Project sessions" menu.') % name,
+            MB_OK + MB_ICONINFO)
 
     def close_foreign_tabs(self, confirm=True):
+        """Close editor tabs that don't belong to the current project.
 
-        if not self.options.get('close_ext', True):
-            return
+        confirm=True (menu command "Close tabs not belonging to project"):
+        asks once whether to close the foreign tabs, then closes them.
+        PROP_MODIFIED is not cleared, so tabs with unsaved changes get
+        CudaText's own "save changes?" prompt — nothing is lost silently.
+
+        confirm=False (menu command "... (no prompt)" and internal callers
+        like session saving): all foreign tabs are closed at once, without
+        any dialogs — unsaved changes in them are discarded."""
 
         # don't detect if project is empty
         items = self.project['nodes']
@@ -2273,7 +3067,7 @@ class Command:
                 files.append(root)
 
         def is_from_proj(fn):
-            if not fn: # untitled tabs: False
+            if not fn: # untitled tabs
                 return False
             for d in dirs:
                 if fn.startswith(d+os.sep):
@@ -2285,51 +3079,87 @@ class Command:
 
         import cudatext_cmd as cmds
 
-        res = []
+        to_close = []
         for h in ed_handles():
             e = Editor(h)
-            fn = e.get_prop(PROP_FN, '*')
+            if not is_from_proj(e.get_prop(PROP_FN, '*')):
+                to_close.append(e)
 
-            #skip empty tabs
-            if (not fn) and (not e.get_text_all()):
-                continue
-
-            if not is_from_proj(fn):
-                res.append((h, fn))
-
-        if res:
-            msg_ = _('CudaText has opened %d tab(s) not belonging to the project "%s". Close them?')
-            msg = msg_%(len(res), self.get_project_name())
-
-            names = []
-            for (h, fn) in res:
-                if fn:
-                    names.append(collapse_filename(fn))
-                else:
-                    e = Editor(h)
-                    names.append(e.get_prop(PROP_TAB_TITLE))
-                if len(names)>=8:
-                    names.append('...')
-                    break
-            msg += '\n\n'+'\n'.join(names)
+        if to_close:
+            msg = _('CudaText has opened %d tab(s) not belonging to the project "%s". Close them?') \
+                % (len(to_close), self.get_project_name())
 
             if not confirm or msg_box(msg, MB_OKCANCEL+MB_ICONQUESTION)==ID_OK:
-                for (h, fn) in reversed(res):
-                    e = Editor(h)
-                    e.set_prop(PROP_MODIFIED, False)
+                for e in reversed(to_close):
+                    if not confirm:
+                        e.set_prop(PROP_MODIFIED, False)
                     e.cmd(cmds.cmd_FileClose)
                     time.sleep(0.2)
 
-    def session_forget(self):
+    def close_foreign_tabs_force(self):
+        """Menu command "Close tabs not belonging to project (no prompt)":
+        closes all foreign tabs without any dialogs, discarding unsaved
+        changes (the old behavior of the main command)."""
+        self.close_foreign_tabs(confirm=False)
 
-        app_proc(PROC_SET_SESSION, DEF_SES)
+    def close_all_tabs(self, silent=True):
+        """Close all tabs in all groups without changing the session pointer.
 
-    def session_forget_ex(self):
+        silent=True: clears PROP_MODIFIED and unpins pinned tabs first, so
+        no "save changes?" prompt appears — ONLY for callers that have just
+        saved the state into a session (PROC_SAVE_SESSION also stores the
+        text of modified and untitled tabs, so a saved state loses nothing),
+        or that discard the state on purpose.
 
-        self.session_forget()
-
+        silent=False: keeps PROP_MODIFIED, so CudaText itself asks "save
+        changes?" for every modified tab — used when the state could NOT be
+        saved into any session; unsaved text is never discarded silently.
+        Does NOT switch to DEF_SES — that's the caller's responsibility."""
         import cudatext_cmd as cmds
+        for h in ed_handles():
+            e = Editor(h)
+            if silent:
+                e.set_prop(PROP_MODIFIED, False)
+            if e.get_prop(PROP_TAB_PINNED):
+                e.set_prop(PROP_TAB_PINNED, False)
         ed.cmd(cmds.cmd_FileCloseAll)
+
+    def _save_session_before_close_tabs(self):
+        """Best-effort save of the current editor state into the session it
+        belongs to, right before close_all_tabs() closes the tabs — the
+        state (INCLUDING the text of modified and untitled tabs, which the
+        app embeds into the session) must be stored somewhere before the
+        buffers are gone.
+
+        - While a project session is active: the project's session slot.
+        - Otherwise (no project open, e.g. about to open/create a project):
+          the app's current session file (typically default.cuda-session) —
+          the very file CudaText's ~40 s session autosave and its exit save
+          write anyway, so this cannot harm an external session; with no
+          project open it IS the user's working session.
+
+        Returns True when the state was stored. Callers pass this to
+        close_all_tabs(silent=...): when False, CudaText's own "save
+        changes?" prompt appears for modified tabs instead."""
+        fn_proj = str(self.project_file_path) if self.project_file_path else ''
+        cur = self.session_cur_name()
+        if fn_proj and cur:
+            if bool(app_proc(PROC_SAVE_SESSION, fn_proj + '|/sessions/' + cur)):
+                self._sync_sessions_from_disk()
+                return True
+            return False
+        ptr = app_path(APP_FILE_SESSION)
+        if not ptr:
+            return False
+        return bool(app_proc(PROC_SAVE_SESSION, ptr))
+
+    def _close_tabs_saving_state(self):
+        """Close all tabs, saving the current state into the session it
+        belongs to first (see _save_session_before_close_tabs). Used by
+        open/close/create-project flows, where the tabs about to be closed
+        don't belong to the session that is loaded next."""
+        saved = self._save_session_before_close_tabs()
+        self.close_all_tabs(silent=saved)
 
     def on_delete_file(self, ed_self, fn):
 
@@ -2340,15 +3170,30 @@ class Command:
             if self.project_file_path:
                 self.action_save_project_as(self.project_file_path)
 
-    def session_save(self, and_forget):
+    def session_save_inplace(self):
+        """Save current state into the current session slot (no prompt).
+        Menu entry point for 'Save session'."""
+        if not self.project_file_path:
+            msg_status(_('No project open'))
+            return
+        cur_sess = self.session_cur_name()
+        if not cur_sess:
+            msg_status(_('No active session'))
+            return
+        self.session_save()
+        msg_status(_('Session saved: ') + cur_sess)
 
+    def session_save(self):
+        """Save the current state into the current session slot (no prompt,
+        no session switch)."""
         cur_fn = str(self.project_file_path)
         cur_sess = self.session_cur_name()
         if cur_fn and cur_sess:
             sess = cur_fn+'|/sessions/'+cur_sess
             app_proc(PROC_SAVE_SESSION, sess)
-            if and_forget:
-                app_proc(PROC_SET_SESSION, DEF_SES)
+            # the app wrote the session straight into the project file;
+            # refresh the in-memory copy (see _sync_sessions_from_disk)
+            self._sync_sessions_from_disk()
 
     def is_path_in_root(self, path):
 
@@ -2359,3 +3204,30 @@ class Command:
         if self.options.get('always_sync', False):
             if self.tree:
                 self.sync_to_ed()
+
+    def on_state(self, ed_self, state):
+        """Detect external session switching via app state events (issue
+        #6366). If a project is open and the app's session no longer
+        belongs to it, close the project silently (no tab closing, no
+        DEF_SES load), so the project's session and the foreign session
+        don't fight over the app's session slot.
+
+        - APPSTATE_SESSION_SET: another plugin (e.g. a session manager)
+          changed the app's session via PROC_SET_SESSION.
+        - APPSTATE_SESSION_LOAD: a session was loaded that doesn't belong
+          to the open project.
+
+        Session changes made by the plugin itself are guarded with
+        _session_set_by_plugin and ignored here."""
+        if state in (APPSTATE_SESSION_SET, APPSTATE_SESSION_LOAD):
+            if self._session_set_by_plugin:
+                return
+            if self.project_file_path:
+                if not self.session_cur_name():
+                    print(_('Project Manager: app session was changed outside the project, closing the project'))
+                    self._close_project_silent()
+                    # No project is in use anymore — drop the on_start
+                    # subscription too, so the next CudaText start doesn't
+                    # load the plugin for a project that is no longer open.
+                    self._update_on_start_subscription(False)
+                    msg_status(_('Project closed: another session is now active'))
