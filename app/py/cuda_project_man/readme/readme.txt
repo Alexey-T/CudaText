@@ -61,12 +61,11 @@ PROJECT FILE
       currently open project is saved and closed first. Cancel the dialog
       to abort — no untitled or temporary project is created.
 
-  Save current session as new project...
-      Saves the current editor state (all open tabs) as a NEW project:
-      prompts for a .cuda-proj location, embeds the current tabs as a
-      session named "session1", makes it the default, and switches to
-      the new project. Tabs are not closed. Handy to turn the current
-      working set into a project in one step, and to migrate the old
+  New project from open tabs...
+      Turns the current working set into a NEW project: prompts for a
+      .cuda-proj location, embeds the currently open tabs as a session
+      named "session1", makes it the default, and switches to the new
+      project. Tabs are not closed. Also handy to migrate the old
       workflow that kept sessions in external .cuda-session files.
 
   Open project...
@@ -93,6 +92,12 @@ PROJECT FILE
       restored, not overwritten — any tabs you had there before opening
       a project come back. Resets the panel to "no project" state.
 
+  Open project folder
+      Opens the project's folder in the OS file manager (Windows
+      Explorer, Finder, ...). Uses the first folder root of the project;
+      when the project has no folder roots, opens the folder containing
+      the .cuda-proj file.
+
   Project properties...
       Opens a dialog to edit project variables (Name=Value pairs, one
       per line) and view the main file. Variables can be used in macros
@@ -106,7 +111,7 @@ ROOT NODES (Contents)
   Add file...
       Adds a file to the project's root list.
 
-  Stop tracking this Folder/File
+  Stop tracking this folder/file
       Removes the selected top-level entry from the project. The actual
       file or folder on disk is NOT deleted — it is simply no longer
       listed in the project.
@@ -122,7 +127,7 @@ SELECTED FOLDER (when a folder is right-clicked)
   Copy path, Copy relative path
   Rename... (F2), Duplicate..., Delete (Del)
   Find in folder...
-  Focus in file manager
+  Reveal in file manager
   Properties... (Alt+Enter)
 
 SELECTED FILE (when a file is right-clicked)
@@ -130,28 +135,38 @@ SELECTED FILE (when a file is right-clicked)
   Cut / Copy / Paste
   Copy path, Copy relative path
   Rename... (F2), Duplicate..., Delete (Del)
-  Focus in file manager
+  Reveal in file manager
   Set as main file
   Properties... (Alt+Enter)
 
-SESSION (gear icon in toolbar)
+PROJECT SESSIONS (toolbar gear button, or the context-menu
+"Project sessions" submenu)
   Project session: <name>
-      Shows the currently active session (greyed out).
-
-  Save session as...
-      Prompts for a name and saves the current editor state into a new
-      session slot inside the project.
+      One item per session in the project; the currently active one is
+      greyed out. Click a session to switch to it (the current session
+      is saved into its slot first).
 
   Save session
       Saves the current editor state into the current session slot
       (no prompt). Disabled if no session is active.
 
+  Save session as...
+      Prompts for a name and saves the current editor state into a new
+      session slot inside the project.
+
   Delete session...
-      Prompts to pick a session and deletes it from the project.
+      Prompts to pick a session and deletes it from the project. If the
+      deleted session was the default one, the first remaining session
+      becomes the default.
 
   Set session to load on project open...
-      Prompts to pick a session and marks it as the project's default.
-      The default session is the one that loads when the project opens.
+      Prompts to pick a session and marks it as the project's default —
+      the session that is loaded when the project opens. This also
+      applies after a CudaText restart: CudaText itself restores the
+      last used session, and the plugin then switches to the default
+      one (the restored session is saved into its own slot first, so
+      nothing is lost). Pick "(none)" to not load any session
+      automatically.
 
   Import external session...
       Imports an external .cuda-session file into the project as an
@@ -161,15 +176,12 @@ SESSION (gear icon in toolbar)
       for the old (pre-versioning) workflow that kept project sessions
       in separate files.
 
-GENERAL
+GENERAL (context menu top level)
   Refresh (F5)
       Re-reads the project file and refreshes the tree.
 
   Go to file...
       Opens a dialog to quickly jump to any file in the project tree.
-
-  Show current file in project tree
-      Highlights the current editor file in the project tree.
 
 
 ------------------------------------------------------------------------------
@@ -185,7 +197,8 @@ The toolbar (top of the panel) has these buttons, left to right:
   [Add folder]       - adds a folder to the project
   [Add file]         - adds a file to the project
   ---
-  [Project sessions] - shows the session menu (gear icon)
+  [Project sessions] - shows the sessions menu (same items as the
+                       context-menu "Project sessions" submenu)
   [Show current file in project tree] - highlights the current
                        editor file in the tree
 
@@ -198,33 +211,46 @@ automatically on every tab switch).
 PLUGINS MENU COMMANDS
 ------------------------------------------------------------------------------
 
-Commands available in the top menu: Plugins > Project Manager (not in the
-panel context menu):
+All commands are in the top menu: Plugins > Project Manager (and in the
+command palette). They are grouped by purpose, most used first, with
+separators between the groups:
 
-  New project from folder...
-      Creates a project from a folder in one step: you pick the folder,
-      and the project file is created inside it, named after the folder
-      (e.g. "myapp" -> "myapp/myapp.cuda-proj"). No second "save as"
-      dialog. If the folder already contains that project file, it is
-      simply opened instead.
+  Show Project panel / Show and focus Project panel
+      Open (and focus) the Project side panel.
 
-  Show current file in project tree
-      Same as the toolbar button: highlights the current editor file in
-      the project tree.
+  Go to file..., Go to main file, Open main file,
+  Open all project files..., Show current file in project tree
+      Quick navigation inside the project.
+
+  New empty project... / New project from open tabs... /
+  Open project... / Open recent project... / Save project /
+  Save project as... / Close project / Open project folder
+      The project lifecycle: create, open, save, close. "Open project
+      folder" opens the project's folder in the OS file manager (first
+      folder root of the project, or the .cuda-proj file's folder).
+
+  Add to project: folder... / file... / current file /
+  all opened files / folder of the current file
+      Adding roots to the project; "folder..." and "file..." open a
+      browse dialog (same actions as in the panel context menu).
+
+  Project sessions >
+      Submenu with Open session..., Save session, Save session as...,
+      Delete session..., Set session to load on project open...,
+      Import external session... — the same items as the sessions menu
+      of the panel.
 
   Close tabs not belonging to project
       Closes editor tabs whose files are not part of the project. Tabs
-      with unsaved changes and untitled tabs are NOT touched — they stay
-      open, so closing them later lets CudaText prompt to save.
+      with unsaved changes and untitled tabs get CudaText's own "save
+      changes?" prompt, so nothing is lost silently.
 
   Close tabs not belonging to project (no prompt)
-      Like the command above, but also closes tabs with unsaved changes
-      and untitled tabs, discarding the unsaved content without any
-      save prompt. A confirmation dialog lists the tabs first.
+      Like the command above, but closes all foreign tabs at once,
+      without any dialogs — unsaved changes in them are discarded.
 
-  Set session to load on project open...
-      Same as the session-menu item: picks the session that is loaded
-      when the project opens.
+  Project properties... / Config...
+      Project variables and main file; plugin options.
 
 
 ------------------------------------------------------------------------------
@@ -287,7 +313,11 @@ Startup
 
   - If the session belongs to the most-recent project, the project
     metadata is loaded and CudaText's session restore proceeds
-    normally. No extra prompts.
+    normally. No extra prompts. CudaText restores the last used
+    session, so when that is not the project's default session, the
+    plugin saves the restored session into its own slot and loads the
+    default session instead (see "Set session to load on project
+    open...").
 
   - If the session belongs to a different project (e.g., history.json
     was manually edited), or is a plain non-project session, the
@@ -305,8 +335,7 @@ External session switch detection
   - APPSTATE_SESSION_LOAD: a session that doesn't belong to the open
     project was loaded (a direct PROC_LOAD_SESSION call).
   Session changes made by the Project Manager itself never trigger
-  this. Requires a recent CudaText for APPSTATE_SESSION_SET; on older
-  versions only the load event is detected.
+  this.
 
 Old project format (automatic upgrade)
   Project files carry a "version" key (current format version: 2).
@@ -402,7 +431,7 @@ TECHNICAL NOTES
 - Only root nodes (top-level folders/files) are stored in the project.
   Folder contents are enumerated on demand when you expand a node.
 
-- "Stop tracking this Folder/File" only removes the top-level entry
+- "Stop tracking this folder/file" only removes the top-level entry
   you right-clicked. If you right-click a file inside a tracked
   folder, the command walks up to the folder's root entry.
 

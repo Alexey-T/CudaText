@@ -1,22 +1,61 @@
 2026.11.01 (@badrelmers)
+* menus reorganized (per the #6352 discussion): Plugins-menu commands are
+  grouped by purpose with separators — panel, navigation, project
+  lifecycle, add-to-project, "Project sessions" submenu, close-tabs,
+  settings (Config at the end); the hidden menu=0 entries and their 12
+  "Context menu\..." duplicates are removed, together with the
+  contextmenu_* wrapper methods; "New project from folder..." removed —
+  the same result is reached with "New empty project..." + "Add folder..."
+* context menu: new "Project sessions" submenu (same items as the
+  toolbar sessions menu, which is now built by the same code), new
+  "Open project folder" item; in the sessions menu "Save session" now
+  comes before "Save session as..."
++ new command "Open project folder" (context menu + Plugins menu): opens
+  the project's folder in the OS file manager (first folder root of the
+  project, or the .cuda-proj file's folder)
++ new commands "Add to project: folder..." and "Add to project: file..."
+  (browse dialogs, same actions as the context-menu items)
+- fixed: "Set session to load on project open..." was effectively dead:
+  every project save overwrote the chosen default with the then-current
+  session, and on restart CudaText restored the last used session; now an
+  existing default survives project saves, and on start the plugin
+  switches from the restored session to the default one (the restored
+  session is saved back into its own slot first, so nothing is lost);
+  the command now also reports its result in the status bar; deleting
+  the default session makes the first remaining session the default
+* "Close tabs not belonging to project" is the old simple code again,
+  with one change: PROP_MODIFIED is not cleared anymore, so tabs with
+  unsaved changes get CudaText's own save prompt; "... (no prompt)" and
+  the internal callers (session saving) use the existing confirm=False
+  path — no dialogs at all, exactly as before
+* APPSTATE_SESSION_SET / APPSTATE_SESSION_LOAD are used directly, without
+  a fallback: this plugin ships inside CudaText, so the constants always
+  exist (the "needs a recent CudaText" assumption was wrong)
+* wording fixes: "New project from open tabs..." (was "Save current
+  session as new project..."), "Reveal in file manager" (was "Focus in
+  file manager"), "Stop tracking this folder/file", "Project is already
+  open", "No project open" (was a mix of "Project not loaded/opened"),
+  "Removed missing paths: ..." (was "[Project] Remove deleted nodes"),
+  "Located in project" (was "Project jump"), "missing item(s)" (was
+  "deleted item(s)") in the open-project status
+- fixed: the "cannot find path" message passed "MB_OK or MB_ICONERROR",
+  so the error icon was never shown
+- removed dead code: session_forget, session_forget_ex,
+  session_delete_all, is_project_filename, do_unfold_first
+
+2026.11.01 (@badrelmers)
 - fixed: the config dialog had shifted control indices: clicking Cancel ran
   the OK parsing and crashed with ValueError (int('')), while clicking OK
   silently discarded all changes; indices recomputed and combo parsing made
   crash-proof
-- "Close tabs not belonging to project" no longer touches untitled tabs and
-  tabs with unsaved changes: they stay open so closing them can prompt to
-  save (internal callers like "Save session as..." got the same safe
-  behavior); new command "Close tabs not belonging to project (no prompt)"
-  keeps the old behavior (closes all foreign tabs, discards unsaved changes)
++ new command "Close tabs not belonging to project (no prompt)": closes all
+  foreign tabs at once, without any dialogs (the old behavior of the main
+  command)
 - external session switch detection now also uses APPSTATE_SESSION_SET
-  (issue #6366, needs a recent CudaText): when another plugin changes the
-  app's session via PROC_SET_SESSION while a project is open, the project
-  closes silently so the two sessions don't conflict; session changes made
-  by the plugin itself are ignored (guard flag)
-- "New project, Open folder..." replaced by "New project from folder...":
-  one dialog (pick the folder), the project file is created inside it named
-  after the folder, no second "save as" prompt; if the folder already has
-  that project file, it is opened instead
+  (issue #6366): when another plugin changes the app's session via
+  PROC_SET_SESSION while a project is open, the project closes silently so
+  the two sessions don't conflict; session changes made by the plugin
+  itself are ignored (guard flag)
 - renamed for clarity: "New project" -> "New empty project", "Sync to
   editor file" / toolbar "Sync project-tree with current editor file" ->
   "Show current file in project tree", "Set default session" -> "Set
