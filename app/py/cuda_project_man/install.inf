@@ -17,197 +17,186 @@ keys=cuda-proj
 
 [item3]
 section=events
-events=on_delete_file~,on_tab_change~,on_open~,on_exit
+events=on_delete_file~,on_tab_change~,on_exit,on_state~
 
 [item4]
 section=commands
-caption=&Project Manager\&Show Project panel
+caption=&Project Manager\Show Project panel
 method=show_panel
 
 [item5]
 section=commands
-caption=&Project Manager\Show+focus Project panel
+caption=&Project Manager\Show and focus Project panel
 method=focus_panel
 
-[item9]
-section=commands
-caption=&Project Manager\Open &recent project...
-method=menu_recents
-
-[item10]
-section=commands
-caption=&Project Manager\New project, &Open folder...
-method=new_project_open_dir
-
-[item15]
-section=commands
-caption=&Project Manager\&Go to file...
-method=menu_goto
-
-[item16]
-section=commands
-caption=&Project Manager\Go to &main file
-method=goto_main
-
-[item19]
-section=commands
-caption=&Project Manager\Open main &file
-method=open_main
-
-[item30]
-section=commands
-caption=&Project Manager\Open &all project files...
-method=open_all
-
-
-[item50]
+[item6]
 section=commands
 caption=&Project Manager\-
 method=_
 
-[item51]
+[item7]
+section=commands
+caption=&Project Manager\&Go to file...
+method=menu_goto
+
+[item8]
+section=commands
+caption=&Project Manager\Go to &main file
+method=goto_main
+
+[item9]
+section=commands
+caption=&Project Manager\Open main &file
+method=open_main
+
+[item10]
+section=commands
+caption=&Project Manager\Open &all project files...
+method=open_all
+
+[item11]
+section=commands
+caption=&Project Manager\&Show current file in project tree
+method=sync_to_ed
+
+[item12]
+section=commands
+caption=&Project Manager\-
+method=_
+
+[item13]
+section=commands
+caption=&Project Manager\Create new empty &project...
+method=action_new_project
+
+[item14]
+section=commands
+caption=&Project Manager\Create new project from open &tabs...
+method=action_save_session_as_project
+
+[item15]
+section=commands
+caption=&Project Manager\&Open project...
+method=action_open_project
+
+[item16]
+section=commands
+caption=&Project Manager\Open &recent project...
+method=menu_recents
+
+[item17]
+section=commands
+caption=&Project Manager\&Save project
+method=action_save_project
+
+[item18]
+section=commands
+caption=&Project Manager\Save project &as...
+method=action_save_project_as
+
+[item19]
+section=commands
+caption=&Project Manager\&Close project
+method=action_close_project
+
+[item20]
+section=commands
+caption=&Project Manager\Open project &folder
+method=action_open_project_folder
+
+[item21]
+section=commands
+caption=&Project Manager\-
+method=_
+
+[item22]
+section=commands
+caption=&Project Manager\Add to project: &folder...
+method=add_folder
+
+[item23]
+section=commands
+caption=&Project Manager\Add to project: &file...
+method=add_file
+
+[item24]
+section=commands
+caption=&Project Manager\Add to project: current file
+method=add_current_file
+
+[item25]
+section=commands
+caption=&Project Manager\Add to project: all opened files
+method=add_opened_files
+
+[item26]
+section=commands
+caption=&Project Manager\Add to project: folder of the current file
+method=add_current_dir
+
+[item27]
+section=commands
+caption=&Project Manager\Clean up missing paths...
+method=action_remove_deleted_nodes
+
+[item28]
+section=commands
+caption=&Project Manager\-
+method=_
+
+[item29]
+section=commands
+caption=&Project Manager\Project sessions\Open session...
+method=session_load_menu
+
+[item30]
+section=commands
+caption=&Project Manager\Project sessions\Save session
+method=session_save_inplace
+
+[item31]
+section=commands
+caption=&Project Manager\Project sessions\Save session as...
+method=session_save_as
+
+[item32]
+section=commands
+caption=&Project Manager\Project sessions\Delete session...
+method=session_delete
+
+[item33]
+section=commands
+caption=&Project Manager\Project sessions\Import &external session...
+method=action_import_external_session
+
+[item34]
+section=commands
+caption=&Project Manager\-
+method=_
+
+[item35]
+section=commands
+caption=&Project Manager\Close tabs not belonging to project
+method=close_foreign_tabs
+
+[item36]
+section=commands
+caption=&Project Manager\Close tabs not belonging to project (no prompt)
+method=close_foreign_tabs_force
+
+[item37]
+section=commands
+caption=&Project Manager\-
+method=_
+
+[item38]
 section=commands
 caption=&Project Manager\&Project properties...
 method=config_proj
 menu=op
 
-[item52]
+[item39]
 section=commands
 caption=&Project Manager\&Config...
 method=config
 menu=op
-
-[item60]
-section=commands
-caption=&Project Manager\-
-method=_
-
-[item61]
-section=commands
-caption=&Project Manager\&Sync to editor file
-method=sync_to_ed
-
-[item65]
-section=commands
-caption=&Project Manager\Add to project: current file
-method=add_current_file
-
-[item66]
-section=commands
-caption=&Project Manager\Add to project: all opened files
-method=add_opened_files
-
-[item67]
-section=commands
-caption=&Project Manager\Add to project: folder of the current file
-method=add_current_dir
-
-
-[item80]
-section=commands
-caption=&Project Manager\Open session...
-method=session_load_menu
-
-[item81]
-section=commands
-caption=&Project Manager\Save session...
-method=session_save_as
-
-[item82]
-section=commands
-caption=&Project Manager\Delete session...
-method=session_delete
-
-[item85]
-section=commands
-caption=&Project Manager\Set default session...
-method=session_def
-
-[item86]
-section=commands
-caption=&Project Manager\Forget session, close all tabs
-method=session_forget_ex
-
-[item91]
-section=commands
-caption=&Project Manager\Close tabs not belonging to project
-method=close_foreign_tabs
-
-
-[item100]
-section=commands
-caption=&Project Manager\Context menu\Add directory...
-method=contextmenu_add_dir
-menu=0
-
-[item101]
-section=commands
-caption=&Project Manager\Context menu\Add file...
-method=contextmenu_add_file
-menu=0
-
-[item102]
-section=commands
-caption=&Project Manager\Context menu\New project
-method=contextmenu_new_proj
-menu=0
-
-[item103]
-section=commands
-caption=&Project Manager\Context menu\Open project...
-method=contextmenu_open_proj
-menu=0
-
-[item104]
-section=commands
-caption=&Project Manager\Context menu\Save project as...
-method=contextmenu_save_proj_as
-menu=0
-
-[item105]
-section=commands
-caption=&Project Manager\Context menu\Refresh
-method=contextmenu_refresh
-menu=0
-
-[item106]
-section=commands
-caption=&Project Manager\Context menu\Remove node
-method=contextmenu_remove_node
-menu=0
-
-[item109]
-section=commands
-caption=&Project Manager\Context menu\Remove deleted nodes...
-method=contextmenu_remove_deleted_nodes
-menu=0
-
-[item107]
-section=commands
-caption=&Project Manager\Context menu\Clear project...
-method=contextmenu_clear_proj
-menu=0
-
-[item108]
-section=commands
-caption=&Project Manager\Context menu\Set as main file
-method=contextmenu_set_as_main_file
-menu=0
-
-[item115]
-section=commands
-caption=&Project Manager\Context menu\Copy path relative to project
-method=contextmenu_copy_relative_path
-menu=0
-
-[item118]
-section=commands
-caption=&Project Manager\Context menu\Find in folder...
-method=contextmenu_find_in_directory
-menu=0
-
-[item119]
-section=commands
-caption=&Project Manager\Context menu\Focus in file manager
-method=contextmenu_focus_in_fileman
-menu=0

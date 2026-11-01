@@ -1,3 +1,314 @@
+2026.11.01 (@badrelmers)
+- fixed regression: dragging a folder from Explorer onto CudaText crashed
+  with "AttributeError: 'Command' object has no attribute 'open_dir'".
+  open_dir() and new_project_open_dir() are not called from this plugin's
+  own code — CudaText itself calls them ("open_dir" when a folder is
+  dropped onto the editor, "new_project_open_dir" for the "File - Open
+  folder..." menu command), so they were wrongly removed as "unused"
+  together with the Git/SVN auto-project clean-up. Both are restored:
+  a dropped folder is added as a root node of the current project (with
+  no project open, of a new untitled project) as before, and
+  "File - Open folder..." creates the project file inside the picked
+  folder, named after the folder, in one step (if the folder already
+  contains that project file, it is opened instead)
+- fixed: "Close project" did not remove the plugin's on_start
+  subscription from plugins.ini, so the plugin kept loading on every
+  CudaText start even with no project in use. The subscription now
+  mirrors "a project is in use" exactly: it is written on every project
+  open/create/save and removed on every path that ends with no project
+  (Close project, the startup detach when the restored session is not
+  the project's, the external-session-switch close, and exit with no
+  project). With no project loaded, the plugin never loads at the next
+  CudaText start
+- options dialog: "File type icons" and "Toolbar icons" are now marked
+  with (*) — a new icon theme needs a CudaText restart, because the
+  side panel (with its icon image lists) is created once per run; the
+  marker was already used for "Sorting order"
+
+2026.11.01 (@badrelmers)
+- second full data-loss audit; all fixes below are for bugs found in it
+- fixed: unsaved text could be lost when tabs were closed without their
+  session being saved first. CudaText sessions store the text of
+  modified and untitled tabs, so a state saved into a session loses
+  nothing — but these flows closed tabs with no session save at all:
+  "Open project..." / "Open recent project..." / opening a .cuda-proj
+  from File>Open with NO project open (the open tabs belonged to the
+  app session, which was never written), "Close project" and "Create
+  new empty project..." with no project open, and "Open session..."
+  picking the session that was ALREADY active (the save was skipped for
+  it). Now every flow that closes tabs first saves the state into the
+  session it belongs to (the project's session slot, or the app's own
+  session file when no project is open — the file CudaText's autosave
+  writes anyway); if that save fails, tabs keep their "modified" flag
+  and CudaText's own "save changes?" prompt appears — unsaved text is
+  never discarded silently
+- "Save project as...": the active session now keeps its NAME in the
+  new file (it was reset to "session1"), and the old project file gets
+  the latest state too (it used to lag one save behind)
+- all project/options file writes are now atomic (write to a temp file,
+  then replace): a crash, power loss or full disk can no longer leave a
+  truncated .cuda-proj behind, which would have destroyed ALL project
+  data (nodes + every embedded session); either the file is replaced
+  completely or the previous complete file stays
+- fixed: "Clean up missing paths..." skipped entries when several
+  missing paths stood next to each other (the node list was modified
+  while being iterated) — with three consecutive missing paths only two
+  were reported and one stayed in the project
+- fixed: "Delete session..." could crash with KeyError right after
+  updating the file, when the in-memory session list lagged behind the
+  project file
+- deleting the ACTIVE session now lets CudaText ask "save changes?" for
+  modified tabs before they close (the session is deleted on purpose,
+  but files can still be saved to disk)
+- startup with a session-less project file (left over by old builds)
+  now creates "session1" immediately (a project is itself a session, it
+  always keeps one); previously this waited for the ~40s session
+  autosave
+- folder paste no longer uses distutils (removed in Python 3.12) and no
+  longer silently merges into an existing folder — shutil.copytree
+  refuses to overwrite and reports an error
+- readme.txt: internal implementation details moved to the new
+  doc_for_dev.md (for plugin authors); the user documentation now
+  describes only user-visible behavior
+
+2026.11.01 (@badrelmers)
+- fixed severe data loss: text typed in a session was lost after a restart
+  if the user switched to another session before closing CudaText (switch
+  session1 -> session2, close, restart, switch back -> old text). CudaText
+  saves session sub-keys straight into the .cuda-proj file (on every session
+  switch, the ~40s autosave and on exit), but the plugin kept its own
+  in-memory copy of "sessions" and dumped it over the file on every project
+  save — including the on_exit save — reverting every non-current session
+  to the state from when the project was opened. The project save now
+  always takes the fresh "sessions"/"last_session" from the file on disk
+  ("Save project as..." carries them over from the old project file), and
+  the in-memory copy is refreshed after every session save
+
+2026.11.01 (@badrelmers)
+- restored "menu=op" in install.inf for "Project properties..." and
+  "Config..." (upstream had it on both): the two settings dialogs are
+  also shown in CudaText's Settings menu — the key was wrongly dropped
+  as stale in the menu rework
++ context menu: added the commands that were only in the Plugins menu —
+  "Add current file", "Add all opened files", "Add folder of current
+  file" (in "Root nodes"), "Go to main file", "Open main file", "Show
+  current file in project tree" and "Config..." (top level, Config at
+  the very end)
++ Plugins menu: added "Clean up missing paths..." (was only in the panel
+  context menu), closing the "Add to project" group
+* context menu reorganized for quicker navigation: the top level now
+  groups panel commands (Refresh, Show current file in project tree),
+  navigation (Go to file..., Go to main file, Open main file), "Project
+  sessions" and "Config..."; in "Selected file", "Set as main file"
+  moved next to "Open in default application" (project-specific actions
+  first, generic file operations below)
+
+2026.11.01 (@badrelmers)
+- fixed: switching project sessions could lose changes — "Save session as..."
+  only wrote the new session, so the previously active session kept its old
+  state; now switching ALWAYS saves the active session into its slot first,
+  and "Save session as..." writes the current state into both the new
+  session and the previously active one
+- removed the "Save current state to the session ...?" prompt on switching:
+  the state is always saved (CudaText's ~40s session autosave would write
+  it out anyway, so the prompt protected nothing)
+- fixed catastrophic bug: deleting the ACTIVE project session switched the
+  app session to default.cuda-session while the project stayed open, so the
+  ~40s session autosave overwrote that external file with the project's
+  tabs; now the user picks another session OF THE PROJECT to load instead,
+  and the app session never leaves the project for an external one
+- a project always keeps at least one session (a project is a session):
+  the last remaining session cannot be deleted — the menu item is disabled
+  and the command explains it in a dialog; opening a project file with no
+  sessions creates "session1" so the app session is always internal
+- replaced the "default session" concept with "last_session": the project
+  file stores the last used session, it is updated on every session switch
+  and loaded when the project is opened; on restart CudaText restores the
+  last used session itself (the plugin only records it); removed the
+  "Set session to load on project open..." command, its menu items and all
+  its code; older files with "def_session" are migrated on open
+- "Save session as..." no longer closes tabs not belonging to the project:
+  the full current state is saved as is; the ONLY commands that close
+  foreign tabs are the two "Close tabs not belonging to project" commands
+  (the internal no-op caller at startup is removed as well)
+- "Open project folder" now always opens the folder containing the
+  .cuda-proj file (added folders have their own "Reveal in file manager")
+- renamed "New empty project..." -> "Create new empty project...",
+  "New project from open tabs..." -> "Create new project from open tabs..."
+- session_save lost the dead "and_forget" parameter (it could switch the
+  app onto an external session while a project is open)
+- new_project simplified to the pure state reset it always was in practice
+  (its save/close/foreign-tabs branches were unreachable at startup)
+
+2026.11.01 (@badrelmers)
+* menus reorganized (per the #6352 discussion): Plugins-menu commands are
+  grouped by purpose with separators — panel, navigation, project
+  lifecycle, add-to-project, "Project sessions" submenu, close-tabs,
+  settings (Config at the end); the hidden menu=0 entries and their 12
+  "Context menu\..." duplicates are removed, together with the
+  contextmenu_* wrapper methods; "New project from folder..." removed —
+  the same result is reached with "New empty project..." + "Add folder..."
+* context menu: new "Project sessions" submenu (same items as the
+  toolbar sessions menu, which is now built by the same code), new
+  "Open project folder" item; in the sessions menu "Save session" now
+  comes before "Save session as..."
++ new command "Open project folder" (context menu + Plugins menu): opens
+  the project's folder in the OS file manager (first folder root of the
+  project, or the .cuda-proj file's folder)
++ new commands "Add to project: folder..." and "Add to project: file..."
+  (browse dialogs, same actions as the context-menu items)
+- fixed: "Set session to load on project open..." was effectively dead:
+  every project save overwrote the chosen default with the then-current
+  session, and on restart CudaText restored the last used session; now an
+  existing default survives project saves, and on start the plugin
+  switches from the restored session to the default one (the restored
+  session is saved back into its own slot first, so nothing is lost);
+  the command now also reports its result in the status bar; deleting
+  the default session makes the first remaining session the default
+* "Close tabs not belonging to project" is the old simple code again,
+  with one change: PROP_MODIFIED is not cleared anymore, so tabs with
+  unsaved changes get CudaText's own save prompt; "... (no prompt)" and
+  the internal callers (session saving) use the existing confirm=False
+  path — no dialogs at all, exactly as before
+* APPSTATE_SESSION_SET / APPSTATE_SESSION_LOAD are used directly, without
+  a fallback: this plugin ships inside CudaText, so the constants always
+  exist (the "needs a recent CudaText" assumption was wrong)
+* wording fixes: "New project from open tabs..." (was "Save current
+  session as new project..."), "Reveal in file manager" (was "Focus in
+  file manager"), "Stop tracking this folder/file", "Project is already
+  open", "No project open" (was a mix of "Project not loaded/opened"),
+  "Removed missing paths: ..." (was "[Project] Remove deleted nodes"),
+  "Located in project" (was "Project jump"), "missing item(s)" (was
+  "deleted item(s)") in the open-project status
+- fixed: the "cannot find path" message passed "MB_OK or MB_ICONERROR",
+  so the error icon was never shown
+- removed dead code: session_forget, session_forget_ex,
+  session_delete_all, is_project_filename, do_unfold_first
+
+2026.11.01 (@badrelmers)
+- fixed: the config dialog had shifted control indices: clicking Cancel ran
+  the OK parsing and crashed with ValueError (int('')), while clicking OK
+  silently discarded all changes; indices recomputed and combo parsing made
+  crash-proof
++ new command "Close tabs not belonging to project (no prompt)": closes all
+  foreign tabs at once, without any dialogs (the old behavior of the main
+  command)
+- external session switch detection now also uses APPSTATE_SESSION_SET
+  (issue #6366): when another plugin changes the app's session via
+  PROC_SET_SESSION while a project is open, the project closes silently so
+  the two sessions don't conflict; session changes made by the plugin
+  itself are ignored (guard flag)
+- renamed for clarity: "New project" -> "New empty project", "Sync to
+  editor file" / toolbar "Sync project-tree with current editor file" ->
+  "Show current file in project tree", "Set default session" -> "Set
+  session to load on project open", option "Always sync project-tree with
+  current editor file" -> "Automatically show current file in project tree"
+- removed the Git/SVN auto-project feature and all its code (decided in
+  #6352): the "check_git" option and its config-dialog checkbox, the
+  on_open handler and its plugins.ini subscription, the temporary
+  "temporary.cuda-proj" auto-project, and the unused open_dir() helper
+
+2026.11.01 (@badrelmers)
++ old-format project files are upgraded automatically on open, without a
+  confirmation dialog: a backup of the original is saved next to the file
+  ("<file>.bak", or "<file>.<date>.bak" when that name is taken — existing
+  backups are never overwritten), then the file is rewritten in the current
+  format; the status bar and console report the upgrade and the backup name
+  (the user can delete the backup when everything works fine)
++ when the on-disk upgrade is impossible (read-only folder, locked file),
+  the project still opens with the upgraded data in memory and the file is
+  upgraded on the first successful save
++ when a sibling "<project>.cuda-session" file is detected during an
+  upgrade, a console hint points to "Import external session..."
+
+2026.11.01 (@badrelmers)
++ project file versioning: files are written with "version": 2; opening a
+  version-less (old format) file shows a one-time upgrade dialog which only
+  adds missing standard keys (nothing is removed), as promised in #6352
++ command "Save current session as new project..." (current tabs become
+  session "session1" of a new project, tabs stay open), as promised in #6352
++ command "Import external session..." (migrates an external .cuda-session
+  file into the project as an internal session; first import becomes the
+  default if the project had none), as promised in #6352
++ opening an empty (0-byte) project file offers to create a new project in it
++ project files are fully validated on open: unreadable / invalid JSON /
+  not a JSON object / wrong "nodes" or "sessions" types are reported with
+  a dialog; files with a format version newer than supported are refused
++ def_session is auto-filled with the first existing session when opening
+  old projects that have sessions but no default session
+* session_save_as no longer refuses node-less projects: every project now
+  keeps a session, even before any folder/file is added (per #6352 design)
+* "Save session as..." / "Save session" menu items are enabled whenever a
+  project file exists, not only when the project has root nodes
+* the temporary git auto-project file is also written with "version": 2
+- fixed: KeyError 'nodes' when opening old project files without the "nodes"
+  key (files that only ever held sessions); the plugin used to stay
+  half-open and then crash on every later command (Close project, Project
+  session menu, Open/New project, recent projects, exit) until restart
+- fixed: tabs were closed before the newly opened project file was
+  validated — a broken file is now reported with all tabs intact
+- fixed: action_save_project_as wrote a stale copy of the embedded sessions
+  over the just-saved session (session state could lag one save behind; on
+  exit the latest tab state could be lost)
+- fixed: "Save project as..." saved the session into the old file path
+  instead of the newly chosen one
+- fixed: str(None) made the "Untitled project" guard in session_save_as /
+  session_load / session_cur_name / session_get_names ineffective
+  (produced 'None|/sessions/...' session pointers)
+- fixed: missing return after "Untitled project" message in session_save_as
+
+2026.10.31 (@badrelmers)
+* per review by Alexey-T: install.inf no longer declares non-lazy on_start —
+  all install.inf events are lazy ('~'), so they never load the plugin on start;
+  CudaText stays fast for users who don't use Project Manager at all
+* on_start is again subscribed conditionally via plugins.ini [events]:
+  the plugin writes it when a project is opened/created/saved (hidden option
+  "on_start" restored for this), and removes it otherwise
+* on_open (check_git) subscription via plugins.ini restored and the on_open
+  handler re-enabled
+* options on_start, on_start_activate added to the defaults dict so they
+  survive save_options filtering and persist in cuda_project_man.json
+
+2026.07.24 (@badrelmers)
++ command "New project" now prompts for save location and creates session "session1" inside the project
++ command "Save project" (in-place save, no dialog)
++ command "Close project" (closes tabs, loads default.cuda-session without overwriting it)
++ command "Save session" (in-place save to current session slot)
++ menu item "Project properties..." in Project menu
++ on_state event subscription for external session switch detection
++ settings auto-merge: missing options are filled from defaults on load, stale options are dropped on save
++ options check_git, icon_theme, toolbar_theme added to defaults dict so they persist
++ history.json read on startup to detect session/project mismatch and avoid "save changes?" prompts
++ temporary git auto-project now activates the Project panel and uses a minimal project file (no session)
+* renamed "Remove root node" to "Stop tracking this Folder/File"
+* renamed "Remove deleted root nodes..." to "Clean up missing paths..."
+* renamed "Save session..." to "Save session as..."
+* session_load uses close_all_tabs (no DEF_SES switch within a project)
+* session_forget_ex uses close_all_tabs (clears modified flag and unpins tabs in all groups)
+* action_save_project_as preserves current session name instead of hardcoding "new"
+* action_project_for_git creates minimal project without session operations
+* on_exit skips saving the temporary git auto-project
+* check_git option disabled by default
+* options dialog: removed dead "Suggest to close tabs not belonging to project" option
+* on_start auto-opens the most recent project if the restored session matches
+  (runs only when the plugin is loaded at start via plugins.ini subscription)
+* rewritten documentation (readme.txt)
+- removed command "Clear project..." (redundant with New project + overwrite)
+- removed command "Forget session, close all tabs" (dangerous — overwrote default session)
+- removed temporary.cuda-proj auto-save on adding first node (New project now requires a real path)
+- fixed: closing tabs in only the active group (other groups kept modified tabs)
+- fixed: cmd_FileCloseAll skipped pinned tabs (previous project's pinned tabs leaked)
+- fixed: Open project stacked new session's tabs on top of old ones
+- fixed: New project overwrote default.cuda-session with empty state
+- fixed: external session switch overwrote project's session data
+- fixed: startup prompted "save changes?" when history.json session matched the project
+- fixed: settings not saved for check_git, icon_theme, toolbar_theme
+- fixed: new options missing from old config files until Options dialog was opened
+
+2026.07.21 (@ildarkhasanshin)
++ command "New project" now close all open tabs
++ when saving the project for the first time, create a new session and make it the default
+
 2026.03.17
 + add command "Remove deleted nodes"
 
