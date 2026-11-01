@@ -1,4 +1,16 @@
 2026.11.01 (@badrelmers)
+- fixed regression: dragging a folder from Explorer onto CudaText crashed
+  with "AttributeError: 'Command' object has no attribute 'open_dir'".
+  open_dir() and new_project_open_dir() are not called from this plugin's
+  own code — CudaText itself calls them ("open_dir" when a folder is
+  dropped onto the editor, "new_project_open_dir" for the "File - Open
+  folder..." menu command), so they were wrongly removed as "unused"
+  together with the Git/SVN auto-project clean-up. Both are restored:
+  a dropped folder is added as a root node of the current project (with
+  no project open, of a new untitled project) as before, and
+  "File - Open folder..." creates the project file inside the picked
+  folder, named after the folder, in one step (if the folder already
+  contains that project file, it is opened instead)
 - fixed: "Close project" did not remove the plugin's on_start
   subscription from plugins.ini, so the plugin kept loading on every
   CudaText start even with no project in use. The subscription now

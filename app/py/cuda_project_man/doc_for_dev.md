@@ -195,6 +195,11 @@ Check the return value when the next step closes tabs (see §5).
    and failure to write never blocks opening.
 10. Version check: files with `"version"` newer than
     `PROJECT_FORMAT_VERSION` are refused with an explanation.
+11. A public `Command` method is never removed as "unused" without
+    checking the CudaText core first: some methods have no install.inf
+    entry and no caller inside this plugin, yet the core calls them by
+    name (see §9). This exact mistake once removed `open_dir()` and
+    broke drag&drop of folders onto the editor.
 
 ---
 ## 5. Tab closing rules
@@ -360,6 +365,22 @@ Current format version: `PROJECT_FORMAT_VERSION = 2`, written as
   menu — used exactly for `config` (Config...) and `config_proj`
   (Project properties...), nothing else. Commands needing a selected
   tree node are context-menu only and are not declared in install.inf.
+- **Commands called by CudaText itself** (no install.inf entry, no
+  caller inside this plugin — grep the plugin for callers and you find
+  nothing, the callers live in the CudaText source, `formmain.pas` /
+  `formmain_cmd.inc`, via `DoPyCommand('cuda_project_man', ...)`):
+  - `open_dir(dirname, new_proj)` — a folder dragged from the OS file
+    manager and dropped onto the editor (`DoFolderOpen`); adds the
+    folder as a root node of the current project;
+  - `new_project_open_dir()` — CudaText's "File - Open folder..."
+    command (`DoFolderAdd`); makes a project from a picked folder in
+    one step;
+  - `show_panel` / `focus_panel` — the side-panel button
+    (`[sidebar1] method=show_panel`) and its command entry.
+  Removing or renaming any of these breaks a core integration with an
+  AttributeError at runtime — this happened to `open_dir` once.
+  When cleaning up "unused" methods, always search the CudaText repo
+  for `'cuda_project_man'` string usages first.
 - The panel context menu is built from `Command.menuitems`
   (caption, parent, node types, action, hotkey); parents: `proj`,
   `nodes`, `dir`, `file`, `''` (top level). Session menus (toolbar +

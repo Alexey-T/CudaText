@@ -2004,6 +2004,104 @@ class Command:
         self.init_panel()
         self.action_open_project(items[res])
 
+    def do_unfold_first(self):
+        """unfold 1st item under root"""
+        items = tree_proc(self.tree, TREE_ITEM_ENUM_EX, 0)
+        if not items:
+            return
+        h_first = items[0]['id']
+        items = tree_proc(self.tree, TREE_ITEM_ENUM_EX, h_first)
+        if not items:
+            return
+        tree_proc(self.tree, TREE_ITEM_UNFOLD, h_first)
+        tree_proc(self.tree, TREE_ITEM_SELECT, h_first)
+
+        path = self.get_location_by_index(self.selected)
+        app_proc(PROC_SET_FOLDER, path)
+        self.cur_dir = path
+
+    def _new_project_from_dir(self, fn):
+        """Create a project from folder `fn` in one step: the project file
+        is created inside the folder, named after the folder (e.g. "myapp"
+        -> "myapp/myapp.cuda-proj") — no second "save as" dialog. If the
+        folder already contains that project file, it is simply opened
+        instead."""
+
+        if not os.path.isdir(fn):
+            print(_('Project Manager: folder not found: ') + fn)
+            return
+
+        #expand "." to fully qualified name
+        fn = os.path.abspath(fn)
+
+        if is_locked(fn):
+            print(_('Project Manager: folder is locked: ') + fn)
+            return
+
+        base = os.path.basename(fn.rstrip('\\/')) or 'project'
+        proj = os.path.join(fn, base + PROJECT_EXTENSION)
+
+        if os.path.isfile(proj):
+            # the folder already has a project: open it instead
+            self.action_open_project(proj)
+            return
+
+        if not os.access(fn, os.W_OK):
+            msg_status(_('Cannot create project file in a read-only folder'))
+            return
+
+        try:
+            self._create_project_file(Path(proj))
+            self.add_node(fn)
+            self.do_unfold_first()
+        except OSError as ex:
+            msg_status(_('Cannot create project file: %s') % ex)
+            return
+
+        app_proc(PROC_SIDEPANEL_ACTIVATE, self.title)
+        msg_status(_('Created project: ') + os.path.basename(proj))
+
+    def new_project_open_dir(self):
+        """CudaText's "File - Open folder..." command (the core calls this
+        method by name, it is not in this plugin's own menus): pick a
+        folder and make a project from it in one step, see
+        _new_project_from_dir."""
+
+        fn = dlg_dir("")
+        if fn is None: return
+
+        self.init_panel()
+        self._new_project_from_dir(fn)
+
+    def open_dir(self, dirname, new_proj=False):
+        """Called by CudaText itself when a folder is dragged from the OS
+        file manager and dropped onto the editor (the core calls this
+        method by name, it is not in this plugin's own menus). The folder
+        is added as a root node of the current project; with no project
+        open, of a new untitled project (it is saved to disk when the
+        user saves the project). new_proj=True (not used by the current
+        core) makes a new project from the folder in one step, like
+        "File - Open folder..."."""
+
+        if not os.path.isdir(dirname):
+            print(_('Project Manager: folder not found: ') + dirname)
+            return
+
+        #expand "." to fully qualified name
+        dirname = os.path.abspath(dirname)
+
+        if is_locked(dirname):
+            print(_('Project Manager: folder is locked: ') + dirname)
+            return
+
+        self.init_panel()
+        if new_proj:
+            self._new_project_from_dir(dirname)
+            return
+
+        self.add_node(dirname)
+        app_proc(PROC_SIDEPANEL_ACTIVATE, self.title)
+
     def on_open_pre(self, ed_self, filename):
         if filename.endswith(PROJECT_EXTENSION):
             self.init_panel()
