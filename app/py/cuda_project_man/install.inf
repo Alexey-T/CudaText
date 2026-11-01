@@ -17,7 +17,7 @@ keys=cuda-proj
 
 [item3]
 section=events
-events=on_delete_file~,on_tab_change~,on_open~,on_exit,on_state~
+events=on_delete_file~,on_tab_change~,on_exit,on_state~
 
 [item4]
 section=commands
@@ -36,7 +36,7 @@ method=menu_recents
 
 [item10]
 section=commands
-caption=&Project Manager\New project, &Open folder...
+caption=&Project Manager\New project from &folder...
 method=new_project_open_dir
 
 [item15]
@@ -84,7 +84,7 @@ method=_
 
 [item61]
 section=commands
-caption=&Project Manager\&Sync to editor file
+caption=&Project Manager\&Show current file in project tree
 method=sync_to_ed
 
 [item65]
@@ -125,7 +125,7 @@ method=action_import_external_session
 
 [item85]
 section=commands
-caption=&Project Manager\Set default session...
+caption=&Project Manager\Set session to load on project open...
 method=session_def
 
 [item86]
@@ -137,6 +137,11 @@ method=action_save_session_as_project
 section=commands
 caption=&Project Manager\Close tabs not belonging to project
 method=close_foreign_tabs
+
+[item92]
+section=commands
+caption=&Project Manager\Close tabs not belonging to project (no prompt)
+method=close_foreign_tabs_force
 
 
 [item100]
@@ -153,7 +158,7 @@ menu=0
 
 [item102]
 section=commands
-caption=&Project Manager\Context menu\New project
+caption=&Project Manager\Context menu\New empty project
 method=contextmenu_new_proj
 menu=0
 

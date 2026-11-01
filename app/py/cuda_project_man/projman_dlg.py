@@ -23,6 +23,18 @@ def get_themes_toolbar():
     return sorted(os.listdir(dir))
 
 
+def _combo_index(res, key):
+    """Selected index of a combo box from a dlg_custom() result dict.
+    Returns -1 when the value is missing or not a number, so a shifted
+    control index can never crash the dialog handler (an index drift once
+    made the Cancel button run the OK parsing and crash on int(''))."""
+    s = res.get(key, '')
+    try:
+        return int(s)
+    except (TypeError, ValueError):
+        return -1
+
+
 def dialog_config(op):
 
     RES_NO_FILES = 1
@@ -33,12 +45,11 @@ def dialog_config(op):
     RES_GOTO_OPEN = 8
     RES_PREVIEW = 9
     RES_D_CLICK = 10
-    RES_CHECK_GIT = 11
-    RES_SYNC = 13
-    RES_ICONS = 15
-    RES_ICONS_TB = 17
-    RES_SORT_ORDER = 19
-    RES_OK = 22
+    RES_SYNC = 11
+    RES_ICONS = 13
+    RES_ICONS_TB = 15
+    RES_SORT_ORDER = 17
+    RES_OK = 20
 
     themes = get_themes_filetype()
     try:
@@ -101,36 +112,34 @@ def dialog_config(op):
             'val='+bool_to_str(op.get('preview', True)) ])]
         +[c1.join(['type=check', 'pos=6,288,400,0', 'cap='+_('Open files by &double-click'),
             'val='+bool_to_str(op.get('d_click', False)) ])]
-        +[c1.join(['type=check', 'pos=6,314,400,0', 'cap='+_('On opening file in Git/SVN repo, create temporary project from repo (*)'),
-            'val='+bool_to_str(op.get('check_git', False)) ])]
-        +[c1.join(['type=check', 'pos=6,340,400,0', 'cap='+_('Always sync project-tree with current editor file'),
+        +[c1.join(['type=check', 'pos=6,314,400,0', 'cap='+_('Automatically show current file in project tree'),
             'val='+bool_to_str(op.get('always_sync', False)) ])]
 
-        +[c1.join(['type=label', 'pos=6,374,130,0', 'cap='+_('File type icons:')])]
-        +[c1.join(['type=combo_ro', 'pos=160,369,400,0',
+        +[c1.join(['type=label', 'pos=6,348,130,0', 'cap='+_('File type icons:')])]
+        +[c1.join(['type=combo_ro', 'pos=160,343,400,0',
             'items='+'\t'.join(themes),
             'val='+str(theme_index)
             ])]
 
-        +[c1.join(['type=label', 'pos=6,404,130,0', 'cap='+_('Toolbar icons:')])]
-        +[c1.join(['type=combo_ro', 'pos=160,399,400,0',
+        +[c1.join(['type=label', 'pos=6,378,130,0', 'cap='+_('Toolbar icons:')])]
+        +[c1.join(['type=combo_ro', 'pos=160,373,400,0',
             'items='+'\t'.join(themes_tb),
             'val='+str(theme_index_tb)
             ])]
 
-        +[c1.join(['type=label', 'pos=6,454,130,0', 'cap='+_('Sorting order (*):')])]
-        +[c1.join(['type=combo_ro', 'pos=160,449,400,0',
+        +[c1.join(['type=label', 'pos=6,428,130,0', 'cap='+_('Sorting order (*):')])]
+        +[c1.join(['type=combo_ro', 'pos=160,423,400,0',
             'items='+'\t'.join(items_sort_str),
             'val='+str(items_sort_val)
             ])]
 
-        +[c1.join(['type=label', 'pos=6,430,600,0', 'cap='+_('For more icons, get add-ons of kind "filetypeicons", "projtoolbaricons"')])]
-        +[c1.join(['type=label', 'pos=6,489,600,0', 'cap='+_('(*) - requires CudaText restart')])]
-        +[c1.join(['type=button', 'pos=300,484,400,0', 'cap='+_('&OK'), 'ex0=1'])]
-        +[c1.join(['type=button', 'pos=406,484,502,0', 'cap='+_('Cancel')])]
+        +[c1.join(['type=label', 'pos=6,404,600,0', 'cap='+_('For more icons, get add-ons of kind "filetypeicons", "projtoolbaricons"')])]
+        +[c1.join(['type=label', 'pos=6,463,600,0', 'cap='+_('(*) - requires CudaText restart')])]
+        +[c1.join(['type=button', 'pos=300,458,400,0', 'cap='+_('&OK'), 'ex0=1'])]
+        +[c1.join(['type=button', 'pos=406,458,502,0', 'cap='+_('Cancel')])]
     )
 
-    res = dlg_custom(_('Project Manager options'), 508, 518, text, get_dict=True)
+    res = dlg_custom(_('Project Manager options'), 508, 492, text, get_dict=True)
     if res is None:
         return
 
@@ -148,19 +157,18 @@ def dialog_config(op):
     op['goto_open'] = str_to_bool(res[RES_GOTO_OPEN])
     op['preview'] = str_to_bool(res[RES_PREVIEW])
     op['d_click'] = str_to_bool(res[RES_D_CLICK])
-    op['check_git'] = str_to_bool(res[RES_CHECK_GIT])
     op['always_sync'] = str_to_bool(res[RES_SYNC])
 
-    index = int(res[RES_ICONS])
-    if index>=0:
+    index = _combo_index(res, RES_ICONS)
+    if 0 <= index < len(themes):
         op['icon_theme'] = themes[index]
 
-    index = int(res[RES_ICONS_TB])
-    if index>=0:
+    index = _combo_index(res, RES_ICONS_TB)
+    if 0 <= index < len(themes_tb):
         op['toolbar_theme'] = themes_tb[index]
 
-    index = int(res[RES_SORT_ORDER])
-    if index>=0:
+    index = _combo_index(res, RES_SORT_ORDER)
+    if 0 <= index < len(items_sort_id):
         op['sort_order'] = items_sort_id[index]
 
     return True

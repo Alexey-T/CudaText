@@ -1,4 +1,33 @@
 2026.11.01 (@badrelmers)
+- fixed: the config dialog had shifted control indices: clicking Cancel ran
+  the OK parsing and crashed with ValueError (int('')), while clicking OK
+  silently discarded all changes; indices recomputed and combo parsing made
+  crash-proof
+- "Close tabs not belonging to project" no longer touches untitled tabs and
+  tabs with unsaved changes: they stay open so closing them can prompt to
+  save (internal callers like "Save session as..." got the same safe
+  behavior); new command "Close tabs not belonging to project (no prompt)"
+  keeps the old behavior (closes all foreign tabs, discards unsaved changes)
+- external session switch detection now also uses APPSTATE_SESSION_SET
+  (issue #6366, needs a recent CudaText): when another plugin changes the
+  app's session via PROC_SET_SESSION while a project is open, the project
+  closes silently so the two sessions don't conflict; session changes made
+  by the plugin itself are ignored (guard flag)
+- "New project, Open folder..." replaced by "New project from folder...":
+  one dialog (pick the folder), the project file is created inside it named
+  after the folder, no second "save as" prompt; if the folder already has
+  that project file, it is opened instead
+- renamed for clarity: "New project" -> "New empty project", "Sync to
+  editor file" / toolbar "Sync project-tree with current editor file" ->
+  "Show current file in project tree", "Set default session" -> "Set
+  session to load on project open", option "Always sync project-tree with
+  current editor file" -> "Automatically show current file in project tree"
+- removed the Git/SVN auto-project feature and all its code (decided in
+  #6352): the "check_git" option and its config-dialog checkbox, the
+  on_open handler and its plugins.ini subscription, the temporary
+  "temporary.cuda-proj" auto-project, and the unused open_dir() helper
+
+2026.11.01 (@badrelmers)
 + old-format project files are upgraded automatically on open, without a
   confirmation dialog: a backup of the original is saved next to the file
   ("<file>.bak", or "<file>.<date>.bak" when that name is taken — existing

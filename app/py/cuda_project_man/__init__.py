@@ -34,10 +34,15 @@ if IS_WIN:
 PROJECT_EXTENSION = ".cuda-proj"
 PROJECT_DIALOG_FILTER = _("CudaText projects") + "|*" + PROJECT_EXTENSION
 PROJECT_UNSAVED_NAME = _("(No project)")
-PROJECT_TEMP_FILENAME = os.path.join(app_path(APP_DIR_SETTINGS), 'temporary'+PROJECT_EXTENSION)
 NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD = range(4)
 OS_SUFFIX = app_proc(PROC_GET_OS_SUFFIX, '')
 DEF_SES = 'default'+OS_SUFFIX+'.cuda-session'
+
+# on_state constants. APPSTATE_SESSION_SET (issue #6366) needs a recent
+# CudaText; on older versions the star-import doesn't define it, so fall
+# back to -1 and the event simply never matches there.
+APPSTATE_SESSION_SET = globals().get('APPSTATE_SESSION_SET', -1)
+APPSTATE_SESSION_LOAD = globals().get('APPSTATE_SESSION_LOAD', -1)
 global_project_info = {}
 sort_order = 'ext'
 
@@ -302,11 +307,14 @@ class Command:
     goto_history = []
     cur_dir = ''
     project_file_path = None
+    # guard for on_state(APPSTATE_SESSION_SET): True while the plugin
+    # itself changes the app session (see Command._set_session)
+    _session_set_by_plugin = False
 
     title ="Project" # No _() here, the translation is offered in "translation template.ini".
     menuitems = (
         # item_caption, item_parent, item_types, item_action, item_hotkey
-        (_("New project..."), "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_new_project", ""),
+        (_("New empty project..."), "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_new_project", ""),
         (_("Save current session as new project..."), "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_save_session_as_project", ""),
         (_("Open project..."), "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_open_project", ""),
         (_("Recent projects"), "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "collect_recent_projects", ""),
@@ -378,7 +386,6 @@ class Command:
         "always_sync": False,
         "on_start": False,
         "on_start_activate": False,
-        "check_git": False,
         "icon_theme": "vscode_16x16",
         "toolbar_theme": "default_16x16",
     }
@@ -460,7 +467,7 @@ class Command:
         # _toolbar_add_btn(self.h_bar, hint=_('Remove node'), icon=icon_del, command='cuda_project_man.action_remove_node' )
         _toolbar_add_btn(self.h_bar, hint='-' )
         _toolbar_add_btn(self.h_bar, hint=_('Project sessions'), icon=icon_cfg, command='cuda_project_man.menu_cfg')
-        _toolbar_add_btn(self.h_bar, hint=_('Sync project-tree with current editor file'), icon=icon_sync, command='cuda_project_man.sync_to_ed' )
+        _toolbar_add_btn(self.h_bar, hint=_('Show current file in project tree'), icon=icon_sync, command='cuda_project_man.sync_to_ed' )
 
         btn_count = toolbar_proc(self.h_bar, TOOLBAR_GET_COUNT)
         self.h_btn_sync = toolbar_proc(self.h_bar, TOOLBAR_GET_BUTTON_HANDLE, index=btn_count-1)
@@ -1288,7 +1295,7 @@ class Command:
         # Create session1 inside the project and set as active
         sess1 = path_str + '|/sessions/session1'
         app_proc(PROC_SAVE_SESSION, sess1)
-        app_proc(PROC_SET_SESSION, sess1)
+        self._set_session(sess1)
 
         # Make sure session1 is the default session in the file, and
         # refresh the in-memory project from the file on disk
@@ -1357,13 +1364,29 @@ class Command:
         # Close all tabs
         self.close_all_tabs()
 
+        # Forget the project BEFORE touching the app session: the
+        # _set_session/PROC_LOAD_SESSION calls below fire app state events,
+        # and the on_state handler must not see a foreign session with a
+        # still-open project.
+        self._close_project_silent()
+
         # Load default session via PROC_LOAD_SESSION (reads, doesn't overwrite)
-        app_proc(PROC_SET_SESSION, DEF_SES)
+        self._set_session(DEF_SES)
         default_sess_path = os.path.join(app_path(APP_DIR_SETTINGS), DEF_SES)
         app_proc(PROC_LOAD_SESSION, default_sess_path)
 
-        self._close_project_silent()
         msg_status(_("Project closed"))
+
+    def _set_session(self, ptr):
+        """app_proc(PROC_SET_SESSION, ...) wrapper for session changes made
+        by the plugin itself. Sets a guard flag so the on_state handler
+        doesn't treat our own change as an external session switch (which
+        would close the project); see APPSTATE_SESSION_SET, issue #6366."""
+        self._session_set_by_plugin = True
+        try:
+            app_proc(PROC_SET_SESSION, ptr)
+        finally:
+            self._session_set_by_plugin = False
 
     def _close_project_silent(self):
         """Reset project state without touching tabs or sessions. Used when
@@ -1475,7 +1498,7 @@ class Command:
             sess = self.project.get('def_session', '')
             if sess not in ('', '-'):
                 sess_path = str(path) + '|/sessions/' + sess
-                app_proc(PROC_SET_SESSION, sess_path)
+                self._set_session(sess_path)
                 app_proc(PROC_LOAD_SESSION, sess_path)
         if 'unfold' in self.project:
             unfolds = self.project['unfold']
@@ -1729,7 +1752,7 @@ class Command:
         if not names:
             menu_proc(id, MENU_SET_ENABLED, command=False)
 
-        id = menu_proc(self.h_menu_cfg, MENU_ADD, command='cuda_project_man.session_def', caption=_('Set default session...'))
+        id = menu_proc(self.h_menu_cfg, MENU_ADD, command='cuda_project_man.session_def', caption=_('Set session to load on project open...'))
         if not names:
             menu_proc(id, MENU_SET_ENABLED, command=False)
 
@@ -1815,42 +1838,50 @@ class Command:
         self.cur_dir = path
 
     def new_project_open_dir(self):
+        """Create a project from a folder in one step: pick the folder, and
+        the project file is created inside it, named after the folder
+        (e.g. "myapp" -> "myapp/myapp.cuda-proj") — no second "save as"
+        dialog. If the folder already contains that project file, it is
+        simply opened instead."""
 
         fn = dlg_dir("")
         if fn is None: return
+
+        if not os.path.isdir(fn):
+            print(_('Project Manager: folder not found: ') + fn)
+            return
+
+        #expand "." to fully qualified name
+        fn = os.path.abspath(fn)
 
         if is_locked(fn):
             print(_('Project Manager: folder is locked: ') + fn)
             return
 
-        self.init_panel()
-        self.action_new_project()
-        self.add_node(fn)
-        self.do_unfold_first()
-
-        app_proc(PROC_SIDEPANEL_ACTIVATE, self.title)
-
-    def open_dir(self, dirname, new_proj=False):
-
-        if not os.path.isdir(dirname):
-            print(_('Project Manager: folder not found: ') + dirname)
-            return
-
-        #expand "." to fully qualified name
-        dirname = os.path.abspath(dirname)
-
-        if is_locked(dirname):
-            print(_('Project Manager: folder is locked: ') + dirname)
-            return
+        base = os.path.basename(fn.rstrip('\\/')) or 'project'
+        proj = os.path.join(fn, base + PROJECT_EXTENSION)
 
         self.init_panel()
-        if new_proj:
-            self.action_new_project()
-        self.add_node(dirname)
-        if new_proj:
+
+        if os.path.isfile(proj):
+            # the folder already has a project: open it instead
+            self.action_open_project(proj)
+            return
+
+        if not os.access(fn, os.W_OK):
+            msg_status(_('Cannot create project file in a read-only folder'))
+            return
+
+        try:
+            self._create_project_file(Path(proj))
+            self.add_node(fn)
             self.do_unfold_first()
+        except OSError as ex:
+            msg_status(_('Cannot create project file: %s') % ex)
+            return
 
         app_proc(PROC_SIDEPANEL_ACTIVATE, self.title)
+        msg_status(_('Created project: ') + os.path.basename(proj))
 
     def on_open_pre(self, ed_self, filename):
         if filename.endswith(PROJECT_EXTENSION):
@@ -1859,10 +1890,7 @@ class Command:
             return False #block opening
 
     def on_exit(self, ed_self):
-        # Don't save the temporary git auto-project on exit — saving it
-        # would persist its session and make it the default, which is not
-        # what we want for a throwaway project.
-        if self.project_file_path and str(self.project_file_path) != PROJECT_TEMP_FILENAME:
+        if self.project_file_path:
             self.action_save_project_as(self.project_file_path)
 
     def config(self):
@@ -1881,18 +1909,15 @@ class Command:
             self.save_events()
 
     def save_events(self):
-        # Events on_start/on_open are subscribed via plugins.ini (in
-        # addition to the lazy '~' events of install.inf). CudaText loads
-        # this plugin on start only when on_start is subscribed here, so
-        # users who don't use Project Manager get a fast start: the plugin
-        # is not loaded at all.
+        # The on_start event is subscribed via plugins.ini (in addition
+        # to the lazy '~' events of install.inf). CudaText loads this
+        # plugin on start only when on_start is subscribed here, so
+        # users who don't use Project Manager get a fast start: the
+        # plugin is not loaded at all.
         ev = []
 
         if self.options.get('on_start', False):
             ev.append('on_start')
-
-        if self.options.get('check_git', False):
-            ev.append('on_open')
 
         # save events to plugins.ini [events], they work additionally to install.inf events
         if ev:
@@ -2490,74 +2515,6 @@ class Command:
             if i%10==0:
                 app_proc(PROC_IDLE, False)
 
-    def on_open(self, ed_self):
-
-        if self.options.get('check_git', False):
-            self.init_panel(False)
-
-            if not self.project_file_path:
-                fn = ed_self.get_prop(PROP_FN, '*')
-                self.action_project_for_git(fn)
-
-        self.on_tab_change(ed_self)
-
-    def action_project_for_git(self, filename):
-        """Auto-create a temporary project when opening a file from a
-        Git/SVN repo. Creates a minimal project file (nodes/vars/mainfile)
-        with NO session operations — matches the original pre-refactor
-        behavior. Does not close tabs."""
-
-        dir = os.path.dirname(filename)
-        while True:
-            fn = os.path.join(dir, '.git')
-            fn2 = os.path.join(dir, '.svn')
-            if os.path.isdir(fn) or os.path.isdir(fn2):
-                self.init_panel()
-                app_proc(PROC_SIDEPANEL_ACTIVATE, self.title)
-
-                # Reset project state (no tab closing, no session operations)
-                self.project = normalize_project_data(dict(nodes=[], vars=[], mainfile=''))
-                self.project_file_path = Path(PROJECT_TEMP_FILENAME)
-                self.update_global_data()
-                self.goto_history = []
-                self.cur_dir = dir
-
-                app_proc(PROC_SET_FOLDER, dir)
-                app_proc(PROC_SET_PROJECT, PROJECT_TEMP_FILENAME)
-
-                # Add the repo root to nodes
-                self.project['nodes'].append(dir)
-                self.project['nodes'].sort(key=Command.node_ordering)
-                self.project['unfold'] = [dir]
-
-                # Write the project file directly — no session_save_as,
-                # no session_def, just the bare project dict.
-                d = copy.deepcopy(self.project)
-                proj_dir = os.path.dirname(PROJECT_TEMP_FILENAME)
-                d['nodes'] = [collapse_macros(proj_dir, n) for n in d['nodes']]
-                d['unfold'] = [collapse_macros(proj_dir, u) for u in d['unfold']]
-                d['version'] = PROJECT_FORMAT_VERSION
-                with open(PROJECT_TEMP_FILENAME, 'w', encoding='utf8') as fout:
-                    json.dump(d, fout, indent=2)
-
-                self.add_recent(PROJECT_TEMP_FILENAME)
-                self.options['on_start'] = True
-                self.save_events()
-                self.save_options()
-
-                self.action_refresh()
-                self.do_unfold_first()
-                self.jump_to_filename(filename)
-                print(_('Project Manager: opened project for version-controlled folder: ')+dir)
-                return
-
-            d = os.path.dirname(dir)
-            if d=='/':
-                return
-            if d==dir:
-                return
-            dir = d
-
     def session_cur_name(self):
 
         fn_proj = str(self.project_file_path) if self.project_file_path else ''
@@ -2604,7 +2561,7 @@ class Command:
             focused = 0
 
         if is_request:
-            res = dlg_menu(DMENU_LIST, names, focused=focused, caption=_('Set default project session'))
+            res = dlg_menu(DMENU_LIST, names, focused=focused, caption=_('Session to load on project open'))
             if res is None:
                 return
             curname = names[res] if res>0 else ''
@@ -2650,7 +2607,7 @@ class Command:
 
             # 3. and forget current session if name is the same
             if name == self.session_cur_name():
-                app_proc(PROC_SET_SESSION, DEF_SES)
+                self._set_session(DEF_SES)
 
     def session_delete_all(self):
 
@@ -2698,7 +2655,7 @@ class Command:
 
         sess = fn+'|/sessions/'+s
         app_proc(PROC_SAVE_SESSION, sess)
-        app_proc(PROC_SET_SESSION, sess)
+        self._set_session(sess)
 
         # update "self.project" dict
         try:
@@ -2748,7 +2705,7 @@ class Command:
         self.close_all_tabs()
 
         fn += '|/sessions/'+name
-        app_proc(PROC_SET_SESSION, fn)
+        self._set_session(fn)
         app_proc(PROC_LOAD_SESSION, fn)
 
     def action_import_external_session(self):
@@ -2834,7 +2791,17 @@ class Command:
                     return True
         return False
 
-    def close_foreign_tabs(self, confirm=True):
+    def close_foreign_tabs(self, confirm=True, force=False):
+        """Close editor tabs that don't belong to the current project.
+
+        force=False (default; menu command "Close tabs not belonging to
+        project"): only tabs that are saved (not modified) are closed.
+        Untitled tabs and tabs with unsaved changes are NOT touched — they
+        stay open, so closing them later lets CudaText prompt to save.
+
+        force=True (menu command "Close tabs not belonging to project
+        (no prompt)"): all foreign tabs are closed and unsaved changes
+        are discarded without any save prompt."""
 
         # don't detect if project is empty
         items = self.project['nodes']
@@ -2861,7 +2828,8 @@ class Command:
 
         import cudatext_cmd as cmds
 
-        res = []
+        to_close = []   # (handle, filename) to close
+        kept = []       # kept open because of unsaved changes
         for h in ed_handles():
             e = Editor(h)
             fn = e.get_prop(PROP_FN, '*')
@@ -2870,31 +2838,58 @@ class Command:
             if (not fn) and (not e.get_text_all()):
                 continue
 
-            if not is_from_proj(fn):
-                res.append((h, fn))
+            if is_from_proj(fn):
+                continue
 
-        if res:
+            unsaved = (not fn) or e.get_prop(PROP_MODIFIED)
+            if unsaved and not force:
+                # never discard unsaved content silently: keep the tab
+                # open, CudaText will prompt when the user closes it
+                kept.append((h, fn))
+                continue
+
+            to_close.append((h, fn))
+
+        def tab_name(h, fn):
+            if fn:
+                return collapse_filename(fn)
+            return Editor(h).get_prop(PROP_TAB_TITLE)
+
+        if not force and kept and not to_close:
+            msg_status(_('All foreign tabs have unsaved changes; none was closed'))
+            return
+
+        if to_close:
             msg_ = _('CudaText has opened %d tab(s) not belonging to the project "%s". Close them?')
-            msg = msg_%(len(res), self.get_project_name())
+            msg = msg_%(len(to_close), self.get_project_name())
 
             names = []
-            for (h, fn) in res:
-                if fn:
-                    names.append(collapse_filename(fn))
-                else:
-                    e = Editor(h)
-                    names.append(e.get_prop(PROP_TAB_TITLE))
+            for (h, fn) in to_close:
+                names.append(tab_name(h, fn))
                 if len(names)>=8:
                     names.append('...')
                     break
             msg += '\n\n'+'\n'.join(names)
 
+            if force:
+                msg += '\n\n' + _('Unsaved changes in these tabs will be lost (no prompt).')
+            if kept:
+                msg += '\n\n' + _('%d tab(s) with unsaved changes are kept open.') % len(kept)
+
             if not confirm or msg_box(msg, MB_OKCANCEL+MB_ICONQUESTION)==ID_OK:
-                for (h, fn) in reversed(res):
+                for (h, fn) in reversed(to_close):
                     e = Editor(h)
-                    e.set_prop(PROP_MODIFIED, False)
+                    if force:
+                        e.set_prop(PROP_MODIFIED, False)
                     e.cmd(cmds.cmd_FileClose)
                     time.sleep(0.2)
+                if kept:
+                    msg_status(_('%d tab(s) with unsaved changes were kept open') % len(kept))
+
+    def close_foreign_tabs_force(self):
+        """Menu command: like close_foreign_tabs, but also closes tabs
+        with unsaved changes, discarding them without save prompts."""
+        self.close_foreign_tabs(confirm=True, force=True)
 
     def close_all_tabs(self):
         """Close all tabs in all groups without changing the session pointer.
@@ -2911,7 +2906,7 @@ class Command:
 
     def session_forget(self):
 
-        app_proc(PROC_SET_SESSION, DEF_SES)
+        self._set_session(DEF_SES)
 
     def session_forget_ex(self):
 
@@ -2948,7 +2943,7 @@ class Command:
             sess = cur_fn+'|/sessions/'+cur_sess
             app_proc(PROC_SAVE_SESSION, sess)
             if and_forget:
-                app_proc(PROC_SET_SESSION, DEF_SES)
+                self._set_session(DEF_SES)
 
     def is_path_in_root(self, path):
 
@@ -2961,13 +2956,24 @@ class Command:
                 self.sync_to_ed()
 
     def on_state(self, ed_self, state):
-        """Detect external session switching via app state events. If a project
-        is open and a session is loaded that doesn't belong to it, close the
-        project silently (no tab closing, no DEF_SES load)."""
-        # APPSTATE_SESSION_LOAD fires after a session has been loaded. If a
-        # project is open but the active session no longer belongs to it,
-        # the user switched sessions externally — detach from the project.
-        if state == APPSTATE_SESSION_LOAD:
+        """Detect external session switching via app state events (issue
+        #6366). If a project is open and the app's session no longer
+        belongs to it, close the project silently (no tab closing, no
+        DEF_SES load), so the project's session and the foreign session
+        don't fight over the app's session slot.
+
+        - APPSTATE_SESSION_SET: another plugin (e.g. a session manager)
+          changed the app's session via PROC_SET_SESSION.
+        - APPSTATE_SESSION_LOAD: a session was loaded that doesn't belong
+          to the open project.
+
+        Session changes made by the plugin itself are guarded with
+        _session_set_by_plugin and ignored here."""
+        if state in (APPSTATE_SESSION_SET, APPSTATE_SESSION_LOAD):
+            if self._session_set_by_plugin:
+                return
             if self.project_file_path:
                 if not self.session_cur_name():
+                    print(_('Project Manager: app session was changed outside the project, closing the project'))
                     self._close_project_silent()
+                    msg_status(_('Project closed: another session is now active'))

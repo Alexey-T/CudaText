@@ -55,7 +55,7 @@ MENU STRUCTURE
 The context menu (right-click in the panel) is organized into sections:
 
 PROJECT FILE
-  New project...
+  New empty project...
       Prompts for a save location, creates an empty .cuda-proj file with
       a session named "session1" inside it, and loads that session. Any
       currently open project is saved and closed first. Cancel the dialog
@@ -149,7 +149,7 @@ SESSION (gear icon in toolbar)
   Delete session...
       Prompts to pick a session and deletes it from the project.
 
-  Set default session...
+  Set session to load on project open...
       Prompts to pick a session and marks it as the project's default.
       The default session is the one that loads when the project opens.
 
@@ -168,7 +168,7 @@ GENERAL
   Go to file...
       Opens a dialog to quickly jump to any file in the project tree.
 
-  Sync to editor file
+  Show current file in project tree
       Highlights the current editor file in the project tree.
 
 
@@ -186,10 +186,45 @@ The toolbar (top of the panel) has these buttons, left to right:
   [Add file]         - adds a file to the project
   ---
   [Project sessions] - shows the session menu (gear icon)
-  [Sync]             - syncs the tree to the current editor file
+  [Show current file in project tree] - highlights the current
+                       editor file in the tree
 
-The Sync button is hidden if "Always sync" is enabled in options
-(since syncing then happens automatically).
+The "Show current file" button is hidden if "Automatically show current
+file in project tree" is enabled in options (since it then happens
+automatically on every tab switch).
+
+
+------------------------------------------------------------------------------
+PLUGINS MENU COMMANDS
+------------------------------------------------------------------------------
+
+Commands available in the top menu: Plugins > Project Manager (not in the
+panel context menu):
+
+  New project from folder...
+      Creates a project from a folder in one step: you pick the folder,
+      and the project file is created inside it, named after the folder
+      (e.g. "myapp" -> "myapp/myapp.cuda-proj"). No second "save as"
+      dialog. If the folder already contains that project file, it is
+      simply opened instead.
+
+  Show current file in project tree
+      Same as the toolbar button: highlights the current editor file in
+      the project tree.
+
+  Close tabs not belonging to project
+      Closes editor tabs whose files are not part of the project. Tabs
+      with unsaved changes and untitled tabs are NOT touched — they stay
+      open, so closing them later lets CudaText prompt to save.
+
+  Close tabs not belonging to project (no prompt)
+      Like the command above, but also closes tabs with unsaved changes
+      and untitled tabs, discarding the unsaved content without any
+      save prompt. A confirmation dialog lists the tabs first.
+
+  Set session to load on project open...
+      Same as the session-menu item: picks the session that is loaded
+      when the project opens.
 
 
 ------------------------------------------------------------------------------
@@ -225,27 +260,12 @@ Open via the menu: Project Manager > Config... or right-click > Options...
                           checked, single-click previews, double-click
                           opens permanently.
 
-  On opening file in
-  Git/SVN repo, create
-  temporary project
-  from repo (*):          When you open a file that lives inside a
-                          Git or SVN working copy, the plugin walks up
-                          to the repo root and creates a temporary
-                          project (saved as "temporary.cuda-proj" in
-                          the settings folder) with the repo root as
-                          its only node. The file you opened stays
-                          open, and the tree jumps to it. Use "Save
-                          project as..." to persist the temporary
-                          project to a real location.
-
-                          Disabled by default. Enable it if you want
-                          the plugin to react to files opened from
-                          version-controlled folders.
-
-  Always sync project-
-  tree with current
-  editor file:           Automatically highlights the current editor
-                          file in the tree on every tab change.
+  Automatically show
+  current file in
+  project tree:           Automatically highlights the current editor
+                          file in the tree on every tab change. When
+                          enabled, the "Show current file" toolbar button
+                          is hidden.
 
   File type icons:        Icon theme for file types in the tree.
 
@@ -275,12 +295,18 @@ Startup
     load without interruption, and the project panel stays empty.
 
 External session switch detection
-  If a project is open and a session is loaded that doesn't belong to
-  it (via another session manager or a direct PROC_LOAD_SESSION call),
-  the plugin detects this via the APPSTATE_SESSION_LOAD event and
-  detaches from the project silently. No tabs are closed, no default
-  session is loaded — the foreign session simply takes over, and the
-  project's saved session is protected from being overwritten.
+  If a project is open and the app's session no longer belongs to it,
+  the plugin detaches from the project silently. No tabs are closed,
+  no default session is loaded — the foreign session simply takes over,
+  and the project's saved session is protected from being overwritten.
+  This is detected via two app state events:
+  - APPSTATE_SESSION_SET: another plugin (e.g. a session manager)
+    changed the app's session via PROC_SET_SESSION (issue #6366);
+  - APPSTATE_SESSION_LOAD: a session that doesn't belong to the open
+    project was loaded (a direct PROC_LOAD_SESSION call).
+  Session changes made by the Project Manager itself never trigger
+  this. Requires a recent CudaText for APPSTATE_SESSION_SET; on older
+  versions only the load event is detected.
 
 Old project format (automatic upgrade)
   Project files carry a "version" key (current format version: 2).
@@ -318,8 +344,7 @@ Broken project files
 
 Exit
   On CudaText exit, the current project is saved (if it has a file
-  path). The temporary git auto-project is excluded — it is never
-  saved on exit, to prevent its session from becoming the default.
+  path).
 
 
 ------------------------------------------------------------------------------
@@ -387,22 +412,18 @@ TECHNICAL NOTES
 
 - The plugin subscribes to these events (declared in install.inf):
   on_open_pre (for .cuda-proj files only), on_delete_file, on_tab_change,
-  on_open, on_exit, on_state. All of them are lazy (the '~' suffix in
+  on_exit, on_state. All of them are lazy (the '~' suffix in
   install.inf): lazy events never load the plugin, their handlers only
   run when the plugin is already loaded (on_exit is always lazy in
   CudaText anyway). So install.inf never causes the plugin to load on
   start.
 
-- on_start and on_open are subscribed additionally via plugins.ini
-  [events], which the plugin writes itself:
-  - on_start is subscribed when a project was opened/created/saved
-    (the hidden "on_start" option). This way CudaText loads the plugin
-    on start only for users who really used projects on the previous
-    run; users who don't use Project Manager keep a fast start, the
-    plugin is not loaded at all.
-  - on_open is subscribed only when the "check_git" option is enabled
-    (it fires on every file open, so the subscription is managed via
-    plugins.ini to avoid overhead when the feature is off).
+- on_start is subscribed additionally via plugins.ini [events], which
+  the plugin writes itself, when a project was opened/created/saved
+  (the hidden "on_start" option). This way CudaText loads the plugin
+  on start only for users who really used projects on the previous
+  run; users who don't use Project Manager keep a fast start, the
+  plugin is not loaded at all.
 
 - on_start auto-opens the most recent project on CudaText startup.
   It reads history.json to check which session CudaText is restoring:
