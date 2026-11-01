@@ -1410,6 +1410,43 @@ class Command:
             pass
         self.project['last_session'] = name
 
+    @staticmethod
+    def _read_session_keys(path):
+        """Read the 'sessions' and 'last_session' keys from a .cuda-proj
+        file on disk. Returns a dict holding only the keys that were found
+        with valid types; {} when the file cannot be read or parsed.
+        CudaText writes session sub-keys straight into the project file
+        (PROC_SAVE_SESSION on session switches, the ~40 s session
+        autosave, the save on exit), bypassing every in-memory copy —
+        the file on disk is the only up-to-date source for them."""
+        try:
+            with open(path, 'r', encoding='utf8') as f:
+                data = json.load(f)
+        except (OSError, ValueError):
+            return {}
+        res = {}
+        if isinstance(data, dict):
+            if isinstance(data.get('sessions'), dict):
+                res['sessions'] = data['sessions']
+            if isinstance(data.get('last_session'), str):
+                res['last_session'] = data['last_session']
+        return res
+
+    def _sync_sessions_from_disk(self):
+        """Refresh the in-memory project's 'sessions' and 'last_session'
+        from the project file on disk. Must be called after anything
+        saves a session into the file (PROC_SAVE_SESSION), so that a
+        later project-file save can never write stale session data back
+        over the file — that reverted every non-current session to an
+        old state and silently lost typed text (found via on_exit)."""
+        if not self.project_file_path:
+            return
+        fresh = self._read_session_keys(str(self.project_file_path))
+        if 'sessions' in fresh:
+            self.project['sessions'] = fresh['sessions']
+        if 'last_session' in fresh:
+            self.project['last_session'] = fresh['last_session']
+
     def _close_project_silent(self):
         """Reset project state without touching tabs or sessions. Used when
         an external session switch is detected — the foreign session is now
@@ -1739,6 +1776,33 @@ class Command:
             unfolds = list(map(lambda x: collapse_macros(proj_dir, x), unfolds))
             d['unfold'] = unfolds
             d['version'] = PROJECT_FORMAT_VERSION
+
+            # 'sessions' and 'last_session' in the in-memory project can be
+            # STALE: CudaText writes session sub-keys straight into the
+            # project file on disk (PROC_SAVE_SESSION on session switches,
+            # the ~40 s session autosave, the save on exit), and those
+            # writes don't pass through this dict. Dumping the dict here
+            # would revert every session except the current one to an old
+            # state — silent data loss (text typed in a session before
+            # switching away from it reappeared as the old text after a
+            # CudaText restart). Always take the fresh values from the
+            # file on disk; the in-memory copy is only the fallback for a
+            # first-ever save. For Save-As to a new path, the sessions of
+            # the OLD project file are carried over to the new file.
+            old_path = str(self.project_file_path) if self.project_file_path else ''
+            target = str(path)
+            if old_path and os.path.normpath(old_path) != os.path.normpath(target):
+                src = old_path      # Save As: carry the open project's sessions
+            elif os.path.isfile(target):
+                src = target        # normal save: the file being rewritten
+            else:
+                src = ''
+            if src:
+                fresh = self._read_session_keys(src)
+                if 'sessions' in fresh:
+                    d['sessions'] = fresh['sessions']
+                if 'last_session' in fresh:
+                    d['last_session'] = fresh['last_session']
 
             # Point the plugin to the new path BEFORE saving the session,
             # so the session is embedded into the new file, not the old one
@@ -2652,13 +2716,9 @@ class Command:
         app_proc(PROC_SAVE_SESSION, sess)
         self._set_session(sess)
 
-        # update "self.project" dict
-        try:
-            with open(fn, 'r', encoding='utf8') as f:
-                _newdata = json.load(f)
-            self.project['sessions'] = _newdata.get('sessions', {})
-        except (OSError, ValueError):
-            pass
+        # the app wrote the session straight into the project file;
+        # refresh the in-memory copy (see _sync_sessions_from_disk)
+        self._sync_sessions_from_disk()
 
     def session_load_menu(self):
 
@@ -2693,6 +2753,9 @@ class Command:
         cur_sess = self.session_cur_name()
         if cur_sess and cur_sess != name:
             app_proc(PROC_SAVE_SESSION, fn + '|/sessions/' + cur_sess)
+            # the app wrote the session straight into the project file;
+            # refresh the in-memory copy (see _sync_sessions_from_disk)
+            self._sync_sessions_from_disk()
 
         # Close ALL tabs in ALL groups, without switching the session
         # pointer to DEF_SES — we're switching between sessions within
@@ -2876,6 +2939,9 @@ class Command:
         if cur_fn and cur_sess:
             sess = cur_fn+'|/sessions/'+cur_sess
             app_proc(PROC_SAVE_SESSION, sess)
+            # the app wrote the session straight into the project file;
+            # refresh the in-memory copy (see _sync_sessions_from_disk)
+            self._sync_sessions_from_disk()
 
     def is_path_in_root(self, path):
 

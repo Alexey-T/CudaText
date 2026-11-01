@@ -1,4 +1,17 @@
 2026.11.01 (@badrelmers)
+- fixed severe data loss: text typed in a session was lost after a restart
+  if the user switched to another session before closing CudaText (switch
+  session1 -> session2, close, restart, switch back -> old text). CudaText
+  saves session sub-keys straight into the .cuda-proj file (on every session
+  switch, the ~40s autosave and on exit), but the plugin kept its own
+  in-memory copy of "sessions" and dumped it over the file on every project
+  save — including the on_exit save — reverting every non-current session
+  to the state from when the project was opened. The project save now
+  always takes the fresh "sessions"/"last_session" from the file on disk
+  ("Save project as..." carries them over from the old project file), and
+  the in-memory copy is refreshed after every session save
+
+2026.11.01 (@badrelmers)
 - restored "menu=op" in install.inf for "Project properties..." and
   "Config..." (upstream had it on both): the two settings dialogs are
   also shown in CudaText's Settings menu — the key was wrongly dropped
