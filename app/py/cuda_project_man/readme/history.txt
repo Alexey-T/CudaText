@@ -1,4 +1,41 @@
 2026.11.01 (@badrelmers)
+- fixed: switching project sessions could lose changes — "Save session as..."
+  only wrote the new session, so the previously active session kept its old
+  state; now switching ALWAYS saves the active session into its slot first,
+  and "Save session as..." writes the current state into both the new
+  session and the previously active one
+- removed the "Save current state to the session ...?" prompt on switching:
+  the state is always saved (CudaText's ~40s session autosave would write
+  it out anyway, so the prompt protected nothing)
+- fixed catastrophic bug: deleting the ACTIVE project session switched the
+  app session to default.cuda-session while the project stayed open, so the
+  ~40s session autosave overwrote that external file with the project's
+  tabs; now the user picks another session OF THE PROJECT to load instead,
+  and the app session never leaves the project for an external one
+- a project always keeps at least one session (a project is a session):
+  the last remaining session cannot be deleted — the menu item is disabled
+  and the command explains it in a dialog; opening a project file with no
+  sessions creates "session1" so the app session is always internal
+- replaced the "default session" concept with "last_session": the project
+  file stores the last used session, it is updated on every session switch
+  and loaded when the project is opened; on restart CudaText restores the
+  last used session itself (the plugin only records it); removed the
+  "Set session to load on project open..." command, its menu items and all
+  its code; older files with "def_session" are migrated on open
+- "Save session as..." no longer closes tabs not belonging to the project:
+  the full current state is saved as is; the ONLY commands that close
+  foreign tabs are the two "Close tabs not belonging to project" commands
+  (the internal no-op caller at startup is removed as well)
+- "Open project folder" now always opens the folder containing the
+  .cuda-proj file (added folders have their own "Reveal in file manager")
+- renamed "New empty project..." -> "Create new empty project...",
+  "New project from open tabs..." -> "Create new project from open tabs..."
+- session_save lost the dead "and_forget" parameter (it could switch the
+  app onto an external session while a project is open)
+- new_project simplified to the pure state reset it always was in practice
+  (its save/close/foreign-tabs branches were unreachable at startup)
+
+2026.11.01 (@badrelmers)
 * menus reorganized (per the #6352 discussion): Plugins-menu commands are
   grouped by purpose with separators — panel, navigation, project
   lifecycle, add-to-project, "Project sessions" submenu, close-tabs,

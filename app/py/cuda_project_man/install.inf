@@ -66,12 +66,12 @@ method=_
 
 [item13]
 section=commands
-caption=&Project Manager\New empty &project...
+caption=&Project Manager\Create new empty &project...
 method=action_new_project
 
 [item14]
 section=commands
-caption=&Project Manager\New project from open &tabs...
+caption=&Project Manager\Create new project from open &tabs...
 method=action_save_session_as_project
 
 [item15]
@@ -158,11 +158,6 @@ method=session_save_as
 section=commands
 caption=&Project Manager\Project sessions\Delete session...
 method=session_delete
-
-[item32]
-section=commands
-caption=&Project Manager\Project sessions\Set session to load on project open...
-method=session_def
 
 [item33]
 section=commands

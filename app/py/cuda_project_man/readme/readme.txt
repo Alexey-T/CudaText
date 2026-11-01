@@ -22,7 +22,8 @@ Project file (.cuda-proj)
   - vars: optional name=value variables used by macros
   - mainfile: optional path to the project's "main" file
   - unfold: which tree nodes should be expanded
-  - def_session: name of the default session for this project
+  - last_session: name of the session that was used last (the session
+    loaded when the project is opened)
   - sessions: named sessions, each storing tab layout, cursors, etc.
 
   The tree only shows root nodes and their immediate contents. Folder
@@ -40,12 +41,16 @@ Session
   is open.
 
 Project-session binding
-  A project and its active session are tightly coupled. When you open a
-  project, its default session loads. When you close a project, the
-  default CudaText session is restored. If a session switch is detected
-  (via another session manager or manual API call), the project
-  automatically detaches to prevent the foreign session from overwriting
-  the project's session data.
+  A project and its active session are tightly coupled — a project is
+  itself a session, so it always keeps at least one. When you open a
+  project, its last used session loads. When you close a project, the
+  default CudaText session is restored. While a project is open, only
+  that project's internal sessions are ever loaded or saved — the
+  plugin never switches the app onto an external session file (and
+  never lets an external session be overwritten). If an external
+  session switch is detected (via another session manager or manual
+  API call), the project automatically detaches to prevent the foreign
+  session from overwriting the project's session data.
 
 
 ------------------------------------------------------------------------------
@@ -55,23 +60,23 @@ MENU STRUCTURE
 The context menu (right-click in the panel) is organized into sections:
 
 PROJECT FILE
-  New empty project...
+  Create new empty project...
       Prompts for a save location, creates an empty .cuda-proj file with
       a session named "session1" inside it, and loads that session. Any
       currently open project is saved and closed first. Cancel the dialog
       to abort — no untitled or temporary project is created.
 
-  New project from open tabs...
+  Create new project from open tabs...
       Turns the current working set into a NEW project: prompts for a
       .cuda-proj location, embeds the currently open tabs as a session
-      named "session1", makes it the default, and switches to the new
-      project. Tabs are not closed. Also handy to migrate the old
+      named "session1", makes it the last used session, and switches to
+      the new project. Tabs are not closed. Also handy to migrate the old
       workflow that kept sessions in external .cuda-session files.
 
   Open project...
       Opens an existing .cuda-proj file. Saves the current project's
       session, closes all tabs, loads the new project, and loads its
-      default session.
+      last used session.
 
   Recent projects >
       Submenu listing recently opened projects. Click one to open it.
@@ -93,10 +98,9 @@ PROJECT FILE
       a project come back. Resets the panel to "no project" state.
 
   Open project folder
-      Opens the project's folder in the OS file manager (Windows
-      Explorer, Finder, ...). Uses the first folder root of the project;
-      when the project has no folder roots, opens the folder containing
-      the .cuda-proj file.
+      Opens the folder that CONTAINS the .cuda-proj file in the OS file
+      manager (Windows Explorer, Finder, ...). (Folders added to the
+      project have their own "Reveal in file manager" item.)
 
   Project properties...
       Opens a dialog to edit project variables (Name=Value pairs, one
@@ -143,8 +147,15 @@ PROJECT SESSIONS (toolbar gear button, or the context-menu
 "Project sessions" submenu)
   Project session: <name>
       One item per session in the project; the currently active one is
-      greyed out. Click a session to switch to it (the current session
-      is saved into its slot first).
+      greyed out. Click a session to switch to it.
+
+      Switching always saves first: the active session's state is
+      written into its slot before the new session loads, so changes
+      are never lost (no prompt — CudaText's session autosave would
+      write the state out within ~40 seconds anyway, so asking first
+      would only create a state the autosave overwrites moments later).
+      "Save session as..." behaves the same way: the current session
+      gets the changes too, and the new session starts as a copy of it.
 
   Save session
       Saves the current editor state into the current session slot
@@ -152,29 +163,26 @@ PROJECT SESSIONS (toolbar gear button, or the context-menu
 
   Save session as...
       Prompts for a name and saves the current editor state into a new
-      session slot inside the project.
+      session slot inside the project; the new session becomes the
+      active one. No tabs are closed — the full current state (including
+      tabs not belonging to the project) is saved as is, and the
+      previously active session is updated with the same state.
 
   Delete session...
-      Prompts to pick a session and deletes it from the project. If the
-      deleted session was the default one, the first remaining session
-      becomes the default.
-
-  Set session to load on project open...
-      Prompts to pick a session and marks it as the project's default —
-      the session that is loaded when the project opens. This also
-      applies after a CudaText restart: CudaText itself restores the
-      last used session, and the plugin then switches to the default
-      one (the restored session is saved into its own slot first, so
-      nothing is lost). Pick "(none)" to not load any session
-      automatically.
+      Prompts to pick a session and deletes it from the project. The
+      last remaining session cannot be deleted (a project is itself a
+      session, it must keep one) — the menu item is disabled then, and
+      the command explains it in a dialog. If the deleted session is
+      the active one, you pick another session of the project to load
+      instead; the app session never leaves the project for an
+      external one.
 
   Import external session...
       Imports an external .cuda-session file into the project as an
-      internal session, named after the file. If the project has no
-      default session yet, the imported session becomes the default.
-      Load it afterwards from this same session menu. Migration helper
-      for the old (pre-versioning) workflow that kept project sessions
-      in separate files.
+      internal session, named after the file. Load it afterwards from
+      this same session menu. Migration helper for the old
+      (pre-versioning) workflow that kept project sessions in separate
+      files.
 
 GENERAL (context menu top level)
   Refresh (F5)
@@ -222,12 +230,12 @@ separators between the groups:
   Open all project files..., Show current file in project tree
       Quick navigation inside the project.
 
-  New empty project... / New project from open tabs... /
+  Create new empty project... / Create new project from open tabs... /
   Open project... / Open recent project... / Save project /
   Save project as... / Close project / Open project folder
       The project lifecycle: create, open, save, close. "Open project
-      folder" opens the project's folder in the OS file manager (first
-      folder root of the project, or the .cuda-proj file's folder).
+      folder" opens the folder containing the .cuda-proj file in the OS
+      file manager.
 
   Add to project: folder... / file... / current file /
   all opened files / folder of the current file
@@ -236,9 +244,8 @@ separators between the groups:
 
   Project sessions >
       Submenu with Open session..., Save session, Save session as...,
-      Delete session..., Set session to load on project open...,
-      Import external session... — the same items as the sessions menu
-      of the panel.
+      Delete session..., Import external session... — the same items as
+      the sessions menu of the panel.
 
   Close tabs not belonging to project
       Closes editor tabs whose files are not part of the project. Tabs
@@ -313,11 +320,10 @@ Startup
 
   - If the session belongs to the most-recent project, the project
     metadata is loaded and CudaText's session restore proceeds
-    normally. No extra prompts. CudaText restores the last used
-    session, so when that is not the project's default session, the
-    plugin saves the restored session into its own slot and loads the
-    default session instead (see "Set session to load on project
-    open...").
+    normally — CudaText itself restores the last used session (it is
+    also recorded in the project file as "last_session", so the
+    project reopens with it later). No extra prompts, no session
+    switching.
 
   - If the session belongs to a different project (e.g., history.json
     was manually edited), or is a plain non-project session, the
@@ -325,11 +331,12 @@ Startup
     load without interruption, and the project panel stays empty.
 
 External session switch detection
-  If a project is open and the app's session no longer belongs to it,
-  the plugin detaches from the project silently. No tabs are closed,
-  no default session is loaded — the foreign session simply takes over,
-  and the project's saved session is protected from being overwritten.
-  This is detected via two app state events:
+  While a project is open, only that project's internal sessions are
+  ever loaded or saved. If the app's session no longer belongs to the
+  open project, the plugin detaches from the project silently. No tabs
+  are closed, no default session is loaded — the foreign session simply
+  takes over, and the project's saved session is protected from being
+  overwritten. This is detected via two app state events:
   - APPSTATE_SESSION_SET: another plugin (e.g. a session manager)
     changed the app's session via PROC_SET_SESSION (issue #6366);
   - APPSTATE_SESSION_LOAD: a session that doesn't belong to the open
@@ -345,9 +352,9 @@ Old project format (automatic upgrade)
   "<file>.bak" (if that name is already taken, "<file>.<date>.bak" —
   an existing backup is never overwritten); then the file is
   rewritten. The upgrade only ADDS missing standard keys ("nodes",
-  "vars", "mainfile", "unfold", "def_session", "version") — no
-  existing content is removed. If the project contains sessions but
-  no default session, the first session becomes the default.
+  "vars", "mainfile", "unfold", "last_session", "version") — no
+  existing content is removed. If the project contains sessions but no
+  "last_session", the first session is used when it is opened.
 
   The status bar and the console panel report the upgrade and the
   backup file name; you can delete the backup file when everything
@@ -391,7 +398,7 @@ A .cuda-proj file is JSON. Every file written by the plugin carries
     "unfold": ["C:\\code\\myapp"]
   }
 
-With a default session:
+With a session:
 
   {
     "version": 2,
@@ -399,7 +406,7 @@ With a default session:
     "vars": [],
     "mainfile": "",
     "unfold": ["C:\\code\\myapp"],
-    "def_session": "session1",
+    "last_session": "session1",
     "sessions": {
       "session1": {
         "tabs": [...],
@@ -463,6 +470,19 @@ TECHNICAL NOTES
 
 - Sessions are stored inside the .cuda-proj file using CudaText's
   "project|/sessions/name" session pointer format.
+
+- "last_session" (the session to load when the project is opened) is
+  updated in the project file every time a project session becomes
+  active, so the project always reopens with the session that was used
+  last. Older project files carrying the removed "def_session" key are
+  migrated to "last_session" on open.
+
+- While a project is open, every session pointer the plugin sets points
+  INSIDE that project's file. The only moment an external session is
+  loaded is "Close project" — the project is forgotten first, then the
+  default CudaText session is restored. This is what keeps external
+  session files (like default.cuda-session) from being overwritten by
+  the ~40-second session autosave while project tabs are open.
 
 
 ------------------------------------------------------------------------------
