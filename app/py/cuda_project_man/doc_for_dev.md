@@ -24,7 +24,6 @@ and #6366 (external session switch detection).
 10. API for other plugins
 11. Writing files
 12. Known non-obvious behaviors
-13. Testing
 
 ---
 ## 1. Core concepts
@@ -65,14 +64,15 @@ plus a *cached copy* of sessions/last_session). `Command.project_file_path`
 is a `Path` or `None` (no project open). `global_project_info` is the
 module-level export for other plugins (see §10).
 
-**Why an in-memory copy exists at all** (asked after the batch-6 bug):
-the tree, menus, node add/remove and macros all need project data
-without re-reading and re-parsing the file on every click, and CudaText
-offers no API to enumerate the sessions inside a project file — the
-plugin must know the session names itself. The copy is a *cache*:
-correct for everything CudaText does not write (nodes, vars, mainfile,
-unfold), but only a cache for `sessions`/`last_session`, which the app
-writes behind the plugin's back (see §3).
+**Why an in-memory copy exists at all** (a fair question — keeping a
+second copy of data that lives in a file is what once caused a data
+loss, see §3): the tree, menus, node add/remove and macros all need
+project data without re-reading and re-parsing the file on every click,
+and CudaText offers no API to enumerate the sessions inside a project
+file — the plugin must know the session names itself. The copy is a
+*cache*: correct for everything CudaText does not write (nodes, vars,
+mainfile, unfold), but only a cache for `sessions`/`last_session`,
+which the app writes behind the plugin's back (see §3).
 
 ---
 ## 2. The session pointer system
@@ -102,8 +102,7 @@ Plugin rules:
   `last_session`.
 - The **only** allowed external pointer set is `_set_session(DEF_SES)`
   inside `action_close_project`, and it runs strictly AFTER
-  `_close_project_silent()` has forgotten the project. `verify_inf.py`
-  enforces that this call appears exactly once in the source.
+  `_close_project_silent()` has forgotten the project.
 - `session_cur_name()` returns the active internal session name, or
   `''` when the app session is not inside the open project file.
 - Ordering: always `_set_session(ptr)` **before**
@@ -129,10 +128,25 @@ plugin:
    `action_import_external_session`, `upgrade_project_file_on_disk`,
    `_create_project_file`).
 
-The batch-6 data-loss bug was exactly this: the plugin dumped its
-in-memory `sessions` dict (loaded when the project was opened) over the
-file on every save — including `on_exit` — reverting every non-current
-session to a stale state. Two rules prevent any recurrence:
+This two-writer setup caused the worst data-loss bug this plugin ever
+had (fixed 2026.10, see history.txt). To understand it, remember that
+the plugin used to dump its **whole in-memory project dict** — with the
+`sessions` it had read when the project was *opened* — into the file on
+every save, including the automatic save on exit. The victim's script:
+
+1. Open a project. The plugin caches `sessions` — the state of every
+   session **at this moment**.
+2. Work in session "A": type text, don't save. Switch to session "B".
+   CudaText writes the current state of "A" into the project file
+   (as it does on every switch, autosave and exit).
+3. Close CudaText. The plugin's exit save writes its cached copy —
+   the one from step 1 — over the file. The text typed in "A" in
+   step 2 is gone; switching back to "A" shows its old content.
+   No error message anywhere — silent, and it also fired on every
+   ordinary project save, not just on exit.
+
+Every session except the currently active one was reverted to its
+step-1 state this way. Two rules prevent any recurrence:
 
 - **`action_save_project_as` always takes `sessions`/`last_session`
   fresh from the file on disk** (`_read_session_keys`), read AFTER the
@@ -182,9 +196,6 @@ Check the return value when the next step closes tabs (see §5).
 10. Version check: files with `"version"` newer than
     `PROJECT_FORMAT_VERSION` are refused with an explanation.
 
-`scripts/verify_inf.py` encodes 1, 4 (as source-text patterns) and the
-install.inf ↔ Command/menu consistency; keep it green.
-
 ---
 ## 5. Tab closing rules
 
@@ -223,27 +234,62 @@ moments later, so the prompt protected nothing (decided in #6352).
 ---
 ## 6. Startup / shutdown flow
 
-- **Loading on start is opt-in.** install.inf declares only lazy
-  events (`on_open_pre` for `.cuda-proj` files, and
-  `on_delete_file~`, `on_tab_change~`, `on_exit`, `on_state~` — the
-  `~` suffix means "never load the plugin for this event"). The plugin
-  additionally subscribes `on_start` in `plugins.ini [events]` — but
-  only while the hidden option `on_start` is on, which every
-  project-open/create/save sets. Result: users who never use projects
-  never load the plugin at all.
+**The on_start subscription mirrors "a project is in use".**
+install.inf declares no event that loads the plugin unconditionally:
+`on_open_pre` is key-filtered (`keys=cuda-proj` — it loads the plugin
+only when a project file itself is opened, which is intended), and
+`on_delete_file~`, `on_tab_change~`, `on_state~` are lazy (the `~`
+suffix means "never load the plugin for this event"; `on_exit` is
+always lazy in CudaText core no matter how it is declared). The plugin
+additionally subscribes `on_start` in `plugins.ini [events]` (key
+`cuda_project_man`), which is its ONLY unconditioned subscription —
+this key alone decides whether CudaText loads the plugin at start.
+
+Invariant: the key exists ⟺ a project is in use.
+
+- **Subscribed** (`options['on_start']=True` + `save_events()`) by every
+  project open / create / save — `action_open_project`,
+  `_create_project_file`, `action_save_project_as`.
+- **Removed** (`_update_on_start_subscription(False)`, the single
+  unsubscribe point) on EVERY path that ends with no project:
+  - `action_close_project` ("Close project"),
+  - the detach branches of `on_start` (history.json restored a foreign
+    or plain non-project session),
+  - the external-session-switch close in `on_state` (§7),
+  - `on_exit` when no project is open.
+  Removing sets the hidden `on_start` option off, so `save_events()`
+  calls `ini_proc(INI_DELETE_KEY, 'plugins.ini', 'events',
+  'cuda_project_man')` and the options file records it too.
+- `config()` re-enforces the invariant after any options change with
+  `_update_on_start_subscription(bool(project_file_path))` — the
+  hidden option is not in the dialog, and a stale `true` in a
+  hand-edited options file must not re-subscribe the plugin with no
+  project open.
+
+Because the key is dropped the moment the project is gone (not just at
+exit), the invariant survives a crash, and with no project loaded the
+plugin never loads at the next CudaText start — the earlier behavior
+("Close project" left the key in plugins.ini, so the plugin kept
+loading and re-detaching on every start) is what this fixes. Users who
+never use projects never load the plugin at all.
+
 - **`on_start`**: reads `history.json` (CudaText's state file; its
   `session` key holds the session pointer being restored). If it
   points into the most-recent project, the project is adopted with
   `action_open_project(path, load_session=False)` — no tab closing, no
   session load; CudaText is already restoring that session; the plugin
-  only records `last_session`. Otherwise (foreign session / plain
-  default session) the plugin detaches silently
-  (`_close_project_silent`) so the two sessions don't fight.
-- **`on_exit`**: saves the project (`action_save_project_as`) — which
-  per §3 takes fresh sessions from disk and then saves the current
-  session slot. CudaText saves the app session AFTER plugin exit
-  handlers (verified in formmain.pas), so the app's final write lands
-  on the already-correct file.
+  only records `last_session` (and re-subscribes on_start, per the
+  invariant). Otherwise (foreign session / plain default session) the
+  plugin detaches silently (`_close_project_silent`) so the two
+  sessions don't fight — and unsubscribes.
+- **`on_exit`**: with a project open, saves it
+  (`action_save_project_as`) — which per §3 takes fresh sessions from
+  disk and then saves the current session slot (and keeps on_start
+  subscribed: the project is in use, the next start must restore it).
+  CudaText saves the app session AFTER plugin exit handlers (verified
+  in formmain.pas), so the app's final write lands on the
+  already-correct file. With NO project open, it unsubscribes
+  on_start instead (see the invariant above).
 
 ---
 ## 7. External session switches
@@ -253,7 +299,9 @@ moments later, so the prompt protected nothing (decided in #6352).
 `session_cur_name()` is empty (app session no longer inside the
 project), the project is closed silently: no tabs closed, no DEF_SES
 loaded — the foreign session just takes over and the project's session
-data is protected from being overwritten by the ~40 s autosave.
+data is protected from being overwritten by the ~40 s autosave. The
+on_start subscription is removed as well (§6): no project is in use
+anymore.
 
 - Own changes are ignored via the `_session_set_by_plugin` guard flag
   (set only around the `PROC_SET_SESSION` call inside `_set_session`).
@@ -375,24 +423,11 @@ successful save).
 - Sorting: `sort_order` is a module-level global consumed by
   `node_ordering_direntry` (perf: no attribute lookups in the sort
   key).
-
----
-## 13. Testing
-
-`scripts/test_projman.py` runs 309 checks against a stubbed CudaText
-API (no CudaText needed): file validation/upgrade paths (backup
-content, no-overwrite, write-failure fallbacks), config dialog index
-map, tab-closing rules, APPSTATE events (foreign/own/guarded),
-menu/parity checks, last_session lifecycle, delete-session rules,
-always-save switching, the batch-6 restart scenario end-to-end, and
-the audit-round-2 flows (unsaved-text protection, Save-As name carry,
-consecutive missing-path cleanup, stale in-memory dicts, atomic
-writes).
-
-`scripts/verify_inf.py` re-runs the suite and additionally checks the
-source text for the invariants of §2/§4/§11 plus install.inf ↔
-Command/menuitems consistency (every `method=`/action exists,
-`menu=op` exactly on config+config_proj).
-
-When you change behavior: add a check that FAILS on the old code.
-Every fixed bug in history.txt has such a check.
+- The side panel is built ONCE per CudaText run, on the first
+  `init_panel()` call (`init_form_main`: dialog, toolbar, tree, both
+  icon imagelists, `icon_init`). CudaText has no API to recreate a
+  docked plugin panel in place, so the icon-theme options can only
+  take effect on a panel that does not exist yet — that is why the
+  options dialog marks them with "(*)": new file-type/toolbar icon
+  themes need a CudaText restart. (Changed before the panel is first
+  shown, they apply without a restart.)

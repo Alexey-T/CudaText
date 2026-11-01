@@ -115,13 +115,13 @@ def dialog_config(op):
         +[c1.join(['type=check', 'pos=6,314,400,0', 'cap='+_('Automatically show current file in project tree'),
             'val='+bool_to_str(op.get('always_sync', False)) ])]
 
-        +[c1.join(['type=label', 'pos=6,348,130,0', 'cap='+_('File type icons:')])]
+        +[c1.join(['type=label', 'pos=6,348,130,0', 'cap='+_('File type icons (*):')])]
         +[c1.join(['type=combo_ro', 'pos=160,343,400,0',
             'items='+'\t'.join(themes),
             'val='+str(theme_index)
             ])]
 
-        +[c1.join(['type=label', 'pos=6,378,130,0', 'cap='+_('Toolbar icons:')])]
+        +[c1.join(['type=label', 'pos=6,378,130,0', 'cap='+_('Toolbar icons (*):')])]
         +[c1.join(['type=combo_ro', 'pos=160,373,400,0',
             'items='+'\t'.join(themes_tb),
             'val='+str(theme_index_tb)

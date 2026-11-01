@@ -1391,6 +1391,12 @@ class Command:
         # still-open project.
         self._close_project_silent()
 
+        # No project is loaded anymore: the plugin must not load at the
+        # next CudaText start. Remove the on_start subscription from
+        # plugins.ini [events] (a later open/create/save of a project
+        # subscribes it again).
+        self._update_on_start_subscription(False)
+
         # Load default session via PROC_LOAD_SESSION (reads, doesn't overwrite)
         self._set_session(DEF_SES)
         default_sess_path = os.path.join(app_path(APP_DIR_SETTINGS), DEF_SES)
@@ -1865,9 +1871,13 @@ class Command:
             # persists "last_session".
             self.session_save_as(False, sess_name=carry_name)
 
-            # any saving of project file makes on_start On
+            # any saving of project file makes on_start On: a project is
+            # in use, so the plugin must load at the next CudaText start
+            # (save_options persists the on_start flag for consistency;
+            # plugins.ini is what CudaText actually reads on start)
             self.options['on_start'] = True
             self.save_events()
+            self.save_options()
 
             self.update_global_data()
             print(_('Saving project: ') + collapse_filename(str(path)))
@@ -2003,6 +2013,12 @@ class Command:
     def on_exit(self, ed_self):
         if self.project_file_path:
             self.action_save_project_as(self.project_file_path)
+        else:
+            # No project is loaded at exit: the plugin must not load at
+            # the next CudaText start. It would only find a non-project
+            # session in history.json and detach again. Remove the on_start
+            # subscription from plugins.ini [events].
+            self._update_on_start_subscription(False)
 
     def config(self):
 
@@ -2017,7 +2033,32 @@ class Command:
                     })
                 button_proc(self.h_btn_sync, BTN_SET_VISIBLE, not self.options.get('always_sync', False))
 
-            self.save_events()
+            # keep the on_start subscription in sync with the project
+            # state (the hidden on_start option is not in the dialog; a
+            # stale True in a hand-edited options file must not
+            # re-subscribe the plugin with no project open)
+            self._update_on_start_subscription(bool(self.project_file_path))
+
+    def _update_on_start_subscription(self, loaded):
+        """Keep the on_start subscription in plugins.ini [events] in sync
+        with whether a project is loaded. CudaText loads this plugin at
+        start ONLY to restore an open project's session (the lazy '~'
+        events of install.inf still work and load it on demand), so
+        plugins.ini must not keep a stale on_start key.
+
+        The key is subscribed by every project open/create/save (they set
+        options['on_start']=True and call save_events). This method is the
+        single unsubscribe point, called on EVERY path that ends with no
+        project: "Close project", the on_start detach branches (foreign
+        or plain session restored at start), the external-session-switch
+        close in on_state, and on_exit with no project. With no project
+        loaded the plugin then never loads at the next CudaText start.
+
+        The hidden on_start option is set off, which makes save_events()
+        delete the plugins.ini key, and the option file records it too."""
+        self.options['on_start'] = bool(loaded)
+        self.save_events()
+        self.save_options()
 
     def save_events(self):
         # The on_start event is subscribed via plugins.ini (in addition
@@ -2100,11 +2141,19 @@ class Command:
                     # so the foreign session's tabs stay open and the
                     # project's session isn't overwritten.
                     self._close_project_silent()
+                    # No project is in use now — also drop the on_start
+                    # subscription, so the next start doesn't load the
+                    # plugin just to detach again.
+                    self._update_on_start_subscription(False)
             else:
                 # No project session in history.json (either empty or a
                 # plain session like default.cuda-session). Don't auto-open
                 # the project — let the foreign/default session stand.
                 self._close_project_silent()
+                # No project is in use now — also drop the on_start
+                # subscription, so the next start doesn't load the
+                # plugin just to detach again.
+                self._update_on_start_subscription(False)
 
     def enum_all(self, callback):
         """
@@ -3079,4 +3128,8 @@ class Command:
                 if not self.session_cur_name():
                     print(_('Project Manager: app session was changed outside the project, closing the project'))
                     self._close_project_silent()
+                    # No project is in use anymore — drop the on_start
+                    # subscription too, so the next CudaText start doesn't
+                    # load the plugin for a project that is no longer open.
+                    self._update_on_start_subscription(False)
                     msg_status(_('Project closed: another session is now active'))

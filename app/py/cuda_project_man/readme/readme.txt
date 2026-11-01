@@ -351,9 +351,9 @@ Open via the menu: Project Manager > Config..., the panel context menu
                           enabled, the "Show current file" toolbar button
                           is hidden.
 
-  File type icons:        Icon theme for file types in the tree.
+  File type icons (*):    Icon theme for file types in the tree.
 
-  Toolbar icons:          Icon theme for the toolbar buttons.
+  Toolbar icons (*):      Icon theme for the toolbar buttons.
 
   Sorting order (*):      How to sort items in the tree: by name,
                           extension, size, date, etc.
@@ -500,9 +500,12 @@ NOTES
   line) opens it as a project instead of showing raw JSON.
 
 - The most recent project reopens automatically on CudaText start.
-  The plugin itself is only loaded on start when a project was used in
-  the previous run, so users who don't use projects keep CudaText's
-  fast startup.
+  The plugin itself is only loaded on start when a project is in use
+  (open at exit, or used earlier and not closed). When you close the
+  project — or when the restored session is not the project's — the
+  plugin removes its startup registration, so it is not loaded at all
+  on the next start; users who don't use projects keep CudaText's fast
+  startup.
 
 - The session loaded when a project is opened is the one that was used
   last in it; it is remembered in the project file on every session

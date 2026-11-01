@@ -1,4 +1,19 @@
 2026.11.01 (@badrelmers)
+- fixed: "Close project" did not remove the plugin's on_start
+  subscription from plugins.ini, so the plugin kept loading on every
+  CudaText start even with no project in use. The subscription now
+  mirrors "a project is in use" exactly: it is written on every project
+  open/create/save and removed on every path that ends with no project
+  (Close project, the startup detach when the restored session is not
+  the project's, the external-session-switch close, and exit with no
+  project). With no project loaded, the plugin never loads at the next
+  CudaText start
+- options dialog: "File type icons" and "Toolbar icons" are now marked
+  with (*) — a new icon theme needs a CudaText restart, because the
+  side panel (with its icon image lists) is created once per run; the
+  marker was already used for "Sorting order"
+
+2026.11.01 (@badrelmers)
 - second full data-loss audit; all fixes below are for bugs found in it
 - fixed: unsaved text could be lost when tabs were closed without their
   session being saved first. CudaText sessions store the text of
