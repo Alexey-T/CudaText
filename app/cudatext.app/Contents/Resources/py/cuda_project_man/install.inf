@@ -184,19 +184,19 @@ section=commands
 caption=&Project Manager\Close tabs not belonging to project (no prompt)
 method=close_foreign_tabs_force
 
-[item37]
+[item200]
 section=commands
 caption=&Project Manager\-
 method=_
 
-[item38]
+[item201]
 section=commands
 caption=&Project Manager\&Project properties...
 method=config_proj
 menu=op
 
-[item39]
+[item202]
 section=commands
-caption=&Project Manager\&Config...
+caption=&Project Manager\Project Manager options...
 method=config
 menu=op
