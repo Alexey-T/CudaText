@@ -449,7 +449,7 @@ class Command:
         #   drag inside a control, and it fires BEFORE OnMouseUp)
         # _tree_drag_out_item/_tree_drag_out_path: the node dragged out of the
         #   tree with CudaText's OLE drag ('drag_files'); on Windows the drop
-        #   back onto this panel is reported to panel_on_drop_files with
+        #   back onto this panel is reported to form_drop_files with
         #   self_drag=True (fired after the OLE drag returned; when the drop
         #   was not accepted by any OLE target, the release position over the
         #   panel is reported the same way), which completes the inner
@@ -494,12 +494,7 @@ class Command:
         dlg_proc(self.h_dlg, DLG_PROP_SET, {
             'keypreview': True,
             'on_key_down': self.form_key_down,
-            # files dropped from the OS file manager onto this panel are
-            # added to the project (instead of being opened in the editor,
-            # which is what CudaText does with drops outside of this panel);
-            # on Windows the event also gets the drop-back of a node dragged
-            # out of the tree (self_drag), which is the inner drag&drop
-            'on_drop_files': self.panel_on_drop_files,
+            'on_drop_files': self.form_drop_files,
             } )
 
         n = dlg_proc(self.h_dlg, DLG_CTL_ADD, prop='toolbar')
@@ -648,7 +643,7 @@ class Command:
                 # out of CudaText always worked: CudaText runs an OLE
                 # CF_HDROP drag, so the node can be dropped into Explorer
                 # and other apps. Dropping it back onto this panel is
-                # reported to panel_on_drop_files (self_drag=True) and is
+                # reported to form_drop_files (self_drag=True) and is
                 # handled as the inner drag&drop (see _do_panel_self_drop).
                 self._begin_drag_out(item)
             else:
@@ -726,7 +721,7 @@ class Command:
         """Start dragging the item's file/folder out to other apps (Windows:
         OLE CF_HDROP drag, implemented by CudaText's 'drag_files'). The OLE
         drag owns the mouse from now on. When the node is dropped back onto
-        this panel, CudaText reports it to panel_on_drop_files with
+        this panel, CudaText reports it to form_drop_files with
         self_drag=True (after the OLE drag returned; when no OLE target
         accepted the drop, the release position over the panel is reported
         instead), and _do_panel_self_drop() completes the inner drag&drop
@@ -1009,7 +1004,7 @@ class Command:
     #---------------------------------------------------------------------
     # drop of files onto the panel
 
-    def panel_on_drop_files(self, id_dlg, id_ctl, data='', info=''):
+    def form_drop_files(self, id_dlg, id_ctl, data='', info=''):
         """Files/folders dropped onto the Project panel.
 
         - Files/folders dropped from the OS file manager are added to the
