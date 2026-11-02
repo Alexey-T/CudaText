@@ -79,8 +79,6 @@ type
     FEventOnMouseDown: string;
     FEventOnMouseUp: string;
     FEventOnMouseMove: string;
-    FEventOnDragOver: string;
-    FEventOnDragDrop: string;
     FEventOnEditorCaret: string;
     FEventOnEditorScroll: string;
     FEventOnEditorKeyDown: string;
@@ -176,10 +174,9 @@ type
     procedure DoOnControlMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure DoOnControlMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure DoOnControlMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
-    procedure DoOnControlDragOver(Sender: TObject; Source: TObject; X, Y: Integer; State: TDragState; var Accept: Boolean);
-    procedure DoOnControlDragDrop(Sender: TObject; Source: TObject; X, Y: Integer);
     procedure DoOnImagePaintBackground(ASender: TObject; ACanvas: TCanvas; ARect: TRect);
     procedure DoOnFormDropFiles(Sender: TObject; const FileNames: array of string);
+    procedure DoOnFormDropFilesPos(AWinControl: TWinControl; const AClientPos: TPoint; const AFiles: array of string);
     procedure SetEventOnDropFiles(const AValue: string);
     procedure DoOnEditorChange(Sender: TObject);
     procedure DoOnEditorChangeCaretPos(Sender: TObject);
@@ -314,33 +311,33 @@ begin
   Result.Items[3].Int:= AY;
 end;
 
-function AppVariant_DragData(ASource: TObject; AX, AY: Integer): TAppVariant;
-//data for 'on_drag_over'/'on_drag_drop' control events: position in control
-//coords + handle of the drag source (0 when source is not an editor control,
-//eg a ui-tabs drag); plugin can read the dragged text from that editor
-var
-  Num: Int64;
+function AppVariant_DropFilesData(const AFiles: string; AX, AY: integer;
+  ASelfDrag: boolean): TAppVariant;
+//data for the form's 'on_drop_files' event: dropped filenames (separated
+//by #1) + drop position in form's client coords (-1 when unknown, eg on
+//non-Windows LCL drops) + flag: the drop is the round-trip of CudaText's
+//own file drag-out ('drag_files'), so the plugin can handle it as an
+//inner drag&drop of its treeview
 begin
-  if ASource is TATSynEdit then
-    Num:= PtrInt(ASource)
-  else
-    Num:= 0;
-
   Result:= Default(TAppVariant);
   Result.Typ:= TAppVariantTypeId.Dict;
-  SetLength(Result.Items, 3);
+  SetLength(Result.Items, 4);
 
-  Result.Items[0].KeyName:= 'x';
-  Result.Items[0].Typ:= TAppVariantItemTypeId.Int;
-  Result.Items[0].Int:= AX;
+  Result.Items[0].KeyName:= 'files';
+  Result.Items[0].Typ:= TAppVariantItemTypeId.Str;
+  Result.Items[0].Str:= AFiles;
 
-  Result.Items[1].KeyName:= 'y';
+  Result.Items[1].KeyName:= 'x';
   Result.Items[1].Typ:= TAppVariantItemTypeId.Int;
-  Result.Items[1].Int:= AY;
+  Result.Items[1].Int:= AX;
 
-  Result.Items[2].KeyName:= 'source';
+  Result.Items[2].KeyName:= 'y';
   Result.Items[2].Typ:= TAppVariantItemTypeId.Int;
-  Result.Items[2].Int:= Num;
+  Result.Items[2].Int:= AY;
+
+  Result.Items[3].KeyName:= 'self_drag';
+  Result.Items[3].Typ:= TAppVariantItemTypeId.Bool;
+  Result.Items[3].Bool:= ASelfDrag;
 end;
 
 
@@ -616,9 +613,10 @@ end;
 procedure TFormDummy.DoOnFormDropFiles(Sender: TObject;
   const FileNames: array of string);
 {
+Non-Windows: LCL OnDropFiles, no drop position is known.
 Wiki:
     param "id_dlg": handle of form.
-    param "data": str, filenames separated by chr(1)
+    param "data": dict { "files": str, "x": int, "y": int, "self_drag": bool }
 }
 var
   Data: TAppVariant;
@@ -636,7 +634,45 @@ begin
     S+= FileNames[i];
   end;
 
-  Data:= AppVariant(S);
+  Data:= AppVariant_DropFilesData(S, -1, -1, false);
+  DoEvent(-1, FEventOnDropFiles, Data);
+end;
+
+procedure TFormDummy.DoOnFormDropFilesPos(AWinControl: TWinControl;
+  const AClientPos: TPoint; const AFiles: array of string);
+{
+Windows: OLE drop target with the per-form files handler, registered in
+SetEventOnDropFiles(). Gets the drop position in the form's client coords.
+Wiki:
+    param "id_dlg": handle of form.
+    param "data": dict { "files": str, "x": int, "y": int, "self_drag": bool }
+}
+var
+  Data: TAppVariant;
+  SelfDrag: boolean;
+  S: string;
+  i: integer;
+begin
+  if FEventOnDropFiles='' then exit;
+  if Length(AFiles)=0 then exit;
+
+  S:= '';
+  for i:= 0 to Length(AFiles)-1 do
+  begin
+    if S<>'' then
+      S+= #1;
+    S+= AFiles[i];
+  end;
+
+  //flag for the plugin: the dropped files come from CudaText's own drag-out
+  //(control's property "drag_files"), which is running right now - such a
+  //drop is the round-trip of an inner drag&drop, not a drop from Explorer
+  SelfDrag:= false;
+  {$ifdef windows}
+  SelfDrag:= AppFileDragInProgress;
+  {$endif}
+
+  Data:= AppVariant_DropFilesData(S, AClientPos.X, AClientPos.Y, SelfDrag);
   DoEvent(-1, FEventOnDropFiles, Data);
 end;
 
@@ -656,7 +692,7 @@ begin
       OleDropSupport.Detach(Self);
     exit;
   end;
-  InitOleDropSupport.AttachWithFilesHandler(Self, @DoOnFormDropFiles);
+  InitOleDropSupport.AttachWithFilesHandler(Self, @DoOnFormDropFilesPos);
   {$else}
   if AValue='' then
   begin
@@ -667,51 +703,6 @@ begin
   AllowDropFiles:= true;
   OnDropFiles:= @DoOnFormDropFiles;
   {$endif}
-end;
-
-procedure TFormDummy.DoOnControlDragOver(Sender: TObject; Source: TObject;
-  X, Y: Integer; State: TDragState; var Accept: Boolean);
-{
-Wiki:
-    param "id_ctl": index of control.
-    param "data": dict { "x": int, "y": int, "source": int }
-    return False to not accept the drag-drop
-}
-var
-  Props: TAppControlProps;
-  IdControl: integer;
-begin
-  Props:= TAppControlProps((Sender as TControl).Tag);
-  if Props.FEventOnDragOver='' then
-  begin
-    //event is not set: control must not accept LCL drag-drop,
-    //like all controls behaved before this event existed
-    Accept:= false;
-    exit;
-  end;
-
-  IdControl:= FindControlIndexByOurObject(Sender);
-  Accept:= DoEvent(IdControl, Props.FEventOnDragOver,
-    AppVariant_DragData(Source, X, Y));
-end;
-
-procedure TFormDummy.DoOnControlDragDrop(Sender: TObject; Source: TObject;
-  X, Y: Integer);
-{
-Wiki:
-    param "id_ctl": index of control.
-    param "data": dict { "x": int, "y": int, "source": int }
-}
-var
-  Props: TAppControlProps;
-  IdControl: integer;
-begin
-  Props:= TAppControlProps((Sender as TControl).Tag);
-  if Props.FEventOnDragDrop='' then exit;
-
-  IdControl:= FindControlIndexByOurObject(Sender);
-  DoEvent(IdControl, Props.FEventOnDragDrop,
-    AppVariant_DragData(Source, X, Y));
 end;
 
 procedure TFormDummy.DoOnClick(Sender: TObject);

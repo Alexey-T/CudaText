@@ -450,12 +450,13 @@ dropped into Explorer, archivers, mail clients, browser upload dialogs
 etc.
 
 Dragging a tree item to other applications
-  Press the left mouse button on a tree item and move the cursor out of
-  the project panel: the dragged file/folder follows the cursor and can
-  be dropped into any application which accepts files. Esc cancels the
-  drag. (While the cursor stays inside the panel, the gesture is an
-  inner drag&drop, see below — the drag-out begins only when the cursor
-  leaves the panel's tree.)
+  Press the left mouse button on a tree item and move the mouse: the
+  dragged file/folder follows the cursor and can be dropped into any
+  application which accepts files. Esc cancels the drag. (On Windows the
+  drag starts right away; dropping the item back onto the Project panel
+  is the inner drag&drop, see below. On other OS-es the drag-out to other
+  apps is not supported and the gesture is always the inner drag&drop
+  while the cursor stays over the tree.)
 
 Dropping files from the file manager onto the panel
   Files/folders dropped from the OS file manager onto the Project panel
@@ -465,33 +466,34 @@ Dropping files from the file manager onto the panel
   untitled project, which is saved to disk when the project is saved.
 
 Drag&drop inside the tree
-  While the cursor stays over the tree, dragging a node is an inner
-  drag&drop. The node which would receive the drop is highlighted; a
-  folded folder unfolds after the cursor hovers on it for a moment.
+  Drag a node and drop it onto another node of the tree (on Windows: drag
+  it and drop it back onto the panel's tree). Every drop asks for
+  confirmation:
 
-  - A root node dropped onto another root node is moved to that place in
-    the list; dropped onto the project header (the top-most row) it goes
-    to the end of the list. Note: with "Sorting order" set in options,
-    the tree re-sorts root nodes on refresh, so the manual order is only
-    kept with an empty sorting order.
-  - A file/folder dropped onto a folder node is MOVED on disk into that
-    folder, exactly like the plugin's Cut+Paste: the tree is refreshed
-    and the project is updated when the moved path was the project's
-    main file. Refused (no drop target is shown): overwriting an
-    existing path, moving a folder into itself or into its own subfolder,
-    dropping onto a file node, and moving root nodes into subfolders —
-    root entries are only reordered, never relocated, by a drag.
-  - A file/folder dropped onto the project header is added to the
-    project as another root node.
+  - Dragging a NODE of the project (a top-level item) only changes its
+    order, it is never moved inside another node. A confirmation dialog
+    "Change the order of the node '...'?" is shown; dropping onto another
+    node puts the dragged node at that node's place, dropping onto the
+    project header (the top-most row) moves it to the end of the list.
+    When the option "Sorting order" is not "none", a dialog offers to
+    disable sorting first (with sorting on, the manual order would be
+    overwritten by sorting on the next refresh; cancelling the dialog
+    cancels the drag&drop).
+  - Dragging a FILE/FOLDER from inside a node to another FOLDER node
+    moves it on disk into that folder, exactly like the plugin's
+    Cut+Paste. A confirmation dialog "Move '...' from folder '...' to
+    folder '...'?" is shown; the tree is refreshed and the project is
+    updated when the moved path was the project's main file. Refused:
+    overwriting an existing path, moving a folder into itself or into its
+    own subfolder, moving into the folder it already is in.
+  - Other drops are refused with an explaining statusbar message: a
+    project node cannot be moved inside another node, a file/folder
+    cannot be dropped onto the project header or onto a file node.
 
-Drag&drop from the editor onto the tree
-  Selected text can be dragged from a CudaText editor onto the project
-  tree. If the selection is an existing file/folder path, that path is
-  added to the project; otherwise the dragged editor's own file is added
-  (so dragging any text from a document is a shortcut for "Add current
-  file"). The dragged editor's selection and text are never modified.
-  Dragging ui-tabs or other non-editor things is not accepted by the
-  tree.
+  On non-Windows OS-es (drag&drop tracked by mouse events over the tree):
+  the node which would receive the drop is highlighted, a folded folder
+  unfolds after the cursor hovers on it for a moment, and moving the
+  cursor out of the tree cancels the drag.
 
 
 ------------------------------------------------------------------------------

@@ -790,8 +790,6 @@ begin
     TAppTreeContainer(Ctl).Tree.OnMouseDown:= @AForm.DoOnControlMouseDown;
     TAppTreeContainer(Ctl).Tree.OnMouseUp:= @AForm.DoOnControlMouseUp;
     TAppTreeContainer(Ctl).Tree.OnMouseMove:= @AForm.DoOnControlMouseMove;
-    TControlHack(TAppTreeContainer(Ctl).Tree).OnDragOver:= @AForm.DoOnControlDragOver;
-    TControlHack(TAppTreeContainer(Ctl).Tree).OnDragDrop:= @AForm.DoOnControlDragDrop;
   end
   else
   begin
@@ -806,8 +804,6 @@ begin
     TControlHack(Ctl).OnMouseDown:= @AForm.DoOnControlMouseDown;
     TControlHack(Ctl).OnMouseUp:= @AForm.DoOnControlMouseUp;
     TControlHack(Ctl).OnMouseMove:= @AForm.DoOnControlMouseMove;
-    TControlHack(Ctl).OnDragOver:= @AForm.DoOnControlDragOver;
-    TControlHack(Ctl).OnDragDrop:= @AForm.DoOnControlDragDrop;
 
     if Ctl is TWinControl then
     begin
@@ -1959,18 +1955,6 @@ begin
     exit;
   end;
 
-  if AName='on_drag_over' then
-  begin
-    Props.FEventOnDragOver:= AValue;
-    exit;
-  end;
-
-  if AName='on_drag_drop' then
-  begin
-    Props.FEventOnDragDrop:= AValue;
-    exit;
-  end;
-
   if AName='on_draw_item' then
   begin
     Props.FEventOnListboxDrawItem:= AValue;
@@ -2644,8 +2628,6 @@ begin
     SetDictKey_NotEmpty(Result, 'on_mouse_down', Props.FEventOnMouseDown);
     SetDictKey_NotEmpty(Result, 'on_mouse_up', Props.FEventOnMouseUp);
     SetDictKey_NotEmpty(Result, 'on_mouse_move', Props.FEventOnMouseMove);
-    SetDictKey_NotEmpty(Result, 'on_drag_over', Props.FEventOnDragOver);
-    SetDictKey_NotEmpty(Result, 'on_drag_drop', Props.FEventOnDragDrop);
   SetDictKey_NotEmpty(Result, 'drag_files', Props.FDragFiles);
     SetDictKey_NotEmpty(Result, 'on_editor_caret', Props.FEventOnEditorCaret);
     SetDictKey_NotEmpty(Result, 'on_editor_scroll', Props.FEventOnEditorScroll);

@@ -1239,7 +1239,7 @@ These are also properties of forms.
 * "on_form_state": Called after form is minimized/maximized/restored.
 ** param "data": Current form state, string value like in the property "form_state".
 
-* "on_drop_files": Called when file(s)/folder(s) are dropped from the OS file manager onto the form (for a form hosted in the side panel: dropped onto that panel's area). Param "data" is str: filenames separated by chr(1). On Windows it works via the OLE drag&drop (CF_HDROP), so the form takes over the files dropped on it (they are not opened in the editor anymore); on other OS-es it depends on the LCL drop-files support for the widgetset. Property value "" (empty str) detaches the drop handler and restores the default behavior.
+* "on_drop_files": Called when file(s)/folder(s) are dropped onto the form (for a form hosted in the side panel: dropped onto that panel's area). Param "data" is dict: { "files": str (filenames separated by chr(1)), "x": int, "y": int, "self_drag": bool }. "x","y": drop position in form's client coords, -1 when not known (non-Windows drops); "self_drag": True when the drop is the round-trip of CudaText's own file drag-out (control's property "drag_files"), so a plugin can handle a drop back onto its panel as an inner drag&drop. On Windows it works via the OLE drag&drop (CF_HDROP), so the form takes over the files dropped on it (they are not opened in the editor anymore); on other OS-es it depends on the LCL drop-files support for the widgetset. Property value "" (empty str) detaches the drop handler and restores the default behavior.
 
 * "on_key_down": Called when key is pressed in form (form should have "keypreview":True). If plugin returns False, key is blocked.
 ** param "id_ctl": int key code.
@@ -1329,8 +1329,6 @@ General events for all controls:
 * "on_focus_enter": Called when control gets focus. Not supported for controls (they don't have OS window handle): label, button, button_ex, panel, linklabel, colorpanel, bevel, image, progressbar_ex, statusbar.
 * "on_focus_exit": Called when control looses focus. Supported for the same controls as "on_focus_enter".
 * "on_menu": Called before showing context menu, after right click or ContextMenu hotkey. Param "data": like in "on_mouse_down". Method can return False to disable default menu (if any).
-* "on_drag_over": Called while an inner drag&drop (LCL drag&drop) is moving over the control, eg selected text is dragged from a CudaText editor. Param "data" is dict: { "x": int, "y": int, "source": int }. "x","y": position in control coords; "source": handle of the drag source editor (same value as Editor API accepts), 0 when the drag is not started by an editor control (eg ui-tab drag). Method must return True to accept the drop (or False to reject it, then the drop has no effect on this control).
-* "on_drag_drop": Called after an inner drag&drop (LCL drag&drop) is released on the control (only when "on_drag_over" returned True for it). Param "data": like in "on_drag_over". Plugin can read the dragged text via <code>Editor(data["source"]).get_text_sel()</code>.
 
 ====dlg_proc - Control events - for specific controls====
 
@@ -5560,7 +5558,6 @@ It provides:
 
 1.0.487 (app 1.240.0)
 * add: tree_proc: TREE_ITEM_FIND_BY_POS
-* add: dlg_proc: form's event "on_drop_files"
-* add: dlg_proc: control's events "on_drag_over", "on_drag_drop"
+* add: dlg_proc: form's event "on_drop_files" (param "data" is dict: files/x/y/self_drag, "self_drag" marks the round-trip of CudaText's own drag-out "drag_files")
 
 [[Category:CudaText]]

@@ -461,7 +461,11 @@ successful save).
 ---
 ## 13. Drag & drop
 
-Four directions exist; each uses a different mechanism.
+Three directions exist; each uses a different mechanism. (A fourth one,
+dragging selected TEXT from the editor onto the tree, was implemented via
+dialog API events `on_drag_over`/`on_drag_drop` and REMOVED again: it was
+not wanted. Dragging a ui-TAB onto the tree is not implementable in this
+plugin: the tab dragging lives in the external ATTabs component.)
 
 ### a) Tree item → other applications (drag-out, Windows)
 
@@ -470,11 +474,14 @@ The tree control's `drag_files` property (dialog API). Setting it during
 (the app defers it out of the mouse-move handler and checks the button
 state, see `proc_customdialog_dummy`/`proc_windows_dragfiles`).
 
-`_begin_drag_out()` sets the property. It is called only when the cursor
-is OUTSIDE the tree bounds (`_point_in_tree`, size cached at drag start
-via `DLG_CTL_PROP_GET`) — this is the core fix for the "inner DnD is
-impossible" bug: the pre-1.239.1 code set `drag_files` on the FIRST
-5-px move, so every drag became a drag-out and swallowed the mouse-up.
+`_begin_drag_out()` sets the property on the first
+`TREE_DRAG_THRESHOLD`-px move of a left-button press on a draggable
+item, and remembers the dragged item/path in `_tree_drag_out_item` /
+`_tree_drag_out_path`. IMPORTANT: the drag-out must start right on the
+mouse drag, while the cursor is still over the tree — the tree control
+does NOT receive mouse events once the cursor is outside its bounds, so
+a "start the drag-out when the cursor leaves the tree" logic can never
+fire (this was tried in 1.239.1 and broke the drag-out entirely).
 
 ### b) OS file manager → panel (drop-in of files)
 
@@ -483,31 +490,64 @@ Windows the dialog form is registered as an OLE drop target
 (`proc_ole_droptarget.AttachWithFilesHandler`): OLE routes a drop to
 the deepest registered target, so the panel takes the files dropped on
 it before the main window's handler (which opens them as editors).
-`panel_on_drop_files()` receives the paths chr(1)-separated and runs
-each through `add_node` (dedup + save). Non-Windows goes through the
-LCL `AllowDropFiles`/`OnDropFiles` support (best effort).
+`panel_on_drop_files()` receives the dict `{files, x, y, self_drag}`
+(files = paths chr(1)-separated; x, y = drop position in the panel
+form's client coords, -1 when unknown; self_drag = the drop is the
+round-trip of the plugin's own drag-out, see c)) and runs each path
+through `add_node` (dedup + save). Non-Windows goes through the LCL
+`AllowDropFiles`/`OnDropFiles` support (best effort, no position).
 
 ### c) Inside the tree (inner drag&drop)
 
-A hand-rolled state machine on `on_mouse_down/move/up` (the LCL tree
-drag is NOT used — the treeview must not start drags itself):
+Windows: the inner drag&drop is the ROUND-TRIP of the drag-out from a).
+Dropping the dragged node back onto the panel hits the panel's OLE drop
+target; `proc_customdialog_dummy` reports it to `panel_on_drop_files`
+with `self_drag=True` and the drop position (it knows the flag because
+the app's own `DoDragDrop` is running at that moment, see
+`AppFileDragInProgress`). `_do_panel_self_drop()` converts the position
+from panel-form client coords to tree client coords (live `x`,`y` of
+the tree control from `DLG_CTL_PROP_GET`) and hit-tests the target node
+with `TREE_ITEM_FIND_BY_POS`.
+
+Non-Windows (no OLE drag-out exists): a hand-rolled state machine on
+`on_mouse_down/move/up` (the LCL tree drag is NOT used — the treeview
+must not start drags itself):
 
 - `_tree_drag_press`: (x, y, hit-tested item) at mouse-down; item via
   the `tree_proc` API `TREE_ITEM_FIND_BY_POS` (added in app 1.239.0).
-- move > `TREE_DRAG_THRESHOLD` px, cursor inside the tree, pressed item
-  draggable (has a data-path: not the project header, not a 'dummy')
-  → mode `'inner'`; selection is saved, the drop target under the
-  cursor is hit-tested and highlighted with `TREE_ITEM_SELECT`.
+- move > `TREE_DRAG_THRESHOLD` px, pressed item draggable (has a
+  data-path: not the project header, not a 'dummy') → mode `'inner'`;
+  selection is saved, the drop target under the cursor is hit-tested
+  and highlighted with `TREE_ITEM_SELECT`.
 - `_drop_kind(src, tgt)` decides what a drop means, and doubles as the
   "is this a valid target" check for the highlight: root→root /
-  root→header = `reorder`, child→folder = `move` (on disk, like
-  Cut+Paste), child→header = `promote` (add as root node); everything
-  else (file targets, self, own subfolder, own parent, root→deeper) is
-  refused → no highlight, no drop.
-- cursor leaves the tree → convert to a drag-out (`_begin_drag_out`).
+  root→header = `reorder` (header = to the end of the list),
+  child→folder = `move` (on disk, like Cut+Paste); everything else
+  (file targets, self, own subfolder, own parent, root→deeper,
+  child→header) is refused → no highlight, no drop.
+- cursor leaves the tree → cancel the inner drag&drop, restore the
+  saved selection.
 - mouse-up: perform `_do_tree_drop` or cancel+restore selection.
 
-Two LCL details the code compensates for:
+`_do_tree_drop()` asks the user for confirmation before doing anything
+(msg_box_ex):
+- reorder: when the option "Sorting order" is not "none", first a
+  dialog offers to disable sorting ("Disable sorting" / "Cancel";
+  cancelling aborts the whole drag&drop — with sorting on, the manual
+  order would be overwritten by the next refresh anyway). Then a dialog
+  "Change the order of the node '...'?" ("Accept" / "Cancel").
+- move: a dialog "Move '...' from folder '...' to folder '...'?"
+  ("Accept" / "Cancel"); `_move_node_on_disk` keeps its safety checks
+  (no overwrite, no move into itself / own subfolder).
+- not-allowed drops explain themselves in the statusbar
+  (`_msg_drop_not_allowed`).
+
+The dialogs are shown AFTER the node paths have been read from the item
+handles, and the operations work on paths (not handles), so the tree
+rebuild done by `action_refresh` (called by the sorting dialog and by
+the operations themselves) cannot invalidate anything.
+
+Two LCL details the code compensates for (non-Windows inner drag):
 - OnClick fires on mouse-up EVEN after a drag inside the control, and
   BEFORE OnMouseUp — `_tree_suppress_click` (set when the gesture
   starts, cleared on the click or on the next mouse-down) prevents the
@@ -518,23 +558,7 @@ Two LCL details the code compensates for:
   (which lives elsewhere and must be visible to be draggable) stays
   valid.
 
-### d) CudaText editor → tree (drop of dragged text)
-
-LCL drag&drop: ATSynEdit starts a normal LCL drag when selected text is
-dragged; since app 1.239.0 the dialog API forwards a treeview's
-`OnDragOver`/`OnDrop` to the plugin events `on_drag_over` /
-`on_drag_drop` with `{x, y, source}` (source = handle of the drag
-source editor, 0 for non-editor drags like ui-tabs).
-
-- `tree_on_drag_over` returns True only for a real editor source with
-  a selection (non-editor drags are rejected, no-drop cursor).
-- `tree_on_drag_drop`: selection is an existing path → `add_node(path)`;
-  else `add_node(source editor's filename)`. ATSynEdit never deletes
-  the source selection for a drop outside an editor, so nothing else
-  to clean up.
-
 ### API additions this plugin depends on (app 1.239.0)
 
-- `dlg_proc` form event `on_drop_files`
-- `dlg_proc` control events `on_drag_over`, `on_drag_drop`
+- `dlg_proc` form event `on_drop_files` (dict data: files/x/y/self_drag)
 - `tree_proc` action `TREE_ITEM_FIND_BY_POS`
