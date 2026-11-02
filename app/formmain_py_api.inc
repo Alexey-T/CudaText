@@ -8154,9 +8154,8 @@ begin
               Result:= ReturnNone;
           end;
 
-        TREE_ITEM_FIND_BY_POS:
+        TREE_FIND_BY_COORD:
           begin
-            //find item at client coords 'x,y' (eg from treeview's mouse events)
             Sep.Init(StrText, ',');
             Sep.GetItemInt(NPosX, -1);
             Sep.GetItemInt(NPosY, -1);

@@ -624,7 +624,7 @@ class Command:
         if isinstance(data, dict) and data.get('btn', -1) == 0:
             x = int(data.get('x', 0))
             y = int(data.get('y', 0))
-            item = tree_proc(self.tree, TREE_ITEM_FIND_BY_POS, 0, -1,
+            item = tree_proc(self.tree, TREE_FIND_BY_COORD, 0, -1,
                              '{},{}'.format(x, y))
             self._tree_drag_press = (x, y, item)
         else:
@@ -701,7 +701,7 @@ class Command:
             if press and isinstance(data, dict):
                 x = int(data.get('x', 0))
                 y = int(data.get('y', 0))
-                hit = tree_proc(self.tree, TREE_ITEM_FIND_BY_POS, 0, -1,
+                hit = tree_proc(self.tree, TREE_FIND_BY_COORD, 0, -1,
                                 '{},{}'.format(x, y))
                 if hit and hit != press[2]:
                     self._msg_drop_not_allowed(press[2], hit)
@@ -762,7 +762,7 @@ class Command:
 
     def _tree_drag_update(self, x, y):
         """Inner drag: highlight the drop target under the cursor."""
-        item = tree_proc(self.tree, TREE_ITEM_FIND_BY_POS, 0, -1,
+        item = tree_proc(self.tree, TREE_FIND_BY_COORD, 0, -1,
                          '{},{}'.format(x, y))
         press = self._tree_drag_press
         src_item = press[2] if press else None
@@ -1121,7 +1121,7 @@ class Command:
         tx = x - int(props.get('x', 0))
         ty = y - int(props.get('y', 0))
 
-        tgt_item = tree_proc(self.tree, TREE_ITEM_FIND_BY_POS, 0, -1,
+        tgt_item = tree_proc(self.tree, TREE_FIND_BY_COORD, 0, -1,
                              '{},{}'.format(tx, ty))
         if not tgt_item:
             msg_status(_('Drop the node onto another node in the project tree'))
