@@ -78,6 +78,17 @@ type
   TDropFilesPosEvent = procedure(AWinControl: TWinControl;
     const AClientPos: TPoint; const AFiles: array of string) of object;
 
+  { Event fired while file(s) are dragged over the attached window, from
+    DragEnter/DragOver of IDropTarget (OLE drag&drop with CF_HDROP data,
+    eg from Explorer, or the app's own 'drag_files' drag-out). It lets the
+    hosted form track the drag-hover position (eg Project Manager
+    auto-unfolds the hovered folder node). AClientPos is the cursor position
+    in client coords of the attached window; it is (-1,-1) when the drag
+    left the window (DragLeave). The handler must be fast and must not show
+    any modal UI (it runs inside the OLE drag loop). }
+  TDropFilesHoverEvent = procedure(AWinControl: TWinControl;
+    const AClientPos: TPoint) of object;
+
   TOleDropTarget = class;
 
   { TOleDropTargetManager }
@@ -102,9 +113,14 @@ type
       files are reported to AOnDropFiles (with the drop position in client
       coords of AWinControl) instead of the manager-level OnDropFiles event.
       Used by API dialogs (proc_customdialog_dummy) to let a plugin handle
-      file drops on its own hosted form. }
+      file drops on its own hosted form. AOnHoverFiles (optional, may be nil)
+      additionally gets the drag-hover positions of file drags over
+      AWinControl (DragEnter/DragOver of IDropTarget, AClientPos=(-1,-1) on
+      DragLeave), so the plugin can implement hover effects (Project
+      Manager: auto-unfolding of the hovered folder node). }
     procedure AttachWithFilesHandler(AWinControl: TWinControl;
-      AOnDropFiles: TDropFilesPosEvent);
+      AOnDropFiles: TDropFilesPosEvent;
+      AOnHoverFiles: TDropFilesHoverEvent);
     property OnDropFiles: TDropFilesEvent read FOnDropFiles write FOnDropFiles;
     property OnDropText: TOleDropTextEvent read FOnDropText write FOnDropText;
     property OnCanDropText: TOleDropTextQueryEvent read FOnCanDropText write FOnCanDropText;
@@ -124,8 +140,10 @@ type
     FHasFiles: boolean; // data object has CF_HDROP
     FHasText: boolean;  // data object has text/URL format
     FOnDropFilesPos: TDropFilesPosEvent; // per-control override of manager's event
+    FOnHoverFiles: TDropFilesHoverEvent; // per-control drag-hover notification
     procedure SetDataFlags(const AData: IDataObject);
     function IsDropAllowedAt(const pt: TPoint): boolean;
+    procedure DoHoverFiles(const AScreenPos: TPoint; ALeaving: boolean);
   protected
     //IUnknown
     function QueryInterface({$IFDEF FPC_HAS_CONSTREF}constref{$ELSE}const{$ENDIF} iid: TGuid; out obj): HRESULT; stdcall;
@@ -509,7 +527,8 @@ begin
 end;
 
 procedure TOleDropTargetManager.AttachWithFilesHandler(AWinControl: TWinControl;
-  AOnDropFiles: TDropFilesPosEvent);
+  AOnDropFiles: TDropFilesPosEvent;
+  AOnHoverFiles: TDropFilesHoverEvent);
 var
   Target: TOleDropTarget;
 begin
@@ -523,6 +542,7 @@ begin
     AWinControl.FreeNotification(Self);
   end;
   Target.FOnDropFilesPos:= AOnDropFiles;
+  Target.FOnHoverFiles:= AOnHoverFiles;
   Target.Attach;
 end;
 
@@ -639,11 +659,30 @@ begin
   Result:= FManager.FOnCanDropText(FWinControl, pt);
 end;
 
+procedure TOleDropTarget.DoHoverFiles(const AScreenPos: TPoint; ALeaving: boolean);
+var
+  Pnt: TPoint;
+begin
+  if not Assigned(FOnHoverFiles) then exit;
+  if FWinControl=nil then exit;
+  if ALeaving then
+  begin
+    Pnt.X:= -1;
+    Pnt.Y:= -1;
+  end
+  else
+    Pnt:= FWinControl.ScreenToClient(AScreenPos);
+  FOnHoverFiles(FWinControl, Pnt);
+end;
+
 function TOleDropTarget.DragEnter(const dataObj: IDataObject;
   grfKeyState: DWORD; pt: TPoint; var dwEffect: DWORD): HRESULT; stdcall;
 begin
   Result:= S_OK;
   SetDataFlags(dataObj);
+
+  if FHasFiles then
+    DoHoverFiles(pt, false);
 
   if IsDropAllowedAt(pt) and ((dwEffect and DROPEFFECT_COPY)<>0) then
     dwEffect:= DROPEFFECT_COPY
@@ -655,6 +694,10 @@ function TOleDropTarget.DragOver(grfKeyState: DWORD; pt: TPoint;
   var dwEffect: DWORD): HRESULT; stdcall;
 begin
   Result:= S_OK;
+
+  if FHasFiles then
+    DoHoverFiles(pt, false);
+
   if IsDropAllowedAt(pt) and ((dwEffect and DROPEFFECT_COPY)<>0) then
     dwEffect:= DROPEFFECT_COPY
   else
@@ -662,10 +705,20 @@ begin
 end;
 
 function TOleDropTarget.DragLeave: HRESULT; stdcall;
+var
+  bFiles: boolean;
+  Pnt: TPoint;
 begin
   Result:= S_OK;
+  bFiles:= FHasFiles;
   FHasFiles:= false;
   FHasText:= false;
+  if bFiles then
+  begin
+    Pnt.X:= -1;
+    Pnt.Y:= -1;
+    DoHoverFiles(Pnt, true);
+  end;
 end;
 
 function TOleDropTarget.Drop(const dataObj: IDataObject; grfKeyState: DWORD;

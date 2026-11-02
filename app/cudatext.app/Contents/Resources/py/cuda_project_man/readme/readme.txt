@@ -494,9 +494,18 @@ Drag&drop inside the tree
     cannot be dropped onto the project header or onto a file node.
 
   On non-Windows OS-es (drag&drop tracked by mouse events over the tree):
-  the node which would receive the drop is highlighted, a folded folder
-  unfolds after the cursor hovers on it for a moment, and moving the
+  the node which would receive the drop is highlighted, and moving the
   cursor out of the tree cancels the drag.
+
+Unfolding a folder by hovering on it
+  During any drag&drop which hovers the project tree (dragging a node
+  inside the tree, or dragging files in from the OS file manager), a
+  folded folder node unfolds after the cursor rests on it for a moment
+  (0.7 s), like in OS file managers. During the inner drag&drop this
+  works for nodes which are valid drop targets; during a drag from the
+  file manager it works for any node. After the unfold, hovering a
+  subfolder unfolds it too, so nested folders can be opened one by one
+  without interrupting the drag.
 
 
 ------------------------------------------------------------------------------

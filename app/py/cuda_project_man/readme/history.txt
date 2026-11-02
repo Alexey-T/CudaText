@@ -1,3 +1,25 @@
+2026.11.03
+- fixed #6587: the auto-unfolding of a folder during a drag&drop did not
+  work at all. Two reasons:
+  1. the hover state was driven by mouse-move events alone, and a cursor
+     held STILL over a folder (the normal hover gesture) fires no events,
+     so the 0.7s timeout could never elapse;
+  2. on Windows no events existed at all during a drag: the inner
+     drag&drop is the OLE 'drag_files' round-trip (no mouse events while
+     it runs), and the OS file manager drag is entirely outside the
+     plugin until the drop.
+  The unfold-on-hover is now driven by a 100ms plugin timer over a
+  "drag-hover session", fed from every event source which exists:
+  tree_mouse_move (non-Windows inner drag&drop) and the new form event
+  'on_drag_over' (app support: fired by the panel's OLE drop target on
+  DragEnter/DragOver, (-1,-1) on DragLeave; covers the Windows inner
+  drag&drop AND files dragged in from the OS file manager). The session
+  is ended by mouse-up, drag-leave, any drop, and (safety net) by the
+  timer itself when no mouse button is held anymore. Bonus: during the
+  Windows inner drag&drop the drop target under the cursor is now
+  highlighted, like the mouse-tracked inner drag&drop on other OS-es
+  always did.
+
 2026.11.02 (@badrelmers)
 - fixed the problem found while testing the previous fix: paths in the
   drop event were truncated to 15 characters, which broke everything:
