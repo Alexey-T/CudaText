@@ -8154,20 +8154,6 @@ begin
               Result:= ReturnNone;
           end;
 
-        TREE_FIND_BY_COORD:
-          begin
-            Sep.Init(StrText, ',');
-            Sep.GetItemInt(NPosX, -1);
-            Sep.GetItemInt(NPosY, -1);
-            if (NPosX<0) or (NPosY<0) then
-              exit(ReturnNone);
-            TreeNode:= TreeContainer.Tree.GetNodeAt(NPosX, NPosY);
-            if Assigned(TreeNode) then
-              Result:= PyHelper_ObjectHandle(TreeNode)
-            else
-              Result:= ReturnNone;
-          end;
-
         TREE_ITEM_FOLD:
           begin
             if Assigned(TreeNode) then
@@ -8253,6 +8239,20 @@ begin
             Result:= PyList_New(NCount);
             for i:= 0 to NCount-1 do
               PyList_SetItem(Result, i, PyHelper_ObjectHandle(TreeContainer.Tree.Selections[i]));
+          end;
+
+        TREE_FIND_BY_COORD:
+          begin
+            Sep.Init(StrText, ',');
+            Sep.GetItemInt(NPosX, -1);
+            Sep.GetItemInt(NPosY, -1);
+            if (NPosX<0) or (NPosY<0) then
+              exit(ReturnNone);
+            TreeNode:= TreeContainer.Tree.GetNodeAt(NPosX, NPosY);
+            if Assigned(TreeNode) then
+              Result:= PyHelper_ObjectHandle(TreeNode)
+            else
+              Result:= ReturnNone;
           end;
 
         TREE_FIND_FOR_TEXT_POS:
