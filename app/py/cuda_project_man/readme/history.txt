@@ -1,4 +1,18 @@
 2026.11.02 (@badrelmers)
+- fixed the problem found while testing the previous fix: paths in the
+  drop event were truncated to 15 characters, which broke everything:
+  1. files/folders dropped from the OS file manager were rejected with
+     "Cannot add dropped paths to the project: ... (not found)" although
+     they exist
+  2. the inner drag&drop was rejected with "inner drop ignored, dropped
+     paths do not match the dragged node"
+  Reason: the app-internal event type (TAppVariantItem in
+  proc_appvariant.pas) stored dict values of plugin events in a
+  ShortString limited to 15 chars, so the "files" value of the
+  on_drop_files event was cut. Core fix: the value is a full-length
+  string now; no plugin change was needed
+
+2026.11.02 (@badrelmers)
 - fixed the 2 problems found while testing the previous fix:
   1. drops from the OS file manager onto the panel showed "Cannot add
      dropped paths to the project" and nothing was added. The drop is
