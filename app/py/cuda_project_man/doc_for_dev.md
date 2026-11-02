@@ -501,13 +501,25 @@ through `add_node` (dedup + save). Non-Windows goes through the LCL
 
 Windows: the inner drag&drop is the ROUND-TRIP of the drag-out from a).
 Dropping the dragged node back onto the panel hits the panel's OLE drop
-target; `proc_customdialog_dummy` reports it to `panel_on_drop_files`
-with `self_drag=True` and the drop position (it knows the flag because
-the app's own `DoDragDrop` is running at that moment, see
-`AppFileDragInProgress`). `_do_panel_self_drop()` converts the position
-from panel-form client coords to tree client coords (live `x`,`y` of
-the tree control from `DLG_CTL_PROP_GET`) and hit-tests the target node
-with `TREE_ITEM_FIND_BY_POS`.
+target; `proc_customdialog_dummy` recognizes it (the app's own
+`DoDragDrop` is running at that moment, see `AppFileDragInProgress`).
+The event is NOT fired from inside IDropTarget::Drop (that runs during
+DoDragDrop; the plugin's modal confirmation dialogs there are unsafe):
+the drop is recorded and fired by the drag-out code
+(`ExecuteAppFileDrag` → `FirePendingSelfDropEvent`) right after the
+OLE drag returned, with the exact drop position. When the drop was not
+accepted by any drop target (eg no drop target resolved the release
+position) and the button was released over the panel, the RELEASE
+POSITION is reported as the self-drop instead (fallback), so the inner
+drag&drop cannot get lost. Only the form which started the drag records
+the drop-back; a drop of that drag on another form is ignored.
+`panel_on_drop_files()` gets it with `self_drag=True`;
+`_do_panel_self_drop()` converts the position from panel-form client
+coords to tree client coords (live `x`,`y` of the tree control from
+`DLG_CTL_PROP_GET`) and hit-tests the target node with
+`TREE_ITEM_FIND_BY_POS`. Every failure is reported in the statusbar
+(stale dragged node, unknown position, missing tree control, no node at
+the drop position), so a broken inner drop can never be silent.
 
 Non-Windows (no OLE drag-out exists): a hand-rolled state machine on
 `on_mouse_down/move/up` (the LCL tree drag is NOT used — the treeview

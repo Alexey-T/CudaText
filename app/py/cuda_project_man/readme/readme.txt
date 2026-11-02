@@ -464,6 +464,9 @@ Dropping files from the file manager onto the panel
   the editor — that is what happens with drops onto the rest of the
   CudaText window). With no project open they are collected in the
   untitled project, which is saved to disk when the project is saved.
+  Paths which cannot be added (do not exist on disk, or are hidden) are
+  not added silently: the statusbar message shows every received path
+  with the reason it was rejected.
 
 Drag&drop inside the tree
   Drag a node and drop it onto another node of the tree (on Windows: drag

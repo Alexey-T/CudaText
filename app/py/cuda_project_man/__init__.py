@@ -450,7 +450,10 @@ class Command:
         # _tree_drag_out_item/_tree_drag_out_path: the node dragged out of the
         #   tree with CudaText's OLE drag ('drag_files'); on Windows the drop
         #   back onto this panel is reported to panel_on_drop_files with
-        #   self_drag=True, which completes the inner drag&drop
+        #   self_drag=True (fired after the OLE drag returned; when the drop
+        #   was not accepted by any OLE target, the release position over the
+        #   panel is reported the same way), which completes the inner
+        #   drag&drop
         self._tree_drag_press = None
         self._tree_drag_mode = None
         self._tree_drop_target = None
@@ -724,8 +727,10 @@ class Command:
         OLE CF_HDROP drag, implemented by CudaText's 'drag_files'). The OLE
         drag owns the mouse from now on. When the node is dropped back onto
         this panel, CudaText reports it to panel_on_drop_files with
-        self_drag=True, and _do_panel_self_drop() completes the inner
-        drag&drop (reorder / move, with confirmation dialogs)."""
+        self_drag=True (after the OLE drag returned; when no OLE target
+        accepted the drop, the release position over the panel is reported
+        instead), and _do_panel_self_drop() completes the inner drag&drop
+        (reorder / move, with confirmation dialogs)."""
         self._tree_drag_press = None
         self._tree_drag_mode = None
         self._tree_suppress_click = True
@@ -1013,8 +1018,13 @@ class Command:
         - On Windows, a node dragged out of the tree (OLE 'drag_files')
           and dropped back onto the panel is the inner drag&drop: reorder
           the node / move a file/folder into a folder node, with
-          confirmation dialogs. CudaText reports it with self_drag=True,
-          and the drop position is in the panel form's client coords.
+          confirmation dialogs. CudaText reports it with self_drag=True;
+          the event is fired after the OLE drag returned (deferred by
+          proc_customdialog_dummy: never from inside IDropTarget::Drop),
+          and when the drop was not accepted by any OLE drop target, the
+          release position over the panel is reported the same way
+          (fallback), so the inner drag&drop cannot get lost. The drop
+          position is in the panel form's client coords.
 
         `data` is a dict: { 'files': str (paths separated by chr(1)),
         'x': int, 'y': int, 'self_drag': bool } ('x'/'y' are -1 when the
@@ -1036,53 +1046,77 @@ class Command:
             x, y = -1, -1
 
         if not files_str:
+            # loud: a drop event without files is a bug, don't ignore it
+            msg_status(_('Project Manager: drop event without files'))
             return
 
         if self_drag:
             # round-trip of our own drag-out: inner drag&drop
             # (safety: the dropped path must be the dragged node's path)
             path = self._tree_drag_out_path
+            dropped = files_str.split(chr(1))
             if path and not any(self._same_path(path, fn)
-                                for fn in files_str.split(chr(1))):
+                                for fn in dropped):
+                # must not happen (the event carries the 'drag_files' list
+                # of our own drag); loud, so it can never be silent
                 self._tree_drag_out_item = None
                 self._tree_drag_out_path = ''
+                msg_status(_('Project Manager: inner drop ignored, dropped paths do not match the dragged node: ') +
+                           files_str.replace(chr(1), ', '))
                 return
             self._do_panel_self_drop(x, y)
             return
 
-        added = 0
+        added = []
+        skipped = []
         for fn in files_str.split(chr(1)):
-            if fn and (os.path.isfile(fn) or os.path.isdir(fn)):
-                if is_locked(fn):
-                    continue
-                self.add_node(fn)
-                added += 1
+            fn = fn.strip().strip('"').strip("'")
+            if not fn:
+                continue
+            if not (os.path.isfile(fn) or os.path.isdir(fn)):
+                skipped.append(fn + ' (' + _('not found') + ')')
+                continue
+            if is_locked(fn):
+                skipped.append(fn + ' (' + _('hidden/locked') + ')')
+                continue
+            self.add_node(fn)
+            added.append(fn)
 
         if added:
-            msg_status(_('Added to project') + ': ' + str(added))
+            msg_status(_('Added to project') + ': ' + str(len(added)))
         else:
-            msg_status(_('Cannot add dropped paths to the project'))
+            # loud and diagnostic: show what was received, so a broken
+            # drop can never be silent again
+            received = files_str.replace(chr(1), ', ')
+            detail = ('; ' + '; '.join(skipped)) if skipped else ''
+            msg_status(_('Cannot add dropped paths to the project') + ': ' +
+                       received + detail)
 
     def _do_panel_self_drop(self, x, y):
         """A node dragged out of the tree was dropped back onto this panel
         (Windows: the OLE drag of 'drag_files' ended on the panel; it is
-        detected by the self_drag flag). (x, y) are the drop position in
-        the panel form's client coords: convert them to the tree's coords
-        and perform the inner drop on the node under the cursor."""
+        reported by the OLE drop target, or by the fallback in
+        ExecuteAppFileDrag when the drop was not accepted by any OLE
+        target). (x, y) are the drop position in the panel form's client
+        coords: convert them to the tree's coords and perform the inner
+        drop on the node under the cursor."""
         src_item = self._tree_drag_out_item
         self._tree_drag_out_item = None
         self._tree_drag_out_path = ''
 
         if not src_item or not tree_proc(self.tree, TREE_ITEM_GET_PROPS,
                                          src_item):
-            return # dragged node is not valid anymore
+            msg_status(_('The dragged node is not in the tree anymore'))
+            return
         if x < 0 or y < 0:
-            return # drop position unknown
+            msg_status(_('Drop position unknown'))
+            return
 
         # panel form client coords -> tree client coords (live position
         # of the tree control inside the panel form)
         props = dlg_proc(self.h_dlg, DLG_CTL_PROP_GET, name='tree')
         if not props:
+            msg_status(_('Cannot find the tree control'))
             return
         tx = x - int(props.get('x', 0))
         ty = y - int(props.get('y', 0))

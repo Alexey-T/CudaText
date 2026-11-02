@@ -1239,7 +1239,7 @@ These are also properties of forms.
 * "on_form_state": Called after form is minimized/maximized/restored.
 ** param "data": Current form state, string value like in the property "form_state".
 
-* "on_drop_files": Called when file(s)/folder(s) are dropped onto the form (for a form hosted in the side panel: dropped onto that panel's area). Param "data" is dict: { "files": str (filenames separated by chr(1)), "x": int, "y": int, "self_drag": bool }. "x","y": drop position in form's client coords, -1 when not known (non-Windows drops); "self_drag": True when the drop is the round-trip of CudaText's own file drag-out (control's property "drag_files"), so a plugin can handle a drop back onto its panel as an inner drag&drop. On Windows it works via the OLE drag&drop (CF_HDROP), so the form takes over the files dropped on it (they are not opened in the editor anymore); on other OS-es it depends on the LCL drop-files support for the widgetset. Property value "" (empty str) detaches the drop handler and restores the default behavior.
+* "on_drop_files": Called when file(s)/folder(s) are dropped onto the form (for a form hosted in the side panel: dropped onto that panel's area). Param "data" is dict: { "files": str (filenames separated by chr(1)), "x": int, "y": int, "self_drag": bool }. "x","y": drop position in form's client coords, -1 when not known (non-Windows drops); "self_drag": True when the drop is the round-trip of CudaText's own file drag-out (control's property "drag_files"), so a plugin can handle a drop back onto its panel as an inner drag&drop. Such a self-drag event is fired after the OLE drag returned (not from inside IDropTarget::Drop), and when the drop was not accepted by any drop target while the mouse button was released over the form which started the drag, the release position is reported as that self-drag instead (fallback); a drop of the drag on a form which did not start it is ignored. On Windows it works via the OLE drag&drop (CF_HDROP), so the form takes over the files dropped on it (they are not opened in the editor anymore); on other OS-es it depends on the LCL drop-files support for the widgetset. Property value "" (empty str) detaches the drop handler and restores the default behavior.
 
 * "on_key_down": Called when key is pressed in form (form should have "keypreview":True). If plugin returns False, key is blocked.
 ** param "id_ctl": int key code.
@@ -5559,5 +5559,8 @@ It provides:
 1.0.487 (app 1.240.0)
 * add: tree_proc: TREE_ITEM_FIND_BY_POS
 * add: dlg_proc: form's event "on_drop_files" (param "data" is dict: files/x/y/self_drag, "self_drag" marks the round-trip of CudaText's own drag-out "drag_files")
+
+1.0.488 (app 1.239.2)
+* change: dlg_proc: event "on_drop_files" for a self-drag is now fired after the OLE drag returned (not from inside IDropTarget::Drop); when the drop was not accepted by any drop target and the mouse button was released over the form which started the drag, the release position is reported as that self-drag instead (fallback); a drop of the drag on a form which did not start it is ignored
 
 [[Category:CudaText]]

@@ -1,4 +1,34 @@
 2026.11.02 (@badrelmers)
+- fixed the 2 problems found while testing the previous fix:
+  1. drops from the OS file manager onto the panel showed "Cannot add
+     dropped paths to the project" and nothing was added. The drop is
+     loud and diagnostic now: every rejected path is shown with its
+     reason (not found / hidden) in the statusbar message, quoted paths
+     are normalized, and a drop event without files is reported instead
+     of silently ignored
+  2. the inner drag&drop did nothing at all (no message, no dialogs).
+     The self-drop event was fired from inside IDropTarget::Drop, still
+     inside the app's own DoDragDrop (the plugin's modal confirmation
+     dialogs in that context are unsafe), and the delivery depended on
+     the OLE hit-test resolving the release position to the panel's
+     form. The inner drag&drop no longer depends on it:
+     - the self-drop event is now fired AFTER the OLE drag returned
+       (recorded during the drop, fired by the drag-out code in a clean
+       context), with the exact drop position
+     - NEW FALLBACK: when the drop was not accepted by any drop target
+       (eg no drop target resolved the release position) and the button
+       was released over the panel, the release position is reported as
+       the self-drop instead, so the inner drag&drop cannot get lost
+     - only the form which started the drag records the drop-back; a
+       drop of that drag on another form is ignored
+- all failure paths of the inner drag&drop are loud now (statusbar
+  messages: "The dragged node is not in the tree anymore", "Drop
+  position unknown", "Cannot find the tree control", "Drop the node
+  onto another node in the project tree"); an inner drop whose paths
+  do not match the dragged node is reported too - a broken drop can
+  never be silent again
+
+2026.11.02 (@badrelmers)
 - reworked the drag&drop of the previous fix, after testing:
   - RESTORED the drag-out of tree items to other applications (regression
     of the previous fix: the drag-out was made to start only when the

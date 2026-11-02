@@ -178,6 +178,7 @@ type
     procedure DoOnFormDropFiles(Sender: TObject; const FileNames: array of string);
     procedure DoOnFormDropFilesPos(AWinControl: TWinControl; const AClientPos: TPoint; const AFiles: array of string);
     procedure SetEventOnDropFiles(const AValue: string);
+    procedure FireSelfDropEvent(const AFiles: string; AX, AY: integer);
     procedure DoOnEditorChange(Sender: TObject);
     procedure DoOnEditorChangeCaretPos(Sender: TObject);
     procedure DoOnEditorScroll(Sender: TObject);
@@ -220,27 +221,108 @@ var
   // CaptureChanged while LCL is still dispatching the mouse message,
   // which deadlocks / freezes the whole app. Defer via QueueAsyncCall.
   AppPendingDragFiles: string = '';
+  AppPendingDragForm: TFormDummy = nil;
   AppFileDragInProgress: boolean = false;
   AppFileDragSched: TAppFileDragSched = nil;
+  // The round-trip of CudaText's own file drag-out ('drag_files' prop): when
+  // such a drag is dropped back onto the dialog form which started it, it is
+  // the inner drag&drop of that form's plugin. The OLE drop target reports it
+  // (DoOnFormDropFilesPos, self_drag=true), but the plugin event is NOT fired
+  // from inside IDropTarget::Drop: that runs during DoDragDrop, and the plugin
+  // shows modal confirmation dialogs for the inner drop (unsafe, nested
+  // message loop inside the OLE call). The drop is recorded here and fired
+  // by ExecuteAppFileDrag after the OLE drag returned, with the exact drop
+  // position. Fallback: when the drop was not accepted by any drop target
+  // (Accepted=false, no self-drop reported - eg no drop target resolved the
+  // release position) and the button was released over the form which
+  // started the drag, the release position is reported the same way, so the
+  // inner drag&drop cannot get lost.
+  AppSelfDropForm: TFormDummy = nil;
+  AppSelfDropFiles: string = '';
+  AppSelfDropX: integer = 0;
+  AppSelfDropY: integer = 0;
+  AppSelfDropReported: boolean = false;
+
+procedure FirePendingSelfDropEvent;
+var
+  DropForm: TFormDummy;
+  DropFiles: string;
+  DropX, DropY: integer;
+begin
+  DropForm:= AppSelfDropForm;
+  DropFiles:= AppSelfDropFiles;
+  DropX:= AppSelfDropX;
+  DropY:= AppSelfDropY;
+  AppSelfDropForm:= nil;
+  AppSelfDropFiles:= '';
+  AppSelfDropX:= 0;
+  AppSelfDropY:= 0;
+  AppSelfDropReported:= false;
+  if DropForm=nil then exit;
+  if csDestroying in DropForm.ComponentState then exit;
+  DropForm.FireSelfDropEvent(DropFiles, DropX, DropY);
+end;
 
 procedure ExecuteAppFileDrag(const AFileNames: string);
 var
+  DragForm: TFormDummy;
   CanceledByEscape: boolean;
   Accepted: boolean;
+  Pt: TPoint;
 begin
   if AFileNames='' then exit;
   if AppFileDragInProgress then exit;
   // User may have released the button before the deferred call runs.
   if (GetAsyncKeyState(VK_LBUTTON) and $8000)=0 then exit;
 
+  DragForm:= AppPendingDragForm;
+  // AppPendingDragForm stays set during the drag: DoOnFormDropFilesPos
+  // checks it to recognize the drop-back on the form which started the drag
+  //(a drop on another form is not that form's inner drag&drop).
+  AppSelfDropReported:= false;
+  AppSelfDropForm:= nil;
+  AppSelfDropFiles:= '';
+  AppSelfDropX:= 0;
+  AppSelfDropY:= 0;
+
   AppFileDragInProgress:= true;
   try
+    CanceledByEscape:= false;
     Accepted:= AppDragFiles(AFileNames, CanceledByEscape);
   except
     on E: Exception do
+    begin
       Accepted:= false;
+      CanceledByEscape:= true; //no fallback after an exception
+    end;
   end;
   AppFileDragInProgress:= false;
+
+  // The OLE drop target reported the drop-back of our own drag (it ran
+  // inside DoDragDrop): fire the plugin event now, in a clean context.
+  if AppSelfDropReported then
+  begin
+    FirePendingSelfDropEvent;
+    AppPendingDragForm:= nil;
+    exit;
+  end;
+
+  // Fallback: the drop was not accepted by any target. The inner drag&drop
+  // must not get lost: when the button was released over the form which
+  // started the drag, report that position as the self-drop.
+  if not Accepted and not CanceledByEscape then
+  begin
+    if (DragForm<>nil) and
+      (not (csDestroying in DragForm.ComponentState)) and
+      (DragForm.FEventOnDropFiles<>'') then
+    begin
+      Pt:= DragForm.ScreenToClient(Mouse.CursorPos);
+      if (Pt.X>=0) and (Pt.Y>=0) and
+        (Pt.X<DragForm.ClientWidth) and (Pt.Y<DragForm.ClientHeight) then
+        DragForm.FireSelfDropEvent(AFileNames, Pt.X, Pt.Y);
+    end;
+  end;
+  AppPendingDragForm:= nil;
 end;
 
 procedure TAppFileDragSched.Execute(Data: PtrInt);
@@ -253,16 +335,18 @@ begin
     ExecuteAppFileDrag(FileNames);
 end;
 
-procedure QueueAppFileDrag(const AFileNames: string);
+procedure QueueAppFileDrag(const AFileNames: string; AForm: TFormDummy);
 begin
   if AFileNames='' then exit;
+  if AForm=nil then exit;
   if AppFileDragInProgress then exit;
   if AppFileDragSched=nil then
     AppFileDragSched:= TAppFileDragSched.Create;
-  // Coalesce: keep the latest pending paths, schedule at most one async call.
+  // Coalesce: keep the latest pending paths+form, schedule at most one async call.
   if AppPendingDragFiles='' then
     Application.QueueAsyncCall(@AppFileDragSched.Execute, 0);
   AppPendingDragFiles:= AFileNames;
+  AppPendingDragForm:= AForm;
 end;
 {$endif}
 
@@ -589,7 +673,7 @@ begin
     FileNames:= Props.FDragFiles;
     Props.FDragFiles:= '';
     // Must leave OnMouseMove before DoDragDrop/ReleaseCapture.
-    QueueAppFileDrag(FileNames);
+    QueueAppFileDrag(FileNames, Self);
   end;
   {$endif}
 end;
@@ -670,10 +754,45 @@ begin
   SelfDrag:= false;
   {$ifdef windows}
   SelfDrag:= AppFileDragInProgress;
+
+  if SelfDrag then
+  begin
+    //Our own drag is in progress: this drop is a drop-back of it. Only the
+    //form which started the drag records it as its inner drag&drop; a drop
+    //on some other form is not that form's inner drag&drop, ignore it.
+    if AppPendingDragForm<>Self then exit;
+    //The inner drag&drop round-trip: we are inside IDropTarget::Drop, called
+    //from DoDragDrop (AppDragFiles). Don't fire the plugin event here - the
+    //plugin shows modal confirmation dialogs for the inner drop, which is
+    //unsafe inside the OLE call. Record the drop: ExecuteAppFileDrag fires
+    //it right after the OLE drag has returned (FirePendingSelfDropEvent).
+    AppSelfDropForm:= Self;
+    AppSelfDropFiles:= S;
+    AppSelfDropX:= AClientPos.X;
+    AppSelfDropY:= AClientPos.Y;
+    AppSelfDropReported:= true;
+    exit;
+  end;
   {$endif}
 
-  Data:= AppVariant_DropFilesData(S, AClientPos.X, AClientPos.Y, SelfDrag);
+  Data:= AppVariant_DropFilesData(S, AClientPos.X, AClientPos.Y, false);
   DoEvent(-1, FEventOnDropFiles, Data);
+end;
+
+procedure TFormDummy.FireSelfDropEvent(const AFiles: string; AX, AY: integer);
+{
+Fires the form's 'on_drop_files' event for the round-trip of CudaText's own
+file drag-out (self_drag=true): the inner drag&drop of the plugin which
+started the drag. Called from ExecuteAppFileDrag, after DoDragDrop returned,
+never from inside IDropTarget::Drop. (AX, AY) is the drop position in this
+form's client coords.
+Wiki:
+    param "id_dlg": handle of form.
+    param "data": dict { "files": str, "x": int, "y": int, "self_drag": bool }
+}
+begin
+  if FEventOnDropFiles='' then exit;
+  DoEvent(-1, FEventOnDropFiles, AppVariant_DropFilesData(AFiles, AX, AY, true));
 end;
 
 procedure TFormDummy.SetEventOnDropFiles(const AValue: string);
