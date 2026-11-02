@@ -889,7 +889,7 @@ class Command:
             res = msg_box_ex(
                 _('Project Manager'),
                 _("Change the order of the node '{}' in the project?").format(name),
-                [_('Accept'), _('Cancel')],
+                [_('OK'), _('Cancel')],
                 MB_ICONQUESTION)
             if res != 0:
                 self._restore_drag_selection()
@@ -907,7 +907,7 @@ class Command:
                     os.path.basename(src_path.rstrip('/\\')),
                     os.path.basename(src_parent.rstrip('/\\')) or src_parent,
                     os.path.basename(tgt_path.rstrip('/\\')) or tgt_path),
-                [_('Accept'), _('Cancel')],
+                [_('OK'), _('Cancel')],
                 MB_ICONQUESTION)
             if res != 0:
                 self._restore_drag_selection()
@@ -926,7 +926,7 @@ class Command:
             _('Project Manager'),
             _('Drag & drop changes the order of project nodes, but the tree is sorted now: the new order would be overwritten by sorting.') + '\n\n' +
             _('Disable sorting (set "Sorting order" to "none")?'),
-            [_('Disable sorting'), _('Cancel')],
+            [_('OK'), _('Cancel')],
             MB_ICONQUESTION)
         if res != 0:
             return False
