@@ -2305,7 +2305,7 @@ begin
     TreeFilterLayout:= 1;
     TreeSublexers:= false;
     TreeFillMaxTime:= 150;
-    TreeFillMaxTimeForAPI:= 6*1000;
+    TreeFillMaxTimeForAPI:= 30*1000;
     TreeUnfold:= false;
     TreeKeepNodesFolding:= true;
 
