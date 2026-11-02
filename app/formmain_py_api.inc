@@ -8154,6 +8154,21 @@ begin
               Result:= ReturnNone;
           end;
 
+        TREE_ITEM_FIND_BY_POS:
+          begin
+            //find item at client coords 'x,y' (eg from treeview's mouse events)
+            Sep.Init(StrText, ',');
+            Sep.GetItemInt(NPosX, -1);
+            Sep.GetItemInt(NPosY, -1);
+            if (NPosX<0) or (NPosY<0) then
+              exit(ReturnNone);
+            TreeNode:= TreeContainer.Tree.GetNodeAt(NPosX, NPosY);
+            if Assigned(TreeNode) then
+              Result:= PyHelper_ObjectHandle(TreeNode)
+            else
+              Result:= ReturnNone;
+          end;
+
         TREE_ITEM_FOLD:
           begin
             if Assigned(TreeNode) then
