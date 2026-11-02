@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.238.1 (2026/11)
+1.238.5 (2026/11)
 
 * change: plugin Project Manager is mostly rewritten, see the huge changelog in the file "py/cuda_project_man/readme/history.txt" (by @badrelmers)
 + add: Windows: support drag-and-drop from Project Manager to external apps: Explorer, archivers, mail clients etc (patch by @lamugu)
