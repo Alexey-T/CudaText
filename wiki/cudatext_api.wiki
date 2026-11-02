@@ -5553,14 +5553,9 @@ It provides:
 * add: on_state: APPSTATE_SESSION_LOAD_BEGIN_PRE
 
 1.0.486 (app 1.238.1)
+* add: tree_proc: TREE_ITEM_FIND_BY_POS
 * add: app_proc: PROC_DRAG_FILES
 * add: dlg_proc: control's property "drag_files"
-
-1.0.487 (app 1.240.0)
-* add: tree_proc: TREE_ITEM_FIND_BY_POS
-* add: dlg_proc: form's event "on_drop_files" (param "data" is dict: files/x/y/self_drag, "self_drag" marks the round-trip of CudaText's own drag-out "drag_files")
-
-1.0.488 (app 1.239.2)
-* change: dlg_proc: event "on_drop_files" for a self-drag is now fired after the OLE drag returned (not from inside IDropTarget::Drop); when the drop was not accepted by any drop target and the mouse button was released over the form which started the drag, the release position is reported as that self-drag instead (fallback); a drop of the drag on a form which did not start it is ignored
+* add: dlg_proc: form's event "on_drop_files"
 
 [[Category:CudaText]]
