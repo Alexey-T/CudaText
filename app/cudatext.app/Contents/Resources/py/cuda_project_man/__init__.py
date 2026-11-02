@@ -1132,6 +1132,10 @@ class Command:
 
     @property
     def selected(self):
+        # panel may be not created yet (plugin was lazy-loaded by a menu
+        # command, side panel never shown): behave as "nothing selected"
+        if not self.tree:
+            return None
         return tree_proc(self.tree, TREE_ITEM_GET_SELECTED)
 
     def add_context_menu_node(self, parent, action, name):
@@ -1642,6 +1646,11 @@ class Command:
 
 
     def action_refresh(self, parent=None):
+        # panel may be not created yet (plugin was lazy-loaded by a menu
+        # command, side panel never shown): nothing to refresh, the tree
+        # is filled by init_panel() when the panel is shown
+        if not self.tree:
+            return
 
         sel_fn = ''
         id = self.selected
@@ -1817,6 +1826,14 @@ class Command:
         starts empty (used by New project); with close_tabs=False the
         current tabs are embedded as session 'session1' (used by
         'New project from open tabs...')."""
+
+        # The command can run with the side panel not created yet: the
+        # plugin was lazy-loaded by the menu command itself and the panel
+        # was never shown (issue #6582). The new project must be visible
+        # in the panel, and the code below reads the panel tree (saving
+        # the previous project, refresh) — create the panel first.
+        if not self.tree:
+            self.init_panel()
 
         path_str = str(path)
 
@@ -2080,6 +2097,14 @@ class Command:
         else:
             data = normalize_project_data(data)
             self._migrate_last_session(data)
+
+        # "Open project" can run with the side panel not created yet: the
+        # command was called from the "Plugins" menu while the panel was
+        # never shown (issue #6582). The opened project must appear in the
+        # panel, and the code below reads the panel tree (unfolds,
+        # refresh, context menu) — create the panel first.
+        if not self.tree:
+            self.init_panel()
 
         # Save the current session to its slot, then close all tabs.
         # Skipped when load_session=False (on_start when CudaText
@@ -2508,8 +2533,13 @@ class Command:
 
         return full_path
         '''
+        # same guard as get_info(): a None index (nothing selected) or an
+        # unknown item must not reach tree_proc/props parsing (issue #6582
+        # error class: tree_proc with a None param)
+        if index is None:
+            return Path('')
         p = tree_proc(self.tree, TREE_ITEM_GET_PROPS, index)
-        return Path(p.get('data', ''))
+        return Path(p.get('data', '')) if p else Path('')
 
     def save_options(self):
         # Only save keys that exist in the current defaults dict. This
@@ -2793,6 +2823,8 @@ class Command:
         Enum for all items.
         Until callback gets false.
         """
+        if not self.tree:
+            return
         items = tree_proc(self.tree, TREE_ITEM_ENUM_EX, 0)
         if items:
             return self.enum_subitems(items[0]['id'], callback)
@@ -2815,6 +2847,9 @@ class Command:
 
 
     def enum_all_getfolds(self, unfolds):
+        # no panel yet: no unfolded items to collect
+        if not self.tree:
+            return
         items = tree_proc(self.tree, TREE_ITEM_ENUM_EX, 0)
         if items:
             return self.enum_subitems_getfolds(items[0]['id'], unfolds)
@@ -2835,6 +2870,8 @@ class Command:
 
     def enum_all_setfolds(self, unfolds):
         if not unfolds:
+            return
+        if not self.tree:
             return
         items = tree_proc(self.tree, TREE_ITEM_ENUM_EX, 0)
         if items:
@@ -2860,6 +2897,8 @@ class Command:
         Enum for all items.
         Find 'filename', and focus its node.
         """
+        if not self.tree:
+            return
         items = tree_proc(self.tree, TREE_ITEM_ENUM_EX, 0)
         if items:
             return self.enum_subitems_fn(items[0]['id'], filename, and_open)
@@ -2902,6 +2941,8 @@ class Command:
         Enum for all items.
         Find 'filename', and select/show its node.
         """
+        if not self.tree:
+            return
         items = tree_proc(self.tree, TREE_ITEM_ENUM_EX, 0)
         if items:
             return self.enum_subitems_sel(items[0]['id'], filename)
