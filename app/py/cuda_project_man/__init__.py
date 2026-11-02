@@ -1241,7 +1241,7 @@ class Command:
             if path in self.project["nodes"]:
                 return
 
-            msg_status(_("Adding to project: ") + collapse_filename(path), True)
+            msg_status(_("Adding to project: ") + '"' + collapse_filename(path) + '"', True)
             self.project["nodes"].append(path)
             self.project["nodes"].sort(key=Command.node_ordering)
             self.action_refresh()
@@ -1817,7 +1817,7 @@ class Command:
             return
 
         self._create_project_file(path, close_tabs=True)
-        msg_status(_("Created project: ") + os.path.basename(str(path)))
+        msg_status(_("Created project: ") + '"' + os.path.basename(str(path)) + '"')
 
     def _create_project_file(self, path, close_tabs=True):
         """Create a new project file at `path` and make it the current
@@ -2068,7 +2068,7 @@ class Command:
 
         # Load and validate the project file BEFORE closing any tab, so a
         # broken file leaves the editor state untouched
-        print(_('Loading project: ') + collapse_filename(path))
+        print(_('Loading project: ') + '"' + collapse_filename(path) + '"')
         data, err = load_project_file(path)
         if err:
             self._report_project_load_error(path, err)
@@ -2141,7 +2141,7 @@ class Command:
 
         app_proc(PROC_SET_PROJECT, path)
 
-        s = _("Opened project: ") + os.path.basename(path)
+        s = _("Opened project: ") + '"' + os.path.basename(path) + '"'
         if bads:
             s += ', ' + _('%d missing item(s)')%len(bads)
         msg_status(s)
@@ -2440,7 +2440,7 @@ class Command:
             self.save_options()
 
             self.update_global_data()
-            print(_('Saving project: ') + collapse_filename(str(path)))
+            print(_('Saving project: ') + '"' + collapse_filename(str(path)) + '"')
             msg_status(_("Project saved"))
 
             if need_refresh:
@@ -2624,7 +2624,7 @@ class Command:
             return
 
         app_proc(PROC_SIDEPANEL_ACTIVATE, self.title)
-        msg_status(_('Created project: ') + os.path.basename(proj))
+        msg_status(_('Created project: ') + '"' + os.path.basename(proj) + '"')
 
     def new_project_open_dir(self):
         """CudaText's "File - Open folder..." command (the core calls this
@@ -3010,7 +3010,7 @@ class Command:
 
     def jump_to_filename(self, filename, and_open=False):
         """ Find filename in entire project and focus its tree node """
-        msg_status(_('Located in project: ') + collapse_filename(filename))
+        msg_status(_('Located in project: ') + '"' + collapse_filename(filename) + '"')
         return self.enum_all_fn(filename, and_open)
 
     def sync_to_ed(self):
@@ -3022,7 +3022,7 @@ class Command:
         fn = ed.get_prop(PROP_FN, '*')
         if fn:
             if self.jump_to_filename(fn): #gets False if found
-                msg_status(_('Not found in project: ') + collapse_filename(fn))
+                msg_status(_('Not found in project: ') + '"' + collapse_filename(fn) + '"')
 
 
     def tree_on_unfold(self, id_dlg, id_ctl, data='', info=''):
