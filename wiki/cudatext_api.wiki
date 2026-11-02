@@ -1239,8 +1239,6 @@ These are also properties of forms.
 * "on_form_state": Called after form is minimized/maximized/restored.
 ** param "data": Current form state, string value like in the property "form_state".
 
-* "on_drop_files": Called when file(s)/folder(s) are dropped onto the form (for a form hosted in the side panel: dropped onto that panel's area). Param "data" is dict: { "files": str (filenames separated by chr(1)), "x": int, "y": int, "self_drag": bool }. "x","y": drop position in form's client coords, -1 when not known (non-Windows drops); "self_drag": True when the drop is the round-trip of CudaText's own file drag-out (control's property "drag_files"), so a plugin can handle a drop back onto its panel as an inner drag&drop. Such a self-drag event is fired after the OLE drag returned (not from inside IDropTarget::Drop), and when the drop was not accepted by any drop target while the mouse button was released over the form which started the drag, the release position is reported as that self-drag instead (fallback); a drop of the drag on a form which did not start it is ignored. On Windows it works via the OLE drag&drop (CF_HDROP), so the form takes over the files dropped on it (they are not opened in the editor anymore); on other OS-es it depends on the LCL drop-files support for the widgetset. Property value "" (empty str) detaches the drop handler and restores the default behavior.
-
 * "on_key_down": Called when key is pressed in form (form should have "keypreview":True). If plugin returns False, key is blocked.
 ** param "id_ctl": int key code.
 ** param "data": key-state string: few chars, "c" for Ctrl, "a" for Alt, "s" for Shift, "m" for Meta.
@@ -1250,6 +1248,8 @@ These are also properties of forms.
 * "on_key_press": Called when character-key is pressed (additional to "on_key_down"). If plugin returns False, pressing of key is blocked.
 ** param "id_ctl": int character code.
 ** param "data": key-state string, like in "on_key_down".
+
+* "on_drop_files": Called when file(s)/folder(s) are dropped onto the form (for a form hosted in the side panel: dropped onto that panel's area). Param "data" is dict: { "files": str (filenames separated by chr(1)), "x": int, "y": int, "self_drag": bool }. "x","y": drop position in form's client coords, -1 when not known (non-Windows drops); "self_drag": True when the drop is the round-trip of CudaText's own file drag-out (control's property "drag_files"), so a plugin can handle a drop back onto its panel as an inner drag&drop. Such a self-drag event is fired after the OLE drag returned (not from inside IDropTarget::Drop), and when the drop was not accepted by any drop target while the mouse button was released over the form which started the drag, the release position is reported as that self-drag instead (fallback); a drop of the drag on a form which did not start it is ignored. On Windows it works via the OLE drag&drop (CF_HDROP), so the form takes over the files dropped on it (they are not opened in the editor anymore); on other OS-es it depends on the LCL drop-files support for the widgetset. Property value "" (empty str) detaches the drop handler and restores the default behavior.
 
 How to get nice key description in "on_key_down", e.g. "Ctrl+Alt+Esc" from id_ctl=27 and data="ca":
 
