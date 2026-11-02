@@ -24,6 +24,7 @@ and #6366 (external session switch detection).
 10. API for other plugins
 11. Writing files
 12. Known non-obvious behaviors
+13. Drag & drop
 
 ---
 ## 1. Core concepts
@@ -200,6 +201,10 @@ Check the return value when the next step closes tabs (see §5).
     entry and no caller inside this plugin, yet the core calls them by
     name (see §9). This exact mistake once removed `open_dir()` and
     broke drag&drop of folders onto the editor.
+12. Drag&drop never deletes or overwrites anything without the checks
+    in `_drop_kind`/`_move_node_on_disk` (no overwrite, no move of a
+    folder into itself / its own subfolder, root nodes are only
+    reordered, never relocated). See §13.
 
 ---
 ## 5. Tab closing rules
@@ -452,3 +457,84 @@ successful save).
   options dialog marks them with "(*)": new file-type/toolbar icon
   themes need a CudaText restart. (Changed before the panel is first
   shown, they apply without a restart.)
+
+---
+## 13. Drag & drop
+
+Four directions exist; each uses a different mechanism.
+
+### a) Tree item → other applications (drag-out, Windows)
+
+The tree control's `drag_files` property (dialog API). Setting it during
+`on_mouse_move` makes CudaText start an OLE `DoDragDrop` with CF_HDROP
+(the app defers it out of the mouse-move handler and checks the button
+state, see `proc_customdialog_dummy`/`proc_windows_dragfiles`).
+
+`_begin_drag_out()` sets the property. It is called only when the cursor
+is OUTSIDE the tree bounds (`_point_in_tree`, size cached at drag start
+via `DLG_CTL_PROP_GET`) — this is the core fix for the "inner DnD is
+impossible" bug: the pre-1.239.1 code set `drag_files` on the FIRST
+5-px move, so every drag became a drag-out and swallowed the mouse-up.
+
+### b) OS file manager → panel (drop-in of files)
+
+Form event `on_drop_files` (dialog API, added in app 1.239.0). On
+Windows the dialog form is registered as an OLE drop target
+(`proc_ole_droptarget.AttachWithFilesHandler`): OLE routes a drop to
+the deepest registered target, so the panel takes the files dropped on
+it before the main window's handler (which opens them as editors).
+`panel_on_drop_files()` receives the paths chr(1)-separated and runs
+each through `add_node` (dedup + save). Non-Windows goes through the
+LCL `AllowDropFiles`/`OnDropFiles` support (best effort).
+
+### c) Inside the tree (inner drag&drop)
+
+A hand-rolled state machine on `on_mouse_down/move/up` (the LCL tree
+drag is NOT used — the treeview must not start drags itself):
+
+- `_tree_drag_press`: (x, y, hit-tested item) at mouse-down; item via
+  the `tree_proc` API `TREE_ITEM_FIND_BY_POS` (added in app 1.239.0).
+- move > `TREE_DRAG_THRESHOLD` px, cursor inside the tree, pressed item
+  draggable (has a data-path: not the project header, not a 'dummy')
+  → mode `'inner'`; selection is saved, the drop target under the
+  cursor is hit-tested and highlighted with `TREE_ITEM_SELECT`.
+- `_drop_kind(src, tgt)` decides what a drop means, and doubles as the
+  "is this a valid target" check for the highlight: root→root /
+  root→header = `reorder`, child→folder = `move` (on disk, like
+  Cut+Paste), child→header = `promote` (add as root node); everything
+  else (file targets, self, own subfolder, own parent, root→deeper) is
+  refused → no highlight, no drop.
+- cursor leaves the tree → convert to a drag-out (`_begin_drag_out`).
+- mouse-up: perform `_do_tree_drop` or cancel+restore selection.
+
+Two LCL details the code compensates for:
+- OnClick fires on mouse-up EVEN after a drag inside the control, and
+  BEFORE OnMouseUp — `_tree_suppress_click` (set when the gesture
+  starts, cleared on the click or on the next mouse-down) prevents the
+  dropped-on node from being opened by that click.
+- Hovering a folded folder for `TREE_UNFOLD_HOVER_SEC` unfolds it
+  (`_hover_unfold`); the unfold triggers `tree_on_unfold`, which
+  rebuilds only that folder's children, so the dragged item's handle
+  (which lives elsewhere and must be visible to be draggable) stays
+  valid.
+
+### d) CudaText editor → tree (drop of dragged text)
+
+LCL drag&drop: ATSynEdit starts a normal LCL drag when selected text is
+dragged; since app 1.239.0 the dialog API forwards a treeview's
+`OnDragOver`/`OnDrop` to the plugin events `on_drag_over` /
+`on_drag_drop` with `{x, y, source}` (source = handle of the drag
+source editor, 0 for non-editor drags like ui-tabs).
+
+- `tree_on_drag_over` returns True only for a real editor source with
+  a selection (non-editor drags are rejected, no-drop cursor).
+- `tree_on_drag_drop`: selection is an existing path → `add_node(path)`;
+  else `add_node(source editor's filename)`. ATSynEdit never deletes
+  the source selection for a drop outside an editor, so nothing else
+  to clean up.
+
+### API additions this plugin depends on (app 1.239.0)
+
+- `dlg_proc` form event `on_drop_files`
+- `dlg_proc` control events `on_drag_over`, `on_drag_drop`
+- `tree_proc` action `TREE_ITEM_FIND_BY_POS`

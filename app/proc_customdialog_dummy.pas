@@ -79,6 +79,8 @@ type
     FEventOnMouseDown: string;
     FEventOnMouseUp: string;
     FEventOnMouseMove: string;
+    FEventOnDragOver: string;
+    FEventOnDragDrop: string;
     FEventOnEditorCaret: string;
     FEventOnEditorScroll: string;
     FEventOnEditorKeyDown: string;
@@ -132,6 +134,7 @@ type
     FEventOnShow: string;
     FEventOnHide: string;
     FEventOnFormState: string;
+    FEventOnDropFiles: string;
     TagString: string;
     PrevForms: TFPList;
     PrevActiveForm: TForm;
@@ -173,7 +176,11 @@ type
     procedure DoOnControlMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure DoOnControlMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure DoOnControlMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
+    procedure DoOnControlDragOver(Sender: TObject; Source: TObject; X, Y: Integer; State: TDragState; var Accept: Boolean);
+    procedure DoOnControlDragDrop(Sender: TObject; Source: TObject; X, Y: Integer);
     procedure DoOnImagePaintBackground(ASender: TObject; ACanvas: TCanvas; ARect: TRect);
+    procedure DoOnFormDropFiles(Sender: TObject; const FileNames: array of string);
+    procedure SetEventOnDropFiles(const AValue: string);
     procedure DoOnEditorChange(Sender: TObject);
     procedure DoOnEditorChangeCaretPos(Sender: TObject);
     procedure DoOnEditorScroll(Sender: TObject);
@@ -203,7 +210,7 @@ implementation
 
 {$ifdef windows}
 uses
-  Windows, proc_windows_dragfiles;
+  Windows, proc_windows_dragfiles, proc_ole_droptarget;
 
 type
   // QueueAsyncCall requires a method (of object), not a free procedure.
@@ -305,6 +312,35 @@ begin
   Result.Items[3].KeyName:= 'y';
   Result.Items[3].Typ:= TAppVariantItemTypeId.Int;
   Result.Items[3].Int:= AY;
+end;
+
+function AppVariant_DragData(ASource: TObject; AX, AY: Integer): TAppVariant;
+//data for 'on_drag_over'/'on_drag_drop' control events: position in control
+//coords + handle of the drag source (0 when source is not an editor control,
+//eg a ui-tabs drag); plugin can read the dragged text from that editor
+var
+  Num: Int64;
+begin
+  if ASource is TATSynEdit then
+    Num:= PtrInt(ASource)
+  else
+    Num:= 0;
+
+  Result:= Default(TAppVariant);
+  Result.Typ:= TAppVariantTypeId.Dict;
+  SetLength(Result.Items, 3);
+
+  Result.Items[0].KeyName:= 'x';
+  Result.Items[0].Typ:= TAppVariantItemTypeId.Int;
+  Result.Items[0].Int:= AX;
+
+  Result.Items[1].KeyName:= 'y';
+  Result.Items[1].Typ:= TAppVariantItemTypeId.Int;
+  Result.Items[1].Int:= AY;
+
+  Result.Items[2].KeyName:= 'source';
+  Result.Items[2].Typ:= TAppVariantItemTypeId.Int;
+  Result.Items[2].Int:= Num;
 end;
 
 
@@ -575,6 +611,107 @@ begin
     clWhite,
     clLtGray
     );
+end;
+
+procedure TFormDummy.DoOnFormDropFiles(Sender: TObject;
+  const FileNames: array of string);
+{
+Wiki:
+    param "id_dlg": handle of form.
+    param "data": str, filenames separated by chr(1)
+}
+var
+  Data: TAppVariant;
+  S: string;
+  i: integer;
+begin
+  if FEventOnDropFiles='' then exit;
+  if Length(FileNames)=0 then exit;
+
+  S:= '';
+  for i:= 0 to Length(FileNames)-1 do
+  begin
+    if S<>'' then
+      S+= #1;
+    S+= FileNames[i];
+  end;
+
+  Data:= AppVariant(S);
+  DoEvent(-1, FEventOnDropFiles, Data);
+end;
+
+procedure TFormDummy.SetEventOnDropFiles(const AValue: string);
+begin
+  FEventOnDropFiles:= AValue;
+
+  {$ifdef windows}
+  //register OLE drop target for this form's handle: it takes priority over
+  //the main form's target for drops over this dialog (also when the dialog
+  //is hosted in the side panel), dropped files go to the plugin event.
+  //The manager re-attaches its targets by timer, so a handle created later
+  //(dialog shown/hosted after the property is set) is healed automatically.
+  if AValue='' then
+  begin
+    if OleDropSupport<>nil then
+      OleDropSupport.Detach(Self);
+    exit;
+  end;
+  InitOleDropSupport.AttachWithFilesHandler(Self, @DoOnFormDropFiles);
+  {$else}
+  if AValue='' then
+  begin
+    AllowDropFiles:= false;
+    OnDropFiles:= nil;
+    exit;
+  end;
+  AllowDropFiles:= true;
+  OnDropFiles:= @DoOnFormDropFiles;
+  {$endif}
+end;
+
+procedure TFormDummy.DoOnControlDragOver(Sender: TObject; Source: TObject;
+  X, Y: Integer; State: TDragState; var Accept: Boolean);
+{
+Wiki:
+    param "id_ctl": index of control.
+    param "data": dict { "x": int, "y": int, "source": int }
+    return False to not accept the drag-drop
+}
+var
+  Props: TAppControlProps;
+  IdControl: integer;
+begin
+  Props:= TAppControlProps((Sender as TControl).Tag);
+  if Props.FEventOnDragOver='' then
+  begin
+    //event is not set: control must not accept LCL drag-drop,
+    //like all controls behaved before this event existed
+    Accept:= false;
+    exit;
+  end;
+
+  IdControl:= FindControlIndexByOurObject(Sender);
+  Accept:= DoEvent(IdControl, Props.FEventOnDragOver,
+    AppVariant_DragData(Source, X, Y));
+end;
+
+procedure TFormDummy.DoOnControlDragDrop(Sender: TObject; Source: TObject;
+  X, Y: Integer);
+{
+Wiki:
+    param "id_ctl": index of control.
+    param "data": dict { "x": int, "y": int, "source": int }
+}
+var
+  Props: TAppControlProps;
+  IdControl: integer;
+begin
+  Props:= TAppControlProps((Sender as TControl).Tag);
+  if Props.FEventOnDragDrop='' then exit;
+
+  IdControl:= FindControlIndexByOurObject(Sender);
+  DoEvent(IdControl, Props.FEventOnDragDrop,
+    AppVariant_DragData(Source, X, Y));
 end;
 
 procedure TFormDummy.DoOnClick(Sender: TObject);

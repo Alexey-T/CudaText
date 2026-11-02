@@ -1,4 +1,43 @@
 2026.11.01 (@badrelmers)
+- fixed the 3 problems found while testing PR #6571 (drag files out of
+  CudaText, merged as 1.238.1):
+  1. dropping a file from the OS file manager onto the Project panel opened
+     it in the editor; it must be added to the project. The panel now uses
+     the new dialog API event "on_drop_files" (Windows: the panel's form is
+     registered as an OLE drop target, which takes priority over the main
+     window's target, so the plugin gets the files dropped on the panel;
+     other OS-es use the LCL drop-files support). Dropped files/folders are
+     added as root nodes of the current project; drops anywhere else in
+     CudaText keep the old behavior (open in the editor / "open folder")
+  2. drag&drop inside the project tree did not work: ANY mouse drag started
+     the drag-out to other apps (the "drag_files" property was set on the
+     first 5-px move), so an inner drop was impossible. Now an inner
+     drag&drop runs while the cursor stays over the tree, and only when the
+     cursor leaves the tree the gesture becomes a drag-out to other apps
+     (Explorer etc), as before. Inner drops:
+     - root node onto another root node / onto the project header: reorder
+       the root nodes (visible with "Sorting order" cleared in config)
+     - file/folder onto a folder node: move it on disk into that folder
+       (same as the plugin's Cut+Paste), with safety checks (no overwriting,
+       no move into itself / its own subfolder); if the moved path was the
+       project's main file, the project is updated
+     - file/folder onto the project header: add it as another root node
+     The drop target node is highlighted during the drag, hovering a folded
+     folder for ~0.7 s unfolds it, and the click which LCL fires on the
+     drag's mouse-up is suppressed (it must not open the dropped-on node).
+     Needed the new tree_proc API TREE_ITEM_FIND_BY_POS (hit-test of tree
+     items by mouse coordinates)
+  3. drag&drop from the CudaText editor onto the project tree did not work:
+     the treeview did not accept LCL drag&drop. The tree now uses the new
+     dialog API control events "on_drag_over"/"on_drag_drop": dragging the
+     editor's selected text onto the tree adds that path to the project
+     when the selection is an existing file/folder path, else it adds the
+     dragged editor's own file (the editor's selection is never deleted)
+- app history gets the matching API changelog entries (dlg_proc form event
+  "on_drop_files", dlg_proc control events "on_drag_over"/"on_drag_drop",
+  tree_proc TREE_ITEM_FIND_BY_POS)
+
+2026.11.01 (@badrelmers)
 - fixed regression: dragging a folder from Explorer onto CudaText crashed
   with "AttributeError: 'Command' object has no attribute 'open_dir'".
   open_dir() and new_project_open_dir() are not called from this plugin's

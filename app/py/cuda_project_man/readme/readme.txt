@@ -441,6 +441,60 @@ Exit
 
 
 ------------------------------------------------------------------------------
+DRAG AND DROP
+------------------------------------------------------------------------------
+
+The project tree supports drag&drop in both directions. On Windows the
+drag to other applications uses the CF_HDROP format, so files can be
+dropped into Explorer, archivers, mail clients, browser upload dialogs
+etc.
+
+Dragging a tree item to other applications
+  Press the left mouse button on a tree item and move the cursor out of
+  the project panel: the dragged file/folder follows the cursor and can
+  be dropped into any application which accepts files. Esc cancels the
+  drag. (While the cursor stays inside the panel, the gesture is an
+  inner drag&drop, see below — the drag-out begins only when the cursor
+  leaves the panel's tree.)
+
+Dropping files from the file manager onto the panel
+  Files/folders dropped from the OS file manager onto the Project panel
+  are added to the current project as root nodes (they are NOT opened in
+  the editor — that is what happens with drops onto the rest of the
+  CudaText window). With no project open they are collected in the
+  untitled project, which is saved to disk when the project is saved.
+
+Drag&drop inside the tree
+  While the cursor stays over the tree, dragging a node is an inner
+  drag&drop. The node which would receive the drop is highlighted; a
+  folded folder unfolds after the cursor hovers on it for a moment.
+
+  - A root node dropped onto another root node is moved to that place in
+    the list; dropped onto the project header (the top-most row) it goes
+    to the end of the list. Note: with "Sorting order" set in options,
+    the tree re-sorts root nodes on refresh, so the manual order is only
+    kept with an empty sorting order.
+  - A file/folder dropped onto a folder node is MOVED on disk into that
+    folder, exactly like the plugin's Cut+Paste: the tree is refreshed
+    and the project is updated when the moved path was the project's
+    main file. Refused (no drop target is shown): overwriting an
+    existing path, moving a folder into itself or into its own subfolder,
+    dropping onto a file node, and moving root nodes into subfolders —
+    root entries are only reordered, never relocated, by a drag.
+  - A file/folder dropped onto the project header is added to the
+    project as another root node.
+
+Drag&drop from the editor onto the tree
+  Selected text can be dragged from a CudaText editor onto the project
+  tree. If the selection is an existing file/folder path, that path is
+  added to the project; otherwise the dragged editor's own file is added
+  (so dragging any text from a document is a shortcut for "Add current
+  file"). The dragged editor's selection and text are never modified.
+  Dragging ui-tabs or other non-editor things is not accepted by the
+  tree.
+
+
+------------------------------------------------------------------------------
 PROJECT FILE FORMAT
 ------------------------------------------------------------------------------
 

@@ -112,8 +112,8 @@ uses
   proc_scrollbars,
   proc_cssprovider,
   {$ifdef MSWINDOWS}
-  proc_windows_droptarget,
-  proc_windows_dragsource,
+  proc_ole_droptarget,
+  proc_ole_dragsource,
   {$endif}
   form_console,
   form_frame,
@@ -3602,12 +3602,12 @@ end;
 procedure TfmMain.InitOleDropSupport;
 begin
   if FOleDropManager=nil then
-  begin
-    FOleDropManager:= proc_windows_droptarget.InitOleDropSupport;
-    FOleDropManager.OnDropFiles:= @OleDrop_OnFiles;
-    FOleDropManager.OnDropText:= @OleDrop_OnText;
-    FOleDropManager.OnCanDropText:= @OleDrop_CanDropText;
-  end;
+    FOleDropManager:= proc_ole_droptarget.InitOleDropSupport;
+  //assign events always (not only on 1st creation): a plugin dialog could
+  //have created the global manager first, via its own 'on_drop_files' event
+  FOleDropManager.OnDropFiles:= @OleDrop_OnFiles;
+  FOleDropManager.OnDropText:= @OleDrop_OnText;
+  FOleDropManager.OnCanDropText:= @OleDrop_CanDropText;
   FOleDropManager.Attach(Self);
 end;
 
