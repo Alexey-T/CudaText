@@ -37,11 +37,17 @@ type
   TAppVariantItem = record
     Typ: TAppVariantItemTypeId;
     KeyName: string[15]; //enough len for Py API events
+    { Value of Str type. It was "string[15]" (ShortString) in the variant
+      part of the record, which silently truncated values to 15 chars -
+      it broke events which pass long strings as dict values, eg dropped
+      file paths in the dict of dialog event "on_drop_files"
+      (AppVariant_DropFilesData). So it's a normal refcounted string now,
+      moved to the fixed part of the record. }
+    Str: string;
     case integer of
       0: (Bool: boolean);
       1: (Int: Int64);
       2: (Rect: TRect);
-      3: (Str: string[15]);
   end;
 
   TAppVariant = record

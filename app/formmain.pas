@@ -3602,12 +3602,12 @@ end;
 procedure TfmMain.InitOleDropSupport;
 begin
   if FOleDropManager=nil then
-  begin
     FOleDropManager:= proc_windows_droptarget.InitOleDropSupport;
-    FOleDropManager.OnDropFiles:= @OleDrop_OnFiles;
-    FOleDropManager.OnDropText:= @OleDrop_OnText;
-    FOleDropManager.OnCanDropText:= @OleDrop_CanDropText;
-  end;
+  //assign events always (not only on 1st creation): a plugin dialog could
+  //have created the global manager first, via its own 'on_drop_files' event
+  FOleDropManager.OnDropFiles:= @OleDrop_OnFiles;
+  FOleDropManager.OnDropText:= @OleDrop_OnText;
+  FOleDropManager.OnCanDropText:= @OleDrop_CanDropText;
   FOleDropManager.Attach(Self);
 end;
 

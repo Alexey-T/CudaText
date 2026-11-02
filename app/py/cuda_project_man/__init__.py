@@ -327,6 +327,13 @@ class Command:
     # itself changes the app session (see Command._set_session)
     _session_set_by_plugin = False
 
+    # mouse movement (in px) after mouse-down, which starts a drag gesture
+    # in the project tree (same value as LCL's default drag threshold)
+    TREE_DRAG_THRESHOLD = 5
+    # hovering a FOLDED folder node for this many seconds during an inner
+    # drag&drop (non-Windows mouse tracking) unfolds it, like OS file managers
+    TREE_UNFOLD_HOVER_SEC = 0.7
+
     title ="Project" # No _() here, the translation is offered in "translation template.ini".
     menuitems = (
         # item_caption, item_parent, item_types, item_action, item_hotkey
@@ -421,6 +428,7 @@ class Command:
     # stay fresh after adding/removing options in code.
 
     tree = None
+    tree_index = None
     h_dlg = None
     h_menu = None
     h_menu_cfg = None
@@ -428,8 +436,35 @@ class Command:
     action_cut_activate = False
 
     def __init__(self):
-        self.file_drag_start = None
-        self.tree_index = None
+        # state of the drag&drop in the project tree (tree_mouse_down/move/up):
+        # _tree_drag_press: (x, y, item_handle) of the mouse-down, or None
+        # _tree_drag_mode: None | 'inner' ('inner' = inner drag&drop tracked by
+        #   mouse events; only used on OS-es without the OLE drag-out)
+        # _tree_drop_target: item handle currently highlighted as drop target
+        # _tree_drag_sel: selection to restore when a drag is cancelled
+        # _tree_drag_bounds: (w, h) of the tree control, cached at drag start
+        # _tree_hover_item/_tree_hover_time: for the unfold-on-hover feature
+        # _tree_suppress_click: a drag gesture happened, don't open the file
+        #   on the following OnClick (LCL fires OnClick even after a mouse
+        #   drag inside a control, and it fires BEFORE OnMouseUp)
+        # _tree_drag_out_item/_tree_drag_out_path: the node dragged out of the
+        #   tree with CudaText's OLE drag ('drag_files'); on Windows the drop
+        #   back onto this panel is reported to panel_on_drop_files with
+        #   self_drag=True (fired after the OLE drag returned; when the drop
+        #   was not accepted by any OLE target, the release position over the
+        #   panel is reported the same way), which completes the inner
+        #   drag&drop
+        self._tree_drag_press = None
+        self._tree_drag_mode = None
+        self._tree_drop_target = None
+        self._tree_drag_sel = None
+        self._tree_drag_bounds = None
+        self._tree_hover_item = None
+        self._tree_hover_time = 0.0
+        self._tree_suppress_click = False
+        self._tree_drag_out_item = None
+        self._tree_drag_out_path = ''
+
         settings_dir = Path(app_path(APP_DIR_SETTINGS))
         self.options_filename = settings_dir / "cuda_project_man.json"
         # Start from a fresh copy of the defaults, then merge the loaded
@@ -459,6 +494,12 @@ class Command:
         dlg_proc(self.h_dlg, DLG_PROP_SET, {
             'keypreview': True,
             'on_key_down': self.form_key_down,
+            # files dropped from the OS file manager onto this panel are
+            # added to the project (instead of being opened in the editor,
+            # which is what CudaText does with drops outside of this panel);
+            # on Windows the event also gets the drop-back of a node dragged
+            # out of the tree (self_drag), which is the inner drag&drop
+            'on_drop_files': self.panel_on_drop_files,
             } )
 
         n = dlg_proc(self.h_dlg, DLG_CTL_ADD, prop='toolbar')
@@ -571,29 +612,523 @@ class Command:
             app_proc(PROC_SIDEPANEL_ACTIVATE, self.title)
 
     def tree_mouse_down(self, id_dlg, id_ctl, data='', info=''):
+        # any stale suppress-flag is for a click which already happened
+        self._tree_suppress_click = False
+        # a new mouse gesture cancels any stale drag state (eg an inner drag
+        # of the previous gesture which never saw its mouse-up)
+        self._tree_drag_mode = None
+        self._tree_drop_target = None
+        self._tree_hover_item = None
+        self._tree_drag_out_item = None
+        self._tree_drag_out_path = ''
         if isinstance(data, dict) and data.get('btn', -1) == 0:
-            self.file_drag_start = (int(data.get('x', 0)), int(data.get('y', 0)))
+            x = int(data.get('x', 0))
+            y = int(data.get('y', 0))
+            item = tree_proc(self.tree, TREE_ITEM_FIND_BY_POS, 0, -1,
+                             '{},{}'.format(x, y))
+            self._tree_drag_press = (x, y, item)
         else:
-            self.file_drag_start = None
+            self._tree_drag_press = None
 
     def tree_mouse_move(self, id_dlg, id_ctl, data='', info=''):
-        if self.file_drag_start is None or not isinstance(data, dict):
+        press = self._tree_drag_press
+        if press is None or not isinstance(data, dict):
             return
         x = int(data.get('x', 0))
         y = int(data.get('y', 0))
-        if max(abs(x-self.file_drag_start[0]), abs(y-self.file_drag_start[1])) <= 5:
+
+        if self._tree_drag_mode is None:
+            if max(abs(x-press[0]), abs(y-press[1])) <= self.TREE_DRAG_THRESHOLD:
+                return
+            item = press[2]
+            if not item or not self._is_draggable(item):
+                return
+            if IS_WIN:
+                # the drag starts immediately, exactly like the drag of files
+                # out of CudaText always worked: CudaText runs an OLE
+                # CF_HDROP drag, so the node can be dropped into Explorer
+                # and other apps. Dropping it back onto this panel is
+                # reported to panel_on_drop_files (self_drag=True) and is
+                # handled as the inner drag&drop (see _do_panel_self_drop).
+                self._begin_drag_out(item)
+            else:
+                # OS-es without the OLE drag-out: track the inner drag&drop
+                # by mouse events while the cursor stays over the tree
+                self._tree_drag_mode = 'inner'
+                self._tree_drop_target = None
+                self._tree_hover_item = None
+                self._tree_hover_time = time.time()
+                self._tree_drag_sel = self.selected
+                self._tree_suppress_click = True
+                self._tree_drag_update(x, y)
             return
-        node = self.selected
-        self.file_drag_start = None
-        if not node or self.tree_index is None:
+
+        if self._tree_drag_mode == 'inner':
+            if not self._point_in_tree(x, y):
+                # cursor left the tree: cancel the inner drag&drop
+                self._restore_drag_selection()
+                self._tree_drag_press = None
+                self._tree_drag_mode = None
+                self._tree_drop_target = None
+                self._tree_hover_item = None
+                return
+            self._tree_drag_update(x, y)
+
+    def tree_mouse_up(self, id_dlg, id_ctl, data='', info=''):
+        press = self._tree_drag_press
+        mode = self._tree_drag_mode
+        target = self._tree_drop_target
+        saved_sel = self._tree_drag_sel
+        self._tree_drag_press = None
+        self._tree_drag_mode = None
+        self._tree_drop_target = None
+        self._tree_drag_bounds = None
+        self._tree_hover_item = None
+        self._tree_drag_sel = None
+
+        if mode != 'inner':
             return
-        path = str(self.get_location_by_index(node))
+
+        # a drag gesture ended with the button still held by our code:
+        # the OnClick which LCL fires for this mouse-up must not open files
+        self._tree_suppress_click = True
+
+        if press and target:
+            self._do_tree_drop(press[2], target)
+        else:
+            # dropped on nothing allowed: when the drop was on some node,
+            # explain why it is not allowed; restore the selection
+            if press and isinstance(data, dict):
+                x = int(data.get('x', 0))
+                y = int(data.get('y', 0))
+                hit = tree_proc(self.tree, TREE_ITEM_FIND_BY_POS, 0, -1,
+                                '{},{}'.format(x, y))
+                if hit and hit != press[2]:
+                    self._msg_drop_not_allowed(press[2], hit)
+            self._select_item_if_alive(saved_sel)
+
+    #---------------------------------------------------------------------
+    # drag&drop helpers (all run in the context of the tree's mouse events)
+
+    def _point_in_tree(self, x, y):
+        """Is the point (tree control client coords) inside the tree?"""
+        if self._tree_drag_bounds is None:
+            w, h = 0, 0
+            props = dlg_proc(self.h_dlg, DLG_CTL_PROP_GET, name='tree')
+            if props:
+                w = int(props.get('w', 0))
+                h = int(props.get('h', 0))
+            self._tree_drag_bounds = (w, h)
+        w, h = self._tree_drag_bounds
+        return 0 <= x < w and 0 <= y < h
+
+    def _begin_drag_out(self, item):
+        """Start dragging the item's file/folder out to other apps (Windows:
+        OLE CF_HDROP drag, implemented by CudaText's 'drag_files'). The OLE
+        drag owns the mouse from now on. When the node is dropped back onto
+        this panel, CudaText reports it to panel_on_drop_files with
+        self_drag=True (after the OLE drag returned; when no OLE target
+        accepted the drop, the release position over the panel is reported
+        instead), and _do_panel_self_drop() completes the inner drag&drop
+        (reorder / move, with confirmation dialogs)."""
+        self._tree_drag_press = None
+        self._tree_drag_mode = None
+        self._tree_suppress_click = True
+        self._tree_drag_out_item = item
+        path = str(self.get_location_by_index(item)) if item else ''
+        self._tree_drag_out_path = path
+        if not item or self.tree_index is None:
+            return
         if path and os.path.exists(path):
             dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, index=self.tree_index,
                      prop={'drag_files': path})
 
-    def tree_mouse_up(self, id_dlg, id_ctl, data='', info=''):
-        self.file_drag_start = None
+    def _restore_drag_selection(self):
+        """Restore the tree selection saved at drag start (drag cancelled)."""
+        sel = self._tree_drag_sel
+        self._tree_drag_sel = None
+        self._select_item_if_alive(sel)
+
+    def _select_item_if_alive(self, item):
+        """Select the item when its handle is still valid (the tree may
+        have been rebuilt in the meantime)."""
+        if item and tree_proc(self.tree, TREE_ITEM_GET_PROPS, item):
+            tree_proc(self.tree, TREE_ITEM_SELECT, item)
+
+    def _is_draggable(self, item):
+        """Not the project root node, not a 'dummy' node: has a data-path."""
+        props = tree_proc(self.tree, TREE_ITEM_GET_PROPS, item)
+        return bool(props and props.get('data', ''))
+
+    def _tree_drag_update(self, x, y):
+        """Inner drag: highlight the drop target under the cursor."""
+        item = tree_proc(self.tree, TREE_ITEM_FIND_BY_POS, 0, -1,
+                         '{},{}'.format(x, y))
+        press = self._tree_drag_press
+        src_item = press[2] if press else None
+        target = item if item and src_item and \
+            self._drop_kind(src_item, item) else None
+        if target == self._tree_drop_target:
+            if target:
+                self._hover_unfold(target)
+            return
+
+        self._tree_drop_target = target
+        if target:
+            tree_proc(self.tree, TREE_ITEM_SELECT, target)
+            self._tree_hover_item = target
+            self._tree_hover_time = time.time()
+        else:
+            self._tree_hover_item = None
+            # keep the dragged node selected, like OS file managers do
+            sel = src_item if src_item else self._tree_drag_sel
+            if sel:
+                tree_proc(self.tree, TREE_ITEM_SELECT, sel)
+
+    def _hover_unfold(self, item):
+        """Unfold a folder node after hovering on it during a drag."""
+        if item != self._tree_hover_item:
+            self._tree_hover_item = item
+            self._tree_hover_time = time.time()
+            return
+        if time.time() - self._tree_hover_time < self.TREE_UNFOLD_HOVER_SEC:
+            return
+        props = tree_proc(self.tree, TREE_ITEM_GET_PROPS, item)
+        if props and props.get('folded') and props.get('sub_items'):
+            tree_proc(self.tree, TREE_ITEM_UNFOLD, item)
+            # don't unfold it again while still hovering
+            self._tree_hover_time = time.time() + 3600.0
+
+    def _drop_kind(self, src_item, tgt_item):
+        """What does dropping the node src_item onto the node tgt_item mean?
+        Returns 'reorder', 'reorder_end' or 'move', or None (not allowed).
+        Rules:
+        - a project's root node (level 1) can only change its order among the
+          other root nodes; it is never moved inside another node;
+        - a file/folder inside a root folder node (level 2+) can be moved
+          into another folder node (moved on disk, like Cut+Paste)."""
+        src = tree_proc(self.tree, TREE_ITEM_GET_PROPS, src_item) \
+            if src_item else None
+        dst = tree_proc(self.tree, TREE_ITEM_GET_PROPS, tgt_item)
+        if not src or not dst:
+            return None
+        src_lvl = src.get('level', 0)
+        dst_lvl = dst.get('level', 0)
+        src_path = src.get('data', '')
+        dst_path = dst.get('data', '')
+
+        if not src_path or src_lvl < 1:
+            return None
+
+        if src_lvl == 1:
+            # a project's root node: reorder only, never inside another node
+            if dst_lvl == 1:
+                if self._same_path(dst_path, src_path):
+                    return None
+                return 'reorder'
+            if dst_lvl == 0:
+                # onto the project header: reorder to the end of the list
+                return 'reorder_end'
+            return None
+
+        # a file/folder inside some root folder node: can be moved
+        # into another folder node (never onto the project header)
+        if dst_lvl == 0:
+            return None
+        if dst_path and os.path.isdir(dst_path) and not is_locked(dst_path):
+            if self._same_path(dst_path, src_path):
+                return None
+            # not into a subfolder of itself (only matters for folders)
+            if os.path.isdir(src_path) and \
+              self._path_is_inside(dst_path, src_path):
+                return None
+            # not onto its own parent folder: nothing would change
+            if self._same_path(os.path.dirname(src_path), dst_path):
+                return None
+            return 'move'
+        return None
+
+    @staticmethod
+    def _same_path(p1, p2):
+        if not p1 or not p2:
+            return False
+        return os.path.normcase(os.path.normpath(p1)) == \
+               os.path.normcase(os.path.normpath(p2))
+
+    @staticmethod
+    def _path_is_inside(path, folder):
+        return os.path.normcase(os.path.normpath(path)).startswith(
+            os.path.normcase(os.path.normpath(folder)) + os.sep)
+
+    def _do_tree_drop(self, src_item, tgt_item):
+        """Perform the drop of src_item onto tgt_item (inner drag&drop).
+        Asks the user for confirmation:
+        - changing the order of a node (a root node dropped onto another
+          root node / onto the project header);
+        - moving a file/folder from its folder node into another folder node.
+        A reorder also needs sorting to be off, else the manual order is
+        overwritten by sorting: the user is asked to disable sorting."""
+        kind = self._drop_kind(src_item, tgt_item)
+        if kind is None:
+            self._msg_drop_not_allowed(src_item, tgt_item)
+            self._restore_drag_selection()
+            return
+
+        src_props = tree_proc(self.tree, TREE_ITEM_GET_PROPS, src_item)
+        tgt_props = tree_proc(self.tree, TREE_ITEM_GET_PROPS, tgt_item)
+        src_path = src_props.get('data', '')
+        tgt_path = tgt_props.get('data', '')
+
+        if kind in ('reorder', 'reorder_end'):
+            if not self._confirm_disable_sorting_for_dnd():
+                # user declined to disable sorting: cancel the drag&drop,
+                # with sorting on the manual order is overwritten anyway
+                self._restore_drag_selection()
+                return
+            name = os.path.basename(src_path.rstrip('/\\'))
+            res = msg_box_ex(
+                _('Project Manager'),
+                _("Change the order of the node '{}' in the project?").format(name),
+                [_('Accept'), _('Cancel')],
+                MB_ICONQUESTION)
+            if res != 0:
+                self._restore_drag_selection()
+                return
+            if kind == 'reorder':
+                self._reorder_root_node(src_path, tgt_path)
+            else:
+                self._reorder_root_node(src_path, None)
+
+        elif kind == 'move':
+            src_parent = os.path.dirname(src_path.rstrip('/\\'))
+            res = msg_box_ex(
+                _('Project Manager'),
+                _("Move '{}' from folder '{}' to folder '{}'?").format(
+                    os.path.basename(src_path.rstrip('/\\')),
+                    os.path.basename(src_parent.rstrip('/\\')) or src_parent,
+                    os.path.basename(tgt_path.rstrip('/\\')) or tgt_path),
+                [_('Accept'), _('Cancel')],
+                MB_ICONQUESTION)
+            if res != 0:
+                self._restore_drag_selection()
+                return
+            self._move_node_on_disk(src_path, tgt_path)
+
+    def _confirm_disable_sorting_for_dnd(self):
+        """A drag&drop which changes the order of nodes needs the option
+        "Sorting order" to be empty ('none'), else the manual order is
+        overwritten by sorting on the next refresh. Ask the user to disable
+        sorting. Returns True when the reorder may continue (sorting was
+        already off, or the user disabled it now)."""
+        if not self.options.get('sort_order', 'ext'):
+            return True
+        res = msg_box_ex(
+            _('Project Manager'),
+            _('Drag & drop changes the order of project nodes, but the tree is sorted now: the new order would be overwritten by sorting.') + '\n\n' +
+            _('Disable sorting (set "Sorting order" to "none")?'),
+            [_('Disable sorting'), _('Cancel')],
+            MB_ICONQUESTION)
+        if res != 0:
+            return False
+        self.options['sort_order'] = ''
+        self.save_options()
+        self.action_refresh()
+        msg_status(_('Sorting disabled (drag & drop can change the order of nodes now)'))
+        return True
+
+    def _msg_drop_not_allowed(self, src_item, tgt_item):
+        """Show a statusbar message explaining why the drop of src_item onto
+        tgt_item is not allowed."""
+        src = tree_proc(self.tree, TREE_ITEM_GET_PROPS, src_item) \
+            if src_item else None
+        dst = tree_proc(self.tree, TREE_ITEM_GET_PROPS, tgt_item) \
+            if tgt_item else None
+        if not src or not dst:
+            return
+        src_lvl = src.get('level', 0)
+        dst_lvl = dst.get('level', 0)
+        src_path = src.get('data', '')
+        dst_path = dst.get('data', '')
+
+        if src_lvl == 1 and dst_lvl >= 2:
+            msg_status(_("Project nodes can only change their order, they cannot be moved inside other nodes"))
+        elif src_lvl >= 2 and dst_lvl == 0:
+            msg_status(_("Cannot drop onto the project header: drop onto a folder node to move the file/folder"))
+        elif src_lvl >= 2 and dst_path and os.path.isdir(dst_path) and \
+                self._same_path(os.path.dirname(src_path), dst_path):
+            msg_status(_("File/folder is already in this folder"))
+        elif src_lvl >= 2 and dst_path and not os.path.isdir(dst_path):
+            msg_status(_("Cannot drop onto a file: drop onto a folder node to move the file/folder"))
+        else:
+            msg_status(_("Drop not allowed here"))
+
+    def _reorder_root_node(self, src_path, before_path):
+        """Move the root project entry src_path before the root entry
+        before_path (or to the end of the list when before_path is None)."""
+        nodes = self.project.get('nodes', [])
+        if src_path not in nodes:
+            return
+        nodes.remove(src_path)
+        if before_path and before_path in nodes:
+            nodes.insert(nodes.index(before_path), src_path)
+        else:
+            nodes.append(src_path)
+        self.action_refresh()
+        if self.project_file_path:
+            self.action_save_project_as(self.project_file_path)
+        msg_status(_('Project node moved'))
+
+    def _move_node_on_disk(self, src_path, tgt_folder):
+        """Move the file/folder src_path into tgt_folder, like the plugin's
+        Cut+Paste does. Updates the project when the moved path was a root
+        node or the main file."""
+        import shutil
+        dst_path = os.path.join(tgt_folder, os.path.basename(src_path))
+        if os.path.exists(dst_path):
+            msg_status(_('Cannot move, already exists: ') + collapse_filename(dst_path))
+            return
+        try:
+            shutil.move(src_path, dst_path)
+        except OSError as ex:
+            msg_status(_('Cannot move: ') + str(ex))
+            return
+
+        # a root entry which was moved (a root folder dragged deeper is not
+        # allowed, but be safe): point the project to the new location
+        if src_path in self.project['nodes']:
+            self.project['nodes'][self.project['nodes'].index(src_path)] = dst_path
+        if self.project.get('mainfile', '') == src_path:
+            self.project['mainfile'] = dst_path
+            self.update_global_data()
+
+        if self.project_file_path:
+            self.action_save_project_as(self.project_file_path)
+        self.action_refresh()
+        msg_status(_('Moved to: ') + collapse_filename(dst_path))
+
+    #---------------------------------------------------------------------
+    # drop of files onto the panel
+
+    def panel_on_drop_files(self, id_dlg, id_ctl, data='', info=''):
+        """Files/folders dropped onto the Project panel.
+
+        - Files/folders dropped from the OS file manager are added to the
+          current project (CudaText opens files dropped anywhere else in
+          the editor, as before).
+        - On Windows, a node dragged out of the tree (OLE 'drag_files')
+          and dropped back onto the panel is the inner drag&drop: reorder
+          the node / move a file/folder into a folder node, with
+          confirmation dialogs. CudaText reports it with self_drag=True;
+          the event is fired after the OLE drag returned (deferred by
+          proc_customdialog_dummy: never from inside IDropTarget::Drop),
+          and when the drop was not accepted by any OLE drop target, the
+          release position over the panel is reported the same way
+          (fallback), so the inner drag&drop cannot get lost. The drop
+          position is in the panel form's client coords.
+
+        `data` is a dict: { 'files': str (paths separated by chr(1)),
+        'x': int, 'y': int, 'self_drag': bool } ('x'/'y' are -1 when the
+        position is unknown, eg drops on non-Windows OS-es)."""
+        if not self.tree:
+            return
+
+        if isinstance(data, dict):
+            files_str = str(data.get('files', ''))
+            self_drag = bool(data.get('self_drag', False))
+            try:
+                x = int(data.get('x', -1))
+                y = int(data.get('y', -1))
+            except (TypeError, ValueError):
+                x, y = -1, -1
+        else:
+            files_str = str(data or '')
+            self_drag = False
+            x, y = -1, -1
+
+        if not files_str:
+            # loud: a drop event without files is a bug, don't ignore it
+            msg_status(_('Project Manager: drop event without files'))
+            return
+
+        if self_drag:
+            # round-trip of our own drag-out: inner drag&drop
+            # (safety: the dropped path must be the dragged node's path)
+            path = self._tree_drag_out_path
+            dropped = files_str.split(chr(1))
+            if path and not any(self._same_path(path, fn)
+                                for fn in dropped):
+                # must not happen (the event carries the 'drag_files' list
+                # of our own drag); loud, so it can never be silent
+                self._tree_drag_out_item = None
+                self._tree_drag_out_path = ''
+                msg_status(_('Project Manager: inner drop ignored, dropped paths do not match the dragged node: ') +
+                           files_str.replace(chr(1), ', '))
+                return
+            self._do_panel_self_drop(x, y)
+            return
+
+        added = []
+        skipped = []
+        for fn in files_str.split(chr(1)):
+            fn = fn.strip().strip('"').strip("'")
+            if not fn:
+                continue
+            if not (os.path.isfile(fn) or os.path.isdir(fn)):
+                skipped.append(fn + ' (' + _('not found') + ')')
+                continue
+            if is_locked(fn):
+                skipped.append(fn + ' (' + _('hidden/locked') + ')')
+                continue
+            self.add_node(fn)
+            added.append(fn)
+
+        if added:
+            msg_status(_('Added to project') + ': ' + str(len(added)))
+        else:
+            # loud and diagnostic: show what was received, so a broken
+            # drop can never be silent again
+            received = files_str.replace(chr(1), ', ')
+            detail = ('; ' + '; '.join(skipped)) if skipped else ''
+            msg_status(_('Cannot add dropped paths to the project') + ': ' +
+                       received + detail)
+
+    def _do_panel_self_drop(self, x, y):
+        """A node dragged out of the tree was dropped back onto this panel
+        (Windows: the OLE drag of 'drag_files' ended on the panel; it is
+        reported by the OLE drop target, or by the fallback in
+        ExecuteAppFileDrag when the drop was not accepted by any OLE
+        target). (x, y) are the drop position in the panel form's client
+        coords: convert them to the tree's coords and perform the inner
+        drop on the node under the cursor."""
+        src_item = self._tree_drag_out_item
+        self._tree_drag_out_item = None
+        self._tree_drag_out_path = ''
+
+        if not src_item or not tree_proc(self.tree, TREE_ITEM_GET_PROPS,
+                                         src_item):
+            msg_status(_('The dragged node is not in the tree anymore'))
+            return
+        if x < 0 or y < 0:
+            msg_status(_('Drop position unknown'))
+            return
+
+        # panel form client coords -> tree client coords (live position
+        # of the tree control inside the panel form)
+        props = dlg_proc(self.h_dlg, DLG_CTL_PROP_GET, name='tree')
+        if not props:
+            msg_status(_('Cannot find the tree control'))
+            return
+        tx = x - int(props.get('x', 0))
+        ty = y - int(props.get('y', 0))
+
+        tgt_item = tree_proc(self.tree, TREE_ITEM_FIND_BY_POS, 0, -1,
+                             '{},{}'.format(tx, ty))
+        if not tgt_item:
+            msg_status(_('Drop the node onto another node in the project tree'))
+            return
+        if tgt_item == src_item:
+            return # dropped on itself: nothing to do
+        self._do_tree_drop(src_item, tgt_item)
 
     @property
     def selected(self):
@@ -2552,6 +3087,13 @@ class Command:
         return s
 
     def tree_on_click(self, id_dlg, id_ctl, data='', info=''):
+
+        # a drag gesture in the tree just ended on this mouse-up: LCL fires
+        # OnClick even after a drag inside a control (and before OnMouseUp),
+        # don't let it open the dropped-on node
+        if self._tree_suppress_click:
+            self._tree_suppress_click = False
+            return
 
         # set folder in project as current folder for Open/Save-as dialogs
         node = self.selected

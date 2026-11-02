@@ -71,6 +71,13 @@ type
   TOleDropTextQueryEvent = function(Sender: TObject;
     const AScreenPos: TPoint): boolean of object;
 
+  { Event fired when file(s) are dropped, with the drop position in client
+    coordinates of the attached window. Used by the per-control handler
+    registered via AttachWithFilesHandler(): the drop position lets plugins
+    hit-test their controls (eg the treeview of the Project Manager panel). }
+  TDropFilesPosEvent = procedure(AWinControl: TWinControl;
+    const AClientPos: TPoint; const AFiles: array of string) of object;
+
   TOleDropTarget = class;
 
   { TOleDropTargetManager }
@@ -91,6 +98,13 @@ type
     destructor Destroy; override;
     procedure Attach(AWinControl: TWinControl);
     procedure Detach(AWinControl: TWinControl);
+    { Attaches AWinControl with a per-control file-drop handler: dropped
+      files are reported to AOnDropFiles (with the drop position in client
+      coords of AWinControl) instead of the manager-level OnDropFiles event.
+      Used by API dialogs (proc_customdialog_dummy) to let a plugin handle
+      file drops on its own hosted form. }
+    procedure AttachWithFilesHandler(AWinControl: TWinControl;
+      AOnDropFiles: TDropFilesPosEvent);
     property OnDropFiles: TDropFilesEvent read FOnDropFiles write FOnDropFiles;
     property OnDropText: TOleDropTextEvent read FOnDropText write FOnDropText;
     property OnCanDropText: TOleDropTextQueryEvent read FOnCanDropText write FOnCanDropText;
@@ -109,6 +123,7 @@ type
     FRefCount: integer;
     FHasFiles: boolean; // data object has CF_HDROP
     FHasText: boolean;  // data object has text/URL format
+    FOnDropFilesPos: TDropFilesPosEvent; // per-control override of manager's event
     procedure SetDataFlags(const AData: IDataObject);
     function IsDropAllowedAt(const pt: TPoint): boolean;
   protected
@@ -493,6 +508,24 @@ begin
   Target.Attach;
 end;
 
+procedure TOleDropTargetManager.AttachWithFilesHandler(AWinControl: TWinControl;
+  AOnDropFiles: TDropFilesPosEvent);
+var
+  Target: TOleDropTarget;
+begin
+  if AWinControl=nil then exit;
+  Target:= FindTarget(AWinControl);
+  if Target=nil then
+  begin
+    Target:= TOleDropTarget.Create(Self, AWinControl);
+    FTargets.Add(Target);
+    //get notified when the control is destroyed
+    AWinControl.FreeNotification(Self);
+  end;
+  Target.FOnDropFilesPos:= AOnDropFiles;
+  Target.Attach;
+end;
+
 procedure TOleDropTargetManager.Detach(AWinControl: TWinControl);
 var
   Target: TOleDropTarget;
@@ -660,13 +693,16 @@ begin
         if GetDroppedFiles(dataObj, Files) then
         begin
           dwEffect:= DROPEFFECT_COPY;
+          SetLength(FileArr, Files.Count);
+          for i:= 0 to Files.Count-1 do
+            FileArr[i]:= Files[i];
+          //per-control handler has priority over the manager-level event;
+          //it gets the drop position in client coords of the attached window
+          if Assigned(FOnDropFilesPos) then
+            FOnDropFilesPos(FWinControl, FWinControl.ScreenToClient(pt), FileArr)
+          else
           if Assigned(FManager.FOnDropFiles) then
-          begin
-            SetLength(FileArr, Files.Count);
-            for i:= 0 to Files.Count-1 do
-              FileArr[i]:= Files[i];
             FManager.FOnDropFiles(FWinControl, FileArr);
-          end;
           exit;
         end;
       finally

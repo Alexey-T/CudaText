@@ -480,6 +480,7 @@ const
   TREE_ITEM_FOLD_LEVEL       = 15;
   TREE_ITEM_SHOW             = 16;
   TREE_ITEM_GET_PROPS        = 17;
+  TREE_ITEM_FIND_BY_POS      = 18;
   TREE_GET_SELECTIONS        = 23;
   TREE_FIND_FOR_TEXT_POS     = 24;
   TREE_GET_IMAGELIST         = 25;
