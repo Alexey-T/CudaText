@@ -133,6 +133,7 @@ type
     FEventOnHide: string;
     FEventOnFormState: string;
     FEventOnDropFiles: string;
+    FEventOnDragOver: string;
     TagString: string;
     PrevForms: TFPList;
     PrevActiveForm: TForm;
@@ -177,6 +178,7 @@ type
     procedure DoOnImagePaintBackground(ASender: TObject; ACanvas: TCanvas; ARect: TRect);
     procedure DoOnFormDropFiles(Sender: TObject; const FileNames: array of string);
     procedure DoOnFormDropFilesPos(AWinControl: TWinControl; const AClientPos: TPoint; const AFiles: array of string);
+    procedure DoOnFormDragOver(AWinControl: TWinControl; const AClientPos: TPoint);
     procedure SetEventOnDropFiles(const AValue: string);
     procedure FireSelfDropEvent(const AFiles: string; AX, AY: integer);
     procedure DoOnEditorChange(Sender: TObject);
@@ -422,6 +424,33 @@ begin
   Result.Items[3].KeyName:= 'self_drag';
   Result.Items[3].Typ:= TAppVariantItemTypeId.Bool;
   Result.Items[3].Bool:= ASelfDrag;
+end;
+
+
+function AppVariant_DragOverData(AX, AY: integer;
+  ASelfDrag: boolean): TAppVariant;
+//data for the form's 'on_drag_over' event: cursor position of a file
+//drag&drop hovering over the form, in the form's client coords; (-1,-1)
+//when the drag left the form. 'self_drag': the hovering drag is
+//CudaText's own file drag-out ('drag_files'). Only file drags (CF_HDROP)
+//are reported, and only while the form's 'on_drop_files' event is set
+//(both handlers are wired by the same OLE drop-target registration)
+begin
+  Result:= Default(TAppVariant);
+  Result.Typ:= TAppVariantTypeId.Dict;
+  SetLength(Result.Items, 3);
+
+  Result.Items[0].KeyName:= 'x';
+  Result.Items[0].Typ:= TAppVariantItemTypeId.Int;
+  Result.Items[0].Int:= AX;
+
+  Result.Items[1].KeyName:= 'y';
+  Result.Items[1].Typ:= TAppVariantItemTypeId.Int;
+  Result.Items[1].Int:= AY;
+
+  Result.Items[2].KeyName:= 'self_drag';
+  Result.Items[2].Typ:= TAppVariantItemTypeId.Bool;
+  Result.Items[2].Bool:= ASelfDrag;
 end;
 
 
@@ -795,6 +824,33 @@ begin
   DoEvent(-1, FEventOnDropFiles, AppVariant_DropFilesData(AFiles, AX, AY, true));
 end;
 
+procedure TFormDummy.DoOnFormDragOver(AWinControl: TWinControl;
+  const AClientPos: TPoint);
+{
+Windows: called from DragEnter/DragOver/DragLeave of the form's OLE drop
+target (proc_windows_droptarget), while a file drag&drop (CF_HDROP) hovers
+over the form - eg files dragged from Explorer, or the app's own
+'drag_files' drag-out hovering back over the panel. Gives the plugin the
+live cursor position, so it can implement hover effects (Project Manager:
+auto-unfolding of the hovered folder node). AClientPos=(-1,-1) when the
+drag left the form. Runs inside the OLE drag loop: the plugin handler must
+be fast and must not show modal UI (unlike 'on_drop_files', which is fired
+after the OLE drag returned, exactly to allow such UI).
+Wiki:
+    param "id_dlg": handle of form.
+    param "data": dict { "x": int, "y": int, "self_drag": bool }
+}
+var
+  SelfDrag: boolean;
+begin
+  if FEventOnDragOver='' then exit;
+  SelfDrag:= false;
+  {$ifdef windows}
+  SelfDrag:= AppFileDragInProgress;
+  {$endif}
+  DoEvent(-1, FEventOnDragOver, AppVariant_DragOverData(AClientPos.X, AClientPos.Y, SelfDrag));
+end;
+
 procedure TFormDummy.SetEventOnDropFiles(const AValue: string);
 begin
   FEventOnDropFiles:= AValue;
@@ -805,13 +861,16 @@ begin
   //is hosted in the side panel), dropped files go to the plugin event.
   //The manager re-attaches its targets by timer, so a handle created later
   //(dialog shown/hosted after the property is set) is healed automatically.
+  //The hover handler (drag-hover positions of file drags over the form) is
+  //always passed: DoOnFormDragOver no-ops until the plugin also sets the
+  //form's 'on_drag_over' event.
   if AValue='' then
   begin
     if OleDropSupport<>nil then
       OleDropSupport.Detach(Self);
     exit;
   end;
-  InitOleDropSupport.AttachWithFilesHandler(Self, @DoOnFormDropFilesPos);
+  InitOleDropSupport.AttachWithFilesHandler(Self, @DoOnFormDropFilesPos, @DoOnFormDragOver);
   {$else}
   if AValue='' then
   begin

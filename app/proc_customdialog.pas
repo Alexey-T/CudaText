@@ -2454,6 +2454,8 @@ begin
       F.FEventOnFormState:= AValue;
     'on_drop_files':
       F.SetEventOnDropFiles(AValue);
+    'on_drag_over':
+      F.FEventOnDragOver:= AValue;
     'vis':
       F.Visible:= AppStrToBool(AValue);
     'keypreview':
@@ -2514,6 +2516,7 @@ begin
   SetDictKey_NotEmpty(Result, 'on_hide', F.FEventOnHide);
   SetDictKey_NotEmpty(Result, 'on_form_state', F.FEventOnFormState);
   SetDictKey_NotEmpty(Result, 'on_drop_files', F.FEventOnDropFiles);
+  SetDictKey_NotEmpty(Result, 'on_drag_over', F.FEventOnDragOver);
 end;
 
 

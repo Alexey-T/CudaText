@@ -1251,6 +1251,8 @@ These are also properties of forms.
 
 * "on_drop_files": Called when file(s)/folder(s) are dropped onto the form (for a form hosted in the side panel: dropped onto that panel's area). Param "data" is dict: { "files": str (filenames separated by chr(1)), "x": int, "y": int, "self_drag": bool }. "x","y": drop position in form's client coords, -1 when not known (non-Windows drops); "self_drag": True when the drop is the round-trip of CudaText's own file drag-out (control's property "drag_files"), so a plugin can handle a drop back onto its panel as an inner drag&drop. Such a self-drag event is fired after the OLE drag returned (not from inside IDropTarget::Drop), and when the drop was not accepted by any drop target while the mouse button was released over the form which started the drag, the release position is reported as that self-drag instead (fallback); a drop of the drag on a form which did not start it is ignored. On Windows it works via the OLE drag&drop (CF_HDROP), so the form takes over the files dropped on it (they are not opened in the editor anymore); on other OS-es it depends on the LCL drop-files support for the widgetset. Property value "" (empty str) detaches the drop handler and restores the default behavior.
 
+* "on_drag_over": Windows only. Called while a file drag&drop (CF_HDROP) hovers over the form: files dragged from the OS file manager, or CudaText's own file drag-out (control's property "drag_files") hovering back over the form. Param "data" is dict: { "x": int, "y": int, "self_drag": bool }. "x","y": cursor position in the form's client coords, both -1 when the drag left the form (OLE DragLeave); "self_drag": True when the hovering drag is CudaText's own file drag-out. Event is fired on DragEnter/DragOver of the form's OLE drop target, so it runs inside the OLE drag loop: the handler must be fast and must not show modal UI (unlike "on_drop_files", which is fired after the OLE drag returned). Requires the form's "on_drop_files" event to be set too (both handlers are wired by the same OLE drop-target registration). Project Manager plugin uses it to auto-unfold the hovered folder node during drag&drop.
+
 How to get nice key description in "on_key_down", e.g. "Ctrl+Alt+Esc" from id_ctl=27 and data="ca":
 
 <syntaxhighlight lang="python">
@@ -5557,5 +5559,6 @@ It provides:
 * add: app_proc: PROC_DRAG_FILES
 * add: dlg_proc: control's property "drag_files"
 * add: dlg_proc: form's event "on_drop_files"
+* add: dlg_proc: form's event "on_drag_over"
 
 [[Category:CudaText]]

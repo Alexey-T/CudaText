@@ -330,9 +330,14 @@ class Command:
     # mouse movement (in px) after mouse-down, which starts a drag gesture
     # in the project tree (same value as LCL's default drag threshold)
     TREE_DRAG_THRESHOLD = 5
-    # hovering a FOLDED folder node for this many seconds during an inner
-    # drag&drop (non-Windows mouse tracking) unfolds it, like OS file managers
+    # hovering a FOLDED folder node for this many seconds during a drag&drop
+    # (inner drag&drop, or files dragged in from the OS file manager) unfolds
+    # it, like OS file managers do
     TREE_UNFOLD_HOVER_SEC = 0.7
+    # interval of the timer which runs the unfold-on-hover state machine:
+    # events alone (mouse moves, on_drag_over) are not enough, the cursor is
+    # often held STILL over a folder - exactly the case which must unfold
+    DRAG_HOVER_TIMER_MS = 100
 
     title ="Project" # No _() here, the translation is offered in "translation template.ini".
     menuitems = (
@@ -443,7 +448,17 @@ class Command:
         # _tree_drop_target: item handle currently highlighted as drop target
         # _tree_drag_sel: selection to restore when a drag is cancelled
         # _tree_drag_bounds: (w, h) of the tree control, cached at drag start
-        # _tree_hover_item/_tree_hover_time: for the unfold-on-hover feature
+        # _tree_hover_item/_tree_hover_time: unfold-on-hover state: the node
+        #   currently hovered during a drag&drop, and when the hover started
+        # _drag_hover_kind: None | 'inner' | 'ole': the tracked drag-hover
+        #   session ('inner' = mouse-tracked inner drag&drop; 'ole' = OLE
+        #   drag&drop hovering over the panel: CudaText's own drag-out
+        #   round-trip, or files dragged in from the OS file manager -
+        #   positions come from the form's on_drag_over event)
+        # _drag_hover_pos: last known cursor pos of the drag, in tree client
+        #   coords (None = not known yet, drag is starting)
+        # _drag_hover_self: the tracked OLE drag-hover is CudaText's own
+        #   drag-out (the inner drag&drop round-trip)
         # _tree_suppress_click: a drag gesture happened, don't open the file
         #   on the following OnClick (LCL fires OnClick even after a mouse
         #   drag inside a control, and it fires BEFORE OnMouseUp)
@@ -461,6 +476,9 @@ class Command:
         self._tree_drag_bounds = None
         self._tree_hover_item = None
         self._tree_hover_time = 0.0
+        self._drag_hover_kind = None
+        self._drag_hover_pos = None
+        self._drag_hover_self = False
         self._tree_suppress_click = False
         self._tree_drag_out_item = None
         self._tree_drag_out_path = ''
@@ -495,6 +513,7 @@ class Command:
             'keypreview': True,
             'on_key_down': self.form_key_down,
             'on_drop_files': self.form_drop_files,
+            'on_drag_over': self.form_drag_over,
             } )
 
         n = dlg_proc(self.h_dlg, DLG_CTL_ADD, prop='toolbar')
@@ -613,7 +632,7 @@ class Command:
         # of the previous gesture which never saw its mouse-up)
         self._tree_drag_mode = None
         self._tree_drop_target = None
-        self._tree_hover_item = None
+        self._drag_hover_end()
         self._tree_drag_out_item = None
         self._tree_drag_out_path = ''
         if isinstance(data, dict) and data.get('btn', -1) == 0:
@@ -651,10 +670,9 @@ class Command:
                 # by mouse events while the cursor stays over the tree
                 self._tree_drag_mode = 'inner'
                 self._tree_drop_target = None
-                self._tree_hover_item = None
-                self._tree_hover_time = time.time()
                 self._tree_drag_sel = self.selected
                 self._tree_suppress_click = True
+                self._drag_hover_begin('inner')
                 self._tree_drag_update(x, y)
             return
 
@@ -665,7 +683,7 @@ class Command:
                 self._tree_drag_press = None
                 self._tree_drag_mode = None
                 self._tree_drop_target = None
-                self._tree_hover_item = None
+                self._drag_hover_end()
                 return
             self._tree_drag_update(x, y)
 
@@ -678,7 +696,7 @@ class Command:
         self._tree_drag_mode = None
         self._tree_drop_target = None
         self._tree_drag_bounds = None
-        self._tree_hover_item = None
+        self._drag_hover_end()
         self._tree_drag_sel = None
 
         if mode != 'inner':
@@ -737,6 +755,12 @@ class Command:
         if path and os.path.exists(path):
             dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, index=self.tree_index,
                      prop={'drag_files': path})
+            # While the OLE drag runs, the tree gets no mouse events: the
+            # hover positions for the unfold-on-hover feature come from the
+            # form's on_drag_over event (fired on DragEnter/DragOver of the
+            # panel's OLE drop target - for this own drag-out, and for files
+            # dragged in from the OS file manager alike)
+            self._drag_hover_begin('ole')
 
     def _restore_drag_selection(self):
         """Restore the tree selection saved at drag start (drag cancelled)."""
@@ -757,6 +781,10 @@ class Command:
 
     def _tree_drag_update(self, x, y):
         """Inner drag: highlight the drop target under the cursor."""
+        # feed the unfold-on-hover state machine; its timer checks the
+        # hover timeout, so the cursor may also be held still over a folder
+        self._drag_hover_move(x, y)
+
         item = tree_proc(self.tree, TREE_FIND_BY_COORD, 0, -1,
                          '{},{}'.format(x, y))
         press = self._tree_drag_press
@@ -764,35 +792,135 @@ class Command:
         target = item if item and src_item and \
             self._drop_kind(src_item, item) else None
         if target == self._tree_drop_target:
-            if target:
-                self._hover_unfold(target)
             return
 
         self._tree_drop_target = target
         if target:
             tree_proc(self.tree, TREE_ITEM_SELECT, target)
-            self._tree_hover_item = target
-            self._tree_hover_time = time.time()
         else:
-            self._tree_hover_item = None
             # keep the dragged node selected, like OS file managers do
             sel = src_item if src_item else self._tree_drag_sel
             if sel:
                 tree_proc(self.tree, TREE_ITEM_SELECT, sel)
 
-    def _hover_unfold(self, item):
-        """Unfold a folder node after hovering on it during a drag."""
+    #---------------------------------------------------------------------
+    # unfold-on-hover during a drag&drop (any drag which hovers the tree:
+    # the mouse-tracked inner drag&drop, the Windows OLE round-trip of our
+    # own drag-out, and files dragged in from the OS file manager)
+
+    def _drag_hover_begin(self, kind):
+        """Begin tracking a drag-hover session. kind: 'inner' (the
+        mouse-tracked inner drag&drop) or 'ole' (an OLE drag&drop hovering
+        over the panel; positions come from the form's on_drag_over event).
+        Starts the timer which runs the hover timeout checks: events alone
+        never fire while the cursor is held still over a folder."""
+        self._drag_hover_kind = kind
+        self._drag_hover_pos = None
+        self._drag_hover_self = False
+        self._tree_hover_item = None
+        self._tree_hover_time = time.time()
+        timer_proc(TIMER_START, self._drag_hover_tick,
+                   self.DRAG_HOVER_TIMER_MS, tag='projman_drag_hover')
+
+    def _drag_hover_end(self):
+        """End the tracked drag-hover session (drag ended, was dropped,
+        cancelled or left the panel)."""
+        if self._drag_hover_kind is None:
+            return
+        self._drag_hover_kind = None
+        self._drag_hover_pos = None
+        self._drag_hover_self = False
+        self._tree_hover_item = None
+        self._tree_hover_time = 0.0
+        timer_proc(TIMER_STOP, self._drag_hover_tick, 0,
+                   tag='projman_drag_hover')
+
+    def _drag_hover_move(self, x, y):
+        """The tracked drag is at (x, y), in tree client coords (from
+        tree_mouse_move, or from the form's on_drag_over event)."""
+        if self._drag_hover_kind is None:
+            # positions without a session we started: an OLE drag&drop from
+            # the OS file manager hovering over the panel - begin one
+            self._drag_hover_begin('ole')
+        self._drag_hover_pos = (x, y)
+
+    def _drag_hover_tick(self, tag='', info=''):
+        """Timer tick of a drag-hover session: runs the unfold-on-hover
+        state machine, and for the Windows inner drag&drop (OLE round-trip
+        of our own drag-out) highlights the drop target under the cursor,
+        like the mouse-tracked inner drag&drop does on other OS-es."""
+        kind = self._drag_hover_kind
+        if kind is None:
+            return
+        if not self.tree:
+            self._drag_hover_end()
+            return
+
+        if kind == 'ole':
+            # OLE drags deliver no mouse events, so a missed leave/drop
+            # notification cannot be detected by events: no pressed mouse
+            # button anymore = the drag is over (belt and braces, DragLeave
+            # and on_drop_files normally end the session; this also ends
+            # sessions of drags which never hovered the panel at all)
+            state = app_proc(PROC_GET_KEYSTATE, '')
+            if 'L' not in state and 'R' not in state:
+                self._drag_hover_end()
+                return
+
+        pos = self._drag_hover_pos
+        if pos is None:
+            return # drag not started yet (the OLE drag is still queued)
+
+        now = time.time()
+        item = tree_proc(self.tree, TREE_FIND_BY_COORD, 0, -1,
+                         '{},{}'.format(pos[0], pos[1]))
+        item = item if self._hover_item_allowed(item) else None
+
+        # Windows inner drag&drop: highlight the drop target, like
+        # _tree_drag_update does for the mouse-tracked inner drag&drop
+        if kind == 'ole' and self._drag_hover_self and \
+          self._tree_drag_out_item:
+            sel = item if item else self._tree_drag_out_item
+            if tree_proc(self.tree, TREE_ITEM_GET_PROPS, sel) and \
+              tree_proc(self.tree, TREE_ITEM_GET_SELECTED) != sel:
+                tree_proc(self.tree, TREE_ITEM_SELECT, sel)
+
         if item != self._tree_hover_item:
             self._tree_hover_item = item
-            self._tree_hover_time = time.time()
+            self._tree_hover_time = now
             return
-        if time.time() - self._tree_hover_time < self.TREE_UNFOLD_HOVER_SEC:
+        if item is None:
             return
+        if now - self._tree_hover_time < self.TREE_UNFOLD_HOVER_SEC:
+            return
+
         props = tree_proc(self.tree, TREE_ITEM_GET_PROPS, item)
         if props and props.get('folded') and props.get('sub_items'):
             tree_proc(self.tree, TREE_ITEM_UNFOLD, item)
-            # don't unfold it again while still hovering
-            self._tree_hover_time = time.time() + 3600.0
+            # don't unfold it again while still hovering it
+            self._tree_hover_time = now + 3600.0
+
+    def _hover_item_allowed(self, item):
+        """Is the hovered node a candidate for the unfold-on-hover?
+        - inner drag&drop (mouse-tracked, or the OLE round-trip of our own
+          drag-out): only nodes which are a valid drop target for the
+          dragged node (same rule as the drop-target highlighting);
+        - files dragged in from the OS file manager: any node (such a drop
+          adds them to the project; the unfold is a navigation preview,
+          like in OS file managers)."""
+        if not item:
+            return False
+        src_item = None
+        if self._drag_hover_kind == 'inner':
+            press = self._tree_drag_press
+            src_item = press[2] if press else None
+        elif self._drag_hover_self:
+            src_item = self._tree_drag_out_item
+        if src_item is None:
+            return True
+        if not tree_proc(self.tree, TREE_ITEM_GET_PROPS, src_item):
+            return True # stale handle: the dragged node left the tree
+        return bool(self._drop_kind(src_item, item))
 
     def _drop_kind(self, src_item, tgt_item):
         """What does dropping the node src_item onto the node tgt_item mean?
@@ -1004,6 +1132,48 @@ class Command:
     #---------------------------------------------------------------------
     # drop of files onto the panel
 
+    def form_drag_over(self, id_dlg, id_ctl, data='', info=''):
+        """A file drag&drop hovers over the Project panel (Windows, OLE
+        drag&drop): either files dragged in from the OS file manager, or the
+        plugin's own drag-out (the inner drag&drop round-trip) hovering back
+        over the panel. Drives the unfold-on-hover feature (see
+        _drag_hover_tick): the position is only stored here - this handler
+        runs inside the OLE drag loop (IDropTarget::DragEnter/DragOver/
+        DragLeave), so it must be fast and must not show any UI.
+
+        `data` is a dict: { 'x': int, 'y': int, 'self_drag': bool }
+        ('x'/'y' are the cursor position in the panel form's client coords,
+        both -1 when the drag left the panel; 'self_drag' is True for
+        CudaText's own file drag-out)."""
+        if not self.tree:
+            return
+        if not isinstance(data, dict):
+            return
+        try:
+            x = int(data.get('x', -1))
+            y = int(data.get('y', -1))
+        except (TypeError, ValueError):
+            return
+        self._drag_hover_self = bool(data.get('self_drag', False))
+
+        if x < 0 or y < 0:
+            # the drag left the panel form (OLE DragLeave)
+            self._drag_hover_end()
+            return
+        pos = self._form_to_tree_coord(x, y)
+        if pos is None:
+            return
+        self._drag_hover_move(pos[0], pos[1])
+
+    def _form_to_tree_coord(self, x, y):
+        """Panel form client coords -> tree control client coords (live
+        position of the tree control inside the panel form), or None when
+        the tree control cannot be found."""
+        props = dlg_proc(self.h_dlg, DLG_CTL_PROP_GET, name='tree')
+        if not props:
+            return None
+        return (x - int(props.get('x', 0)), y - int(props.get('y', 0)))
+
     def form_drop_files(self, id_dlg, id_ctl, data='', info=''):
         """Files/folders dropped onto the Project panel.
 
@@ -1026,6 +1196,8 @@ class Command:
         position is unknown, eg drops on non-Windows OS-es)."""
         if not self.tree:
             return
+        # any drop onto the panel ends the tracked drag-hover session
+        self._drag_hover_end()
 
         if isinstance(data, dict):
             files_str = str(data.get('files', ''))
@@ -1109,15 +1281,13 @@ class Command:
 
         # panel form client coords -> tree client coords (live position
         # of the tree control inside the panel form)
-        props = dlg_proc(self.h_dlg, DLG_CTL_PROP_GET, name='tree')
-        if not props:
+        pos = self._form_to_tree_coord(x, y)
+        if pos is None:
             msg_status(_('Cannot find the tree control'))
             return
-        tx = x - int(props.get('x', 0))
-        ty = y - int(props.get('y', 0))
 
         tgt_item = tree_proc(self.tree, TREE_FIND_BY_COORD, 0, -1,
-                             '{},{}'.format(tx, ty))
+                             '{},{}'.format(pos[0], pos[1]))
         if not tgt_item:
             msg_status(_('Drop the node onto another node in the project tree'))
             return

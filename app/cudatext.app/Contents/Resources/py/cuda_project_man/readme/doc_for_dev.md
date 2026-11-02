@@ -564,13 +564,35 @@ Two LCL details the code compensates for (non-Windows inner drag):
   BEFORE OnMouseUp — `_tree_suppress_click` (set when the gesture
   starts, cleared on the click or on the next mouse-down) prevents the
   dropped-on node from being opened by that click.
-- Hovering a folded folder for `TREE_UNFOLD_HOVER_SEC` unfolds it
-  (`_hover_unfold`); the unfold triggers `tree_on_unfold`, which
-  rebuilds only that folder's children, so the dragged item's handle
-  (which lives elsewhere and must be visible to be draggable) stays
-  valid.
+
+### d) Unfold-on-hover during any drag (`TREE_UNFOLD_HOVER_SEC`)
+
+Hovering a folded folder for `TREE_UNFOLD_HOVER_SEC` seconds during a
+drag&drop unfolds it (`_drag_hover_tick`); the unfold triggers
+`tree_on_unfold`, which rebuilds only that folder's children, so the
+dragged item's handle (which lives elsewhere and must be visible to be
+draggable) stays valid. Works for all drags which hover the tree:
+
+- non-Windows inner drag&drop: positions from `tree_mouse_move`;
+- Windows inner drag&drop (the OLE round-trip of the drag-out) and files
+  dragged in from the OS file manager: positions from the form's
+  `on_drag_over` event (dialog API, fired by the OLE drop target on
+  DragEnter/DragOver, `(-1,-1)` on DragLeave).
+
+A timer (`timer_proc`, `DRAG_HOVER_TIMER_MS`) runs the hover state
+machine, NOT the events alone: the cursor is usually held STILL over
+the folder, and a still cursor fires no mouse-move/drag-over which
+itself could time anything. The session state lives in
+`_drag_hover_kind`/`_drag_hover_pos`/`_drag_hover_self`; it is ended by
+mouse-up (inner), `on_drag_over` with negative coords / `on_drop_files`
+(OLE), and as a safety net by the tick itself when no mouse button is
+held anymore (`PROC_GET_KEYSTATE`). For inner drags only nodes which
+are valid drop targets (`_drop_kind`) unfold — the same nodes the
+drop-target highlight accepts; for file-manager drags any node unfolds
+(navigation preview, like in OS file managers).
 
 ### API additions this plugin depends on (app 1.239.0)
 
 - `dlg_proc` form event `on_drop_files` (dict data: files/x/y/self_drag)
+- `dlg_proc` form event `on_drag_over` (dict data: x/y/self_drag)
 - `tree_proc` action `TREE_ITEM_FIND_BY_POS`
