@@ -441,6 +441,65 @@ Exit
 
 
 ------------------------------------------------------------------------------
+DRAG AND DROP
+------------------------------------------------------------------------------
+
+The project tree supports drag&drop in both directions. On Windows the
+drag to other applications uses the CF_HDROP format, so files can be
+dropped into Explorer, archivers, mail clients, browser upload dialogs
+etc.
+
+Dragging a tree item to other applications
+  Press the left mouse button on a tree item and move the mouse: the
+  dragged file/folder follows the cursor and can be dropped into any
+  application which accepts files. Esc cancels the drag. (On Windows the
+  drag starts right away; dropping the item back onto the Project panel
+  is the inner drag&drop, see below. On other OS-es the drag-out to other
+  apps is not supported and the gesture is always the inner drag&drop
+  while the cursor stays over the tree.)
+
+Dropping files from the file manager onto the panel
+  Files/folders dropped from the OS file manager onto the Project panel
+  are added to the current project as root nodes (they are NOT opened in
+  the editor — that is what happens with drops onto the rest of the
+  CudaText window). With no project open they are collected in the
+  untitled project, which is saved to disk when the project is saved.
+  Paths which cannot be added (do not exist on disk, or are hidden) are
+  not added silently: the statusbar message shows every received path
+  with the reason it was rejected.
+
+Drag&drop inside the tree
+  Drag a node and drop it onto another node of the tree (on Windows: drag
+  it and drop it back onto the panel's tree). Every drop asks for
+  confirmation:
+
+  - Dragging a NODE of the project (a top-level item) only changes its
+    order, it is never moved inside another node. A confirmation dialog
+    "Change the order of the node '...'?" is shown; dropping onto another
+    node puts the dragged node at that node's place, dropping onto the
+    project header (the top-most row) moves it to the end of the list.
+    When the option "Sorting order" is not "none", a dialog offers to
+    disable sorting first (with sorting on, the manual order would be
+    overwritten by sorting on the next refresh; cancelling the dialog
+    cancels the drag&drop).
+  - Dragging a FILE/FOLDER from inside a node to another FOLDER node
+    moves it on disk into that folder, exactly like the plugin's
+    Cut+Paste. A confirmation dialog "Move '...' from folder '...' to
+    folder '...'?" is shown; the tree is refreshed and the project is
+    updated when the moved path was the project's main file. Refused:
+    overwriting an existing path, moving a folder into itself or into its
+    own subfolder, moving into the folder it already is in.
+  - Other drops are refused with an explaining statusbar message: a
+    project node cannot be moved inside another node, a file/folder
+    cannot be dropped onto the project header or onto a file node.
+
+  On non-Windows OS-es (drag&drop tracked by mouse events over the tree):
+  the node which would receive the drop is highlighted, a folded folder
+  unfolds after the cursor hovers on it for a moment, and moving the
+  cursor out of the tree cancels the drag.
+
+
+------------------------------------------------------------------------------
 PROJECT FILE FORMAT
 ------------------------------------------------------------------------------
 

@@ -208,7 +208,7 @@ implementation
 
 {$ifdef windows}
 uses
-  Windows, proc_windows_dragfiles, proc_ole_droptarget;
+  Windows, proc_windows_dragfiles, proc_windows_droptarget;
 
 type
   // QueueAsyncCall requires a method (of object), not a free procedure.

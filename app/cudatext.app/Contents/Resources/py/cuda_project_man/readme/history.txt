@@ -1,3 +1,103 @@
+2026.11.02 (@badrelmers)
+- fixed the problem found while testing the previous fix: paths in the
+  drop event were truncated to 15 characters, which broke everything:
+  1. files/folders dropped from the OS file manager were rejected with
+     "Cannot add dropped paths to the project: ... (not found)" although
+     they exist
+  2. the inner drag&drop was rejected with "inner drop ignored, dropped
+     paths do not match the dragged node"
+  Reason: the app-internal event type (TAppVariantItem in
+  proc_appvariant.pas) stored dict values of plugin events in a
+  ShortString limited to 15 chars, so the "files" value of the
+  on_drop_files event was cut. Core fix: the value is a full-length
+  string now; no plugin change was needed
+
+2026.11.02 (@badrelmers)
+- fixed the 2 problems found while testing the previous fix:
+  1. drops from the OS file manager onto the panel showed "Cannot add
+     dropped paths to the project" and nothing was added. The drop is
+     loud and diagnostic now: every rejected path is shown with its
+     reason (not found / hidden) in the statusbar message, quoted paths
+     are normalized, and a drop event without files is reported instead
+     of silently ignored
+  2. the inner drag&drop did nothing at all (no message, no dialogs).
+     The self-drop event was fired from inside IDropTarget::Drop, still
+     inside the app's own DoDragDrop (the plugin's modal confirmation
+     dialogs in that context are unsafe), and the delivery depended on
+     the OLE hit-test resolving the release position to the panel's
+     form. The inner drag&drop no longer depends on it:
+     - the self-drop event is now fired AFTER the OLE drag returned
+       (recorded during the drop, fired by the drag-out code in a clean
+       context), with the exact drop position
+     - NEW FALLBACK: when the drop was not accepted by any drop target
+       (eg no drop target resolved the release position) and the button
+       was released over the panel, the release position is reported as
+       the self-drop instead, so the inner drag&drop cannot get lost
+     - only the form which started the drag records the drop-back; a
+       drop of that drag on another form is ignored
+- all failure paths of the inner drag&drop are loud now (statusbar
+  messages: "The dragged node is not in the tree anymore", "Drop
+  position unknown", "Cannot find the tree control", "Drop the node
+  onto another node in the project tree"); an inner drop whose paths
+  do not match the dragged node is reported too - a broken drop can
+  never be silent again
+
+2026.11.02 (@badrelmers)
+- reworked the drag&drop of the previous fix, after testing:
+  - RESTORED the drag-out of tree items to other applications (regression
+    of the previous fix: the drag-out was made to start only when the
+    cursor left the tree, but the tree does not get mouse events outside
+    its bounds, so the drag-out never started). On Windows the drag-out
+    again starts right on the mouse drag, like it always worked
+  - an inner drag&drop (drop back onto the panel's tree) is now detected
+    as the round-trip of that drag-out: CudaText reports the drop with
+    the new flag self_drag and the drop position, the plugin hit-tests
+    the tree at the drop position. On non-Windows OS-es (no OLE drag-out)
+    the inner drag&drop is tracked by mouse events over the tree, as
+    before
+  - new rules of the inner drag&drop, every drop asks for confirmation:
+    - dragging a NODE of the project only changes its order (dialog
+      "Change the order of the node '...'?"); a node is never moved
+      inside another node; dropping onto the project header moves the
+      node to the end of the list
+    - dragging a FILE/FOLDER from inside a node onto another FOLDER node
+      moves it on disk (dialog "Move '...' from folder '...' to folder
+      '...'?"), with the same safety checks as before (no overwriting,
+      no move into itself / its own subfolder / the folder it is in)
+    - other drops are refused with an explaining statusbar message
+  - when "Sorting order" is not "none" and the user does an inner
+    drag&drop which changes the order, a dialog explains that the manual
+    order would be overwritten by sorting and offers to disable sorting
+    (buttons "Disable sorting" / "Cancel"; cancelling cancels the
+    drag&drop)
+  - REMOVED the drag&drop of selected text from the editor onto the
+    tree (dialog API control events "on_drag_over"/"on_drag_drop" and
+    the plugin's handlers): it was not wanted, drag&drop of text works
+    again exactly as it did before
+
+2026.11.01 (@badrelmers)
+- fixed the 3 problems found while testing PR #6571 (drag files out of
+  CudaText, merged as 1.238.1):
+  1. dropping a file from the OS file manager onto the Project panel opened
+     it in the editor; it must be added to the project. The panel now uses
+     the new dialog API event "on_drop_files" (Windows: the panel's form is
+     registered as an OLE drop target, which takes priority over the main
+     window's target, so the plugin gets the files dropped on the panel;
+     other OS-es use the LCL drop-files support). Dropped files/folders are
+     added as root nodes of the current project; drops anywhere else in
+     CudaText keep the old behavior (open in the editor / "open folder")
+  2. drag&drop inside the project tree did not work: ANY mouse drag started
+     the drag-out to other apps (the "drag_files" property was set on the
+     first 5-px move), so an inner drop was impossible. An inner drag&drop
+     was implemented (see the next entry for the final version)
+  3. drag&drop from the CudaText editor onto the project tree did not work
+     (implemented via new dialog API events, removed again in the next
+     entry: it was about dragging a TAB, not text, and tab dragging lives
+     in the external ATTabs component, out of reach of the plugin)
+- app history gets the matching API changelog entries (dlg_proc form event
+  "on_drop_files", tree_proc TREE_ITEM_FIND_BY_POS; the control events
+  "on_drag_over"/"on_drag_drop" were removed again)
+
 2026.11.01 (@badrelmers)
 - fixed regression: dragging a folder from Explorer onto CudaText crashed
   with "AttributeError: 'Command' object has no attribute 'open_dir'".
