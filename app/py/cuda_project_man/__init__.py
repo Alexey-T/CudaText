@@ -45,6 +45,8 @@ sort_order = 'ext'
 # "version" key are the old format (version 1) and are upgraded on open.
 PROJECT_FORMAT_VERSION = 2
 
+DRAG_HOVER_TIMER_CALLBACK = 'module=cuda_project_man;cmd=_drag_hover_tick;'
+
 
 def load_project_file(path):
     """Load and validate a .cuda-proj file.
@@ -819,7 +821,7 @@ class Command:
         self._drag_hover_self = False
         self._tree_hover_item = None
         self._tree_hover_time = time.time()
-        timer_proc(TIMER_START, self._drag_hover_tick,
+        timer_proc(TIMER_START, DRAG_HOVER_TIMER_CALLBACK,
                    self.DRAG_HOVER_TIMER_MS, tag='projman_drag_hover')
 
     def _drag_hover_end(self):
@@ -832,7 +834,7 @@ class Command:
         self._drag_hover_self = False
         self._tree_hover_item = None
         self._tree_hover_time = 0.0
-        timer_proc(TIMER_STOP, self._drag_hover_tick, 0,
+        timer_proc(TIMER_STOP, DRAG_HOVER_TIMER_CALLBACK, 0,
                    tag='projman_drag_hover')
 
     def _drag_hover_move(self, x, y):
@@ -944,7 +946,11 @@ class Command:
             return None
 
         if src_lvl == 1:
-            # a project's root node: reorder only, never inside another node
+            # a project's root node: reorder only, never inside another node;
+            # with a single root node the order cannot change at all, so no
+            # drag&drop of it (no confirmation, only a statusbar message)
+            if len(self.project.get('nodes', [])) < 2:
+                return None
             if dst_lvl == 1:
                 if self._same_path(dst_path, src_path):
                     return None
@@ -1073,7 +1079,10 @@ class Command:
         src_path = src.get('data', '')
         dst_path = dst.get('data', '')
 
-        if src_lvl == 1 and dst_lvl >= 2:
+        if src_lvl == 1 and len(self.project.get('nodes', [])) < 2:
+            # a single root node has no order to change ,so no drag&drop for it, no confirmation dialog
+            msg_status(_("Cannot drag&drop single root node"))
+        elif src_lvl == 1 and dst_lvl >= 2:
             msg_status(_("Project nodes can only change their order, they cannot be moved inside other nodes"))
         elif src_lvl >= 2 and dst_lvl == 0:
             msg_status(_("Cannot drop onto the project header: drop onto a folder node to move the file/folder"))
