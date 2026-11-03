@@ -248,6 +248,29 @@ def collapse_filename(fn):
         fn = fn.replace(_homedir, '~', 1)
     return fn
 
+def resolve_session_pointer(ptr):
+    """Expand the file part of a session pointer the same way the app does
+    (AppFile_Session): a pointer whose file part carries no directory names
+    a file in the settings dir. The app stores such pointers with the
+    settings dir stripped (AppSessionName_ForHistoryFile writes this into
+    history.json), so history.json can contain e.g. 'sw.cuda-proj|/sessions/sw'
+    for the project '<settings>/sw.cuda-proj'. Comparing that raw value with
+    absolute project paths never matches and made on_start detach the
+    project on every restart (issue #6591): resolve the pointer first."""
+    if '|' not in ptr:
+        return ptr
+    fn, sep, rest = ptr.partition('|')
+    if fn and not os.path.dirname(fn):
+        fn = os.path.join(app_path(APP_DIR_SETTINGS), fn)
+    return fn + sep + rest
+
+def same_path(a, b):
+    """Filename comparison tolerant to separators and (on Windows only)
+    letter case, mirroring the app's SameFileName."""
+    if not a or not b:
+        return False
+    return os.path.normcase(os.path.normpath(a)) == os.path.normcase(os.path.normpath(b))
+
 def nice_filename(path):
     return os.path.basename(path) + ' ('+ collapse_filename(os.path.dirname(path)) + ')'
 
@@ -2156,10 +2179,14 @@ class Command:
         fn_proj = str(self.project_file_path) if self.project_file_path else ''
         if not fn_proj or '|/sessions/' not in ptr:
             return
-        if not ptr.startswith(fn_proj + '|/sessions/'):
-            return
-        name = ptr.split('|/sessions/', 1)[1]
+        # tolerate pointers whose file part carries no directory (history.json
+        # stores settings-dir files that way) and compare paths like
+        # SameFileName does, instead of raw startswith (issue #6591)
+        ptr = resolve_session_pointer(ptr)
+        ptr_file, _, name = ptr.partition('|/sessions/')
         if not name:
+            return
+        if not same_path(ptr_file, fn_proj):
             return
         try:
             with open(fn_proj, 'r', encoding='utf8') as f:
@@ -2233,6 +2260,14 @@ class Command:
             path = dlg_file(True, "", "", PROJECT_DIALOG_FILTER)
         if not path:
             return
+
+        # Make the path absolute (callers like on_open_pre or the command
+        # line can pass a relative one). project_file_path, the recent list,
+        # PROC_SET_PROJECT and every session pointer built below must be
+        # absolute: the app's session-pointer comparisons
+        # (session_cur_name, _remember_last_session, on_start vs history.json)
+        # fail on relative paths (issue #6591).
+        path = os.path.abspath(path)
 
         if not Path(path).exists():
             msg_status(_("Project file not found: ") + collapse_filename(str(path)))
@@ -2961,8 +2996,16 @@ class Command:
                 pass
 
             if sess_ptr and '|' in sess_ptr:
+                # history.json stores the pointer of a session file located
+                # in the settings dir WITHOUT its directory part (the app's
+                # AppSessionName_ForHistoryFile strips the settings dir), so
+                # 'sw.cuda-proj|/sessions/sw' means the project
+                # '<settings>/sw.cuda-proj'. Resolve it before comparing,
+                # or the comparison below never matches such projects and
+                # the project is detached on every restart (issue #6591).
+                sess_ptr = resolve_session_pointer(sess_ptr)
                 proj_in_hist = sess_ptr.split('|', 1)[0]
-                if os.path.normpath(proj_in_hist) == os.path.normpath(items[0]):
+                if same_path(proj_in_hist, items[0]):
                     # CudaText is loading this project's session — let it
                     # proceed, just load the project metadata (no session
                     # save/close/load, which would prompt for modified tabs).
@@ -3525,10 +3568,10 @@ class Command:
             return ''
 
         s = ''
-        sess = app_path(APP_FILE_SESSION)
+        sess = resolve_session_pointer(app_path(APP_FILE_SESSION))
         if '|' in sess:
             l = sess.split('|')
-            if l[0] == fn_proj:
+            if same_path(l[0], fn_proj):
                 s = l[1]
                 k = '/sessions/'
                 if s.startswith(k):
