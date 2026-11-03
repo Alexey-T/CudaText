@@ -7,7 +7,7 @@
 
 * change: plugin Project Manager is mostly rewritten, see the huge changelog in the file "py/cuda_project_man/readme/history.txt" (by @badrelmers)
 + add: Windows: support drag-and-drop from Project Manager to external apps: Explorer, archivers, mail clients etc (patch by @lamugu)
-+ add: optimized the speed of code-tree filling on long/big code-trees, up to 20x faster (by @slicke using AI)
++ add: optimized code-tree filling on long/big code-trees, up to 20x faster (by @slicke and @badrelmers using AI)
 
 1.238.0 (2026/10)
 
