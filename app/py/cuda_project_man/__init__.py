@@ -514,6 +514,12 @@ class Command:
         self._tree_press_folded = None
         self._tree_drag_out_item = None
         self._tree_drag_out_path = ''
+        # _session_names_cache/_session_names_key: (project-file stat,
+        #   session-name list) of the last file-read fallback in
+        #   session_get_names(); the fast path reads the in-memory mirror
+        #   and never touches the file — see the docstring there
+        self._session_names_cache = []
+        self._session_names_key = None
 
         settings_dir = Path(app_path(APP_DIR_SETTINGS))
         self.options_filename = settings_dir / "cuda_project_man.json"
@@ -3664,18 +3670,58 @@ class Command:
         return s
 
     def session_get_names(self):
+        """Names of the project's sessions, for the sessions menus.
+
+        Fast path: the in-memory mirror self.project['sessions']. Every
+        flow which can change the set of session names updates the mirror:
+        action_open_project loads it from the project file,
+        _sync_sessions_from_disk refreshes it after every plugin
+        PROC_SAVE_SESSION (session_save, session_save_as, session_load,
+        _save_session_before_close_tabs), session_delete pops the name
+        from it, action_import_external_session stores into it.
+
+        The old code json.load()-ed the ENTIRE project file here on every
+        call. A .cuda-proj file embeds the full session data — the complete
+        text of every unsaved and untitled tab, and of the secondary
+        editor of split tabs ('pair') — so with a few big unsaved tabs open
+        (cuda_differ comparing 3MB files, split tabs with big files) the
+        file grows to tens of MB, and ONE right-click in the project tree
+        (context-menu rebuild -> fill_sessions_menu -> here) froze the
+        panel for 1-2 seconds at 100% of one core: the whole file was
+        parsed just to read the session NAMES. The app's ~40 s session
+        autosave rewrites the file (new mtime) but never adds/removes a
+        session name, so the mirror cannot go stale for these menus.
+
+        Fallback (mirror empty but a project file exists — a file written
+        by an external tool or an older build): read the names from the
+        file, cached on (path, mtime, size) so the big parse runs only
+        when the file really changed, not on every autosave tick."""
+        sess = self.project.get('sessions')
+        if isinstance(sess, dict) and sess:
+            return list(sess.keys())
 
         res = []
         fn = str(self.project_file_path) if self.project_file_path else ''
-        if fn and os.path.isfile(fn):
-            try:
-                with open(fn, 'r', encoding='utf8') as f:
-                    data = json.load(f)
-                    k = data.get('sessions')
-                    if type(k)==dict:
-                        res = list(k.keys())
-            except (OSError, ValueError):
-                pass
+        if not (fn and os.path.isfile(fn)):
+            return res
+        try:
+            st = os.stat(fn)
+            key = (fn, st.st_mtime_ns, st.st_size)
+        except OSError:
+            key = None
+        if key is not None and key == self._session_names_key:
+            return list(self._session_names_cache)
+        try:
+            with open(fn, 'r', encoding='utf8') as f:
+                data = json.load(f)
+                k = data.get('sessions')
+                if type(k)==dict:
+                    res = list(k.keys())
+        except (OSError, ValueError):
+            pass
+        if key is not None:
+            self._session_names_key = key
+            self._session_names_cache = list(res)
         return res
 
     def session_delete(self):
