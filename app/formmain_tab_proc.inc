@@ -383,7 +383,8 @@ begin
     if DoPyEvent(Frame.EdCurrent, TAppPyEvent.OnCloseBefore, []).Val = TAppPyEventValue.False then
     begin
       ACanClose:= false;
-      if bStoppedParsing then Frame.ParsingRestart;
+      if bStoppedParsing then
+        Frame.ParsingRestart(false);
       Exit
     end;
   end;
@@ -392,7 +393,8 @@ begin
     if FrameCount=1 then
     begin
       ACanClose:= false;
-      if bStoppedParsing then Frame.ParsingRestart;
+      if bStoppedParsing then
+        Frame.ParsingRestart(false);
       Exit
     end;
 
@@ -443,7 +445,7 @@ begin
 
   if not ACanClose then
     if bStoppedParsing then
-      Frame.ParsingRestart;
+      Frame.ParsingRestart(false);
 
   if ACanClose then
   begin

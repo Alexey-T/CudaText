@@ -5015,7 +5015,7 @@ begin
     begin
       F.ApplyTheme;
       //update coloring of Markdown fenced-code-blocks, on applying syntax theme
-      F.LexerReparse;
+      F.ParsingRestart(true);
     end;
   end;
 end;

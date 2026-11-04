@@ -453,7 +453,6 @@ type
     procedure ApplyTheme;
     function FrameKind: TAppFrameKind;
     procedure SetFocus; reintroduce;
-    procedure LexerReparse;
     function PictureSizes: TPoint;
     property PictureScale: integer read GetPictureScale write SetPictureScale;
     function ViewerFind(AFinder: TATEditorFinder; AShowAll, AFindNextOrPrev, AFindPrev: boolean): boolean;
@@ -483,8 +482,8 @@ type
     function GetTabGroups: TATGroups;
     function IsTreeBusy: boolean;
     function IsParsingBusy: boolean;
-    procedure ParsingRestart;
     procedure ParsingStop;
+    procedure ParsingRestart(AWait: boolean);
     //file
     procedure DoFileClose;
     procedure DoFileOpen(const AFileName, AFileName2: string;
@@ -2630,22 +2629,6 @@ begin
     An:= Lexer[EdSecond];
     if Assigned(An) then
       DoApplyLexerStylesMap(An, AnIncorrect);
-  end;
-end;
-
-procedure TEditorFrame.LexerReparse;
-var
-  Ada: TATAdapterEControl;
-begin
-  Ada:= Adapter[EdFirst];
-  if Assigned(Ada) and Assigned(Ada.AnClient) then
-    Ada.ParseFromLine(0, true);
-
-  if not EditorsLinked then
-  begin
-    Ada:= Adapter[EdSecond];
-    if Assigned(Ada) and Assigned(Ada.AnClient) then
-      Ada.ParseFromLine(0, true);
   end;
 end;
 
@@ -5598,19 +5581,19 @@ begin
   end;
 end;
 
-procedure TEditorFrame.ParsingRestart;
+procedure TEditorFrame.ParsingRestart(AWait: boolean);
 var
   Ada: TATAdapterEControl;
 begin
   Ada:= Adapter[EdFirst];
   if Assigned(Ada) and Assigned(Ada.AnClient) then
-    Ada.ParseFromLine(0, false{AWait});
+    Ada.ParseFromLine(0, AWait);
 
   if not EditorsLinked then
   begin
     Ada:= Adapter[EdSecond];
     if Assigned(Ada) and Assigned(Ada.AnClient) then
-      Ada.ParseFromLine(0, false{AWait});
+      Ada.ParseFromLine(0, AWait);
   end;
 end;
 
