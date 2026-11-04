@@ -148,10 +148,16 @@ def write_json_file(path, data):
     the file is replaced completely, or the previous complete file stays
     intact and the error propagates to the caller (callers report OSError
     to the user)."""
+    _write_text_file_atomic(path, json.dumps(data, indent=2))
+
+def _write_text_file_atomic(path, text):
+    """Write already-serialized `text` to `path` atomically (see
+    write_json_file). Shared by the JSON writer and the surgical single-key
+    editor of _set_last_session_in_file."""
     tmp = str(path) + '.tmp' + str(os.getpid())
     try:
         with open(tmp, 'w', encoding='utf8') as fout:
-            json.dump(data, fout, indent=2)
+            fout.write(text)
         os.replace(tmp, str(path))
     finally:
         # the replace didn't happen -> remove the temp file
@@ -160,6 +166,36 @@ def write_json_file(path, data):
                 os.unlink(tmp)
             except OSError:
                 pass
+
+# Helpers for the surgical single-key editor of _set_last_session_in_file:
+# locating a JSON key in the raw text of a .cuda-proj without parsing it.
+def _quote_is_structural(text, pos):
+    """True when the '"' at text[pos] is a structural JSON quote (opening/
+    closing a key or value), not an escaped one inside a string value: an
+    escaped quote is preceded by an odd number of backslashes."""
+    i = pos - 1
+    bs = 0
+    while i >= 0 and text[i] == '\\':
+        bs += 1
+        i -= 1
+    return bs % 2 == 0
+
+def _find_structural_keys(text, key):
+    """Positions of the (quoted) JSON key `key` (e.g. '"last_session"')
+    in `text`, counting only occurrences whose opening quote is structural.
+    Uses str.find (C-speed scanning): a regex finditer over the tens of MB
+    of a .cuda-proj with embedded session texts costs hundreds of ms, this
+    costs one linear memmem pass. A string VALUE which happens to equal the
+    key text can still show up here (its quotes are structural too) — the
+    caller tolerates that by requiring exactly one hit and verifying the
+    colon, and falls back to the safe full rewrite otherwise."""
+    res = []
+    pos = text.find(key)
+    while pos != -1:
+        if _quote_is_structural(text, pos):
+            res.append(pos)
+        pos = text.find(key, pos + 1)
+    return res
 
 def _file_open(fn, options=''):
     gr = ed.get_prop(PROP_INDEX_GROUP)
@@ -247,6 +283,29 @@ def collapse_filename(fn):
     if (fn+'/').startswith(_homedir+'/'):
         fn = fn.replace(_homedir, '~', 1)
     return fn
+
+def resolve_session_pointer(ptr):
+    """Expand the file part of a session pointer the same way the app does
+    (AppFile_Session): a pointer whose file part carries no directory names
+    a file in the settings dir. The app stores such pointers with the
+    settings dir stripped (AppSessionName_ForHistoryFile writes this into
+    history.json), so history.json can contain e.g. 'sw.cuda-proj|/sessions/sw'
+    for the project '<settings>/sw.cuda-proj'. Comparing that raw value with
+    absolute project paths never matches and made on_start detach the
+    project on every restart (issue #6591): resolve the pointer first."""
+    if '|' not in ptr:
+        return ptr
+    fn, sep, rest = ptr.partition('|')
+    if fn and not os.path.dirname(fn):
+        fn = os.path.join(app_path(APP_DIR_SETTINGS), fn)
+    return fn + sep + rest
+
+def same_path(a, b):
+    """Filename comparison tolerant to separators and (on Windows only)
+    letter case, mirroring the app's SameFileName."""
+    if not a or not b:
+        return False
+    return os.path.normcase(os.path.normpath(a)) == os.path.normcase(os.path.normpath(b))
 
 def nice_filename(path):
     return os.path.basename(path) + ' ('+ collapse_filename(os.path.dirname(path)) + ')'
@@ -464,6 +523,12 @@ class Command:
         # _tree_suppress_click: a drag gesture happened, don't open the file
         #   on the following OnClick (LCL fires OnClick even after a mouse
         #   drag inside a control, and it fires BEFORE OnMouseUp)
+        # _tree_press_folded: (item_handle, folded) snapshot of the node hit
+        #   by the current left-button press, taken at mouse-down; used by
+        #   tree_on_click to detect a click on a node's fold +/- sign: such
+        #   a click toggles the node right on mouse-down (LCL does it,
+        #   without changing the selection), so the folded state changes
+        #   between the press and the OnClick which follows
         # _tree_drag_out_item/_tree_drag_out_path: the node dragged out of the
         #   tree with CudaText's OLE drag ('drag_files'); on Windows the drop
         #   back onto this panel is reported to form_drop_files with
@@ -482,8 +547,15 @@ class Command:
         self._drag_hover_pos = None
         self._drag_hover_self = False
         self._tree_suppress_click = False
+        self._tree_press_folded = None
         self._tree_drag_out_item = None
         self._tree_drag_out_path = ''
+        # _session_names_cache/_session_names_key: (project-file stat,
+        #   session-name list) of the last file-read fallback in
+        #   session_get_names(); the fast path reads the in-memory mirror
+        #   and never touches the file — see the docstring there
+        self._session_names_cache = []
+        self._session_names_key = None
 
         settings_dir = Path(app_path(APP_DIR_SETTINGS))
         self.options_filename = settings_dir / "cuda_project_man.json"
@@ -637,12 +709,21 @@ class Command:
         self._drag_hover_end()
         self._tree_drag_out_item = None
         self._tree_drag_out_path = ''
+        self._tree_press_folded = None
         if isinstance(data, dict) and data.get('btn', -1) == 0:
             x = int(data.get('x', 0))
             y = int(data.get('y', 0))
             item = tree_proc(self.tree, TREE_FIND_BY_COORD, 0, -1,
                              '{},{}'.format(x, y))
             self._tree_drag_press = (x, y, item)
+            # remember the hit node's folded state: when it changes before
+            # OnClick fires, the press landed on the node's fold +/- sign
+            # (LCL toggles the node on mouse-down, without selecting it) and
+            # tree_on_click must not toggle that node a second time
+            if item:
+                props = tree_proc(self.tree, TREE_ITEM_GET_PROPS, item)
+                if props:
+                    self._tree_press_folded = (item, props.get('folded'))
         else:
             self._tree_drag_press = None
 
@@ -700,6 +781,7 @@ class Command:
         self._tree_drag_bounds = None
         self._drag_hover_end()
         self._tree_drag_sel = None
+        self._tree_press_folded = None
 
         if mode != 'inner':
             return
@@ -2012,18 +2094,19 @@ class Command:
         path_str = str(path)
 
         # Save the current project and its session slot before switching
-        if self.project_file_path:
+        had_project = bool(self.project_file_path)
+        if had_project:
             self.action_save_project_as(self.project_file_path)
-            cur_fn = str(self.project_file_path)
-            cur_sess = self.session_cur_name()
-            if cur_fn and cur_sess:
-                app_proc(PROC_SAVE_SESSION, cur_fn + '|/sessions/' + cur_sess)
+            # (action_save_project_as -> session_save_as saves the CURRENT
+            # session into its slot synchronously; the explicit extra
+            # PROC_SAVE_SESSION which was here rewrote the whole big project
+            # file a second time for the same state)
 
         if close_tabs:
             # Close all tabs (the current state is saved into its session
             # first, so unsaved text is not lost — see
             # _close_tabs_saving_state)
-            self._close_tabs_saving_state()
+            self._close_tabs_saving_state(skip_session_save=had_project)
 
         # Reset project state
         self.project = normalize_project_data(dict(nodes=[]))
@@ -2103,13 +2186,18 @@ class Command:
 
         # Saving the project also saves the current session into its slot
         # inside the project file
-        if self.project_file_path:
+        had_project = bool(self.project_file_path)
+        if had_project:
             self.action_save_project_as(self.project_file_path)
 
         # Close all tabs. The current state is saved into the session it
         # belongs to first (the project's session slot / the app's session
         # file), so unsaved text is not lost — see _close_tabs_saving_state.
-        self._close_tabs_saving_state()
+        # skip_session_save: the save just happened inside
+        # action_save_project_as, no tab could change since (synchronous
+        # code) — a second PROC_SAVE_SESSION would rewrite the whole big
+        # project file again for the same state.
+        self._close_tabs_saving_state(skip_session_save=had_project)
 
         # Forget the project BEFORE touching the app session: the
         # _set_session/PROC_LOAD_SESSION calls below fire app state events,
@@ -2152,25 +2240,105 @@ class Command:
         "|/sessions/" + name) are recorded — external session pointers
         (e.g. the default cuda-session) never change, and never overwrite,
         the project's last used session. Also drops the removed
-        "def_session" key still present in older project files."""
+        "def_session" key still present in older project files.
+
+        The file update is SURGICAL when possible (_set_last_session_in_file):
+        a .cuda-proj with big unsaved/untitled tabs embeds their full texts
+        (tens of MB), and this runs after every session switch — the old
+        json.load+json.dump of the whole file cost seconds per switch just
+        to change one string value."""
         fn_proj = str(self.project_file_path) if self.project_file_path else ''
         if not fn_proj or '|/sessions/' not in ptr:
             return
-        if not ptr.startswith(fn_proj + '|/sessions/'):
-            return
-        name = ptr.split('|/sessions/', 1)[1]
+        # tolerate pointers whose file part carries no directory (history.json
+        # stores settings-dir files that way) and compare paths like
+        # SameFileName does, instead of raw startswith (issue #6591)
+        ptr = resolve_session_pointer(ptr)
+        ptr_file, _, name = ptr.partition('|/sessions/')
         if not name:
             return
-        try:
-            with open(fn_proj, 'r', encoding='utf8') as f:
-                data = json.load(f)
-            if data.get('last_session') != name or 'def_session' in data:
-                data['last_session'] = name
-                data.pop('def_session', None)
-                write_json_file(fn_proj, data)
-        except (OSError, ValueError):
-            pass
+        if not same_path(ptr_file, fn_proj):
+            return
+        if not self._set_last_session_in_file(fn_proj, name):
+            # surgical edit not possible: full parse + rewrite (also handles
+            # the 'def_session' migration of old files and inserts the key
+            # into files which don't have it yet)
+            try:
+                with open(fn_proj, 'r', encoding='utf8') as f:
+                    data = json.load(f)
+                if data.get('last_session') != name or 'def_session' in data:
+                    data['last_session'] = name
+                    data.pop('def_session', None)
+                    write_json_file(fn_proj, data)
+            except (OSError, ValueError):
+                pass
         self.project['last_session'] = name
+
+    def _set_last_session_in_file(self, fn, name):
+        """Replace the value of the top-level 'last_session' key in the JSON
+        file `fn` with `name`, WITHOUT parsing and re-serializing the whole
+        file: the new text is built from the old text by swapping the string
+        literal after the key. On a .cuda-proj which embeds session texts
+        (big unsaved tabs) this is much faster than json.load+json.dump, and
+        it runs after every session switch.
+
+        Returns True when the file is (or already was) in the wanted state;
+        False when the caller must fall back to the full parse+rewrite:
+        unreadable file, name needing JSON escaping, 'last_session' key
+        absent (nothing to replace), key not exactly once / not followed
+        by a string value (corrupt, hand-written or exotic JSON: a string
+        value equal to the key text also matches the scan), legacy
+        'def_session' key present, write error.
+        The write is atomic (tmp+replace), like write_json_file."""
+        try:
+            with open(fn, 'r', encoding='utf8') as f:
+                text = f.read()
+        except OSError:
+            return False
+
+        # only fast-path names which need no JSON escaping (session names
+        # are restricted to safe ASCII by is_session_name, but a hand-edited
+        # project file can contain anything)
+        if json.dumps(name)[1:-1] != name:
+            return False
+
+        occ = _find_structural_keys(text, '"last_session"')
+        if len(occ) != 1:
+            # zero: no key yet (insert needs a structural edit, the caller's
+            # full rewrite does it); 2+: duplicated key or exotic content
+            return False
+        if _find_structural_keys(text, '"def_session"'):
+            # legacy key to remove as well: full rewrite path handles both
+            return False
+
+        n = len(text)
+        i = occ[0] + len('"last_session"')
+        while i < n and text[i] in ' \t\r\n':
+            i += 1
+        if i >= n or text[i] != ':':
+            return False
+        i += 1
+        while i < n and text[i] in ' \t\r\n':
+            i += 1
+        if i >= n or text[i] != '"':
+            return False # not a string value
+
+        # end of the value string: next structural quote
+        j = text.find('"', i + 1)
+        while j != -1 and not _quote_is_structural(text, j):
+            j = text.find('"', j + 1)
+        if j == -1:
+            return False
+
+        if text[i + 1:j] == name:
+            return True # already the wanted value: no write at all
+
+        new_text = text[:i + 1] + name + text[j:]
+        try:
+            _write_text_file_atomic(fn, new_text)
+        except OSError:
+            return False
+        return True
 
     @staticmethod
     def _read_session_keys(path):
@@ -2225,7 +2393,8 @@ class Command:
         self.action_refresh()
 
     def action_open_project(self, info=None, load_session=True):
-        if self.project_file_path:
+        had_project = bool(self.project_file_path)
+        if had_project:
             self.action_save_project_as(self.project_file_path)
 
         path = info
@@ -2233,6 +2402,14 @@ class Command:
             path = dlg_file(True, "", "", PROJECT_DIALOG_FILTER)
         if not path:
             return
+
+        # Make the path absolute (callers like on_open_pre or the command
+        # line can pass a relative one). project_file_path, the recent list,
+        # PROC_SET_PROJECT and every session pointer built below must be
+        # absolute: the app's session-pointer comparisons
+        # (session_cur_name, _remember_last_session, on_start vs history.json)
+        # fail on relative paths (issue #6591).
+        path = os.path.abspath(path)
 
         if not Path(path).exists():
             msg_status(_("Project file not found: ") + collapse_filename(str(path)))
@@ -2283,8 +2460,12 @@ class Command:
         # Save the current session to its slot, then close all tabs.
         # Skipped when load_session=False (on_start when CudaText
         # already loaded the project session from history.json).
+        # skip_session_save: with a project open, action_save_project_as
+        # above saved the current session into its slot already (same
+        # synchronous call, no tab could change since); without a project
+        # the state goes to the app session file as before.
         if load_session:
-            self._close_tabs_saving_state()
+            self._close_tabs_saving_state(skip_session_save=had_project)
 
         # Adopt the validated project
         self.project = data
@@ -2545,7 +2726,17 @@ class Command:
                 path = path.parent / (path.name + PROJECT_EXTENSION)
 
             # pre-processing of dict before saving
-            d = copy.deepcopy(self.project)
+            # 'sessions' can hold tens of MB of embedded session texts (the
+            # in-memory mirror); it is REPLACED below with data read fresh
+            # from disk whenever a source file exists, and json.dump only
+            # reads it — deep-copying that subtree was pure waste, seconds
+            # on a project with big unsaved tabs (attach it by reference)
+            sess_mirror = self.project.get('sessions')
+            if not isinstance(sess_mirror, dict):
+                sess_mirror = {}
+            d = {k: copy.deepcopy(v) for k, v in self.project.items()
+                 if k != 'sessions'}
+            d['sessions'] = sess_mirror
             if 'nodes' in d:
                 for i in range(len(d['nodes'])):
                     d['nodes'][i] = collapse_macros(proj_dir, d['nodes'][i])
@@ -2961,8 +3152,16 @@ class Command:
                 pass
 
             if sess_ptr and '|' in sess_ptr:
+                # history.json stores the pointer of a session file located
+                # in the settings dir WITHOUT its directory part (the app's
+                # AppSessionName_ForHistoryFile strips the settings dir), so
+                # 'sw.cuda-proj|/sessions/sw' means the project
+                # '<settings>/sw.cuda-proj'. Resolve it before comparing,
+                # or the comparison below never matches such projects and
+                # the project is detached on every restart (issue #6591).
+                sess_ptr = resolve_session_pointer(sess_ptr)
                 proj_in_hist = sess_ptr.split('|', 1)[0]
-                if os.path.normpath(proj_in_hist) == os.path.normpath(items[0]):
+                if same_path(proj_in_hist, items[0]):
                     # CudaText is loading this project's session — let it
                     # proceed, just load the project metadata (no session
                     # save/close/load, which would prompt for modified tabs).
@@ -3260,6 +3459,52 @@ class Command:
         s += ' /nozip /nontext-view-text'
         return s
 
+    def _tree_click_item(self, data):
+        """Node handle under the click position given in the event data
+        (on_click/on_click_dbl pass a tuple (x, y) with tree client
+        coordinates), or None when the click hit no node at all — LCL fires
+        OnClick/OnDblClick for ANY left press+release inside the tree
+        control, also for clicks on the empty area (below the items, the
+        panel's margin), and such a click does NOT change the tree
+        selection: acting on self.selected there would fold/unfold (or
+        open, or re-base the 'current folder' of) a node which was not
+        clicked.
+        Returns False when the click position cannot be read from the
+        event data (unexpected data): callers then fall back to the legacy
+        behavior of acting on the selected node."""
+        if not isinstance(data, (tuple, list)) or len(data) != 2:
+            return False
+        try:
+            x = int(data[0])
+            y = int(data[1])
+        except (TypeError, ValueError):
+            return False
+        return tree_proc(self.tree, TREE_FIND_BY_COORD, 0, -1,
+                         '{},{}'.format(x, y))
+
+    def _tree_click_skips_node(self, item):
+        """True when a click which hit the node `item` must NOT act on the
+        selected node (used by tree_on_click/tree_on_click_dbl):
+
+        - the hit node is not the selected one: this happens when the
+          click landed on a node's fold +/- sign — LCL toggles that node
+          right on mouse-down and does NOT select it, so the still-selected
+          node was not clicked at all;
+
+        - the hit node IS the selected one, but its folded state changed
+          since the mouse-down (see _tree_press_folded): the click landed
+          on that node's fold +/- sign and LCL already toggled it — acting
+          here would toggle it a second time (the fold would visibly stay
+          unchanged)."""
+        if item != self.selected:
+            return True
+        press = self._tree_press_folded
+        if press and press[0] == item:
+            props = tree_proc(self.tree, TREE_ITEM_GET_PROPS, item)
+            if props and props.get('folded') != press[1]:
+                return True
+        return False
+
     def tree_on_click(self, id_dlg, id_ctl, data='', info=''):
 
         # a drag gesture in the tree just ended on this mouse-up: LCL fires
@@ -3267,6 +3512,15 @@ class Command:
         # don't let it open the dropped-on node
         if self._tree_suppress_click:
             self._tree_suppress_click = False
+            return
+
+        # LCL fires OnClick for every left press+release inside the tree,
+        # even when the click hit no node (the empty area below the items,
+        # a fold +/- sign): such a click doesn't change the selection, so
+        # don't act on the still-selected node — folding/unfolding (and
+        # file opening) must only happen for a click on the node itself
+        item = self._tree_click_item(data)
+        if item is None:
             return
 
         # set folder in project as current folder for Open/Save-as dialogs
@@ -3284,13 +3538,26 @@ class Command:
 
         if self.options.get('d_click', False):
             return
+        if item and self._tree_click_skips_node(item):
+            # click was on a fold +/- sign (the node was already toggled by
+            # LCL on mouse-down): don't toggle/open a node which was not
+            # clicked with the intent of activating it
+            return
         self.do_open_current_file(self.get_open_options())
 
     def tree_on_click_dbl(self, id_dlg, id_ctl, data='', info=''):
 
+        # like in tree_on_click: a double-click which hit no node (the
+        # empty area of the tree) must not act on the selected node
+        item = self._tree_click_item(data)
+        if item is None:
+            return
+
         if not self.options.get('d_click', False):
             #turn off 'preview' tab kind on dbl-click
             ed.set_prop(PROP_PREVIEW, False)
+            return
+        if item and self._tree_click_skips_node(item):
             return
         self.do_open_current_file(self.get_open_options())
 
@@ -3525,10 +3792,10 @@ class Command:
             return ''
 
         s = ''
-        sess = app_path(APP_FILE_SESSION)
+        sess = resolve_session_pointer(app_path(APP_FILE_SESSION))
         if '|' in sess:
             l = sess.split('|')
-            if l[0] == fn_proj:
+            if same_path(l[0], fn_proj):
                 s = l[1]
                 k = '/sessions/'
                 if s.startswith(k):
@@ -3536,18 +3803,58 @@ class Command:
         return s
 
     def session_get_names(self):
+        """Names of the project's sessions, for the sessions menus.
+
+        Fast path: the in-memory mirror self.project['sessions']. Every
+        flow which can change the set of session names updates the mirror:
+        action_open_project loads it from the project file,
+        _sync_sessions_from_disk refreshes it after every plugin
+        PROC_SAVE_SESSION (session_save, session_save_as, session_load,
+        _save_session_before_close_tabs), session_delete pops the name
+        from it, action_import_external_session stores into it.
+
+        The old code json.load()-ed the ENTIRE project file here on every
+        call. A .cuda-proj file embeds the full session data — the complete
+        text of every unsaved and untitled tab, and of the secondary
+        editor of split tabs ('pair') — so with a few big unsaved tabs open
+        (cuda_differ comparing 3MB files, split tabs with big files) the
+        file grows to tens of MB, and ONE right-click in the project tree
+        (context-menu rebuild -> fill_sessions_menu -> here) froze the
+        panel for 1-2 seconds at 100% of one core: the whole file was
+        parsed just to read the session NAMES. The app's ~40 s session
+        autosave rewrites the file (new mtime) but never adds/removes a
+        session name, so the mirror cannot go stale for these menus.
+
+        Fallback (mirror empty but a project file exists — a file written
+        by an external tool or an older build): read the names from the
+        file, cached on (path, mtime, size) so the big parse runs only
+        when the file really changed, not on every autosave tick."""
+        sess = self.project.get('sessions')
+        if isinstance(sess, dict) and sess:
+            return list(sess.keys())
 
         res = []
         fn = str(self.project_file_path) if self.project_file_path else ''
-        if fn and os.path.isfile(fn):
-            try:
-                with open(fn, 'r', encoding='utf8') as f:
-                    data = json.load(f)
-                    k = data.get('sessions')
-                    if type(k)==dict:
-                        res = list(k.keys())
-            except (OSError, ValueError):
-                pass
+        if not (fn and os.path.isfile(fn)):
+            return res
+        try:
+            st = os.stat(fn)
+            key = (fn, st.st_mtime_ns, st.st_size)
+        except OSError:
+            key = None
+        if key is not None and key == self._session_names_key:
+            return list(self._session_names_cache)
+        try:
+            with open(fn, 'r', encoding='utf8') as f:
+                data = json.load(f)
+                k = data.get('sessions')
+                if type(k)==dict:
+                    res = list(k.keys())
+        except (OSError, ValueError):
+            pass
+        if key is not None:
+            self._session_names_key = key
+            self._session_names_cache = list(res)
         return res
 
     def session_delete(self):
@@ -3675,9 +3982,18 @@ class Command:
         app_proc(PROC_SAVE_SESSION, sess)
         self._set_session(sess)
 
-        # the app wrote the session straight into the project file;
-        # refresh the in-memory copy (see _sync_sessions_from_disk)
-        self._sync_sessions_from_disk()
+        # Refresh the in-memory mirror ONLY when the save added a NEW
+        # session name (interactive 'Save session as...'), so the sessions
+        # menus list it: re-reading the whole big project file after every
+        # in-place save (action_save_project_as) was the main cost of
+        # project switches. The session DATA in the mirror can stay stale:
+        # it is never trusted — action_save_project_as re-reads it from
+        # disk before writing the file, and only names are read elsewhere
+        # (session_get_names). When the name-set changes without the
+        # plugin's involvement (external edit of the file), the next
+        # save-as falls back to the stat-cached file read.
+        if s not in self.project.get('sessions', {}):
+            self._sync_sessions_from_disk()
 
     def session_load_menu(self):
 
@@ -3714,10 +4030,12 @@ class Command:
         cur_sess = self.session_cur_name()
         saved = False
         if cur_sess:
+            # no _sync_sessions_from_disk here: saving an EXISTING session
+            # cannot change the set of session names, and the session data
+            # mirror is never trusted (re-read from disk before any write,
+            # see session_save_as) — the full-file parse was pure cost on
+            # every session switch
             saved = bool(app_proc(PROC_SAVE_SESSION, fn + '|/sessions/' + cur_sess))
-            # the app wrote the session straight into the project file;
-            # refresh the in-memory copy (see _sync_sessions_from_disk)
-            self._sync_sessions_from_disk()
 
         # Close ALL tabs in ALL groups, without switching the session
         # pointer to DEF_SES — we're switching between sessions within
@@ -3809,7 +4127,8 @@ class Command:
 
         confirm=False (menu command "... (no prompt)" and internal callers
         like session saving): all foreign tabs are closed at once, without
-        any dialogs — unsaved changes in them are discarded."""
+        any dialogs — unsaved changes in them are discarded (in both
+        editors of split tabs, see _clear_modified_all_editors)."""
 
         # don't detect if project is empty
         items = self.project['nodes']
@@ -3849,7 +4168,7 @@ class Command:
             if not confirm or msg_box(msg, MB_OKCANCEL+MB_ICONQUESTION)==ID_OK:
                 for e in reversed(to_close):
                     if not confirm:
-                        e.set_prop(PROP_MODIFIED, False)
+                        self._clear_modified_all_editors(e)
                     e.cmd(cmds.cmd_FileClose)
                     time.sleep(0.2)
 
@@ -3859,14 +4178,36 @@ class Command:
         changes (the old behavior of the main command)."""
         self.close_foreign_tabs(confirm=False)
 
+    def _clear_modified_all_editors(self, e):
+        """Clear PROP_MODIFIED on the given editor's ui-tab, in BOTH its
+        editors. ed_handles() enumerates only the primary editor of each
+        ui-tab, but a tab split into two unlinked editors
+        (PROP_EDITORS_LINKED=False + PROP_SPLIT) has a secondary editor
+        with its own text buffer and its own modified flag: the app counts
+        a tab as modified when EITHER editor is modified
+        (TEditorFrame.Modified = EdFirst.Modified or EdSecond.Modified).
+        Clearing only the primary one made the app show the "save
+        changes?" dialog on tab closing (cmd_FileCloseAll), even though
+        the state had just been saved into a session — the session keeps
+        the unsaved text of the secondary editor too (sub-key 'pair')."""
+        e.set_prop(PROP_MODIFIED, False)
+        h2 = e.get_prop(PROP_HANDLE_SECONDARY)
+        if h2:
+            # handle of the secondary editor object (PROP_HANDLE_SECONDARY
+            # is a memory-address int, accepted by Editor()): for editors
+            # not living in a ui-tab it is None
+            Editor(h2).set_prop(PROP_MODIFIED, False)
+
     def close_all_tabs(self, silent=True):
         """Close all tabs in all groups without changing the session pointer.
 
-        silent=True: clears PROP_MODIFIED and unpins pinned tabs first, so
-        no "save changes?" prompt appears — ONLY for callers that have just
-        saved the state into a session (PROC_SAVE_SESSION also stores the
-        text of modified and untitled tabs, so a saved state loses nothing),
-        or that discard the state on purpose.
+        silent=True: clears PROP_MODIFIED (in the primary AND secondary
+        editor of every tab, see _clear_modified_all_editors) and unpins
+        pinned tabs first, so no "save changes?" prompt appears — ONLY for
+        callers that have just saved the state into a session
+        (PROC_SAVE_SESSION also stores the text of modified and untitled
+        tabs, of both editors of split tabs, so a saved state loses
+        nothing), or that discard the state on purpose.
 
         silent=False: keeps PROP_MODIFIED, so CudaText itself asks "save
         changes?" for every modified tab — used when the state could NOT be
@@ -3876,12 +4217,12 @@ class Command:
         for h in ed_handles():
             e = Editor(h)
             if silent:
-                e.set_prop(PROP_MODIFIED, False)
+                self._clear_modified_all_editors(e)
             if e.get_prop(PROP_TAB_PINNED):
                 e.set_prop(PROP_TAB_PINNED, False)
         ed.cmd(cmds.cmd_FileCloseAll)
 
-    def _save_session_before_close_tabs(self):
+    def _save_session_before_close_tabs(self, already_saved=False):
         """Best-effort save of the current editor state into the session it
         belongs to, right before close_all_tabs() closes the tabs — the
         state (INCLUDING the text of modified and untitled tabs, which the
@@ -3901,8 +4242,14 @@ class Command:
         fn_proj = str(self.project_file_path) if self.project_file_path else ''
         cur = self.session_cur_name()
         if fn_proj and cur:
+            if already_saved:
+                # action_save_project_as -> session_save_as saved this very
+                # session into its slot moments ago, in the same synchronous
+                # call (no tab could change since): a second
+                # PROC_SAVE_SESSION would just re-read and re-rewrite the
+                # whole big project file for the identical state
+                return True
             if bool(app_proc(PROC_SAVE_SESSION, fn_proj + '|/sessions/' + cur)):
-                self._sync_sessions_from_disk()
                 return True
             return False
         ptr = app_path(APP_FILE_SESSION)
@@ -3910,12 +4257,18 @@ class Command:
             return False
         return bool(app_proc(PROC_SAVE_SESSION, ptr))
 
-    def _close_tabs_saving_state(self):
+    def _close_tabs_saving_state(self, skip_session_save=False):
         """Close all tabs, saving the current state into the session it
         belongs to first (see _save_session_before_close_tabs). Used by
         open/close/create-project flows, where the tabs about to be closed
-        don't belong to the session that is loaded next."""
-        saved = self._save_session_before_close_tabs()
+        don't belong to the session that is loaded next.
+
+        skip_session_save=True: the caller (action_open_project,
+        action_close_project, _create_project_file) has JUST saved the
+        project via action_save_project_as, which embeds a save of the
+        current session — skip the duplicate save (see
+        _save_session_before_close_tabs)."""
+        saved = self._save_session_before_close_tabs(already_saved=skip_session_save)
         self.close_all_tabs(silent=saved)
 
     def on_delete_file(self, ed_self, fn):
@@ -3948,9 +4301,8 @@ class Command:
         if cur_fn and cur_sess:
             sess = cur_fn+'|/sessions/'+cur_sess
             app_proc(PROC_SAVE_SESSION, sess)
-            # the app wrote the session straight into the project file;
-            # refresh the in-memory copy (see _sync_sessions_from_disk)
-            self._sync_sessions_from_disk()
+            # no _sync_sessions_from_disk: the session name exists already
+            # and the data mirror is never trusted (see session_save_as)
 
     def is_path_in_root(self, path):
 
