@@ -216,10 +216,13 @@ type
     TAppKeyValue = class
       Key: string;
       Value: string;
+      MaskList: TObject; //TMaskList, compiled once and cached (issue #6522)
+      MaskBad: boolean; //mask has bad syntax, don't compile it again (issue #6522)
     end;
   public
     procedure Add(const AKey, AValue: string);
     destructor Destroy; override;
+    procedure ClearAll;
     function GetValueByFileMasks(const AFileName: string): string;
     function GetValueByRegex(const ALine: string; ACaseSens: boolean): string;
   end;
@@ -2543,17 +2546,18 @@ var
   Lexer: TecSyntAnalyzer;
   LexerLite: TATLiteLexer;
   sNameOnly, sLine: string;
-  i: integer;
 begin
   Result:= '';
   sNameOnly:= ExtractFileName(AFileName);
 
   //detect by option "detect"
-  for i:= 0 to AppConfig_Detect.Count-1 do
-  begin
-    Result:= AppConfig_Detect.GetValueByFileMasks(sNameOnly);
-    if Result<>'' then exit;
-  end;
+  //note: one scan is enough, GetValueByFileMasks checks all keys itself.
+  //old code here repeated that full scan N times, N = number of "detect"
+  //keys, so one lexer detection costed N*N mask compilations; with a big
+  //"detect" block in user.json it gave ~1sec delay per each LEXER_DETECT
+  //API call, e.g. per each tab switch made by Project Manager (issue #6522)
+  Result:= AppConfig_Detect.GetValueByFileMasks(sNameOnly);
+  if Result<>'' then exit;
 
   //detect by first line, option "detect_line"
   if AppConfig_DetectLine.Count>0 then
@@ -3394,6 +3398,8 @@ begin
   Item:= TAppKeyValue.Create;
   Item.Key:= AKey;
   Item.Value:= AValue;
+  Item.MaskList:= nil;
+  Item.MaskBad:= false;
   inherited Add(Item);
 end;
 
@@ -3405,9 +3411,26 @@ begin
   for i:= Count-1 downto 0 do
   begin
     Item:= TAppKeyValue(Items[i]);
+    if Item.MaskList<>nil then
+      TMaskList(Item.MaskList).Free;
     Item.Free;
   end;
   inherited Destroy;
+end;
+
+procedure TAppKeyValues.ClearAll;
+var
+  Item: TAppKeyValue;
+  i: integer;
+begin
+  for i:= Count-1 downto 0 do
+  begin
+    Item:= TAppKeyValue(Items[i]);
+    if Item.MaskList<>nil then
+      TMaskList(Item.MaskList).Free;
+    Item.Free;
+    Delete(i);
+  end;
 end;
 
 function TAppKeyValues.GetValueByFileMasks(const AFileName: string): string;
@@ -3418,8 +3441,27 @@ begin
   for i:= 0 to Count-1 do
   begin
     Item:= TAppKeyValue(Items[i]);
-    if MatchesMaskList(AFileName, Item.Key) then
-      exit(Item.Value);
+    //compile each key once and cache the compiled TMaskList (issue #6522):
+    //MatchesMaskList() creates+compiles+frees TMaskList on every call,
+    //it made lexer detection slow with big "detect" option
+    if not Item.MaskBad then
+    begin
+      if Item.MaskList=nil then
+        try
+          Item.MaskList:= TMaskList.Create(Item.Key, ';', false);
+        except
+          //bad mask in user.json: log it and skip the key
+          //(old code with MatchesMaskList raised the same exception here)
+          on E: Exception do
+          begin
+            MsgLogConsole('ERROR: bad mask in option "detect": '+Item.Key);
+            Item.MaskBad:= true;
+          end;
+        end;
+      if (Item.MaskList<>nil) then
+        if TMaskList(Item.MaskList).Matches(AFileName) then
+          exit(Item.Value);
+    end;
   end;
   Result:= '';
 end;
