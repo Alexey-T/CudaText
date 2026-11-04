@@ -483,6 +483,8 @@ type
     function GetTabGroups: TATGroups;
     function IsTreeBusy: boolean;
     function IsParsingBusy: boolean;
+    procedure ParsingRestart;
+    procedure ParsingStop;
     //file
     procedure DoFileClose;
     procedure DoFileOpen(const AFileName, AFileName2: string;
@@ -5577,6 +5579,38 @@ begin
   else
   begin
     Result:= msgModifiedString[Modified]+TabCaption;
+  end;
+end;
+
+procedure TEditorFrame.ParsingStop;
+var
+  Ada: TATAdapterEControl;
+begin
+  Ada:= Adapter[EdFirst];
+  if Assigned(Ada) then
+    Ada.Stop;
+
+  if not EditorsLinked then
+  begin
+    Ada:= Adapter[EdSecond];
+    if Assigned(Ada) then
+      Ada.Stop;
+  end;
+end;
+
+procedure TEditorFrame.ParsingRestart;
+var
+  Ada: TATAdapterEControl;
+begin
+  Ada:= Adapter[EdFirst];
+  if Assigned(Ada) and Assigned(Ada.AnClient) then
+    Ada.ParseFromLine(0, false{AWait});
+
+  if not EditorsLinked then
+  begin
+    Ada:= Adapter[EdSecond];
+    if Assigned(Ada) and Assigned(Ada.AnClient) then
+      Ada.ParseFromLine(0, false{AWait});
   end;
 end;
 
