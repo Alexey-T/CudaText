@@ -316,6 +316,40 @@ procedure TfmMain.DoOnTabClose(Sender: TObject; ATabIndex: Integer;
     Result:= SWrapLongString(D.TabCaptionFull, 80, #10);
   end;
   //
+  procedure StopParsingInFrame(AFrame: TEditorFrame);
+  var
+    Ada: TATAdapterEControl;
+  begin
+    Ada:= AFrame.Adapter[AFrame.EdFirst];
+    if Assigned(Ada) then
+      Ada.Stop;
+
+    if not AFrame.EditorsLinked then
+    begin
+      Ada:= AFrame.Adapter[AFrame.EdSecond];
+      if Assigned(Ada) then
+        Ada.Stop;
+    end;
+  end;
+  //
+  procedure ResumeParsingInFrame(AFrame: TEditorFrame);
+  var
+    Ada: TATAdapterEControl;
+  begin
+    //tab is not closing after all (close was cancelled),
+    //so re-enable the cancelled parsing, it must continue in background
+    Ada:= AFrame.Adapter[AFrame.EdFirst];
+    if Assigned(Ada) and Assigned(Ada.AnClient) then
+      Ada.ParseFromLine(0, false{AWait});
+
+    if not AFrame.EditorsLinked then
+    begin
+      Ada:= AFrame.Adapter[AFrame.EdSecond];
+      if Assigned(Ada) and Assigned(Ada.AnClient) then
+        Ada.ParseFromLine(0, false{AWait});
+    end;
+  end;
+  //
 var
   D: TATTabData;
   Frame: TEditorFrame;
@@ -323,6 +357,7 @@ var
   Adapter: TATAdapterEControl;
   Msg: string;
   Btn, Res: Integer;
+  bStoppedParsing: boolean;
 begin
   D:= (Sender as TATTabs).GetTabData(ATabIndex);
   if D=nil then exit;
@@ -338,6 +373,17 @@ begin
   begin
     ACanClose:= false;
     Exit
+  end;
+
+  bStoppedParsing:= false;
+  if Frame.IsParsingBusy then
+  begin
+    //we are closing this ui-tab anyway, so cancel the lexer parsing
+    //instead of waiting until it finishes: huge files can parse for seconds,
+    //and waiting here (with ProcessMessages) allowed re-entrant closes
+    //of the same/other tabs, which corrupted session switching
+    StopParsingInFrame(Frame);
+    bStoppedParsing:= true;
   end;
 
   while Frame.IsParsingBusy do
@@ -371,6 +417,7 @@ begin
     if DoPyEvent(Frame.EdCurrent, TAppPyEvent.OnCloseBefore, []).Val = TAppPyEventValue.False then
     begin
       ACanClose:= false;
+      if bStoppedParsing then ResumeParsingInFrame(Frame);
       Exit
     end;
   end;
@@ -379,6 +426,7 @@ begin
     if FrameCount=1 then
     begin
       ACanClose:= false;
+      if bStoppedParsing then ResumeParsingInFrame(Frame);
       Exit
     end;
 
@@ -426,6 +474,10 @@ begin
 
   ACanClose:= (Res<>ID_CANCEL) and bSavedOk;
   ACanContinue:= (Res<>ID_CANCEL);
+
+  if not ACanClose then
+    if bStoppedParsing then
+      ResumeParsingInFrame(Frame);
 
   if ACanClose then
   begin
