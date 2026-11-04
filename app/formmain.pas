@@ -5550,7 +5550,16 @@ begin
         DoClearSingleFirstTab;
       end;
       Result:= D.TabObject as TEditorFrame;
-      Result.SetFocus;
+      //don't SetFocus for passive opens: SetFocus runs DoShow, which marks
+      //the new frame as "was visible" and consumes DoShow's one-time work,
+      //which applies the lexer deferred by SetLexer(). Session loading
+      //(DoOps_LoadSession) opens untitled tabs with '/passive' and assigns
+      //their lexer later, in DoLoadHistoryEx - so a premature SetFocus made
+      //such tab keep the lexer name in LexerInitial forever (statusbar
+      //showed the lexer) without the highlighter adapter, i.e. without
+      //syntax colors
+      if bAndActivate then
+        Result.SetFocus;
       if AFileName2='' then
         Exit
       else
