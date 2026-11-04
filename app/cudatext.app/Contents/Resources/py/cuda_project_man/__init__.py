@@ -2103,10 +2103,17 @@ class Command:
             # file a second time for the same state)
 
         if close_tabs:
-            # Close all tabs (the current state is saved into its session
-            # first, so unsaved text is not lost — see
-            # _close_tabs_saving_state)
-            self._close_tabs_saving_state(skip_session_save=had_project)
+            # Save the current state into the session it belongs to (the
+            # old project's slot / the app session file), then only clear
+            # the modified flags: the closing of the old tabs is left to
+            # the PROC_LOAD_SESSION(sess1) below (session1 does not exist
+            # in the new project file yet, so the load closes the tabs and
+            # restores nothing). The load's closes run under
+            # APPSTATE_SESSION_LOAD_BEGIN_PRE, so plugins like cuda_differ
+            # keep the closing tabs' per-session registrations.
+            saved = self._save_session_before_close_tabs(already_saved=had_project)
+            if saved:
+                self._clear_modified_all_tabs()
 
         # Reset project state
         self.project = normalize_project_data(dict(nodes=[]))
@@ -2126,8 +2133,23 @@ class Command:
 
         # Create session1 inside the project and set as active
         sess1 = path_str + '|/sessions/session1'
-        app_proc(PROC_SAVE_SESSION, sess1)
-        self._set_session(sess1)
+        if close_tabs:
+            # Point the app session at session1 BEFORE the load (the
+            # APPSTATE_SESSION_LOAD the load fires must find the pointer
+            # inside the project, else on_state closes the project). The
+            # load of the not-yet-existing session1 closes the old tabs
+            # and restores none of them; the save below then stores the
+            # now-empty state as session1. (An empty target session also
+            # resets the tab-group layout to the default single group —
+            # acceptable for a brand-new empty project.)
+            self._set_session(sess1)
+            app_proc(PROC_LOAD_SESSION, sess1)
+            app_proc(PROC_SAVE_SESSION, sess1)
+        else:
+            # 'Create project from open tabs': the current tabs BECOME
+            # session1 — save them into it, then point the app session.
+            app_proc(PROC_SAVE_SESSION, sess1)
+            self._set_session(sess1)
 
         # refresh the in-memory project from the file on disk (it now
         # contains session1 and last_session)
@@ -2190,14 +2212,14 @@ class Command:
         if had_project:
             self.action_save_project_as(self.project_file_path)
 
-        # Close all tabs. The current state is saved into the session it
-        # belongs to first (the project's session slot / the app's session
-        # file), so unsaved text is not lost — see _close_tabs_saving_state.
-        # skip_session_save: the save just happened inside
+        # Save the current state into the session it belongs to (the
+        # project's session slot / the app's session file), so unsaved text
+        # is not lost. skip_session_save: the save just happened inside
         # action_save_project_as, no tab could change since (synchronous
         # code) — a second PROC_SAVE_SESSION would rewrite the whole big
-        # project file again for the same state.
-        self._close_tabs_saving_state(skip_session_save=had_project)
+        # project file again for the same state. The CLOSING of the tabs is
+        # left to the default-session load below.
+        saved = self._save_session_before_close_tabs(already_saved=had_project)
 
         # Forget the project BEFORE touching the app session: the
         # _set_session/PROC_LOAD_SESSION calls below fire app state events,
@@ -2211,10 +2233,27 @@ class Command:
         # subscribes it again).
         self._update_on_start_subscription(False)
 
-        # Load default session via PROC_LOAD_SESSION (reads, doesn't overwrite)
+        # Load default session via PROC_LOAD_SESSION (reads, doesn't
+        # overwrite). The load itself closes the old tabs (all groups,
+        # pinned included) under APPSTATE_SESSION_LOAD_BEGIN_PRE, so
+        # plugins like cuda_differ keep the closing tabs' per-session
+        # registrations -- the project's tabs, compare tabs included, come
+        # fully back when the project is opened again. Clear the modified
+        # flags first (the state is in its session now): a tab still marked
+        # modified would make the load ask 'Save modified tab?', and a
+        # Cancel there aborts the load -- with the session pointer already
+        # switched to DEF_SES, the ~40 s session autosave would then write
+        # the still-open project tabs into default.cuda-session.
         self._set_session(DEF_SES)
         default_sess_path = os.path.join(app_path(APP_DIR_SETTINGS), DEF_SES)
-        app_proc(PROC_LOAD_SESSION, default_sess_path)
+        if os.path.isfile(default_sess_path):
+            if saved:
+                self._clear_modified_all_tabs()
+            app_proc(PROC_LOAD_SESSION, default_sess_path)
+        else:
+            # No default session file: PROC_LOAD_SESSION exits BEFORE
+            # closing any tab (the file must exist), so close here.
+            self.close_all_tabs(silent=saved)
 
         msg_status(_("Project closed"))
 
@@ -2457,15 +2496,38 @@ class Command:
         if not self.tree:
             self.init_panel()
 
-        # Save the current session to its slot, then close all tabs.
-        # Skipped when load_session=False (on_start when CudaText
-        # already loaded the project session from history.json).
+        # Save the current session to its slot, then prepare the tabs for
+        # the closing load below. Skipped when load_session=False (on_start
+        # when CudaText already loaded the project session from
+        # history.json).
         # skip_session_save: with a project open, action_save_project_as
         # above saved the current session into its slot already (same
         # synchronous call, no tab could change since); without a project
         # the state goes to the app session file as before.
         if load_session:
-            self._close_tabs_saving_state(skip_session_save=had_project)
+            saved = self._save_session_before_close_tabs(already_saved=had_project)
+            if data.get('sessions'):
+                # The project has sessions: DON'T close the old tabs here.
+                # The PROC_LOAD_SESSION at the bottom of this method closes
+                # them itself (its DoFileCloseAll runs under
+                # APPSTATE_SESSION_LOAD_BEGIN_PRE, issue #6496), so plugins
+                # like cuda_differ can tell these closes from user closes
+                # and keep the closing tabs' per-session registrations -- a
+                # compare tab created in the old project then comes fully
+                # back (toolbar, overview, title color) when that project's
+                # session is loaded again. Only clear the modified flags
+                # here: the state is stored in its session now, and a tab
+                # still marked modified would make the load ask
+                # 'Save modified tab?' -- where Cancel aborts the whole
+                # switch with the session pointer already re-pointed.
+                if saved:
+                    self._clear_modified_all_tabs()
+            else:
+                # Legacy session-less project file: no session exists to
+                # load, so no load would close the old tabs -- close them
+                # here (the current state was saved into its session first,
+                # so unsaved text is not lost).
+                self.close_all_tabs(silent=saved)
 
         # Adopt the validated project
         self.project = data
@@ -4037,12 +4099,18 @@ class Command:
             # every session switch
             saved = bool(app_proc(PROC_SAVE_SESSION, fn + '|/sessions/' + cur_sess))
 
-        # Close ALL tabs in ALL groups, without switching the session
-        # pointer to DEF_SES — we're switching between sessions within
-        # the same project, not leaving the project. When the slot save
-        # above failed, tabs keep their 'modified' flag so CudaText asks
-        # "save changes?" — unsaved text is never discarded silently.
-        self.close_all_tabs(silent=saved)
+        # Clear the modified flags (the state was just saved into its slot;
+        # sessions embed the text of modified and untitled tabs) and leave
+        # the CLOSING of the tabs to the PROC_LOAD_SESSION below: its
+        # DoFileCloseAll runs under APPSTATE_SESSION_LOAD_BEGIN_PRE, so
+        # plugins like cuda_differ keep the closing tabs' per-session
+        # registrations and re-attach the tabs when this session is loaded
+        # again. A tab still marked modified would make the load ask
+        # 'Save modified tab?', where a Cancel aborts the whole switch —
+        # so when the slot save above failed, the flags stay and the load
+        # asks: unsaved text is never discarded silently.
+        if saved:
+            self._clear_modified_all_tabs()
 
         fn += '|/sessions/'+name
         self._set_session(fn)
@@ -4198,8 +4266,35 @@ class Command:
             # not living in a ui-tab it is None
             Editor(h2).set_prop(PROP_MODIFIED, False)
 
+    def _clear_modified_all_tabs(self):
+        """Clear PROP_MODIFIED on every ui-tab (both editors of each, see
+        _clear_modified_all_editors) WITHOUT closing anything.
+
+        Used right before a PROC_LOAD_SESSION whose own DoFileCloseAll will
+        close the tabs: after the state was saved into the session it
+        belongs to, clearing the flags loses nothing (CudaText sessions
+        embed the text of modified and untitled tabs) and keeps the switch
+        promptless -- the app's load path first runs
+        ConfirmAllFramesAreSaved, which asks 'Save modified tab?' for every
+        tab still marked modified, and a CANCEL there aborts the WHOLE
+        session load with the session pointer already switched by the
+        caller. The same contract as close_all_tabs(silent=True) minus the
+        unpin and the close: the load's DoCloseAllTabs(AClosePinned=true)
+        closes pinned tabs itself (AppSessionIsClosing suppresses its
+        'Close pinned tab?' confirm)."""
+        for h in ed_handles():
+            self._clear_modified_all_editors(Editor(h))
+
     def close_all_tabs(self, silent=True):
         """Close all tabs in all groups without changing the session pointer.
+
+        Only used where NO session load follows the close (legacy
+        session-less project files, a missing default session file on
+        'Close project', deleting the active project session) -- every
+        session/project SWITCH flow leaves the closing to the session load
+        itself (PROC_LOAD_SESSION closes all ui-tabs under
+        APPSTATE_SESSION_LOAD_BEGIN_PRE, so plugins can tell these closes
+        from user closes; see _clear_modified_all_tabs).
 
         silent=True: clears PROP_MODIFIED (in the primary AND secondary
         editor of every tab, see _clear_modified_all_editors) and unpins
@@ -4224,7 +4319,8 @@ class Command:
 
     def _save_session_before_close_tabs(self, already_saved=False):
         """Best-effort save of the current editor state into the session it
-        belongs to, right before close_all_tabs() closes the tabs — the
+        belongs to, right before the tabs are closed (by close_all_tabs, or
+        by the session load's own DoFileCloseAll) — the
         state (INCLUDING the text of modified and untitled tabs, which the
         app embeds into the session) must be stored somewhere before the
         buffers are gone.
@@ -4236,8 +4332,10 @@ class Command:
           write anyway, so this cannot harm an external session; with no
           project open it IS the user's working session.
 
-        Returns True when the state was stored. Callers pass this to
-        close_all_tabs(silent=...): when False, CudaText's own "save
+        Returns True when the state was stored. Callers use this to decide
+        whether the closing may be silent: clear the modified flags
+        (_clear_modified_all_tabs before a load, close_all_tabs(silent=True)
+        otherwise) only when True; when False, CudaText's own "save
         changes?" prompt appears for modified tabs instead."""
         fn_proj = str(self.project_file_path) if self.project_file_path else ''
         cur = self.session_cur_name()
@@ -4256,20 +4354,6 @@ class Command:
         if not ptr:
             return False
         return bool(app_proc(PROC_SAVE_SESSION, ptr))
-
-    def _close_tabs_saving_state(self, skip_session_save=False):
-        """Close all tabs, saving the current state into the session it
-        belongs to first (see _save_session_before_close_tabs). Used by
-        open/close/create-project flows, where the tabs about to be closed
-        don't belong to the session that is loaded next.
-
-        skip_session_save=True: the caller (action_open_project,
-        action_close_project, _create_project_file) has JUST saved the
-        project via action_save_project_as, which embeds a save of the
-        current session — skip the duplicate save (see
-        _save_session_before_close_tabs)."""
-        saved = self._save_session_before_close_tabs(already_saved=skip_session_save)
-        self.close_all_tabs(silent=saved)
 
     def on_delete_file(self, ed_self, fn):
 

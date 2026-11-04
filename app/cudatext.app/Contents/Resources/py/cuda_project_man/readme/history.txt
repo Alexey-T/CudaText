@@ -1,3 +1,27 @@
+2026.11.05
+- project/session switching no longer closes the old tabs itself: the
+  closing is left to CudaText's own session load (PROC_LOAD_SESSION
+  closes all ui-tabs under APPSTATE_SESSION_LOAD_BEGIN_PRE, issue
+  #6496), so plugins can tell these closes from user closes. Fixes the
+  interplay with cuda_differ (Differ 2): its compare tabs were
+  unregistered from cuda_differ2_state.json when the Project Manager
+  closed their tab with cmd_FileCloseAll -- after switching back, the
+  tab returned from the session as a dead plain split tab (no toolbar,
+  no overview, no compare). Affected flows: opening/switching/closing
+  projects (when the target session exists), creating an empty
+  project, and switching project sessions. The modified flags are
+  still cleared after the state was saved into its session (the app's
+  load asks 'Save modified tab?' per modified tab, and Cancel aborts
+  the whole load with the session pointer already switched); when the
+  save failed the flags stay and the load asks -- unsaved text is
+  never discarded silently. The explicit closing remains ONLY where no
+  session load follows: legacy session-less project files, a missing
+  default session file on 'Close project', and deleting the active
+  session (its registrations must not survive -- the session never
+  comes back). Minor behavior change: 'Create new empty project' now
+  also resets the tab-group layout to the default single group (the
+  empty session1 the flow loads carries no group settings)
+
 2026.11.03
 - fixed #6587: the auto-unfolding of a folder during a drag&drop did not
   work at all. Two reasons:

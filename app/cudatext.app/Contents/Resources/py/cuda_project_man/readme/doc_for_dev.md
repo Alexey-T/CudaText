@@ -209,22 +209,62 @@ Check the return value when the next step closes tabs (see §5).
 ---
 ## 5. Tab closing rules
 
-Two closers exist:
+Two closing regimes exist.
+
+**Regime A — the session load closes the tabs (all switch flows).**
+`PROC_LOAD_SESSION` itself closes every ui-tab (all groups, pinned
+included — its `DoFileCloseAll(true, true)` runs with
+`AppSessionIsClosing`, which suppresses the "Close pinned tab?"
+confirm) BEFORE restoring the target session's tabs. The closes fire
+`on_close_pre`/`on_close` under `APPSTATE_SESSION_LOAD_BEGIN_PRE`
+(fired before everything else a load does, issue #6496), so plugins
+can tell them from user closes: cuda_differ (Differ 2) keeps the
+closing tabs' per-session registrations in `cuda_differ2_state.json`
+this way and re-attaches the tabs (toolbar, overview, title color)
+when their session is loaded again. Flows using this regime:
+`action_open_project` (target has sessions), `action_close_project`
+(default session file exists), `_create_project_file(close_tabs=True)`
+(loads the not-yet-existing `session1`: the load closes the old tabs
+and restores none), `session_load`. Before the load, the caller must:
+
+1. save the state into the session it belongs to
+   (`_save_session_before_close_tabs()` — see below), and
+2. call `_clear_modified_all_tabs()` when that save succeeded: the
+   app's load first runs `ConfirmAllFramesAreSaved`, which asks
+   "Save modified tab?" for every tab still marked modified, and a
+   **Cancel there aborts the WHOLE load** with the session pointer
+   already switched — the ~40 s session autosave would then write the
+   still-open old tabs into the new session's slot. When the save
+   failed, keep the flags: the load then asks, and unsaved text is
+   never discarded silently.
+
+**Regime B — the plugin closes the tabs itself** (`close_all_tabs`):
 
 - `close_all_tabs(silent=True)` — clears `PROP_MODIFIED`, unpins, then
   `cmd_FileCloseAll`. **Only** allowed when the caller has just saved
-  the state into a session, or the discard is deliberate (deleting the
-  active session). Never touches the session pointer.
+  the state into a session, or the discard is deliberate. Never
+  touches the session pointer.
 - `close_all_tabs(silent=False)` — keeps `PROP_MODIFIED`, so CudaText
   itself shows "save changes?" for modified tabs. Used when the state
   could NOT be saved (e.g. read-only project file) and when deleting
   the active session.
 
+Regime B is used ONLY where no session load follows (so nothing else
+would close the tabs): `action_open_project` for a legacy
+session-less project file, `action_close_project` when the default
+session file does not exist (`PROC_LOAD_SESSION` exits before closing
+anything when the target file is missing), and `session_delete` of
+the ACTIVE session — the doomed session's per-tab registrations must
+NOT survive, the session never comes back. `cmd_FileCloseAll` alone
+would also SKIP pinned tabs (the app respects pins by design — see
+the comment in the core's `formmain_cmd.inc`), which is why
+`close_all_tabs` unpins first.
+
 CudaText sessions store the TEXT of modified and untitled tabs
 (`'text'` + `'modified'` keys in the session JSON; restored as
 unsaved buffers on load). Therefore "saved into a session" == "no
-unsaved text lost". Every flow that closes tabs must first call
-`_save_session_before_close_tabs()`:
+unsaved text lost". Every flow that closes tabs (Regime A or B) must
+first call `_save_session_before_close_tabs()`:
 
 - active project session → save into the project session slot;
 - no project open (opening/creating/closing a project) → save into the
@@ -232,10 +272,9 @@ unsaved text lost". Every flow that closes tabs must first call
   default.cuda-session). This is the app's own autosave target, so it
   is safe and loses nothing.
 
-`_close_tabs_saving_state()` wraps the pair
-(`saved = ...; close_all_tabs(silent=saved)`). `close_foreign_tabs`
-(foreign tabs only, the two menu commands) is separate and has its own
-prompt/no-prompt contract — it is not part of session switching.
+`close_foreign_tabs` (foreign tabs only, the two menu commands) is
+separate and has its own prompt/no-prompt contract — it is not part
+of session switching.
 
 Do not re-add a "save current state first?" question on session
 switch: the ~40 s session autosave overwrites the "don't save" answer
