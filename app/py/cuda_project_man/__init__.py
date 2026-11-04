@@ -487,6 +487,12 @@ class Command:
         # _tree_suppress_click: a drag gesture happened, don't open the file
         #   on the following OnClick (LCL fires OnClick even after a mouse
         #   drag inside a control, and it fires BEFORE OnMouseUp)
+        # _tree_press_folded: (item_handle, folded) snapshot of the node hit
+        #   by the current left-button press, taken at mouse-down; used by
+        #   tree_on_click to detect a click on a node's fold +/- sign: such
+        #   a click toggles the node right on mouse-down (LCL does it,
+        #   without changing the selection), so the folded state changes
+        #   between the press and the OnClick which follows
         # _tree_drag_out_item/_tree_drag_out_path: the node dragged out of the
         #   tree with CudaText's OLE drag ('drag_files'); on Windows the drop
         #   back onto this panel is reported to form_drop_files with
@@ -505,6 +511,7 @@ class Command:
         self._drag_hover_pos = None
         self._drag_hover_self = False
         self._tree_suppress_click = False
+        self._tree_press_folded = None
         self._tree_drag_out_item = None
         self._tree_drag_out_path = ''
 
@@ -660,12 +667,21 @@ class Command:
         self._drag_hover_end()
         self._tree_drag_out_item = None
         self._tree_drag_out_path = ''
+        self._tree_press_folded = None
         if isinstance(data, dict) and data.get('btn', -1) == 0:
             x = int(data.get('x', 0))
             y = int(data.get('y', 0))
             item = tree_proc(self.tree, TREE_FIND_BY_COORD, 0, -1,
                              '{},{}'.format(x, y))
             self._tree_drag_press = (x, y, item)
+            # remember the hit node's folded state: when it changes before
+            # OnClick fires, the press landed on the node's fold +/- sign
+            # (LCL toggles the node on mouse-down, without selecting it) and
+            # tree_on_click must not toggle that node a second time
+            if item:
+                props = tree_proc(self.tree, TREE_ITEM_GET_PROPS, item)
+                if props:
+                    self._tree_press_folded = (item, props.get('folded'))
         else:
             self._tree_drag_press = None
 
@@ -723,6 +739,7 @@ class Command:
         self._tree_drag_bounds = None
         self._drag_hover_end()
         self._tree_drag_sel = None
+        self._tree_press_folded = None
 
         if mode != 'inner':
             return
@@ -3303,6 +3320,52 @@ class Command:
         s += ' /nozip /nontext-view-text'
         return s
 
+    def _tree_click_item(self, data):
+        """Node handle under the click position given in the event data
+        (on_click/on_click_dbl pass a tuple (x, y) with tree client
+        coordinates), or None when the click hit no node at all — LCL fires
+        OnClick/OnDblClick for ANY left press+release inside the tree
+        control, also for clicks on the empty area (below the items, the
+        panel's margin), and such a click does NOT change the tree
+        selection: acting on self.selected there would fold/unfold (or
+        open, or re-base the 'current folder' of) a node which was not
+        clicked.
+        Returns False when the click position cannot be read from the
+        event data (unexpected data): callers then fall back to the legacy
+        behavior of acting on the selected node."""
+        if not isinstance(data, (tuple, list)) or len(data) != 2:
+            return False
+        try:
+            x = int(data[0])
+            y = int(data[1])
+        except (TypeError, ValueError):
+            return False
+        return tree_proc(self.tree, TREE_FIND_BY_COORD, 0, -1,
+                         '{},{}'.format(x, y))
+
+    def _tree_click_skips_node(self, item):
+        """True when a click which hit the node `item` must NOT act on the
+        selected node (used by tree_on_click/tree_on_click_dbl):
+
+        - the hit node is not the selected one: this happens when the
+          click landed on a node's fold +/- sign — LCL toggles that node
+          right on mouse-down and does NOT select it, so the still-selected
+          node was not clicked at all;
+
+        - the hit node IS the selected one, but its folded state changed
+          since the mouse-down (see _tree_press_folded): the click landed
+          on that node's fold +/- sign and LCL already toggled it — acting
+          here would toggle it a second time (the fold would visibly stay
+          unchanged)."""
+        if item != self.selected:
+            return True
+        press = self._tree_press_folded
+        if press and press[0] == item:
+            props = tree_proc(self.tree, TREE_ITEM_GET_PROPS, item)
+            if props and props.get('folded') != press[1]:
+                return True
+        return False
+
     def tree_on_click(self, id_dlg, id_ctl, data='', info=''):
 
         # a drag gesture in the tree just ended on this mouse-up: LCL fires
@@ -3310,6 +3373,15 @@ class Command:
         # don't let it open the dropped-on node
         if self._tree_suppress_click:
             self._tree_suppress_click = False
+            return
+
+        # LCL fires OnClick for every left press+release inside the tree,
+        # even when the click hit no node (the empty area below the items,
+        # a fold +/- sign): such a click doesn't change the selection, so
+        # don't act on the still-selected node — folding/unfolding (and
+        # file opening) must only happen for a click on the node itself
+        item = self._tree_click_item(data)
+        if item is None:
             return
 
         # set folder in project as current folder for Open/Save-as dialogs
@@ -3327,13 +3399,26 @@ class Command:
 
         if self.options.get('d_click', False):
             return
+        if item and self._tree_click_skips_node(item):
+            # click was on a fold +/- sign (the node was already toggled by
+            # LCL on mouse-down): don't toggle/open a node which was not
+            # clicked with the intent of activating it
+            return
         self.do_open_current_file(self.get_open_options())
 
     def tree_on_click_dbl(self, id_dlg, id_ctl, data='', info=''):
 
+        # like in tree_on_click: a double-click which hit no node (the
+        # empty area of the tree) must not act on the selected node
+        item = self._tree_click_item(data)
+        if item is None:
+            return
+
         if not self.options.get('d_click', False):
             #turn off 'preview' tab kind on dbl-click
             ed.set_prop(PROP_PREVIEW, False)
+            return
+        if item and self._tree_click_skips_node(item):
             return
         self.do_open_current_file(self.get_open_options())
 
@@ -3852,7 +3937,8 @@ class Command:
 
         confirm=False (menu command "... (no prompt)" and internal callers
         like session saving): all foreign tabs are closed at once, without
-        any dialogs — unsaved changes in them are discarded."""
+        any dialogs — unsaved changes in them are discarded (in both
+        editors of split tabs, see _clear_modified_all_editors)."""
 
         # don't detect if project is empty
         items = self.project['nodes']
@@ -3892,7 +3978,7 @@ class Command:
             if not confirm or msg_box(msg, MB_OKCANCEL+MB_ICONQUESTION)==ID_OK:
                 for e in reversed(to_close):
                     if not confirm:
-                        e.set_prop(PROP_MODIFIED, False)
+                        self._clear_modified_all_editors(e)
                     e.cmd(cmds.cmd_FileClose)
                     time.sleep(0.2)
 
@@ -3902,14 +3988,36 @@ class Command:
         changes (the old behavior of the main command)."""
         self.close_foreign_tabs(confirm=False)
 
+    def _clear_modified_all_editors(self, e):
+        """Clear PROP_MODIFIED on the given editor's ui-tab, in BOTH its
+        editors. ed_handles() enumerates only the primary editor of each
+        ui-tab, but a tab split into two unlinked editors
+        (PROP_EDITORS_LINKED=False + PROP_SPLIT) has a secondary editor
+        with its own text buffer and its own modified flag: the app counts
+        a tab as modified when EITHER editor is modified
+        (TEditorFrame.Modified = EdFirst.Modified or EdSecond.Modified).
+        Clearing only the primary one made the app show the "save
+        changes?" dialog on tab closing (cmd_FileCloseAll), even though
+        the state had just been saved into a session — the session keeps
+        the unsaved text of the secondary editor too (sub-key 'pair')."""
+        e.set_prop(PROP_MODIFIED, False)
+        h2 = e.get_prop(PROP_HANDLE_SECONDARY)
+        if h2:
+            # handle of the secondary editor object (PROP_HANDLE_SECONDARY
+            # is a memory-address int, accepted by Editor()): for editors
+            # not living in a ui-tab it is None
+            Editor(h2).set_prop(PROP_MODIFIED, False)
+
     def close_all_tabs(self, silent=True):
         """Close all tabs in all groups without changing the session pointer.
 
-        silent=True: clears PROP_MODIFIED and unpins pinned tabs first, so
-        no "save changes?" prompt appears — ONLY for callers that have just
-        saved the state into a session (PROC_SAVE_SESSION also stores the
-        text of modified and untitled tabs, so a saved state loses nothing),
-        or that discard the state on purpose.
+        silent=True: clears PROP_MODIFIED (in the primary AND secondary
+        editor of every tab, see _clear_modified_all_editors) and unpins
+        pinned tabs first, so no "save changes?" prompt appears — ONLY for
+        callers that have just saved the state into a session
+        (PROC_SAVE_SESSION also stores the text of modified and untitled
+        tabs, of both editors of split tabs, so a saved state loses
+        nothing), or that discard the state on purpose.
 
         silent=False: keeps PROP_MODIFIED, so CudaText itself asks "save
         changes?" for every modified tab — used when the state could NOT be
@@ -3919,7 +4027,7 @@ class Command:
         for h in ed_handles():
             e = Editor(h)
             if silent:
-                e.set_prop(PROP_MODIFIED, False)
+                self._clear_modified_all_editors(e)
             if e.get_prop(PROP_TAB_PINNED):
                 e.set_prop(PROP_TAB_PINNED, False)
         ed.cmd(cmds.cmd_FileCloseAll)
