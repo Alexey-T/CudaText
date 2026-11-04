@@ -1276,6 +1276,7 @@ function Lexer_IsNameCorrect(AName: string): boolean;
 
 procedure AppOnLexerLoaded(Sender: TObject; ALexer: TecSyntAnalyzer);
 procedure AppLoadLexers;
+procedure AppConfig_Detect_ClearAndInit;
 
 function ConvertStringToTabCaptionReason(const S: string; out Value: TAppTabCaptionReason): boolean;
 function ConvertTabCaptionReasonToString(Value: TAppTabCaptionReason): string;
@@ -3404,17 +3405,8 @@ begin
 end;
 
 destructor TAppKeyValues.Destroy;
-var
-  Item: TAppKeyValue;
-  i: integer;
 begin
-  for i:= Count-1 downto 0 do
-  begin
-    Item:= TAppKeyValue(Items[i]);
-    if Item.MaskList<>nil then
-      TMaskList(Item.MaskList).Free;
-    Item.Free;
-  end;
+  ClearAll;
   inherited Destroy;
 end;
 
@@ -4356,6 +4348,18 @@ begin
   Result:= cAppTabCaptionReasonStr[Value];
 end;
 
+procedure AppConfig_Detect_ClearAndInit;
+begin
+  AppConfig_Detect.ClearAll;
+  AppConfig_Detect.Add('*.cuda-session', 'JSON');
+
+  AppConfig_DetectLine.ClearAll;
+  AppConfig_DetectLine.Add('<\?xml .+', 'XML');
+  AppConfig_DetectLine.Add('\#!\/bin\/(ba)?sh', 'Bash script');
+  AppConfig_DetectLine.Add('\#!\/usr\/bin\/env (ba)?sh', 'Bash script');
+  AppConfig_DetectLine.Add('\#!\/usr\/bin\/env python\d*', 'Python');
+  AppConfig_DetectLine.Add('\#!.*\b(node|js|bun|osascript\s+-l\s+JavaScript)', 'JavaScript');
+end;
 
 initialization
 
@@ -4395,14 +4399,7 @@ initialization
   AppConfig_Detect:= TAppKeyValues.Create;
   AppConfig_DetectLine:= TAppKeyValues.Create;
   AppConfig_PluginGroups:= TAppKeyValues.Create;
-
-  AppConfig_Detect.Add('*.cuda-session', 'JSON');
-
-  AppConfig_DetectLine.Add('<\?xml .+', 'XML');
-  AppConfig_DetectLine.Add('\#!\/bin\/(ba)?sh', 'Bash script');
-  AppConfig_DetectLine.Add('\#!\/usr\/bin\/env (ba)?sh', 'Bash script');
-  AppConfig_DetectLine.Add('\#!\/usr\/bin\/env python\d*', 'Python');
-  AppConfig_DetectLine.Add('\#!.*\b(node|js|bun|osascript\s+-l\s+JavaScript)', 'JavaScript');
+  AppConfig_Detect_ClearAndInit;
 
   AppFrameList1:= TFPList.Create;
   AppFrameList2:= TFPList.Create;

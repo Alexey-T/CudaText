@@ -1464,15 +1464,7 @@ begin
   if SameFileName(cfg.Filename, AppFile_OptionsUser) then
   begin
     AppConfig_PluginGroups.ClearAll;
-    AppConfig_Detect.ClearAll;
-    AppConfig_DetectLine.ClearAll;
-    //re-add built-in defaults, which are initially added in proc_globdata.pas
-    AppConfig_Detect.Add('*.cuda-session', 'JSON');
-    AppConfig_DetectLine.Add('<\?xml .+', 'XML');
-    AppConfig_DetectLine.Add('\#!\/bin\/(ba)?sh', 'Bash script');
-    AppConfig_DetectLine.Add('\#!\/usr\/bin\/env (ba)?sh', 'Bash script');
-    AppConfig_DetectLine.Add('\#!\/usr\/bin\/env python\d*', 'Python');
-    AppConfig_DetectLine.Add('\#!.*\b(node|js|bun|osascript\s+-l\s+JavaScript)', 'JavaScript');
+    AppConfig_Detect_ClearAndInit;
   end;
 
   List:= TStringList.Create;
