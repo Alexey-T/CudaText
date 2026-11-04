@@ -1456,6 +1456,25 @@ begin
     AppApplyRendererTweaks(s);
 
   //additional complex options with sub-keys
+  //when reading the real user.json, reset the lists first: this code runs
+  //not only on startup, but also on each "reload config"
+  //(DoOps_LoadOptionsAndApply), and re-adding the same entries without
+  //clearing duplicated them, growing the "detect" scan cost on each
+  //reload (issue #6522)
+  if SameFileName(cfg.Filename, AppFile_OptionsUser) then
+  begin
+    AppConfig_PluginGroups.ClearAll;
+    AppConfig_Detect.ClearAll;
+    AppConfig_DetectLine.ClearAll;
+    //re-add built-in defaults, which are initially added in proc_globdata.pas
+    AppConfig_Detect.Add('*.cuda-session', 'JSON');
+    AppConfig_DetectLine.Add('<\?xml .+', 'XML');
+    AppConfig_DetectLine.Add('\#!\/bin\/(ba)?sh', 'Bash script');
+    AppConfig_DetectLine.Add('\#!\/usr\/bin\/env (ba)?sh', 'Bash script');
+    AppConfig_DetectLine.Add('\#!\/usr\/bin\/env python\d*', 'Python');
+    AppConfig_DetectLine.Add('\#!.*\b(node|js|bun|osascript\s+-l\s+JavaScript)', 'JavaScript');
+  end;
+
   List:= TStringList.Create;
   try
     cfg.EnumValues('/plugin_groups', List);
