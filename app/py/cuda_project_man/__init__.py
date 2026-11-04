@@ -148,10 +148,16 @@ def write_json_file(path, data):
     the file is replaced completely, or the previous complete file stays
     intact and the error propagates to the caller (callers report OSError
     to the user)."""
+    _write_text_file_atomic(path, json.dumps(data, indent=2))
+
+def _write_text_file_atomic(path, text):
+    """Write already-serialized `text` to `path` atomically (see
+    write_json_file). Shared by the JSON writer and the surgical single-key
+    editor of _set_last_session_in_file."""
     tmp = str(path) + '.tmp' + str(os.getpid())
     try:
         with open(tmp, 'w', encoding='utf8') as fout:
-            json.dump(data, fout, indent=2)
+            fout.write(text)
         os.replace(tmp, str(path))
     finally:
         # the replace didn't happen -> remove the temp file
@@ -160,6 +166,36 @@ def write_json_file(path, data):
                 os.unlink(tmp)
             except OSError:
                 pass
+
+# Helpers for the surgical single-key editor of _set_last_session_in_file:
+# locating a JSON key in the raw text of a .cuda-proj without parsing it.
+def _quote_is_structural(text, pos):
+    """True when the '"' at text[pos] is a structural JSON quote (opening/
+    closing a key or value), not an escaped one inside a string value: an
+    escaped quote is preceded by an odd number of backslashes."""
+    i = pos - 1
+    bs = 0
+    while i >= 0 and text[i] == '\\':
+        bs += 1
+        i -= 1
+    return bs % 2 == 0
+
+def _find_structural_keys(text, key):
+    """Positions of the (quoted) JSON key `key` (e.g. '"last_session"')
+    in `text`, counting only occurrences whose opening quote is structural.
+    Uses str.find (C-speed scanning): a regex finditer over the tens of MB
+    of a .cuda-proj with embedded session texts costs hundreds of ms, this
+    costs one linear memmem pass. A string VALUE which happens to equal the
+    key text can still show up here (its quotes are structural too) — the
+    caller tolerates that by requiring exactly one hit and verifying the
+    colon, and falls back to the safe full rewrite otherwise."""
+    res = []
+    pos = text.find(key)
+    while pos != -1:
+        if _quote_is_structural(text, pos):
+            res.append(pos)
+        pos = text.find(key, pos + 1)
+    return res
 
 def _file_open(fn, options=''):
     gr = ed.get_prop(PROP_INDEX_GROUP)
@@ -2058,18 +2094,19 @@ class Command:
         path_str = str(path)
 
         # Save the current project and its session slot before switching
-        if self.project_file_path:
+        had_project = bool(self.project_file_path)
+        if had_project:
             self.action_save_project_as(self.project_file_path)
-            cur_fn = str(self.project_file_path)
-            cur_sess = self.session_cur_name()
-            if cur_fn and cur_sess:
-                app_proc(PROC_SAVE_SESSION, cur_fn + '|/sessions/' + cur_sess)
+            # (action_save_project_as -> session_save_as saves the CURRENT
+            # session into its slot synchronously; the explicit extra
+            # PROC_SAVE_SESSION which was here rewrote the whole big project
+            # file a second time for the same state)
 
         if close_tabs:
             # Close all tabs (the current state is saved into its session
             # first, so unsaved text is not lost — see
             # _close_tabs_saving_state)
-            self._close_tabs_saving_state()
+            self._close_tabs_saving_state(skip_session_save=had_project)
 
         # Reset project state
         self.project = normalize_project_data(dict(nodes=[]))
@@ -2149,13 +2186,18 @@ class Command:
 
         # Saving the project also saves the current session into its slot
         # inside the project file
-        if self.project_file_path:
+        had_project = bool(self.project_file_path)
+        if had_project:
             self.action_save_project_as(self.project_file_path)
 
         # Close all tabs. The current state is saved into the session it
         # belongs to first (the project's session slot / the app's session
         # file), so unsaved text is not lost — see _close_tabs_saving_state.
-        self._close_tabs_saving_state()
+        # skip_session_save: the save just happened inside
+        # action_save_project_as, no tab could change since (synchronous
+        # code) — a second PROC_SAVE_SESSION would rewrite the whole big
+        # project file again for the same state.
+        self._close_tabs_saving_state(skip_session_save=had_project)
 
         # Forget the project BEFORE touching the app session: the
         # _set_session/PROC_LOAD_SESSION calls below fire app state events,
@@ -2198,7 +2240,13 @@ class Command:
         "|/sessions/" + name) are recorded — external session pointers
         (e.g. the default cuda-session) never change, and never overwrite,
         the project's last used session. Also drops the removed
-        "def_session" key still present in older project files."""
+        "def_session" key still present in older project files.
+
+        The file update is SURGICAL when possible (_set_last_session_in_file):
+        a .cuda-proj with big unsaved/untitled tabs embeds their full texts
+        (tens of MB), and this runs after every session switch — the old
+        json.load+json.dump of the whole file cost seconds per switch just
+        to change one string value."""
         fn_proj = str(self.project_file_path) if self.project_file_path else ''
         if not fn_proj or '|/sessions/' not in ptr:
             return
@@ -2211,16 +2259,86 @@ class Command:
             return
         if not same_path(ptr_file, fn_proj):
             return
-        try:
-            with open(fn_proj, 'r', encoding='utf8') as f:
-                data = json.load(f)
-            if data.get('last_session') != name or 'def_session' in data:
-                data['last_session'] = name
-                data.pop('def_session', None)
-                write_json_file(fn_proj, data)
-        except (OSError, ValueError):
-            pass
+        if not self._set_last_session_in_file(fn_proj, name):
+            # surgical edit not possible: full parse + rewrite (also handles
+            # the 'def_session' migration of old files and inserts the key
+            # into files which don't have it yet)
+            try:
+                with open(fn_proj, 'r', encoding='utf8') as f:
+                    data = json.load(f)
+                if data.get('last_session') != name or 'def_session' in data:
+                    data['last_session'] = name
+                    data.pop('def_session', None)
+                    write_json_file(fn_proj, data)
+            except (OSError, ValueError):
+                pass
         self.project['last_session'] = name
+
+    def _set_last_session_in_file(self, fn, name):
+        """Replace the value of the top-level 'last_session' key in the JSON
+        file `fn` with `name`, WITHOUT parsing and re-serializing the whole
+        file: the new text is built from the old text by swapping the string
+        literal after the key. On a .cuda-proj which embeds session texts
+        (big unsaved tabs) this is much faster than json.load+json.dump, and
+        it runs after every session switch.
+
+        Returns True when the file is (or already was) in the wanted state;
+        False when the caller must fall back to the full parse+rewrite:
+        unreadable file, name needing JSON escaping, 'last_session' key
+        absent (nothing to replace), key not exactly once / not followed
+        by a string value (corrupt, hand-written or exotic JSON: a string
+        value equal to the key text also matches the scan), legacy
+        'def_session' key present, write error.
+        The write is atomic (tmp+replace), like write_json_file."""
+        try:
+            with open(fn, 'r', encoding='utf8') as f:
+                text = f.read()
+        except OSError:
+            return False
+
+        # only fast-path names which need no JSON escaping (session names
+        # are restricted to safe ASCII by is_session_name, but a hand-edited
+        # project file can contain anything)
+        if json.dumps(name)[1:-1] != name:
+            return False
+
+        occ = _find_structural_keys(text, '"last_session"')
+        if len(occ) != 1:
+            # zero: no key yet (insert needs a structural edit, the caller's
+            # full rewrite does it); 2+: duplicated key or exotic content
+            return False
+        if _find_structural_keys(text, '"def_session"'):
+            # legacy key to remove as well: full rewrite path handles both
+            return False
+
+        n = len(text)
+        i = occ[0] + len('"last_session"')
+        while i < n and text[i] in ' \t\r\n':
+            i += 1
+        if i >= n or text[i] != ':':
+            return False
+        i += 1
+        while i < n and text[i] in ' \t\r\n':
+            i += 1
+        if i >= n or text[i] != '"':
+            return False # not a string value
+
+        # end of the value string: next structural quote
+        j = text.find('"', i + 1)
+        while j != -1 and not _quote_is_structural(text, j):
+            j = text.find('"', j + 1)
+        if j == -1:
+            return False
+
+        if text[i + 1:j] == name:
+            return True # already the wanted value: no write at all
+
+        new_text = text[:i + 1] + name + text[j:]
+        try:
+            _write_text_file_atomic(fn, new_text)
+        except OSError:
+            return False
+        return True
 
     @staticmethod
     def _read_session_keys(path):
@@ -2275,7 +2393,8 @@ class Command:
         self.action_refresh()
 
     def action_open_project(self, info=None, load_session=True):
-        if self.project_file_path:
+        had_project = bool(self.project_file_path)
+        if had_project:
             self.action_save_project_as(self.project_file_path)
 
         path = info
@@ -2341,8 +2460,12 @@ class Command:
         # Save the current session to its slot, then close all tabs.
         # Skipped when load_session=False (on_start when CudaText
         # already loaded the project session from history.json).
+        # skip_session_save: with a project open, action_save_project_as
+        # above saved the current session into its slot already (same
+        # synchronous call, no tab could change since); without a project
+        # the state goes to the app session file as before.
         if load_session:
-            self._close_tabs_saving_state()
+            self._close_tabs_saving_state(skip_session_save=had_project)
 
         # Adopt the validated project
         self.project = data
@@ -2603,7 +2726,17 @@ class Command:
                 path = path.parent / (path.name + PROJECT_EXTENSION)
 
             # pre-processing of dict before saving
-            d = copy.deepcopy(self.project)
+            # 'sessions' can hold tens of MB of embedded session texts (the
+            # in-memory mirror); it is REPLACED below with data read fresh
+            # from disk whenever a source file exists, and json.dump only
+            # reads it — deep-copying that subtree was pure waste, seconds
+            # on a project with big unsaved tabs (attach it by reference)
+            sess_mirror = self.project.get('sessions')
+            if not isinstance(sess_mirror, dict):
+                sess_mirror = {}
+            d = {k: copy.deepcopy(v) for k, v in self.project.items()
+                 if k != 'sessions'}
+            d['sessions'] = sess_mirror
             if 'nodes' in d:
                 for i in range(len(d['nodes'])):
                     d['nodes'][i] = collapse_macros(proj_dir, d['nodes'][i])
@@ -3849,9 +3982,18 @@ class Command:
         app_proc(PROC_SAVE_SESSION, sess)
         self._set_session(sess)
 
-        # the app wrote the session straight into the project file;
-        # refresh the in-memory copy (see _sync_sessions_from_disk)
-        self._sync_sessions_from_disk()
+        # Refresh the in-memory mirror ONLY when the save added a NEW
+        # session name (interactive 'Save session as...'), so the sessions
+        # menus list it: re-reading the whole big project file after every
+        # in-place save (action_save_project_as) was the main cost of
+        # project switches. The session DATA in the mirror can stay stale:
+        # it is never trusted — action_save_project_as re-reads it from
+        # disk before writing the file, and only names are read elsewhere
+        # (session_get_names). When the name-set changes without the
+        # plugin's involvement (external edit of the file), the next
+        # save-as falls back to the stat-cached file read.
+        if s not in self.project.get('sessions', {}):
+            self._sync_sessions_from_disk()
 
     def session_load_menu(self):
 
@@ -3888,10 +4030,12 @@ class Command:
         cur_sess = self.session_cur_name()
         saved = False
         if cur_sess:
+            # no _sync_sessions_from_disk here: saving an EXISTING session
+            # cannot change the set of session names, and the session data
+            # mirror is never trusted (re-read from disk before any write,
+            # see session_save_as) — the full-file parse was pure cost on
+            # every session switch
             saved = bool(app_proc(PROC_SAVE_SESSION, fn + '|/sessions/' + cur_sess))
-            # the app wrote the session straight into the project file;
-            # refresh the in-memory copy (see _sync_sessions_from_disk)
-            self._sync_sessions_from_disk()
 
         # Close ALL tabs in ALL groups, without switching the session
         # pointer to DEF_SES — we're switching between sessions within
@@ -4078,7 +4222,7 @@ class Command:
                 e.set_prop(PROP_TAB_PINNED, False)
         ed.cmd(cmds.cmd_FileCloseAll)
 
-    def _save_session_before_close_tabs(self):
+    def _save_session_before_close_tabs(self, already_saved=False):
         """Best-effort save of the current editor state into the session it
         belongs to, right before close_all_tabs() closes the tabs — the
         state (INCLUDING the text of modified and untitled tabs, which the
@@ -4098,8 +4242,14 @@ class Command:
         fn_proj = str(self.project_file_path) if self.project_file_path else ''
         cur = self.session_cur_name()
         if fn_proj and cur:
+            if already_saved:
+                # action_save_project_as -> session_save_as saved this very
+                # session into its slot moments ago, in the same synchronous
+                # call (no tab could change since): a second
+                # PROC_SAVE_SESSION would just re-read and re-rewrite the
+                # whole big project file for the identical state
+                return True
             if bool(app_proc(PROC_SAVE_SESSION, fn_proj + '|/sessions/' + cur)):
-                self._sync_sessions_from_disk()
                 return True
             return False
         ptr = app_path(APP_FILE_SESSION)
@@ -4107,12 +4257,18 @@ class Command:
             return False
         return bool(app_proc(PROC_SAVE_SESSION, ptr))
 
-    def _close_tabs_saving_state(self):
+    def _close_tabs_saving_state(self, skip_session_save=False):
         """Close all tabs, saving the current state into the session it
         belongs to first (see _save_session_before_close_tabs). Used by
         open/close/create-project flows, where the tabs about to be closed
-        don't belong to the session that is loaded next."""
-        saved = self._save_session_before_close_tabs()
+        don't belong to the session that is loaded next.
+
+        skip_session_save=True: the caller (action_open_project,
+        action_close_project, _create_project_file) has JUST saved the
+        project via action_save_project_as, which embeds a save of the
+        current session — skip the duplicate save (see
+        _save_session_before_close_tabs)."""
+        saved = self._save_session_before_close_tabs(already_saved=skip_session_save)
         self.close_all_tabs(silent=saved)
 
     def on_delete_file(self, ed_self, fn):
@@ -4145,9 +4301,8 @@ class Command:
         if cur_fn and cur_sess:
             sess = cur_fn+'|/sessions/'+cur_sess
             app_proc(PROC_SAVE_SESSION, sess)
-            # the app wrote the session straight into the project file;
-            # refresh the in-memory copy (see _sync_sessions_from_disk)
-            self._sync_sessions_from_disk()
+            # no _sync_sessions_from_disk: the session name exists already
+            # and the data mirror is never trusted (see session_save_as)
 
     def is_path_in_root(self, path):
 
