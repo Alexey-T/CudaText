@@ -896,27 +896,38 @@ begin
     end;
   end;
 
+  //apply lexer which SetLexer() deferred while the frame was not visible.
+  //Must be done on EVERY show, not only on the 1st one: the "1st show" can
+  //be consumed before the lexer is assigned - DoFileOpen('','/passive')
+  //(session loading) calls SetFocus->DoShow for a not-yet-visible tab, and
+  //the lexer is assigned later, in DoLoadHistoryEx. Then the tab kept the
+  //lexer name in LexerInitial forever: name was shown in statusbar, but
+  //the highlighter adapter was never attached, so no syntax colors
+  //(bug: untitled tabs lose lexer colors after switching project/session).
+  //Note: clear LexerInitial BEFORE the assignment - when the frame is
+  //still not visible / parsing is off, SetLexer() defers again and stores
+  //the lexer back into LexerInitial, so it is not lost
+  an:= LexerInitial[EdFirst];
+  if Assigned(an) then
+  begin
+    LexerInitial[EdFirst]:= nil;
+    Lexer[EdFirst]:= an;
+  end;
+
+  if not EditorsLinked then
+  begin
+    an:= LexerInitial[EdSecond];
+    if Assigned(an) then
+    begin
+      LexerInitial[EdSecond]:= nil;
+      Lexer[EdSecond]:= an;
+    end;
+  end;
+
   //analyze file, when frame is shown for the 1st time
   if AppAllowFrameParsing and not FWasVisible then
   begin
     FWasVisible:= true;
-
-    an:= LexerInitial[EdFirst];
-    if Assigned(an) then
-    begin
-      Lexer[EdFirst]:= an;
-      LexerInitial[EdFirst]:= nil;
-    end;
-
-    if not EditorsLinked then
-    begin
-      an:= LexerInitial[EdSecond];
-      if Assigned(an) then
-      begin
-        Lexer[EdSecond]:= an;
-        LexerInitial[EdSecond]:= nil;
-      end;
-    end;
 
     //when passive tab shows for the 1st time, force work of brackets highlighter
     for iEd:= 0 to 1 do
