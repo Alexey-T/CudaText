@@ -10,6 +10,7 @@ import time
 from fnmatch import fnmatch
 from pathlib import Path, PurePosixPath
 from .projman_glob import *
+from .projman_backup import ProjectFileBackups, DEFAULT_BACKUP_COUNT, DEFAULT_BACKUP_FOLDER
 
 from cudatext import *
 from cudatext_keys import *
@@ -488,6 +489,9 @@ class Command:
         "on_start_activate": False,
         "icon_theme": "vscode_16x16",
         "toolbar_theme": "default_16x16",
+        "backup_enabled": True,
+        "backup_folder": DEFAULT_BACKUP_FOLDER,
+        "backup_count": DEFAULT_BACKUP_COUNT,
     }
     # Default options used as the base when loading from disk: any key
     # missing from the loaded file is filled in from here, so settings
@@ -559,6 +563,9 @@ class Command:
 
         settings_dir = Path(app_path(APP_DIR_SETTINGS))
         self.options_filename = settings_dir / "cuda_project_man.json"
+        # Rotating backups of the open project file; see projman_backup.
+        # Warnings go to the console via print.
+        self.project_backups = ProjectFileBackups(log=print)
         # Start from a fresh copy of the defaults, then merge the loaded
         # file on top. This ensures newly added options appear even in old
         # config files, while preserving the user's existing values.
@@ -2915,6 +2922,42 @@ class Command:
                 self.action_refresh()
                 self.save_options()
 
+    def _backup_project_file(self, force=False):
+        """Refresh the rotating backup of the open project file (see
+        projman_backup.ProjectFileBackups). Called on
+        APPSTATE_SESSION_SAVE_AFTER: while a project is open, every
+        session save writes into the .cuda-proj file (the app's ~40 s
+        session autosave, session switches, project saves/switches, the
+        exit save). The copy is skipped when the file did not change on
+        disk (size+mtime vs the newest backup -- saves which rewrote
+        nothing write nothing). Returns the new backup path, or None."""
+        if not self.project_file_path:
+            return None
+        if not self.options.get('backup_enabled', True):
+            return None
+        return self.project_backups.run(
+            str(self.project_file_path),
+            folder=self.options.get('backup_folder', ''),
+            count=self.options.get('backup_count', DEFAULT_BACKUP_COUNT),
+            force=force,
+            )
+
+    def action_backup_project_now(self):
+        """Menu command 'Backup project file now': make one rotating
+        backup of the open project file even when it did not change --
+        a manual snapshot point (e.g. before risky edits)."""
+        if not self.project_file_path:
+            msg_status(_('No project open'))
+            return
+        if not self.options.get('backup_enabled', True):
+            msg_status(_('Project backups are disabled in options'))
+            return
+        res = self._backup_project_file(force=True)
+        if res:
+            msg_status(_('Project backup: ') + res)
+        else:
+            msg_status(_('Project backup was not created (see console messages)'))
+
     def action_go_to_file(self):
         self.menu_goto()
 
@@ -4515,19 +4558,33 @@ class Command:
                 self.sync_to_ed()
 
     def on_state(self, ed_self, state):
-        """Detect external session switching via app state events (issue
-        #6366). If a project is open and the app's session no longer
-        belongs to it, close the project silently (no tab closing, no
-        DEF_SES load), so the project's session and the foreign session
-        don't fight over the app's session slot.
+        """App state events.
 
-        - APPSTATE_SESSION_SET: another plugin (e.g. a session manager)
-          changed the app's session via PROC_SET_SESSION.
-        - APPSTATE_SESSION_LOAD: a session was loaded that doesn't belong
-          to the open project.
+        - APPSTATE_SESSION_SAVE_AFTER: a session save just finished (the
+          ~40 s autosave with real tab changes, a session switch, a
+          project save/switch, the save on exit -- see DoOps_SaveSession
+          in formmain_loadsave.inc, which fires it for project-internal
+          sessions too). While a project is open, the saved session is
+          one of the project's slots inside the .cuda-proj file, so the
+          file may have changed: refresh its rotating backup
+          (_backup_project_file; the backup itself skips the copy when
+          the file did not change on disk, so saves which rewrote
+          nothing cost nothing).
+        - APPSTATE_SESSION_SET / APPSTATE_SESSION_LOAD: detect external
+          session switching (issue #6366). If a project is open and the
+          app's session no longer belongs to it, close the project
+          silently (no tab closing, no DEF_SES load), so the project's
+          session and the foreign session don't fight over the app's
+          session slot.
 
         Session changes made by the plugin itself are guarded with
         _session_set_by_plugin and ignored here."""
+        if state == APPSTATE_SESSION_SAVE_AFTER:
+            res = self._backup_project_file()
+            if res:
+                msg_status(_('Project backup: ') + res)
+            return
+
         if state in (APPSTATE_SESSION_SET, APPSTATE_SESSION_LOAD):
             if self._session_set_by_plugin:
                 return

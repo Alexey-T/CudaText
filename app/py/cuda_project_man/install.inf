@@ -94,6 +94,11 @@ section=commands
 caption=&Project Manager\Save project &as...
 method=action_save_project_as
 
+[item37]
+section=commands
+caption=&Project Manager\Backup project &file now
+method=action_backup_project_now
+
 [item19]
 section=commands
 caption=&Project Manager\&Close project

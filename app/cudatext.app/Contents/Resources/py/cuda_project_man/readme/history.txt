@@ -39,6 +39,26 @@
   (it would bake the old tabs into the new project), session_delete
   aborts the deletion, 'Close project' reports the cancelled state and
   repairs its no-default-session close path the same way
+- new rotating backups of the open project file, covering what
+  CudaText's own session backup never covered: it rotates plain
+  session FILES (ui_backup_sessions, the .N.cuda-session files), while
+  a project's sessions live INSIDE the .cuda-proj JSON, so the project
+  file had no backup at all. After every session save into the project
+  (APPSTATE_SESSION_SAVE_AFTER fires for the ~40 s autosave with real
+  tab changes, session switches, project saves/switches, and the exit
+  save alike), the whole file (nodes, vars, all embedded sessions) is
+  copied into the backup folder — but only when it really changed on
+  disk (size+mtime compared with the newest backup, detected across
+  restarts too; saves which rewrote nothing write nothing). Backups:
+  "<project>.cuda-proj.1.bak" ... ".N.bak" (oldest dropped on
+  rotation). The copy is atomic (temp file + rename); a torn project
+  file (tail not ending like complete JSON) is never propagated into
+  the backups; errors are reported once per path. New options:
+  "backup_enabled" (default on), "backup_folder" (default
+  ".cudatext/proj_bckp" next to the project file; absolute or relative
+  to the project file, both "/" and "\" separators work on Windows,
+  macOS and Linux), "backup_count" (default 4). New command 'Backup
+  project file now' makes a snapshot on demand
 
 2026.11.03
 - fixed #6587: the auto-unfolding of a folder during a drag&drop did not

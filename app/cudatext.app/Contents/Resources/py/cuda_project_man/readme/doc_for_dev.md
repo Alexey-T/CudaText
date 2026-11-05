@@ -25,6 +25,7 @@ and #6366 (external session switch detection).
 11. Writing files
 12. Known non-obvious behaviors
 13. Drag & drop
+14. Project file backups
 
 ---
 ## 1. Core concepts
@@ -205,6 +206,11 @@ Check the return value when the next step closes tabs (see §5).
     in `_drop_kind`/`_move_node_on_disk` (no overwrite, no move of a
     folder into itself / its own subfolder, root nodes are only
     reordered, never relocated). See §13.
+13. Project file backups always copy the ON-DISK file, never the
+    in-memory mirror, and run only from APPSTATE_SESSION_SAVE_AFTER
+    with an on-disk change check (§14) — a backup never depends on
+    plugin bookkeeping being current, and a no-op save never writes
+    one.
 
 ---
 ## 5. Tab closing rules
@@ -646,6 +652,35 @@ held anymore (`PROC_GET_KEYSTATE`). For inner drags only nodes which
 are valid drop targets (`_drop_kind`) unfold — the same nodes the
 drop-target highlight accepts; for file-manager drags any node unfolds
 (navigation preview, like in OS file managers).
+
+## 14. Project file backups
+
+Rotating backups of the whole .cuda-proj live in
+`projman_backup.py` (`ProjectFileBackups`), options `backup_enabled` /
+`backup_folder` / `backup_count`. See readme.txt ("Project file
+backups") for the user-facing rules; the developer-facing ones:
+
+- Trigger: `on_state(APPSTATE_SESSION_SAVE_AFTER)`, i.e. the app
+  finished a session save — timer autosave, exit save, session
+  switches, plugin `PROC_SAVE_SESSION` calls. The event fires for
+  every save OPERATION, including ones that rewrote nothing
+  (non-timer saves always set `bSessionUpdated` in the core), so the
+  dedup is the (size, mtime_ns) of the file vs the newest backup
+  (copy2 preserves mtime → survives restarts). While a project is
+  open the saved session is always one of its slots (invariant 1), so
+  "project open" is the only gating the handler needs.
+- The backup copies the on-disk file, never the in-memory mirror:
+  after any write the disk file is the freshest complete state (§3,
+  §11), and reading the mirror would duplicate tens of MB needlessly.
+- The copy is atomic (temp + `os.replace`) and guarded by a JSON-tail
+  check: a torn file (which §11 already makes impossible for plugin
+  writes — the check covers foreign/truncated files) never enters the
+  backup chain; warnings fire once per path until a backup succeeds.
+- One set per project lives in `resolve_backup_dir(fn_proj, folder)`:
+  relative folder values resolve against the project file's dir; both
+  `/` and `\` are accepted as separators on every OS.
+- `action_backup_project_now` (menu command) is the same code path
+  with `force=True`: it rotates even when the stat is unchanged.
 
 ### API additions this plugin depends on (app 1.239.0)
 

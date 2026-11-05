@@ -276,10 +276,13 @@ Close tabs not belonging to project) live only in the Plugins menu.
 
   Create new empty project... / Create new project from open tabs... /
   Open project... / Open recent project... / Save project /
-  Save project as... / Close project / Open project folder
-      The project lifecycle: create, open, save, close. "Open project
-      folder" opens the folder containing the .cuda-proj file in the OS
-      file manager.
+  Save project as... / Backup project file now / Close project /
+  Open project folder
+      The project lifecycle: create, open, save, close. "Backup project
+      file now" makes one rotating backup of the project file on
+      demand (see "Project file backups"); "Open project folder"
+      opens the folder containing the .cuda-proj file in the OS file
+      manager.
 
   Add to project: folder... / file... / current file /
   all opened files / folder of the current file
@@ -358,6 +361,23 @@ Open via the menu: Project Manager > Config..., the panel context menu
   Sorting order (*):      How to sort items in the tree: by name,
                           extension, size, date, etc.
 
+  Backup project file
+  when its sessions
+  change:                Makes rotating backups of the whole project
+                          file into the backup folder. See "Project
+                          file backups" under AUTOMATIC BEHAVIORS.
+                          Default: on.
+
+  Backup folder:          Folder for the backups: an absolute path, or
+                          a path relative to the project file
+                          (default: ".cudatext/proj_bckp", so the
+                          backups live next to the project). Both "/"
+                          and "\" work as separators on Windows,
+                          macOS and Linux. Empty value = the default.
+
+  Backups to keep:        How many backup files to keep per project,
+                          rotating (default: 4; 0 keeps none).
+
   (*) - requires CudaText restart
 
 
@@ -426,6 +446,45 @@ Old project format (automatic upgrade)
 
   Files marked with a version newer than the plugin supports are
   refused with an explanation (update CudaText / plugins first).
+
+Project file backups
+  The plugin keeps rotating backups of the open project file: the
+  whole .cuda-proj (nodes, vars and every embedded session) is copied
+  into the backup folder whenever the file changed on disk. CudaText's
+  own session backup (the option ui_backup_sessions, the
+  .N.cuda-session files) never covers project files: it rotates plain
+  session files, while a project's sessions live inside the project
+  file — so without this feature the .cuda-proj is a single point of
+  failure for the project tree AND all its sessions.
+
+  A backup is refreshed right after every session save into the
+  project (CudaText's APPSTATE_SESSION_SAVE_AFTER event): the ~40 s
+  session autosave (which itself only saves when a tab really changed:
+  a different tab set, other files in tabs, or edited text), every
+  session switch, every project save/switch, and the save on exit.
+  The copy itself is skipped when the file did not change since the
+  last backup (size + modification time, detected across restarts
+  too) — saves which rewrote nothing write nothing. Note that a
+  project save or a session switch rewrites the file even when its
+  content ends up identical, so those events make one backup copy.
+
+  Backups are named "<project>.cuda-proj.1.bak" (newest) up to
+  "<project>.cuda-proj.N.bak" (oldest, dropped when the set rotates),
+  N = the "Backups to keep" option. The copy is written to a temp
+  name and renamed, so an interrupted copy cannot corrupt the chain;
+  a project file which does not end like a complete JSON object (a
+  torn write) is never propagated into the backups — the older
+  backups are kept instead. The command "Backup project file now"
+  (Plugins > Project Manager) makes one snapshot on demand, even when
+  the file did not change.
+
+  To restore a backup: close the project, copy the chosen .bak file
+  over the .cuda-proj file, reopen the project.
+
+  Note: if several projects with the same file name share ONE
+  absolute backup folder, their backup sets collide (same backup
+  names). Keep the default per-project folder, or use unique project
+  file base names.
 
 Broken project files
   Before opening, project files are validated. Unreadable files,
