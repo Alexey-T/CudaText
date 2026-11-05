@@ -277,7 +277,7 @@ begin
     ini.ReadSections(sections);
     for section in sections do
     begin
-      if not SRegexMatchesString(section, 'lexer\d+', true) then Continue;
+      if not SMatchesBeginWithTrailingDigits(section, 'lexer') then Continue;
 
       SLexer:= ini.ReadString(section, 'file', '');
       if SLexer='' then Break;
@@ -323,7 +323,7 @@ begin
 
     for sec in sections do
     begin
-      if not SRegexMatchesString(sec, 'item\d+', true) then Continue;
+      if not SMatchesBeginWithTrailingDigits(sec, 'item') then Continue;
       s_hotkey:= ini.ReadString(sec, 'hotkey', '');
       if s_hotkey<>'' then
       begin
@@ -405,13 +405,13 @@ begin
 
     for ini_section in sections do
     begin
-      if SRegexMatchesString(ini_section, 'fmt\d+', true) then
+      if SMatchesBeginWithTrailingDigits(ini_section, 'fmt') then
       begin
         s_caption:= ini.ReadString(ini_section, 'caption', '');
         AReport+= msgStatusPackageFormatter+' '+s_caption+#10;
       end
       else
-      if SRegexMatchesString(ini_section, 'item\d+', true) then
+      if SMatchesBeginWithTrailingDigits(ini_section, 'item') then
       begin
         s_section:= ini.ReadString(ini_section, 'section', '');
         s_caption:= ini.ReadString(ini_section, 'caption', '');
@@ -468,7 +468,7 @@ begin
           ANeedRestart:= true;
           AReport+= msgStatusPackageEvents+' '+s_events+#10;
         end;
-      end; //if SRegexMatchesString(ini_section, 'item\d+', true)
+      end; //if SMatchesBeginWithTrailingDigits(ini_section, 'item\d+', true)
     end;
   finally
     FreeAndNil(sections);
@@ -503,7 +503,7 @@ begin
     ini_file.ReadSections(sections);
     for ini_section in sections do
     begin
-      if not SRegexMatchesString(ini_section, 'lexer\d+', true) then Continue;
+      if not SMatchesBeginWithTrailingDigits(ini_section, 'lexer') then Continue;
 
       s_lexer:= ini_file.ReadString(ini_section, 'file', '');
       if s_lexer='' then Break;

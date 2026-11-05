@@ -42,6 +42,7 @@ function STextListsFuzzyInput(const AText, AFind: string;
   AEnableFuzzy: boolean): boolean;
 function SRegexReplaceSubstring(const AStr, AStrFind, AStrReplace: string; AUseSubstitute: boolean): string;
 function SRegexMatchesString(const ASubject, ARegex: string; ACaseSensitive: boolean): boolean;
+function SMatchesBeginWithTrailingDigits(const ASubject, ABegin: string): boolean;
 
 function SSurroundByCommas(const S: string): string;
 function IsLexerListed(const AItem, AItemList: string): boolean;
@@ -373,6 +374,21 @@ begin
   end;
 end;
 
+
+function SMatchesBeginWithTrailingDigits(const ASubject, ABegin: string): boolean;
+var
+  i: integer;
+begin
+  Result:= false;
+  if ASubject='' then exit;
+  if ABegin='' then exit;
+  if Length(ASubject)<=Length(ABegin) then exit;
+  for i:= 1 to Length(ABegin) do
+    if ASubject[i]<>ABegin[i] then exit;
+  for i:= Length(ABegin)+1 to Length(ASubject) do
+    if not (ASubject[i] in ['0'..'9']) then exit;
+  Result:= true;
+end;
 
 function SParseFilenameWithNumber(var fn: string): integer;
 var
