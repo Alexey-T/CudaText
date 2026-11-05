@@ -5,11 +5,13 @@ import collections
 import json
 import stat
 import copy
+import functools
 import string
 import time
 from fnmatch import fnmatch
 from pathlib import Path, PurePosixPath
 from .projman_glob import *
+from .projman_backup import ProjectFileBackups, DEFAULT_BACKUP_COUNT, DEFAULT_BACKUP_FOLDER
 
 from cudatext import *
 from cudatext_keys import *
@@ -380,6 +382,68 @@ def _toolbar_add_btn(h_bar, hint, icon=-1, command=''):
         button_proc(h_btn, BTN_SET_DATA1, command)
 
 
+def _time_am_pm():
+    """Current local time as e.g. '4:23:07 AM' (12-hour clock, no
+    leading zero, like the OS clock shows it) -- the timestamp of the
+    console report of an automatic project backup."""
+    from datetime import datetime
+    return datetime.now().strftime('%I:%M:%S %p').lstrip('0')
+
+
+def _with_backup_cause(cause):
+    """Decorator for the Command methods which trigger session saves
+    themselves. While a decorated method runs:
+
+    - the automatic project backup made by its saves is labeled with
+      `cause` in the console report ('Project Manager: project backup
+      <cause> at <time>: ...');
+    - its saves are NOT backed up one by one. One command can save the
+      session several times in a row: 'Save session as...' saves the
+      currently active slot AND the new one (two rewrites of the whole
+      .cuda-proj), 'Save project as...' into a new path saves the old
+      project's slot and the new file's slot. Backing every save up
+      would rotate the backup set on half-done intermediate states --
+      after 'Save session as...', the newest backup lacked the very
+      session the command was creating, while another slot held the
+      same state minus that session. So every APPSTATE_SESSION_SAVE_AFTER
+      made inside the flow only REMEMBERS the project file it may have
+      changed (on_state appends it to _backup_pending); ONE backup per
+      remembered file is made when the OUTERMOST decorated method of
+      the flow ends -- the final on-disk state, one rotation step.
+
+    Only the OUTERMOST decorated method of a flow sets the label --
+    action_save_project -> action_save_project_as -> session_save_as
+    reports the action the user actually invoked ('on project save'),
+    not the internal helper. Saves made while NO decorated method runs
+    (CudaText's ~40 s session autosave, or its session manager writing
+    the current session) keep the default label 'by timer' and are
+    backed up immediately, one event at a time (single saves: nothing
+    to coalesce)."""
+    def deco(fn):
+        @functools.wraps(fn)
+        def wrapper(self, *args, **kwargs):
+            outermost = not self._backup_flow
+            prev = self._backup_cause
+            if outermost:
+                if not prev:
+                    self._backup_cause = cause
+                self._backup_pending = []
+            self._backup_flow += 1
+            try:
+                return fn(self, *args, **kwargs)
+            finally:
+                self._backup_flow -= 1
+                if outermost:
+                    pending = self._backup_pending
+                    label = self._backup_cause
+                    self._backup_pending = []
+                    self._backup_cause = prev
+                    for fn_proj in pending:
+                        self._backup_file_reported(fn_proj, label)
+        return wrapper
+    return deco
+
+
 class Command:
     goto_history = []
     cur_dir = ''
@@ -410,6 +474,7 @@ class Command:
         ("-", "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "", ""),
         (_("Save project"), "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_save_project", ""),
         (_("Save project as..."), "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_save_project_as", ""),
+        (_("Backup project file now"), "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_backup_project_now", ""),
         (_("Close project"), "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_close_project", ""),
         (_("Open project folder"), "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_open_project_folder", ""),
         ("-", "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "", ""),
@@ -488,6 +553,9 @@ class Command:
         "on_start_activate": False,
         "icon_theme": "vscode_16x16",
         "toolbar_theme": "default_16x16",
+        "backup_enabled": True,
+        "backup_folder": DEFAULT_BACKUP_FOLDER,
+        "backup_count": DEFAULT_BACKUP_COUNT,
     }
     # Default options used as the base when loading from disk: any key
     # missing from the loaded file is filled in from here, so settings
@@ -559,6 +627,31 @@ class Command:
 
         settings_dir = Path(app_path(APP_DIR_SETTINGS))
         self.options_filename = settings_dir / "cuda_project_man.json"
+        # Rotating backups of the open project file; see projman_backup.
+        # Warnings go to the console via print.
+        self.project_backups = ProjectFileBackups(log=print)
+        # Cause label for the automatic backup report of the session save
+        # which is running now ('' = the plugin's commands did NOT
+        # initiate it: CudaText's session autosave / session manager --
+        # reported as 'by timer'). Set while a method decorated with
+        # _with_backup_cause runs; on_exit pins it to 'on exit' so the
+        # app's own exit save (which runs right after on_exit) is
+        # labelled too.
+        self._backup_cause = ''
+        # Depth of the _with_backup_cause-decorated methods currently on
+        # the stack (0 = no plugin command which saves sessions is
+        # running). While a command runs, APPSTATE_SESSION_SAVE_AFTER
+        # only records the project files it may have changed
+        # (_backup_pending); the backups are made once, when the
+        # outermost command ends -- see _with_backup_cause.
+        self._backup_flow = 0
+        # Project files (os.path.normpath'd) whose session was saved
+        # inside the running decorated command; each gets ONE backup
+        # (of the final state) when the outermost command ends. A list,
+        # not a set: 'Save project as...' into a new path touches the
+        # old file first and the new file second, and the backups follow
+        # that order.
+        self._backup_pending = []
         # Start from a fresh copy of the defaults, then merge the loaded
         # file on top. This ensures newly added options appear even in old
         # config files, while preserving the user's existing values.
@@ -1176,6 +1269,7 @@ class Command:
         else:
             msg_status(_("Drop not allowed here"))
 
+    @_with_backup_cause('on project save')
     def _reorder_root_node(self, src_path, before_path):
         """Move the root project entry src_path before the root entry
         before_path (or to the end of the list when before_path is None)."""
@@ -1187,11 +1281,15 @@ class Command:
             nodes.insert(nodes.index(before_path), src_path)
         else:
             nodes.append(src_path)
+        # no APPSTATE_PROJECT_NODE_ADD/DEL here: the same nodes, only
+        # their order changed -- 'added/removed' would be a lie; the
+        # save below still reports the change through the backup cause
         self.action_refresh()
         if self.project_file_path:
             self.action_save_project_as(self.project_file_path)
         msg_status(_('Project node moved'))
 
+    @_with_backup_cause('on project save')
     def _move_node_on_disk(self, src_path, tgt_folder):
         """Move the file/folder src_path into tgt_folder, like the plugin's
         Cut+Paste does. Updates the project when the moved path was a root
@@ -1211,6 +1309,9 @@ class Command:
         # allowed, but be safe): point the project to the new location
         if src_path in self.project['nodes']:
             self.project['nodes'][self.project['nodes'].index(src_path)] = dst_path
+            # the node list changed: old path removed, new path added
+            self._fire_project_nodes_removed()
+            self._fire_project_nodes_added()
         if self.project.get('mainfile', '') == src_path:
             self.project['mainfile'] = dst_path
             self.update_global_data()
@@ -1492,6 +1593,7 @@ class Command:
 
         return isfile, key, path.name.upper()
 
+    @_with_backup_cause('on project save')
     def add_node(self, path):
         if path:
             if path in self.project["nodes"]:
@@ -1500,6 +1602,7 @@ class Command:
             msg_status(_("Adding to project: ") + '"' + collapse_filename(path) + '"', True)
             self.project["nodes"].append(path)
             self.project["nodes"].sort(key=Command.node_ordering)
+            self._fire_project_nodes_added()
             self.action_refresh()
             if self.project_file_path:
                 self.action_save_project_as(self.project_file_path)
@@ -2075,6 +2178,7 @@ class Command:
         self._create_project_file(path, close_tabs=True)
         msg_status(_("Created project: ") + '"' + os.path.basename(str(path)) + '"')
 
+    @_with_backup_cause('on project switch')
     def _create_project_file(self, path, close_tabs=True):
         """Create a new project file at `path` and make it the current
         project. Saves the current project (and its session slot) first.
@@ -2095,6 +2199,10 @@ class Command:
 
         # Save the current project and its session slot before switching
         had_project = bool(self.project_file_path)
+        # Abort-revert target for the load below: the session owning the
+        # current tabs (the old project's slot / the app session file),
+        # captured before the flow re-points it
+        old_ptr = self._current_state_session_ptr()
         if had_project:
             self.action_save_project_as(self.project_file_path)
             # (action_save_project_as -> session_save_as saves the CURRENT
@@ -2103,10 +2211,17 @@ class Command:
             # file a second time for the same state)
 
         if close_tabs:
-            # Close all tabs (the current state is saved into its session
-            # first, so unsaved text is not lost — see
-            # _close_tabs_saving_state)
-            self._close_tabs_saving_state(skip_session_save=had_project)
+            # Save the current state into the session it belongs to (the
+            # old project's slot / the app session file), then only clear
+            # the modified flags: the closing of the old tabs is left to
+            # the PROC_LOAD_SESSION(sess1) below (session1 does not exist
+            # in the new project file yet, so the load closes the tabs and
+            # restores nothing). The load's closes run under
+            # APPSTATE_SESSION_LOAD_BEGIN_PRE, so plugins like cuda_differ
+            # keep the closing tabs' per-session registrations.
+            saved = self._save_session_before_close_tabs(already_saved=had_project)
+            if saved:
+                self._clear_modified_all_tabs()
 
         # Reset project state
         self.project = normalize_project_data(dict(nodes=[]))
@@ -2126,8 +2241,30 @@ class Command:
 
         # Create session1 inside the project and set as active
         sess1 = path_str + '|/sessions/session1'
-        app_proc(PROC_SAVE_SESSION, sess1)
-        self._set_session(sess1)
+        if close_tabs:
+            # Point the app session at session1 BEFORE the load (the
+            # APPSTATE_SESSION_LOAD the load fires must find the pointer
+            # inside the project, else on_state closes the project). The
+            # load of the not-yet-existing session1 closes the old tabs
+            # and restores none of them; the save below then stores the
+            # now-empty state as session1. (An empty target session also
+            # resets the tab-group layout to the default single group —
+            # acceptable for a brand-new empty project.)
+            self._set_session(sess1)
+            # On an ABORTED load (Cancel in 'Save modified tab?' -- only
+            # reachable when the state save failed, so modified flags
+            # stayed) skip the save too: it would bake the still-open OLD
+            # tabs into the new project's session1. The repair re-points
+            # the app session to old_ptr, so the ~40 s session autosave
+            # writes the tabs into their owner's slot instead.
+            if self._load_session_repairing_abort(sess1, old_ptr,
+                    _('Tab closing cancelled; old tabs kept')):
+                app_proc(PROC_SAVE_SESSION, sess1)
+        else:
+            # 'Create project from open tabs': the current tabs BECOME
+            # session1 — save them into it, then point the app session.
+            app_proc(PROC_SAVE_SESSION, sess1)
+            self._set_session(sess1)
 
         # refresh the in-memory project from the file on disk (it now
         # contains session1 and last_session)
@@ -2147,6 +2284,7 @@ class Command:
 
         self.action_refresh()
 
+    @_with_backup_cause('on project save')
     def action_save_session_as_project(self, info=None):
         """Save the current editor state as a NEW project: prompts for the
         .cuda-proj location, embeds the currently open tabs as session
@@ -2173,6 +2311,7 @@ class Command:
         self._create_project_file(path, close_tabs=False)
         msg_status(_("Created project from current session: ") + os.path.basename(str(path)))
 
+    @_with_backup_cause('on project save')
     def action_save_project(self):
         """Save project in place. Falls back to Save as... if no path yet."""
         if self.project_file_path:
@@ -2180,6 +2319,7 @@ class Command:
         else:
             self.action_save_project_as()
 
+    @_with_backup_cause('on project close')
     def action_close_project(self):
         """Close the current project: save session, close all tabs, load
         default.cuda-session (restoring, not overwriting, its tabs)."""
@@ -2187,17 +2327,22 @@ class Command:
         # Saving the project also saves the current session into its slot
         # inside the project file
         had_project = bool(self.project_file_path)
+        # Abort-revert target, captured before the project is forgotten:
+        # with a project open, its session slot owns the current tabs
+        # (without a project the app session already IS the DEF_SES the
+        # flow switches to -- nothing to protect, no revert)
+        old_ptr = self._current_state_session_ptr() if had_project else ''
         if had_project:
             self.action_save_project_as(self.project_file_path)
 
-        # Close all tabs. The current state is saved into the session it
-        # belongs to first (the project's session slot / the app's session
-        # file), so unsaved text is not lost — see _close_tabs_saving_state.
-        # skip_session_save: the save just happened inside
+        # Save the current state into the session it belongs to (the
+        # project's session slot / the app's session file), so unsaved text
+        # is not lost. skip_session_save: the save just happened inside
         # action_save_project_as, no tab could change since (synchronous
         # code) — a second PROC_SAVE_SESSION would rewrite the whole big
-        # project file again for the same state.
-        self._close_tabs_saving_state(skip_session_save=had_project)
+        # project file again for the same state. The CLOSING of the tabs is
+        # left to the default-session load below.
+        saved = self._save_session_before_close_tabs(already_saved=had_project)
 
         # Forget the project BEFORE touching the app session: the
         # _set_session/PROC_LOAD_SESSION calls below fire app state events,
@@ -2211,12 +2356,42 @@ class Command:
         # subscribes it again).
         self._update_on_start_subscription(False)
 
-        # Load default session via PROC_LOAD_SESSION (reads, doesn't overwrite)
+        # Load default session via PROC_LOAD_SESSION (reads, doesn't
+        # overwrite). The load itself closes the old tabs (all groups,
+        # pinned included) under APPSTATE_SESSION_LOAD_BEGIN_PRE, so
+        # plugins like cuda_differ keep the closing tabs' per-session
+        # registrations -- the project's tabs, compare tabs included, come
+        # fully back when the project is opened again. Clear the modified
+        # flags first (the state is in its session now): a tab still marked
+        # modified would make the load ask 'Save modified tab?', and a
+        # Cancel there aborts the load -- _load_session_repairing_abort
+        # then re-points the app session back to the project's slot, so
+        # the ~40 s session autosave cannot write the still-open project
+        # tabs into default.cuda-session.
         self._set_session(DEF_SES)
         default_sess_path = os.path.join(app_path(APP_DIR_SETTINGS), DEF_SES)
-        app_proc(PROC_LOAD_SESSION, default_sess_path)
+        aborted = False
+        if os.path.isfile(default_sess_path):
+            if saved:
+                self._clear_modified_all_tabs()
+            ok = self._load_session_repairing_abort(default_sess_path,
+                old_ptr, _('Project close cancelled; tabs kept'))
+            aborted = (not ok) and bool(ed_handles())
+        else:
+            # No default session file: PROC_LOAD_SESSION exits BEFORE
+            # closing any tab (the file must exist), so close here.
+            self.close_all_tabs(silent=saved)
+            if ed_handles():
+                # The close was cancelled in its own confirm: same repair
+                # as a load abort -- the still-open tabs belong to old_ptr,
+                # and the autosave must not write them into DEF_SES.
+                if old_ptr:
+                    self._set_session(old_ptr)
+                msg_status(_('Project close cancelled; tabs kept'))
+                aborted = True
 
-        msg_status(_("Project closed"))
+        if not aborted:
+            msg_status(_("Project closed"))
 
     def _set_session(self, ptr):
         """app_proc(PROC_SET_SESSION, ...) wrapper for session changes made
@@ -2392,8 +2567,13 @@ class Command:
 
         self.action_refresh()
 
+    @_with_backup_cause('on project switch')
     def action_open_project(self, info=None, load_session=True):
         had_project = bool(self.project_file_path)
+        # Abort-revert target for the load at the bottom: the session
+        # owning the current tabs (the old project's slot / the app
+        # session file), captured before the flow re-points it
+        old_ptr = self._current_state_session_ptr()
         if had_project:
             self.action_save_project_as(self.project_file_path)
 
@@ -2457,15 +2637,38 @@ class Command:
         if not self.tree:
             self.init_panel()
 
-        # Save the current session to its slot, then close all tabs.
-        # Skipped when load_session=False (on_start when CudaText
-        # already loaded the project session from history.json).
+        # Save the current session to its slot, then prepare the tabs for
+        # the closing load below. Skipped when load_session=False (on_start
+        # when CudaText already loaded the project session from
+        # history.json).
         # skip_session_save: with a project open, action_save_project_as
         # above saved the current session into its slot already (same
         # synchronous call, no tab could change since); without a project
         # the state goes to the app session file as before.
         if load_session:
-            self._close_tabs_saving_state(skip_session_save=had_project)
+            saved = self._save_session_before_close_tabs(already_saved=had_project)
+            if data.get('sessions'):
+                # The project has sessions: DON'T close the old tabs here.
+                # The PROC_LOAD_SESSION at the bottom of this method closes
+                # them itself (its DoFileCloseAll runs under
+                # APPSTATE_SESSION_LOAD_BEGIN_PRE, issue #6496), so plugins
+                # like cuda_differ can tell these closes from user closes
+                # and keep the closing tabs' per-session registrations -- a
+                # compare tab created in the old project then comes fully
+                # back (toolbar, overview, title color) when that project's
+                # session is loaded again. Only clear the modified flags
+                # here: the state is stored in its session now, and a tab
+                # still marked modified would make the load ask
+                # 'Save modified tab?' -- where Cancel aborts the whole
+                # switch with the session pointer already re-pointed.
+                if saved:
+                    self._clear_modified_all_tabs()
+            else:
+                # Legacy session-less project file: no session exists to
+                # load, so no load would close the old tabs -- close them
+                # here (the current state was saved into its session first,
+                # so unsaved text is not lost).
+                self.close_all_tabs(silent=saved)
 
         # Adopt the validated project
         self.project = data
@@ -2512,7 +2715,14 @@ class Command:
                     sess = names[0]
                 sess_path = str(path) + '|/sessions/' + sess
                 self._set_session(sess_path)
-                app_proc(PROC_LOAD_SESSION, sess_path)
+                # A cancelled load (Cancel in 'Save modified tab?', only
+                # reachable when the slot save failed) is repaired by
+                # re-pointing the app session to old_ptr: the still-open
+                # old tabs then stay in their owner's slot, and this
+                # project's session cannot be clobbered by the ~40 s
+                # session autosave.
+                self._load_session_repairing_abort(sess_path, old_ptr,
+                    _('Project switch cancelled; old tabs kept'))
             else:
                 # A project always keeps at least one session (a project is
                 # itself a session): create 'session1' from the current
@@ -2648,6 +2858,7 @@ class Command:
         fn = dlg_file(True, "", "", "")
         self.add_node(fn)
 
+    @_with_backup_cause('on project save')
     def action_remove_node(self):
         index = self.selected
         while True:
@@ -2666,6 +2877,7 @@ class Command:
         tree_proc(self.tree, TREE_ITEM_DELETE, index)
         if path in self.project["nodes"]:
             self.project["nodes"].remove(path)
+            self._fire_project_nodes_removed()
             if (self.cur_dir+os.sep).startswith(path+os.sep):
                 app_proc(PROC_SET_FOLDER, '')
                 self.cur_dir = ''
@@ -2675,6 +2887,7 @@ class Command:
         if self.project_file_path:
             self.action_save_project_as(self.project_file_path)
 
+    @_with_backup_cause('on project save')
     def action_remove_deleted_nodes(self):
 
         if msg_box(_("Remove missing paths from the project?"), MB_OKCANCEL + MB_ICONWARNING) != ID_OK:
@@ -2691,6 +2904,7 @@ class Command:
                 nodes_deleted.append(str(path_))
 
         if len(nodes_deleted) > 0:
+            self._fire_project_nodes_removed()
             self.action_refresh()
 
             if self.project_file_path:
@@ -2699,6 +2913,7 @@ class Command:
         else:
             msg_status(_('No missing paths'))
 
+    @_with_backup_cause('on project save')
     def action_set_as_main_file(self):
 
         path = self.get_location_by_index(self.selected)
@@ -2708,6 +2923,7 @@ class Command:
         if self.project_file_path:
             self.action_save_project_as(self.project_file_path)
 
+    @_with_backup_cause('on project save')
     def action_save_project_as(self, path=None):
 
         need_refresh = path is None
@@ -2813,6 +3029,78 @@ class Command:
                 self.action_refresh()
                 self.save_options()
 
+    def _backup_file_reported(self, fn_proj, cause):
+        """One AUTOMATIC backup of the project file fn_proj, with the
+        console report line. The two callers: the on_state handler for
+        session saves the plugin did NOT initiate (no decorated command
+        running -- 'by timer' / the pinned 'on exit'), and the
+        _with_backup_cause flush for the saves made inside a plugin
+        command (one backup per touched project file, of the FINAL
+        state -- the intermediate half-done states are skipped, see
+        _with_backup_cause).
+
+        `cause` labels the save which changed the file ('' = the app
+        saved on its own). Returns the new backup path, or None when no
+        backup was made (unchanged / disabled / failed -- failures are
+        reported through the ProjectFileBackups log callback)."""
+        if not fn_proj:
+            return None
+        if not self.options.get('backup_enabled', True):
+            return None
+        res = self.project_backups.run(
+            fn_proj,
+            folder=self.options.get('backup_folder', ''),
+            count=self.options.get('backup_count', DEFAULT_BACKUP_COUNT),
+            )
+        if res:
+            # console, NOT the status bar: the automatic backup can fire
+            # every ~40 s while typing, a status bar line per backup
+            # would be spam; the status bar is reserved for the manual
+            # 'Backup project file now'
+            print(_('Project Manager: project backup %s at %s: %s')
+                  % (_(cause or 'by timer'), _time_am_pm(), res))
+        return res
+
+    def _backup_project_file(self, force=False):
+        """Backup of the OPEN project file -- the MANUAL path (the menu
+        command 'Backup project file now', force=True): no console
+        report here, the command itself reports to the status bar. The
+        automatic path is _backup_file_reported.
+
+        force=True ignores the 'backup_enabled' option and a
+        'backup_count' below 1 -- a manual snapshot is always allowed
+        and always keeps the newest copy."""
+        if not self.project_file_path:
+            return None
+        if not force and not self.options.get('backup_enabled', True):
+            return None
+        return self.project_backups.run(
+            str(self.project_file_path),
+            folder=self.options.get('backup_folder', ''),
+            count=self.options.get('backup_count', DEFAULT_BACKUP_COUNT),
+            force=force,
+            )
+
+    def action_backup_project_now(self):
+        """Menu command 'Backup project file now': make one rotating
+        backup of the open project file even when it did not change --
+        a manual snapshot point (e.g. before risky edits).
+
+        Works regardless of the backup options: with 'Backup project
+        file when its sessions change' unchecked, and with 'Backups to
+        keep' at 0 (a manual snapshot always keeps the single newest
+        copy). Reports to the status bar -- the automatic backups
+        report to the console only (they are too frequent for the
+        status bar)."""
+        if not self.project_file_path:
+            msg_status(_('No project open'))
+            return
+        res = self._backup_project_file(force=True)
+        if res:
+            msg_status(_('Project backup: ') + res)
+        else:
+            msg_status(_('Project backup was not created (see console messages)'))
+
     def action_go_to_file(self):
         self.menu_goto()
 
@@ -2877,6 +3165,29 @@ class Command:
         global_project_info['nodes'] = self.project.get('nodes', [])
         global_project_info['vars'] = self.project.setdefault('vars', [])
         global_project_info['mainfile'] = self.project.setdefault('mainfile', '')
+
+    def _fire_project_nodes_added(self):
+        """Fire APPSTATE_PROJECT_NODE_ADD: node(s) were added to the open
+        project's tree. For OTHER plugins: until now only project
+        open/close had an app event (APPSTATE_PROJECT, fired by the core
+        when this plugin calls PROC_SET_PROJECT), tree node changes were
+        invisible and listeners had to poll global_project_info. The
+        dict is refreshed FIRST, so an on_state listener already sees
+        the new node list. Fired once per finished operation, not per
+        node. Additions funnel through add_node ('Add folder/file',
+        drag&drop from the OS file manager, file creation and rename
+        flows); _move_node_on_disk fires it directly for the new path
+        of a moved node."""
+        self.update_global_data()
+        app_proc(PROC_PROJECT_NODE_ADD, '')
+
+    def _fire_project_nodes_removed(self):
+        """Fire APPSTATE_PROJECT_NODE_DEL: node(s) were removed from the
+        open project's tree; see _fire_project_nodes_added. Fired once
+        per finished operation ('Remove missing paths' removes a whole
+        batch with one event)."""
+        self.update_global_data()
+        app_proc(PROC_PROJECT_NODE_DEL, '')
 
     def get_info(self, index):
         if index is None:
@@ -3039,6 +3350,11 @@ class Command:
             return False #block opening
 
     def on_exit(self, ed_self):
+        # label the backups made by the exit saves -- this one, and the
+        # app's own session save which runs right after on_exit (the core
+        # fires OnExit first, then DoOps_SaveHistory saves the session) --
+        # instead of the default 'by timer'
+        self._backup_cause = 'on exit'
         if self.project_file_path:
             self.action_save_project_as(self.project_file_path)
         else:
@@ -3105,6 +3421,7 @@ class Command:
         else:
             ini_proc(INI_DELETE_KEY, 'plugins.ini', 'events', 'cuda_project_man')
 
+    @_with_backup_cause('on project save')
     def config_proj(self):
         if not self.tree:
             msg_status(_('No project open'))
@@ -3406,6 +3723,7 @@ class Command:
             tree_proc(self.tree, TREE_ITEM_DELETE, data)
             if str(path) in self.project["nodes"]:
                 self.project["nodes"].remove(str(path))
+                self._fire_project_nodes_removed()
             return
 
         if info.image != self.ICON_DIR:
@@ -3905,7 +4223,17 @@ class Command:
             self.close_all_tabs(silent=False)
             ptr = str(fn) + '|/sessions/' + repl
             self._set_session(ptr)
-            app_proc(PROC_LOAD_SESSION, ptr)
+            # A cancelled load MUST stop the deletion: the doomed session's
+            # tabs are still open, and deleting the session (file +
+            # in-memory) with the pointer at the replacement would let the
+            # ~40 s session autosave clobber the REPLACEMENT session with
+            # them. The repair re-points to the doomed session -- it stays
+            # fully alive.
+            ok = self._load_session_repairing_abort(ptr,
+                str(fn) + '|/sessions/' + name,
+                _('Session delete cancelled; session kept'))
+            if not ok and ed_handles():
+                return
 
         # 1. delete the session from the .cuda-proj file
         with open(fn, 'r', encoding='utf8') as f:
@@ -3930,6 +4258,7 @@ class Command:
 
         msg_status(_('Deleted session: ') + name)
 
+    @_with_backup_cause('on session save')
     def session_save_as(self, is_request=True, sess_name=None):
         """Save the current editor state as a session of the project.
 
@@ -4003,6 +4332,7 @@ class Command:
             return
         self.session_load(names[res])
 
+    @_with_backup_cause('on session switch')
     def session_load(self, name=''):
         """Load another session of the current project.
 
@@ -4037,16 +4367,28 @@ class Command:
             # every session switch
             saved = bool(app_proc(PROC_SAVE_SESSION, fn + '|/sessions/' + cur_sess))
 
-        # Close ALL tabs in ALL groups, without switching the session
-        # pointer to DEF_SES — we're switching between sessions within
-        # the same project, not leaving the project. When the slot save
-        # above failed, tabs keep their 'modified' flag so CudaText asks
-        # "save changes?" — unsaved text is never discarded silently.
-        self.close_all_tabs(silent=saved)
+        # Clear the modified flags (the state was just saved into its slot;
+        # sessions embed the text of modified and untitled tabs) and leave
+        # the CLOSING of the tabs to the PROC_LOAD_SESSION below: its
+        # DoFileCloseAll runs under APPSTATE_SESSION_LOAD_BEGIN_PRE, so
+        # plugins like cuda_differ keep the closing tabs' per-session
+        # registrations and re-attach the tabs when this session is loaded
+        # again. A tab still marked modified would make the load ask
+        # 'Save modified tab?', where a Cancel aborts the whole switch —
+        # so when the slot save above failed, the flags stay and the load
+        # asks: unsaved text is never discarded silently. A Cancel is then
+        # repaired by the load call below (the app session goes back to
+        # this slot, so the autosave cannot clobber the target session).
+        if saved:
+            self._clear_modified_all_tabs()
 
-        fn += '|/sessions/'+name
-        self._set_session(fn)
-        app_proc(PROC_LOAD_SESSION, fn)
+        ptr_new = fn + '|/sessions/' + name
+        # Abort-revert target: the session owning the still-open tabs
+        # (the active slot -- the app pointer is not re-pointed yet)
+        old_ptr = self._current_state_session_ptr()
+        self._set_session(ptr_new)
+        self._load_session_repairing_abort(ptr_new, old_ptr,
+            _('Session switch cancelled; tabs kept'))
 
     def action_import_external_session(self):
         """Import an external .cuda-session file into the current project
@@ -4198,8 +4540,95 @@ class Command:
             # not living in a ui-tab it is None
             Editor(h2).set_prop(PROP_MODIFIED, False)
 
+    def _clear_modified_all_tabs(self):
+        """Clear PROP_MODIFIED on every ui-tab (both editors of each, see
+        _clear_modified_all_editors) WITHOUT closing anything.
+
+        Used right before a PROC_LOAD_SESSION whose own DoFileCloseAll will
+        close the tabs: after the state was saved into the session it
+        belongs to, clearing the flags loses nothing (CudaText sessions
+        embed the text of modified and untitled tabs) and keeps the switch
+        promptless -- the app's load path first runs
+        ConfirmAllFramesAreSaved, which asks 'Save modified tab?' for every
+        tab still marked modified, and a CANCEL there aborts the WHOLE
+        session load with the session pointer already switched by the
+        caller (repaired by _load_session_repairing_abort: the app session
+        goes back to the session owning the still-open tabs). The same
+        contract as close_all_tabs(silent=True) minus the
+        unpin and the close: the load's DoCloseAllTabs(AClosePinned=true)
+        closes pinned tabs itself (AppSessionIsClosing suppresses its
+        'Close pinned tab?' confirm)."""
+        for h in ed_handles():
+            self._clear_modified_all_editors(Editor(h))
+
+    def _current_state_session_ptr(self):
+        """The session pointer the CURRENT editor state belongs to: the
+        open project's active session slot, or (no project open / the app
+        session outside the project) the app's current session file.
+        The abort-revert target of _load_session_repairing_abort: after a
+        cancelled load the still-open tabs belong to THAT session, and
+        the ~40 s session autosave must write them there, not into the
+        not-loaded target."""
+        fn_proj = str(self.project_file_path) if self.project_file_path else ''
+        if fn_proj:
+            cur = self.session_cur_name()
+            if cur:
+                return fn_proj + '|/sessions/' + cur
+        return app_path(APP_FILE_SESSION)
+
+    def _load_session_repairing_abort(self, ptr_new, ptr_old, cancelled_msg):
+        """app_proc(PROC_LOAD_SESSION, ptr_new) with repair of the aborted
+        state. Returns the load's bool result.
+
+        The load returns False in two shapes (verified in the core,
+        formmain_loadsave.inc / formmain.pas):
+        - ABORT: its ConfirmAllFramesAreSaved -- which runs BEFORE any
+          tab is closed -- was cancelled (reachable only when the state
+          save failed earlier, so modified tabs kept their flag). Every
+          tab is still open, but the app session pointer was already
+          switched to ptr_new by the caller, so the ~40 s session
+          autosave (SessionSaveInterval) and the exit save would write
+          the still-open tabs into ptr_new's slot, CLOBBERING that
+          session's saved tab set. Repair: re-point the app session to
+          ptr_old -- the session owning the still-open tabs -- so the
+          autosave writes them where they belong. The switch itself is
+          not unwound (the project bookkeeping already ran); the on_state
+          guard closes the project at the next session event when its
+          session no longer belongs to it.
+        - FAIL: the session file could not be parsed -- the tabs ARE
+          closed already and nothing was restored; re-pointing would
+          only aim the autosave at ptr_old's slot and wipe it with the
+          now-empty state. Reported only."""
+        ok = bool(app_proc(PROC_LOAD_SESSION, ptr_new))
+        if ok:
+            return True
+        if ed_handles():
+            # abort: the confirm was cancelled before any close
+            if ptr_old and ptr_old != ptr_new:
+                self._set_session(ptr_old)
+                msg_status(cancelled_msg)
+                print(_('Project Manager: session load cancelled; tabs kept,'
+                        ' app session re-pointed to the tabs\' owner'))
+            else:
+                msg_status(cancelled_msg)
+                print(_('Project Manager: session load cancelled; tabs kept'))
+        else:
+            # fail: the tabs are closed, nothing was restored
+            msg_status(_('Session file could not be loaded; tabs were closed'))
+            print(_('Project Manager: session file could not be parsed;'
+                    ' tabs were closed, nothing restored'))
+        return False
+
     def close_all_tabs(self, silent=True):
         """Close all tabs in all groups without changing the session pointer.
+
+        Only used where NO session load follows the close (legacy
+        session-less project files, a missing default session file on
+        'Close project', deleting the active project session) -- every
+        session/project SWITCH flow leaves the closing to the session load
+        itself (PROC_LOAD_SESSION closes all ui-tabs under
+        APPSTATE_SESSION_LOAD_BEGIN_PRE, so plugins can tell these closes
+        from user closes; see _clear_modified_all_tabs).
 
         silent=True: clears PROP_MODIFIED (in the primary AND secondary
         editor of every tab, see _clear_modified_all_editors) and unpins
@@ -4224,7 +4653,8 @@ class Command:
 
     def _save_session_before_close_tabs(self, already_saved=False):
         """Best-effort save of the current editor state into the session it
-        belongs to, right before close_all_tabs() closes the tabs — the
+        belongs to, right before the tabs are closed (by close_all_tabs, or
+        by the session load's own DoFileCloseAll) — the
         state (INCLUDING the text of modified and untitled tabs, which the
         app embeds into the session) must be stored somewhere before the
         buffers are gone.
@@ -4236,8 +4666,10 @@ class Command:
           write anyway, so this cannot harm an external session; with no
           project open it IS the user's working session.
 
-        Returns True when the state was stored. Callers pass this to
-        close_all_tabs(silent=...): when False, CudaText's own "save
+        Returns True when the state was stored. Callers use this to decide
+        whether the closing may be silent: clear the modified flags
+        (_clear_modified_all_tabs before a load, close_all_tabs(silent=True)
+        otherwise) only when True; when False, CudaText's own "save
         changes?" prompt appears for modified tabs instead."""
         fn_proj = str(self.project_file_path) if self.project_file_path else ''
         cur = self.session_cur_name()
@@ -4257,29 +4689,18 @@ class Command:
             return False
         return bool(app_proc(PROC_SAVE_SESSION, ptr))
 
-    def _close_tabs_saving_state(self, skip_session_save=False):
-        """Close all tabs, saving the current state into the session it
-        belongs to first (see _save_session_before_close_tabs). Used by
-        open/close/create-project flows, where the tabs about to be closed
-        don't belong to the session that is loaded next.
-
-        skip_session_save=True: the caller (action_open_project,
-        action_close_project, _create_project_file) has JUST saved the
-        project via action_save_project_as, which embeds a save of the
-        current session — skip the duplicate save (see
-        _save_session_before_close_tabs)."""
-        saved = self._save_session_before_close_tabs(already_saved=skip_session_save)
-        self.close_all_tabs(silent=saved)
-
+    @_with_backup_cause('on project save')
     def on_delete_file(self, ed_self, fn):
 
         #print('on_delete_file', fn)
         if fn in self.project["nodes"]:
             self.project["nodes"].remove(fn)
+            self._fire_project_nodes_removed()
             self.action_refresh()
             if self.project_file_path:
                 self.action_save_project_as(self.project_file_path)
 
+    @_with_backup_cause('on session save')
     def session_save_inplace(self):
         """Save current state into the current session slot (no prompt).
         Menu entry point for 'Save session'."""
@@ -4315,19 +4736,53 @@ class Command:
                 self.sync_to_ed()
 
     def on_state(self, ed_self, state):
-        """Detect external session switching via app state events (issue
-        #6366). If a project is open and the app's session no longer
-        belongs to it, close the project silently (no tab closing, no
-        DEF_SES load), so the project's session and the foreign session
-        don't fight over the app's session slot.
+        """App state events.
 
-        - APPSTATE_SESSION_SET: another plugin (e.g. a session manager)
-          changed the app's session via PROC_SET_SESSION.
-        - APPSTATE_SESSION_LOAD: a session was loaded that doesn't belong
-          to the open project.
+        - APPSTATE_SESSION_SAVE_AFTER: a session save just finished (the
+          ~40 s autosave with real tab changes, a session switch, a
+          project save/switch, the save on exit -- see DoOps_SaveSession
+          in formmain_loadsave.inc, which fires it for project-internal
+          sessions too). While a project is open, the saved session is
+          one of the project's slots inside the .cuda-proj file, so the
+          file may have changed. When NO plugin command is running
+          (_backup_flow == 0: the app saved on its own -- the autosave /
+          the session manager / the exit save), the rotating backup is
+          refreshed now (_backup_file_reported; it skips the copy when
+          the file did not change on disk, so saves which rewrote
+          nothing cost nothing). While a command decorated with
+          _with_backup_cause IS running, the save is only recorded in
+          _backup_pending: one command can save several times ('Save
+          session as...' saves the current slot AND the new one), and
+          one backup of the final state is made when the command ends.
+          A made backup is reported to the CONSOLE (with the cause and
+          the time), never to the status bar: the status bar is
+          reserved for the manual 'Backup project file now'.
+        - APPSTATE_SESSION_SET / APPSTATE_SESSION_LOAD: detect external
+          session switching (issue #6366). If a project is open and the
+          app's session no longer belongs to it, close the project
+          silently (no tab closing, no DEF_SES load), so the project's
+          session and the foreign session don't fight over the app's
+          session slot.
 
         Session changes made by the plugin itself are guarded with
         _session_set_by_plugin and ignored here."""
+        if state == APPSTATE_SESSION_SAVE_AFTER:
+            if self._backup_flow:
+                # a plugin command is running which saves the session:
+                # remember the project file it may have changed -- the
+                # backup is made once, of the final state, when the
+                # outermost command ends (_with_backup_cause)
+                if self.project_file_path:
+                    p = os.path.normpath(str(self.project_file_path))
+                    if p not in self._backup_pending:
+                        self._backup_pending.append(p)
+            else:
+                # not initiated by this plugin: back up now (the copy
+                # itself is skipped when the file did not change)
+                fn = str(self.project_file_path) if self.project_file_path else ''
+                self._backup_file_reported(fn, self._backup_cause)
+            return
+
         if state in (APPSTATE_SESSION_SET, APPSTATE_SESSION_LOAD):
             if self._session_set_by_plugin:
                 return

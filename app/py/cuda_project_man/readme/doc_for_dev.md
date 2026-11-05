@@ -25,6 +25,7 @@ and #6366 (external session switch detection).
 11. Writing files
 12. Known non-obvious behaviors
 13. Drag & drop
+14. Project file backups
 
 ---
 ## 1. Core concepts
@@ -205,26 +206,88 @@ Check the return value when the next step closes tabs (see §5).
     in `_drop_kind`/`_move_node_on_disk` (no overwrite, no move of a
     folder into itself / its own subfolder, root nodes are only
     reordered, never relocated). See §13.
+13. Project file backups always copy the ON-DISK file, never the
+    in-memory mirror, and run only from APPSTATE_SESSION_SAVE_AFTER
+    with an on-disk change check (§14) — a backup never depends on
+    plugin bookkeeping being current, and a no-op save never writes
+    one.
 
 ---
 ## 5. Tab closing rules
 
-Two closers exist:
+Two closing regimes exist.
+
+**Regime A — the session load closes the tabs (all switch flows).**
+`PROC_LOAD_SESSION` itself closes every ui-tab (all groups, pinned
+included — its `DoFileCloseAll(true, true)` runs with
+`AppSessionIsClosing`, which suppresses the "Close pinned tab?"
+confirm) BEFORE restoring the target session's tabs. The closes fire
+`on_close_pre`/`on_close` under `APPSTATE_SESSION_LOAD_BEGIN_PRE`
+(fired before everything else a load does, issue #6496), so plugins
+can tell them from user closes: cuda_differ (Differ 2) keeps the
+closing tabs' per-session registrations in `cuda_differ2_state.json`
+this way and re-attaches the tabs (toolbar, overview, title color)
+when their session is loaded again. Flows using this regime:
+`action_open_project` (target has sessions), `action_close_project`
+(default session file exists), `_create_project_file(close_tabs=True)`
+(loads the not-yet-existing `session1`: the load closes the old tabs
+and restores none), `session_load`. Before the load, the caller must:
+
+1. save the state into the session it belongs to
+   (`_save_session_before_close_tabs()` — see below), and
+2. call `_clear_modified_all_tabs()` when that save succeeded: the
+   app's load first runs `ConfirmAllFramesAreSaved`, which asks
+   "Save modified tab?" for every tab still marked modified, and a
+   **Cancel there aborts the WHOLE load** (before any tab is closed —
+   the confirm is a pre-pass). When the save failed, keep the flags:
+   the load then asks, and unsaved text is never discarded silently.
+
+Every switch load runs through `_load_session_repairing_abort(ptr_new,
+ptr_old, msg)`. On the cancelled shape (tabs still open) it re-points
+the app session to `ptr_old` — the session owning the still-open tabs,
+captured before the flow re-pointed it (`_current_state_session_ptr()`) —
+so the ~40 s session autosave / the exit save write them into their
+owner's slot instead of clobbering the not-loaded target session (the
+cancel runs before any close, so the repaired state is exactly the
+pre-switch tab set). The switch itself is not unwound (the on_state
+guard closes the project at the next session event when its session no
+longer belongs to it). On the parse-fail shape (tabs already closed,
+nothing restored) it only reports — re-pointing would aim the autosave
+at ptr_old's slot and wipe it with the now-empty state. Callers that
+must not continue on an abort branch on the result + `ed_handles()`:
+`_create_project_file` skips the session1 save (it would bake the old
+tabs into the new project), `session_delete` skips the deletion (the
+doomed session's tabs are still open), `action_close_project` skips the
+"Project closed" status (and repairs the no-default-file close path the
+same way).
+
+**Regime B — the plugin closes the tabs itself** (`close_all_tabs`):
 
 - `close_all_tabs(silent=True)` — clears `PROP_MODIFIED`, unpins, then
   `cmd_FileCloseAll`. **Only** allowed when the caller has just saved
-  the state into a session, or the discard is deliberate (deleting the
-  active session). Never touches the session pointer.
+  the state into a session, or the discard is deliberate. Never
+  touches the session pointer.
 - `close_all_tabs(silent=False)` — keeps `PROP_MODIFIED`, so CudaText
   itself shows "save changes?" for modified tabs. Used when the state
   could NOT be saved (e.g. read-only project file) and when deleting
   the active session.
 
+Regime B is used ONLY where no session load follows (so nothing else
+would close the tabs): `action_open_project` for a legacy
+session-less project file, `action_close_project` when the default
+session file does not exist (`PROC_LOAD_SESSION` exits before closing
+anything when the target file is missing), and `session_delete` of
+the ACTIVE session — the doomed session's per-tab registrations must
+NOT survive, the session never comes back. `cmd_FileCloseAll` alone
+would also SKIP pinned tabs (the app respects pins by design — see
+the comment in the core's `formmain_cmd.inc`), which is why
+`close_all_tabs` unpins first.
+
 CudaText sessions store the TEXT of modified and untitled tabs
 (`'text'` + `'modified'` keys in the session JSON; restored as
 unsaved buffers on load). Therefore "saved into a session" == "no
-unsaved text lost". Every flow that closes tabs must first call
-`_save_session_before_close_tabs()`:
+unsaved text lost". Every flow that closes tabs (Regime A or B) must
+first call `_save_session_before_close_tabs()`:
 
 - active project session → save into the project session slot;
 - no project open (opening/creating/closing a project) → save into the
@@ -232,10 +295,9 @@ unsaved text lost". Every flow that closes tabs must first call
   default.cuda-session). This is the app's own autosave target, so it
   is safe and loses nothing.
 
-`_close_tabs_saving_state()` wraps the pair
-(`saved = ...; close_all_tabs(silent=saved)`). `close_foreign_tabs`
-(foreign tabs only, the two menu commands) is separate and has its own
-prompt/no-prompt contract — it is not part of session switching.
+`close_foreign_tabs` (foreign tabs only, the two menu commands) is
+separate and has its own prompt/no-prompt contract — it is not part
+of session switching.
 
 Do not re-add a "save current state first?" question on session
 switch: the ~40 s session autosave overwrites the "don't save" answer
@@ -591,8 +653,112 @@ are valid drop targets (`_drop_kind`) unfold — the same nodes the
 drop-target highlight accepts; for file-manager drags any node unfolds
 (navigation preview, like in OS file managers).
 
+## 14. Project file backups
+
+Rotating backups of the whole .cuda-proj live in
+`projman_backup.py` (`ProjectFileBackups`), options `backup_enabled` /
+`backup_folder` / `backup_count`. See readme.txt ("Project file
+backups") for the user-facing rules; the developer-facing ones:
+
+- Trigger: `on_state(APPSTATE_SESSION_SAVE_AFTER)`, i.e. the app
+  finished a session save — timer autosave, exit save, session
+  switches, plugin `PROC_SAVE_SESSION` calls. The event fires for
+  every save OPERATION, including ones that rewrote nothing
+  (non-timer saves always set `bSessionUpdated` in the core), so the
+  dedup is the (size, mtime_ns) of the file vs the newest backup
+  (copy2 preserves mtime → survives restarts). While a project is
+  open the saved session is always one of its slots (invariant 1), so
+  "project open" is the only gating the handler needs.
+- Coalescing: saves made while a `_with_backup_cause` command runs
+  (`_backup_flow > 0`) are NOT backed up one by one — the handler only
+  appends the current `project_file_path` to `_backup_pending`
+  (normpath'd, insertion order kept), and the decorator's finally
+  makes ONE backup per remembered file via `_backup_file_reported`, of
+  the final on-disk state. Reason: one command can save several times
+  — `session_save_as` (interactive) saves the currently active slot
+  AND the new one, `action_save_project_as` into a new path saves the
+  old project's slot and the new file's slot — and a backup per save
+  would rotate the set on half-done states (the first copy after
+  'Save session as...' lacked the session the command was creating;
+  reported in the console as two identical-looking 'project backup on
+  session save' lines for one click). Two files in one command (the
+  Save-As case) still make two backups — two different project files,
+  not a double. Saves with no command running (timer autosave, the
+  exit save) are single saves and are backed up immediately. On exit
+  two backups are made by design: one for the plugin's own exit save
+  (full state, unsaved texts included) and one for the app's exit save
+  right after it (the final file — the app's lighter rewrite does not
+  delete the slot texts the plugin's save wrote, so the second copy
+  supersedes the first, but a failed app exit save must not leave the
+  last state unbacked, so both are kept).
+- Reporting: an automatic backup prints ONE line to the console
+  (`print`), never to the status bar — it can fire every ~40 s while
+  typing. The line carries the trigger cause and the wall-clock time:
+  `'Project Manager: project backup %s at %s: %s'` with
+  `_time_am_pm()` (e.g. "by timer at 4:23:07 AM"). The status bar is
+  reserved for the manual command's confirmation.
+- Cause labeling: `_backup_cause` (instance str) holds the label of
+  the session save in progress; `''` (the app saved on its own — the
+  session autosave or the session manager) is reported as 'by timer'.
+  `_with_backup_cause(cause)` decorates the Command methods which
+  trigger saves themselves (`action_save_project`,
+  `action_save_project_as`, `action_close_project`,
+  `action_open_project`, `session_save_inplace`, `session_save_as`,
+  `session_load`, and the tree-editing flows `add_node`,
+  `action_remove_node`, `action_remove_deleted_nodes`,
+  `_reorder_root_node`, `_move_node_on_disk`, `action_set_as_main_file`,
+  `config_proj`, `on_delete_file`, plus `_create_project_file` /
+  `action_save_session_as_project` for the new-project flows — all
+  labeled 'on project save' except the switch-like ones); only the
+  OUTERMOST decorated method of a flow sets the label (nested ones
+  keep it), and it is restored on exit — the synchronous event
+  dispatch inside `app_proc(PROC_SAVE_SESSION)` always sees the label
+  of the action the user invoked. Before the tree-edit flows were
+  decorated, their saves were mislabeled 'by timer' although no timer
+  ran. `on_exit` pins it to 'on exit' WITHOUT restoring: the core
+  fires OnExit first, then saves the session itself (formmain.pas,
+  `DoOps_SaveHistory(..., ASaveSession=True)` right after the
+  `DoPyEvent(nil, TAppPyEvent.OnExit, [])`) — so the app's own exit
+  save is labelled 'on exit' too.
+- Session saving must be ON for the PERIODIC backups: the core's
+  autosave timer runs `((ui_session_save_interval>0) and
+  ui_reopen_session) or ui_session_save_interval<0`, and only when a
+  tab is modified (`IsAnyFrameTextModified`); with session saving
+  disabled there are no periodic saves — only the switch/save/exit
+  ones remain (documented in readme.txt, "Project file backups").
+- The backup copies the on-disk file, never the in-memory mirror:
+  after any write the disk file is the freshest complete state (§3,
+  §11), and reading the mirror would duplicate tens of MB needlessly.
+- The copy is atomic (temp + `os.replace`) and guarded by a JSON-tail
+  check: a torn file (which §11 already makes impossible for plugin
+  writes — the check covers foreign/truncated files) never enters the
+  backup chain; warnings fire once per path until a backup succeeds.
+- One set per project lives in `resolve_backup_dir(fn_proj, folder)`:
+  relative folder values resolve against the project file's dir; both
+  `/` and `\` are accepted as separators on every OS.
+- `action_backup_project_now` (menu command, also in the panel
+  context menu under "Project file") is the same code path with
+  `force=True`: it rotates even when the stat is unchanged. `force`
+  bypasses BOTH gates of the automatic run — the `backup_enabled`
+  option is skipped in `_backup_project_file`, and a `backup_count`
+  below 1 is raised to 1 in `ProjectFileBackups.run` — so the manual
+  snapshot always works and always keeps the single newest copy.
+
 ### API additions this plugin depends on (app 1.239.0)
 
 - `dlg_proc` form event `on_drop_files` (dict data: files/x/y/self_drag)
 - `dlg_proc` form event `on_drag_over` (dict data: x/y/self_drag)
 - `tree_proc` action `TREE_ITEM_FIND_BY_POS`
+- `app_proc` commands `PROC_PROJECT_NODE_ADD` (178) /
+  `PROC_PROJECT_NODE_DEL` (179): fire the new app events
+  `APPSTATE_PROJECT_NODE_ADD` (48) / `APPSTATE_PROJECT_NODE_DEL` (49)
+  to the other plugins (exposed in `cudatext.py` too). This plugin
+  fires them from `_fire_project_nodes_added` / `_fire_project_nodes_removed`
+  — once per finished operation, after `update_global_data()` refreshed
+  `global_project_info`, so an `on_state` listener already sees the new
+  node list. `add_node` is the single funnel for additions; removals
+  fire from `action_remove_node`, `action_remove_deleted_nodes` (once
+  per batch), `tree_on_unfold` (its file-node cleanup), `on_delete_file`
+  and `_move_node_on_disk` (DEL+ADD, the path was replaced). A pure
+  reorder of root nodes (`_reorder_root_node`) fires nothing — the
+  same nodes, only their order changed.

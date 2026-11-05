@@ -2,6 +2,7 @@ import os
 from cudatext import *
 from cudax_lib import get_translation
 from .projman_glob import *
+from .projman_backup import DEFAULT_BACKUP_COUNT, DEFAULT_BACKUP_FOLDER
 
 _   = get_translation(__file__)  # i18n
 
@@ -49,7 +50,10 @@ def dialog_config(op):
     RES_ICONS = 13
     RES_ICONS_TB = 15
     RES_SORT_ORDER = 17
-    RES_OK = 20
+    RES_BACKUP_EN = 19
+    RES_BACKUP_DIR = 21
+    RES_BACKUP_CNT = 23
+    RES_OK = 27
 
     themes = get_themes_filetype()
     try:
@@ -133,13 +137,22 @@ def dialog_config(op):
             'val='+str(items_sort_val)
             ])]
 
+        +[c1.join(['type=label', 'pos=6,462,600,0', 'cap='+_('Project file backups (rotating copies of the whole .cuda-proj):')])]
+        +[c1.join(['type=check', 'pos=6,486,500,0', 'cap='+_('&Backup project file when its sessions change'),
+            'val='+bool_to_str(op.get('backup_enabled', True)) ])]
+        +[c1.join(['type=label', 'pos=6,514,130,0', 'cap='+_('Backup &folder:')])]
+        +[c1.join(['type=edit', 'pos=136,510,500,0', 'val='+op.get('backup_folder', DEFAULT_BACKUP_FOLDER)])]
+        +[c1.join(['type=label', 'pos=6,540,130,0', 'cap='+_('Backups to &keep:')])]
+        +[c1.join(['type=edit', 'pos=136,536,200,0', 'val='+str(op.get('backup_count', DEFAULT_BACKUP_COUNT))])]
+        +[c1.join(['type=label', 'pos=6,566,600,0', 'cap='+_('Relative folder is relative to the project file. Default: .cudatext/proj_bckp')])]
+
         +[c1.join(['type=label', 'pos=6,404,600,0', 'cap='+_('For more icons, get add-ons of kind "filetypeicons", "projtoolbaricons"')])]
-        +[c1.join(['type=label', 'pos=6,463,600,0', 'cap='+_('(*) - requires CudaText restart')])]
-        +[c1.join(['type=button', 'pos=300,458,400,0', 'cap='+_('&OK'), 'ex0=1'])]
-        +[c1.join(['type=button', 'pos=406,458,502,0', 'cap='+_('Cancel')])]
+        +[c1.join(['type=label', 'pos=6,592,600,0', 'cap='+_('(*) - requires CudaText restart')])]
+        +[c1.join(['type=button', 'pos=300,616,400,0', 'cap='+_('&OK'), 'ex0=1'])]
+        +[c1.join(['type=button', 'pos=406,616,502,0', 'cap='+_('Cancel')])]
     )
 
-    res = dlg_custom(_('Project Manager options'), 508, 492, text, get_dict=True)
+    res = dlg_custom(_('Project Manager options'), 508, 650, text, get_dict=True)
     if res is None:
         return
 
@@ -170,6 +183,13 @@ def dialog_config(op):
     index = _combo_index(res, RES_SORT_ORDER)
     if 0 <= index < len(items_sort_id):
         op['sort_order'] = items_sort_id[index]
+
+    op['backup_enabled'] = str_to_bool(res[RES_BACKUP_EN])
+    op['backup_folder'] = res[RES_BACKUP_DIR].strip()
+    try:
+        op['backup_count'] = max(0, int(res[RES_BACKUP_CNT].strip()))
+    except ValueError:
+        op['backup_count'] = DEFAULT_BACKUP_COUNT
 
     return True
 
