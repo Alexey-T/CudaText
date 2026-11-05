@@ -232,11 +232,28 @@ and restores none), `session_load`. Before the load, the caller must:
 2. call `_clear_modified_all_tabs()` when that save succeeded: the
    app's load first runs `ConfirmAllFramesAreSaved`, which asks
    "Save modified tab?" for every tab still marked modified, and a
-   **Cancel there aborts the WHOLE load** with the session pointer
-   already switched — the ~40 s session autosave would then write the
-   still-open old tabs into the new session's slot. When the save
-   failed, keep the flags: the load then asks, and unsaved text is
-   never discarded silently.
+   **Cancel there aborts the WHOLE load** (before any tab is closed —
+   the confirm is a pre-pass). When the save failed, keep the flags:
+   the load then asks, and unsaved text is never discarded silently.
+
+Every switch load runs through `_load_session_repairing_abort(ptr_new,
+ptr_old, msg)`. On the cancelled shape (tabs still open) it re-points
+the app session to `ptr_old` — the session owning the still-open tabs,
+captured before the flow re-pointed it (`_current_state_session_ptr()`) —
+so the ~40 s session autosave / the exit save write them into their
+owner's slot instead of clobbering the not-loaded target session (the
+cancel runs before any close, so the repaired state is exactly the
+pre-switch tab set). The switch itself is not unwound (the on_state
+guard closes the project at the next session event when its session no
+longer belongs to it). On the parse-fail shape (tabs already closed,
+nothing restored) it only reports — re-pointing would aim the autosave
+at ptr_old's slot and wipe it with the now-empty state. Callers that
+must not continue on an abort branch on the result + `ed_handles()`:
+`_create_project_file` skips the session1 save (it would bake the old
+tabs into the new project), `session_delete` skips the deletion (the
+doomed session's tabs are still open), `action_close_project` skips the
+"Project closed" status (and repairs the no-default-file close path the
+same way).
 
 **Regime B — the plugin closes the tabs itself** (`close_all_tabs`):
 

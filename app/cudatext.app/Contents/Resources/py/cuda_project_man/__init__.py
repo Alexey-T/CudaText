@@ -2095,6 +2095,10 @@ class Command:
 
         # Save the current project and its session slot before switching
         had_project = bool(self.project_file_path)
+        # Abort-revert target for the load below: the session owning the
+        # current tabs (the old project's slot / the app session file),
+        # captured before the flow re-points it
+        old_ptr = self._current_state_session_ptr()
         if had_project:
             self.action_save_project_as(self.project_file_path)
             # (action_save_project_as -> session_save_as saves the CURRENT
@@ -2143,8 +2147,15 @@ class Command:
             # resets the tab-group layout to the default single group —
             # acceptable for a brand-new empty project.)
             self._set_session(sess1)
-            app_proc(PROC_LOAD_SESSION, sess1)
-            app_proc(PROC_SAVE_SESSION, sess1)
+            # On an ABORTED load (Cancel in 'Save modified tab?' -- only
+            # reachable when the state save failed, so modified flags
+            # stayed) skip the save too: it would bake the still-open OLD
+            # tabs into the new project's session1. The repair re-points
+            # the app session to old_ptr, so the ~40 s session autosave
+            # writes the tabs into their owner's slot instead.
+            if self._load_session_repairing_abort(sess1, old_ptr,
+                    _('Tab closing cancelled; old tabs kept')):
+                app_proc(PROC_SAVE_SESSION, sess1)
         else:
             # 'Create project from open tabs': the current tabs BECOME
             # session1 — save them into it, then point the app session.
@@ -2209,6 +2220,11 @@ class Command:
         # Saving the project also saves the current session into its slot
         # inside the project file
         had_project = bool(self.project_file_path)
+        # Abort-revert target, captured before the project is forgotten:
+        # with a project open, its session slot owns the current tabs
+        # (without a project the app session already IS the DEF_SES the
+        # flow switches to -- nothing to protect, no revert)
+        old_ptr = self._current_state_session_ptr() if had_project else ''
         if had_project:
             self.action_save_project_as(self.project_file_path)
 
@@ -2241,21 +2257,34 @@ class Command:
         # fully back when the project is opened again. Clear the modified
         # flags first (the state is in its session now): a tab still marked
         # modified would make the load ask 'Save modified tab?', and a
-        # Cancel there aborts the load -- with the session pointer already
-        # switched to DEF_SES, the ~40 s session autosave would then write
-        # the still-open project tabs into default.cuda-session.
+        # Cancel there aborts the load -- _load_session_repairing_abort
+        # then re-points the app session back to the project's slot, so
+        # the ~40 s session autosave cannot write the still-open project
+        # tabs into default.cuda-session.
         self._set_session(DEF_SES)
         default_sess_path = os.path.join(app_path(APP_DIR_SETTINGS), DEF_SES)
+        aborted = False
         if os.path.isfile(default_sess_path):
             if saved:
                 self._clear_modified_all_tabs()
-            app_proc(PROC_LOAD_SESSION, default_sess_path)
+            ok = self._load_session_repairing_abort(default_sess_path,
+                old_ptr, _('Project close cancelled; tabs kept'))
+            aborted = (not ok) and bool(ed_handles())
         else:
             # No default session file: PROC_LOAD_SESSION exits BEFORE
             # closing any tab (the file must exist), so close here.
             self.close_all_tabs(silent=saved)
+            if ed_handles():
+                # The close was cancelled in its own confirm: same repair
+                # as a load abort -- the still-open tabs belong to old_ptr,
+                # and the autosave must not write them into DEF_SES.
+                if old_ptr:
+                    self._set_session(old_ptr)
+                msg_status(_('Project close cancelled; tabs kept'))
+                aborted = True
 
-        msg_status(_("Project closed"))
+        if not aborted:
+            msg_status(_("Project closed"))
 
     def _set_session(self, ptr):
         """app_proc(PROC_SET_SESSION, ...) wrapper for session changes made
@@ -2433,6 +2462,10 @@ class Command:
 
     def action_open_project(self, info=None, load_session=True):
         had_project = bool(self.project_file_path)
+        # Abort-revert target for the load at the bottom: the session
+        # owning the current tabs (the old project's slot / the app
+        # session file), captured before the flow re-points it
+        old_ptr = self._current_state_session_ptr()
         if had_project:
             self.action_save_project_as(self.project_file_path)
 
@@ -2574,7 +2607,14 @@ class Command:
                     sess = names[0]
                 sess_path = str(path) + '|/sessions/' + sess
                 self._set_session(sess_path)
-                app_proc(PROC_LOAD_SESSION, sess_path)
+                # A cancelled load (Cancel in 'Save modified tab?', only
+                # reachable when the slot save failed) is repaired by
+                # re-pointing the app session to old_ptr: the still-open
+                # old tabs then stay in their owner's slot, and this
+                # project's session cannot be clobbered by the ~40 s
+                # session autosave.
+                self._load_session_repairing_abort(sess_path, old_ptr,
+                    _('Project switch cancelled; old tabs kept'))
             else:
                 # A project always keeps at least one session (a project is
                 # itself a session): create 'session1' from the current
@@ -3967,7 +4007,17 @@ class Command:
             self.close_all_tabs(silent=False)
             ptr = str(fn) + '|/sessions/' + repl
             self._set_session(ptr)
-            app_proc(PROC_LOAD_SESSION, ptr)
+            # A cancelled load MUST stop the deletion: the doomed session's
+            # tabs are still open, and deleting the session (file +
+            # in-memory) with the pointer at the replacement would let the
+            # ~40 s session autosave clobber the REPLACEMENT session with
+            # them. The repair re-points to the doomed session -- it stays
+            # fully alive.
+            ok = self._load_session_repairing_abort(ptr,
+                str(fn) + '|/sessions/' + name,
+                _('Session delete cancelled; session kept'))
+            if not ok and ed_handles():
+                return
 
         # 1. delete the session from the .cuda-proj file
         with open(fn, 'r', encoding='utf8') as f:
@@ -4108,13 +4158,19 @@ class Command:
         # again. A tab still marked modified would make the load ask
         # 'Save modified tab?', where a Cancel aborts the whole switch —
         # so when the slot save above failed, the flags stay and the load
-        # asks: unsaved text is never discarded silently.
+        # asks: unsaved text is never discarded silently. A Cancel is then
+        # repaired by the load call below (the app session goes back to
+        # this slot, so the autosave cannot clobber the target session).
         if saved:
             self._clear_modified_all_tabs()
 
-        fn += '|/sessions/'+name
-        self._set_session(fn)
-        app_proc(PROC_LOAD_SESSION, fn)
+        ptr_new = fn + '|/sessions/' + name
+        # Abort-revert target: the session owning the still-open tabs
+        # (the active slot -- the app pointer is not re-pointed yet)
+        old_ptr = self._current_state_session_ptr()
+        self._set_session(ptr_new)
+        self._load_session_repairing_abort(ptr_new, old_ptr,
+            _('Session switch cancelled; tabs kept'))
 
     def action_import_external_session(self):
         """Import an external .cuda-session file into the current project
@@ -4278,12 +4334,72 @@ class Command:
         ConfirmAllFramesAreSaved, which asks 'Save modified tab?' for every
         tab still marked modified, and a CANCEL there aborts the WHOLE
         session load with the session pointer already switched by the
-        caller. The same contract as close_all_tabs(silent=True) minus the
+        caller (repaired by _load_session_repairing_abort: the app session
+        goes back to the session owning the still-open tabs). The same
+        contract as close_all_tabs(silent=True) minus the
         unpin and the close: the load's DoCloseAllTabs(AClosePinned=true)
         closes pinned tabs itself (AppSessionIsClosing suppresses its
         'Close pinned tab?' confirm)."""
         for h in ed_handles():
             self._clear_modified_all_editors(Editor(h))
+
+    def _current_state_session_ptr(self):
+        """The session pointer the CURRENT editor state belongs to: the
+        open project's active session slot, or (no project open / the app
+        session outside the project) the app's current session file.
+        The abort-revert target of _load_session_repairing_abort: after a
+        cancelled load the still-open tabs belong to THAT session, and
+        the ~40 s session autosave must write them there, not into the
+        not-loaded target."""
+        fn_proj = str(self.project_file_path) if self.project_file_path else ''
+        if fn_proj:
+            cur = self.session_cur_name()
+            if cur:
+                return fn_proj + '|/sessions/' + cur
+        return app_path(APP_FILE_SESSION)
+
+    def _load_session_repairing_abort(self, ptr_new, ptr_old, cancelled_msg):
+        """app_proc(PROC_LOAD_SESSION, ptr_new) with repair of the aborted
+        state. Returns the load's bool result.
+
+        The load returns False in two shapes (verified in the core,
+        formmain_loadsave.inc / formmain.pas):
+        - ABORT: its ConfirmAllFramesAreSaved -- which runs BEFORE any
+          tab is closed -- was cancelled (reachable only when the state
+          save failed earlier, so modified tabs kept their flag). Every
+          tab is still open, but the app session pointer was already
+          switched to ptr_new by the caller, so the ~40 s session
+          autosave (SessionSaveInterval) and the exit save would write
+          the still-open tabs into ptr_new's slot, CLOBBERING that
+          session's saved tab set. Repair: re-point the app session to
+          ptr_old -- the session owning the still-open tabs -- so the
+          autosave writes them where they belong. The switch itself is
+          not unwound (the project bookkeeping already ran); the on_state
+          guard closes the project at the next session event when its
+          session no longer belongs to it.
+        - FAIL: the session file could not be parsed -- the tabs ARE
+          closed already and nothing was restored; re-pointing would
+          only aim the autosave at ptr_old's slot and wipe it with the
+          now-empty state. Reported only."""
+        ok = bool(app_proc(PROC_LOAD_SESSION, ptr_new))
+        if ok:
+            return True
+        if ed_handles():
+            # abort: the confirm was cancelled before any close
+            if ptr_old and ptr_old != ptr_new:
+                self._set_session(ptr_old)
+                msg_status(cancelled_msg)
+                print(_('Project Manager: session load cancelled; tabs kept,'
+                        ' app session re-pointed to the tabs\' owner'))
+            else:
+                msg_status(cancelled_msg)
+                print(_('Project Manager: session load cancelled; tabs kept'))
+        else:
+            # fail: the tabs are closed, nothing was restored
+            msg_status(_('Session file could not be loaded; tabs were closed'))
+            print(_('Project Manager: session file could not be parsed;'
+                    ' tabs were closed, nothing restored'))
+        return False
 
     def close_all_tabs(self, silent=True):
         """Close all tabs in all groups without changing the session pointer.

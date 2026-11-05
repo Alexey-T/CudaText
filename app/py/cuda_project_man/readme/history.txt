@@ -21,6 +21,24 @@
   comes back). Minor behavior change: 'Create new empty project' now
   also resets the tab-group layout to the default single group (the
   empty session1 the flow loads carries no group settings)
+- a CANCELLED session load during a switch is now repaired: the load's
+  'Save modified tab?' confirm (a pre-pass -- it runs before any tab is
+  closed, so on Cancel every tab is still open) is only reachable when
+  the slot save failed, and it aborted the load with the app session
+  pointer already switched, so the ~40 s session autosave / the exit
+  save wrote the still-open old tabs into the NOT-loaded target
+  session, clobbering its saved tab set (a sibling session of
+  session_load, the opened project's last_session slot; session_delete
+  even went on deleting the session while its tabs were still open).
+  Every switch's PROC_LOAD_SESSION now goes through
+  _load_session_repairing_abort: on cancel it re-points the app session
+  to the session owning the still-open tabs (_current_state_session_ptr,
+  captured before the flow re-pointed it) -- lossless, since nothing
+  was closed yet; on a parse-fail (tabs closed, nothing restored) it
+  only reports. 'New project' skips the empty-session1 save on abort
+  (it would bake the old tabs into the new project), session_delete
+  aborts the deletion, 'Close project' reports the cancelled state and
+  repairs its no-default-session close path the same way
 
 2026.11.03
 - fixed #6587: the auto-unfolding of a folder during a drag&drop did not
