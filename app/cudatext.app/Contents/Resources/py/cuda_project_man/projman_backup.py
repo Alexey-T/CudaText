@@ -39,6 +39,12 @@ Safety measures:
   propagated into the backups, the older backups are kept instead;
 - errors (unwritable folder, failed copy) are reported once per path,
   not once per event.
+
+The caller gates the AUTOMATIC backups with its own options
+(backup_enabled / backup_count); a forced run -- the manual command
+'Backup project file now' -- ignores both: it works with the option
+cleared and with "keep none", and always keeps the single newest
+copy (count is treated as 1).
 """
 
 import os
@@ -127,11 +133,18 @@ class ProjectFileBackups:
         """Back up the project file fn_proj when it changed since the
         last backup (or force=True). Returns the new backup path, or
         None when no backup was made (unchanged / disabled / failed --
-        failures are reported through the `log` callback)."""
+        failures are reported through the `log` callback).
+
+        count<=0 means "keep no backups": the automatic callers get
+        None. force=True (the manual 'Backup project file now') still
+        works then -- a manual snapshot always keeps the newest copy,
+        so count is raised to 1."""
         fn_proj = str(fn_proj)
         count = self._sanitize_count(count)
         if count <= 0:
-            return None
+            if not force:
+                return None
+            count = 1
         if not os.path.isfile(fn_proj):
             return None
 

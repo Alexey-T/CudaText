@@ -669,6 +669,34 @@ backups") for the user-facing rules; the developer-facing ones:
   (copy2 preserves mtime → survives restarts). While a project is
   open the saved session is always one of its slots (invariant 1), so
   "project open" is the only gating the handler needs.
+- Reporting: an automatic backup prints ONE line to the console
+  (`print`), never to the status bar — it can fire every ~40 s while
+  typing. The line carries the trigger cause and the wall-clock time:
+  `'Project Manager: project backup %s at %s: %s'` with
+  `_time_am_pm()` (e.g. "by timer at 4:23:07 AM"). The status bar is
+  reserved for the manual command's confirmation.
+- Cause labeling: `_backup_cause` (instance str) holds the label of
+  the session save in progress; `''` (the app saved on its own — the
+  session autosave or the session manager) is reported as 'by timer'.
+  `_with_backup_cause(cause)` decorates the Command methods which
+  trigger saves themselves (`action_save_project`,
+  `action_save_project_as`, `action_close_project`,
+  `action_open_project`, `session_save_inplace`, `session_save_as`,
+  `session_load`); only the OUTERMOST decorated method of a flow sets
+  the label (nested ones keep it), and it is restored on exit — the
+  synchronous event dispatch inside `app_proc(PROC_SAVE_SESSION)`
+  always sees the label of the action the user invoked.
+  `on_exit` pins it to 'on exit' WITHOUT restoring: the core fires
+  OnExit first, then saves the session itself (formmain.pas,
+  `DoOps_SaveHistory(..., ASaveSession=True)` right after the
+  `DoPyEvent(nil, TAppPyEvent.OnExit, [])`) — so the app's own exit
+  save is labelled 'on exit' too.
+- Session saving must be ON for the PERIODIC backups: the core's
+  autosave timer runs `((ui_session_save_interval>0) and
+  ui_reopen_session) or ui_session_save_interval<0`, and only when a
+  tab is modified (`IsAnyFrameTextModified`); with session saving
+  disabled there are no periodic saves — only the switch/save/exit
+  ones remain (documented in readme.txt, "Project file backups").
 - The backup copies the on-disk file, never the in-memory mirror:
   after any write the disk file is the freshest complete state (§3,
   §11), and reading the mirror would duplicate tens of MB needlessly.
@@ -679,8 +707,13 @@ backups") for the user-facing rules; the developer-facing ones:
 - One set per project lives in `resolve_backup_dir(fn_proj, folder)`:
   relative folder values resolve against the project file's dir; both
   `/` and `\` are accepted as separators on every OS.
-- `action_backup_project_now` (menu command) is the same code path
-  with `force=True`: it rotates even when the stat is unchanged.
+- `action_backup_project_now` (menu command, also in the panel
+  context menu under "Project file") is the same code path with
+  `force=True`: it rotates even when the stat is unchanged. `force`
+  bypasses BOTH gates of the automatic run — the `backup_enabled`
+  option is skipped in `_backup_project_file`, and a `backup_count`
+  below 1 is raised to 1 in `ProjectFileBackups.run` — so the manual
+  snapshot always works and always keeps the single newest copy.
 
 ### API additions this plugin depends on (app 1.239.0)
 

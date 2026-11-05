@@ -59,6 +59,25 @@
   to the project file, both "/" and "\" separators work on Windows,
   macOS and Linux), "backup_count" (default 4). New command 'Backup
   project file now' makes a snapshot on demand
+- backups, follow-up: the automatic backup no longer prints to the
+  status bar (it fires every ~40 s while typing -- spam); it reports
+  one line to the console panel instead, with the trigger and the
+  time, e.g. 'Project Manager: project backup by timer at 4:23:07
+  AM: <path>'. 'by timer' labels the saves CudaText makes on its own
+  (the session autosave / the session manager); 'on session save',
+  'on session switch', 'on project save', 'on project switch', 'on
+  project close', 'on exit' label the saves the plugin's own commands
+  make. The status bar is reserved for the manual 'Backup project
+  file now', which is now also in the panel context menu ('Project
+  file' section, under 'Save project as...') and works regardless of
+  the backup options: with the automatic backups unchecked, and with
+  'Backups to keep' 0 (a manual snapshot always keeps the single
+  newest copy). Documented the dependence on CudaText's session
+  saving: with 'Restore session' (ui_reopen_session) off, or the
+  session autosave interval (ui_session_save_interval) 0, the
+  periodic session saves stop -- and with them the periodic automatic
+  backups; the switch/save/exit ones remain, the manual command is
+  unaffected
 
 2026.11.03
 - fixed #6587: the auto-unfolding of a folder during a drag&drop did not

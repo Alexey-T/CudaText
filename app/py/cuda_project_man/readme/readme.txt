@@ -280,9 +280,10 @@ Close tabs not belonging to project) live only in the Plugins menu.
   Open project folder
       The project lifecycle: create, open, save, close. "Backup project
       file now" makes one rotating backup of the project file on
-      demand (see "Project file backups"); "Open project folder"
-      opens the folder containing the .cuda-proj file in the OS file
-      manager.
+      demand (see "Project file backups"); it is also in the panel
+      context menu, under "Project file", right after "Save project
+      as...". "Open project folder" opens the folder containing the
+      .cuda-proj file in the OS file manager.
 
   Add to project: folder... / file... / current file /
   all opened files / folder of the current file
@@ -363,9 +364,10 @@ Open via the menu: Project Manager > Config..., the panel context menu
 
   Backup project file
   when its sessions
-  change:                Makes rotating backups of the whole project
-                          file into the backup folder. See "Project
-                          file backups" under AUTOMATIC BEHAVIORS.
+  change:                Switches the AUTOMATIC backups on/off (see
+                          "Project file backups" under AUTOMATIC
+                          BEHAVIORS). The command "Backup project file
+                          now" works even when this is unchecked.
                           Default: on.
 
   Backup folder:          Folder for the backups: an absolute path, or
@@ -376,7 +378,10 @@ Open via the menu: Project Manager > Config..., the panel context menu
                           macOS and Linux. Empty value = the default.
 
   Backups to keep:        How many backup files to keep per project,
-                          rotating (default: 4; 0 keeps none).
+                          rotating (default: 4; 0 keeps none of the
+                          automatic ones — "Backup project file now"
+                          still works and always keeps the single
+                          newest copy).
 
   (*) - requires CudaText restart
 
@@ -468,6 +473,37 @@ Project file backups
   project save or a session switch rewrites the file even when its
   content ends up identical, so those events make one backup copy.
 
+  IMPORTANT — dependence on CudaText's session saving. The automatic
+  backups ride on session saves: the plugin is notified AFTER a
+  session is saved, and copies the project file then. The periodic
+  ~40 s saves come from CudaText's session autosave, which runs only
+  while CudaText's session saving is enabled: the "Restore session"
+  option (user.json key "ui_reopen_session") checked, and the
+  session autosave interval ("ui_session_save_interval", default
+  40 seconds) nonzero; starting CudaText with a no-session command
+  line disables it as well. If you disable CudaText's session
+  saving, the session autosave stops — and with it the periodic
+  automatic project backups. A backup is then made only when a
+  session is switched, when the project is saved/switched/closed,
+  and on exit. The manual command "Backup project file now" is not
+  affected and always works. Keep session saving enabled if you
+  want the hands-off protection of the periodic backups.
+
+  Reporting: an automatic backup is reported to the console panel
+  only — never to the status bar, it would fire every ~40 seconds
+  while typing — as one line with the trigger and the time, e.g.
+
+      Project Manager: project backup by timer at 4:23:07 AM:
+      D:\work\myproj\.cudatext\proj_bckp\myproj.cuda-proj.1.bak
+
+  "by timer" labels the saves the app makes on its own (the session
+  autosave, or the session manager writing the current session);
+  "on session save" / "on session switch" / "on project save" /
+  "on project switch" / "on project close" / "on exit" label the
+  saves made by the Project Manager's own commands. The manual
+  "Backup project file now" reports to the status bar (an action
+  you asked for deserves a visible confirmation).
+
   Backups are named "<project>.cuda-proj.1.bak" (newest) up to
   "<project>.cuda-proj.N.bak" (oldest, dropped when the set rotates),
   N = the "Backups to keep" option. The copy is written to a temp
@@ -475,8 +511,11 @@ Project file backups
   a project file which does not end like a complete JSON object (a
   torn write) is never propagated into the backups — the older
   backups are kept instead. The command "Backup project file now"
-  (Plugins > Project Manager) makes one snapshot on demand, even when
-  the file did not change.
+  (Plugins > Project Manager, and the panel context menu under
+  "Project file") makes one snapshot on demand, even when the file
+  did not change. It ignores the backup options: it works with the
+  automatic backups switched off, and with "Backups to keep" at 0
+  (a manual snapshot always keeps the single newest copy).
 
   To restore a backup: close the project, copy the chosen .bak file
   over the .cuda-proj file, reopen the project.

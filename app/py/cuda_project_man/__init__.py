@@ -5,6 +5,7 @@ import collections
 import json
 import stat
 import copy
+import functools
 import string
 import time
 from fnmatch import fnmatch
@@ -381,6 +382,40 @@ def _toolbar_add_btn(h_bar, hint, icon=-1, command=''):
         button_proc(h_btn, BTN_SET_DATA1, command)
 
 
+def _time_am_pm():
+    """Current local time as e.g. '4:23:07 AM' (12-hour clock, no
+    leading zero, like the OS clock shows it) -- the timestamp of the
+    console report of an automatic project backup."""
+    from datetime import datetime
+    return datetime.now().strftime('%I:%M:%S %p').lstrip('0')
+
+
+def _with_backup_cause(cause):
+    """Decorator for the Command methods which trigger session saves
+    themselves: while a decorated method runs, the automatic project
+    backup made by its saves is labeled with `cause` in the console
+    report ('Project Manager: project backup <cause> at <time>: ...').
+
+    Only the OUTERMOST decorated method of a flow sets the label --
+    action_save_project -> action_save_project_as -> session_save_as
+    reports the action the user actually invoked ('on project save'),
+    not the internal helper. Saves made while NO decorated method runs
+    (CudaText's ~40 s session autosave, or its session manager writing
+    the current session) keep the default label 'by timer'."""
+    def deco(fn):
+        @functools.wraps(fn)
+        def wrapper(self, *args, **kwargs):
+            prev = self._backup_cause
+            if not prev:
+                self._backup_cause = cause
+            try:
+                return fn(self, *args, **kwargs)
+            finally:
+                self._backup_cause = prev
+        return wrapper
+    return deco
+
+
 class Command:
     goto_history = []
     cur_dir = ''
@@ -411,6 +446,7 @@ class Command:
         ("-", "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "", ""),
         (_("Save project"), "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_save_project", ""),
         (_("Save project as..."), "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_save_project_as", ""),
+        (_("Backup project file now"), "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_backup_project_now", ""),
         (_("Close project"), "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_close_project", ""),
         (_("Open project folder"), "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_open_project_folder", ""),
         ("-", "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "", ""),
@@ -566,6 +602,14 @@ class Command:
         # Rotating backups of the open project file; see projman_backup.
         # Warnings go to the console via print.
         self.project_backups = ProjectFileBackups(log=print)
+        # Cause label for the automatic backup report of the session save
+        # which is running now ('' = the plugin's commands did NOT
+        # initiate it: CudaText's session autosave / session manager --
+        # reported as 'by timer'). Set while a method decorated with
+        # _with_backup_cause runs; on_exit pins it to 'on exit' so the
+        # app's own exit save (which runs right after on_exit) is
+        # labelled too.
+        self._backup_cause = ''
         # Start from a fresh copy of the defaults, then merge the loaded
         # file on top. This ensures newly added options appear even in old
         # config files, while preserving the user's existing values.
@@ -2213,6 +2257,7 @@ class Command:
         self._create_project_file(path, close_tabs=False)
         msg_status(_("Created project from current session: ") + os.path.basename(str(path)))
 
+    @_with_backup_cause('on project save')
     def action_save_project(self):
         """Save project in place. Falls back to Save as... if no path yet."""
         if self.project_file_path:
@@ -2220,6 +2265,7 @@ class Command:
         else:
             self.action_save_project_as()
 
+    @_with_backup_cause('on project close')
     def action_close_project(self):
         """Close the current project: save session, close all tabs, load
         default.cuda-session (restoring, not overwriting, its tabs)."""
@@ -2467,6 +2513,7 @@ class Command:
 
         self.action_refresh()
 
+    @_with_backup_cause('on project switch')
     def action_open_project(self, info=None, load_session=True):
         had_project = bool(self.project_file_path)
         # Abort-revert target for the load at the bottom: the session
@@ -2817,6 +2864,7 @@ class Command:
         if self.project_file_path:
             self.action_save_project_as(self.project_file_path)
 
+    @_with_backup_cause('on project save')
     def action_save_project_as(self, path=None):
 
         need_refresh = path is None
@@ -2930,10 +2978,14 @@ class Command:
         session autosave, session switches, project saves/switches, the
         exit save). The copy is skipped when the file did not change on
         disk (size+mtime vs the newest backup -- saves which rewrote
-        nothing write nothing). Returns the new backup path, or None."""
+        nothing write nothing). Returns the new backup path, or None.
+
+        force=True (the manual 'Backup project file now') ignores the
+        'backup_enabled' option and a 'backup_count' below 1 -- a manual
+        snapshot is always allowed and always keeps the newest copy."""
         if not self.project_file_path:
             return None
-        if not self.options.get('backup_enabled', True):
+        if not force and not self.options.get('backup_enabled', True):
             return None
         return self.project_backups.run(
             str(self.project_file_path),
@@ -2945,12 +2997,16 @@ class Command:
     def action_backup_project_now(self):
         """Menu command 'Backup project file now': make one rotating
         backup of the open project file even when it did not change --
-        a manual snapshot point (e.g. before risky edits)."""
+        a manual snapshot point (e.g. before risky edits).
+
+        Works regardless of the backup options: with 'Backup project
+        file when its sessions change' unchecked, and with 'Backups to
+        keep' at 0 (a manual snapshot always keeps the single newest
+        copy). Reports to the status bar -- the automatic backups
+        report to the console only (they are too frequent for the
+        status bar)."""
         if not self.project_file_path:
             msg_status(_('No project open'))
-            return
-        if not self.options.get('backup_enabled', True):
-            msg_status(_('Project backups are disabled in options'))
             return
         res = self._backup_project_file(force=True)
         if res:
@@ -3184,6 +3240,11 @@ class Command:
             return False #block opening
 
     def on_exit(self, ed_self):
+        # label the backups made by the exit saves -- this one, and the
+        # app's own session save which runs right after on_exit (the core
+        # fires OnExit first, then DoOps_SaveHistory saves the session) --
+        # instead of the default 'by timer'
+        self._backup_cause = 'on exit'
         if self.project_file_path:
             self.action_save_project_as(self.project_file_path)
         else:
@@ -4085,6 +4146,7 @@ class Command:
 
         msg_status(_('Deleted session: ') + name)
 
+    @_with_backup_cause('on session save')
     def session_save_as(self, is_request=True, sess_name=None):
         """Save the current editor state as a session of the project.
 
@@ -4158,6 +4220,7 @@ class Command:
             return
         self.session_load(names[res])
 
+    @_with_backup_cause('on session switch')
     def session_load(self, name=''):
         """Load another session of the current project.
 
@@ -4523,6 +4586,7 @@ class Command:
             if self.project_file_path:
                 self.action_save_project_as(self.project_file_path)
 
+    @_with_backup_cause('on session save')
     def session_save_inplace(self):
         """Save current state into the current session slot (no prompt).
         Menu entry point for 'Save session'."""
@@ -4569,7 +4633,10 @@ class Command:
           file may have changed: refresh its rotating backup
           (_backup_project_file; the backup itself skips the copy when
           the file did not change on disk, so saves which rewrote
-          nothing cost nothing).
+          nothing cost nothing). A made backup is reported to the
+          CONSOLE (with the cause -- _backup_cause -- and the time),
+          never to the status bar: the status bar is reserved for the
+          manual 'Backup project file now'.
         - APPSTATE_SESSION_SET / APPSTATE_SESSION_LOAD: detect external
           session switching (issue #6366). If a project is open and the
           app's session no longer belongs to it, close the project
@@ -4582,7 +4649,15 @@ class Command:
         if state == APPSTATE_SESSION_SAVE_AFTER:
             res = self._backup_project_file()
             if res:
-                msg_status(_('Project backup: ') + res)
+                # console, NOT the status bar: this fires after every
+                # session save with real changes (~every 40 s while
+                # typing), a status bar line per backup would be spam;
+                # the status bar is reserved for the manual
+                # 'Backup project file now'. _backup_cause tells which
+                # action saved the session ('' = the app did it on its
+                # own: the session autosave / the session manager).
+                print(_('Project Manager: project backup %s at %s: %s')
+                      % (_(self._backup_cause or 'by timer'), _time_am_pm(), res))
             return
 
         if state in (APPSTATE_SESSION_SET, APPSTATE_SESSION_LOAD):

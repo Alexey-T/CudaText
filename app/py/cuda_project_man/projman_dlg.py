@@ -144,7 +144,7 @@ def dialog_config(op):
         +[c1.join(['type=edit', 'pos=136,510,500,0', 'val='+op.get('backup_folder', DEFAULT_BACKUP_FOLDER)])]
         +[c1.join(['type=label', 'pos=6,540,130,0', 'cap='+_('Backups to &keep:')])]
         +[c1.join(['type=edit', 'pos=136,536,200,0', 'val='+str(op.get('backup_count', DEFAULT_BACKUP_COUNT))])]
-        +[c1.join(['type=label', 'pos=6,566,600,0', 'cap='+_('Relative folder: relative to the project file. Default: .cudatext/proj_bckp')])]
+        +[c1.join(['type=label', 'pos=6,566,600,0', 'cap='+_('Relative folder is relative to the project file. Default: .cudatext/proj_bckp')])]
 
         +[c1.join(['type=label', 'pos=6,404,600,0', 'cap='+_('For more icons, get add-ons of kind "filetypeicons", "projtoolbaricons"')])]
         +[c1.join(['type=label', 'pos=6,592,600,0', 'cap='+_('(*) - requires CudaText restart')])]
