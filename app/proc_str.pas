@@ -379,55 +379,53 @@ begin
 end;
 
 var
-  _CachedHtmlRegex: UnicodeString = '';
-  _CachedHtmlReObject: TecRegExpr = nil;
-  _CachedCssRegex: UnicodeString = '';
-  _CachedCssReObject: TecRegExpr = nil;
+  _CachedHtmlRe: TecRegExpr = nil;
+  _CachedCssRe: TecRegExpr = nil;
 
 function SRegexMatches_HtmlLexers(const ASubject: string; const AOptionRegex: UnicodeString): boolean;
 var
   NPos: integer;
 begin
-  if not Assigned(_CachedHtmlReObject) then
+  if not Assigned(_CachedHtmlRe) then
   begin
-    _CachedHtmlReObject:= TecRegExpr.Create;
-    _CachedHtmlReObject.ModifierI:= true;
-    _CachedHtmlReObject.ModifierS:= false; //don't catch all text by .*
-    _CachedHtmlReObject.ModifierM:= true; //allow to work with ^$
-    _CachedHtmlReObject.ModifierX:= false; //don't ignore spaces
+    _CachedHtmlRe:= TecRegExpr.Create;
+    _CachedHtmlRe.ModifierI:= true;
+    _CachedHtmlRe.ModifierS:= false; //don't catch all text by .*
+    _CachedHtmlRe.ModifierM:= true; //allow to work with ^$
+    _CachedHtmlRe.ModifierX:= false; //don't ignore spaces
   end;
 
-  if _CachedHtmlRegex<>AOptionRegex then
+  if _CachedHtmlRe.Expression<>AOptionRegex then
   begin
-    _CachedHtmlRegex:= AOptionRegex;
-    _CachedHtmlReObject.Compile(AOptionRegex);
+    _CachedHtmlRe.Expression:= AOptionRegex;
+    _CachedHtmlRe.Compile;
   end;
 
   NPos:= 1;
-  Result:= _CachedHtmlReObject.Match(UTF8Decode(ASubject), NPos);
+  Result:= _CachedHtmlRe.Match(UTF8Decode(ASubject), NPos);
 end;
 
 function SRegexMatches_CssLexers(const ASubject: string; const AOptionRegex: UnicodeString): boolean;
 var
   NPos: integer;
 begin
-  if not Assigned(_CachedCssReObject) then
+  if not Assigned(_CachedCssRe) then
   begin
-    _CachedCssReObject:= TecRegExpr.Create;
-    _CachedCssReObject.ModifierI:= true;
-    _CachedCssReObject.ModifierS:= false; //don't catch all text by .*
-    _CachedCssReObject.ModifierM:= true; //allow to work with ^$
-    _CachedCssReObject.ModifierX:= false; //don't ignore spaces
+    _CachedCssRe:= TecRegExpr.Create;
+    _CachedCssRe.ModifierI:= true;
+    _CachedCssRe.ModifierS:= false; //don't catch all text by .*
+    _CachedCssRe.ModifierM:= true; //allow to work with ^$
+    _CachedCssRe.ModifierX:= false; //don't ignore spaces
   end;
 
-  if _CachedCssRegex<>AOptionRegex then
+  if _CachedCssRe.Expression<>AOptionRegex then
   begin
-    _CachedCssRegex:= AOptionRegex;
-    _CachedCssReObject.Compile(AOptionRegex);
+    _CachedCssRe.Expression:= AOptionRegex;
+    _CachedCssRe.Compile;
   end;
 
   NPos:= 1;
-  Result:= _CachedCssReObject.Match(UTF8Decode(ASubject), NPos);
+  Result:= _CachedCssRe.Match(UTF8Decode(ASubject), NPos);
 end;
 
 function SMatchesBeginWithTrailingDigits(const ASubject, ABegin: string): boolean;
