@@ -669,6 +669,28 @@ backups") for the user-facing rules; the developer-facing ones:
   (copy2 preserves mtime → survives restarts). While a project is
   open the saved session is always one of its slots (invariant 1), so
   "project open" is the only gating the handler needs.
+- Coalescing: saves made while a `_with_backup_cause` command runs
+  (`_backup_flow > 0`) are NOT backed up one by one — the handler only
+  appends the current `project_file_path` to `_backup_pending`
+  (normpath'd, insertion order kept), and the decorator's finally
+  makes ONE backup per remembered file via `_backup_file_reported`, of
+  the final on-disk state. Reason: one command can save several times
+  — `session_save_as` (interactive) saves the currently active slot
+  AND the new one, `action_save_project_as` into a new path saves the
+  old project's slot and the new file's slot — and a backup per save
+  would rotate the set on half-done states (the first copy after
+  'Save session as...' lacked the session the command was creating;
+  reported in the console as two identical-looking 'project backup on
+  session save' lines for one click). Two files in one command (the
+  Save-As case) still make two backups — two different project files,
+  not a double. Saves with no command running (timer autosave, the
+  exit save) are single saves and are backed up immediately. On exit
+  two backups are made by design: one for the plugin's own exit save
+  (full state, unsaved texts included) and one for the app's exit save
+  right after it (the final file — the app's lighter rewrite does not
+  delete the slot texts the plugin's save wrote, so the second copy
+  supersedes the first, but a failed app exit save must not leave the
+  last state unbacked, so both are kept).
 - Reporting: an automatic backup prints ONE line to the console
   (`print`), never to the status bar — it can fire every ~40 s while
   typing. The line carries the trigger cause and the wall-clock time:
@@ -682,12 +704,19 @@ backups") for the user-facing rules; the developer-facing ones:
   trigger saves themselves (`action_save_project`,
   `action_save_project_as`, `action_close_project`,
   `action_open_project`, `session_save_inplace`, `session_save_as`,
-  `session_load`); only the OUTERMOST decorated method of a flow sets
-  the label (nested ones keep it), and it is restored on exit — the
-  synchronous event dispatch inside `app_proc(PROC_SAVE_SESSION)`
-  always sees the label of the action the user invoked.
-  `on_exit` pins it to 'on exit' WITHOUT restoring: the core fires
-  OnExit first, then saves the session itself (formmain.pas,
+  `session_load`, and the tree-editing flows `add_node`,
+  `action_remove_node`, `action_remove_deleted_nodes`,
+  `_reorder_root_node`, `_move_node_on_disk`, `action_set_as_main_file`,
+  `config_proj`, `on_delete_file`, plus `_create_project_file` /
+  `action_save_session_as_project` for the new-project flows — all
+  labeled 'on project save' except the switch-like ones); only the
+  OUTERMOST decorated method of a flow sets the label (nested ones
+  keep it), and it is restored on exit — the synchronous event
+  dispatch inside `app_proc(PROC_SAVE_SESSION)` always sees the label
+  of the action the user invoked. Before the tree-edit flows were
+  decorated, their saves were mislabeled 'by timer' although no timer
+  ran. `on_exit` pins it to 'on exit' WITHOUT restoring: the core
+  fires OnExit first, then saves the session itself (formmain.pas,
   `DoOps_SaveHistory(..., ASaveSession=True)` right after the
   `DoPyEvent(nil, TAppPyEvent.OnExit, [])`) — so the app's own exit
   save is labelled 'on exit' too.
@@ -720,3 +749,16 @@ backups") for the user-facing rules; the developer-facing ones:
 - `dlg_proc` form event `on_drop_files` (dict data: files/x/y/self_drag)
 - `dlg_proc` form event `on_drag_over` (dict data: x/y/self_drag)
 - `tree_proc` action `TREE_ITEM_FIND_BY_POS`
+- `app_proc` commands `PROC_PROJECT_NODE_ADD` (178) /
+  `PROC_PROJECT_NODE_DEL` (179): fire the new app events
+  `APPSTATE_PROJECT_NODE_ADD` (48) / `APPSTATE_PROJECT_NODE_DEL` (49)
+  to the other plugins (exposed in `cudatext.py` too). This plugin
+  fires them from `_fire_project_nodes_added` / `_fire_project_nodes_removed`
+  — once per finished operation, after `update_global_data()` refreshed
+  `global_project_info`, so an `on_state` listener already sees the new
+  node list. `add_node` is the single funnel for additions; removals
+  fire from `action_remove_node`, `action_remove_deleted_nodes` (once
+  per batch), `tree_on_unfold` (its file-node cleanup), `on_delete_file`
+  and `_move_node_on_disk` (DEL+ADD, the path was replaced). A pure
+  reorder of root nodes (`_reorder_root_node`) fires nothing — the
+  same nodes, only their order changed.

@@ -6224,6 +6224,23 @@ begin
             Result:= ReturnNone;
           end;
 
+        APP_PROC_PROJECT_NODE_ADD:
+          begin
+            //a plugin (cuda_project_man) added node(s) to the open project's
+            //tree: notify the other plugins; they read the node list from
+            //the Project Manager's global_project_info dict
+            fmMain.DoPyEvent_AppState(APPSTATE_PROJECT_NODE_ADD);
+            Result:= ReturnNone;
+          end;
+
+        APP_PROC_PROJECT_NODE_DEL:
+          begin
+            //a plugin (cuda_project_man) removed node(s) from the open
+            //project's tree
+            fmMain.DoPyEvent_AppState(APPSTATE_PROJECT_NODE_DEL);
+            Result:= ReturnNone;
+          end;
+
         APP_PROC_GET_UNIQUE_TAG:
           begin
             Inc(cPyUniqueTag);

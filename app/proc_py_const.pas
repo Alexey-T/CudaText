@@ -135,6 +135,12 @@ const
   APPSTATE_CODETREE_FOLDED_UNFOLDED   = 46;
   APPSTATE_CODETREE_FILTER_CHANGE = 47;
 
+  //events about the open project's tree (nodes added/removed); fired via
+  //app_proc(APP_PROC_PROJECT_NODE_ADD/_DEL) by cuda_project_man, listeners
+  //read the node list from the plugin's global_project_info['nodes']
+  APPSTATE_PROJECT_NODE_ADD = 48;
+  APPSTATE_PROJECT_NODE_DEL = 49;
+
   APPSTATE_CLEAR_HISTORY_RECENTS = 53;
   APPSTATE_CLEAR_HISTORY_FINDER  = 54;
   APPSTATE_CLEAR_HISTORY_CONSOLE = 55;
@@ -458,6 +464,11 @@ const
   APP_PROC_CONFIG_SCALE_GET      = 175;
   APP_PROC_CONFIG_SCALE_SET      = 176;
   APP_PROC_CONFIG_HISTORY_SAVE   = 177;
+
+  //fire APPSTATE_PROJECT_NODE_ADD / APPSTATE_PROJECT_NODE_DEL to other
+  //plugins (cuda_project_man calls these when tree nodes are added/removed)
+  APP_PROC_PROJECT_NODE_ADD = 178;
+  APP_PROC_PROJECT_NODE_DEL = 179;
 
   EMMET_EXPAND   = 0;
   EMMET_WRAP     = 1;

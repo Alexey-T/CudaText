@@ -392,26 +392,54 @@ def _time_am_pm():
 
 def _with_backup_cause(cause):
     """Decorator for the Command methods which trigger session saves
-    themselves: while a decorated method runs, the automatic project
-    backup made by its saves is labeled with `cause` in the console
-    report ('Project Manager: project backup <cause> at <time>: ...').
+    themselves. While a decorated method runs:
+
+    - the automatic project backup made by its saves is labeled with
+      `cause` in the console report ('Project Manager: project backup
+      <cause> at <time>: ...');
+    - its saves are NOT backed up one by one. One command can save the
+      session several times in a row: 'Save session as...' saves the
+      currently active slot AND the new one (two rewrites of the whole
+      .cuda-proj), 'Save project as...' into a new path saves the old
+      project's slot and the new file's slot. Backing every save up
+      would rotate the backup set on half-done intermediate states --
+      after 'Save session as...', the newest backup lacked the very
+      session the command was creating, while another slot held the
+      same state minus that session. So every APPSTATE_SESSION_SAVE_AFTER
+      made inside the flow only REMEMBERS the project file it may have
+      changed (on_state appends it to _backup_pending); ONE backup per
+      remembered file is made when the OUTERMOST decorated method of
+      the flow ends -- the final on-disk state, one rotation step.
 
     Only the OUTERMOST decorated method of a flow sets the label --
     action_save_project -> action_save_project_as -> session_save_as
     reports the action the user actually invoked ('on project save'),
     not the internal helper. Saves made while NO decorated method runs
     (CudaText's ~40 s session autosave, or its session manager writing
-    the current session) keep the default label 'by timer'."""
+    the current session) keep the default label 'by timer' and are
+    backed up immediately, one event at a time (single saves: nothing
+    to coalesce)."""
     def deco(fn):
         @functools.wraps(fn)
         def wrapper(self, *args, **kwargs):
+            outermost = not self._backup_flow
             prev = self._backup_cause
-            if not prev:
-                self._backup_cause = cause
+            if outermost:
+                if not prev:
+                    self._backup_cause = cause
+                self._backup_pending = []
+            self._backup_flow += 1
             try:
                 return fn(self, *args, **kwargs)
             finally:
-                self._backup_cause = prev
+                self._backup_flow -= 1
+                if outermost:
+                    pending = self._backup_pending
+                    label = self._backup_cause
+                    self._backup_pending = []
+                    self._backup_cause = prev
+                    for fn_proj in pending:
+                        self._backup_file_reported(fn_proj, label)
         return wrapper
     return deco
 
@@ -610,6 +638,20 @@ class Command:
         # app's own exit save (which runs right after on_exit) is
         # labelled too.
         self._backup_cause = ''
+        # Depth of the _with_backup_cause-decorated methods currently on
+        # the stack (0 = no plugin command which saves sessions is
+        # running). While a command runs, APPSTATE_SESSION_SAVE_AFTER
+        # only records the project files it may have changed
+        # (_backup_pending); the backups are made once, when the
+        # outermost command ends -- see _with_backup_cause.
+        self._backup_flow = 0
+        # Project files (os.path.normpath'd) whose session was saved
+        # inside the running decorated command; each gets ONE backup
+        # (of the final state) when the outermost command ends. A list,
+        # not a set: 'Save project as...' into a new path touches the
+        # old file first and the new file second, and the backups follow
+        # that order.
+        self._backup_pending = []
         # Start from a fresh copy of the defaults, then merge the loaded
         # file on top. This ensures newly added options appear even in old
         # config files, while preserving the user's existing values.
@@ -1227,6 +1269,7 @@ class Command:
         else:
             msg_status(_("Drop not allowed here"))
 
+    @_with_backup_cause('on project save')
     def _reorder_root_node(self, src_path, before_path):
         """Move the root project entry src_path before the root entry
         before_path (or to the end of the list when before_path is None)."""
@@ -1238,11 +1281,15 @@ class Command:
             nodes.insert(nodes.index(before_path), src_path)
         else:
             nodes.append(src_path)
+        # no APPSTATE_PROJECT_NODE_ADD/DEL here: the same nodes, only
+        # their order changed -- 'added/removed' would be a lie; the
+        # save below still reports the change through the backup cause
         self.action_refresh()
         if self.project_file_path:
             self.action_save_project_as(self.project_file_path)
         msg_status(_('Project node moved'))
 
+    @_with_backup_cause('on project save')
     def _move_node_on_disk(self, src_path, tgt_folder):
         """Move the file/folder src_path into tgt_folder, like the plugin's
         Cut+Paste does. Updates the project when the moved path was a root
@@ -1262,6 +1309,9 @@ class Command:
         # allowed, but be safe): point the project to the new location
         if src_path in self.project['nodes']:
             self.project['nodes'][self.project['nodes'].index(src_path)] = dst_path
+            # the node list changed: old path removed, new path added
+            self._fire_project_nodes_removed()
+            self._fire_project_nodes_added()
         if self.project.get('mainfile', '') == src_path:
             self.project['mainfile'] = dst_path
             self.update_global_data()
@@ -1543,6 +1593,7 @@ class Command:
 
         return isfile, key, path.name.upper()
 
+    @_with_backup_cause('on project save')
     def add_node(self, path):
         if path:
             if path in self.project["nodes"]:
@@ -1551,6 +1602,7 @@ class Command:
             msg_status(_("Adding to project: ") + '"' + collapse_filename(path) + '"', True)
             self.project["nodes"].append(path)
             self.project["nodes"].sort(key=Command.node_ordering)
+            self._fire_project_nodes_added()
             self.action_refresh()
             if self.project_file_path:
                 self.action_save_project_as(self.project_file_path)
@@ -2126,6 +2178,7 @@ class Command:
         self._create_project_file(path, close_tabs=True)
         msg_status(_("Created project: ") + '"' + os.path.basename(str(path)) + '"')
 
+    @_with_backup_cause('on project switch')
     def _create_project_file(self, path, close_tabs=True):
         """Create a new project file at `path` and make it the current
         project. Saves the current project (and its session slot) first.
@@ -2231,6 +2284,7 @@ class Command:
 
         self.action_refresh()
 
+    @_with_backup_cause('on project save')
     def action_save_session_as_project(self, info=None):
         """Save the current editor state as a NEW project: prompts for the
         .cuda-proj location, embeds the currently open tabs as session
@@ -2804,6 +2858,7 @@ class Command:
         fn = dlg_file(True, "", "", "")
         self.add_node(fn)
 
+    @_with_backup_cause('on project save')
     def action_remove_node(self):
         index = self.selected
         while True:
@@ -2822,6 +2877,7 @@ class Command:
         tree_proc(self.tree, TREE_ITEM_DELETE, index)
         if path in self.project["nodes"]:
             self.project["nodes"].remove(path)
+            self._fire_project_nodes_removed()
             if (self.cur_dir+os.sep).startswith(path+os.sep):
                 app_proc(PROC_SET_FOLDER, '')
                 self.cur_dir = ''
@@ -2831,6 +2887,7 @@ class Command:
         if self.project_file_path:
             self.action_save_project_as(self.project_file_path)
 
+    @_with_backup_cause('on project save')
     def action_remove_deleted_nodes(self):
 
         if msg_box(_("Remove missing paths from the project?"), MB_OKCANCEL + MB_ICONWARNING) != ID_OK:
@@ -2847,6 +2904,7 @@ class Command:
                 nodes_deleted.append(str(path_))
 
         if len(nodes_deleted) > 0:
+            self._fire_project_nodes_removed()
             self.action_refresh()
 
             if self.project_file_path:
@@ -2855,6 +2913,7 @@ class Command:
         else:
             msg_status(_('No missing paths'))
 
+    @_with_backup_cause('on project save')
     def action_set_as_main_file(self):
 
         path = self.get_location_by_index(self.selected)
@@ -2970,19 +3029,47 @@ class Command:
                 self.action_refresh()
                 self.save_options()
 
-    def _backup_project_file(self, force=False):
-        """Refresh the rotating backup of the open project file (see
-        projman_backup.ProjectFileBackups). Called on
-        APPSTATE_SESSION_SAVE_AFTER: while a project is open, every
-        session save writes into the .cuda-proj file (the app's ~40 s
-        session autosave, session switches, project saves/switches, the
-        exit save). The copy is skipped when the file did not change on
-        disk (size+mtime vs the newest backup -- saves which rewrote
-        nothing write nothing). Returns the new backup path, or None.
+    def _backup_file_reported(self, fn_proj, cause):
+        """One AUTOMATIC backup of the project file fn_proj, with the
+        console report line. The two callers: the on_state handler for
+        session saves the plugin did NOT initiate (no decorated command
+        running -- 'by timer' / the pinned 'on exit'), and the
+        _with_backup_cause flush for the saves made inside a plugin
+        command (one backup per touched project file, of the FINAL
+        state -- the intermediate half-done states are skipped, see
+        _with_backup_cause).
 
-        force=True (the manual 'Backup project file now') ignores the
-        'backup_enabled' option and a 'backup_count' below 1 -- a manual
-        snapshot is always allowed and always keeps the newest copy."""
+        `cause` labels the save which changed the file ('' = the app
+        saved on its own). Returns the new backup path, or None when no
+        backup was made (unchanged / disabled / failed -- failures are
+        reported through the ProjectFileBackups log callback)."""
+        if not fn_proj:
+            return None
+        if not self.options.get('backup_enabled', True):
+            return None
+        res = self.project_backups.run(
+            fn_proj,
+            folder=self.options.get('backup_folder', ''),
+            count=self.options.get('backup_count', DEFAULT_BACKUP_COUNT),
+            )
+        if res:
+            # console, NOT the status bar: the automatic backup can fire
+            # every ~40 s while typing, a status bar line per backup
+            # would be spam; the status bar is reserved for the manual
+            # 'Backup project file now'
+            print(_('Project Manager: project backup %s at %s: %s')
+                  % (_(cause or 'by timer'), _time_am_pm(), res))
+        return res
+
+    def _backup_project_file(self, force=False):
+        """Backup of the OPEN project file -- the MANUAL path (the menu
+        command 'Backup project file now', force=True): no console
+        report here, the command itself reports to the status bar. The
+        automatic path is _backup_file_reported.
+
+        force=True ignores the 'backup_enabled' option and a
+        'backup_count' below 1 -- a manual snapshot is always allowed
+        and always keeps the newest copy."""
         if not self.project_file_path:
             return None
         if not force and not self.options.get('backup_enabled', True):
@@ -3078,6 +3165,29 @@ class Command:
         global_project_info['nodes'] = self.project.get('nodes', [])
         global_project_info['vars'] = self.project.setdefault('vars', [])
         global_project_info['mainfile'] = self.project.setdefault('mainfile', '')
+
+    def _fire_project_nodes_added(self):
+        """Fire APPSTATE_PROJECT_NODE_ADD: node(s) were added to the open
+        project's tree. For OTHER plugins: until now only project
+        open/close had an app event (APPSTATE_PROJECT, fired by the core
+        when this plugin calls PROC_SET_PROJECT), tree node changes were
+        invisible and listeners had to poll global_project_info. The
+        dict is refreshed FIRST, so an on_state listener already sees
+        the new node list. Fired once per finished operation, not per
+        node. Additions funnel through add_node ('Add folder/file',
+        drag&drop from the OS file manager, file creation and rename
+        flows); _move_node_on_disk fires it directly for the new path
+        of a moved node."""
+        self.update_global_data()
+        app_proc(PROC_PROJECT_NODE_ADD, '')
+
+    def _fire_project_nodes_removed(self):
+        """Fire APPSTATE_PROJECT_NODE_DEL: node(s) were removed from the
+        open project's tree; see _fire_project_nodes_added. Fired once
+        per finished operation ('Remove missing paths' removes a whole
+        batch with one event)."""
+        self.update_global_data()
+        app_proc(PROC_PROJECT_NODE_DEL, '')
 
     def get_info(self, index):
         if index is None:
@@ -3311,6 +3421,7 @@ class Command:
         else:
             ini_proc(INI_DELETE_KEY, 'plugins.ini', 'events', 'cuda_project_man')
 
+    @_with_backup_cause('on project save')
     def config_proj(self):
         if not self.tree:
             msg_status(_('No project open'))
@@ -3612,6 +3723,7 @@ class Command:
             tree_proc(self.tree, TREE_ITEM_DELETE, data)
             if str(path) in self.project["nodes"]:
                 self.project["nodes"].remove(str(path))
+                self._fire_project_nodes_removed()
             return
 
         if info.image != self.ICON_DIR:
@@ -4577,11 +4689,13 @@ class Command:
             return False
         return bool(app_proc(PROC_SAVE_SESSION, ptr))
 
+    @_with_backup_cause('on project save')
     def on_delete_file(self, ed_self, fn):
 
         #print('on_delete_file', fn)
         if fn in self.project["nodes"]:
             self.project["nodes"].remove(fn)
+            self._fire_project_nodes_removed()
             self.action_refresh()
             if self.project_file_path:
                 self.action_save_project_as(self.project_file_path)
@@ -4630,13 +4744,19 @@ class Command:
           in formmain_loadsave.inc, which fires it for project-internal
           sessions too). While a project is open, the saved session is
           one of the project's slots inside the .cuda-proj file, so the
-          file may have changed: refresh its rotating backup
-          (_backup_project_file; the backup itself skips the copy when
+          file may have changed. When NO plugin command is running
+          (_backup_flow == 0: the app saved on its own -- the autosave /
+          the session manager / the exit save), the rotating backup is
+          refreshed now (_backup_file_reported; it skips the copy when
           the file did not change on disk, so saves which rewrote
-          nothing cost nothing). A made backup is reported to the
-          CONSOLE (with the cause -- _backup_cause -- and the time),
-          never to the status bar: the status bar is reserved for the
-          manual 'Backup project file now'.
+          nothing cost nothing). While a command decorated with
+          _with_backup_cause IS running, the save is only recorded in
+          _backup_pending: one command can save several times ('Save
+          session as...' saves the current slot AND the new one), and
+          one backup of the final state is made when the command ends.
+          A made backup is reported to the CONSOLE (with the cause and
+          the time), never to the status bar: the status bar is
+          reserved for the manual 'Backup project file now'.
         - APPSTATE_SESSION_SET / APPSTATE_SESSION_LOAD: detect external
           session switching (issue #6366). If a project is open and the
           app's session no longer belongs to it, close the project
@@ -4647,17 +4767,20 @@ class Command:
         Session changes made by the plugin itself are guarded with
         _session_set_by_plugin and ignored here."""
         if state == APPSTATE_SESSION_SAVE_AFTER:
-            res = self._backup_project_file()
-            if res:
-                # console, NOT the status bar: this fires after every
-                # session save with real changes (~every 40 s while
-                # typing), a status bar line per backup would be spam;
-                # the status bar is reserved for the manual
-                # 'Backup project file now'. _backup_cause tells which
-                # action saved the session ('' = the app did it on its
-                # own: the session autosave / the session manager).
-                print(_('Project Manager: project backup %s at %s: %s')
-                      % (_(self._backup_cause or 'by timer'), _time_am_pm(), res))
+            if self._backup_flow:
+                # a plugin command is running which saves the session:
+                # remember the project file it may have changed -- the
+                # backup is made once, of the final state, when the
+                # outermost command ends (_with_backup_cause)
+                if self.project_file_path:
+                    p = os.path.normpath(str(self.project_file_path))
+                    if p not in self._backup_pending:
+                        self._backup_pending.append(p)
+            else:
+                # not initiated by this plugin: back up now (the copy
+                # itself is skipped when the file did not change)
+                fn = str(self.project_file_path) if self.project_file_path else ''
+                self._backup_file_reported(fn, self._backup_cause)
             return
 
         if state in (APPSTATE_SESSION_SET, APPSTATE_SESSION_LOAD):

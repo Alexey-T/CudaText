@@ -472,6 +472,16 @@ Project file backups
   too) — saves which rewrote nothing write nothing. Note that a
   project save or a session switch rewrites the file even when its
   content ends up identical, so those events make one backup copy.
+  A command which saves the session several times in a row makes ONE
+  backup, not one per save: "Save session as..." saves the currently
+  active session and then the new one (two rewrites of the whole
+  project file), "Save project as..." into a new path saves the old
+  project's session and the new file's. Backing up after every single
+  save would rotate the set on half-done intermediate states — the
+  first copy after "Save session as..." lacked the very session the
+  command was creating. The backups are made when the command ends,
+  from the final file: one backup per project file the command
+  touched.
 
   IMPORTANT — dependence on CudaText's session saving. The automatic
   backups ride on session saves: the plugin is notified AFTER a
@@ -500,7 +510,10 @@ Project file backups
   autosave, or the session manager writing the current session);
   "on session save" / "on session switch" / "on project save" /
   "on project switch" / "on project close" / "on exit" label the
-  saves made by the Project Manager's own commands. The manual
+  saves made by the Project Manager's own commands — tree edits
+  (adding/removing/reordering nodes, moving a node on disk, "Set as
+  main file", the project properties) save the project right away
+  and are labeled "on project save" too. The manual
   "Backup project file now" reports to the status bar (an action
   you asked for deserves a visible confirmation).
 

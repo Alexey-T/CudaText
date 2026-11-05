@@ -78,6 +78,42 @@
   periodic session saves stop -- and with them the periodic automatic
   backups; the switch/save/exit ones remain, the manual command is
   unaffected
+- backups, follow-up 2: a command which saves the session several
+  times in a row no longer rotates the backup set once per save.
+  'Save session as...' saves the currently active session slot AND the
+  new one (two rewrites of the whole .cuda-proj in one click), and
+  each save fired APPSTATE_SESSION_SAVE_AFTER, so the set got two
+  copies -- the first a half-done state which lacked the very session
+  the command was creating (visible in the console as two 'project
+  backup on session save' lines for one 'Save session as...'). Now
+  the saves made inside a plugin command are only remembered (the
+  project files they touched); ONE backup per touched file is made
+  when the command ends, from the final file -- 'Save session as...'
+  makes a single copy. 'Save project as...' into a new path still
+  makes two, one per project file (the old project's final state and
+  the new file's: two different files, not a double). Saves CudaText
+  makes on its own (~40 s autosave, exit save) are backed up
+  immediately as before -- single saves, nothing to coalesce. On exit
+  two backups remain by design: one for the plugin's own exit save
+  (the full state, unsaved texts included) and one for the app's exit
+  save right after it (the final file). Saves triggered by tree edits
+  (adding/removing/reordering nodes, moving a node on disk, 'Set as
+  main file', project properties, deleting a tracked file) were
+  reported 'by timer' although no timer ran: these flows are plugin
+  commands too, and are now labeled 'on project save'
+- new events for other plugins: APPSTATE_PROJECT_NODE_ADD /
+  APPSTATE_PROJECT_NODE_DEL (on_state) fire when nodes are added to or
+  removed from the open project's tree. Until now only project
+  open/close had an event (APPSTATE_PROJECT, fired by the core when
+  this plugin calls PROC_SET_PROJECT), so a plugin watching the node
+  list had to poll global_project_info. The events are fired with the
+  new app_proc commands PROC_PROJECT_NODE_ADD / PROC_PROJECT_NODE_DEL
+  (app API additions of 1.239.0); global_project_info is refreshed
+  before firing, so a listener already sees the new node list. Fired
+  once per finished operation ('Clean up missing paths' removes a
+  whole batch with one event); moving a node on disk fires DEL+ADD
+  (the path was replaced); a pure reorder of root nodes fires nothing
+  (same nodes, new order)
 
 2026.11.03
 - fixed #6587: the auto-unfolding of a folder during a drag&drop did not
