@@ -107,7 +107,10 @@ Constants in "on_state":
 * APPSTATE_SESSION_SAVE_BEFORE: Session is about to save.
 * APPSTATE_SESSION_SAVE_AFTER: Session is just saved.
 * APPSTATE_SESSION_SET: Session name is just changed (it doesn't mean that session is loaded/saved).
+
 * APPSTATE_PROJECT: Current project in the Project Manager is changed.
+* APPSTATE_PROJECT_NODE_ADD: Current project has added root node(s).
+* APPSTATE_PROJECT_NODE_DEL: Current project has deleted root node(s).
 
 * APPSTATE_TAB_SPLIT: Splitting of ui-tab (to primary/secondary editors): splitting toggled.
 * APPSTATE_TAB_SPLIT_V_H: Splitting of ui-tab: changed vertical/horizontal layout.
@@ -350,6 +353,9 @@ Actions work with props of Find/Replace dialog, and props of low-level search en
 * PROC_GET_COMPILER_INFO: Returns information about OS/CPU/WidgetSet CudaText was compiled for, as dict. Dict keys are: "os", "cpu", "widgetset", "fpc".
 
 * PROC_DRAG_FILES: Windows only. Mouse-drag file(s) out of the application to external apps (Explorer, etc). Param "text" must be filename or filenames separated by chr(1). This is the alternative way to initiate drag-and-drop to external apps, eg Project Manager plugin don't need this action, it just sets the "drag_files" property of the treeview control. Returns bool: the drop was accepted by the target; on non-Windows returns False.
+
+* PROC_PROJECT_NODE_ADD: Fires on_state with APPSTATE_PROJECT_NODE_ADD. It's needed for plugins like Project Manager to inform plugins like LSP Client about changing in the project nodes.
+* PROC_PROJECT_NODE_DEL: Fires on_state with APPSTATE_PROJECT_NODE_DEL.
 
 ====app_proc - Clipboard====
 
@@ -5554,11 +5560,15 @@ It provides:
 1.0.485 (app 1.237.1)
 * add: on_state: APPSTATE_SESSION_LOAD_BEGIN_PRE
 
-1.0.486 (app 1.238.5)
+1.0.486 (app 1.239.0)
 * add: tree_proc: TREE_FIND_BY_COORD
 * add: app_proc: PROC_DRAG_FILES
+* add: app_proc: PROC_PROJECT_NODE_ADD
+* add: app_proc: PROC_PROJECT_NODE_DEL
 * add: dlg_proc: control's property "drag_files"
 * add: dlg_proc: form's event "on_drop_files"
 * add: dlg_proc: form's event "on_drag_over"
+* add: on_state: APPSTATE_PROJECT_NODE_ADD
+* add: on_state: APPSTATE_PROJECT_NODE_DEL
 
 [[Category:CudaText]]
