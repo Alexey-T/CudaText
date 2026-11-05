@@ -8019,8 +8019,8 @@ begin
     SLexer:= EditorLexerNameAtPos(Ed, Caret.AsPoint);
     if SLexer='' then exit;
 
-    bNeedHtml:= UiOps.AutocompleteHtml and SRegexMatchesString(SLexer, UiOps.AutocompleteHtml_Lexers, false);
-    bNeedCss:= UiOps.AutocompleteCss and SRegexMatchesString(SLexer, UiOps.AutocompleteCss_Lexers, false);
+    bNeedHtml:= UiOps.AutocompleteHtml and SRegexMatches_HtmlLexers(SLexer, UiOps.AutocompleteHtml_Lexers);
+    bNeedCss:= UiOps.AutocompleteCss and SRegexMatches_CssLexers(SLexer, UiOps.AutocompleteCss_Lexers);
     bNeedAcp:= UiOps.AutocompleteAcpFiles;
 
     CompletionOpsCss.FilenameCssList:= AppDir_DataAutocompleteSpec+DirectorySeparator+'css_list.ini';

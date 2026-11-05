@@ -3080,7 +3080,7 @@ begin
   if SValue='' then exit;
   if not IsTagNeedsClosingTag(LowerCase(SValue)) then exit;
 
-  if SRegexMatchesString(SLexer, UiOps.AutocompleteHtml_Lexers, false) then
+  if SRegexMatches_HtmlLexers(SLexer, UiOps.AutocompleteHtml_Lexers) then
   begin
     Ed.TextInsertAtCarets('</'+SValue+'>', true{AKeepCaret}, false, false);
     Ed.DoEventChange(AY);
@@ -3284,7 +3284,7 @@ begin
   ch:= St.LineCharAt(AY, AX-1);
   if ch<>'<' then exit;
 
-  if not SRegexMatchesString(SLexer, UiOps.AutocompleteHtml_Lexers, false) then exit;
+  if not SRegexMatches_HtmlLexers(SLexer, UiOps.AutocompleteHtml_Lexers) then exit;
 
   SText:= St.TextSubstring(0, 0, AX-2, AY);
   STag:= EditorFindHtmlLastOpenedTagInText(SText);
