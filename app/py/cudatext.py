@@ -480,8 +480,6 @@ PROC_CONFIG_SCALE_GET      = 175
 PROC_CONFIG_SCALE_SET      = 176
 PROC_CONFIG_HISTORY_SAVE   = 177
 
-# fire APPSTATE_PROJECT_NODE_ADD / APPSTATE_PROJECT_NODE_DEL to other
-# plugins (currently used by cuda_project_man: tree nodes added/removed)
 PROC_PROJECT_NODE_ADD = 178
 PROC_PROJECT_NODE_DEL = 179
 
