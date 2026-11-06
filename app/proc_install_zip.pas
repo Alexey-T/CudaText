@@ -468,7 +468,7 @@ begin
           ANeedRestart:= true;
           AReport+= msgStatusPackageEvents+' '+s_events+#10;
         end;
-      end; //if SMatchesBeginWithTrailingDigits(ini_section, 'item\d+', true)
+      end; //if SMatchesBeginWithTrailingDigits(ini_section, 'item')
     end;
   finally
     FreeAndNil(sections);
