@@ -33,7 +33,6 @@ type
 function SWrapLongStringBySeparator(const S: string; AMaxLen: integer; ASepChar: char): string;
 function STextWholeWordSelection(const S: UnicodeString; AOffsetBegin, AOffsetEnd: integer;
   const ANonWordChars: UnicodeString): boolean;
-procedure SDeleteDuplicateSpaces(var S: string);
 function SDeleteCurlyBrackets(const S: string): string;
 function STextListsFuzzyInput(const AText, AFind: string;
   out AWordResults: TAppSearchWordsResults;
@@ -181,15 +180,6 @@ begin
   end;
 end;
 
-procedure SDeleteDuplicateSpaces(var S: string);
-var
-  i: integer;
-begin
-  for i:= Length(S) downto 2{not 1} do
-    if (S[i]=' ') and (S[i-1]=' ') then
-      Delete(S, i, 1);
-end;
-
 function STextListsAllWords(const AText, AFind: string;
   out AWordResults: TAppSearchWordsResults): boolean;
 var
@@ -202,7 +192,7 @@ begin
 
   STextLower:= LowerCase(AText);
   SWordList:= LowerCase(Trim(AFind));
-  SDeleteDuplicateSpaces(SWordList);
+  SCompressRepeatingSpacesAndEols(SWordList);
 
   Sep.Init(SWordList, ' ');
   repeat
