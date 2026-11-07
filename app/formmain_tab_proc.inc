@@ -313,7 +313,7 @@ procedure TfmMain.DoOnTabClose(Sender: TObject; ATabIndex: Integer;
   //
   function NiceTabTitle(D: TATTabData): string;
   begin
-    Result:= SWrapLongString(D.TabCaptionFull, 80, #10);
+    Result:= SWrapLongStringBySeparator(D.TabCaptionFull, 80, #10);
   end;
   //
 var

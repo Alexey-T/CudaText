@@ -30,7 +30,7 @@ type
     end;
   end;
 
-function SWrapLongString(const S: string; MaxLen: integer; SepChar: char): string;
+function SWrapLongStringBySeparator(const S: string; AMaxLen: integer; ASepChar: char): string;
 function STextWholeWordSelection(const S: UnicodeString; OffsetBegin, OffsetEnd: integer;
   const ANonWordChars: UnicodeString): boolean;
 procedure SDeleteDuplicateSpaces(var S: string);
@@ -541,16 +541,16 @@ begin
     Result:= S;
 end;
 
-function SWrapLongString(const S: string; MaxLen: integer; SepChar: char): string;
+function SWrapLongStringBySeparator(const S: string; AMaxLen: integer; ASepChar: char): string;
 var
   n: integer;
 begin
-  if Length(S)<=MaxLen then
+  if Length(S)<=AMaxLen then
     exit(S);
-  n:= RPosEx(' ', S, MaxLen);
+  n:= RPosEx(' ', S, AMaxLen);
   if n=0 then
-    n:= MaxLen;
-  Result:= Copy(S, 1, n)+SepChar+SWrapLongString(Copy(S, n+1, MaxInt), MaxLen, SepChar);
+    n:= AMaxLen;
+  Result:= Copy(S, 1, n)+ASepChar+SWrapLongStringBySeparator(Copy(S, n+1, MaxInt), AMaxLen, ASepChar);
 end;
 
 
