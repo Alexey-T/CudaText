@@ -9,6 +9,7 @@
 + add: Windows: support drag-and-drop from Project Manager to external apps: Explorer, archivers, mail clients etc (patch by @lamugu)
 + add: optimized code-tree filling on long/big code-trees, up to 20x faster (by @slicke and @badrelmers using AI)
 - fix: app closed ui-tabs / switched sessions slowly, because it _waited_ for lexer parsing instead of _cancelling_ it (by @badrelmers using AI)
+- fix: after BkSp inside pair brackets, editor leaves 'ghost green cell'
 
 1.238.0 (2026/10)
 
