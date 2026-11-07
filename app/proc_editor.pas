@@ -1226,7 +1226,6 @@ begin
       );
   end;
 
-  EditorBracket_ClearHilite(Ed);
   Ed.Update;
   Result:= true;
 end;
