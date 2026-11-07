@@ -762,7 +762,7 @@ type
     FLastWindowState: TWindowState;
     FLastSaveSessionTick: QWord;
     FLastPyMenuFilter: UnicodeString;
-    FLastPyMenuHashOfLines: integer;
+    FLastPyMenuHashOfLines: QWord;
     FDisableTreeClearing: boolean;
     FLexerProgressIndex: integer;
     FOption_WindowPos: string;
@@ -8218,7 +8218,7 @@ var
   Sep: TATStringSeparator;
   SItem: string;
   DeskRect: TRect;
-  NHashOfLines: integer = 0;
+  NHashOfLines: QWord = 0;
 begin
   Form:= TfmMenuApi.Create(nil);
   try
@@ -8250,7 +8250,7 @@ begin
 
     if not AProps.NoKeepFilter then
     begin
-      NHashOfLines:= SCalcHashLongint(AProps.ItemsText);
+      NHashOfLines:= SCalcHashQword(AProps.ItemsText);
       if NHashOfLines=FLastPyMenuHashOfLines then
       begin
         Form.edit.Text:= FLastPyMenuFilter;
