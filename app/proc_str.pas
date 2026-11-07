@@ -62,8 +62,8 @@ function SStringToPythonString(const Str: string; AndQuote: boolean=true): strin
 function SStringHasBinaryChars(const S: string): boolean;
 function SStringHasBinaryChars(const S: UnicodeString): boolean;
 
-function SMaskFilenameSlashes(const fn: string): string;
-procedure SParseFilenameWithTwoNumbers(var fn: string; out NLine, NColumn: integer);
+function SMaskFilenameSlashes(const AFilename: string): string;
+procedure SParseFilenameWithTwoNumbers(var AFilename: string; out ALine, AColumn: integer);
 function IsPythonExpression(const S: string): boolean;
 
 function SParseIconFilenameWithWidthHeight(const AStr: string;
@@ -104,9 +104,9 @@ begin
     Result:= '"'+Result+'"';
 end;
 
-function SMaskFilenameSlashes(const fn: string): string;
+function SMaskFilenameSlashes(const AFilename: string): string;
 begin
-  result:= fn;
+  result:= AFilename;
   result:= StringReplace(result, '/', '|', [rfReplaceAll]);
   result:= StringReplace(result, '\', '|', [rfReplaceAll]);
 end;
@@ -428,22 +428,22 @@ begin
     SetLength(fn, Length(fn)-Length(sNum)-1);
 end;
 
-procedure SParseFilenameWithTwoNumbers(var fn: string; out NLine, NColumn: integer);
+procedure SParseFilenameWithTwoNumbers(var AFilename: string; out ALine, AColumn: integer);
 var
   n1, n2: integer;
 begin
-  n1:= SParseFilenameWithNumber(fn);
-  n2:= SParseFilenameWithNumber(fn);
+  n1:= SParseFilenameWithNumber(AFilename);
+  n2:= SParseFilenameWithNumber(AFilename);
 
   if n2>0 then
   begin
-    NLine:= n2;
-    NColumn:= n1;
+    ALine:= n2;
+    AColumn:= n1;
   end
   else
   begin
-    NLine:= n1;
-    NColumn:= 0;
+    ALine:= n1;
+    AColumn:= 0;
   end;
 end;
 
