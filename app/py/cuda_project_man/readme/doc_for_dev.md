@@ -1,10 +1,12 @@
 # cuda_project_man — documentation for developers
 
 This document is for plugin authors/maintainers who want to change this
-plugin. The end-user documentation is `readme/readme.txt` — this file
-describes the internals: the design concepts, the invariants that MUST
-hold, and the traps that have already caused data-loss bugs (every one
-of the rules below exists because its violation lost somebody's data).
+plugin. The end-user documentation is `readme/readme.txt` (plus the
+migration guide `readme/upgrade_v2.txt` for the old-format upgrade) —
+this file describes the internals: the design concepts, the invariants
+that MUST hold, and the traps that have already caused data-loss bugs
+(every one of the rules below exists because its violation lost
+somebody's data).
 
 Reference discussions: CudaText issues #6352 (project/session redesign)
 and #6366 (external session switch detection).
@@ -461,6 +463,26 @@ Current format version: `PROJECT_FORMAT_VERSION = 2`, written as
    (`AUTO_IMPORT_TAG`, untranslated data), the OS suffix stripped,
    number appended on collisions; failures fall back to the legacy
    empty-`session1` flow (Regime B).
+6. `_show_upgrade_v2_dialog` (issue #6600: users don't re-read the doc
+   after an update, so the information is pushed to them): AFTER the
+   project is adopted and its session is loaded, one `msg_box_ex`
+   reports the automatic upgrade, the backup file name, the imported
+   session, and the v2 rule (project + external session cannot be open
+   at the same time). `upgrade_project_file_on_disk` returns
+   `(rewritten_on_disk, bak)` so the message states the exact outcome
+   (a file that was not rewritten keeps the old format, so the dialog
+   reappears on its next open — honest, the upgrade is pending). The
+   "Open documentation" button calls `_open_plugin_doc_v2()`:
+   `file_open` on readme/upgrade_v2.txt (`DOC_FILE_V2`) — a DEDICATED
+   migration-guide file whose whole content is the v2 story, so it
+   opens at the top; no section lookup / `set_caret` scrolling inside
+   the long readme.txt. readme.txt keeps only a short
+   "UPGRADE TO PROJECT FILE FORMAT V2" summary section that mentions
+   the file (keep the file name in sync there; tests assert the file
+   exists, that the readme mentions it, and that the dialog names it).
+   No dialog for v2 files, and
+   none when the open is aborted (validation errors, future-format
+   files: those return before the upgrade runs).
 
 ---
 ## 9. Options, events, install.inf

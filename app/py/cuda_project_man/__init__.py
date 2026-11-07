@@ -48,6 +48,15 @@ DEF_SES = 'default'+OS_SUFFIX+'.cuda-session'
 # as the 'imported' fallback name in action_import_external_session).
 AUTO_IMPORT_TAG = ' auto-imported'
 
+# Dedicated migration guide for the old project file format, which the
+# v2-upgrade dialog offers to open: readme/upgrade_v2.txt. The whole
+# file is about the v2 upgrade, so _open_plugin_doc_v2() simply opens
+# it at the top -- no scrolling to a section inside the long readme is
+# needed. readme.txt keeps a short "UPGRADE TO PROJECT FILE FORMAT V2"
+# section that mentions this file; keep the file name in sync with that
+# section (tests assert the file exists and that the readme mentions it).
+DOC_FILE_V2 = 'upgrade_v2.txt'
+
 global_project_info = {}
 sort_order = 'ext'
 
@@ -2586,6 +2595,10 @@ class Command:
         # file in the load_session block below ('' = no import); see
         # _auto_import_current_session (issue #6600)
         imported_name = ''
+        # Outcome of the on-disk upgrade of an old-format file:
+        # (rewritten_on_disk, backup_path_or_None); reported to the user
+        # by _show_upgrade_v2_dialog after the open finishes
+        upgrade_info = None
         if had_project:
             self.action_save_project_as(self.project_file_path)
 
@@ -2632,12 +2645,15 @@ class Command:
             # Old format: normalize the structure in memory, then upgrade the
             # file on disk automatically. The upgrade only adds missing
             # standard keys and a backup of the original is kept next to the
-            # file, so it is lossless and reversible — no confirmation dialog
-            # is needed (a blocking prompt would only prevent users from
-            # opening their own projects; the file is rewritten on exit anyway).
+            # file, so it is lossless and reversible — the open is never
+            # blocked or confirmed (a blocking prompt would only prevent
+            # users from opening their own projects; the file is rewritten
+            # on exit anyway). An INFORMATIONAL dialog about the upgrade is
+            # shown after the project is fully open, see
+            # _show_upgrade_v2_dialog below.
             data = normalize_project_data(data)
             self._migrate_last_session(data)
-            self.upgrade_project_file_on_disk(path, data)
+            upgrade_info = self.upgrade_project_file_on_disk(path, data)
         else:
             data = normalize_project_data(data)
             self._migrate_last_session(data)
@@ -2808,6 +2824,17 @@ class Command:
                 unfolds[i] = expand_macros(proj_dir, unfolds[i])
             self.enum_all_setfolds(unfolds)
 
+        if old_format:
+            # The file was just upgraded from the old format, and the project
+            # is open with its session loaded now — the user can SEE that
+            # everything works. Tell them what was done, and about the one
+            # breaking change of v2, with the migration guide one click
+            # away. Issue #6600 taught that users don't re-read a plugin's
+            # documentation after an update: the information must come to
+            # them, or the v2 session rule looks like 'tabs lost' /
+            # 'the project closed itself' and lands in the issue tracker.
+            self._show_upgrade_v2_dialog(path, upgrade_info, imported_name)
+
     @staticmethod
     def _migrate_last_session(data):
         """Migrate the removed 'def_session' key (written by earlier
@@ -2833,6 +2860,12 @@ class Command:
         upgraded data in memory and the file on disk is upgraded on the
         first successful save — opening a project must never be blocked.
         The user is informed via the status bar and the console panel.
+
+        Returns (rewritten_on_disk, backup_path): rewritten_on_disk tells
+        whether the file on disk carries the new format now (False = it
+        keeps the old format until the first successful save),
+        backup_path is the .bak copy just written or None. Consumed by
+        _show_upgrade_v2_dialog to report the exact outcome.
         """
         data['version'] = PROJECT_FORMAT_VERSION
 
@@ -2842,7 +2875,7 @@ class Command:
             print(_('Project Manager: cannot back up old project file, '
                 'the file on disk was not upgraded: ') + collapse_filename(path))
             print(_('Project Manager: it will get the current format on the first successful save'))
-            return
+            return False, None
 
         try:
             write_json_file(path, data)
@@ -2852,7 +2885,7 @@ class Command:
             print(_('Project Manager: the original file is kept in the backup: ') +
                 collapse_filename(str(bak)))
             print(_('Project Manager: it will get the current format on the first successful save'))
-            return
+            return False, bak
 
         msg_status(_('Project file upgraded to v%d (backup: %s)') %
             (PROJECT_FORMAT_VERSION, os.path.basename(bak)))
@@ -2870,6 +2903,8 @@ class Command:
                 collapse_filename(str(ses)))
             print(_('Project Manager: to embed it into the project, use '
                 '"Import external session..." in the sessions menu'))
+
+        return True, bak
 
     def _auto_import_current_session(self, path, data, ext_saved):
         """Import the CURRENT editor state into the session-less project
@@ -2998,6 +3033,87 @@ class Command:
                     'session file; the current tabs are stored in the '
                     'imported project session: ') + collapse_filename(ext_fn))
         return name
+
+    def _show_upgrade_v2_dialog(self, path, upgrade_info, imported_name):
+        """Show the one-time information dialog after an old-format project
+        file was upgraded to v2 and the project finished opening (issue
+        #6600: users don't re-read a plugin's documentation after an
+        update, so the information must come to them — without it, the v2
+        session rule looks like 'tabs lost' / 'the project closed itself'
+        and lands in the issue tracker).
+
+        Called at the END of action_open_project, after the project is open
+        and its session is loaded, so the user first SEES the working end
+        state. Shown once per project file: after a successful on-disk
+        upgrade the file carries "version": 2 and is never old-format
+        again; a file whose on-disk rewrite failed keeps the old format,
+        so the dialog honestly reappears on the next open (the upgrade is
+        still pending then).
+
+        The message reports only what actually happened: the automatic
+        upgrade, the backup file name (or why the file was not rewritten),
+        the auto-imported session when one was created, and the ONE
+        breaking change users notice (a project and an external session
+        can no longer be open at the same time). 'Open documentation'
+        opens the dedicated migration guide (readme/upgrade_v2.txt,
+        DOC_FILE_V2) in a new tab -- the whole file is about the upgrade,
+        so it opens at the top, no scrolling; 'OK' just closes the dialog.
+        """
+        written, bak = upgrade_info
+        fn = os.path.basename(path)
+
+        parts = [
+            _('Project "%s" was automatically upgraded to the new file format v2.') % fn,
+            _('Nothing is required from you: the project is open and your tabs are restored.'),
+            '',
+        ]
+        if written:
+            parts.append(_('A backup of the original file was saved next to it: "%s".') %
+                os.path.basename(str(bak)))
+            parts.append(_('You can delete the backup when everything works fine.'))
+        elif bak is not None:
+            parts.append(_('The original file was backed up as "%s", but the project file could not be rewritten (locked file? read-only folder?).') %
+                os.path.basename(str(bak)))
+            parts.append(_('The original is kept; it will get the new format on the first successful save.'))
+        else:
+            parts.append(_('The project file could not be backed up or rewritten (read-only folder? locked file?).'))
+            parts.append(_('The original is untouched; it will get the new format on the first successful save.'))
+        if imported_name:
+            parts.append(_('Your open tabs were saved as the project session "%s", inside the project file: from now on they load with the project.') %
+                imported_name)
+
+        parts.append('')
+        parts.append(_('Attention — one breaking change in v2: the session is now always stored INSIDE the project file.'))
+        parts.append(_('A project and an external session (e.g. default.cuda-session) can no longer be open at the same time.'))
+        parts.append(_('This rule fixed real bugs of lost and overwritten sessions. External .cuda-session files are never deleted: "Import external session..." embeds one into a project.'))
+        parts.append('')
+        parts.append(_('The details — why the change, which bugs it fixes, and how to get an external session back into a project — are in the migration guide "%s" (in the plugin readme folder).') %
+            DOC_FILE_V2)
+
+        res = msg_box_ex(
+            _('Project Manager'),
+            '\n'.join(parts),
+            [_('Open documentation'), _('OK')],
+            MB_ICONINFO)
+        if res == 0:
+            self._open_plugin_doc_v2()
+
+    def _open_plugin_doc_v2(self):
+        """Open the plugin's v2 migration guide in a new editor tab — the
+        'Open documentation' button of the v2-upgrade dialog calls this.
+
+        The guide is a SEPARATE file, readme/upgrade_v2.txt (DOC_FILE_V2):
+        its whole content is the v2 story, so it simply opens at the top —
+        no section lookup or caret scrolling inside the long readme.txt
+        (which keeps only a short summary section pointing here). When the
+        file is missing (an exotic install?), a status-bar message names
+        the missing path instead of failing silently.
+        """
+        fn = os.path.join(os.path.dirname(__file__), 'readme', DOC_FILE_V2)
+        if not os.path.isfile(fn):
+            msg_status(_('Documentation file not found: ') + str(fn))
+            return
+        file_open(fn)
 
     def _report_project_load_error(self, path, err):
         """Show a dialog for a project file that failed validation.
