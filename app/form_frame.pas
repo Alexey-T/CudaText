@@ -1962,8 +1962,9 @@ begin
         if EditorAutoDeleteClosingBracket(Ed) then
         begin
           AHandled:= true;
+          //we interrupt TATSynEdit.DoCommand by AHandled:=True, so it don't call DoEvent*, so we must do it
           Ed.DoEventChange(Ed.Carets[0].FirstTouchedLine);
-          Ed.DoEventCarets(true); //we interrupt TATSynEdit.DoCommand by AHandled:=True, so it don't call DoEventCarets, so we must do it
+          Ed.DoEventCarets(true);
           exit;
         end;
       end;
