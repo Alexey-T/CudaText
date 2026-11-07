@@ -8250,7 +8250,7 @@ begin
 
     if not AProps.NoKeepFilter then
     begin
-      NHashOfLines:= SSimpleHash(AProps.ItemsText);
+      NHashOfLines:= SCalcHashLongint(AProps.ItemsText);
       if NHashOfLines=FLastPyMenuHashOfLines then
       begin
         Form.edit.Text:= FLastPyMenuFilter;
