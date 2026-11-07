@@ -27,7 +27,7 @@ end;
 
 procedure DoLocControlHint(c: TControl; AStr: string);
 begin
-  SReplaceAll(AStr, '&', '');
+  AStr:= StringReplace(AStr, '&', '', [rfReplaceAll]);
   if Assigned(c) then
     c.Hint:= AStr;
 end;
@@ -35,7 +35,7 @@ end;
 procedure DoLocString(var AStr: string; ini: TIniFile; const ASection, AKey: string);
 begin
   AStr:= ini.ReadString(ASection, AKey, AStr);
-  SReplaceAll(AStr, '\n', #10);
+  AStr:= StringReplace(AStr, '\n', #10, [rfReplaceAll]);
 end;
 
 procedure DoLocToolbarButtonHint(AToolbar: TATFlatToolbar; const ABtnCaption, ABtnNewHint: string);

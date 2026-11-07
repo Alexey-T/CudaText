@@ -6779,9 +6779,9 @@ procedure TfmMain.MsgStatus(AText: string; AFinderMessage: boolean=false);
 var
   STime, SLine: string;
 begin
-  SReplaceAll(AText, #10, ' ');
-  SReplaceAll(AText, #13, ' ');
-  SReplaceAll(AText, '|' {ASCII pipe char}, '│' {U+2502}); //LCL always truncates hint from '|'
+  AText:= StringReplace(AText, #10, ' ', [rfReplaceAll]);
+  AText:= StringReplace(AText, #13, ' ', [rfReplaceAll]);
+  AText:= StringReplace(AText, '|' {ASCII pipe char}, '│' {U+2502}, [rfReplaceAll]); //LCL always truncates hint from '|'
 
   if DoPyEvent_Message(AText) then
   begin

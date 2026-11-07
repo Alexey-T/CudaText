@@ -105,10 +105,10 @@ procedure SEscapeSpecialChars(var S: string);
 var
   i: byte;
 begin
-  SReplaceAll(S, ' ', '_');
+  S:= StringReplace(S, ' ', '_', [rfReplaceAll]);
 
   for i in [ord('#'), ord('*'), ord('|'), ord('/')] do
-    SReplaceAll(S, Chr(i), '%'+IntToHex(i, 2));
+    S:= StringReplace(S, Chr(i), '%'+IntToHex(i, 2), [rfReplaceAll]);
 end;
 
 
