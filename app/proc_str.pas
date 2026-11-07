@@ -17,8 +17,7 @@ uses
   LazFileUtils,
   ATStringProc,
   ATStringProc_Separator,
-  ATSynEdit_RegExpr,
-  ec_RegExpr;
+  ATSynEdit_RegExpr;
 
 const
   AppLexerPrefixRegex = 'regex:';
@@ -361,32 +360,36 @@ begin
   end;
 end;
 
-function SRegexMatches_AnyLexers(const ASubject: string; const AOptionRegex: UnicodeString; var AObj: TecRegExpr): boolean;
-var
-  NPos: integer;
+function SRegexMatches_AnyLexers(const ASubject: string; const AOptionRegex: UnicodeString; var AObj: TRegExpr): boolean;
 begin
   if not Assigned(AObj) then
   begin
-    AObj:= TecRegExpr.Create;
+    AObj:= TRegExpr.Create;
     AObj.ModifierI:= true;
     AObj.ModifierS:= false; //don't catch all text by .*
     AObj.ModifierM:= true; //allow to work with ^$
     AObj.ModifierX:= false; //don't ignore spaces
   end;
 
-  if AObj.Expression<>AOptionRegex then
-  begin
-    AObj.Expression:= AOptionRegex;
-    AObj.Compile;
-  end;
+  Result:= false;
+  try
+    if AObj.Expression<>AOptionRegex then
+    begin
+      AObj.Expression:= AOptionRegex;
+      AObj.Compile;
+    end;
 
-  NPos:= 1;
-  Result:= AObj.Match(UTF8Decode(ASubject), NPos);
+    AObj.InputString:= UTF8Decode(ASubject); //ExecPos() uses already set InputString
+    Result:= AObj.ExecPos(1, true, false); //ATryOnce=true: match only at offset 1
+  except
+    on ERegExpr do
+      Result:= false; //bad regex
+  end;
 end;
 
 var
-  _CachedHtmlRe: TecRegExpr = nil;
-  _CachedCssRe: TecRegExpr = nil;
+  _CachedHtmlRe: TRegExpr = nil;
+  _CachedCssRe: TRegExpr = nil;
 
 function SRegexMatches_HtmlLexers(const ASubject: string; const AOptionRegex: UnicodeString): boolean;
 begin
