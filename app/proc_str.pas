@@ -62,7 +62,7 @@ function SStringToPythonString(const Str: string; AndQuote: boolean=true): strin
 function SStringHasBinaryChars(const S: string): boolean;
 function SStringHasBinaryChars(const S: UnicodeString): boolean;
 
-function SMaskFilenameSlashes(const AFilename: string): string;
+function SMaskFilenameSlashes(const S: string): string;
 procedure SParseFilenameWithTwoNumbers(var AFilename: string; out ALine, AColumn: integer);
 function IsPythonExpression(const S: string): boolean;
 
@@ -104,11 +104,15 @@ begin
     Result:= '"'+Result+'"';
 end;
 
-function SMaskFilenameSlashes(const AFilename: string): string;
+function SMaskFilenameSlashes(const S: string): string;
+var
+  i: SizeInt;
 begin
-  result:= AFilename;
-  result:= StringReplace(result, '/', '|', [rfReplaceAll]);
-  result:= StringReplace(result, '\', '|', [rfReplaceAll]);
+  Result:= S;
+  UniqueString(Result);
+  for i:= 1 to Length(Result) do
+    if (Result[i]='/') or (Result[i]='\') then
+      Result[i]:= '|';
 end;
 
 function SFindFuzzyPositions(const SText, SFind: UnicodeString): TATIntArray;
