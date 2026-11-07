@@ -5,7 +5,7 @@
 
 1.239.0 (2026/11)
 
-* change: plugin Project Manager is mostly rewritten, see the huge changelog in the file "py/cuda_project_man/readme/history.txt" (by @badrelmers)
+* change: plugin Project Manager is mostly rewritten, see the migration guide in the file "py/cuda_project_man/readme/upgrade_v2.txt", as an option see the huge changelog "py/cuda_project_man/readme/history.txt" (by @badrelmers)
 + add: Windows: support drag-and-drop from Project Manager to external apps: Explorer, archivers, mail clients etc (patch by @lamugu)
 + add: optimized code-tree filling on long/big code-trees, up to 20x faster (by @slicke and @badrelmers using AI)
 - fix: app closed ui-tabs / switched sessions slowly, because it _waited_ for lexer parsing instead of _cancelling_ it (by @badrelmers using AI)
