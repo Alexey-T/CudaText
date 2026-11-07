@@ -1,0 +1,148 @@
+UPGRADE TO PROJECT FILE FORMAT V2
+(migration guide of the Project Manager plugin)
+
+This file is the complete guide to the project file format v2 — the
+long version of the one-time message shown after an old-format project
+file was automatically upgraded (the message's "Open documentation"
+button opens this file). The short summary lives in readme.txt, in its
+"UPGRADE TO PROJECT FILE FORMAT V2" section.
+
+Project files (.cuda-proj) carry a "version" key since format v2.
+Files written by older plugin versions have no version key ("the old
+format" below); they are upgraded automatically the first time they
+are opened. If you updated the plugin and something looks different,
+read this before assuming data loss — nothing is ever lost by the
+upgrade.
+
+
+The two kinds of sessions in CudaText
+  CudaText can remember your open tabs in two places:
+
+  - External sessions are standalone files with the .cuda-session
+    extension, kept in the settings folder (the default one is
+    default.cuda-session). They are managed by CudaText's built-in
+    session manager and used when no project is open; the Session
+    Manager plugin works with these files.
+
+  - Project-internal sessions live INSIDE the project file, under its
+    "sessions" key. They belong to the project: they load with it,
+    travel with it when the .cuda-proj file is copied or moved, and
+    one project file can hold several named sessions side by side.
+
+How it used to be (the old workflow)
+  Old plugin versions mixed the two worlds: the project file stored
+  only the tree (folders/files), while the open tabs belonged to
+  whatever external session happened to be active. A project and an
+  external session could be open at the same time, and both CudaText's
+  session manager and the Project Manager could write the app's
+  session state. That workflow caused real data loss: the two managers
+  fought over the same session file and overwrote each other's saves
+  (issue #6352), and after updates the project or the tabs could look
+  "lost" while they were only detached from each other (issue #6600).
+
+How it is now (v2)
+  A project is now considered a session by itself — and since CudaText
+  never loads two sessions at the same time, a project and an external
+  session cannot be open together either. The rules that follow:
+
+  - While a project is open, the tabs are always saved into the
+    project file, as one of the project's internal sessions; the
+    ~40-second session autosave writes there too.
+
+  - Opening a project loads its last used session.
+
+  - Closing a project restores the default external session
+    (default.cuda-session) — restored, not overwritten: the tabs you
+    had there before opening the project come back.
+
+  - Opening an external session while a project is open (Session
+    Manager, a manual command) detaches the project automatically: no
+    tabs are closed, the external session simply takes over, and the
+    project's own sessions stay protected from being overwritten.
+
+  - External .cuda-session files are never deleted by the plugin.
+
+Bugs solved by the change
+  - Sessions overwritten by the project manager and session manager
+    fighting over the same file — real data loss (issue #6352).
+
+  - "Tabs lost" / "project not loaded" confusion after updating the
+    plugin, when the project and the external session were silently
+    detached from each other (issue #6600).
+
+  - Projects losing their tabs when copied to another machine or
+    folder: the session now travels inside the project file.
+
+Breaking changes you may notice in v2
+  - A project and an external session can no longer be open at the
+    same time (the reason and the fix are above).
+
+  - Opening an external session detaches the open project. This is
+    not a bug and nothing is lost — reopen the project file and its
+    session loads again.
+
+  - The .cuda-proj file changes on disk more often than before: the
+    session autosave rewrites it every ~40 seconds when a tab really
+    changed. Automatic backups protect it (see "Project file
+    backups" in readme.txt); version-control users should know it is
+    no longer a small static file.
+
+  - Old macros/plugins that switch the app onto an external session
+    while a project is open will now detach the project.
+
+What happens when an old project file is opened
+  The upgrade is fully automatic and lossless; nothing is required
+  from you:
+
+  1. A backup of the original file is saved next to it:
+     "<file>.bak" (or "<file>.<date>.bak" when that name is taken —
+     an existing backup is never overwritten). Delete it when
+     everything works fine.
+
+  2. The file is rewritten with "version": 2 and the missing standard
+     keys ("nodes", "vars", "mainfile", "unfold", "last_session") —
+     nothing existing is removed.
+
+  3. When the file had no internal sessions and no other project was
+     open, your currently open tabs (which belonged to an external
+     session like default.cuda-session) are saved into the project as
+     its first internal session, named after the external session plus
+     "auto-imported" (e.g. "default auto-imported"; a number is
+     appended on name collisions). The tabs simply stay open, and the
+     external .cuda-session file is updated one last time and kept on
+     disk.
+
+  4. A one-time dialog informs you about all of this and offers to
+     open this file.
+
+  When the folder is read-only or the file cannot be written, the
+  project still opens with the upgraded data in memory and the file on
+  disk is upgraded on the first successful save (the dialog then
+  reappears on the next open — the upgrade is still pending). Old
+  files that already had internal sessions keep them and simply load
+  the last used one; nothing is auto-imported then.
+
+Common questions
+  "My tabs are gone after the update!"
+      They are not. They are either in the auto-imported session
+      inside the project (pick it in the Project Manager's sessions
+      menu), or still in the external .cuda-session file — open the
+      project and use "Import external session...", or open that
+      external session while no project is open.
+
+  "I opened default.cuda-session and my project disappeared."
+      Expected: a project and an external session cannot be open at
+      the same time. Reopen the project file; its own session loads.
+
+  "I want my old external session back inside the project."
+      "Import external session..." in the sessions menu embeds any
+      .cuda-session file as a project session.
+
+  "How do I undo the upgrade?"
+      Close the project, copy the .bak file over the .cuda-proj file,
+      reopen it: the old-format file is simply upgraded again on open,
+      exactly as before.
+
+  "Where is my default.cuda-session?"
+      In the settings folder, untouched. It is the session used when
+      no project is open.
