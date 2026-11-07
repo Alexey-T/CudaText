@@ -1963,6 +1963,7 @@ begin
         begin
           AHandled:= true;
           Ed.DoEventChange(Ed.Carets[0].FirstTouchedLine);
+          Ed.DoEventCarets(true); //we interrupt TATSynEdit.DoCommand, so it don't call DoEventCarets, so we must do it
           exit;
         end;
       end;
