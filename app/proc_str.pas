@@ -590,34 +590,51 @@ end;
 
 
 const
-  cRegexSpecialChars = '-+*=\()[]{}<>.,:?#$^|';
+  cRegexChars: set of byte = [Ord('-'), Ord('+'), Ord('*'), Ord('='),
+    Ord('\'), Ord('('), Ord(')'), Ord('['), Ord(']'), Ord('{'),
+    Ord('}'), Ord('<'), Ord('>'), Ord('.'), Ord(','), Ord(':'),
+    Ord('?'), Ord('#'), Ord('$'), Ord('^'), Ord('|')];
 
 function SEscapeRegexSpecialChars(const S: Unicodestring): Unicodestring;
 var
-  i: integer;
+  i, i2: SizeInt;
 begin
-  Result:= '';
+  SetLength(Result, Length(S)*2); //worst case: each char needs 2 chars
+  i2:= 0;
   for i:= 1 to Length(S) do
-  begin
-    if Pos(S[i], cRegexSpecialChars)=0 then
-      Result+= S[i]
+    if (Ord(S[i])<256) and (Ord(S[i]) in cRegexChars) then
+    begin
+      Result[i2+1]:= '\';
+      Result[i2+2]:= S[i];
+      Inc(i2, 2);
+    end
     else
-      Result+= '\'+S[i];
-  end;
+    begin
+      Result[i2+1]:= S[i];
+      Inc(i2);
+    end;
+  SetLength(Result, i2); //truncate to really used chars
 end;
 
 function SEscapeRegexSpecialChars(const S: string): string;
 var
-  i: integer;
+  i, i2: SizeInt;
 begin
-  Result:= '';
+  SetLength(Result, Length(S)*2); //worst case: each char needs 2 chars
+  i2:= 0;
   for i:= 1 to Length(S) do
-  begin
-    if Pos(S[i], cRegexSpecialChars)=0 then
-      Result+= S[i]
+    if Ord(S[i]) in cRegexChars then
+    begin
+      Result[i2+1]:= '\';
+      Result[i2+2]:= S[i];
+      Inc(i2, 2);
+    end
     else
-      Result+= '\'+S[i];
-  end;
+    begin
+      Result[i2+1]:= S[i];
+      Inc(i2);
+    end;
+  SetLength(Result, i2); //truncate to really used chars
 end;
 
 function ConvertMillisecondsToNiceString(const N: QWord): string;
