@@ -1,3 +1,29 @@
+2026.11.07 (@badrelmers)
+- opening an old-format (version-less) project file with no internal
+  sessions now imports the CURRENT session automatically instead of
+  leaving the user with an empty "session1" (issue #6600): when no
+  project was open before the open — the old pre-versioning workflow,
+  where the open tabs belong to an external session like
+  default.cuda-session — the external session is first saved to its
+  file (so it keeps the final state), then the current tabs are
+  embedded into the project file as its first internal session, named
+  after the external session plus "auto-imported" ("default
+  auto-imported"; a number is appended on name collisions), and the
+  app session is re-pointed at it WITHOUT a load — the tabs stay on
+  screen as they are, like in "Create new project from open tabs...";
+  no manual "Import external session..." is needed anymore for the
+  typical migration. Nothing is imported when another project was open
+  before the open (those tabs belong to that project, not this one) or
+  when the editor has no tabs (a plain "session1" is created, as
+  before); the external .cuda-session file is never deleted. The
+  imported project file gets its rotating backup like any other
+  (recorded in _backup_pending: the session-save event of the import
+  itself cannot record it, the project is not adopted yet). When the
+  import cannot be written into the project file, the legacy
+  empty-"session1" flow runs as before — the state was already saved
+  into the external session file, so nothing is lost. readme.txt and
+  doc_for_dev.md document the new flow
+
 2026.11.05
 - project/session switching no longer closes the old tabs itself: the
   closing is left to CudaText's own session load (PROC_LOAD_SESSION

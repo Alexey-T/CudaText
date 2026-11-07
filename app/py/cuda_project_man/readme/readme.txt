@@ -198,7 +198,11 @@ PROJECT SESSIONS (toolbar gear button, or the context-menu
       internal session, named after the file. Load it afterwards from
       this same session menu. Migration helper for the old
       (pre-versioning) workflow that kept project sessions in separate
-      files.
+      files. Rarely needed since the automatic import on opening an
+      old-format project (see "Old project format (automatic
+      upgrade)") covers the typical migration; use it for extra
+      external session files, e.g. a "<project>.cuda-session" kept
+      next to the project file.
 
 GENERAL (context menu top level)
   Refresh (F5)
@@ -444,10 +448,32 @@ Old project format (automatic upgrade)
   written, the project still opens with the upgraded data in memory,
   and the file on disk is upgraded on the first successful save.
 
+  Old external-session workflow (automatic import). When the upgraded
+  file has no internal sessions and no project was open before it was
+  opened — the typical situation of the old workflow, where the open
+  tabs belong to an external session like default.cuda-session — the
+  currently open tabs are saved into the project as its first internal
+  session, so the session automatically becomes part of the project
+  file. The tabs simply stay open; from now on they load with the
+  project, and no manual "Import external session..." is needed.
+  The imported session is named after the external session plus
+  "auto-imported" (e.g. "default auto-imported"); if that name is
+  taken, a number is appended. The external .cuda-session file itself
+  is kept on disk (updated with the final state, never deleted), and
+  the .bak backup next to the project still holds the original file.
+  Nothing is imported when another project was open before the open
+  (those tabs belong to that project, not this one) or when no tabs
+  are open (an empty "session1" is created, as before). When the
+  session cannot be written into the project file (read-only folder,
+  locked file), the empty "session1" is created as before — nothing
+  is lost, the state is still saved into the external session file.
+
   Tip for the old external-session workflow: if a
   "<project>.cuda-session" file exists next to the project, a hint is
   printed in the console panel — use "Import external session..." in
-  the sessions menu to embed it into the project.
+  the sessions menu to embed it into the project (useful when the
+  sibling file holds a DIFFERENT tab set than the session that was
+  imported automatically).
 
   Files marked with a version newer than the plugin supports are
   refused with an explanation (update CudaText / plugins first).

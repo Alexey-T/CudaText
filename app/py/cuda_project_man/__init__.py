@@ -39,6 +39,14 @@ PROJECT_UNSAVED_NAME = _("(No project)")
 NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD = range(4)
 OS_SUFFIX = app_proc(PROC_GET_OS_SUFFIX, '')
 DEF_SES = 'default'+OS_SUFFIX+'.cuda-session'
+# Suffix of the internal session created by the automatic import of the
+# current (external) session when an old-format project file is opened:
+# appended to the external session's name, e.g. 'default' ->
+# 'default auto-imported' (a number is appended on collisions).
+# Deliberately NOT translated: a session name is DATA stored inside the
+# project file, it must stay identical for every UI language (same rule
+# as the 'imported' fallback name in action_import_external_session).
+AUTO_IMPORT_TAG = ' auto-imported'
 
 global_project_info = {}
 sort_order = 'ext'
@@ -2574,6 +2582,10 @@ class Command:
         # owning the current tabs (the old project's slot / the app
         # session file), captured before the flow re-points it
         old_ptr = self._current_state_session_ptr()
+        # Name of the session auto-imported into an old-format project
+        # file in the load_session block below ('' = no import); see
+        # _auto_import_current_session (issue #6600)
+        imported_name = ''
         if had_project:
             self.action_save_project_as(self.project_file_path)
 
@@ -2615,7 +2627,8 @@ class Command:
                 MB_OK + MB_ICONERROR)
             return
 
-        if ver < PROJECT_FORMAT_VERSION:
+        old_format = ver < PROJECT_FORMAT_VERSION
+        if old_format:
             # Old format: normalize the structure in memory, then upgrade the
             # file on disk automatically. The upgrade only adds missing
             # standard keys and a backup of the original is kept next to the
@@ -2647,7 +2660,34 @@ class Command:
         # the state goes to the app session file as before.
         if load_session:
             saved = self._save_session_before_close_tabs(already_saved=had_project)
-            if data.get('sessions'):
+            # Old-workflow migration (issue #6600): an old-format project
+            # file with NO internal sessions, opened with NO project open
+            # before it — the current tabs belong to the app's external
+            # session (default.cuda-session or another .cuda-session),
+            # exactly the state the old (pre-versioning) workflow kept
+            # next to the project. Embed it as the project's first
+            # internal session instead of dropping the user into an
+            # empty 'session1' — the tabs then simply stay open, and no
+            # manual 'Import external session...' is needed.
+            # NOT when another project was open before (had_project):
+            # those tabs belong to THAT project's session slot, importing
+            # them here would bake the wrong tab set into this project
+            # (the app session is also not an external file then, so
+            # 'save the loaded session to its external file' would
+            # violate the plugin's rules). NOT when the editor is empty
+            # (nothing to import; a plain 'session1' below keeps its
+            # standard name instead of a confusing empty '...
+            # auto-imported' one).
+            if old_format and not data.get('sessions') and not had_project:
+                imported_name = self._auto_import_current_session(path, data, saved)
+            if imported_name:
+                # The current tabs ARE the imported session now: nothing
+                # is closed here, and the modified flags stay as they
+                # are — no load below will close these tabs either (the
+                # flow only re-points the app session at the imported
+                # session), so the flags keep matching the live tabs.
+                pass
+            elif data.get('sessions'):
                 # The project has sessions: DON'T close the old tabs here.
                 # The PROC_LOAD_SESSION at the bottom of this method closes
                 # them itself (its DoFileCloseAll runs under
@@ -2706,7 +2746,20 @@ class Command:
 
         if load_session:
             names = list(self.project.get('sessions', {}).keys())
-            if names:
+            if imported_name:
+                # The current state was embedded as the imported session
+                # moments ago: re-point the app session WITHOUT a load —
+                # the state on screen already IS that session's state
+                # (PROC_SAVE_SESSION captured it from the live tabs), so a
+                # load would only close and reopen the identical tabs,
+                # and its 'Save modified tab?' confirm could abort the
+                # switch for no benefit. Same pattern as 'Create new
+                # project from open tabs...': the open tabs become the
+                # project's session, nothing flickers, and the ~40 s
+                # session autosave keeps writing them into the project
+                # file from now on.
+                self._set_session(str(path) + '|/sessions/' + imported_name)
+            elif names:
                 # load the session that was used last (the first one when
                 # the project has no "last_session" yet or it names a
                 # session that no longer exists)
@@ -2817,6 +2870,134 @@ class Command:
                 collapse_filename(str(ses)))
             print(_('Project Manager: to embed it into the project, use '
                 '"Import external session..." in the sessions menu'))
+
+    def _auto_import_current_session(self, path, data, ext_saved):
+        """Import the CURRENT editor state into the session-less project
+        being opened, as its first internal session. Migration helper for
+        the old (pre-versioning) workflow, issue #6600: the user worked
+        with an external session file (default.cuda-session or another
+        .cuda-session) next to the project; that state now becomes a
+        session of the project itself, so it loads with the project from
+        now on and no manual "Import external session..." is needed.
+
+        Called from action_open_project ONLY when the project file has no
+        internal sessions, no project was open before this open (the
+        current tabs belong to the app's external session), and the
+        editor has tabs. The caller saved the state into its external
+        session file first (_save_session_before_close_tabs, right
+        before this call): `ext_saved` reports whether THAT succeeded,
+        so the external .cuda-session file ends up holding the final
+        state too and nothing is lost on either side.
+
+        The new session is named after its source: the external session
+        file's base name ('default.cuda-session' -> 'default', the OS
+        suffix stripped) plus AUTO_IMPORT_TAG -> 'default auto-imported';
+        a name that already exists gets a number appended
+        ('... auto-imported 2'). Returns the created session's name, or
+        '' when there was nothing to import (no tabs open) or the save
+        failed — the caller then falls back to the legacy empty-
+        'session1' flow.
+
+        The capture is done by the app itself (PROC_SAVE_SESSION into
+        the project's session pointer), not by embedding the external
+        file's JSON: the app's save stores the LIVE state — including
+        the text of modified and untitled tabs — so the import is
+        lossless even when the external save (ext_saved) failed, and
+        writing straight into the project file also re-reads whatever
+        is on disk, keeping the just-upgraded file's other keys intact.
+        """
+        if not ed_handles():
+            # nothing to import: keep the plain 'session1' name for the
+            # empty session created by the legacy flow (an empty
+            # '... auto-imported' session would be a confusing name)
+            return ''
+
+        # session name from the app's CURRENT session pointer (an
+        # external session file: its base name; a pointer into some
+        # project file -- a foreign session left active by the session
+        # manager while no project is open: that session's name)
+        ptr = app_path(APP_FILE_SESSION)
+        base = ''
+        ext_fn = ''    # external session file to report, '' when none
+        if ptr:
+            if '|/sessions/' in ptr:
+                base = ptr.split('|/sessions/', 1)[1]
+            else:
+                ext_fn = ptr
+                base = os.path.splitext(os.path.basename(ext_fn))[0]
+                # 'default' + OS_SUFFIX + '.cuda-session' would make an
+                # ugly session name ('default_linux_'): strip the suffix
+                if OS_SUFFIX and base.endswith(OS_SUFFIX):
+                    base = base[:-len(OS_SUFFIX)]
+                # a pointer without a directory part names a file in the
+                # settings dir (how the app itself stores it) -- show it
+                # with its folder in the report below
+                if not os.path.dirname(ext_fn):
+                    ext_fn = os.path.join(app_path(APP_DIR_SETTINGS), ext_fn)
+        allowed = string.ascii_letters + string.digits + '., ()-+_$%='
+        base = ''.join(ch if ch in allowed else '_' for ch in base).strip()
+        if not base:
+            # no session pointer at all (session saving switched off):
+            # still import the open tabs, under a generic name
+            base = 'session'
+
+        wanted = base + AUTO_IMPORT_TAG
+        names = list(data.get('sessions', {}).keys())
+        name = wanted
+        n = 2
+        while name in names:
+            name = '%s %d' % (wanted, n)
+            n += 1
+
+        # save the CURRENT state into the project file as that session;
+        # the file was just upgraded on disk (or the project still opens
+        # with in-memory upgraded data when that failed — the app's
+        # read-modify-write works on whatever JSON is there, and the
+        # same failure would make this save fail too, falling back to
+        # the legacy flow)
+        sess = str(path) + '|/sessions/' + name
+        if not app_proc(PROC_SAVE_SESSION, sess):
+            print(_('Project Manager: could not import the current session '
+                'into the project file; an empty session will be created instead'))
+            return ''
+
+        # refresh the project data being adopted: session names come
+        # from the file on disk (written by the app a moment ago; the
+        # session DATA in the mirror is never trusted anywhere, but the
+        # names must be exact), and the imported session becomes the
+        # one the project loads
+        fresh = self._read_session_keys(str(path))
+        if 'sessions' in fresh:
+            data['sessions'] = fresh['sessions']
+        else:
+            data.setdefault('sessions', {})[name] = {}
+        data['last_session'] = name
+
+        # rotating backup: APPSTATE_SESSION_SAVE_AFTER (fired by the
+        # save above) records only the OPEN project's file, and this
+        # project is not adopted yet -- record it manually, so the
+        # imported file gets its backup when the open command ends.
+        # Parity with the legacy empty-session1 flow, whose
+        # PROC_SAVE_SESSION runs after the adoption and is recorded by
+        # the event itself.
+        if self._backup_flow:
+            p = os.path.normpath(str(path))
+            if p not in self._backup_pending:
+                self._backup_pending.append(p)
+
+        msg_status(_('Imported session into the project: ') + name)
+        print(_('Project Manager: old project file had no sessions, '
+            'the current session was imported automatically as "%s"') % name)
+        if ext_fn:
+            if ext_saved:
+                print(_('Project Manager: the external session file is kept '
+                    '(updated with the final state, not deleted): ') +
+                    collapse_filename(ext_fn))
+            else:
+                print(_('Project Manager: could not update the external '
+                    'session file; the current tabs are stored in the '
+                    'imported project session: ') + collapse_filename(ext_fn))
+        return name
 
     def _report_project_load_error(self, path, err):
         """Show a dialog for a project file that failed validation.
