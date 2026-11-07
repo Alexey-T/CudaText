@@ -335,44 +335,27 @@ begin
   end;
 end;
 
-(*
-//todo: use ATryOnce=true in new RegExpr
 function SRegexMatchesString(const ASubject, ARegex: string; ACaseSensitive: boolean): boolean;
 var
   Obj: TRegExpr;
 begin
   Result:= false;
   if ARegex='' then exit;
-  if ASubject='' then exit;
 
   Obj:= TRegExpr.Create;
   try
-    Obj.Expression:= ARegex;
-    Obj.ModifierI:= not ACaseSensitive;
-    Obj.ModifierS:= false; //don't catch all text by .*
-    Obj.ModifierM:= true; //allow to work with ^$
-    Obj.ModifierX:= false; //don't ignore spaces
-    Result:= Obj.Exec(ASubject) and (Obj.MatchPos[0]=1);
-  finally
-    Obj.Free;
-  end;
-end;
-*)
-
-function SRegexMatchesString(const ASubject, ARegex: string; ACaseSensitive: boolean): boolean;
-var
-  Obj: TecRegExpr;
-  NPos: integer;
-begin
-  Obj:= TecRegExpr.Create;
-  try
-    Obj.Expression:= UTF8Decode(ARegex);
-    Obj.ModifierI:= not ACaseSensitive;
-    Obj.ModifierS:= false; //don't catch all text by .*
-    Obj.ModifierM:= true; //allow to work with ^$
-    Obj.ModifierX:= false; //don't ignore spaces
-    NPos:= 1;
-    Result:= Obj.Match(UTF8Decode(ASubject), NPos);
+    try
+      Obj.ModifierI:= not ACaseSensitive;
+      Obj.ModifierS:= false; //don't catch all text by .*
+      Obj.ModifierM:= true; //allow to work with ^$
+      Obj.ModifierX:= false; //don't ignore spaces
+      Obj.Expression:= UTF8Decode(ARegex);
+      Obj.InputString:= UTF8Decode(ASubject); //ExecPos() uses already set InputString
+      Result:= Obj.ExecPos(1, true, false); //ATryOnce=true: match only at offset 1
+    except
+      on ERegExpr do
+        Result:= false; //bad regex, like it was with TecRegExpr
+    end;
   finally
     Obj.Free;
   end;
