@@ -12,12 +12,7 @@ unit proc_str;
 interface
 
 uses
-  SysUtils, Classes,
-  StrUtils,
-  LazFileUtils,
-  ATStringProc,
-  ATStringProc_Separator,
-  ATSynEdit_RegExpr;
+  ATStringProc;
 
 const
   AppLexerPrefixRegex = 'regex:';
@@ -77,7 +72,13 @@ function ConvertMillisecondsToNiceString(const N: QWord): string;
 implementation
 
 uses
-  Math;
+  SysUtils,
+  Math,
+  Classes,
+  StrUtils,
+  LazFileUtils,
+  ATStringProc_Separator,
+  ATSynEdit_RegExpr;
 
 function SStringToPythonString(const Str: string; AndQuote: boolean=true): string;
 var
