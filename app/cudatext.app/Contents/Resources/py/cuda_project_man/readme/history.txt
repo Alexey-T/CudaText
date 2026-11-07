@@ -1,3 +1,77 @@
+2026.11.07 (@badrelmers)
+- the v2 migration guide moved from readme.txt into a SEPARATE file,
+  readme/upgrade_v2.txt, and the upgrade dialog's "Open documentation"
+  button now opens that file directly — the whole file is the guide, so
+  it opens at the top, no scrolling to a section inside the long
+  readme (which the dialog's message no longer needs to name/locate).
+  readme.txt keeps a short "UPGRADE TO PROJECT FILE FORMAT V2" summary
+  section (the essentials: automatic lossless upgrade, .bak backup,
+  auto-imported session, the one breaking change) that points to the
+  new file; doc_for_dev.md's file inventory mentions it too. The
+  dialog's last line now names the file ("upgrade_v2.txt") so a user
+  who clicks OK can still find it later
+- opening an old-format project file now also shows a one-time
+  information dialog after the project finishes opening (issue #6600:
+  users don't re-read the documentation after updating a plugin, so
+  the information is pushed to them): it reports the automatic upgrade
+  to format v2 ("nothing is required from you: the project is open and
+  your tabs are restored"), the .bak backup file created next to the
+  project (or why the file could not be rewritten — read-only folder,
+  locked file — in which case the upgrade is still pending and the
+  dialog reappears on the next open), the auto-imported session when
+  one was created, and the ONE breaking change users notice: a project
+  and an external session (e.g. default.cuda-session) can no longer be
+  open at the same time, because the session is now always stored
+  inside the project file (the rule that fixed the lost/overwritten
+  session bugs). Buttons: "Open documentation" opens the migration
+  guide upgrade_v2.txt in a new tab, and "OK" closes the dialog. The
+  dialog is shown once per project file (a successfully upgraded file
+  carries "version": 2 and is never old-format again), including the
+  startup auto-open; never for already-v2 files, and never when the
+  open is aborted by a validation error or a future-format file.
+- readme.txt gained a dedicated section "UPGRADE TO PROJECT FILE
+  FORMAT V2" (near the top, after CONCEPTS): the two kinds of sessions
+  in CudaText (external .cuda-session files vs project-internal
+  sessions), how the old workflow mixed them and caused data loss
+  (#6352, #6600), how things work now, the bugs solved, the breaking
+  changes users may notice, what the automatic upgrade does step by
+  step, and a "common questions" list answering the exact reports we
+  used to get as issues ("tabs gone after update", "project
+  disappeared when I opened default.cuda-session", "how to undo the
+  upgrade", ...) — since the move (see the first entry above) this
+  full guide lives in upgrade_v2.txt and the readme section is the
+  short summary pointing there. The "Old project format (automatic
+  upgrade)" part of AUTOMATIC BEHAVIORS documents the dialog and
+  points there too
+- doc_for_dev.md: the old-format open flow description gained step 6
+  (_show_upgrade_v2_dialog / _open_plugin_doc_v2, the
+  (rewritten_on_disk, bak) return of upgrade_project_file_on_disk,
+  and the DOC_FILE_V2/readme.txt sync rule)
+- opening an old-format (version-less) project file with no internal
+  sessions now imports the CURRENT session automatically instead of
+  leaving the user with an empty "session1" (issue #6600): when no
+  project was open before the open — the old pre-versioning workflow,
+  where the open tabs belong to an external session like
+  default.cuda-session — the external session is first saved to its
+  file (so it keeps the final state), then the current tabs are
+  embedded into the project file as its first internal session, named
+  after the external session plus "auto-imported" ("default
+  auto-imported"; a number is appended on name collisions), and the
+  app session is re-pointed at it WITHOUT a load — the tabs stay on
+  screen as they are, like in "Create new project from open tabs...";
+  no manual "Import external session..." is needed anymore for the
+  typical migration. Nothing is imported when another project was open
+  before the open (those tabs belong to that project, not this one) or
+  when the editor has no tabs (a plain "session1" is created, as
+  before); the external .cuda-session file is never deleted. The
+  imported project file gets its rotating backup like any other
+  (recorded in _backup_pending: the session-save event of the import
+  itself cannot record it, the project is not adopted yet). When the
+  import cannot be written into the project file, the legacy
+  empty-"session1" flow runs as before — the state was already saved
+  into the external session file, so nothing is lost. readme.txt and
+  doc_for_dev.md document the new flow
+
 2026.11.05
 - project/session switching no longer closes the old tabs itself: the
   closing is left to CudaText's own session load (PROC_LOAD_SESSION

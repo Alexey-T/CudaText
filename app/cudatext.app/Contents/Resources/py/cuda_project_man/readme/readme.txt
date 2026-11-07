@@ -17,7 +17,8 @@ CONCEPTS
 Project file (.cuda-proj)
   A JSON file that stores:
   - version: project file format version (currently 2); files without
-    this key are the old format and are upgraded on first open
+    this key are the old format and are upgraded on first open (see
+    "UPGRADE TO PROJECT FILE FORMAT V2")
   - nodes: list of top-level folders/files you added (the project "roots")
   - vars: optional name=value variables used by macros
   - mainfile: optional path to the project's "main" file
@@ -51,6 +52,34 @@ Project-session binding
   session switch is detected (via another session manager or manual
   API call), the project automatically detaches to prevent the foreign
   session from overwriting the project's session data.
+
+
+------------------------------------------------------------------------------
+UPGRADE TO PROJECT FILE FORMAT V2
+------------------------------------------------------------------------------
+
+Project files (.cuda-proj) carry a "version" key since format v2; files
+written by older plugin versions have no version key ("the old
+format") and are upgraded automatically the first time they are opened.
+The upgrade is fully automatic and lossless: a backup of the original
+file is saved next to it ("<file>.bak"), the missing standard keys are
+added, your currently open tabs are saved into the project as its
+first internal session (named after the external session plus
+"auto-imported"), and a one-time dialog explains all of this.
+
+The one breaking change to know: the session is now always stored
+INSIDE the project file, so a project and an external session (e.g.
+default.cuda-session) can no longer be open at the same time. This
+rule fixed real bugs of lost and overwritten sessions (issues #6352
+and #6600).
+
+The complete guide to the v2 change — why it was needed, the two
+kinds of sessions, how the workflow looked before and looks now, the
+bugs solved, all breaking changes, and answers to common questions
+("My tabs are gone after the update!") — is in the separate file
+"upgrade_v2.txt", kept in the plugin's readme folder next to this
+readme; the upgrade dialog's "Open documentation" button opens that
+file directly.
 
 
 ------------------------------------------------------------------------------
@@ -198,7 +227,11 @@ PROJECT SESSIONS (toolbar gear button, or the context-menu
       internal session, named after the file. Load it afterwards from
       this same session menu. Migration helper for the old
       (pre-versioning) workflow that kept project sessions in separate
-      files.
+      files. Rarely needed since the automatic import on opening an
+      old-format project (see "Old project format (automatic
+      upgrade)") covers the typical migration; use it for extra
+      external session files, e.g. a "<project>.cuda-session" kept
+      next to the project file.
 
 GENERAL (context menu top level)
   Refresh (F5)
@@ -429,8 +462,9 @@ Unsaved text when switching sessions or projects
 Old project format (automatic upgrade)
   Project files carry a "version" key (current format version: 2).
   Files created by older plugin versions have no version key. Such a
-  file is upgraded automatically when it is opened — no dialog is
-  shown. First a backup of the original file is saved next to it:
+  file is upgraded automatically when it is opened — no confirmation
+  is asked, the open is never blocked. First a backup of the original
+  file is saved next to it:
   "<file>.bak" (if that name is already taken, "<file>.<date>.bak" —
   an existing backup is never overwritten); then the file is
   rewritten. The upgrade only ADDS missing standard keys ("nodes",
@@ -438,16 +472,55 @@ Old project format (automatic upgrade)
   existing content is removed. If the project contains sessions but no
   "last_session", the first session is used when it is opened.
 
+  After the project finishes opening, a one-time information dialog
+  tells the user about the upgrade, the backup file, and the v2 rule
+  that a project and an external session cannot be open at the same
+  time; its "Open documentation" button opens the separate migration
+  guide upgrade_v2.txt (kept next to this readme, in the plugin's
+  readme folder). The dialog appears once per project file: after a
+  successful upgrade the file carries "version": 2 and is never
+  old-format again. It also appears on the startup auto-open of an
+  old-format project. When the file could not be rewritten on disk,
+  the dialog says so (the upgrade is still pending, so it reappears
+  on the next open).
+
   The status bar and the console panel report the upgrade and the
   backup file name; you can delete the backup file when everything
   works fine. If the folder is read-only or the file cannot be
   written, the project still opens with the upgraded data in memory,
   and the file on disk is upgraded on the first successful save.
 
+  Old external-session workflow (automatic import). When the upgraded
+  file has no internal sessions and no project was open before it was
+  opened — the typical situation of the old workflow, where the open
+  tabs belong to an external session like default.cuda-session — the
+  currently open tabs are saved into the project as its first internal
+  session, so the session automatically becomes part of the project
+  file. The tabs simply stay open; from now on they load with the
+  project, and no manual "Import external session..." is needed.
+  The imported session is named after the external session plus
+  "auto-imported" (e.g. "default auto-imported"); if that name is
+  taken, a number is appended. The external .cuda-session file itself
+  is kept on disk (updated with the final state, never deleted), and
+  the .bak backup next to the project still holds the original file.
+  Nothing is imported when another project was open before the open
+  (those tabs belong to that project, not this one) or when no tabs
+  are open (an empty "session1" is created, as before). When the
+  session cannot be written into the project file (read-only folder,
+  locked file), the empty "session1" is created as before — nothing
+  is lost, the state is still saved into the external session file.
+
   Tip for the old external-session workflow: if a
   "<project>.cuda-session" file exists next to the project, a hint is
   printed in the console panel — use "Import external session..." in
-  the sessions menu to embed it into the project.
+  the sessions menu to embed it into the project (useful when the
+  sibling file holds a DIFFERENT tab set than the session that was
+  imported automatically).
+
+  The full story of the v2 change — why it was needed, what bugs it
+  solved, and the breaking changes — is in the separate migration
+  guide upgrade_v2.txt (next to this readme, in the plugin's readme
+  folder).
 
   Files marked with a version newer than the plugin supports are
   refused with an explanation (update CudaText / plugins first).

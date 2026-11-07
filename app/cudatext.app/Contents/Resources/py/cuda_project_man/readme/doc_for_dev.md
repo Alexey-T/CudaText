@@ -1,10 +1,12 @@
 # cuda_project_man — documentation for developers
 
 This document is for plugin authors/maintainers who want to change this
-plugin. The end-user documentation is `readme/readme.txt` — this file
-describes the internals: the design concepts, the invariants that MUST
-hold, and the traps that have already caused data-loss bugs (every one
-of the rules below exists because its violation lost somebody's data).
+plugin. The end-user documentation is `readme/readme.txt` (plus the
+migration guide `readme/upgrade_v2.txt` for the old-format upgrade) —
+this file describes the internals: the design concepts, the invariants
+that MUST hold, and the traps that have already caused data-loss bugs
+(every one of the rules below exists because its violation lost
+somebody's data).
 
 Reference discussions: CudaText issues #6352 (project/session redesign)
 and #6366 (external session switch detection).
@@ -35,7 +37,11 @@ This is the central idea of the redesign (#6352): a `.cuda-proj` file is
 not only a list of folders — it *contains* the project's sessions under
 the `sessions` key. A project without sessions cannot exist:
 
-- opening a session-less project file auto-creates `session1`;
+- opening a session-less project file auto-creates `session1`, or —
+  when the file is old-format and no project was open before the open
+  (the old pre-versioning workflow) — first imports the current
+  (external-session) tabs as the project's first internal session
+  (`_auto_import_current_session`, issue #6600);
 - the last remaining session cannot be deleted (menu item disabled,
   command explains it in a dialog);
 - at startup, if CudaText restores a project's session from a file that
@@ -194,7 +200,20 @@ Check the return value when the next step closes tabs (see §5).
    editor state untouched.
 9. Old-format files are upgraded losslessly: only missing standard keys
    are added, a backup is kept next to the file (never overwritten),
-   and failure to write never blocks opening.
+   and failure to write never blocks opening. The automatic session
+   import during that upgrade follows the same rules: the external
+   session is saved FIRST (while no project is open — the only window
+   in which the plugin may write the app's own session file), the
+   import is a `PROC_SAVE_SESSION` into the project pointer (the live
+   state, unsaved texts included — never a re-embed of the external
+   file's JSON, which can be stale), the app session is re-pointed
+   WITHOUT a load (the state on screen already is the imported
+   session's state), and the imported project file is appended to
+   `_backup_pending` manually (the `APPSTATE_SESSION_SAVE_AFTER` of
+   that save records only the OPEN project, and the new project is
+   not adopted yet). No import when another project was open before
+   the open (the tabs belong to that project) or when the editor is
+   empty (plain `session1`).
 10. Version check: files with `"version"` newer than
     `PROJECT_FORMAT_VERSION` are refused with an explanation.
 11. A public `Command` method is never removed as "unused" without
@@ -274,8 +293,10 @@ same way).
 
 Regime B is used ONLY where no session load follows (so nothing else
 would close the tabs): `action_open_project` for a legacy
-session-less project file, `action_close_project` when the default
-session file does not exist (`PROC_LOAD_SESSION` exits before closing
+session-less project file (when the automatic import did not happen —
+no old format, another project was open before, no tabs, or the import
+save failed), `action_close_project` when the default session file
+does not exist (`PROC_LOAD_SESSION` exits before closing
 anything when the target file is missing), and `session_delete` of
 the ACTIVE session — the doomed session's per-tab registrations must
 NOT survive, the session never comes back. `cmd_FileCloseAll` alone
@@ -415,6 +436,53 @@ Current format version: `PROJECT_FORMAT_VERSION = 2`, written as
 - Session internals are written by CudaText's session API; the plugin
   treats them as opaque except when copying dicts around.
 - Unknown/extra keys in hand-edited files are kept on every save.
+
+**The old-format open flow (upgrade + automatic session import).**
+`action_open_project` on a version-less file, in order:
+
+1. validate the file (invariant 8), normalize + migrate `def_session`,
+   `upgrade_project_file_on_disk` (backup `.bak` + rewritten file,
+   §11);
+2. `_save_session_before_close_tabs` — with no project open before the
+   open, this saves the CURRENT state into the app's external session
+   file, so that file ends up holding the final state too (issue
+   #6600: the old workflow kept the tabs there);
+3. `_auto_import_current_session` (only: old format + no sessions in
+   the file + no project was open + tabs exist): one
+   `PROC_SAVE_SESSION` into `<proj>|/sessions/<name>` writes the live
+   state (modified/untitled texts embedded) into the just-upgraded
+   file; `data['sessions']`/`data['last_session']` are refreshed from
+   disk, and the path is appended to `_backup_pending` (the save's own
+   APPSTATE_SESSION_SAVE_AFTER records only the open project, which
+   this one is not yet);
+4. adoption (tree, recents, `PROC_SET_PROJECT`) as for any project;
+5. bottom of the flow: with an import, `_set_session` only — NO
+   `PROC_LOAD_SESSION` (Regime A is skipped entirely: no tab is closed,
+   no flags are cleared, the load's abort path cannot trigger). The
+   name is `<external session name> auto-imported`
+   (`AUTO_IMPORT_TAG`, untranslated data), the OS suffix stripped,
+   number appended on collisions; failures fall back to the legacy
+   empty-`session1` flow (Regime B).
+6. `_show_upgrade_v2_dialog` (issue #6600: users don't re-read the doc
+   after an update, so the information is pushed to them): AFTER the
+   project is adopted and its session is loaded, one `msg_box_ex`
+   reports the automatic upgrade, the backup file name, the imported
+   session, and the v2 rule (project + external session cannot be open
+   at the same time). `upgrade_project_file_on_disk` returns
+   `(rewritten_on_disk, bak)` so the message states the exact outcome
+   (a file that was not rewritten keeps the old format, so the dialog
+   reappears on its next open — honest, the upgrade is pending). The
+   "Open documentation" button calls `_open_plugin_doc_v2()`:
+   `file_open` on readme/upgrade_v2.txt (`DOC_FILE_V2`) — a DEDICATED
+   migration-guide file whose whole content is the v2 story, so it
+   opens at the top; no section lookup / `set_caret` scrolling inside
+   the long readme.txt. readme.txt keeps only a short
+   "UPGRADE TO PROJECT FILE FORMAT V2" summary section that mentions
+   the file (keep the file name in sync there; tests assert the file
+   exists, that the readme mentions it, and that the dialog names it).
+   No dialog for v2 files, and
+   none when the open is aborted (validation errors, future-format
+   files: those return before the upgrade runs).
 
 ---
 ## 9. Options, events, install.inf
