@@ -31,7 +31,7 @@ type
   end;
 
 function SWrapLongStringBySeparator(const S: string; AMaxLen: integer; ASepChar: char): string;
-function STextWholeWordSelection(const S: UnicodeString; OffsetBegin, OffsetEnd: integer;
+function STextWholeWordSelection(const S: UnicodeString; AOffsetBegin, AOffsetEnd: integer;
   const ANonWordChars: UnicodeString): boolean;
 procedure SDeleteDuplicateSpaces(var S: string);
 function SDeleteCurlyBrackets(const S: string): string;
@@ -519,17 +519,17 @@ begin
 end;
 *)
 
-function STextWholeWordSelection(const S: UnicodeString; OffsetBegin, OffsetEnd: integer;
+function STextWholeWordSelection(const S: UnicodeString; AOffsetBegin, AOffsetEnd: integer;
   const ANonWordChars: UnicodeString): boolean;
 var
   ok1, ok2: boolean;
 begin
-  if OffsetBegin<0 then exit(false);
-  if OffsetEnd>Length(S) then exit(false);
-  if OffsetBegin>=OffsetEnd then exit(false);
+  if AOffsetBegin<0 then exit(false);
+  if AOffsetEnd>Length(S) then exit(false);
+  if AOffsetBegin>=AOffsetEnd then exit(false);
 
-  ok1:= (OffsetBegin=0) or not IsCharWord(S[OffsetBegin], ANonWordChars);
-  ok2:= (OffsetEnd=Length(S)) or not IsCharWord(S[OffsetEnd+1], ANonWordChars);
+  ok1:= (AOffsetBegin=0) or not IsCharWord(S[AOffsetBegin], ANonWordChars);
+  ok2:= (AOffsetEnd=Length(S)) or not IsCharWord(S[AOffsetEnd+1], ANonWordChars);
   Result:= ok1 and ok2;
 end;
 
