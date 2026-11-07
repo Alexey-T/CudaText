@@ -1942,7 +1942,9 @@ begin
             if EditorAutoPairChar(Ed, ch, CurMacroStrings) then
             begin
               AHandled:= true;
-              Ed.DoEventCarets; //to highlight pair brackets after typing bracket
+              //we interrupt TATSynEdit.DoCommand by AHandled:=True, so must call DoEvent*
+              Ed.DoEventChange(Ed.Carets[0].FirstTouchedLine);
+              Ed.DoEventCarets;
               exit
             end;
           end;
@@ -1951,6 +1953,8 @@ begin
           if EditorAutoSkipClosingBracket(Ed, ch) then
           begin
             AHandled:= true;
+            //we interrupt TATSynEdit.DoCommand by AHandled:=True, so must call DoEvent*
+            Ed.DoEventCarets;
             Ed.Update;
             exit;
           end;
