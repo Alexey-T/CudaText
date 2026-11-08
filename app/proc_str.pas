@@ -492,7 +492,7 @@ begin
   Result:= not SRegexMatchesString(
     SDeletePythonStrings(S),
     cTest,
-    false);
+    true);
 end;
 
 (*
