@@ -7,6 +7,7 @@
 
 - fix: after paste of big block with very long last line (wrap=off), caret on last line can be only partly visible (fixed by Z.ai)
 - fix: picture viewer: on loading big picture in the 1st tab, app temporary shows 100x100 empty rectangle (fixed by Z.ai)
+- fix: if history file had selection with very long last line, after app restart that selection 'shrinks' by 1 line
 
 1.239.0 (2026/11)
 
