@@ -593,8 +593,8 @@ const
   cRegexChars: set of byte = [
     Ord('-'), Ord('+'), Ord('*'), Ord('\'),
     Ord('('), Ord(')'), Ord('['), Ord(']'), Ord('{'), Ord('}'),
-    Ord('.'), Ord(','), Ord(':'),
-    Ord('?'), Ord('#'), Ord('$'), Ord('^'), Ord('|')];
+    Ord('.'), Ord('?'), Ord('#'), Ord('$'), Ord('^'), Ord('|')
+    ];
 
 function SEscapeRegexSpecialChars(const S: Unicodestring): Unicodestring;
 var
