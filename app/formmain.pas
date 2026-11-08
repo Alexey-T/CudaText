@@ -10712,7 +10712,8 @@ begin
   SNodeText:= AnsiLowerCase(ItemNode.Text);
 
   SFilter:= AnsiLowerCase(CodeTreeFilter.Filter);
-  SFilter:= Trim(StringReplace(SFilter, '  ', ' ', [rfReplaceAll]));
+  SCompressRepeatingSpacesAndEols(SFilter);
+  SFilter:= Trim(SFilter);
 
   Sep.Init(SFilter, ' ');
   while Sep.GetItemStr(SItem) and (SItem<>'') do
