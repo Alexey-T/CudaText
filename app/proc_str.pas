@@ -452,45 +452,50 @@ begin
   end;
 end;
 
-function SDeletePythonStrings(const s: string): string;
+function SMaskPythonStrConsts(const S: string): string;
+//Delete string-constants (single/double quoted, quote-char in string can be escaped by backslash)
+//from Python expression, ie replace them with '_'
 var
-  status: char;
-  skip: boolean;
-  i: integer;
+  i, j: integer;
+  StrChar: char;
+  bSkip: boolean;
 begin
-  skip:= false;
-  Result:= '';
-  status:= #0;
-  for i:= 1 to Length(s) do
-    if skip then
-      skip:= false
+  SetLength(Result, Length(S));
+  bSkip:= false;
+  j:= 0;
+  StrChar:= #0;
+  for i:= 1 to Length(S) do
+    if bSkip then
+      bSkip:= false
     else
-    if status=#0 then
+    if StrChar=#0 then
     begin
-      if (s[i]=#$27) or (s[i]='"') then
+      Inc(j);
+      if (S[i]='''') or (S[i]='"') then
       begin
-        status:= s[i];
-        Result+= '_';
+        StrChar:= S[i];
+        Result[j]:= '_';
       end
       else
-        Result+= s[i]
+        Result[j]:= S[i];
     end
     else
     begin
-      if s[i]='\' then
-        skip:= true;
-      if s[i]=status then
-        status:= #0;
+      if S[i]='\' then
+        bSkip:= true;
+      if S[i]=StrChar then
+        StrChar:= #0;
     end;
+  SetLength(Result, j);
 end;
 
 function IsPythonExpression(const S: string): boolean;
 const
   cTest =
-    '(.*(assert|return|del|import|pass|raise|yield|def|for|with|while|if|print)\b.*)|(.*[^=><!][=][^=><].*)|(.+;.+)';
+    '(.*\b(assert|return|del|import|pass|raise|yield|((async\s+|await\s+)?def)|for|with|while|if|print)\b.*)|(.*[^=><!][=][^=><].*)|(.+;.+)';
 begin
   Result:= not SRegexMatchesString(
-    SDeletePythonStrings(S),
+    SMaskPythonStrConsts(S),
     cTest,
     true);
 end;
