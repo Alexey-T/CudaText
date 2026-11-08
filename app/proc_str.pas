@@ -492,7 +492,7 @@ end;
 function IsPythonExpression(const S: string): boolean;
 const
   cTest =
-    '(.*\b(assert|return|del|import|pass|raise|yield|((async\s+|await\s+)?def)|for|with|while|if|print)\b.*)|(.*[^=><!][=][^=><].*)|(.+;.+)';
+    '(.*\b(assert|return|del|import|pass|raise|yield|def|for|with|while|if|print)\b.*)|(.*[^=><!][=][^=><].*)|(.+;.+)';
 begin
   Result:= not SRegexMatchesString(
     SMaskPythonStrConsts(S),
