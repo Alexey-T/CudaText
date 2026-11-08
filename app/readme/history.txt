@@ -3,6 +3,11 @@
   - fixed
   * changed
 
+1.239.1 (2026/11)
+
+- fix: after paste of big block with very long last line (wrap=off), caret on last line can be only partly visible (fixed by Z.ai)
+- fix: picture viewer: on loading big picture in the 1st tab, app temporary shows 100x100 empty rectangle (fixed by Z.ai)
+
 1.239.0 (2026/11)
 
 * change: plugin Project Manager is mostly rewritten, see the migration guide in the file "py/cuda_project_man/readme/upgrade_v2.txt", as an option see the huge changelog "py/cuda_project_man/readme/history.txt" (by @badrelmers)
