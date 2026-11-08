@@ -3340,6 +3340,8 @@ begin
 end;
 
 procedure EditorCaretToView(Ed: TATSynEdit; ANeedWrapOff, AllowProcessMsg: boolean);
+var
+  Caret: TATCaretItem;
 begin
   if Ed.Carets.Count=0 then exit;
   if ANeedWrapOff then
@@ -3348,9 +3350,13 @@ begin
     Application.ProcessMessages;
   if Ed.IsCaretOnVisibleRect then exit; //don't work on GTK2 without App.ProcessMessagess
 
-  Ed.Carets[0].PosX:= 0;
-  Ed.DoEventCarets;
-  Ed.Update;
+  Caret:= Ed.Carets[0];
+  if not Caret.IsSelection then
+  begin
+    Caret.PosX:= 0;
+    Ed.DoEventCarets;
+    Ed.Update;
+  end;
 end;
 
 procedure EditorCalcOffsetsForStatusbar(Ed: TATSynEdit; out AOffsetMax, AOffsetCaret: integer);
