@@ -2926,6 +2926,7 @@ begin
   begin
     ImageBox:= TATImageBox.Create(FormForPy);
     ImageBox.Name:= 'imagebox1';
+    ImageBox.Visible:= false; //fix #6605: don't show control (at initial 150x150 bounds) when Parent is set
     ImageBox.Parent:= FormForPy;
     ImageBox.Align:= alClient;
     ImageBox.BorderStyle:= bsNone;
@@ -2938,8 +2939,9 @@ begin
 
   try
     ApplyThemeToImageBox(ImageBox);
-    ImageBox.Show;
-    ImageBox.LoadFromFile(AFileName);
+    ImageBox.LoadFromFile(AFileName); //fix #6605: load/decode picture while control is hidden
+    ImageBox.Show; //fix #6605: show only when picture is loaded, so DWM won't show empty box
+    ImageBox.Update; //fix #6605: paint at once, before DWM shows empty window surface
   except
   end;
 

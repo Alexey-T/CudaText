@@ -250,6 +250,7 @@ begin
     Align:= alNone;
     SetBounds(0, 0, 100, 100);
     AutoSize:= False;
+    Visible:= false; //don't show empty control at 100x100, until picture is loaded and control is resized
     OnMouseDown:= @ImageMouseDown;
     OnMouseUp:= @ImageMouseUp;
     OnMouseMove:= @ImageMouseMove;
@@ -813,10 +814,14 @@ end;
 procedure TATImageBox.UpdateInfo;
 begin
   FImageZoom:= 100;
-  FImage.Visible:= true;
 
   if Assigned(FImage.Picture) and Assigned(FImage.Picture.Graphic) then
+  begin
     UpdateImagePosition(True);
+    FImage.Visible:= true; //show only after SetBounds() call, to avoid flicker of small empty imagebox
+  end
+  else
+    FImage.Visible:= false; //no picture yet: don't show empty imagebox
 end;
 
 procedure TATImageBox.Resize;
