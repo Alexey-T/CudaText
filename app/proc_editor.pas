@@ -3353,7 +3353,7 @@ begin
   Caret:= Ed.Carets[0];
   if not Caret.IsSelection then
   begin
-    Caret.PosX:= 0;
+    Ed.DoCaretSingle(0, Caret.PosY); //set Caret.PosX=0
     Ed.DoEventCarets;
     Ed.Update;
   end;
