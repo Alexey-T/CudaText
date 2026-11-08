@@ -77,11 +77,12 @@ class procedure TTreeHelperMarkdown.GetHeaders(Ed: TATSynEdit; Data: TATTreeHelp
 var
   PrevHeadIndex: array[1..6] of integer = (-1, -1, -1, -1, -1, -1);
   St: TATStrings;
+  NLineCount: integer;
   //
   procedure ClosePrevHeader(AHeadLevel, ALine: integer);
   var
     ItemPtr: PATTreeHelperRecord;
-    iHead: integer;
+    iHead, NLineEnd: integer;
   begin
     for iHead:= AHeadLevel to High(PrevHeadIndex) do
       if PrevHeadIndex[iHead]>=0 then
@@ -89,8 +90,12 @@ var
         ItemPtr:= Data._GetItemPtr(PrevHeadIndex[iHead]);
         if ItemPtr^.Y2<0 then
         begin
-          ItemPtr^.Y2:= ALine-1;
-          ItemPtr^.X2:= St.LinesLen[ALine-1];
+          if ALine=NLineCount-1 then
+            NLineEnd:= ALine
+          else
+            NLineEnd:= ALine-1;
+          ItemPtr^.Y2:= NLineEnd;;
+          ItemPtr^.X2:= St.LinesLen[NLineEnd];
         end;
       end;
 
@@ -114,7 +119,7 @@ var
   HeadLevel, HeadLevelUnderlined: integer;
   S: UnicodeString;
   ch: WideChar;
-  NLineCount, NLen, iLine, iChar: integer;
+  NLen, iLine, iChar: integer;
 begin
   Data.Clear;
   bFenced:= false;
