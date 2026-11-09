@@ -1894,7 +1894,7 @@ class Command:
             'a_l': None,
             'a_t': None,
             'a_r': ('', ']'),
-            'a_b': ('', ']'), 
+            'a_b': ('', ']'),
             'sp_a': 6,
             'x': w_-100,
             'y': h_-6-25,
@@ -1909,7 +1909,7 @@ class Command:
             'name': 'memo_log',
             'val': text,
             'a_r': ('btn_ok', ']'),
-            'a_b': ('btn_ok', '['), 
+            'a_b': ('btn_ok', '['),
             'x': 6,
             'y': 6,
             'w': w_-6*2,
@@ -1947,14 +1947,26 @@ class Command:
                 text += _('Date of modification: ') + str(datetime.datetime.fromtimestamp(int(os.path.getmtime(selected)))) + "\n"
             elif os.path.isdir(selected):
                 text = _('Folder: ') + str(selected) + "\n"
+
                 def folder_size(path):
                     total = 0
-                    for entry in os.scandir(path):
-                        if entry.is_file():
-                            total += entry.stat().st_size
-                        elif entry.is_dir():
-                            total += folder_size(entry.path)
+                    try:
+                        it = os.scandir(path)
+                    except OSError:
+                        return total
+                    with it:
+                        for entry in it:
+                            try:
+                                if entry.is_symlink():
+                                    continue
+                                if entry.is_dir(follow_symlinks=False):
+                                    total += folder_size(entry.path)
+                                elif entry.is_file(follow_symlinks=False):
+                                    total += entry.stat(follow_symlinks=False).st_size
+                            except OSError:
+                                continue
                     return total
+
                 text += _('Size: ') + str(self.convert_size(folder_size(selected))) + "\n"
         else:
             text = _('Object not found')
