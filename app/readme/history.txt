@@ -10,6 +10,7 @@
 - fix: after paste of big block with very long last line (wrap=off), caret on last line can be only partly visible (fixed by Z.ai)
 - fix: picture viewer: on loading big picture in the 1st tab, app temporary shows 100x100 empty rectangle (fixed by Z.ai)
 - fix: if document was all-selected with very long last line, after app restart that selection 'shrinked' by 1 line
+- fix: Addons Manager: crash in the 'Properties' dialog if folder has 'looped' symlinks (by @ildarkhasanshin)
 
 1.239.0 (2026/11)
 
