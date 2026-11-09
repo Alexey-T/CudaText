@@ -12,8 +12,6 @@ unit TreeHelper_Markdown;
 interface
 
 uses
-  SysUtils,
-  ATStrings,
   ATSynEdit,
   TreeHelpers_Base;
 
@@ -28,6 +26,11 @@ type
   end;
 
 implementation
+
+uses
+  SysUtils,
+  Math,
+  ATStrings;
 
 class function TTreeHelperMarkdown.GetHeadLevel(const S: UnicodeString): integer;
 var
@@ -77,12 +80,11 @@ class procedure TTreeHelperMarkdown.GetHeaders(Ed: TATSynEdit; Data: TATTreeHelp
 var
   PrevHeadIndex: array[1..6] of integer = (-1, -1, -1, -1, -1, -1);
   St: TATStrings;
-  NLineCount: integer;
   //
   procedure ClosePrevHeader(AHeadLevel, ALine: integer);
   var
     ItemPtr: PATTreeHelperRecord;
-    iHead, NLineEnd: integer;
+    iHead: integer;
   begin
     for iHead:= AHeadLevel to High(PrevHeadIndex) do
       if PrevHeadIndex[iHead]>=0 then
@@ -90,12 +92,8 @@ var
         ItemPtr:= Data._GetItemPtr(PrevHeadIndex[iHead]);
         if ItemPtr^.Y2<0 then
         begin
-          if ALine=NLineCount-1 then
-            NLineEnd:= ALine
-          else
-            NLineEnd:= ALine-1;
-          ItemPtr^.Y2:= NLineEnd;;
-          ItemPtr^.X2:= St.LinesLen[NLineEnd];
+          ItemPtr^.Y2:= ALine;;
+          ItemPtr^.X2:= St.LinesLen[ALine];
         end;
       end;
 
@@ -119,7 +117,7 @@ var
   HeadLevel, HeadLevelUnderlined: integer;
   S: UnicodeString;
   ch: WideChar;
-  NLen, iLine, iChar: integer;
+  NLineCount, NLen, iLine, iChar: integer;
 begin
   Data.Clear;
   bFenced:= false;
@@ -192,7 +190,7 @@ begin
         DataItem.Title:= S;
         DataItem.Icon:= -1;
         Data.Add(DataItem);
-        ClosePrevHeader(HeadLevel, iLine);
+        ClosePrevHeader(HeadLevel, Max(iLine-1, 0));
       end;
     end
     else
@@ -209,7 +207,7 @@ begin
       DataItem.Title:= S;
       DataItem.Icon:= -1;
       Data.Add(DataItem);
-      ClosePrevHeader(HeadLevelUnderlined, iLine);
+      ClosePrevHeader(HeadLevelUnderlined, iLine-1);
     end;
   end;
 
