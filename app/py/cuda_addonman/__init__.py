@@ -574,10 +574,18 @@ class Command:
         DLG_H = 600
 
         def make_items(idx_list):
-            text_headers = '\r'.join((_('Name=260'), _('Folder=180'), _('Local=125'), _('Available=125')))
-            text_columns = ['\r'.join(('['+addons[i]['kind']+'] '+addons[i]['name'],
-                                       addons[i]['dir'], addons[i]['v_local'], addons[i]['v']))
-                            for i in idx_list]
+            text_headers = '\r'.join((
+                _('Name')+'=260',
+                _('Folder')+'=180',
+                _('Local')+'=125',
+                _('Available')+'=125',
+                ))
+            text_columns = ['\r'.join((
+                '['+addons[i]['kind']+'] '+addons[i]['name'],
+                addons[i]['dir'],
+                addons[i]['v_local'],
+                addons[i]['v'],
+                )) for i in idx_list]
             return '\t'.join([text_headers]+text_columns)
 
         def make_val(idx_list):
