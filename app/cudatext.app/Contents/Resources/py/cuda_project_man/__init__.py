@@ -1948,26 +1948,48 @@ class Command:
             elif os.path.isdir(selected):
                 text = _('Folder: ') + str(selected) + "\n"
 
-                def folder_size(path):
+                def folder_stats(path):
+                    # single recursive walk returns (total_size,
+                    # file_count, dir_count, symlink_count): counting
+                    # files, sub-directories and symlinks here avoids
+                    # walking the tree a second time just for the
+                    # counts. Symlinks are NOT followed (same rule as
+                    # the old folder_size) so cyclic links cannot loop
+                    # forever -- they are only counted.
                     total = 0
+                    files = 0
+                    dirs = 0
+                    symlinks = 0
                     try:
                         it = os.scandir(path)
                     except OSError:
-                        return total
+                        return total, files, dirs, symlinks
                     with it:
                         for entry in it:
                             try:
                                 if entry.is_symlink():
+                                    symlinks += 1
                                     continue
                                 if entry.is_dir(follow_symlinks=False):
-                                    total += folder_size(entry.path)
+                                    dirs += 1
+                                    sub_size, sub_files, sub_dirs, sub_syml = folder_stats(entry.path)
+                                    total += sub_size
+                                    files += sub_files
+                                    dirs += sub_dirs
+                                    symlinks += sub_syml
                                 elif entry.is_file(follow_symlinks=False):
                                     total += entry.stat(follow_symlinks=False).st_size
+                                    files += 1
                             except OSError:
                                 continue
-                    return total
+                    return total, files, dirs, symlinks
 
-                text += _('Size: ') + str(self.convert_size(folder_size(selected))) + "\n"
+                total_size, file_count, dir_count, symlink_count = folder_stats(selected)
+                text += _('Size: ') + str(self.convert_size(total_size)) + "\n"
+                text += _('Files: ') + str(file_count) + "\n"
+                text += _('Folders: ') + str(dir_count) + "\n"
+                if symlink_count:
+                    text += _('Symlinks: ') + str(symlink_count) + "\n"
         else:
             text = _('Object not found')
 
