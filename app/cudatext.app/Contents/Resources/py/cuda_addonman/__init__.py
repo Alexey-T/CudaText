@@ -560,29 +560,42 @@ class Command:
             i.get('module', ''),
             ))
 
-        text_headers = '\r'.join((_('Name=260'), _('Folder=180'), _('Local=125'), _('Available=125')))
-        text_columns = ['\r'.join(('['+i['kind']+'] '+i['name'], i['dir'], i['v_local'], i['v'])) for i in addons]
-        text_items = '\t'.join([text_headers]+text_columns)
-        text_checks = ['1' if i['check'] else '0' for i in addons]
-        text_val = '0;'+','.join(text_checks)
-        text_val_initial = text_val
+        shown_idx = list(range(len(addons)))
+        only_upd = False
 
         RES_OK = 0
         RES_CANCEL = 1
         RES_LIST = 2
         RES_SEL_NONE = 3
         RES_SEL_NEW = 4
+        RES_SHOW_UPD = 5
         c1 = chr(1)
         DLG_W = 750
         DLG_H = 600
 
+        def make_items(idx_list):
+            text_headers = '\r'.join((_('Name=260'), _('Folder=180'), _('Local=125'), _('Available=125')))
+            text_columns = ['\r'.join(('['+addons[i]['kind']+'] '+addons[i]['name'],
+                                       addons[i]['dir'], addons[i]['v_local'], addons[i]['v']))
+                            for i in idx_list]
+            return '\t'.join([text_headers]+text_columns)
+
+        def make_val(idx_list):
+            return '0;' + ','.join(['1' if addons[i]['check'] else '0' for i in idx_list])
+
+        text_items = make_items(shown_idx)
+        text_val_initial = make_val(shown_idx)
+        text_val = text_val_initial
+
         while True:
+            btn_filter_cap = _('Show all') if only_upd else _('Show updates only')
             text = '\n'.join([
               c1.join(['type=button', 'pos=%d,%d,%d,%d'%(DLG_W-212, DLG_H-32, DLG_W-112, 0), 'cap='+_('Update'), 'ex0=1']),
               c1.join(['type=button', 'pos=%d,%d,%d,%d'%(DLG_W-106, DLG_H-32, DLG_W-6, 0), 'cap='+_('Cancel')]),
               c1.join(['type=checklistview', 'pos=%d,%d,%d,%d'%(6, 6, DLG_W-6, DLG_H-42), 'items='+text_items, 'val='+text_val, 'ex0=1']),
               c1.join(['type=button', 'pos=%d,%d,%d,%d'%(6, DLG_H-32, 100, 0), 'cap='+_('Deselect all')]),
               c1.join(['type=button', 'pos=%d,%d,%d,%d'%(106, DLG_H-32, 200, 0), 'cap='+_('Select new')]),
+              c1.join(['type=button', 'pos=%d,%d,%d,%d'%(206, DLG_H-32, 350, 0), 'cap='+btn_filter_cap]),
               ])
 
             res = dlg_custom(_('Update add-ons'), DLG_W, DLG_H, text)
@@ -593,7 +606,21 @@ class Command:
                 text_val = '0;'
                 continue
             if res == RES_SEL_NEW:
-                text_val = text_val_initial
+                text_val = make_val(shown_idx)
+                continue
+            if res == RES_SHOW_UPD:
+                if not only_upd:
+                    upd_idx = [i for i in shown_idx if addons[i]['check']]
+                    if not upd_idx:
+                        msg_box(_('No add-ons with updates'), MB_OK+MB_ICONINFO)
+                        continue
+                    shown_idx = upd_idx
+                    only_upd = True
+                else:
+                    shown_idx = list(range(len(addons)))
+                    only_upd = False
+                text_items = make_items(shown_idx)
+                text_val = make_val(shown_idx)
                 continue
             if res == RES_CANCEL:
                 return
@@ -603,7 +630,7 @@ class Command:
         text = text.splitlines()[RES_LIST]
         text = text.split(';')[1].split(',')
 
-        addons = [a for (i, a) in enumerate(addons) if 0<=i<len(text) and text[i]=='1']
+        addons = [addons[i] for (i, s) in zip(shown_idx, text) if s=='1']
         if not addons:
             return
         print(_('Updating addons:'))
