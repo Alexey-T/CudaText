@@ -92,7 +92,7 @@ var
         ItemPtr:= Data._GetItemPtr(PrevHeadIndex[iHead]);
         if ItemPtr^.Y2<0 then
         begin
-          ItemPtr^.Y2:= ALine;;
+          ItemPtr^.Y2:= ALine;
           ItemPtr^.X2:= St.LinesLen[ALine];
         end;
       end;
