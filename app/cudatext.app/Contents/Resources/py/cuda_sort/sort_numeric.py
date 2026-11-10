@@ -22,12 +22,12 @@ def str_to_numeric_key(s):
 
 if __name__=='__main__':
     s='11d22d33.'
-    print(str_to_numeric_tuple(s))
+    print(str_to_numeric_key(s))
     s='abc'
-    print(str_to_numeric_tuple(s))
+    print(str_to_numeric_key(s))
     s='abc22'
-    print(str_to_numeric_tuple(s))
+    print(str_to_numeric_key(s))
     s='33'
-    print(str_to_numeric_tuple(s))
+    print(str_to_numeric_key(s))
     s=''
-    print(str_to_numeric_tuple(s))
+    print(str_to_numeric_key(s))
