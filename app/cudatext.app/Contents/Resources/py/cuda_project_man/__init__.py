@@ -3795,7 +3795,7 @@ class Command:
             try:
                 with open(history_path, encoding='utf8') as f:
                     hist = json.load(f)
-                sess_ptr = hist.get('session', '')
+                sess_ptr = hist.get('session' + OS_SUFFIX, '')
             except Exception:
                 pass
 
