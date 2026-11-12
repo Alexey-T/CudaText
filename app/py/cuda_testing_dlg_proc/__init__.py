@@ -1229,6 +1229,12 @@ end
             'cap': '(clicked tab-'+str(n+1)+')',
             })
 
+    def callback_md_loadfile(self, id_dlg, id_ctl, data='', info=''):
+        fn = dlg_file(True, '', '', 'Markdown|*.md', 'Open file')
+        if not fn: return
+        text = open(fn, encoding='utf8').read()
+        dlg_proc(id_dlg, DLG_CTL_PROP_SET, name='markdown1', prop={'val': text})
+
     def test_sidepanel(self):
         print('test_sidepanel')
         title = 'Side dialog'
@@ -1410,6 +1416,49 @@ end
             'x': 50,
             'y': 100,
             'w': 80,
+            })
+
+        dlg_proc(h, DLG_SHOW_MODAL)
+        dlg_proc(h, DLG_FREE)
+        
+
+    def test_md_view(self):
+        h=dlg_proc(0, DLG_CREATE)
+        dlg_proc(h, DLG_PROP_SET, prop={
+            'cap': 'md_view test',
+            'w': 600,
+            'h': 400,
+            'w_min': 200,
+            'h_min': 250,
+            'border': DBORDER_SIZE,
+            })
+
+        n=dlg_proc(h, DLG_CTL_ADD, 'md_view')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'markdown1',
+            'align': ALIGN_CLIENT,
+            'border': False,
+            'color': 0xa0ffa0,
+            'val': '# aa\naa1\naa2\n# bb\nbb1\nbb2',
+            })
+
+        n=dlg_proc(h, DLG_CTL_ADD, 'panel')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'p_bottom',
+            'cap': '',
+            'align': ALIGN_BOTTOM,
+            'h': 30,
+            })
+
+        n=dlg_proc(h, DLG_CTL_ADD, 'button')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'btn_1',
+            'cap': 'Load file...',
+            'p': 'p_bottom',
+            'x': 2,
+            'y': 2,
+            'w': 100,
+            'on_change': 'module=cuda_testing_dlg_proc;cmd=callback_md_loadfile;'
             })
 
         dlg_proc(h, DLG_SHOW_MODAL)

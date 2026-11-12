@@ -75,6 +75,11 @@ section=commands
 caption=Testing\Testing of dlg_proc\test type=memo
 method=test_memo
 
+[item39]
+section=commands
+caption=Testing\Testing of dlg_proc\test type=md_view
+method=test_md_view
+
 [item50]
 section=commands
 caption=Testing\Testing of dlg_proc\test side-panel

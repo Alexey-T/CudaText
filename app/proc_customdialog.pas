@@ -70,6 +70,11 @@ var
 
 implementation
 
+uses
+  markdown.control,
+  markdown.processors,
+  markdown.canvasrender;
+
 var
   FDialogShown: boolean = false;
 
@@ -691,6 +696,20 @@ begin
     C.HorzScrollBar.Position:= N;
 end;
 
+procedure DoControl_SetState_Markdown(C: TMarkDownControl; const AValue: string);
+var
+  St: TStringStream;
+begin
+  St:= TStringStream.Create(AValue);
+  try
+    C.Markdown.Clear;
+    C.Markdown.LoadFromStream(St);
+    C.Invalidate;
+  finally
+    FreeAndNil(St);
+  end;
+end;
+
 function DoControl_GetState_Listview(C: TListView): string;
 // index;check0,check1,
 var
@@ -1157,6 +1176,13 @@ begin
     if S='filter_listview' then
     begin
       Ctl:= TListViewFilterEdit.Create(AForm);
+      exit;
+    end;
+
+    if S='md_view' then
+    begin
+      Ctl:= TMarkDownControl.Create(AForm);
+      TMarkDownControl(Ctl).OnGetImage:= @AForm.DoOnMarkdownGetImage;
       exit;
     end;
 
@@ -1675,6 +1701,14 @@ begin
   begin
     DoControl_SetState_ScrollBox(TScrollBox(C), S);
     exit
+  end;
+  if C is TMarkDownControl then
+  begin
+    TMarkDownControl(C).FontName:= UiOps.VarFontName;
+    TMarkDownControl(C).MonoFontName:= EditorOps.OpFontName;
+    TMarkDownControl(C).FontColor:= AppTheme.Colors[TAppThemeColor.EdTextFont].color;
+    TMarkDownControl(C).Color:= AppTheme.Colors[TAppThemeColor.EdTextBg].color;
+    DoControl_SetState_Markdown(TMarkDownControl(C), S);
   end;
 end;
 

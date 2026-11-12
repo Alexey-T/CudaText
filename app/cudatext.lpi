@@ -1369,6 +1369,9 @@
     </RunParams>
     <RequiredPackages>
       <Item>
+        <PackageName Value="lazmarkdown"/>
+      </Item>
+      <Item>
         <PackageName Value="BGRABitmapPack"/>
       </Item>
       <Item>

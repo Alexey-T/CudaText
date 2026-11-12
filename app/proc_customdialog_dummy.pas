@@ -190,6 +190,7 @@ type
     procedure DoOnEditorClickGap(Sender: TObject; AGapItem: TATGapItem; APos: TPoint);
     procedure DoOnEditorClickLink(Sender: TObject; const ALink: string);
     procedure DoOnEditorPaste(Sender: TObject; var AHandled: boolean; AKeepCaret, ASelectThen: boolean);
+    procedure DoOnMarkdownGetImage(Sender: TObject; const aURL: string; var aImage: TPicture);
     function DoEvent(AIdControl: integer; const ACallback: string; const AData: TAppVariant): boolean;
     procedure DoEmulatedModalShow;
     procedure DoEmulatedModalClose;
@@ -1771,6 +1772,16 @@ begin
 
   if not DoEvent(IdControl, Callback, Data) then
     AHandled:= true;
+end;
+
+procedure TFormDummy.DoOnMarkdownGetImage(Sender: TObject; const aURL: string;
+  var aImage: TPicture);
+begin
+  if FileExists(aURL) then
+  begin
+    aImage:=TPicture.Create;
+    aImage.LoadFromFile(aURL);
+  end;
 end;
 
 
