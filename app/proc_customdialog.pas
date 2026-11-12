@@ -697,17 +697,10 @@ begin
 end;
 
 procedure DoControl_SetState_Markdown(C: TMarkDownControl; const AValue: string);
-var
-  St: TStringStream;
 begin
-  St:= TStringStream.Create(AValue);
-  try
-    C.Markdown.Clear;
-    C.Markdown.LoadFromStream(St);
-    C.Invalidate;
-  finally
-    FreeAndNil(St);
-  end;
+  C.Markdown.Clear;
+  C.Markdown.Text:= AValue;
+  C.Invalidate;
 end;
 
 function DoControl_GetState_Listview(C: TListView): string;
