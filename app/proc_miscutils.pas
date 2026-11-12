@@ -577,9 +577,11 @@ begin
   C.FontName:= UiOps.VarFontName;
   C.MonoFontName:= EditorOps.OpFontName;
   C.FontColor:= AppTheme.Colors[TAppThemeColor.EdTextFont].color;
+  C.Color:= AppTheme.Colors[TAppThemeColor.EdTextBg].color;
   C.FontCodeColor:= TMarkDownControl(C).FontColor;
   C.BGCodeColor:= AppTheme.Styles[TAppThemeStyle.IncludeBG1].BgColor;
-  C.FontQuoteColor:= AppTheme.Styles[TAppThemeStyle.IncludeBG2].BgColor;
+  C.FontQuoteColor:= AppTheme.Styles[TAppThemeStyle.Id2].Font.Color;
+  C.SelectionColor:= AppTheme.Colors[TAppThemeColor.EdSelBg].color;
   C.HyperLinkColor:= AppTheme.Colors[TAppThemeColor.EdLinks].color;
 end;
 
