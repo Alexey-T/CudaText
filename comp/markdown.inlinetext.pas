@@ -43,18 +43,21 @@ Type
   TMarkdownDelimiter = class
   private
     FModes: TMarkdownDelimiterModes;
-    FDelimiter: String;
+    FDelimiter: TMarkdownString;
     FActive: boolean;
     FNode: TMarkdownTextNode;
+    FSourcePos: Integer;
   public
-    constructor Create(aNode: TMarkdownTextNode; const aDelimiter: String; aModes: TMarkdownDelimiterModes);
+    constructor Create(aNode: TMarkdownTextNode; const aDelimiter: TMarkdownString; aModes: TMarkdownDelimiterModes);
+    // Scanner position just after the delimiter
+    property SourcePos : Integer read FSourcePos write FSourcePos;
     procedure RemoveLast(aCount : integer);
     function CanClose(aDelim: TMarkdownDelimiter) : boolean;
     function Opens : Boolean;
     function Closes : Boolean;
     function OpensCloses : Boolean;
     property Node : TMarkdownTextNode read FNode;
-    property Delimiter : String read FDelimiter write FDelimiter;
+    property Delimiter : TMarkdownString read FDelimiter write FDelimiter;
     property Active : Boolean read FActive write FActive;
     property Modes : TMarkdownDelimiterModes read FModes write FModes;
     function IsEmph : Boolean;
@@ -65,6 +68,9 @@ Type
 
   TInlineTextProcessor = class
   Private
+    FComments: Boolean;
+    FFootnotes: Boolean;
+    FLinkReferences: TMarkdownDocument;
     FGFMExtensions : Boolean;
     FScanner : TMarkdownTextScanner;
     FNodes: TMarkdownTextNodeList;
@@ -73,35 +79,53 @@ Type
     FStack : TMarkdownDelimiterList;
   protected
     // Reading
-    function ReadInlineBracketedLink(aBuilder: TStringBuilder): Boolean;
-    function ReadInlineNormalLink(aBuilder: TStringBuilder): Boolean;
-    function ReadLinkTitle(aBuilder: TStringBuilder): Boolean;
+    function ReadInlineBracketedLink(aBuilder: TMarkdownStringBuilder): Boolean;
+    function ReadInlineNormalLink(aBuilder: TMarkdownStringBuilder): Boolean;
+    function ReadLinkTitle(aBuilder: TMarkdownStringBuilder): Boolean;
+    // Read (destination "title") at the scanner position
+    function ReadInlineDestination(aBuilder: TMarkdownStringBuilder; out aURL, aTitle: TMarkdownString): Boolean;
+    // Read the [label] or [] after a link text, or use aLinkText as shortcut label, and look it up
+    function ReadReferenceLink(const aLinkText: TMarkdownString; out aURL, aTitle: TMarkdownString): Boolean;
+    // Turn the delimiter node into a link or image
+    procedure ApplyLink(aDelim: TMarkdownDelimiter; const aURL, aTitle: TMarkdownString);
     function PeekEmailAddress(out len: integer): boolean; virtual;
-    procedure AddTextTillNext(const aTerminal: String); virtual;
+    procedure AddTextTillNext(const aTerminal: TMarkdownString); virtual;
+    // Remove the delimiter from the stack, restoring the unused part of its run as literal text
+    procedure DiscardDelimiter(aIndex: Integer); virtual;
     // Handle various constructs
     procedure HandleEmphasis(aTerminator: TMarkdownDelimiter); virtual;
     function  HandleInlineLink(aDelim: TMarkdownDelimiter): boolean; virtual;
     procedure HandleBackTick; virtual;
     procedure HandleDelimiter(aAllowMulti: boolean); virtual;
     procedure HandleEntity; virtual;
-    function  HandleEntityInner: String; virtual;
+    function  HandleEntityInner: TMarkdownString; virtual;
     procedure HandleTilde; virtual;
     procedure HandleTextEscape; virtual;
     procedure HandleTextCore; virtual;
     procedure HandleAutoLink; virtual;
+    // <!-- ... --> at the scanner position. Returns False when there is no closing -->.
+    function HandleComment: Boolean; virtual;
+    // [^label] at the scanner position. Returns False when it is not a footnote reference.
+    function HandleFootnoteRef: Boolean; virtual;
     procedure HandleCloseDelimiter(); virtual;
     procedure HandleGFMExtensions; virtual;
     procedure HandleGFMLinkEmail(aLength: integer); virtual;
-    procedure HandleGFMLinkURL(aStartChars : integer; const aProtocol : string = ''); virtual;
+    procedure HandleGFMLinkURL(aStartChars : integer; const aProtocol : TMarkdownString = ''); virtual;
   public
     constructor Create(aLexer : TMarkdownTextScanner; aNodes: TMarkdownTextNodeList; aEntities : TFPStringHashTable; awsMode : TWhitespaceMode);
     destructor Destroy; override;
-    function process(aCloseLast : boolean = false): TMarkdownTextNodeList;
+    function Process(aCloseLast : boolean = false): TMarkdownTextNodeList;
     procedure DumpNodes;
     property Scanner : TMarkdownTextScanner read FScanner;
     property Nodes : TMarkdownTextNodeList Read FNodes;
     property WhitespaceMode : TWhitespaceMode read FWhiteSpaceMode;
     Property GFMExtensions : Boolean Read FGFMExtensions Write FGFMExtensions;
+    // Recognize inline HTML comments
+    Property Comments : Boolean Read FComments Write FComments;
+    // Recognize [^label] footnote references
+    Property Footnotes : Boolean Read FFootnotes Write FFootnotes;
+    // Document with the link reference definitions. Nil disables reference links.
+    Property LinkReferences : TMarkdownDocument Read FLinkReferences Write FLinkReferences;
   end;
   TInlineTextProcessorClass = class of TInlineTextProcessor;
 
@@ -118,7 +142,7 @@ const
 
 { TMarkdownDelimiter }
 
-constructor TMarkdownDelimiter.Create(aNode: TMarkdownTextNode; const aDelimiter : String; aModes: TMarkdownDelimiterModes);
+constructor TMarkdownDelimiter.Create(aNode: TMarkdownTextNode; const aDelimiter : TMarkdownString; aModes: TMarkdownDelimiterModes);
 begin
   inherited create;
   FNode:=aNode;
@@ -195,14 +219,14 @@ end;
 procedure TInlineTextProcessor.HandleTextEscape;
 
 var
-  C : Char;
+  C : TMarkdownChar;
 
 begin
   Scanner.Bookmark;
   Scanner.NextChar();
   C:=Scanner.Peek;
   if MustEscape(C) then
-    Nodes.addText(Scanner.location,htmlEscape(Scanner.NextChar()))
+    Nodes.addText(Scanner.location,Scanner.NextChar())
   else if C=#10 then
     Nodes.addTextNode(Scanner.location,nkLineBreak,'')
   else
@@ -216,11 +240,11 @@ end;
 procedure TInlineTextProcessor.HandleAutoLink;
 
 var
-  lText : String;
+  lText : TMarkdownString;
   lNode : TMarkdownTextNode;
   lAdd : boolean;
   lNodeKind : TTextNodeKind;
-  lURL : String;
+  lURL : TMarkdownString;
 
 begin
   Scanner.BookMark;
@@ -255,26 +279,25 @@ begin
   if lAdd then
     Exit;
   Scanner.GotoBookmark;
-  Nodes.addText(Scanner.location,'&lt;');
+  Nodes.addText(Scanner.location,'<');
   Scanner.NextChar();
 end;
 
 procedure TInlineTextProcessor.HandleEntity;
 begin
   if WhiteSpaceMode<>wsLeave then
-    Nodes.addText(Scanner.location,htmlEscape(HandleEntityInner()))
+    Nodes.addText(Scanner.location,HandleEntityInner())
   else
     begin
-    Nodes.addText(Scanner.location,'&amp;');
+    Nodes.addText(Scanner.location,'&');
     Scanner.NextChar();
     end
 end;
 
-function TInlineTextProcessor.HandleEntityInner: String;
+function TInlineTextProcessor.HandleEntityInner: TMarkdownString;
 
 var
-  lEntity : String;
-  ch : UnicodeChar;
+  lEntity : TMarkdownString;
   I,lLen : integer;
 
 begin
@@ -289,24 +312,20 @@ begin
     end;
   Result:='&';
   // If not a unicode char, just return the &
-  if (lLen<0) or (lLen>9) or (lEntity[1]<>'#') then
+  if (lLen<1) or (lLen>9) or (lEntity[1]<>'#') then
     exit;
   // Unicode char.
   System.Delete(lEntity,1,1);
-  if TryStrToInt(lEntity,I) then
+  if TryMarkdownToInt(lEntity,I) then
     begin
-    if (i=0) or (i>65535) then
-      ch:=#$FFFD
-    else
-      ch:=UnicodeChar(I);
     Scanner.NextChars(lLen+1);
-    Result:=Utf8Encode(ch);
+    Result:=CodePointToUTF8(I);
     end;
 end;
 
 procedure TInlineTextProcessor.HandleBackTick;
 var
-  lBackTick : String;
+  lBackTick : TMarkdownString;
   lLen : integer;
 
 begin
@@ -323,7 +342,7 @@ end;
 
 procedure TInlineTextProcessor.HandleTilde;
 var
-  lTilde : String;
+  lTilde : TMarkdownString;
   lLen : Integer;
   ldelete : boolean;
   lNode : TMarkdownTextNode;
@@ -342,10 +361,10 @@ begin
   AddTextTillNext(lTilde);
 end;
 
-procedure TInlineTextProcessor.AddTextTillNext(const aTerminal : String);
+procedure TInlineTextProcessor.AddTextTillNext(const aTerminal : TMarkdownString);
 var
   lWhitespace,lFirstWhitespace : boolean;
-  C : char;
+  C : TMarkdownChar;
   lLen : integer;
 begin
   lLen:=Length(aTerminal);
@@ -366,7 +385,7 @@ begin
         Nodes.addText(Scanner.location,' ');
       lFirstWhitespace:=false;
       lWhitespace:=false;
-      Nodes.addText(Scanner.location,htmlEscape(Scanner.NextChar));
+      Nodes.addText(Scanner.location,Scanner.NextChar);
       end;
     end;
   Scanner.NextChars(lLen);
@@ -375,7 +394,7 @@ end;
 
 procedure TInlineTextProcessor.HandleDelimiter(aAllowMulti : boolean);
 
-  function IsWhiteSpace(aChar : Char) : boolean;
+  function IsWhitespace(aChar : TMarkdownChar) : boolean;
   // Handle end of line in addition to normal whitespace
   const
     EOL = [#0,#10];
@@ -383,7 +402,7 @@ procedure TInlineTextProcessor.HandleDelimiter(aAllowMulti : boolean);
     Result:=CharInSet(aChar,EOL) or Markdown.Utils.IsWhiteSpace(aChar);
   end;
 
-  function isPunctuation(aChar : Char) : boolean;
+  function isPunctuation(aChar : TMarkdownChar) : boolean;
   // Handle special chars in addition to Unicode punctuation
   const
     SpecialPunctuation = ['!','"','#','$','%','&','''','(',')','*','+',',','-','.','/',':',';','<','=','>','?','@','[','\',']','^','_','`','{','|','}','~'];
@@ -391,7 +410,7 @@ procedure TInlineTextProcessor.HandleDelimiter(aAllowMulti : boolean);
     Result:=CharInSet(aChar,SpecialPunctuation) or isUnicodePunctuation(aChar);
   end;
 
-  function isLeftFlanking(aPrevious,aNext : char) : boolean;
+  function isLeftFlanking(aPrevious,aNext : TMarkdownChar) : boolean;
 
   begin
    // (1) not followed by Unicode whitespace.
@@ -406,7 +425,7 @@ procedure TInlineTextProcessor.HandleDelimiter(aAllowMulti : boolean);
              or isPunctuation(aPrevious); // 2b
   end;
 
-  function isRightFlanking(aPrevious,aNext : char) : boolean;
+  function isRightFlanking(aPrevious,aNext : TMarkdownChar) : boolean;
 
   begin
     // (1) not preceded by Unicode whitespace.
@@ -421,8 +440,8 @@ procedure TInlineTextProcessor.HandleDelimiter(aAllowMulti : boolean);
   end;
 
 var
-  cPrevious,cNext : Char;
-  lDelim : String;
+  cPrevious,cNext : TMarkdownChar;
+  lDelim : TMarkdownString;
   lLeft,lRight : boolean;
   lPos : TPosition;
   lModes : TMarkdownDelimiterModes;
@@ -453,9 +472,10 @@ begin
     lModes:=[];
   lNode:=Nodes.addTextNode(lPos,nkText,'',False);
   FStack.Add(TMarkdownDelimiter.Create(lNode,lDelim,lModes));
+  FStack[FStack.Count-1].SourcePos:=Scanner.CursorPos;
 end;
 
-function TInlineTextProcessor.ReadInlineBracketedLink(aBuilder : TStringBuilder) : Boolean;
+function TInlineTextProcessor.ReadInlineBracketedLink(aBuilder : TMarkdownStringBuilder) : Boolean;
 
 begin
   Result:=False;
@@ -486,15 +506,15 @@ begin
   Result:=Not Scanner.EOF;
 end;
 
-function TInlineTextProcessor.ReadInlineNormalLink(aBuilder : TStringBuilder) : Boolean;
+function TInlineTextProcessor.ReadInlineNormalLink(aBuilder : TMarkdownStringBuilder) : Boolean;
 
 var
   lLevel : Integer;
-  C : Char;
+  C : TMarkdownChar;
 
   function EndOfLink : boolean;
   var
-    lNext : Char;
+    lNext : TMarkdownChar;
   begin
     lNext:=Scanner.Peek;
     Result:=((lLevel=0) and (lNext=')')) or isWhitespace(lNext);
@@ -528,10 +548,10 @@ begin
   Result:=Not Scanner.EOF;
 end;
 
-function TInlineTextProcessor.ReadLinkTitle(aBuilder : TStringBuilder) : Boolean;
+function TInlineTextProcessor.ReadLinkTitle(aBuilder : TMarkdownStringBuilder) : Boolean;
 
 Var
-  C,EOT : char;
+  C,EOT : TMarkdownChar;
 
 begin
   Result:=False;
@@ -550,20 +570,33 @@ begin
        Scanner.NextChar;
        if Scanner.EOF then
          Exit;
-       aBuilder.Append(htmlEscape(Scanner.NextChar));
+       aBuilder.Append(Scanner.NextChar);
        end;
     '&':
-       aBuilder.Append(htmlEscape(HandleEntityInner()));
+       aBuilder.Append(HandleEntityInner());
     #10:
        aBuilder.Append(' ');
     '"':
-      aBuilder.Append(htmlEscape(Scanner.NextChar));
+      aBuilder.Append(Scanner.NextChar);
     else
       aBuilder.Append(Scanner.NextChar);
     end;
     end;
   Result:=Not Scanner.EOF;
 end;
+
+
+procedure TInlineTextProcessor.DiscardDelimiter(aIndex: Integer);
+
+var
+  lDelim : TMarkdownDelimiter;
+
+begin
+  lDelim:=FStack[aIndex];
+  lDelim.Node.PrependText(lDelim.Delimiter);
+  FStack.Delete(aIndex);
+end;
+
 
 function TInlineTextProcessor.HandleInlineLink(aDelim : TMarkdownDelimiter): boolean;
 {
@@ -575,72 +608,183 @@ function TInlineTextProcessor.HandleInlineLink(aDelim : TMarkdownDelimiter): boo
 }
 
 var
-  lURL : String;
-  lTitle : String;
-  lBuilder : TStringBuilder;
-  lDelim : TMarkdownDelimiter;
+  lURL : TMarkdownString;
+  lTitle : TMarkdownString;
+  lLinkText : TMarkdownString;
+  lBuilder : TMarkdownStringBuilder;
 
 begin
   Result:=false;
-  lTitle:='';
-  lBuilder:=TStringBuilder.Create;
+  lBuilder:=TMarkdownStringBuilder.Create;
   Scanner.BookMark;
   try
+    lLinkText:=Scanner.TextRange(aDelim.SourcePos,Scanner.CursorPos);
     Scanner.NextChar;
-    if Scanner.Peek<>'(' then
-      Exit;
-    Scanner.NextChar; // (
-    Scanner.skipWhitespace;
-    if Scanner.Peek='<' then
+    if Scanner.Peek='(' then
+      Result:=ReadInlineDestination(lBuilder,lURL,lTitle);
+    if not Result and Assigned(FLinkReferences) then
       begin
-      if not ReadInlineBracketedlink(lBuilder) then
-        Exit;
+      Scanner.GotoBookmark;
       Scanner.NextChar;
-      end
-    else if not ReadInlineNormalLink(lBuilder) then
-      Exit;
-    lURL:=URLEscape(lBuilder.ToString);
-    if Scanner.Peek <> ')' then
-      begin
-      lBuilder.clear;
-      if not ReadLinkTitle(lBuilder) then
-        Exit;
-      Scanner.NextChar;
-      lTitle:=lBuilder.toString;
+      Result:=ReadReferenceLink(lLinkText,lURL,lTitle);
       end;
-    Scanner.skipWhiteSpace;
-    if Scanner.Peek <> ')' then
-      Exit;
-    Scanner.NextChar;
-    if aDelim.delimiter = '![' then
-      begin
-      aDelim.Node.Kind:=nkimg;
-      aDelim.Node.active:=false;
-      aDelim.Node.attrs.Add('src',URLEscape(lURL));
-      aDelim.Node.attrs.Add('alt',aDelim.node.NodeText);
-      end
-    else
-      begin
-      aDelim.Node.Kind:=nkUri;
-      aDelim.Node.attrs.Add('href',URLEscape(lURL));
-      aDelim.Node.active:=false;
-      for lDelim in FStack do
-        if lDelim = aDelim then
-          break
-        else if lDelim.delimiter='[' then
-          lDelim.active:=false;
-      end;
-    if lTitle<>'' then
-      aDelim.node.attrs.Add('title',lTitle);
-    HandleEmphasis(aDelim);
-    FStack.remove(aDelim);
-    Result:=true;
+    if Result then
+      ApplyLink(aDelim,lURL,lTitle);
   finally
     if not Result then
       Scanner.GotoBookmark;
     lBuilder.free;
   end;
 end;
+
+
+function TInlineTextProcessor.ReadInlineDestination(aBuilder: TMarkdownStringBuilder; out aURL, aTitle: TMarkdownString): Boolean;
+
+begin
+  Result:=False;
+  aURL:='';
+  aTitle:='';
+  Scanner.NextChar; // (
+  Scanner.skipWhitespace;
+  if Scanner.Peek='<' then
+    begin
+    if not ReadInlineBracketedlink(aBuilder) then
+      Exit;
+    Scanner.NextChar;
+    end
+  else if not ReadInlineNormalLink(aBuilder) then
+    Exit;
+  aURL:=URLEscape(BuilderToMarkdown(aBuilder));
+  if Scanner.Peek <> ')' then
+    begin
+    aBuilder.clear;
+    if not ReadLinkTitle(aBuilder) then
+      Exit;
+    Scanner.NextChar;
+    aTitle:=BuilderToMarkdown(aBuilder);
+    end;
+  Scanner.skipWhiteSpace;
+  if Scanner.Peek <> ')' then
+    Exit;
+  Scanner.NextChar;
+  Result:=True;
+end;
+
+
+function TInlineTextProcessor.ReadReferenceLink(const aLinkText: TMarkdownString; out aURL, aTitle: TMarkdownString): Boolean;
+
+var
+  lRef : TMarkdownLinkReference;
+  lLabel : TMarkdownString;
+
+begin
+  Result:=False;
+  aURL:='';
+  aTitle:='';
+  lRef:=Nil;
+  if Scanner.Peek='[' then
+    begin
+    lLabel:=Scanner.PeekUntil([']']);
+    if (lLabel<>'') and (Pos('[',lLabel,2)=0) then
+      begin
+      Delete(lLabel,1,1);
+      if Trim(lLabel)='' then
+        lRef:=FLinkReferences.FindLinkRef(aLinkText)
+      else
+        lRef:=FLinkReferences.FindLinkRef(lLabel);
+      if Assigned(lRef) then
+        Scanner.NextChars(Length(lLabel)+2);
+      end;
+    end;
+  if lRef=Nil then
+    lRef:=FLinkReferences.FindLinkRef(aLinkText);
+  if lRef=Nil then
+    Exit;
+  aURL:=lRef.URL;
+  aTitle:=lRef.Title;
+  Result:=True;
+end;
+
+
+procedure TInlineTextProcessor.ApplyLink(aDelim: TMarkdownDelimiter; const aURL, aTitle: TMarkdownString);
+
+var
+  lDelim : TMarkdownDelimiter;
+
+begin
+  HandleEmphasis(aDelim);
+  if aDelim.delimiter = '![' then
+    begin
+    aDelim.Node.Kind:=nkimg;
+    aDelim.Node.active:=false;
+    aDelim.Node.attrs.Add('src',aURL);
+    aDelim.Node.attrs.Add('alt',Nodes.TextFrom(aDelim.Node));
+    Nodes.RemoveAfter(aDelim.Node);
+    end
+  else
+    begin
+    aDelim.Node.Kind:=nkUri;
+    aDelim.Node.attrs.Add('href',aURL);
+    aDelim.Node.active:=false;
+    Nodes.MoveToChildren(aDelim.Node);
+    for lDelim in FStack do
+      if lDelim = aDelim then
+        break
+      else if lDelim.delimiter='[' then
+        lDelim.active:=false;
+    end;
+  if aTitle<>'' then
+    aDelim.node.attrs.Add('title',aTitle);
+  FStack.remove(aDelim);
+end;
+
+
+function TInlineTextProcessor.HandleComment: Boolean;
+
+var
+  lEnd : Integer;
+  lText,lName,lArgument,lValue : TMarkdownString;
+  lNode : TMarkdownTextNode;
+
+begin
+  lEnd:=Scanner.FindText('-->',2);
+  Result:=lEnd>0;
+  if not Result then
+    Exit;
+  lText:=Scanner.TextRange(Scanner.CursorPos+4,lEnd);
+  lNode:=Nodes.AddTextNode(Scanner.Location,nkComment,lText);
+  if ParseMarker(lText,lName,lArgument,lValue) then
+    begin
+    lNode.Attrs.Add('marker',lName);
+    lNode.Attrs.Add('argument',lArgument);
+    lNode.Attrs.Add('value',lValue);
+    end;
+  Scanner.NextChars(lEnd+3-Scanner.CursorPos);
+end;
+
+
+function TInlineTextProcessor.HandleFootnoteRef: Boolean;
+
+var
+  lText : TMarkdownString;
+  C : TMarkdownChar;
+  lNode : TMarkdownTextNode;
+
+begin
+  Result:=False;
+  lText:=Scanner.PeekUntil([']',#10]);
+  if (Length(lText)<3) or (Scanner.FindText(lText+']')<>Scanner.CursorPos) then
+    Exit;
+  Delete(lText,1,2);
+  for C in lText do
+    if IsWhitespaceChar(C) or (C in ['[','^']) then
+      Exit;
+  lNode:=Nodes.AddTextNode(Scanner.Location,nkFootnoteRef,lText);
+  lNode.Attrs.Add('label',lText);
+  Scanner.NextChars(Length(lText)+3);
+  Result:=True;
+end;
+
 
 procedure TInlineTextProcessor.HandleEmphasis(aTerminator : TMarkdownDelimiter);
 
@@ -710,7 +854,7 @@ begin
       lDelete:=lClose;
       While lDelete>lOpen+1 do
         begin
-        FStack.Delete(lDelete);
+        DiscardDelimiter(lDelete);
         Dec(lDelete);
         Dec(lClose);
         end;
@@ -735,13 +879,13 @@ begin
       if FStack[lClose].Modes=dmOpenClose then
         inc(lClose)
       else
-        FStack.Delete(lClose);
+        DiscardDelimiter(lClose);
       end;
     lCount:=FStack.Count;
     lClose:=FindClosingDelimiter(lClose);
     end;
   for LOpen:=FStack.Count-1 downto lBottom do
-    FStack.Delete(lOpen);
+    DiscardDelimiter(lOpen);
 end;
 
 
@@ -765,7 +909,7 @@ begin
     Nodes.addText(Scanner.location,Scanner.NextChar)
   else if Not (lDelim.active and HandleInlineLink(lDelim)) then
     begin
-    FStack.Remove(lDelim);
+    DiscardDelimiter(FStack.IndexOf(lDelim));
     Nodes.addText(Scanner.location,Scanner.NextChar);
     end;
 end;
@@ -777,13 +921,14 @@ begin
   // code blocks leave whitespace intact
   if WhiteSpaceMode=wsLeave then
     begin
-    Nodes.addText(Scanner.location,htmlEscape(Scanner.NextChar));
+    Nodes.addText(Scanner.location,Scanner.NextChar);
     Exit;
     end;
   case Scanner.Peek of
     '\' : HandleTextEscape();
-    '<' : HandleAutoLink();
-    '>','"' : Nodes.addText(Scanner.location,htmlEscape(Scanner.NextChar));
+    '<' : if not (Comments and Scanner.Has('<!--') and HandleComment) then
+            HandleAutoLink();
+    '>','"' : Nodes.addText(Scanner.location,Scanner.NextChar);
     '&' : HandleEntity;
     '`' : HandleBackTick;
     '~' : HandleTilde;
@@ -796,8 +941,9 @@ begin
              or (Scanner.PeekEndRun=#0) then
             HandleDelimiter(true)
           else
-            Nodes.addText(Scanner.Location,htmlEscape(Scanner.NextEquals()));
-    '[' : HandleDelimiter(false);
+            Nodes.addText(Scanner.Location,Scanner.NextEquals());
+    '[' : if not (Footnotes and (Scanner.PeekNext='^') and HandleFootnoteRef) then
+            HandleDelimiter(false);
     '!' : if Scanner.PeekNext='[' then
             HandleDelimiter(false)
           else
@@ -841,8 +987,8 @@ const
 
 var
   lLen : integer;
-  cLast : Char;
-  S : String;
+  cLast : TMarkdownChar;
+  S : TMarkdownString;
 
 begin
   Result:=False;
@@ -861,11 +1007,11 @@ begin
 end;
 
 
-function TInlineTextProcessor.process(aCloseLast: boolean): TMarkdownTextNodeList;
+function TInlineTextProcessor.Process(aCloseLast: boolean): TMarkdownTextNodeList;
 
 var
-  c : Char;
-  lWhiteSpace : string;
+  c : TMarkdownChar;
+  lWhiteSpace : TMarkdownString;
   lHadNonWhitespace : boolean;
 
 begin
@@ -900,7 +1046,7 @@ begin
         else
           begin
           if lWhitespace.EndsWith('  ') then
-            Nodes.addText(Scanner.location,'<br />');
+            Nodes.addTextNode(Scanner.location,nkLineBreak,'');
           lWhitespace:='';
           end;
         end;
@@ -916,16 +1062,16 @@ end;
 procedure TInlineTextProcessor.HandleGFMLinkEmail(aLength : integer);
 
 var
-  lEmail : String;
+  lEmail : TMarkdownString;
   lNode : TMarkdownTextNode;
 
 begin
   lEmail:=Scanner.NextChars(aLength);
-  lNode:=Nodes.addTextNode(Scanner.location,nkUri,htmlEscape(lEmail));
+  lNode:=Nodes.addTextNode(Scanner.location,nkUri,lEmail);
   lNode.attrs.Add('href','mailto:'+urlEscape(lEmail));
 end;
 
-procedure TInlineTextProcessor.HandleGFMLinkURL(aStartChars : integer; const aProtocol : String='');
+procedure TInlineTextProcessor.HandleGFMLinkURL(aStartChars : integer; const aProtocol : TMarkdownString='');
 
 Const
   URLChars = ['a'..'z','A'..'Z','0'..'9','_','-','.'];
@@ -934,7 +1080,7 @@ Const
 var
   lRewind : boolean;
   lRemove : Integer;
-  lLink,lUrl,lText : string;
+  lLink,lUrl,lText : TMarkdownString;
   lNode : TMarkdownTextNode;
 
 begin
@@ -961,16 +1107,16 @@ begin
     end;
     if lRemove=0 then
       begin
-      lNode:=Nodes.addTextNode(Scanner.location,nkEmail,htmlEscape(lLink));
+      lNode:=Nodes.addTextNode(Scanner.location,nkEmail,lLink);
       lNode.attrs.Add('href',aProtocol+urlEscape(lLink));
       end
     else
       begin
       lUrl:=Copy(lLink,1,Length(lLink)-lRemove);
-      lNode:=Nodes.addTextNode(Scanner.location,nkURI,aProtocol+htmlEscape(lUrl));
+      lNode:=Nodes.addTextNode(Scanner.location,nkURI,aProtocol+lUrl);
       lNode.attrs.Add('href',aProtocol+urlEscape(lUrl));
       lText:=Copy(lLink,Length(lLink)-lRemove,lRemove);
-      Nodes.addTextNode(Scanner.location,nkText,htmlEscape(lText));
+      Nodes.addTextNode(Scanner.location,nkText,lText);
       end;
   finally
     if lRewind then

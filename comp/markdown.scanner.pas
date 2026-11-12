@@ -24,7 +24,7 @@ uses
 {$ELSE}
   SysUtils,
 {$ENDIF}
-  Markdown.Elements;
+  Markdown.Utils, Markdown.Elements;
 
 type
 
@@ -32,23 +32,23 @@ type
 
   TMarkdownTextScanner = class
   private
-    FText : String;
+    FText : TMarkdownString;
     FCursor : integer;
     FMark  : Integer;
     FMarkPos : TPosition;
     FPos : TPosition;
     FLineNo : integer;
     function GetEOF: boolean;
-    function GetPeek: char;
-    function GetPeekNext: char;
-    function GetPeekLast: char;
-    function GetPeekEndRun: char;
+    function GetPeek: TMarkdownChar;
+    function GetPeekNext: TMarkdownChar;
+    function GetPeekLast: TMarkdownChar;
+    function GetPeekEndRun: TMarkdownChar;
   Protected
     Property Cursor : Integer Read FCursor Write FCursor;
     Property LineNo : Integer Read FLineNo;
   public
     // Create a scanner for text, aLineNo is the line number in the markdown document.
-    constructor Create(const aText : String; aLineNo : integer);
+    constructor Create(const aText : TMarkdownString; aLineNo : integer);
     destructor Destroy; override;
     // Bookmark current position of cursor
     procedure BookMark;
@@ -56,51 +56,55 @@ type
     procedure GotoBookMark;
     // Check if there is a run (same characters) starting at current pos, and return the run.
     // If checkbefore is true, checks whether the previous character is NOT part of the run and returns empty if it is.
-    function PeekRun(checkBefore : boolean): String;
+    function PeekRun(checkBefore : boolean): TMarkdownString;
     // Peek at the aLength next characters and return them.
     // Do not modify cursor position
-    function PeekLen(aLength : integer) : String;
+    function PeekLen(aLength : integer) : TMarkdownString;
     // Peek at the next characters till one of the characters in aMatch is encountered.
     // return them. Do not modify cursor position
-    function PeekUntil(aMatch : TSysCharSet) : String;
+    function PeekUntil(aMatch : TSysCharSet) : TMarkdownString;
     // Peek at the next characters till one of the characters in aMatch is encountered.
     // return them. Do not modify cursor position
-    function PeekWhile(aMatch : TSysCharSet) : String;
+    function PeekWhile(aMatch : TSysCharSet) : TMarkdownString;
     // Look at the next character in the text. Advance cursor position.
-    function NextChar : char;
+    function NextChar : TMarkdownChar;
     // Look at the next run of characters in the text. Advance cursor position.
-    function NextEquals : String; overload;
+    function NextEquals : TMarkdownString; overload;
     // Get the next aCount characters. Advance the cursor position.
-    function NextChars(aCount : integer) : String;
+    function NextChars(aCount : integer) : TMarkdownString;
     // Check that the text has S starting at the next character position
-    function Has(const S : string) : boolean;
+    function Has(const S : TMarkdownString) : boolean;
     // Check if there is a second occurrence after an occurrence of string S at current position.
-    function FindMatchingOccurrence(const S : String) : boolean;
+    function FindMatchingOccurrence(const S : TMarkdownString) : boolean;
     // Check if there is a second occurrence after an occurrence of string S at current position, second occurrence may not be preceded by ExcludeBefore.
-    function FindMatchingOccurrence(const S : String; ExcludeBefore : char) : boolean;
+    function FindMatchingOccurrence(const S : TMarkdownString; ExcludeBefore : TMarkdownChar) : boolean;
     // Skip all whitespace, advance cursor position
     procedure SkipWhitespace;
     // Current location. Takes into account offset from aLineNo
     function Location : TPosition;
+    // Text from position aStart up to, not including, position aEnd.
+    function TextRange(aStart, aEnd : Integer) : TMarkdownString;
+    // Position of the first occurrence of aText at or after the cursor position plus aOffset, 0 if there is none.
+    function FindText(const aText : TMarkdownString; aOffset : Integer = 0) : Integer;
+    // Cursor position in the text
+    property CursorPos : Integer read FCursor;
     // Are we at the end of the text ?
     property EOF : boolean read GetEOF;
     // Character at the current cursor position. Do not modify cursor position
-    property Peek : Char read GetPeek;
+    property Peek : TMarkdownChar read GetPeek;
     // Character at the next character position. Do not modify cursor position
-    property PeekNext : Char read GetPeekNext;
+    property PeekNext : TMarkdownChar read GetPeekNext;
     // Character at the next character position. Do not modify cursor position
-    property PeekPrevious : Char read GetPeekLast;
+    property PeekPrevious : TMarkdownChar read GetPeekLast;
     // Character after the next run of characters. Do not modify cursor position
-    property PeekEndRun : Char read GetPeekEndRun;
+    property PeekEndRun : TMarkdownChar read GetPeekEndRun;
   end;
 
 implementation
 
-uses Markdown.Utils;
-
 { TMarkdownTextScanner }
 
-constructor TMarkdownTextScanner.Create(const aText: String; aLineNo: integer);
+constructor TMarkdownTextScanner.Create(const aText: TMarkdownString; aLineNo: integer);
 begin
   inherited Create;
   FText:=aText;
@@ -121,7 +125,7 @@ begin
   FPos:=FMarkPos;
 end;
 
-function TMarkdownTextScanner.FindMatchingOccurrence(const S: String): boolean;
+function TMarkdownTextScanner.FindMatchingOccurrence(const S: TMarkdownString): boolean;
 var
   i, len, LenText,lMax : integer;
 begin
@@ -139,7 +143,7 @@ begin
     end;
 end;
 
-function TMarkdownTextScanner.FindMatchingOccurrence(const S: String; ExcludeBefore: char): boolean;
+function TMarkdownTextScanner.FindMatchingOccurrence(const S: TMarkdownString; ExcludeBefore: TMarkdownChar): boolean;
 var
   i, len, lenText, lMax : integer;
 begin
@@ -170,7 +174,7 @@ begin
   Result:=FCursor>Length(FText);
 end;
 
-function TMarkdownTextScanner.GetPeek: char;
+function TMarkdownTextScanner.GetPeek: TMarkdownChar;
 begin
   if EOF then
     Result:=#0
@@ -178,10 +182,10 @@ begin
     Result:=FText[FCursor];
 end;
 
-function TMarkdownTextScanner.GetPeekEndRun: char;
+function TMarkdownTextScanner.GetPeekEndRun: TMarkdownChar;
 var
   i,Len : integer;
-  c : char;
+  c : TMarkdownChar;
 begin
   Len:=Length(FText);
   if (FCursor>=Len) then
@@ -199,7 +203,7 @@ begin
     end;
 end;
 
-function TMarkdownTextScanner.GetPeekLast: char;
+function TMarkdownTextScanner.GetPeekLast: TMarkdownChar;
 begin
   if FCursor = 1 then
     Result:=#0
@@ -207,7 +211,7 @@ begin
     Result:=FText[FCursor-1];
 end;
 
-function TMarkdownTextScanner.GetPeekNext: char;
+function TMarkdownTextScanner.GetPeekNext: TMarkdownChar;
 begin
   if FCursor >= Length(FText) then
     Result:=#0
@@ -215,10 +219,10 @@ begin
     Result:=FText[FCursor+1];
 end;
 
-function TMarkdownTextScanner.PeekRun(checkBefore: boolean): String;
+function TMarkdownTextScanner.PeekRun(checkBefore: boolean): TMarkdownString;
 var
   i,Len : integer;
-  c : char;
+  c : TMarkdownChar;
 begin
   c:=peek;
   i:=FCursor;
@@ -230,7 +234,7 @@ begin
   Result:=Copy(FText,FCursor,I-FCursor);
 end;
 
-function TMarkdownTextScanner.NextChars(aCount: integer): String;
+function TMarkdownTextScanner.NextChars(aCount: integer): TMarkdownString;
 
 var
   i,lCount : integer;
@@ -251,13 +255,13 @@ begin
     SetLength(Result,lCount);
 end;
 
-function TMarkdownTextScanner.NextEquals: String;
+function TMarkdownTextScanner.NextEquals: TMarkdownString;
 
 const
   Delta = 10;
 
 var
-  c : char;
+  c : TMarkdownChar;
   lLen,lCount : Integer;
 begin
   Result:='';
@@ -277,7 +281,7 @@ begin
   SetLength(Result,lCount);
 end;
 
-function TMarkdownTextScanner.NextChar: char;
+function TMarkdownTextScanner.NextChar: TMarkdownChar;
 
 begin
   if EOF then
@@ -296,7 +300,7 @@ begin
     end;
 end;
 
-function TMarkdownTextScanner.Has(const S: string): boolean;
+function TMarkdownTextScanner.Has(const S: TMarkdownString): boolean;
 begin
   Result:=peekLen(Length(s))=s;
 end;
@@ -313,7 +317,7 @@ begin
   FMarkPos:=FPos;
 end;
 
-function TMarkdownTextScanner.PeekUntil(aMatch : TSysCharSet) : String;
+function TMarkdownTextScanner.PeekUntil(aMatch : TSysCharSet) : TMarkdownString;
 var
   i,Len : integer;
 begin
@@ -327,7 +331,7 @@ begin
     Result:=Copy(FText,FCursor,I-FCursor);
 end;
 
-function TMarkdownTextScanner.PeekWhile(aMatch: TSysCharSet): String;
+function TMarkdownTextScanner.PeekWhile(aMatch: TSysCharSet): TMarkdownString;
 var
   i,Len : integer;
 begin
@@ -338,10 +342,24 @@ begin
   Result:=Copy(FText,FCursor,I-FCursor);
 end;
 
-function TMarkdownTextScanner.PeekLen(aLength: integer): String;
+function TMarkdownTextScanner.PeekLen(aLength: integer): TMarkdownString;
 
 begin
   Result:=Copy(FText,FCursor,aLength);
+end;
+
+
+function TMarkdownTextScanner.TextRange(aStart, aEnd: Integer): TMarkdownString;
+
+begin
+  Result:=Copy(FText,aStart,aEnd-aStart);
+end;
+
+
+function TMarkdownTextScanner.FindText(const aText: TMarkdownString; aOffset: Integer): Integer;
+
+begin
+  Result:=Pos(aText,FText,FCursor+aOffset);
 end;
 
 end.

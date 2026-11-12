@@ -40,14 +40,15 @@ type
     FLevel : integer;
     function SkipQuotes(aLine: TMarkdownLine; aLevel: Integer): Integer;
   protected
-    function IsQuotedLine(aLine: TMarkdownLine; SkipLevels: Boolean): boolean;
-    function inListOrQuote : boolean; override;
+    function IsQuotedLine(aLine: TMarkdownLine; SkipLevels: Boolean; aWhiteSpaceLen : Integer = 3): boolean;
+    function StripLinePrefix(aLine : TMarkdownLine) : Boolean; override;
+    function InListOrQuote : boolean; override;
     function IsRoot(aParent : TMarkdownContainerBlock) : Boolean;
   public
     function LineEndsBlock(aBlock: TMarkdownContainerBlock; aLine: TMarkdownLine): Boolean; override;
     function EndsList: Boolean; override;
     function HandlesLine(aParent : TMarkdownContainerBlock; aLine: TMarkdownLine): boolean; override;
-    function processLine(aParent : TMarkdownContainerBlock; aLine : TMarkdownLine; aContext : TMarkdownBlockProcessingContext) : Boolean; override;
+    function ProcessLine(aParent : TMarkdownContainerBlock; aLine : TMarkdownLine; aContext : TMarkdownBlockProcessingContext) : Boolean; override;
   end;
 
   { TMarkdownListProcessor }
@@ -58,24 +59,39 @@ type
     FEmptyLine : integer;
     FLastList : TMarkdownListBlock;
     FLastItem : TMarkdownListItemBlock;
+    FOuter : TMarkdownBlockProcessor;
   protected
-    function inListOrQuote : boolean; override;
+    function InListOrQuote : boolean; override;
     function Root : Boolean;
     function LastList : TMarkdownListBlock;
+    // Set the processor enclosing the outermost list, returns the previous one.
+    function EnterList : TMarkdownBlockProcessor;
+    // Strip the prefix of the processor enclosing the outermost list from aLine.
+    function StripOuter(aLine : TMarkdownLine) : Boolean;
+    // Length of the prefix of the processor enclosing the outermost list in aLine.
+    function OuterPrefixLength(aLine : TMarkdownLine) : Integer;
+    // Does a line that is not inside the enclosing block end aBlock ?
+    function OutsideLineEndsBlock(aBlock : TMarkdownContainerBlock; aLine : TMarkdownLine) : Boolean;
+    // Is the next line an item of aList ? If so, it becomes the current line.
+    function NextItemLine(aList : TMarkdownListBlock; out aLine : TMarkdownLine) : Boolean;
+    function IsItemInList(aList : TMarkdownListBlock; aLine : TMarkdownLine) : Boolean; virtual; abstract;
+    // Column at which the content of an item starts, for a line positioned just after the marker.
+    class function ContentIndent(aLine : TMarkdownLine) : Integer;
   public
-    function prepareline(aLine : TMarkdownLine; aContext : TMarkdownBlockProcessingContext) : boolean;
+    function PrepareLine(aLine : TMarkdownLine; aContext : TMarkdownBlockProcessingContext) : boolean;
   end;
 
   { TUListProcessor }
 
   TUListProcessor = class (TMarkdownListProcessor)
   private
-    function HasMarker(aLine: TMarkdownLine; out aIndent: Integer; out aMarker: String): boolean;
-    function IsItemInList(aList: TMarkdownListBlock; aLine: TMarkdownLine): boolean;
+    function HasMarker(aLine: TMarkdownLine; out aIndent: Integer; out aMarker: TMarkdownString): boolean;
+  protected
+    function IsItemInList(aList: TMarkdownListBlock; aLine: TMarkdownLine): boolean; override;
   public
     function LineEndsBlock(aBlock: TMarkdownContainerBlock; aLine: TMarkdownLine): Boolean; override;
     function HandlesLine(aParent : TMarkdownContainerBlock; aLine: TMarkdownLine): boolean; override;
-    function processLine(aParent : TMarkdownContainerBlock; aLine : TMarkdownLine; aContext : TMarkdownBlockProcessingContext) : boolean; override;
+    function ProcessLine(aParent : TMarkdownContainerBlock; aLine : TMarkdownLine; aContext : TMarkdownBlockProcessingContext) : boolean; override;
   end;
 
   { TOListProcessor }
@@ -83,19 +99,20 @@ type
   TOListProcessor = class (TMarkdownListProcessor)
   private
     FStart : Integer;
-    function HasMarker(aLine: TMarkdownLine; out aIndent: integer; out aMarker: String; out aValue: Integer): boolean;
-    function IsItemInList(aList: TMarkdownListBlock; aLine: TMarkdownLine): boolean;
+    function HasMarker(aLine: TMarkdownLine; out aIndent: integer; out aMarker: TMarkdownString; out aValue: Integer): boolean;
+  protected
+    function IsItemInList(aList: TMarkdownListBlock; aLine: TMarkdownLine): boolean; override;
   Public
     function LineEndsBlock(aBlock: TMarkdownContainerBlock; aLine: TMarkdownLine): Boolean; override;
     function HandlesLine(aParent : TMarkdownContainerBlock; aLine: TMarkdownLine): boolean; override;
-    function processLine(aParent : TMarkdownContainerBlock; aLine : TMarkdownLine; aContext : TMarkdownBlockProcessingContext) : boolean; override;
+    function ProcessLine(aParent : TMarkdownContainerBlock; aLine : TMarkdownLine; aContext : TMarkdownBlockProcessingContext) : boolean; override;
   end;
 
   { TSeTextHeaderProcessor }
 
   TSeTextHeaderProcessor = class(TMarkdownBlockProcessor)
     function HandlesLine(aParent : TMarkdownContainerBlock; aLine: TMarkdownLine): boolean; override;
-    function processLine(aParent : TMarkdownContainerBlock; aLine : TMarkdownLine; aContext : TMarkdownBlockProcessingContext) : boolean; override;
+    function ProcessLine(aParent : TMarkdownContainerBlock; aLine : TMarkdownLine; aContext : TMarkdownBlockProcessingContext) : boolean; override;
   end;
 
   { TThematicBreakProcessor }
@@ -103,7 +120,7 @@ type
   TThematicBreakProcessor = class(TMarkdownBlockProcessor)
     function EndsList: Boolean; override;
     function HandlesLine(aParent : TMarkdownContainerBlock; aLine: TMarkdownLine): boolean; override;
-    function processLine(aParent : TMarkdownContainerBlock; aLine : TMarkdownLine; aContext : TMarkdownBlockProcessingContext) : Boolean; override;
+    function ProcessLine(aParent : TMarkdownContainerBlock; aLine : TMarkdownLine; aContext : TMarkdownBlockProcessingContext) : Boolean; override;
   end;
 
 
@@ -114,7 +131,7 @@ type
     procedure ProcessCodeBlock(C: TMarkdownCodeBlock; aLine: TMarkdownLine);
   public
     function HandlesLine(aParent : TMarkdownContainerBlock; aLine: TMarkdownLine): boolean; override;
-    function processLine(aParent : TMarkdownContainerBlock; aLine : TMarkdownLine; aContext : TMarkdownBlockProcessingContext) : Boolean; override;
+    function ProcessLine(aParent : TMarkdownContainerBlock; aLine : TMarkdownLine; aContext : TMarkdownBlockProcessingContext) : Boolean; override;
   end;
 
   { TFencedCodeBlockProcessor }
@@ -122,13 +139,14 @@ type
   TFencedCodeBlockProcessor = class (TMarkdownBlockProcessor)
   Private
     FIndent : Integer;
-    FLang : String;
-    FTerminal: string;
+    FLang : TMarkdownString;
+    FTerminal: TMarkdownString;
+    FAttributeSpec : TMarkdownString;
   Public
     function LineEndsBlock(aBlock: TMarkdownContainerBlock; aLine: TMarkdownLine): Boolean; override;
     function EndsList: Boolean; override;
     function HandlesLine(aParent : TMarkdownContainerBlock; aLine: TMarkdownLine): boolean; override;
-    function processLine(aParent : TMarkdownContainerBlock; aLine : TMarkdownLine; aContext : TMarkdownBlockProcessingContext) : Boolean; override;
+    function ProcessLine(aParent : TMarkdownContainerBlock; aLine : TMarkdownLine; aContext : TMarkdownBlockProcessingContext) : Boolean; override;
   end;
 
   { TMarkdownHeadingProcessor }
@@ -137,7 +155,7 @@ type
     FLen : Integer;
     function EndsList: Boolean; override;
     function HandlesLine(aParent : TMarkdownContainerBlock; aLine: TMarkdownLine): boolean; override;
-    function processLine(aParent : TMarkdownContainerBlock; aLine : TMarkdownLine; aContext : TMarkdownBlockProcessingContext) : Boolean; override;
+    function ProcessLine(aParent : TMarkdownContainerBlock; aLine : TMarkdownLine; aContext : TMarkdownBlockProcessingContext) : Boolean; override;
   end;
 
   { TTableProcessor }
@@ -154,7 +172,7 @@ type
     class var
       DefaultStrict : Boolean;
     function HandlesLine(aParent : TMarkdownContainerBlock; aLine: TMarkdownLine): boolean; override;
-    function processLine(aParent : TMarkdownContainerBlock; aLine : TMarkdownLine; aContext : TMarkdownBlockProcessingContext) : Boolean; override;
+    function ProcessLine(aParent : TMarkdownContainerBlock; aLine : TMarkdownLine; aContext : TMarkdownBlockProcessingContext) : Boolean; override;
   end;
 
   { TFrontmatterProcessor }
@@ -162,22 +180,120 @@ type
   TFrontmatterProcessor = class(TMarkdownBlockProcessor)
   private
     FFrontMatterType: TFrontMatterType;
-    FTerminal: String;
+    FTerminal: TMarkdownString;
   public
     class var lenient: Boolean;
     function HandlesLine(aParent : TMarkdownContainerBlock; aLine: TMarkdownLine): boolean; override;
-    function processLine(aParent : TMarkdownContainerBlock; aLine : TMarkdownLine; aContext : TMarkdownBlockProcessingContext) : Boolean; override;
+    function ProcessLine(aParent : TMarkdownContainerBlock; aLine : TMarkdownLine; aContext : TMarkdownBlockProcessingContext) : Boolean; override;
   end;
 
   { TParagraphProcessor }
 
   TParagraphProcessor = class(TMarkdownBlockProcessor)
   public
-    function processLine(aParent : TMarkdownContainerBlock; aLine : TMarkdownLine; aContext : TMarkdownBlockProcessingContext) : Boolean; override;
+    function ProcessLine(aParent : TMarkdownContainerBlock; aLine : TMarkdownLine; aContext : TMarkdownBlockProcessingContext) : Boolean; override;
     function HandlesLine(aParent : TMarkdownContainerBlock; aLine: TMarkdownLine): boolean; override;
   end;
 
+  { TCommentBlockProcessor }
+
+  TCommentBlockProcessor = class(TMarkdownBlockProcessor)
+  public
+    function HandlesLine(aParent : TMarkdownContainerBlock; aLine: TMarkdownLine): boolean; override;
+    function ProcessLine(aParent : TMarkdownContainerBlock; aLine : TMarkdownLine; aContext : TMarkdownBlockProcessingContext) : Boolean; override;
+  end;
+
+  { TIndentedContainerProcessor }
+
+  // Base for blocks whose continuation lines are indented to a content column, as in list items.
+  TIndentedContainerProcessor = class(TMarkdownBlockProcessor)
+  private
+    type
+      TContainerContext = record
+        Block : TMarkdownContainerBlock;
+        Outer : TMarkdownBlockProcessor;
+      end;
+    var
+      FContexts : array of TContainerContext;
+      FContextCount : Integer;
+      FEndedAfterBlank : Boolean;
+    function ContextIndex(aBlock : TMarkdownBlock) : Integer;
+    function StripOuter(aIndex : Integer; aLine : TMarkdownLine) : Boolean;
+    function StripContext(aIndex : Integer; aLine : TMarkdownLine) : Boolean;
+  protected
+    // Did the last container end at a line that follows a blank line ?
+    property EndedAfterBlank : Boolean read FEndedAfterBlank;
+    // Parse the lines of aBlock, starting with the current line.
+    procedure ParseContainer(aBlock : TMarkdownContainerBlock);
+    function StripLinePrefix(aLine : TMarkdownLine) : Boolean; override;
+    // Does aLine start a new block of this kind ? Such a line is never a lazy continuation.
+    function IsContainerStart(aLine : TMarkdownLine) : Boolean; virtual; abstract;
+  public
+    function LineEndsBlock(aBlock: TMarkdownContainerBlock; aLine: TMarkdownLine): Boolean; override;
+  end;
+
+  { TDefinitionListProcessor }
+
+  TDefinitionListProcessor = class(TIndentedContainerProcessor)
+  private
+    function GetTermParagraph(aParent : TMarkdownContainerBlock; aLine : TMarkdownLine) : TMarkdownParagraphBlock;
+  protected
+    // Is aLine a definition line ? aIndent receives the content column.
+    class function IsDefinitionLine(aLine : TMarkdownLine; aMaxIndent : Integer; out aIndent : Integer) : Boolean;
+    function IsContainerStart(aLine : TMarkdownLine) : Boolean; override;
+  public
+    function HandlesLine(aParent : TMarkdownContainerBlock; aLine: TMarkdownLine): boolean; override;
+    function ProcessLine(aParent : TMarkdownContainerBlock; aLine : TMarkdownLine; aContext : TMarkdownBlockProcessingContext) : Boolean; override;
+  end;
+
+  { TFootnoteDefinitionProcessor }
+
+  TFootnoteDefinitionProcessor = class(TIndentedContainerProcessor)
+  protected
+    // Is aLine a footnote definition line ? aLabel receives the label, aLength the length of the [^label]: prefix.
+    class function IsFootnoteLine(aLine : TMarkdownLine; aMaxIndent : Integer; out aLabel : TMarkdownString; out aLength : Integer) : Boolean;
+    function IsContainerStart(aLine : TMarkdownLine) : Boolean; override;
+  public
+    function HandlesLine(aParent : TMarkdownContainerBlock; aLine: TMarkdownLine): boolean; override;
+    function ProcessLine(aParent : TMarkdownContainerBlock; aLine : TMarkdownLine; aContext : TMarkdownBlockProcessingContext) : Boolean; override;
+  end;
+
+  { TLinkReferenceProcessor }
+
+  TLinkReferenceProcessor = class(TMarkdownBlockProcessor)
+  protected
+    // Parse a link reference definition [label]: destination "title".
+    class function ParseDefinition(const aText : TMarkdownString; out aLabel, aURL, aTitle : TMarkdownString) : Boolean;
+  public
+    function HandlesLine(aParent : TMarkdownContainerBlock; aLine: TMarkdownLine): boolean; override;
+    function ProcessLine(aParent : TMarkdownContainerBlock; aLine : TMarkdownLine; aContext : TMarkdownBlockProcessingContext) : Boolean; override;
+  end;
+
 implementation
+
+uses
+  Markdown.Transforms;
+
+// Indentation at which a line is indented code instead of the start of a new block.
+// Inside an indented container this is 4 columns past the indentation of its content.
+function MaxBlockIndent(aParent : TMarkdownBlock) : Integer;
+
+var
+  lBlock : TMarkdownBlock;
+  lIndent : Integer;
+
+begin
+  Result:=4;
+  lBlock:=aParent;
+  While Assigned(lBlock) do
+    begin
+    lIndent:=lBlock.ContentIndentation;
+    if lIndent>0 then
+      Exit(Result+lIndent);
+    lBlock:=lBlock.Parent;
+    end;
+end;
+
 
 { ---------------------------------------------------------------------
   TMarkdownQuoteProcessor
@@ -187,7 +303,6 @@ function TMarkdownQuoteProcessor.LineEndsBlock(aBlock: TMarkdownContainerBlock; 
 
 var
   len : integer;
-  Inquote : Boolean;
 
 begin
   Result:=(aLine=Nil);
@@ -200,14 +315,12 @@ begin
   Len:=SkipQuotes(aLine,FLevel);
   if Len=0 then
     Exit(False);
-  inQuote:=(Len=FLevel);
-  //  InQuote:=StartsWithWhiteSpace(aLine.Remainder,'>',len);
   // Not enough markers -> check continuation.
   // end of block if:
   // - empty line
   // - starts a new kind of block
   // - It is not plain text (laziness rule)
-  if aLine.isWhitespace and not InQuote then // empty line
+  if aLine.isWhitespace then // empty line
     Result:=True
   else if IsBlock(aBlock, aBlock.Blocks, aLine.Remainder) then // New kind of block
     Result:=True
@@ -218,6 +331,8 @@ begin
     Result:=False;
     Parser.Lazy:=true;
     end;
+  if Result then
+    aLine.Rewind;
 end;
 
 function TMarkdownQuoteProcessor.SkipQuotes(aLine : TMarkdownLine; aLevel : Integer) : integer;
@@ -238,7 +353,7 @@ begin
   Result:=lLevel;
 end;
 
-function TMarkdownQuoteProcessor.IsQuotedLine(aLine: TMarkdownLine; SkipLevels : Boolean): boolean;
+function TMarkdownQuoteProcessor.IsQuotedLine(aLine: TMarkdownLine; SkipLevels : Boolean; aWhiteSpaceLen : Integer = 3): boolean;
 
 var
   len : integer;
@@ -246,12 +361,19 @@ var
 begin
   if SkipLevels and (FLevel>0) then
     SkipQuotes(aLine,FLevel);
-  Result:=StartsWithWhiteSpace(aLine.Remainder,'>',len);
+  Result:=StartsWithWhiteSpace(aLine.Remainder,'>',len,aWhiteSpaceLen);
   if not Result then
     exit;
   aLine.advance(len+1);
   if not aLine.isEmpty and isWhitespaceChar(aLine.Remainder[1]) then
     aLine.advance(1);
+end;
+
+
+function TMarkdownQuoteProcessor.StripLinePrefix(aLine: TMarkdownLine): Boolean;
+
+begin
+  Result:=SkipQuotes(aLine,FLevel)=0;
 end;
 
 
@@ -262,12 +384,18 @@ end;
 
 function TMarkdownQuoteProcessor.HandlesLine(aParent: TMarkdownContainerBlock; aLine: TMarkdownLine): boolean;
 
+var
+  lPos : Integer;
+
 begin
-  Result:=IsQuotedLine(aLine,False);
+  lPos:=aLine.CursorPos;
+  // An enclosing block may indent the marker past the three columns allowed at top level.
+  Result:=IsQuotedLine(aLine,False,MaxBlockIndent(aParent)-1);
+  aLine.CursorPos:=lPos;
 end;
 
 
-function TMarkdownQuoteProcessor.inListOrQuote: boolean;
+function TMarkdownQuoteProcessor.InListOrQuote: boolean;
 begin
   Result:=true;
 end;
@@ -289,13 +417,14 @@ begin
     end;
 end;
 
-function TMarkdownQuoteProcessor.processLine(aParent: TMarkdownContainerBlock; aLine: TMarkdownLine; aContext: TMarkdownBlockProcessingContext): Boolean;
+function TMarkdownQuoteProcessor.ProcessLine(aParent: TMarkdownContainerBlock; aLine: TMarkdownLine; aContext: TMarkdownBlockProcessingContext): Boolean;
 
 var
   oldLevel : Integer;
   lBlock : TMarkdownQuoteBlock;
 
 begin
+  IsQuotedLine(aLine,False,MaxBlockIndent(aParent)-1);
   oldLevel:=Flevel;
   inc(FLevel);
   lBlock:=TMarkdownQuoteBlock.Create(aParent,aLine.LineNo);
@@ -309,7 +438,7 @@ end;
   TMarkdownListProcessor
   ---------------------------------------------------------------------}
 
-function TMarkdownListProcessor.inListOrQuote: boolean;
+function TMarkdownListProcessor.InListOrQuote: boolean;
 begin
   Result:=true;
 end;
@@ -325,7 +454,89 @@ begin
 end;
 
 
-function TMarkdownListProcessor.prepareLine(aLine: TMarkdownLine; aContext : TMarkdownBlockProcessingContext): boolean;
+function TMarkdownListProcessor.EnterList: TMarkdownBlockProcessor;
+
+begin
+  Result:=FOuter;
+  if ParentProcessor is TMarkdownListProcessor then
+    FOuter:=TMarkdownListProcessor(ParentProcessor).FOuter
+  else
+    FOuter:=ParentProcessor;
+end;
+
+
+function TMarkdownListProcessor.StripOuter(aLine: TMarkdownLine): Boolean;
+
+begin
+  Result:=True;
+  if Assigned(FOuter) then
+    Result:=FOuter.StripLinePrefix(aLine);
+end;
+
+
+function TMarkdownListProcessor.OuterPrefixLength(aLine: TMarkdownLine): Integer;
+
+var
+  lPos : Integer;
+
+begin
+  lPos:=aLine.CursorPos;
+  aLine.Reset;
+  StripOuter(aLine);
+  Result:=aLine.CursorPos-1;
+  aLine.CursorPos:=lPos;
+end;
+
+
+function TMarkdownListProcessor.OutsideLineEndsBlock(aBlock: TMarkdownContainerBlock; aLine: TMarkdownLine): Boolean;
+
+begin
+  Result:=aLine.isWhitespace
+          or (Assigned(CurrentLine) and CurrentLine.isWhitespace)
+          or not TMarkdownParser.InPara(aBlock.Blocks,False)
+          or IsBlock(aBlock,aBlock.Blocks,aLine.Remainder);
+  if not Result then
+    Parser.Lazy:=True;
+end;
+
+
+function TMarkdownListProcessor.NextItemLine(aList: TMarkdownListBlock; out aLine: TMarkdownLine): Boolean;
+
+var
+  lPos : Integer;
+
+begin
+  aLine:=PeekLine;
+  Result:=Assigned(aLine);
+  if not Result then
+    Exit;
+  lPos:=aLine.CursorPos;
+  Result:=StripOuter(aLine) and IsItemInList(aList,aLine);
+  if Result then
+    aLine:=NextLine
+  else
+    aLine.CursorPos:=lPos;
+end;
+
+
+class function TMarkdownListProcessor.ContentIndent(aLine: TMarkdownLine): Integer;
+
+var
+  lWhiteSpace : Integer;
+
+begin
+  // The cursor is 1 based and sits just after the marker and one space.
+  Result:=aLine.CursorPos-1;
+  if aLine.isWhitespace then
+    Exit;
+  lWhiteSpace:=aLine.LeadingWhitespace;
+  // Five or more spaces after the marker start an indented code block in the item.
+  if lWhiteSpace<4 then
+    Inc(Result,lWhiteSpace);
+end;
+
+
+function TMarkdownListProcessor.PrepareLine(aLine: TMarkdownLine; aContext : TMarkdownBlockProcessingContext): boolean;
 
 var
   lWhiteSpace, lCurrLineNo,lLastIndent,len : integer;
@@ -382,11 +593,11 @@ end;
 
 function TMarkdownHeadingProcessor.HandlesLine(aParent: TMarkdownContainerBlock; aLine: TMarkdownLine): boolean;
 var
-  ls : string;
+  ls : TMarkdownString;
   lLen,lCount : integer;
 begin
   FLen:=0;
-  if aLine.LeadingWhitespace >= 4 then
+  if aLine.LeadingWhitespace >= MaxBlockIndent(aParent) then
     Exit(false);
   ls:=Trim(aLine.Remainder);
   lLen:=Length(ls);
@@ -397,18 +608,25 @@ begin
 end;
 
 
-function TMarkdownHeadingProcessor.processLine(aParent: TMarkdownContainerBlock; aLine: TMarkdownLine; aContext: TMarkdownBlockProcessingContext): Boolean;
+function TMarkdownHeadingProcessor.ProcessLine(aParent: TMarkdownContainerBlock; aLine: TMarkdownLine; aContext: TMarkdownBlockProcessingContext): Boolean;
 
 var
   lBlock : TMarkdownHeadingBlock;
   lLen : integer;
-  s : String;
+  s : TMarkdownString;
 
 begin
   lBlock:=TMarkdownHeadingBlock.Create(aParent,aLine.LineNo,Flen);
-  aLine.Advance(Flen);
+  // The markers start after the indentation, which may come from an enclosing block.
+  aLine.Advance(aLine.LeadingWhitespace+Flen);
   aLine.SkipWhiteSpace;
   s:=Trim(aLine.Remainder);
+  if mdoAttributes in Parser.Options then
+    begin
+    lBlock.ApplyAttributes(ExtractTrailingAttributeSpec(s));
+    if lBlock.ID<>'' then
+      Parser.RegisterAnchor(lBlock.ID,lBlock,aLine.LineNo);
+    end;
   if not isWhitespace(s) then
     begin
     lLen:=length(s);
@@ -432,11 +650,20 @@ var
   lBlock : TMarkdownContainerBlock;
   lList : TMarkdownListBlock absolute lBlock;
   lProc : TMarkdownBlockProcessor;
+  lStart : Integer;
 begin
   lBlock:=aBlock;
   Result:=aBlock.line<>aLine.LineNo;
   if Not Result then
     Exit;
+  lStart:=aLine.CursorPos;
+  if not StripOuter(aLine) then
+    begin
+    Result:=OutsideLineEndsBlock(aBlock,aLine);
+    if Result then
+      aLine.CursorPos:=lStart;
+    Exit;
+    end;
   if (lBlock is TMarkdownListItemBlock) and (lBlock.Parent is TMarkdownListBlock) then
      lBlock:=lBlock.Parent as TMarkdownListBlock;
   if (lBlock is TMarkdownListBlock) then
@@ -444,10 +671,11 @@ begin
       begin
 //      aLine.Advance(lList.LastIndent);
       Result:=False;
-      { A non-indented block that "interrupts" a list (CommonMark) ends it.
-        Without this, e.g. a heading at column 0 following a top-level list
-        would be parsed as a child of the last list item. }
       if aLine.LeadingWhitespace <= lList.BaseIndent then
+        begin
+        { A non-indented block that "interrupts" a list (CommonMark) ends it.
+          Without this, e.g. a heading at column 0 following a top-level list
+          would be parsed as a child of the last list item. }
         for lProc in Parser.Processors do
           if (lProc.ClassType <> ClassType)
              and lProc.EndsList
@@ -456,12 +684,21 @@ begin
             Result:=True;
             Break;
             end;
+        { A non-indented, non-blank line after a blank line that is not a marker
+          of this list is a new top-level block, not a lazy continuation. }
+        if (not Result) and (not aLine.isWhitespace)
+           and Assigned(CurrentLine) and CurrentLine.isWhitespace
+           and (not IsItemInList(lList,aLine)) then
+          Result:=True;
+        end;
       end;
+  if Result then
+    aLine.CursorPos:=lStart;
 end;
 
-function TUListProcessor.HasMarker(aLine: TMarkdownLine; Out aIndent : Integer; out aMarker : String): boolean;
+function TUListProcessor.HasMarker(aLine: TMarkdownLine; Out aIndent : Integer; out aMarker : TMarkdownString): boolean;
 var
-  lMarker : string;
+  lMarker : TMarkdownString;
   lIndent : Integer;
 
 begin
@@ -474,7 +711,7 @@ begin
     Exit;
   if not CharInSet(lMarker[1],['+','-','*']) then
     Exit;
-  if (lMarker[2]<>' ') then
+  if (Length(lMarker)<2) or not CharInSet(lMarker[2],[' ',#9]) then
     exit;
   aMarker:=lMarker[1];
   aIndent:=lIndent;
@@ -484,7 +721,7 @@ end;
 function TUListProcessor.HandlesLine(aParent: TMarkdownContainerBlock; aLine: TMarkdownLine): boolean;
 
 var
-  lMarker : string;
+  lMarker : TMarkdownString;
   lIndent : integer;
 begin
   Result:=HasMarker(aLine,lIndent,lMarker);
@@ -494,31 +731,44 @@ function TUListProcessor.IsItemInList(aList : TMarkdownListBlock; aLine : TMarkd
 
 var
   len : integer;
+  lLine : TMarkdownString;
 
 begin
   Result:=Assigned(aLine);
   if Not Result then
     exit;
-  Result:=StartsWithWhitespace(aLine.line,aList.marker[1],len,aList.baseIndent);
+  lLine:=aLine.Remainder;
+  Result:=StartsWithWhitespace(lLine,aList.marker[1],len,aList.baseIndent);
   if Result then
     Result := (len >= aList.baseIndent);
+  if not Result then
+    exit;
+  // The marker is followed by whitespace, and the line is not a thematic break
+  Result:=(Length(lLine)=len+1) or (lLine[len+2] in [' ',#9]);
+  if Result then
+    begin
+    lLine:=StripWhitespace(lLine);
+    Result:=not ((CountStartChars(lLine,lLine[1])>2) and IsStringOfChar(lLine));
+    end;
 end;
 
-function TUListProcessor.processLine(aParent: TMarkdownContainerBlock; aLine: TMarkdownLine; aContext: TMarkdownBlockProcessingContext): boolean;
+function TUListProcessor.ProcessLine(aParent: TMarkdownContainerBlock; aLine: TMarkdownLine; aContext: TMarkdownBlockProcessingContext): boolean;
 
 var
   lOldLastList, lList : TMarkdownListBlock;
   lOldLastItem, lItem : TMarkdownListItemBlock;
-  lRemain,lMarker : string;
-  lIndent : Integer;
+  lOldOuter : TMarkdownBlockProcessor;
+  lRemain,lMarker : TMarkdownString;
+  lIndent,lContentIndent : Integer;
   lNewItem : Boolean;
 
 begin
   Result:=False;
   lRemain:=aLine.Remainder;
   if not HasMarker(aLine,lIndent,lMarker) then exit;
-
+  lOldOuter:=EnterList;
   aLine.Advance(Pos(lMarker,aLine.Remainder)+1);
+  lContentIndent:=ContentIndent(aLine)-OuterPrefixLength(aLine);
   lRemain:=aLine.Remainder;
   lOldLastList:=FLastList;
   lOldLastItem:=FLastItem;
@@ -533,6 +783,7 @@ begin
     lList.Marker:=lMarker;
     FLastList:=lList;
     end;
+  lList.ContentIndent:=lContentIndent;
   // While we have a list item part of this list block, add an item and parse it.
   repeat
     lItem:=TMarkdownListItemBlock.Create(lList,aLine.LineNo);
@@ -540,19 +791,13 @@ begin
     PrepareLine(aLine,bpGeneral);
     RedoLine(False);
     Parse(lItem,Self);
-    lNewItem:=Not Done;
-    if lNewItem then
-      begin
-      aLine:=PeekLine;
-      // Check if next line is a list item at the SAME level
-      lNewItem:=IsItemInList(lList,aLine);
-      if lnewItem then
-        aLine:=NextLine;
-      end;
+    // Check if next line is a list item at the SAME level
+    lNewItem:=(Not Done) and NextItemLine(lList,aLine);
     lItem.Closed:=true;
   until not lNewItem;
   FLastItem:=lOldLastItem;
   FLastList:=lOldLastList;
+  FOuter:=lOldOuter;
   Result:=True;
 end;
 
@@ -561,10 +806,10 @@ end;
   TOListProcessor
   ---------------------------------------------------------------------}
 
-function TOListProcessor.HasMarker(aLine: TMarkdownLine; out aIndent : integer; out aMarker : String; out aValue : Integer): boolean;
+function TOListProcessor.HasMarker(aLine: TMarkdownLine; out aIndent : integer; out aMarker : TMarkdownString; out aValue : Integer): boolean;
 var
   lValueLen,lIndent : integer;
-  lLine,lValue,lMarker : string;
+  lLine,lValue,lMarker : TMarkdownString;
 
 begin
   Result:=False;
@@ -579,9 +824,11 @@ begin
   if not CharInSet(LMarker[1], ['.', ')']) then
     Exit;
   Delete(lLine,1,lValueLen+1);
+  if not CharInSet(lLine[1],[' ',#9]) then
+    Exit;
   if isWhitespace(lLine) then
     Exit;
-  aValue:=StrToIntDef(lValue,1);
+  aValue:=MarkdownToIntDef(lValue,1);
   aIndent:=lIndent;
   aMarker:=lMarker;
   Result:=True;
@@ -591,7 +838,7 @@ function TOListProcessor.HandlesLine(aParent: TMarkdownContainerBlock; aLine: TM
 
 var
   lIndent,lStart : integer;
-  lMarker : String;
+  lMarker : TMarkdownString;
 begin
   Result:=HasMarker(aLine,lIndent,lMarker,lStart);
 end;
@@ -600,25 +847,25 @@ function TOListProcessor.IsItemInList(aList : TMarkdownListBlock; aLine : TMarkd
 
 var
   len : integer;
-  lLine : string;
+  lLine : TMarkdownString;
 
 begin
   Result:=Assigned(aLine);
   if Not Result then
     exit;
-  Result:=StartsWithWhitespace(aLine.Line,['0'..'9'],len,aList.baseIndent);
+  Result:=StartsWithWhitespace(aLine.Remainder,['0'..'9'],len,aList.baseIndent);
   if Not Result then
     exit;
   // Ensure indentation is exactly at the expected level for this list
   if len = aList.baseIndent then
     begin
-    lLine:=aLine.Line;
+    lLine:=aLine.Remainder;
     if Len>0 then
       Delete(lLine,1,Len);
     lLine:=CopySkipped(lLine,['0'..'9']);
     Result:=(lLine<>'') and (aList.marker=lLine[1]);
     if Result then
-      Result:=(Length(lLine)>1) and (lLine[2]=' ');
+      Result:=(Length(lLine)>1) and CharInSet(lLine[2],[' ',#9]);
     end
   else
     Result:=False;
@@ -628,37 +875,77 @@ function TOListProcessor.LineEndsBlock(aBlock: TMarkdownContainerBlock; aLine: T
 var
   lBlock : TMarkdownContainerBlock;
   lList : TMarkdownListBlock absolute lBlock;
+  lProc : TMarkdownBlockProcessor;
+  lStart : Integer;
 
 begin
   lBlock:=aBlock;
   Result:=aBlock.line<>aLine.LineNo;
   if Not Result then
     Exit;
+  lStart:=aLine.CursorPos;
+  if not StripOuter(aLine) then
+    begin
+    Result:=OutsideLineEndsBlock(aBlock,aLine);
+    if Result then
+      aLine.CursorPos:=lStart;
+    Exit;
+    end;
   if (lBlock is TMarkdownListItemBlock) and (lBlock.Parent is TMarkdownListBlock) then
      lBlock:=lBlock.Parent as TMarkdownListBlock;
   if not (lBlock is TMarkdownListBlock) then
+    begin
+    aLine.CursorPos:=lStart;
     Exit;
+    end;
   // Check if we're still in the parent list
   if aLine.LeadingWhitespace>=lList.baseIndent then
     begin
-    aLine.Advance(lList.LastIndent);
-    Result:=False
+    Result:=False;
+    if aLine.LeadingWhitespace <= lList.BaseIndent then
+      begin
+      { A non-indented block that "interrupts" a list (CommonMark) ends it.
+        Without this, e.g. a heading at column 0 following a top-level ordered
+        list would be parsed as a child of the last list item (the same fix as
+        in TUListProcessor.LineEndsBlock). }
+      for lProc in Parser.Processors do
+        if (lProc.ClassType <> ClassType)
+           and lProc.EndsList
+           and lProc.HandlesLine(aBlock, aLine) then
+          begin
+          Result:=True;
+          Break;
+          end;
+      { A non-indented, non-blank line after a blank line that is not a marker
+        of this list is a new top-level block, not a lazy continuation. }
+      if (not Result) and (not aLine.isWhitespace)
+         and Assigned(CurrentLine) and CurrentLine.isWhitespace
+         and (not IsItemInList(lList,aLine)) then
+        Result:=True;
+      end;
+    if not Result then
+      aLine.Advance(lList.LastIndent);
     end;
+  if Result then
+    aLine.CursorPos:=lStart;
 end;
 
 
-function TOListProcessor.processLine(aParent: TMarkdownContainerBlock; aLine: TMarkdownLine; aContext: TMarkdownBlockProcessingContext): boolean;
+function TOListProcessor.ProcessLine(aParent: TMarkdownContainerBlock; aLine: TMarkdownLine; aContext: TMarkdownBlockProcessingContext): boolean;
 var
   lOldLastList, lList : TMarkdownListBlock;
   lOldLastItem, lItem : TMarkdownListItemBlock;
+  lOldOuter : TMarkdownBlockProcessor;
   lNewItem : Boolean;
-  lMarker : String;
-  lStart,lIndent : Integer;
+  lMarker : TMarkdownString;
+  lStart,lIndent,lContentIndent : Integer;
 begin
   Result:=False;
   if not HasMarker(aLine,lIndent,lMarker,lStart) then
     exit;
+  lOldOuter:=EnterList;
   aLine.Advance(Pos(lMarker,aLine.Remainder)+1);
+  lContentIndent:=ContentIndent(aLine)-OuterPrefixLength(aLine);
   lOldLastList:=FLastList;
   if inList(aParent, true, lMarker, lindent, 2, lList) then
     begin
@@ -672,9 +959,11 @@ begin
     lList.baseIndent:=lindent;
     lList.lastIndent:=lIndent;
     lList.marker:=lMarker;
-    lList.Start:=FStart;
+    lList.Start:=lStart;
     FLastList:=lList;
     end;
+  // Continuation lines of an ordered item arrive with LastIndent already removed.
+  lList.ContentIndent:=lContentIndent-lIndent;
   // While we have a line that part of this list block, add an item and parse it.
   repeat
     lItem:=TMarkdownListItemBlock.Create(lList,aLine.LineNo);
@@ -683,18 +972,12 @@ begin
     PrepareLine(aLine,bpGeneral);
     RedoLine(False);
     Parse(lItem,Self);
-    lNewItem:=Not Done;
-    if lNewItem then
-      begin
-      aLine:=PeekLine;
-      // Check if next line is a list item at the SAME level
-      lNewItem:=IsItemInList(lList,aLine);
-      if lNewItem then
-        aLine:=NextLine;
-      end;
+    // Check if next line is a list item at the SAME level
+    lNewItem:=(Not Done) and NextItemLine(lList,aLine);
   until not lNewItem;
   FLastItem:=lOldLastItem;
   FLastList:=lOldLastList;
+  FOuter:=lOldOuter;
   Result:=True;
 end;
 
@@ -710,7 +993,7 @@ var
 begin
   Result:=False;
   Indent:=aLine.LeadingWhitespace;
-  if Indent < 4 then
+  if Indent < MaxBlockIndent(aParent) then
     Exit;
   if aLine.isWhitespace then
     Exit;
@@ -722,7 +1005,7 @@ end;
 procedure TCodeBlockProcessor.ProcessCodeBlock(C: TMarkdownCodeBlock; aLine: TMarkdownLine);
 
 var
-  S : String;
+  S : TMarkdownString;
   lContinue : boolean;
   lIndent : Integer;
 begin
@@ -735,6 +1018,9 @@ begin
     TMarkdownTextBlock.Create(C,aLine.LineNo,S);
     aLine:=peekLine;
     if (aLine = nil) then
+      Exit;
+    // The enclosing block takes its prefix off before the line is examined.
+    if ParentEndsLine(aLine) then
       Exit;
     if not Handlesline(C,aLine) then
       Exit;
@@ -753,7 +1039,7 @@ begin
     end;
 end;
 
-function TCodeBlockProcessor.processLine(aParent: TMarkdownContainerBlock; aLine: TMarkdownLine; aContext: TMarkdownBlockProcessingContext): Boolean;
+function TCodeBlockProcessor.ProcessLine(aParent: TMarkdownContainerBlock; aLine: TMarkdownLine; aContext: TMarkdownBlockProcessingContext): Boolean;
 
 var
   lBlock : TMarkdownCodeBlock;
@@ -776,13 +1062,14 @@ end;
 function TFencedCodeBlockProcessor.HandlesLine(aParent: TMarkdownContainerBlock; aLine: TMarkdownLine): boolean;
 
 var
-  s, s1 : String;
-  c : char;
+  s, s1 : TMarkdownString;
+  c : TMarkdownChar;
   len, i, j : integer;
 begin
   Result:=False;
   FLang:='';
-  if aLine.LeadingWhitespace >= 4 then
+  FAttributeSpec:='';
+  if aLine.LeadingWhitespace >= MaxBlockIndent(aParent) then
     Exit;
   s:=aLine.Remainder.Trim;
   if (S='') then
@@ -803,6 +1090,8 @@ begin
   if FIndent>1 then
     Delete(s,1,FIndent-1);
   S:=CopySkipped(S,[FTerminal[1]]).trim;
+  if mdoAttributes in Parser.Options then
+    FAttributeSpec:=ExtractTrailingAttributeSpec(S);
   i:=1;
   while (i<=Length(s)) do
     begin
@@ -837,7 +1126,7 @@ end;
 function TFencedCodeBlockProcessor.LineEndsBlock(aBlock: TMarkdownContainerBlock; aLine: TMarkdownLine): Boolean;
 
 var
-  s : String;
+  s : TMarkdownString;
   lBlock: TMarkdownCodeBlock absolute aBlock;
 
 begin
@@ -846,26 +1135,39 @@ begin
     Exit;
   // Ending may be preceded by 3 spaces
 
-  Result:=aLine.LeadingWhitespace>=4+lBlock.Indent;
-  if Result then
-    Exit;
+  if aLine.LeadingWhitespace>=4+lBlock.Indent then
+    Exit(False);
   S:=aLine.Remainder.Trim;
   Result:=IsStringOfChar(s) and s.StartsWith(FTerminal);
 end;
 
-function TFencedCodeBlockProcessor.processLine(aParent: TMarkdownContainerBlock; aLine: TMarkdownLine; aContext: TMarkdownBlockProcessingContext): Boolean;
+function TFencedCodeBlockProcessor.ProcessLine(aParent: TMarkdownContainerBlock; aLine: TMarkdownLine; aContext: TMarkdownBlockProcessingContext): Boolean;
 
 var
   lBlock : TMarkdownCodeBlock;
-  s : String;
+  lLine : TMarkdownLine;
+  lClosed : Boolean;
+  s : TMarkdownString;
 
 begin
   lBlock:=TMarkdownCodeBlock.Create(aParent,aLine.LineNo);
   lBlock.fenced:=true;
   lBlock.lang:=Flang;
-  lBlock.Indent:=aLine.CursorPos;
-  while Not LineEndsBlock(lBlock,PeekLine) do
-    begin
+  if lBlock.ApplyAttributes(FAttributeSpec) and (lBlock.ID<>'') then
+    Parser.RegisterAnchor(lBlock.ID,lBlock,aLine.LineNo);
+  // Prefixes already consumed, plus the indentation an enclosing block gives the fence.
+  lBlock.Indent:=aLine.CursorPos-1+aLine.LeadingWhitespace;
+  lClosed:=False;
+  Repeat
+    lLine:=PeekLine;
+    if lLine=Nil then
+      Break;
+    // The enclosing block takes its prefix off before the line is examined.
+    if ParentEndsLine(lLine) then
+      Break;
+    lClosed:=LineEndsBlock(lBlock,lLine);
+    if lClosed then
+      Break;
     aLine:=NextLine;
     if aLine.LeadingWhitespace>=lBlock.Indent then
       aLine.Advance(lBlock.Indent)
@@ -873,17 +1175,19 @@ begin
       aLine.Advance(aLine.LeadingWhitespace);
     s:=aLine.Remainder;
     TMarkdownTextBlock.Create(lBlock,aLine.LineNo,S);
-    end;
-  NextLine;
+  Until False;
+  // Consume the closing fence, but leave a line belonging to the enclosing block.
+  if lClosed then
+    NextLine;
   Result:=true;
 end;
 
 function TTableProcessor.CountCells(aLine: TMarkdownLine): Integer;
 
 var
-  c : char;
+  c : TMarkdownChar;
   lEscaped: boolean;
-  S : String;
+  S : TMarkdownString;
 
 begin
   Result:=0;
@@ -902,9 +1206,9 @@ begin
   S:=Trim(aLine.Line);
   if (S<>'') then
     begin
-    if not StartsStr('|',S) then
+    if not S.StartsWith('|') then
       inc(Result);
-    if not EndsStr('|',S) or EndsStr('\|',S) then
+    if not S.EndsWith('|') or S.EndsWith('\|') then
       inc(Result);
     end;
 end;
@@ -914,8 +1218,8 @@ function TTableProcessor.HandlesLine(aParent: TMarkdownContainerBlock; aLine: TM
 var
   lCount,lCountNext  : integer;
   lNextLine : TMarkdownLine;
-  lLine : string;
-  c : char;
+  lLine : TMarkdownString;
+  c : TMarkdownChar;
 
 begin
   Result:=False;
@@ -937,13 +1241,13 @@ begin
   Result:=(lCount=lCountNext)
 end;
 
-function TTableProcessor.processLine(aParent: TMarkdownContainerBlock; aLine: TMarkdownLine; aContext: TMarkdownBlockProcessingContext): Boolean;
+function TTableProcessor.ProcessLine(aParent: TMarkdownContainerBlock; aLine: TMarkdownLine; aContext: TMarkdownBlockProcessingContext): Boolean;
 
 var
   i : integer;
-  lLine,lCell : String;
+  lLine,lCell : TMarkdownString;
   lTable : TMarkdownTableBlock;
-  lCells : TStringDynArray;
+  lCells : TMarkdownStringArray;
   lColumns : TCellAlignArray;
 
 begin
@@ -951,9 +1255,9 @@ begin
   lTable:=TMarkdownTableBlock.Create(aParent,aLine.LineNo);
   parseTableLine(lTable, aLine);
   lLine:=Trim(NextLine.Line);
-  if StartsStr('|',lLine) then
+  if lLine.StartsWith('|') then
     lLine:=Copy(lLine,2,Length(lLine)-1);
-  if EndsStr('|',lLine) then
+  if lLine.EndsWith('|') then
     SetLength(lLine,Length(lLine)-1);
   lCells:=lLine.Split(['|']);
   SetLength(LColumns, length(lCells));
@@ -961,9 +1265,9 @@ begin
     begin
     lColumns[i]:=caLeft;
     lCell:=Trim(lCells[i]);
-    if StartsStr(':',lCell) and EndsStr(':',lCell) then
+    if lCell.StartsWith(':') and lCell.EndsWith(':') then
       lColumns[i]:=caCenter
-    else if EndsStr(':',lCell) then
+    else if lCell.EndsWith(':') then
       lColumns[i]:=caRight
     end;
   lTable.Columns:=lColumns;
@@ -979,13 +1283,13 @@ var
   lLen,lStart, i : integer;
   lMaxCells, lCellCount : integer;
   lEscaped : boolean;
-  lLine : string;
-  lChar : char;
+  lLine : TMarkdownString;
+  lChar : TMarkdownChar;
 
   procedure AddCell(aStart,aEnd : integer);
 
   var
-    lCell : String;
+    lCell : TMarkdownString;
 
   begin
     if (lMaxCells>0) and (lCellCount>=lMaxCells) then
@@ -1028,7 +1332,7 @@ end;
 function TTableProcessor.IsEndOfTable(aLine: TMarkdownLine): boolean;
 
 var
-  S : String;
+  S : TMarkdownString;
   lLen : integer;
 
 begin
@@ -1038,7 +1342,7 @@ begin
   lLen:=Length(S);
   Result:=(Trim(S) = '')
           or ((lLen>0) and (S[1] in ['#','~']))
-          or StartsStr('   ',S);
+          or S.StartsWith('   ');
 end;
 
 function TTableProcessor.Strict: boolean;
@@ -1055,7 +1359,7 @@ begin
   Result:=True;
 end;
 
-function TParagraphProcessor.processLine(aParent: TMarkdownContainerBlock; aLine: TMarkdownLine; aContext: TMarkdownBlockProcessingContext): boolean;
+function TParagraphProcessor.ProcessLine(aParent: TMarkdownContainerBlock; aLine: TMarkdownLine; aContext: TMarkdownBlockProcessingContext): boolean;
 
 var
   lPar : TMarkdownParagraphBlock;
@@ -1074,7 +1378,13 @@ begin
   else
     begin
     if Not Assigned(lPar) then
+      begin
+      // A second paragraph in an item follows a blank line, which makes the list loose.
+      if (aParent is TMarkdownListItemBlock) and (aParent.Blocks.Count>0)
+         and (aParent.Parent is TMarkdownListBlock) then
+        TMarkdownListBlock(aParent.Parent).Loose:=True;
       lPar:=TMarkdownParagraphBlock.Create(aParent,aLine.LineNo);
+      end;
     Parser.parseInLine(lPar,aLine.Remainder);
     end;
 end;
@@ -1087,13 +1397,13 @@ function TSeTextHeaderProcessor.HandlesLine(aParent: TMarkdownContainerBlock; aL
 
 var
   p : TMarkdownParagraphBlock;
-  s : String;
+  s : TMarkdownString;
 
 begin
   Result:=False;
   if aParent.blocks.Count=0 then
     Exit;
-  if aLine.LeadingWhitespace>=4 then
+  if aLine.LeadingWhitespace>=MaxBlockIndent(aParent) then
     Exit;
   if not TMarkdownParser.inPara(aParent.blocks,False) then
     Exit;
@@ -1113,10 +1423,10 @@ begin
 end;
 
 
-function TSeTextHeaderProcessor.processLine(aParent: TMarkdownContainerBlock; aLine: TMarkdownLine; aContext: TMarkdownBlockProcessingContext): boolean;
+function TSeTextHeaderProcessor.ProcessLine(aParent: TMarkdownContainerBlock; aLine: TMarkdownLine; aContext: TMarkdownBlockProcessingContext): boolean;
 
 var
-  S : String;
+  S,lText : TMarkdownString;
   h : integer;
   P : TMarkdownParagraphBlock;
 
@@ -1128,6 +1438,16 @@ begin
     begin
     p:=aParent.blocks.Last as TMarkdownParagraphBlock;
     p.header:=h;
+    if (mdoAttributes in Parser.Options) and (p.LastChild is TMarkdownTextBlock) then
+      begin
+      lText:=TMarkdownTextBlock(p.LastChild).Text;
+      if p.ApplyAttributes(ExtractTrailingAttributeSpec(lText)) then
+        begin
+        TMarkdownTextBlock(p.LastChild).Text:=lText;
+        if p.ID<>'' then
+          Parser.RegisterAnchor(p.ID,p,p.Line);
+        end;
+      end;
     end;
 end;
 
@@ -1143,12 +1463,12 @@ end;
 function TThematicBreakProcessor.HandlesLine(aParent: TMarkdownContainerBlock; aLine: TMarkdownLine): boolean;
 
 var
-  S : String;
-  C : char;
+  S : TMarkdownString;
+  C : TMarkdownChar;
 
 begin
   Result:=False;
-  if aLine.LeadingWhitespace >= 4 then
+  if aLine.LeadingWhitespace >= MaxBlockIndent(aParent) then
     Exit;
   S:=StripWhitespace(aLine.Remainder);
   if (S='') then
@@ -1158,7 +1478,7 @@ begin
 end;
 
 
-function TThematicBreakProcessor.processLine(aParent: TMarkdownContainerBlock; aLine: TMarkdownLine; aContext: TMarkdownBlockProcessingContext): Boolean;
+function TThematicBreakProcessor.ProcessLine(aParent: TMarkdownContainerBlock; aLine: TMarkdownLine; aContext: TMarkdownBlockProcessingContext): Boolean;
 
 begin
   TMarkdownThematicBreakBlock.Create(aParent,aLine.LineNo);
@@ -1172,7 +1492,7 @@ end;
 function TFrontmatterProcessor.HandlesLine(aParent: TMarkdownContainerBlock; aLine: TMarkdownLine): boolean;
 
 var
-  S : String;
+  S : TMarkdownString;
 
 begin
   Result := False;
@@ -1198,7 +1518,7 @@ begin
     FTerminal:=S;
 end;
 
-function TFrontmatterProcessor.processLine(aParent: TMarkdownContainerBlock; aLine: TMarkdownLine; aContext: TMarkdownBlockProcessingContext): Boolean;
+function TFrontmatterProcessor.ProcessLine(aParent: TMarkdownContainerBlock; aLine: TMarkdownLine; aContext: TMarkdownBlockProcessingContext): Boolean;
 
 var
   lBlock : TMarkdownFrontmatterBlock;
@@ -1218,12 +1538,509 @@ begin
       Break;
       end;
     lLine := NextLine;
-    lBlock.Content.Add(lLine.Remainder);
+    lBlock.Content.Add(MarkdownToString(lLine.Remainder));
     end;
   if aParent is TMarkdownDocument then
     TMarkdownDocument(aParent).Frontmatter := lBlock;
   Result := True;
 end;
+
+{ ---------------------------------------------------------------------
+  TCommentBlockProcessor
+  ---------------------------------------------------------------------}
+
+function TCommentBlockProcessor.HandlesLine(aParent: TMarkdownContainerBlock; aLine: TMarkdownLine): boolean;
+
+begin
+  Result:=False;
+  if not (mdoComments in Parser.Options) then
+    Exit;
+  if aLine.LeadingWhitespace>=MaxBlockIndent(aParent) then
+    Exit;
+  if TMarkdownParser.InPara(aParent.Blocks,False) then
+    Exit;
+  Result:=TrimLeft(aLine.Remainder).StartsWith('<!--');
+end;
+
+
+function TCommentBlockProcessor.ProcessLine(aParent: TMarkdownContainerBlock; aLine: TMarkdownLine;
+  aContext: TMarkdownBlockProcessingContext): Boolean;
+
+var
+  lBlock : TMarkdownCommentBlock;
+  lLine : TMarkdownLine;
+  S,lText : TMarkdownString;
+  P : Integer;
+
+begin
+  lBlock:=TMarkdownCommentBlock.Create(aParent,aLine.LineNo);
+  S:=TrimLeft(aLine.Remainder);
+  // <!--> and <!---> are complete comments
+  P:=Pos('-->',S,3);
+  if P>0 then
+    lText:=Copy(S,5,P-5)
+  else
+    begin
+    lText:=Copy(S,5,Length(S)-4);
+    repeat
+      lLine:=PeekLine;
+      if (lLine=Nil) or ParentEndsLine(lLine) then
+        Break;
+      NextLine;
+      S:=lLine.Remainder;
+      P:=Pos('-->',S);
+      if P>0 then
+        lText:=lText+#10+Copy(S,1,P-1)
+      else
+        lText:=lText+#10+S;
+    until P>0;
+    end;
+  lBlock.Text:=lText;
+  lBlock.Closed:=True;
+  Result:=True;
+end;
+
+{ ---------------------------------------------------------------------
+  TIndentedContainerProcessor
+  ---------------------------------------------------------------------}
+
+function TIndentedContainerProcessor.ContextIndex(aBlock: TMarkdownBlock): Integer;
+
+begin
+  Result:=FContextCount-1;
+  while (Result>=0) and (FContexts[Result].Block<>aBlock) do
+    Dec(Result);
+end;
+
+
+function TIndentedContainerProcessor.StripOuter(aIndex: Integer; aLine: TMarkdownLine): Boolean;
+
+var
+  lOuter : TMarkdownBlockProcessor;
+
+begin
+  lOuter:=FContexts[aIndex].Outer;
+  if lOuter=Self then
+    Result:=(aIndex>0) and StripContext(aIndex-1,aLine)
+  else if Assigned(lOuter) then
+    Result:=lOuter.StripLinePrefix(aLine)
+  else
+    Result:=True;
+end;
+
+
+function TIndentedContainerProcessor.StripContext(aIndex: Integer; aLine: TMarkdownLine): Boolean;
+
+begin
+  Result:=StripOuter(aIndex,aLine);
+  if Result and not aLine.isWhitespace then
+    Result:=aLine.LeadingWhitespace>=FContexts[aIndex].Block.ContentIndentation;
+end;
+
+
+procedure TIndentedContainerProcessor.ParseContainer(aBlock: TMarkdownContainerBlock);
+
+begin
+  if FContextCount=Length(FContexts) then
+    SetLength(FContexts,FContextCount+4);
+  FContexts[FContextCount].Block:=aBlock;
+  FContexts[FContextCount].Outer:=ParentProcessor;
+  Inc(FContextCount);
+  try
+    RedoLine(False);
+    Parse(aBlock,Self);
+  finally
+    Dec(FContextCount);
+  end;
+end;
+
+
+function TIndentedContainerProcessor.StripLinePrefix(aLine: TMarkdownLine): Boolean;
+
+begin
+  Result:=(FContextCount>0) and StripContext(FContextCount-1,aLine);
+end;
+
+
+function TIndentedContainerProcessor.LineEndsBlock(aBlock: TMarkdownContainerBlock; aLine: TMarkdownLine): Boolean;
+
+var
+  lIdx,lStart : Integer;
+  lPrevious : TMarkdownLine;
+
+begin
+  Result:=(aLine=Nil);
+  if Result or (aLine.LineNo=aBlock.Line) then
+    Exit;
+  lIdx:=ContextIndex(aBlock);
+  if lIdx<0 then
+    Exit(True);
+  lStart:=aLine.CursorPos;
+  Result:=not StripOuter(lIdx,aLine);
+  if not Result and not aLine.isWhitespace and (aLine.LeadingWhitespace<aBlock.ContentIndentation) then
+    begin
+    // A lazy continuation line of a paragraph, unless a blank line came before or a new block starts
+    lPrevious:=CurrentLine;
+    Result:=(Assigned(lPrevious) and lPrevious.isWhitespace)
+            or IsContainerStart(aLine)
+            or not TMarkdownParser.InPara(aBlock.Blocks,False)
+            or IsBlock(aBlock,aBlock.Blocks,aLine.Remainder);
+    end;
+  if Result then
+    begin
+    lPrevious:=CurrentLine;
+    FEndedAfterBlank:=Assigned(lPrevious) and lPrevious.isWhitespace;
+    aLine.CursorPos:=lStart;
+    end;
+end;
+
+{ ---------------------------------------------------------------------
+  TDefinitionListProcessor
+  ---------------------------------------------------------------------}
+
+class function TDefinitionListProcessor.IsDefinitionLine(aLine: TMarkdownLine; aMaxIndent: Integer; out aIndent: Integer): Boolean;
+
+var
+  S : TMarkdownString;
+  lWhite,lSpaces : Integer;
+
+begin
+  Result:=False;
+  aIndent:=0;
+  lWhite:=aLine.LeadingWhitespace;
+  if lWhite>=aMaxIndent then
+    Exit;
+  S:=aLine.Remainder;
+  Delete(S,1,lWhite);
+  if (Length(S)<3) or (S[1]<>':') or (S[2]<>' ') then
+    Exit;
+  Delete(S,1,1);
+  lSpaces:=LeadingWhitespace(S);
+  if (lSpaces>4) or IsWhitespace(S) then
+    Exit;
+  aIndent:=lWhite+1+lSpaces;
+  Result:=True;
+end;
+
+
+function TDefinitionListProcessor.IsContainerStart(aLine: TMarkdownLine): Boolean;
+
+var
+  lIndent : Integer;
+
+begin
+  Result:=IsDefinitionLine(aLine,4,lIndent);
+end;
+
+
+function TDefinitionListProcessor.GetTermParagraph(aParent: TMarkdownContainerBlock; aLine: TMarkdownLine): TMarkdownParagraphBlock;
+
+var
+  lLast : TMarkdownBlock;
+
+begin
+  Result:=Nil;
+  lLast:=aParent.LastChild;
+  if not (Assigned(lLast) and (lLast.ClassType=TMarkdownParagraphBlock)) then
+    Exit;
+  if TMarkdownParagraphBlock(lLast).Header<>0 then
+    Exit;
+  if not (lLast.LastChild is TMarkdownTextBlock) then
+    Exit;
+  if not lLast.Closed then
+    Result:=TMarkdownParagraphBlock(lLast)
+  else if (lLast.Line=aLine.LineNo-2) and (Pos(#10,TMarkdownTextBlock(lLast.LastChild).Text)=0) then
+    // A one-line paragraph separated by one blank line
+    Result:=TMarkdownParagraphBlock(lLast);
+end;
+
+
+function TDefinitionListProcessor.HandlesLine(aParent: TMarkdownContainerBlock; aLine: TMarkdownLine): boolean;
+
+var
+  lIndent : Integer;
+
+begin
+  Result:=False;
+  if not (mdoDefinitionLists in Parser.Options) then
+    Exit;
+  if not IsDefinitionLine(aLine,MaxBlockIndent(aParent),lIndent) then
+    Exit;
+  Result:=Assigned(GetTermParagraph(aParent,aLine)) or (aParent.LastChild is TMarkdownDefinitionListBlock);
+end;
+
+
+function TDefinitionListProcessor.ProcessLine(aParent: TMarkdownContainerBlock; aLine: TMarkdownLine;
+  aContext: TMarkdownBlockProcessingContext): Boolean;
+
+var
+  lPar : TMarkdownParagraphBlock;
+  lList : TMarkdownDefinitionListBlock;
+  lTerm : TMarkdownDefinitionTermBlock;
+  lDef : TMarkdownDefinitionBlock;
+  lText : TMarkdownTextBlock;
+  lTermText : TMarkdownString;
+  lIndent,lTermLine,P,lIdx : Integer;
+  lPrevious : TMarkdownBlock;
+  lLoose : Boolean;
+
+begin
+  lList:=Nil;
+  lPar:=GetTermParagraph(aParent,aLine);
+  if Assigned(lPar) then
+    begin
+    lText:=TMarkdownTextBlock(lPar.LastChild);
+    lTermText:=lText.Text;
+    P:=Length(lTermText);
+    while (P>0) and (lTermText[P]<>#10) do
+      Dec(P);
+    lTermLine:=lPar.Line+lTermText.CountChar(#10);
+    lLoose:=lPar.Closed;
+    lIdx:=aParent.IndexOfChild(lPar);
+    if P=0 then
+      begin
+      if lIdx>0 then
+        lPrevious:=aParent.Children[lIdx-1]
+      else
+        lPrevious:=Nil;
+      if lPrevious is TMarkdownDefinitionListBlock then
+        lList:=TMarkdownDefinitionListBlock(lPrevious);
+      aParent.DeleteChild(lIdx);
+      end
+    else
+      begin
+      lText.Text:=Copy(lTermText,1,P-1);
+      Delete(lTermText,1,P);
+      lPar.Closed:=True;
+      end;
+    if lList=Nil then
+      lList:=TMarkdownDefinitionListBlock.Create(aParent,lTermLine);
+    lList.Loose:=lList.Loose or lLoose;
+    lTerm:=TMarkdownDefinitionTermBlock.Create(lList,lTermLine);
+    TMarkdownTextBlock.Create(lTerm,lTermLine,Trim(lTermText));
+    lTerm.Closed:=True;
+    end
+  else
+    begin
+    lList:=aParent.LastChild as TMarkdownDefinitionListBlock;
+    lList.Loose:=lList.Loose or EndedAfterBlank;
+    end;
+  IsDefinitionLine(aLine,MaxBlockIndent(aParent),lIndent);
+  lDef:=TMarkdownDefinitionBlock.Create(lList,aLine.LineNo);
+  lDef.ContentIndent:=lIndent;
+  aLine.Advance(lIndent);
+  ParseContainer(lDef);
+  lDef.Closed:=True;
+  if lDef.ChildCount>1 then
+    lList.Loose:=True;
+  Result:=True;
+end;
+
+{ ---------------------------------------------------------------------
+  TFootnoteDefinitionProcessor
+  ---------------------------------------------------------------------}
+
+class function TFootnoteDefinitionProcessor.IsFootnoteLine(aLine: TMarkdownLine; aMaxIndent: Integer; out aLabel: TMarkdownString;
+  out aLength: Integer): Boolean;
+
+var
+  S : TMarkdownString;
+  lWhite,P,I : Integer;
+
+begin
+  Result:=False;
+  aLabel:='';
+  aLength:=0;
+  lWhite:=aLine.LeadingWhitespace;
+  if lWhite>=aMaxIndent then
+    Exit;
+  S:=aLine.Remainder;
+  Delete(S,1,lWhite);
+  if not S.StartsWith('[^') then
+    Exit;
+  P:=Pos(']:',S);
+  if P<4 then
+    Exit;
+  aLabel:=Copy(S,3,P-3);
+  for I:=1 to Length(aLabel) do
+    if IsWhitespaceChar(aLabel[I]) or (aLabel[I] in ['[',']','^']) then
+      Exit;
+  aLength:=lWhite+P+1;
+  Result:=True;
+end;
+
+
+function TFootnoteDefinitionProcessor.IsContainerStart(aLine: TMarkdownLine): Boolean;
+
+var
+  lLabel : TMarkdownString;
+  lLength : Integer;
+
+begin
+  Result:=IsFootnoteLine(aLine,4,lLabel,lLength);
+end;
+
+
+function TFootnoteDefinitionProcessor.HandlesLine(aParent: TMarkdownContainerBlock; aLine: TMarkdownLine): boolean;
+
+var
+  lLabel : TMarkdownString;
+  lLength : Integer;
+
+begin
+  Result:=(mdoFootnotes in Parser.Options) and IsFootnoteLine(aLine,MaxBlockIndent(aParent),lLabel,lLength);
+end;
+
+
+function TFootnoteDefinitionProcessor.ProcessLine(aParent: TMarkdownContainerBlock; aLine: TMarkdownLine;
+  aContext: TMarkdownBlockProcessingContext): Boolean;
+
+var
+  lBlock : TMarkdownFootnoteBlock;
+  lLabel : TMarkdownString;
+  lLength : Integer;
+
+begin
+  IsFootnoteLine(aLine,MaxBlockIndent(aParent),lLabel,lLength);
+  lBlock:=TMarkdownFootnoteBlock.Create(aParent,aLine.LineNo);
+  lBlock.FootnoteLabel:=lLabel;
+  lBlock.ContentIndent:=aLine.LeadingWhitespace+4;
+  if Assigned(Parser.Document) and not Parser.Document.AddFootnoteDef(lBlock) then
+    Parser.DoMessageFmt(mlError,aLine.LineNo,SErrDuplicateFootnote,[MarkdownToString(lLabel)]);
+  aLine.Advance(lLength);
+  ParseContainer(lBlock);
+  lBlock.Closed:=True;
+  Result:=True;
+end;
+
+{ ---------------------------------------------------------------------
+  TLinkReferenceProcessor
+  ---------------------------------------------------------------------}
+
+class function TLinkReferenceProcessor.ParseDefinition(const aText: TMarkdownString; out aLabel, aURL, aTitle: TMarkdownString): Boolean;
+
+var
+  S : TMarkdownString;
+  P,lLen : Integer;
+  lClose : TMarkdownChar;
+
+  function Unescape(const aValue : TMarkdownString) : TMarkdownString;
+  var
+    I : Integer;
+  begin
+    Result:='';
+    I:=1;
+    while I<=Length(aValue) do
+      begin
+      if (aValue[I]='\') and (I<Length(aValue)) and MustEscape(aValue[I+1]) then
+        Inc(I);
+      Result:=Result+aValue[I];
+      Inc(I);
+      end;
+  end;
+
+  procedure SkipSpaces;
+  begin
+    while (P<=lLen) and IsWhitespaceChar(S[P]) do
+      Inc(P);
+  end;
+
+begin
+  Result:=False;
+  aLabel:='';
+  aURL:='';
+  aTitle:='';
+  S:=Trim(aText);
+  lLen:=Length(S);
+  if (lLen<4) or (S[1]<>'[') then
+    Exit;
+  P:=2;
+  while (P<=lLen) and (S[P]<>']') do
+    begin
+    if S[P]='[' then
+      Exit;
+    if (S[P]='\') and (P<lLen) then
+      Inc(P);
+    Inc(P);
+    end;
+  if (P>=lLen) or (S[P+1]<>':') then
+    Exit;
+  aLabel:=Copy(S,2,P-2);
+  if Trim(aLabel)='' then
+    Exit;
+  P:=P+2;
+  SkipSpaces;
+  if P>lLen then
+    Exit;
+  if S[P]='<' then
+    begin
+    Inc(P);
+    while (P<=lLen) and (S[P]<>'>') do
+      begin
+      aURL:=aURL+S[P];
+      Inc(P);
+      end;
+    if P>lLen then
+      Exit;
+    Inc(P);
+    end
+  else
+    while (P<=lLen) and not IsWhitespaceChar(S[P]) do
+      begin
+      aURL:=aURL+S[P];
+      Inc(P);
+      end;
+  aURL:=URLEscape(Unescape(aURL));
+  if (P<=lLen) and not IsWhitespaceChar(S[P]) then
+    Exit;
+  SkipSpaces;
+  if P<=lLen then
+    begin
+    case S[P] of
+      '"' : lClose:='"';
+      '''' : lClose:='''';
+      '(' : lClose:=')';
+    else
+      Exit;
+    end;
+    if S[lLen]<>lClose then
+      Exit;
+    aTitle:=Unescape(Copy(S,P+1,lLen-P-1));
+    end;
+  Result:=True;
+end;
+
+
+function TLinkReferenceProcessor.HandlesLine(aParent: TMarkdownContainerBlock; aLine: TMarkdownLine): boolean;
+
+var
+  lLabel,lURL,lTitle : TMarkdownString;
+
+begin
+  Result:=False;
+  if not (mdoLinkReferences in Parser.Options) then
+    Exit;
+  if aLine.LeadingWhitespace>=MaxBlockIndent(aParent) then
+    Exit;
+  if TMarkdownParser.InPara(aParent.Blocks,False) then
+    Exit;
+  Result:=ParseDefinition(aLine.Remainder,lLabel,lURL,lTitle);
+end;
+
+
+function TLinkReferenceProcessor.ProcessLine(aParent: TMarkdownContainerBlock; aLine: TMarkdownLine;
+  aContext: TMarkdownBlockProcessingContext): Boolean;
+
+var
+  lLabel,lURL,lTitle : TMarkdownString;
+
+begin
+  ParseDefinition(aLine.Remainder,lLabel,lURL,lTitle);
+  if Assigned(Parser.Document) and not Parser.Document.AddLinkRef(lLabel,lURL,lTitle) then
+    Parser.DoMessageFmt(mlWarning,aLine.LineNo,SWarnDuplicateLinkRef,[MarkdownToString(lLabel)]);
+  Result:=True;
+end;
+
 
 Procedure RegisterDefaultProcessors;
 
@@ -1239,6 +2056,10 @@ begin
   TUListProcessor.Register('unorderedlist');
   TOListProcessor.Register('orderedlist');
   TTableProcessor.Register('table');
+  TCommentBlockProcessor.Register('comment');
+  TFootnoteDefinitionProcessor.Register('footnote');
+  TLinkReferenceProcessor.Register('linkreference');
+  TDefinitionListProcessor.Register('definitionlist');
   TParagraphProcessor.Register('paragraph');
 end;
 

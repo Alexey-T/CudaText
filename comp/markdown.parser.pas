@@ -21,7 +21,7 @@ interface
 
 uses
 {$IFDEF FPC_DOTTEDUNITS}
-  System.CodePages.UnicodeData, System.SysUtils, System.Classes, System.Contnrs,
+  System.CodePages.unicodedata, System.SysUtils, System.Classes, System.Contnrs,
 {$ELSE}
   UnicodeData, SysUtils, Classes, Contnrs,
 {$ENDIF}
@@ -32,14 +32,42 @@ uses
   Markdown.InlineText,
   Markdown.HtmlEntities;
 
+resourcestring
+  SErrDuplicateID = 'Duplicate id "%s"';
+  SErrDuplicateFootnote = 'Duplicate footnote label "%s"';
+  SErrUndefinedFootnote = 'Footnote "%s" is not defined';
+  SWarnUnusedFootnote = 'Footnote "%s" is not referenced';
+  SWarnAutoIDClash = 'Automatic id "%s" is also an explicit id, using "%s"';
+  SWarnDuplicateLinkRef = 'Duplicate link reference definition "%s"';
+
 type
   EMarkdown = class(Exception);
   // Forward definition
   TMarkdownParser = class;
 
   // Options
-  TMarkdownOption = (mdoGithubFlavoured);
+  TMarkdownOption = (
+    mdoGithubFlavoured,  // GitHub flavoured markdown: strikethrough, autolinks
+    mdoComments,         // HTML comment blocks, inline comments and markers
+    mdoAttributes,       // {#id .class key=value} attribute blocks, explicit heading ids
+    mdoHeadingIds,       // automatic heading ids
+    mdoDefinitionLists,  // definition lists
+    mdoAlerts,           // > [!NOTE] alerts
+    mdoFootnotes,        // footnote references and definitions
+    mdoCaptions,         // Table: captions and implicit figures
+    mdoLinkReferences    // link reference definitions and reference links
+  );
   TMarkdownOptions = set of TMarkdownOption;
+
+  TMarkdownMessageLevel = (mlInfo, mlWarning, mlError);
+  TMarkdownMessageEvent = procedure(Sender : TObject; aLevel : TMarkdownMessageLevel; aLine : Integer; const aMessage : String) of object;
+
+const
+  // All extensions used for documentation
+  MarkdownDocExtensions = [mdoGithubFlavoured, mdoComments, mdoAttributes, mdoHeadingIds, mdoDefinitionLists,
+                           mdoAlerts, mdoFootnotes, mdoCaptions, mdoLinkReferences];
+
+type
 
   // Parent block context
   TMarkdownBlockProcessingContext = (bpGeneral, bpCodeBlock, bpFencedCodeBlock);
@@ -50,14 +78,17 @@ type
     FParser : TMarkdownParser;
     function GetParentProcessor: TMarkdownBlockProcessor;
   protected
-    function inListOrQuote : boolean; virtual;
+    function InListOrQuote : boolean; virtual;
     // Access to parser methods
     function PeekLine : TMarkdownLine;
     function NextLine : TMarkdownLine;
     function Done : Boolean;
     procedure RedoLine(aResetLine: Boolean);
-    function InList(aBlock : TMarkdownBlock; ordered : boolean; const marker : String; indent : integer; grace : integer; out list : TMarkdownListBlock) : boolean;
-    function IsBlock(aBlock : TMarkdownBlock; blocks : TMarkdownBlockList; const aLine : String; wsLen : integer = 3) : boolean;
+    // Same, for the enclosing block, when a line is consumed outside the parse loop.
+    // Returns True when the line no longer belongs to that block.
+    function ParentEndsLine(aLine : TMarkdownLine) : Boolean;
+    function InList(aBlock : TMarkdownBlock; ordered : boolean; const marker : TMarkdownString; indent : integer; grace : integer; out list : TMarkdownListBlock) : boolean;
+    function IsBlock(aBlock : TMarkdownBlock; blocks : TMarkdownBlockList; const aLine : TMarkdownString; wsLen : integer = 3) : boolean;
     function CurrentLine : TMarkdownLine;
     procedure Parse(aParent: TMarkdownContainerBlock; aPArentProcessor: TMarkdownBlockProcessor); overload;
     // Our parser
@@ -69,7 +100,10 @@ type
     // One instance is created for each block type.
     constructor Create(aParser : TMarkdownParser); virtual;
     // Register for given block type
-    class procedure register(const aBlockType : String);
+    class procedure Register(const aBlockType : String);
+    // Take off the prefix that this processor's block puts in front of its content lines.
+    // Returns False when the line does not jave it, and so leaves the block.
+    function StripLinePrefix(aLine : TMarkdownLine) : Boolean; virtual;
     // This is called to see whether aLine closes the current block.
     function LineEndsBlock(aBlock : TMarkdownContainerBlock; aLine: TMarkdownLine): Boolean; virtual;
     // Return true if a line this processor would handle should terminate an
@@ -84,7 +118,7 @@ type
     // If ProcessLine returned true, the next line is started.
     // If it is false, the line is given to another processor.
     // processline is where a new block is created and attached to the parent block.
-    function processLine(aParent : TMarkdownContainerBlock; aLine : TMarkdownLine; context : TMarkdownBlockProcessingContext) : boolean; virtual; abstract;
+    function ProcessLine(aParent : TMarkdownContainerBlock; aLine : TMarkdownLine; context : TMarkdownBlockProcessingContext) : boolean; virtual; abstract;
   end;
   TMarkdownBlockProcessorArray = array of TMarkdownBlockProcessor;
   TMarkdownBlockProcessorClass = class of TMarkdownBlockProcessor;
@@ -95,7 +129,7 @@ type
   // We always need this one. It is not registered, but created hardcoded
   TMarkdownDocumentProcessor = class (TMarkdownBlockProcessor)
   public
-    function processLine(aParent : TMarkdownContainerBlock; aLine : TMarkdownLine; aContext : TMarkdownBlockProcessingContext) : Boolean; override;
+    function ProcessLine(aParent : TMarkdownContainerBlock; aLine : TMarkdownLine; aContext : TMarkdownBlockProcessingContext) : Boolean; override;
     function HandlesLine(aParent : TMarkdownContainerBlock; aLine: TMarkdownLine): boolean; override;
   end;
 
@@ -104,15 +138,18 @@ type
 
   TMarkdownParser = class(TComponent)
   private
+    FDocument: TMarkdownDocument;
+    FFileName: String;
+    FOnMessage: TMarkdownMessageEvent;
     FLazy: Boolean;
     FLines : TMarkdownLineList;
     FCurrentLine : integer;
-    FBuilder : TStringBuilder;
+    FBuilder : TMarkdownStringBuilder;
     FEntities : TFPStringHashTable;
     FOptions : TMarkdownOptions;
     FProcessors : TMarkdownBlockProcessorArray;
     FProcessorStack : TStack;
-    function CreateScanner(const aText: String; aStartLine: Integer): TMarkdownTextScanner;
+    function CreateScanner(const aText: TMarkdownString; aStartLine: Integer): TMarkdownTextScanner;
   Protected
     // Collect all entitues
     procedure CollectEntities(aList: TFPStringHashTable);
@@ -134,16 +171,16 @@ type
     // status
     // Is the last block a list with the given properties ?
     // if yes, return the list
-    function InList(aBlock: TMarkdownBlock; aOrdered: boolean; const aMarker: String; aIndent: integer; aGrace: integer; out
+    function InList(aBlock: TMarkdownBlock; aOrdered: boolean; const aMarker: TMarkdownString; aIndent: integer; aGrace: integer; out
       aList: TMarkdownListBlock): boolean;
     // Does aLine start a new block (true) or can it be a continuation (false) ?
-    function IsBlock(aParent: TMarkdownBlock; aBlocks: TMarkdownBlockList; const aLine: String; aWhiteSpaceLen: integer): boolean;
+    function IsBlock(aParent: TMarkdownBlock; aBlocks: TMarkdownBlockList; const aLine: TMarkdownString; aWhiteSpaceLen: integer): boolean;
     // block parsing loop
     procedure Parse(aParent: TMarkdownContainerBlock; aPArentProcessor: TMarkdownBlockProcessor); overload;
     // Parent processor of current processor
     function ParentProcessor : TMarkdownBlockProcessor;
     // process a text line
-    function ProcessText(const aText: String; wsMode: TWhitespaceMode; aStartLine: integer): TMarkdownTextNodeList;
+    function ProcessText(const aText: TMarkdownString; wsMode: TWhitespaceMode; aStartLine: integer): TMarkdownTextNodeList;
     // Recursively process inline text
     procedure ProcessInlines(aBlock : TMarkdownBlock; wsMode : TWhitespaceMode);
     // Initialize processors
@@ -156,23 +193,38 @@ type
     function CreateDocument(aLine: integer): TMarkdownDocument; virtual;
     // To customize top-level document bloc k parser, override this.
     function CreateDocumentProcessor: TMarkdownDocumentProcessor; virtual;
+    // Run all registered transforms on aDocument
+    procedure ApplyTransforms(aDocument : TMarkdownDocument); virtual;
   public
+    class var
+      // Inline text processor to use. Assign to install an add-on such as emoji shortcodes.
+      DefaultInlineTextProcessorClass : TInlineTextProcessorClass;
     Constructor Create(aOwner : TComponent); override;
     Destructor Destroy; override;
     // Utility function to handle parsing of inline text.
-    procedure ParseInline(aParent : TMarkdownContainerBlock; const aLine : String);
+    procedure ParseInline(aParent : TMarkdownContainerBlock; const aLine : TMarkdownString);
     // Parse the markDown in strings
     function Parse(aSource: TStrings): TMarkdownDocument; overload;
     // Utility function: Parse the markDown in file aFileName.
-    function ParseFile(const aFilename : string): TMarkdownDocument;
+    function ParseFile(const aFilename : String): TMarkdownDocument;
     // Helper : is the last block a plain paragraph ?
     class function InPara(blocks : TMarkdownBlockList; canBeQuote : boolean) : boolean;
     // Helper to quickly parse a stringlist into a markdown document
     class function FastParse(aSource: TStrings; aOptions: TMarkdownOptions): TMarkdownDocument;
     // Helper to quickly parse a stringlist into a markdown document
-    class function FastParseFile(const aFileName : string; aOptions: TMarkdownOptions = []): TMarkdownDocument;
+    class function FastParseFile(const aFileName : String; aOptions: TMarkdownOptions = []): TMarkdownDocument;
+    // Report a problem through OnMessage
+    procedure DoMessage(aLevel : TMarkdownMessageLevel; aLine : Integer; const aMessage : String);
+    // Report a problem through OnMessage, formatting aFmt with aArgs
+    procedure DoMessageFmt(aLevel : TMarkdownMessageLevel; aLine : Integer; const aFmt : String; const aArgs : Array of const);
+    // Register aTarget under aID in the document being parsed. A duplicate id is reported and returns False.
+    function RegisterAnchor(const aID : TMarkdownString; aTarget : TMarkdownElement; aLine : Integer) : Boolean;
+    // Inline processing of aText, which starts on line aLine. The caller owns the result.
+    function ParseInlineText(const aText : TMarkdownString; aLine : Integer) : TMarkdownTextNodeList;
     // State control in lazy continuation .
     property Lazy : Boolean Read FLazy Write FLazy;
+    // The document being parsed
+    property Document : TMarkdownDocument Read FDocument;
     // HTML entities to convert
     Property Entities : TFPStringHashTable read FEntities;
     // Registered block processors (read-only, parser-owned).
@@ -180,6 +232,49 @@ type
   published
     // Options
     Property Options : TMarkdownOptions Read FOptions Write FOptions;
+    // Source file name, copied to the document. Set by ParseFile.
+    Property FileName : String Read FFileName Write FFileName;
+    // Called for problems that do not stop the parse, such as duplicate ids.
+    Property OnMessage : TMarkdownMessageEvent Read FOnMessage Write FOnMessage;
+  end;
+
+  { TMarkdownTransform }
+
+  TMarkdownTransform = class abstract (TObject)
+  private
+    FParser : TMarkdownParser;
+  public
+    constructor Create(aParser : TMarkdownParser); virtual;
+    // Register as transform aName. Transforms run in registration order.
+    class procedure Register(const aName : String);
+    // Transform the parsed document
+    procedure Apply(aDocument : TMarkdownDocument); virtual; abstract;
+    // The parser that produced the document
+    property Parser : TMarkdownParser read FParser;
+  end;
+  TMarkdownTransformClass = class of TMarkdownTransform;
+  TMarkdownTransformClassArray = array of TMarkdownTransformClass;
+
+  { TMarkdownTransformFactory }
+
+  TMarkdownTransformFactory = class(TObject)
+  private
+    class var _instance : TMarkdownTransformFactory;
+  private
+    FNames : TStringList;
+  public
+    constructor Create;
+    destructor Destroy; override;
+    class constructor Init;
+    class destructor Done;
+    // All registered transforms, in registration order
+    function All : TMarkdownTransformClassArray;
+    // Register aTransform as aName. An existing registration with that name is replaced in place.
+    procedure RegisterTransform(const aName : String; aTransform : TMarkdownTransformClass);
+    // Find the transform registered as aName
+    function FindTransform(const aName : String) : TMarkdownTransformClass;
+    // Singleton instance
+    class property Instance : TMarkdownTransformFactory Read _instance;
   end;
 
   { TMarkdownProcessorFactory }
@@ -190,9 +285,9 @@ type
   private
     Type
       TRegisteredProcessor = class(TObject)
-        Name : string;
+        Name : String;
         Processor : TMarkdownBlockProcessorClass;
-        constructor create(const aName : String; aProcessor : TMarkdownBlockProcessorClass);
+        constructor Create(const aName : String; aProcessor : TMarkdownBlockProcessorClass);
       end;
       TRegisteredProcessorList = class(Specialize TGFPObjectList<TRegisteredProcessor>);
   Private
@@ -201,12 +296,12 @@ type
   public
     constructor Create;
     destructor Destroy; override;
-    class constructor init;
-    class destructor done;
+    class constructor Init;
+    class destructor Done;
     // Return an array with all known processors.
     function All : TMarkdownBlockProcessorClassArray;
     // Find a processor for a block of type aBlockType
-    function FindProcessor(const aBlockType : string) : TMarkdownBlockProcessorClass;
+    function FindProcessor(const aBlockType : String) : TMarkdownBlockProcessorClass;
     // Register a processor for block type aBlockType. Existing processor will be overwritten
     Procedure RegisterProcessor(const aBlockType : String; aProcessor : TMarkdownBlockProcessorClass);
     // Singleton instance
@@ -226,7 +321,7 @@ begin
 end;
 
 
-class procedure TMarkdownBlockProcessor.register(const aBlockType: String);
+class procedure TMarkdownBlockProcessor.Register(const aBlockType: String);
 
 begin
   TMarkdownProcessorFactory.Instance.RegisterProcessor(aBlockType,Self);
@@ -247,7 +342,7 @@ begin
 end;
 
 
-function TMarkdownBlockProcessor.inListOrQuote: boolean;
+function TMarkdownBlockProcessor.InListOrQuote: boolean;
 
 begin
   // Todo
@@ -283,7 +378,7 @@ begin
 end;
 
 
-function TMarkdownBlockProcessor.InList(aBlock: TMarkdownBlock; ordered: boolean; const marker: String; indent: integer;
+function TMarkdownBlockProcessor.InList(aBlock: TMarkdownBlock; ordered: boolean; const marker: TMarkdownString; indent: integer;
   grace: integer; out list: TMarkdownListBlock): boolean;
 
 begin
@@ -291,7 +386,7 @@ begin
 end;
 
 
-function TMarkdownBlockProcessor.IsBlock(aBlock: TMarkdownBlock; blocks: TMarkdownBlockList; const aLine: String; wsLen: integer
+function TMarkdownBlockProcessor.IsBlock(aBlock: TMarkdownBlock; blocks: TMarkdownBlockList; const aLine: TMarkdownString; wsLen: integer
   ): boolean;
 
 begin
@@ -319,9 +414,30 @@ begin
   Result:=FParser.ParentProcessor;
 end;
 
+
+function TMarkdownBlockProcessor.StripLinePrefix(aLine: TMarkdownLine): Boolean;
+
+begin
+  if aLine=Nil then ; // Silence warning
+  Result:=True;
+end;
+
+
+function TMarkdownBlockProcessor.ParentEndsLine(aLine: TMarkdownLine): Boolean;
+
+var
+  lProcessor : TMarkdownBlockProcessor;
+
+begin
+  Result:=False;
+  lProcessor:=ParentProcessor;
+  if Assigned(lProcessor) and (lProcessor<>Self) then
+    Result:=Not lProcessor.StripLinePrefix(aLine);
+end;
+
 { TMarkdownDocumentProcessor }
 
-function TMarkdownDocumentProcessor.processLine(aParent : TMarkdownContainerBlock; aLine: TMarkdownLine; aContext : TMarkdownBlockProcessingContext): Boolean;
+function TMarkdownDocumentProcessor.ProcessLine(aParent : TMarkdownContainerBlock; aLine: TMarkdownLine; aContext : TMarkdownBlockProcessingContext): Boolean;
 
 begin
   Result:=False;
@@ -358,7 +474,7 @@ begin
   end;
 end;
 
-class function TMarkdownParser.FastParseFile(const aFileName: string; aOptions: TMarkdownOptions): TMarkdownDocument;
+class function TMarkdownParser.FastParseFile(const aFileName: String; aOptions: TMarkdownOptions): TMarkdownDocument;
 var
   lFile : TStrings;
 begin
@@ -379,7 +495,7 @@ var
 
 begin
   for ent in EntityDefList do
-    aList.Add(ent.e,Utf8Encode(ent.u));
+    aList.Add(ent.e,UnicodeToMarkdown(ent.u));
 end;
 
 
@@ -388,7 +504,7 @@ constructor TMarkdownParser.Create(aOwner : TComponent);
 begin
   inherited ;
   FOptions:=[];
-  FBuilder:=TStringBuilder.Create;
+  FBuilder:=TMarkdownStringBuilder.Create;
   FProcessorStack:=TStack.Create;
   FLines:=TMarkdownLineList.create(true);
   FEntities:=TFPStringHashTable.create;
@@ -435,11 +551,15 @@ begin
     ConvertLines(aSource);
     lProc:=CreateDocumentProcessor;
     Result:=CreateDocument(1);
+    Result.FileName:=FFileName;
+    FDocument:=Result;
     parse(Result,lProc);
     processInlines(Result, wsTrim);
+    ApplyTransforms(Result);
     lDone:=True;
     Result.closed:=True;
   finally
+    FDocument:=Nil;
     DoneProcessors;
     if not lDone then
       Result.Free;
@@ -447,17 +567,68 @@ begin
   end;
 end;
 
-function TMarkdownParser.ParseFile(const aFilename: string): TMarkdownDocument;
+function TMarkdownParser.ParseFile(const aFilename: String): TMarkdownDocument;
 var
   lFile : TStrings;
 begin
   lFile:=TStringList.Create;
   try
     lFile.LoadFromFile(aFileName,TEncoding.UTF8);
+    FFileName:=aFileName;
     Result:=Parse(lFile);
   finally
     lFile.Free;
   end;
+end;
+
+
+procedure TMarkdownParser.DoMessage(aLevel: TMarkdownMessageLevel; aLine: Integer; const aMessage: String);
+
+begin
+  if Assigned(FOnMessage) then
+    FOnMessage(Self,aLevel,aLine,aMessage);
+end;
+
+
+procedure TMarkdownParser.DoMessageFmt(aLevel: TMarkdownMessageLevel; aLine: Integer; const aFmt: String; const aArgs: array of const);
+
+begin
+  DoMessage(aLevel,aLine,Format(aFmt,aArgs));
+end;
+
+
+function TMarkdownParser.RegisterAnchor(const aID: TMarkdownString; aTarget: TMarkdownElement; aLine: Integer): Boolean;
+
+begin
+  Result:=Assigned(FDocument) and FDocument.AddAnchor(aID,aTarget);
+  if not Result and Assigned(FDocument) then
+    DoMessageFmt(mlError,aLine,SErrDuplicateID,[MarkdownToString(aID)]);
+end;
+
+
+function TMarkdownParser.ParseInlineText(const aText: TMarkdownString; aLine: Integer): TMarkdownTextNodeList;
+
+begin
+  Result:=ProcessText(aText,wsTrim,aLine);
+end;
+
+
+procedure TMarkdownParser.ApplyTransforms(aDocument: TMarkdownDocument);
+
+var
+  lClass : TMarkdownTransformClass;
+  lTransform : TMarkdownTransform;
+
+begin
+  for lClass in TMarkdownTransformFactory.Instance.All do
+    begin
+    lTransform:=lClass.Create(Self);
+    try
+      lTransform.Apply(aDocument);
+    finally
+      lTransform.Free;
+    end;
+    end;
 end;
 
 
@@ -502,7 +673,7 @@ begin
 end;
 
 
-function TMarkdownParser.InList(aBlock: TMarkdownBlock; aOrdered: boolean; const aMarker: String; aIndent: integer;
+function TMarkdownParser.InList(aBlock: TMarkdownBlock; aOrdered: boolean; const aMarker: TMarkdownString; aIndent: integer;
   aGrace: integer; out aList: TMarkdownListBlock): boolean;
 var
   lBlock: TMarkdownBlock;
@@ -521,6 +692,9 @@ begin
               and not lList.closed;
     if Result then
       aList:=lList;
+    // A list does not continue outside the container holding it
+    if not ((lBlock is TMarkdownListBlock) or (lBlock is TMarkdownListItemBlock)) then
+      Break;
     lBlock:=lBlock.Parent;
     end;
 end;
@@ -538,7 +712,7 @@ begin
 end;
 
 
-function TMarkdownParser.IsBlock(aParent: TMarkdownBlock; aBlocks: TMarkdownBlockList; const aLine: String; aWhiteSpaceLen: integer): boolean;
+function TMarkdownParser.IsBlock(aParent: TMarkdownBlock; aBlocks: TMarkdownBlockList; const aLine: TMarkdownString; aWhiteSpaceLen: integer): boolean;
 
   function inOrderedList : boolean;
   begin
@@ -552,7 +726,7 @@ function TMarkdownParser.IsBlock(aParent: TMarkdownBlock; aBlocks: TMarkdownBloc
 
 var
   lSkip : integer;
-  lLine,lMarker : String;
+  lLine,lMarker : TMarkdownString;
 
 begin
   // Known blocks
@@ -590,7 +764,7 @@ begin
 end;
 
 
-procedure TMarkdownParser.ParseInline(aParent: TMarkdownContainerBlock; const aLine: String);
+procedure TMarkdownParser.ParseInline(aParent: TMarkdownContainerBlock; const aLine: TMarkdownString);
 
 var
   lBlock : TMarkdownTextBlock;
@@ -654,7 +828,7 @@ var
 begin
   FLines.Clear;
   For I:=0 to aLines.Count-1 do
-    FLines.Add(TMarkdownLine.Create(aLines[i],I+1));
+    FLines.Add(TMarkdownLine.Create(StringToMarkdown(aLines[i]),I+1));
   FCurrentLine:=-1;
 end;
 
@@ -673,12 +847,12 @@ begin
   Result:=TMarkdownBlockProcessor(FProcessorStack.Peek);
 end;
 
-function TMarkdownParser.CreateScanner(const aText : String; aStartLine : Integer) : TMarkdownTextScanner;
+function TMarkdownParser.CreateScanner(const aText : TMarkdownString; aStartLine : Integer) : TMarkdownTextScanner;
 begin
   Result:=TMarkdownTextScanner.Create(aText,aStartLine);
 end;
 
-function TMarkdownParser.ProcessText(const aText: String; wsMode: TWhitespaceMode; aStartLine: integer): TMarkdownTextNodeList;
+function TMarkdownParser.ProcessText(const aText: TMarkdownString; wsMode: TWhitespaceMode; aStartLine: integer): TMarkdownTextNodeList;
 
 var
   Scanner : TMarkdownTextScanner;
@@ -691,6 +865,10 @@ begin
     lClass:=GetInlineTextProcessorClass;
     Processor:= LClass.Create(Scanner,Result,FEntities,wsMode);
     Processor.GFMExtensions:=mdoGithubFlavoured in Options;
+    Processor.Comments:=mdoComments in Options;
+    Processor.Footnotes:=mdoFootnotes in Options;
+    if mdoLinkReferences in Options then
+      Processor.LinkReferences:=FDocument;
     Processor.process(true);
   finally
     Scanner.Free;
@@ -754,7 +932,9 @@ end;
 function TMarkdownParser.GetInlineTextProcessorClass: TInlineTextProcessorClass;
 
 begin
-  Result:=TInlineTextProcessor;
+  Result:=DefaultInlineTextProcessorClass;
+  if Result=Nil then
+    Result:=TInlineTextProcessor;
 end;
 
 
@@ -798,14 +978,14 @@ begin
 end;
 
 
-class constructor TMarkdownProcessorFactory.init;
+class constructor TMarkdownProcessorFactory.Init;
 
 begin
   _instance:=TMarkdownProcessorFactory.Create;
 end;
 
 
-class destructor TMarkdownProcessorFactory.done;
+class destructor TMarkdownProcessorFactory.Done;
 
 begin
   FreeAndNil(_instance);
@@ -825,7 +1005,7 @@ begin
 end;
 
 
-function TMarkdownProcessorFactory.FindProcessor(const aBlockType: string): TMarkdownBlockProcessorClass;
+function TMarkdownProcessorFactory.FindProcessor(const aBlockType: String): TMarkdownBlockProcessorClass;
 
 var
   lReg : TRegisteredProcessor;
@@ -851,11 +1031,97 @@ end;
 
 { TMarkdownProcessorFactory.TRegisteredProcessor }
 
-constructor TMarkdownProcessorFactory.TRegisteredProcessor.create(const aName: String; aProcessor: TMarkdownBlockProcessorClass);
+constructor TMarkdownProcessorFactory.TRegisteredProcessor.Create(const aName: String; aProcessor: TMarkdownBlockProcessorClass);
 
 begin
   Name:=aName;
   Processor:=aProcessor;
+end;
+
+{ TMarkdownTransform }
+
+constructor TMarkdownTransform.Create(aParser: TMarkdownParser);
+
+begin
+  inherited Create;
+  FParser:=aParser;
+end;
+
+
+class procedure TMarkdownTransform.Register(const aName: String);
+
+begin
+  TMarkdownTransformFactory.Instance.RegisterTransform(aName,Self);
+end;
+
+{ TMarkdownTransformFactory }
+
+constructor TMarkdownTransformFactory.Create;
+
+begin
+  FNames:=TStringList.Create;
+end;
+
+
+destructor TMarkdownTransformFactory.Destroy;
+
+begin
+  FreeAndNil(FNames);
+  inherited Destroy;
+end;
+
+
+class constructor TMarkdownTransformFactory.Init;
+
+begin
+  _instance:=TMarkdownTransformFactory.Create;
+end;
+
+
+class destructor TMarkdownTransformFactory.Done;
+
+begin
+  FreeAndNil(_instance);
+end;
+
+
+function TMarkdownTransformFactory.All: TMarkdownTransformClassArray;
+
+var
+  I : Integer;
+
+begin
+  Result:=[];
+  SetLength(Result,FNames.Count);
+  for I:=0 to FNames.Count-1 do
+    Result[I]:=TMarkdownTransformClass(FNames.Objects[I]);
+end;
+
+
+procedure TMarkdownTransformFactory.RegisterTransform(const aName: String; aTransform: TMarkdownTransformClass);
+
+var
+  lIdx : Integer;
+
+begin
+  lIdx:=FNames.IndexOf(LowerCase(aName));
+  if lIdx<0 then
+    FNames.AddObject(LowerCase(aName),TObject(aTransform))
+  else
+    FNames.Objects[lIdx]:=TObject(aTransform);
+end;
+
+
+function TMarkdownTransformFactory.FindTransform(const aName: String): TMarkdownTransformClass;
+
+var
+  lIdx : Integer;
+
+begin
+  Result:=Nil;
+  lIdx:=FNames.IndexOf(LowerCase(aName));
+  if lIdx>=0 then
+    Result:=TMarkdownTransformClass(FNames.Objects[lIdx]);
 end;
 
 

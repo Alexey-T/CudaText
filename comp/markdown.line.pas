@@ -26,32 +26,32 @@ type
 
   TMarkdownLine = class
   private
-    FLine : AnsiString;
+    FLine : TMarkdownString;
     FLineNo : integer;
     FCursor : integer;
     FMark : integer;
   public
-    constructor create(const aLine : AnsiString; aLineNo : integer);
+    constructor Create(const aLine : TMarkdownString; aLineNo : integer);
     procedure Reset;
     procedure Mark;
     procedure Rewind;
     procedure Advance(len : integer); // advance x number of spaces or characters
     // Skip whitespace from the current cursor position. Returns first non-whitespace character
-    Function SkipWhiteSpace : Char;
+    Function SkipWhiteSpace : TMarkdownChar;
     // Is the cursor at end of line ?
     function IsEmpty : boolean;
     // Remainder of the line, starting at cursor
-    function Remainder : AnsiString;
+    function Remainder : TMarkdownString;
     // Returns count of whitespaces from cursor. Tab acts as 4 position tab.
     function LeadingWhitespace : integer; inline;
     // Returns count of whitespaces from cursor. Tab acts as 4 position tab.
     // returns first non-whitespace character
-    function LeadingWhitespace(out aFirstNonWhitespaceChar : Char) : integer;
-    function isWhitespace : boolean; // if everything after cursor is whitespace
+    function LeadingWhitespace(out aFirstNonWhitespaceChar : TMarkdownChar) : integer;
+    function IsWhitespace : boolean; // if everything after cursor is whitespace
     // Line is the text with initial tabs replaced by spaces.
-    property Line : AnsiString Read FLine;
+    property Line : TMarkdownString Read FLine;
     property LineNo : integer Read FLineNo;
-    Property CursorPos : Integer Read FCursor;
+    Property CursorPos : Integer Read FCursor Write FCursor;
   end;
   TMarkdownLineList = class (specialize TGFPObjectList<TMarkdownLine>);
 
@@ -66,7 +66,7 @@ uses
 
 { TMarkdownLine }
 
-constructor TMarkdownLine.create(const aLine: AnsiString; aLineNo: integer);
+constructor TMarkdownLine.Create(const aLine: TMarkdownString; aLineNo: integer);
 
 begin
   inherited create;
@@ -102,7 +102,7 @@ begin
 end;
 
 
-function TMarkdownLine.isWhitespace: boolean;
+function TMarkdownLine.IsWhitespace: boolean;
 
 var
   i,lLen: integer;
@@ -126,12 +126,12 @@ end;
 
 function TMarkdownLine.LeadingWhitespace : integer;
 var
-  lDummy : char;
+  lDummy : TMarkdownChar;
 begin
   Result:=LeadingWhitespace(lDummy);
 end;
 
-function TMarkdownLine.LeadingWhitespace(out aFirstNonWhitespaceChar: Char) : integer;
+function TMarkdownLine.LeadingWhitespace(out aFirstNonWhitespaceChar: TMarkdownChar) : integer;
 
 var
   lIndex,lLen : integer;
@@ -152,14 +152,14 @@ begin
 end;
 
 
-function TMarkdownLine.Remainder: AnsiString;
+function TMarkdownLine.Remainder: TMarkdownString;
 
 begin
   Result:=Copy(FLine,FCursor,Length(FLine)-FCursor+1);
 end;
 
 
-function TMarkdownLine.SkipWhiteSpace: Char;
+function TMarkdownLine.SkipWhiteSpace: TMarkdownChar;
 
 var
   lLen : Integer;

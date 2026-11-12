@@ -30,13 +30,24 @@ const
   cSchemeChars = cSchemeStartChars + ['0'..'9', '+', '.', '-'];
 
 Type
+  // Markdown text: UTF-8 bytes in an 8-bit string, with any RTL.
+  TMarkdownString = AnsiString;
+  // A single byte of markdown text.
+  TMarkdownChar = AnsiChar;
+{$IF SIZEOF(CHAR)=2}
+  TMarkdownStringArray = array of TMarkdownString;
+{$ELSE}
+  TMarkdownStringArray = TStringArray;
+{$ENDIF}
+  TMarkdownStringBuilder = TAnsiStringBuilder;
+
   TUnicodeCharDynArray = array of unicodechar;
 
   { THashTable }
 
   THashTable = class(TFPStringHashTable)
-    function Contains(const aKey : string) : boolean;
-    function TryGet(const aKey : string; out aValue : string) : boolean;
+    function Contains(const aKey : TMarkdownString) : boolean;
+    function TryGet(const aKey : TMarkdownString; out aValue : TMarkdownString) : boolean;
   end;
 
   { TGFPObjectList }
@@ -48,7 +59,7 @@ Type
        TObjectEnum = Class
          FList : TFPObjectList;
          FIdx : Integer;
-         constructor create(aList : TFPObjectList);
+         constructor Create(aList : TFPObjectList);
          function GetCurrent : T;
          function MoveNext: Boolean;
          property Current : T read GetCurrent;
@@ -56,8 +67,8 @@ Type
     function GetElement(aIndex: Integer): T;
     procedure SetElement(aIndex: Integer; AValue: T);
   Public
-    function getenumerator : TObjectEnum;
-    function add(aElement : T) : integer;
+    function GetEnumerator : TObjectEnum;
+    function Add(aElement : T) : integer;
     property Elements[aIndex: Integer] : T read GetElement Write SetElement; default;
   end;
 
@@ -68,65 +79,99 @@ Type
   so #32#9 and #32#32#9 are equivalent to 4 spaces, not 5 or 6 respectively...
 }
 
+// UTF-8 encoding of S as markdown text, without code page conversion.
+function UnicodeToMarkdown(const S : UnicodeString) : TMarkdownString;
+// Decode the UTF-8 markdown text S.
+function MarkdownToUnicode(const S : TMarkdownString) : UnicodeString;
+// Markdown text for the native string S. With the Unicode RTL, S is UTF-8 encoded.
+function StringToMarkdown(const S : String) : TMarkdownString; {$IF SIZEOF(CHAR)=1}inline;{$ENDIF}
+// Native string for the markdown text S. With the Unicode RTL, S is UTF-8 decoded.
+function MarkdownToString(const S : TMarkdownString) : String; {$IF SIZEOF(CHAR)=1}inline;{$ENDIF}
+// Decimal representation of aValue.
+function IntToMarkdown(aValue : Int64) : TMarkdownString;
+// Convert the decimal number in S. Returns False when S is not a valid integer.
+function TryMarkdownToInt(const S : TMarkdownString; out aValue : Integer) : Boolean;
+// Convert the decimal number in S, aDefault when S is not a valid integer.
+function MarkdownToIntDef(const S : TMarkdownString; aDefault : Integer) : Integer;
+// S as a UTF8String, without code page conversion.
+function MarkdownToUTF8(const S : TMarkdownString) : UTF8String;
+// Content of aBuilder, without code page conversion.
+function BuilderToMarkdown(aBuilder : TMarkdownStringBuilder) : TMarkdownString;
+
 // Is aChar a whitespace character ?
-function IsWhitespaceChar(aChar: char): boolean;
+function IsWhitespaceChar(aChar: TMarkdownChar): boolean;
 // Does S consist of only whitespace characters ?
-function IsWhitespace(const S: String): boolean;
+function IsWhitespace(const S: TMarkdownString): boolean;
 // must character aChar be escaped ?
-function MustEscape(C : char) : boolean;
+function MustEscape(C : TMarkdownChar) : boolean;
 // Are all characters in S identical ?
-function IsStringOfChar(const S : String) : boolean;
+function IsStringOfChar(const S : TMarkdownString) : boolean;
 // Copy from the start of S all characters up to, but not including, the first character in aExclude
-function CopyUpTo(const S : String; aExclude : TSysCharSet) : String;
+function CopyUpTo(const S : TMarkdownString; aExclude : TSysCharSet) : TMarkdownString;
 // Copy from the start of S all characters after characters in aSkip
-function CopySkipped(const S : String; aSkip : TSysCharSet) : String;
+function CopySkipped(const S : TMarkdownString; aSkip : TSysCharSet) : TMarkdownString;
 // Copy from the start of S all characters that match
-function CopyMatching(const S : String; aMatches : TSysCharSet) : String;
+function CopyMatching(const S : TMarkdownString; aMatches : TSysCharSet) : TMarkdownString;
 {
   allows up to aWSLen whitespace characters before aMatch;
   Returns true if a match was found.
   Additionally returns the number of whitespace characters to remove from the start to get to aMatch.
 }
 
-function StartsWithWhitespace(const S : String; aMatch : AnsiChar; out aLength : integer; aWSLen : integer = 3) : boolean; overload;
-function StartsWithWhitespace(const S : String; aMatch : TSysCharSet; out aLength : integer; aWSLen : integer = 3) : boolean; overload;
-function StartsWithWhitespace(const S : String; const aMatch : String; out aLength : integer; aWSLen : integer = 3) : boolean; overload;
+function StartsWithWhitespace(const S : TMarkdownString; aMatch : AnsiChar; out aLength : integer; aWSLen : integer = 3) : boolean; overload;
+function StartsWithWhitespace(const S : TMarkdownString; aMatch : TSysCharSet; out aLength : integer; aWSLen : integer = 3) : boolean; overload;
+function StartsWithWhitespace(const S : TMarkdownString; const aMatch : TMarkdownString; out aLength : integer; aWSLen : integer = 3) : boolean; overload;
 // Returns the number of space characters. Tab is a tabulator of 4
-function LeadingWhitespace(const S : String) : integer; inline;
+function LeadingWhitespace(const S : TMarkdownString) : integer; inline;
 // Returns the number of space characters. Tab is a tabulator of 4.
-function LeadingWhitespace(const S : String; out aTabs : integer) : integer; inline;
+function LeadingWhitespace(const S : TMarkdownString; out aTabs : integer) : integer; inline;
 // Returns the number of space characters. Tab is a tabulator of 4. Returns the number of tab characters and characters considered whitespace.
-function LeadingWhitespace(const S : String; out aTabs, aWhitespaceChars : integer) : integer;
+function LeadingWhitespace(const S : TMarkdownString; out aTabs, aWhitespaceChars : integer) : integer;
 // Returns the number of space characters. Tab is a tabulator of 4
-function LengthWhitespaceCorrected(const S : String) : integer;
+function LengthWhitespaceCorrected(const S : TMarkdownString) : integer;
 // Remove up to count spaces. Tabs are taken into account.
-function RemoveLeadingWhiteSpace(const S : String; aCount : integer) : String;
+function RemoveLeadingWhiteSpace(const S : TMarkdownString; aCount : integer) : TMarkdownString;
 // Remove ALL whitespace from S
-function StripWhitespace(const S : String) : String;
+function StripWhitespace(const S : TMarkdownString) : TMarkdownString;
 // HTML escaping of < > & and " for a single character aChar
-function HtmlEscape(aChar : char) : String; overload;
+function HtmlEscape(aChar : TMarkdownChar) : TMarkdownString; overload;
 // HTML escaping of < > & and " for all characters in S
-function HtmlEscape(const S : String) : String; overload;
-// URL escape of aChar for display in HTML (so & is escaped)
-function UrlEscape(aChar : UnicodeChar) : String; overload;
+function HtmlEscape(const S : TMarkdownString) : TMarkdownString; overload;
+// URL escape of aChar: percent-encode characters not allowed in a URL
+function UrlEscape(aChar : UnicodeChar) : TMarkdownString; overload;
 // URL escape of all characters in S
-function UrlEscape(const S : String) : String; overload;
+function UrlEscape(const S : TMarkdownString) : TMarkdownString; overload;
 // Is the string S an absolute URI ?
-function isAbsoluteUri(const S : String) : boolean;
+function IsAbsoluteUri(const S : TMarkdownString) : boolean;
 // Is S a valid email address
-function IsEmailLike(const S : String) : boolean;
+function IsEmailLike(const S : TMarkdownString) : boolean;
+// UTF-8 for a Unicode codepoint. Zero, surrogates and out-of-range values give U+FFFD
+function CodePointToUTF8(aCodePoint : Integer) : TMarkdownString;
 // Parse entity string
-function ParseEntityString(aEntities : TFPStringHashTable; const aEntity : String): String;
+function ParseEntityString(aEntities : TFPStringHashTable; const aEntity : TMarkdownString): TMarkdownString;
 // Check if S ends on an entity start character, and if so, return the length of the entity
-function CheckForTrailingEntity(Const S : String) : integer;
+function CheckForTrailingEntity(Const S : TMarkdownString) : integer;
 // Is aChar a Unicode punctuation character ?
 function IsUnicodePunctuation(aChar : UnicodeChar) : boolean;
 // Count the number of characters aChar at the start of aLine
-function CountStartChars(const aLine : string; aChar : Char) : integer;
+function CountStartChars(const aLine : TMarkdownString; aChar : TMarkdownChar) : integer;
 // Convert the string S to an array of unicode characters
-function ToUnicodeChars(const S : String) : TUnicodeCharDynArray;
+function ToUnicodeChars(const S : TMarkdownString) : TUnicodeCharDynArray;
 // Transform tabulators to spaces in leading whitespace, taking into account the above definition of tabulator.
-Function TransformTabs(const aLine : string) : string;
+Function TransformTabs(const aLine : TMarkdownString) : TMarkdownString;
+// Parse an attribute specification {#id .class key=value key="quoted value"}.
+// Values use backslash escapes. aAttrs receives key=value pairs and may be Nil.
+// Returns False, and leaves aAttrs unchanged, when aText is not a valid specification.
+function ParseAttributeSpec(const aText : TMarkdownString; out aID : TMarkdownString; out aClasses : TMarkdownStringArray; aAttrs : TStrings) : Boolean;
+// Remove a valid attribute specification from the end of aText and return it. Returns an empty string when there is none.
+function ExtractTrailingAttributeSpec(var aText : TMarkdownString) : TMarkdownString;
+// Parse the text of a marker comment, name[argument]: value or name: value.
+// Returns False when aText is not a marker.
+function ParseMarker(const aText : TMarkdownString; out aName, aArgument, aValue : TMarkdownString) : Boolean;
+// Normalize a link label for lookup: trimmed, inner whitespace collapsed to one space, lowercase.
+function NormalizeLinkLabel(const aLabel : TMarkdownString) : TMarkdownString;
+// Identifier made from heading text: lowercase, letters, digits, marks, spaces, - and _ kept, spaces become -.
+function HeadingTextToID(const aText : TMarkdownString) : TMarkdownString;
 
 implementation
 
@@ -137,7 +182,106 @@ uses
   StrUtils, UnicodeData;
 {$ENDIF}
 
-function CountStartChars(const aLine : string; aChar : Char) : integer;
+function UnicodeToMarkdown(const S : UnicodeString) : TMarkdownString;
+
+var
+  lUTF8 : RawByteString;
+
+begin
+  Result:='';
+  lUTF8:=UTF8Encode(S);
+  SetLength(Result,Length(lUTF8));
+  if Length(lUTF8)>0 then
+    Move(lUTF8[1],Result[1],Length(lUTF8));
+end;
+
+
+function MarkdownToUnicode(const S : TMarkdownString) : UnicodeString;
+
+begin
+  Result:=UTF8Decode(S);
+end;
+
+
+function StringToMarkdown(const S : String) : TMarkdownString;
+
+begin
+{$IF SIZEOF(CHAR)=2}
+  Result:=UnicodeToMarkdown(S);
+{$ELSE}
+  Result:=S;
+{$ENDIF}
+end;
+
+
+function MarkdownToString(const S : TMarkdownString) : String;
+
+begin
+{$IF SIZEOF(CHAR)=2}
+  Result:=MarkdownToUnicode(S);
+{$ELSE}
+  Result:=S;
+{$ENDIF}
+end;
+
+
+function IntToMarkdown(aValue : Int64) : TMarkdownString;
+
+begin
+  Str(aValue,Result);
+end;
+
+
+function TryMarkdownToInt(const S : TMarkdownString; out aValue : Integer) : Boolean;
+
+var
+  lCode : Integer;
+
+begin
+  Val(S,aValue,lCode);
+  Result:=(lCode=0) and (Length(S)>0);
+end;
+
+
+function MarkdownToIntDef(const S : TMarkdownString; aDefault : Integer) : Integer;
+
+begin
+  if not TryMarkdownToInt(S,Result) then
+    Result:=aDefault;
+end;
+
+
+function MarkdownToUTF8(const S : TMarkdownString) : UTF8String;
+
+begin
+  Result:='';
+  SetLength(Result,Length(S));
+  if Length(S)>0 then
+    Move(S[1],Result[1],Length(S));
+end;
+
+
+function BuilderToMarkdown(aBuilder : TMarkdownStringBuilder) : TMarkdownString;
+
+begin
+  Result:=aBuilder.ToString(0,aBuilder.Length);
+end;
+
+
+// %XX encoding of aByte.
+function PercentEncode(aByte : Byte) : TMarkdownString;
+
+const
+  HexDigits : Array[0..15] of TMarkdownChar = '0123456789ABCDEF';
+
+begin
+  Result:='%  ';
+  Result[2]:=HexDigits[aByte shr 4];
+  Result[3]:=HexDigits[aByte and $F];
+end;
+
+
+function CountStartChars(const aLine : TMarkdownString; aChar : TMarkdownChar) : integer;
 var
   I : integer;
 begin
@@ -150,7 +294,7 @@ begin
     end;
 end;
 
-function ToUnicodeChars(const S: String): TUnicodeCharDynArray;
+function ToUnicodeChars(const S: TMarkdownString): TUnicodeCharDynArray;
 
 var
   i, lLen: integer;
@@ -158,7 +302,7 @@ var
 
 begin
   Result:=[];
-  U:=UTF8Decode(s);
+  U:=MarkdownToUnicode(s);
   lLen:=Length(U);
   SetLength(Result,lLen);
   for i:=1 to lLen do
@@ -184,7 +328,7 @@ begin
 end;
 
 
-function HtmlEscape(aChar: char): String;
+function HtmlEscape(aChar: TMarkdownChar): TMarkdownString;
 
 begin
   case aChar of
@@ -198,13 +342,13 @@ begin
 end;
 
 
-function HtmlEscape(const S: String): String;
+function HtmlEscape(const S: TMarkdownString): TMarkdownString;
 
 var
   lPos,
   lTotalLen,
   lCharLen : Integer;
-  lChar : char;
+  lChar : TMarkdownChar;
   lRepl : String[6];
 
 begin
@@ -247,7 +391,7 @@ begin
 end;
 
 
-function CopySkipped(const S: String; aSkip: TSysCharSet): String;
+function CopySkipped(const S: TMarkdownString; aSkip: TSysCharSet): TMarkdownString;
 
 var
   lLen,Idx : integer;
@@ -262,11 +406,11 @@ begin
 end;
 
 
-function IsStringOfChar(const S: String): boolean;
+function IsStringOfChar(const S: TMarkdownString): boolean;
 
 var
   lLen,I : integer;
-  C : char;
+  C : TMarkdownChar;
 
 begin
   Result:=true;
@@ -282,7 +426,7 @@ begin
     end;
 end;
 
-function CopyUpTo(const S: String; aExclude: TSysCharSet): String;
+function CopyUpTo(const S: TMarkdownString; aExclude: TSysCharSet): TMarkdownString;
 
 var
   lLen, Idx : Integer;
@@ -297,7 +441,7 @@ begin
 end;
 
 
-function CopyMatching(const S: String; aMatches: TSysCharSet): String;
+function CopyMatching(const S: TMarkdownString; aMatches: TSysCharSet): TMarkdownString;
 
 var
   lLen, Idx : integer;
@@ -314,7 +458,7 @@ begin
 end;
 
 
-function StartsWithWhitespace(const S: String; aMatch: AnsiChar; out aLength: integer; aWSLen: integer): boolean;
+function StartsWithWhitespace(const S: TMarkdownString; aMatch: AnsiChar; out aLength: integer; aWSLen: integer): boolean;
 
 var
   lLen, Idx : integer;
@@ -335,7 +479,7 @@ begin
     Dec(aLength);
 end;
 
-function StartsWithWhitespace(const S: String; aMatch: TSysCharSet; out aLength: integer; aWSLen: integer): boolean;
+function StartsWithWhitespace(const S: TMarkdownString; aMatch: TSysCharSet; out aLength: integer; aWSLen: integer): boolean;
 var
   lLen, Idx : integer;
 
@@ -355,7 +499,7 @@ begin
     Dec(aLength);
 end;
 
-function StartsWithWhitespace(const S: String; const aMatch: String; out aLength: integer; aWSLen: integer): boolean;
+function StartsWithWhitespace(const S: TMarkdownString; const aMatch: TMarkdownString; out aLength: integer; aWSLen: integer): boolean;
 
 var
   Len, I : integer;
@@ -377,7 +521,7 @@ begin
 end;
 
 
-function LengthWhitespaceCorrected(const S: String): integer;
+function LengthWhitespaceCorrected(const S: TMarkdownString): integer;
 
 var
   lDelta,i : integer;
@@ -394,7 +538,7 @@ begin
     end;
 end;
 
-function LeadingWhitespace(const S: String; out aTabs, aWhitespaceChars: integer): integer;
+function LeadingWhitespace(const S: TMarkdownString; out aTabs, aWhitespaceChars: integer): integer;
 
 var
   i,lLen,lDelta : integer;
@@ -419,7 +563,7 @@ begin
   aWhitespaceChars:=i;
 end;
 
-function LeadingWhitespace(const S: String): integer;
+function LeadingWhitespace(const S: TMarkdownString): integer;
 
 var
   lTabs,lChars : integer;
@@ -428,7 +572,7 @@ begin
   Result:=LeadingWhitespace(S,lTabs,lChars);
 end;
 
-function LeadingWhitespace(const S: String; out aTabs: integer): integer;
+function LeadingWhitespace(const S: TMarkdownString; out aTabs: integer): integer;
 
 var
   lChars : integer;
@@ -438,7 +582,7 @@ begin
 end;
 
 
-function RemoveLeadingWhiteSpace(const S: String; aCount: integer): String;
+function RemoveLeadingWhiteSpace(const S: TMarkdownString; aCount: integer): TMarkdownString;
 
 var
   Len, Idx, Delta, lCount : integer;
@@ -469,11 +613,11 @@ begin
   Result:=Result+Copy(S,Idx+1,Len-Idx);
 end;
 
-function StripWhitespace(const S: String): String;
+function StripWhitespace(const S: TMarkdownString): TMarkdownString;
 
 var
   lCount : integer;
-  C : Char;
+  C : TMarkdownChar;
 
 begin
   Result:='';
@@ -488,55 +632,42 @@ begin
   SetLength(Result,lCount);
 end;
 
-function UrlEscape(aChar: UnicodeChar): String;
-
-var
-  b : TBytes;
-  i : integer;
+function UrlEscape(aChar: UnicodeChar): TMarkdownString;
 
 begin
-  case aChar of
-    '&' :
-      // not escaped in URL but is escaped in html
-      Result:='&amp;';
-    '\', '[', ']', '"', '`' :
-      Result:='%'+IntToHex(ord(aChar),2);
-  else
-    if ord(aChar) > $7F then
-      begin
-      b:=TEncoding.UTF8.GetBytes(aChar);
-      Result:='';
-      for i:=0 to length(b) - 1 do
-        Result:=Result + '%'+IntToHex(b[i],2);
-      end
-    else if ord(aChar) > 126 then
-      Result:='%'+IntToHex(ord(aChar),2)
-    else
-      Result:=AnsiChar(aChar);
+  Result:=UrlEscape(UnicodeToMarkdown(aChar));
+end;
+
+function UrlEscape(const S: TMarkdownString): TMarkdownString;
+
+var
+  C : TMarkdownChar;
+  lBuilder : TMarkdownStringBuilder;
+
+begin
+  lBuilder:=TMarkdownStringBuilder.Create(Length(S));
+  try
+    for C in S do
+      if (C in ['\', '[', ']', '"', '`']) or (Ord(C)>126) then
+        lBuilder.Append(PercentEncode(Ord(C)))
+      else
+        lBuilder.Append(C);
+    Result:=BuilderToMarkdown(lBuilder);
+  finally
+    lBuilder.Free;
   end;
 end;
 
-function UrlEscape(const S: String): String;
-
-var
-  C : UnicodeChar;
-
-begin
-  Result:='';
-  for C in ToUnicodeChars(S) do
-    Result:=Result+urlEscape(C);
-end;
-
-function IsWhitespaceChar(aChar: char): boolean;
+function IsWhitespaceChar(aChar: TMarkdownChar): boolean;
 
 begin
   Result:=CharInSet(aChar,[#9,#10,#32]);
 end;
 
-function IsWhitespace(const S: String): boolean;
+function IsWhitespace(const S: TMarkdownString): boolean;
 
 var
-  C : Char;
+  C : TMarkdownChar;
 
 begin
   Result:=true;
@@ -545,17 +676,44 @@ begin
       exit(false);
 end;
 
-function MustEscape(C : char) : boolean;
+function MustEscape(C : TMarkdownChar) : boolean;
 
 begin
   Result:=Pos(C,'!"#$%&''()*+,-./:;<=>?@[\]^_`{|}~')>0;
 end;
 
-function ParseEntityString(aEntities : TFPStringHashTable; const aEntity : String): String;
+function CodePointToUTF8(aCodePoint: Integer): TMarkdownString;
+
+const
+  MaxCodePoint = $10FFFF;
 
 var
-  S : String;
-  C : UnicodeChar;
+  U : UnicodeString;
+
+begin
+  if (aCodePoint<=0) or (aCodePoint>MaxCodePoint)
+     or ((aCodePoint>=$D800) and (aCodePoint<=$DFFF)) then
+    aCodePoint:=$FFFD;
+  if aCodePoint<=$FFFF then
+    begin
+    SetLength(U,1);
+    U[1]:=UnicodeChar(aCodePoint);
+    end
+  else
+    begin
+    Dec(aCodePoint,$10000);
+    SetLength(U,2);
+    U[1]:=UnicodeChar($D800 or (aCodePoint shr 10));
+    U[2]:=UnicodeChar($DC00 or (aCodePoint and $3FF));
+    end;
+  Result:=UnicodeToMarkdown(U);
+end;
+
+
+function ParseEntityString(aEntities : TFPStringHashTable; const aEntity : TMarkdownString): TMarkdownString;
+
+var
+  S : TMarkdownString;
   i, Len : integer;
 
 begin
@@ -564,21 +722,15 @@ begin
   if Result<>'' then
     Exit;
   Len:=Length(S);
-  if (Len>0) and (Len<=9) and (S[1]='#') and TryStrToInt(Copy(S,2,Len-1),i)  then
-    begin
-    if (I<=0) or (i>65535) then
-      C:=#$FFFD
-    else
-      C:=UnicodeChar(i);
-    Result:=UTF8Encode(C);
-    end;
+  if (Len>0) and (Len<=9) and (S[1]='#') and TryMarkdownToInt(Copy(S,2,Len-1),i)  then
+    Result:=CodePointToUTF8(i);
 end;
 
-function CheckForTrailingEntity(const S: String): integer;
+function CheckForTrailingEntity(const S: TMarkdownString): integer;
 
 var
-  Tmp : String;
-  C : char;
+  Tmp : TMarkdownString;
+  C : TMarkdownChar;
   p,Len : Integer;
 
 begin
@@ -594,7 +746,7 @@ begin
    exit(Length(tmp)+2);
 end;
 
-function TransformTabs(const aLine: string): string;
+function TransformTabs(const aLine: TMarkdownString): TMarkdownString;
 
 var
   len,tabs,wsCount : integer;
@@ -610,13 +762,13 @@ end;
 
 { THashTable }
 
-function THashTable.Contains(const aKey: string): boolean;
+function THashTable.Contains(const aKey: TMarkdownString): boolean;
 
 begin
   Result:=Find(aKey)<>Nil;
 end;
 
-function THashTable.TryGet(const aKey: string; out aValue: string): boolean;
+function THashTable.TryGet(const aKey: TMarkdownString; out aValue: TMarkdownString): boolean;
 
 var
   N : THTStringNode;
@@ -642,20 +794,20 @@ begin
   Items[aIndex]:=aValue;
 end;
 
-function TGFPObjectList.getenumerator: TObjectEnum;
+function TGFPObjectList.GetEnumerator: TObjectEnum;
 
 begin
   Result:=TObjectEnum.Create(Self);
 end;
 
-function TGFPObjectList.add(aElement: T): integer;
+function TGFPObjectList.Add(aElement: T): integer;
 begin
   Result:=Inherited add(aElement);
 end;
 
 { TGFPObjectList.TObjectEnum }
 
-constructor TGFPObjectList.TObjectEnum.create(aList: TFPObjectList);
+constructor TGFPObjectList.TObjectEnum.Create(aList: TFPObjectList);
 begin
   FList:=aList;
   FIdx:=-1;
@@ -676,10 +828,10 @@ begin
 end;
 
 
-function isAbsoluteUri(const S : String) : boolean;
+function IsAbsoluteUri(const S : TMarkdownString) : boolean;
 
 var
-  lScheme, lTail : String;
+  lScheme, lTail : TMarkdownString;
   i,p,lLen : integer;
 
 begin
@@ -705,17 +857,18 @@ begin
   Result:=true;
 end;
 
-function IsEmailLike(const S : String) : boolean;
+function IsEmailLike(const S : TMarkdownString) : boolean;
 
 type
   TState = (sNeutral,sUser,sHost,sDomain);
 
 var
   lState : TState;
-  c,prev : char;
+  c,prev : TMarkdownChar;
 
 begin
   Result:=False;
+  prev:=#0;
   if s.CountChar('@') <> 1 then
     Exit;
   lState:=sNeutral;
@@ -744,6 +897,239 @@ begin
   if prev in ['@','.'] then
     exit;
   Result:=lState=sDomain;
+end;
+
+
+// Read an attribute token or value from aText at aPos, resolving backslash escapes.
+function ReadAttributeToken(const aText : TMarkdownString; var aPos : Integer; aLast : Integer; aStopChars : TSysCharSet; out aToken : TMarkdownString) : Boolean;
+
+var
+  lQuote : TMarkdownChar;
+
+begin
+  aToken:='';
+  Result:=False;
+  if (aPos<=aLast) and (aText[aPos] in ['"','''']) then
+    begin
+    lQuote:=aText[aPos];
+    Inc(aPos);
+    while (aPos<=aLast) and (aText[aPos]<>lQuote) do
+      begin
+      if (aText[aPos]='\') and (aPos<aLast) and MustEscape(aText[aPos+1]) then
+        Inc(aPos);
+      aToken:=aToken+aText[aPos];
+      Inc(aPos);
+      end;
+    if aPos>aLast then
+      Exit;
+    Inc(aPos);
+    Result:=True;
+    end
+  else
+    begin
+    while (aPos<=aLast) and not (aText[aPos] in aStopChars) do
+      begin
+      if (aText[aPos]='\') and (aPos<aLast) and MustEscape(aText[aPos+1]) then
+        Inc(aPos);
+      aToken:=aToken+aText[aPos];
+      Inc(aPos);
+      end;
+    Result:=aToken<>'';
+    end;
+end;
+
+
+function ParseAttributeSpec(const aText : TMarkdownString; out aID : TMarkdownString; out aClasses : TMarkdownStringArray; aAttrs : TStrings) : Boolean;
+
+const
+  WhiteSpaceChars = [' ',#9,#10,#13];
+  KeyChars = ['a'..'z','A'..'Z','0'..'9','_','-',':','.'];
+
+var
+  S,lToken,lKey : TMarkdownString;
+  lPos,lLast : Integer;
+  lPairs : TMarkdownStringArray;
+  lKind : TMarkdownChar;
+
+begin
+  aID:='';
+  aClasses:=[];
+  lPairs:=[];
+  Result:=False;
+  S:=Trim(aText);
+  lLast:=Length(S);
+  if (lLast<2) or (S[1]<>'{') or (S[lLast]<>'}') then
+    Exit;
+  Dec(lLast);
+  lPos:=2;
+  while lPos<=lLast do
+    begin
+    if S[lPos] in WhiteSpaceChars then
+      begin
+      Inc(lPos);
+      Continue;
+      end;
+    case S[lPos] of
+      '#','.':
+        begin
+        lKind:=S[lPos];
+        Inc(lPos);
+        if not ReadAttributeToken(S,lPos,lLast,WhiteSpaceChars+['{','}','"','''','='],lToken) then
+          Exit;
+        if lKind='#' then
+          aID:=lToken
+        else
+          aClasses:=Concat(aClasses,[lToken]);
+        end;
+      'a'..'z','A'..'Z','0'..'9','_':
+        begin
+        lKey:='';
+        while (lPos<=lLast) and (S[lPos] in KeyChars) do
+          begin
+          lKey:=lKey+S[lPos];
+          Inc(lPos);
+          end;
+        if (lPos>lLast) or (S[lPos]<>'=') then
+          Exit;
+        Inc(lPos);
+        if not ReadAttributeToken(S,lPos,lLast,WhiteSpaceChars+['{','}','"',''''],lToken) then
+          Exit;
+        lPairs:=Concat(lPairs,[lKey+'='+lToken]);
+        end;
+    else
+      Exit;
+    end;
+    if (lPos<=lLast) and not (S[lPos] in WhiteSpaceChars) then
+      Exit;
+    end;
+  if Assigned(aAttrs) then
+    for lToken in lPairs do
+      aAttrs.Add(MarkdownToString(lToken));
+  Result:=True;
+end;
+
+
+function ExtractTrailingAttributeSpec(var aText : TMarkdownString) : TMarkdownString;
+
+var
+  S,lID : TMarkdownString;
+  lClasses : TMarkdownStringArray;
+  P : Integer;
+
+begin
+  Result:='';
+  S:=TrimRight(aText);
+  if (S='') or (S[Length(S)]<>'}') then
+    Exit;
+  P:=Length(S)-1;
+  while P>0 do
+    begin
+    if (S[P]='{') and ((P=1) or (S[P-1]<>'\')) then
+      if ParseAttributeSpec(Copy(S,P,Length(S)-P+1),lID,lClasses,Nil) then
+        begin
+        Result:=Copy(S,P,Length(S)-P+1);
+        aText:=TrimRight(Copy(S,1,P-1));
+        Exit;
+        end;
+    Dec(P);
+    end;
+end;
+
+
+function ParseMarker(const aText : TMarkdownString; out aName, aArgument, aValue : TMarkdownString) : Boolean;
+
+const
+  NameChars = ['a'..'z','A'..'Z','0'..'9','-','_'];
+
+var
+  S : TMarkdownString;
+  lPos,lLen,lEnd : Integer;
+
+begin
+  Result:=False;
+  aName:='';
+  aArgument:='';
+  aValue:='';
+  S:=Trim(aText);
+  lLen:=Length(S);
+  lPos:=1;
+  while (lPos<=lLen) and (S[lPos] in NameChars) do
+    Inc(lPos);
+  if lPos=1 then
+    Exit;
+  aName:=Copy(S,1,lPos-1);
+  if (lPos<=lLen) and (S[lPos]='[') then
+    begin
+    lEnd:=Pos(']',S,lPos);
+    if lEnd=0 then
+      Exit;
+    aArgument:=Trim(Copy(S,lPos+1,lEnd-lPos-1));
+    lPos:=lEnd+1;
+    end;
+  if (lPos>lLen) or (S[lPos]<>':') then
+    begin
+    aName:='';
+    aArgument:='';
+    Exit;
+    end;
+  aValue:=Trim(Copy(S,lPos+1,lLen-lPos));
+  Result:=True;
+end;
+
+
+function NormalizeLinkLabel(const aLabel : TMarkdownString) : TMarkdownString;
+
+var
+  C : TMarkdownChar;
+  lSpace : Boolean;
+
+begin
+  Result:='';
+  lSpace:=False;
+  for C in Trim(aLabel) do
+    if IsWhitespaceChar(C) or (C in [#10,#13]) then
+      lSpace:=True
+    else
+      begin
+      if lSpace then
+        Result:=Result+' ';
+      lSpace:=False;
+      Result:=Result+C;
+      end;
+  Result:=UnicodeToMarkdown(UnicodeLowerCase(MarkdownToUnicode(Result)));
+end;
+
+
+function HeadingTextToID(const aText : TMarkdownString) : TMarkdownString;
+
+var
+  U,lResult : UnicodeString;
+  C : UnicodeChar;
+  lKeep : Boolean;
+
+begin
+  U:=UnicodeLowerCase(MarkdownToUnicode(aText));
+  lResult:='';
+  for C in U do
+    begin
+    case C of
+      'a'..'z','0'..'9','-','_' : lKeep:=True;
+      ' ' : lKeep:=True;
+    else
+      if Ord(C)<128 then
+        lKeep:=False
+      else if (Ord(C)>=HIGH_SURROGATE_BEGIN) and (Ord(C)<=LOW_SURROGATE_END) then
+        lKeep:=True
+      else
+        lKeep:=GetProps(Ord(C))^.Category in [UGC_UppercaseLetter..UGC_OtherNumber,UGC_ConnectPunctuation];
+    end;
+    if lKeep then
+      if C=' ' then
+        lResult:=lResult+'-'
+      else
+        lResult:=lResult+C;
+    end;
+  Result:=UnicodeToMarkdown(lResult);
 end;
 
 end.

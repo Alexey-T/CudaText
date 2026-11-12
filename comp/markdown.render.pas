@@ -39,7 +39,25 @@ Type
   TMarkdownTextRenderer = class;
   TMarkdownTextRendererClass = class of TMarkdownTextRenderer;
 
+  TMarkdownRenderer = class;
 
+  // Called where a marker comment occurs.
+  TMarkdownMarkerEvent = procedure(aRenderer : TMarkdownRenderer; const aName, aArgument, aValue : TMarkdownString) of object;
+  // Called for every link before it is written. Set aHandled when the handler wrote the link itself.
+  TMarkdownResolveLinkEvent = procedure(aRenderer : TMarkdownRenderer; var aHref, aText : TMarkdownString; out aHandled : Boolean) of object;
+  // Returns the number to write before a heading.
+  TMarkdownHeadingNumberEvent = procedure(aRenderer : TMarkdownRenderer; aBlock : TMarkdownBlock; out aNumber : TMarkdownString) of object;
+  // Returns the label to write before a table or figure caption.
+  TMarkdownCaptionNumberEvent = procedure(aRenderer : TMarkdownRenderer; aBlock : TMarkdownBlock; out aLabel : TMarkdownString) of object;
+
+resourcestring
+  SAlertNote = 'Note';
+  SAlertTip = 'Tip';
+  SAlertImportant = 'Important';
+  SAlertWarning = 'Warning';
+  SAlertCaution = 'Caution';
+
+type
   { TMarkdownRenderer }
 
   TMarkdownRenderer = class(TComponent)
@@ -47,7 +65,14 @@ Type
     FSkipUnknownElements: Boolean;
     FTextRenderer : TMarkdownTextRenderer;
     FRenderStack : TFPList;
+    FAlertTitles : Array[TAlertType] of TMarkdownString;
+    FOnCaptionNumber: TMarkdownCaptionNumberEvent;
+    FOnHeadingNumber: TMarkdownHeadingNumberEvent;
+    FOnMarker: TMarkdownMarkerEvent;
+    FOnResolveLink: TMarkdownResolveLinkEvent;
+    function GetAlertTitle(aType : TAlertType): TMarkdownString;
     function GetParentElementRenderer: TMarkdownElementRenderer;
+    procedure SetAlertTitle(aType : TAlertType; const aValue: TMarkdownString);
   protected
     function CreateRendererInstance(aClass : TMarkdownBlockRendererClass) : TMarkdownBlockRenderer; virtual;
     function CreateRendererForBlock(aBlock : TMarkdownBlock) : TMarkdownBlockRenderer; virtual;
@@ -56,15 +81,37 @@ Type
     Property ParentElementRenderer: TMarkdownElementRenderer Read GetParentElementRenderer;
   public
     constructor Create(AOwner: TComponent); override;
-    destructor destroy; override;
+    destructor Destroy; override;
     Procedure RenderText(aText : TMarkdownTextNode); virtual;
     Procedure RenderTextNodes(aTextNodes : TMarkdownTextNodeList);
     Procedure RenderBlock(aBlock : TMarkdownBlock); virtual;
-    procedure RenderCodeBlock(aBlock: TMarkdownBlock; const aLang: string); virtual;
+    procedure RenderCodeBlock(aBlock: TMarkdownBlock; const aLang: TMarkdownString); virtual;
     procedure RenderChildren(aBlock : TMarkdownContainerBlock); virtual;
     Procedure RenderDocument(aDocument : TMarkdownDocument); virtual; abstract;
+    // Write text that is already in the target format. The default does nothing.
+    procedure WriteRaw(const aText : TMarkdownString); virtual;
+    // Call OnMarker for a marker.
+    procedure DoMarker(const aName, aArgument, aValue : TMarkdownString); virtual;
+    // Call OnMarker when aNode is a marker comment node.
+    procedure DoMarkerNode(aNode : TMarkdownTextNode);
+    // Call OnResolveLink. Returns True when the handler wrote the link.
+    function DoResolveLink(var aHref, aText : TMarkdownString) : Boolean; virtual;
+    // The number to write before heading aBlock, from OnHeadingNumber.
+    function GetHeadingNumber(aBlock : TMarkdownBlock) : TMarkdownString; virtual;
+    // The label to write before the caption of table or figure aBlock, from OnCaptionNumber.
+    function GetCaptionNumber(aBlock : TMarkdownBlock) : TMarkdownString; virtual;
+    // Title written above an alert of the given type.
+    property AlertTitles[aType : TAlertType] : TMarkdownString read GetAlertTitle write SetAlertTitle;
   published
     Property SkipUnknownElements : Boolean read FSkipUnknownElements Write FSkipUnknownElements;
+    // Called where a marker comment occurs.
+    Property OnMarker : TMarkdownMarkerEvent read FOnMarker write FOnMarker;
+    // Called for every link before it is written.
+    Property OnResolveLink : TMarkdownResolveLinkEvent read FOnResolveLink write FOnResolveLink;
+    // Called for the number to write before a heading.
+    Property OnHeadingNumber : TMarkdownHeadingNumberEvent read FOnHeadingNumber write FOnHeadingNumber;
+    // Called for the label to write before a table or figure caption.
+    Property OnCaptionNumber : TMarkdownCaptionNumberEvent read FOnCaptionNumber write FOnCaptionNumber;
   end;
   TMarkdownRendererClass = class of TMarkdownRenderer;
 
@@ -80,8 +127,8 @@ Type
     Property Renderer : TMarkdownRenderer read FRenderer;
     Property ParentElementRenderer : TMarkdownElementRenderer read GetParentElementRenderer;
   public
-    constructor create(aRenderer : TMarkdownRenderer);
-    procedure reset; virtual;
+    constructor Create(aRenderer : TMarkdownRenderer);
+    procedure Reset; virtual;
   end;
 
 
@@ -103,7 +150,7 @@ Type
     procedure DoRender(aElement: TMarkdownTextNode); virtual; abstract;
   public
     class procedure RegisterRenderer(aRendererClass : TMarkdownRendererClass);
-    procedure render(aElement : TMarkdownTextNode); inline;
+    procedure Render(aElement : TMarkdownTextNode); inline;
     // Block state management.
     procedure BeginBlock; virtual;
     procedure EndBlock; virtual;
@@ -134,7 +181,7 @@ Type
     TBlockRenderRegistration = class
       BlockClass : TMarkdownBlockClass;
       RendererClass : TMarkdownBlockRendererClass;
-      constructor create(aBlockClass : TMarkdownBlockClass; aRendererClass : TMarkdownBlockRendererClass);
+      constructor Create(aBlockClass : TMarkdownBlockClass; aRendererClass : TMarkdownBlockRendererClass);
     end;
     TBlockRenderRegistrationList = Specialize TGFPObjectList<TBlockRenderRegistration>;
 
@@ -144,8 +191,8 @@ Type
       Renderer : TMarkdownRendererClass;
       BlockRenderers : TBlockRenderRegistrationList;
       Textrenderer : TMarkdownTextRendererClass;
-      Constructor create(aRenderer : TMarkdownRendererClass);
-      destructor destroy; override;
+      Constructor Create(aRenderer : TMarkdownRendererClass);
+      destructor Destroy; override;
       function FindBlock (aClass : TMarkdownBlockClass; aAllowCreate : Boolean) : TBlockRenderRegistration;
      end;
      TRenderBlockRenderersList = specialize TGFPObjectList<TRenderBlockRenderers>;
@@ -155,10 +202,10 @@ Type
   protected
     function FindRenderer(aClass : TMarkdownRendererClass; allowCreate : Boolean) : TRenderBlockRenderers;
   public
-    class constructor init;
-    class destructor done;
-    constructor create;
-    destructor destroy; override;
+    class constructor Init;
+    class destructor Done;
+    constructor Create;
+    destructor Destroy; override;
     procedure RegisterBlockRenderer(aRendererClass : TMarkdownRendererClass; aBlockClass : TMarkdownBlockClass; aBlockRendererClass : TMarkdownBlockRendererClass);
     function FindBlockRendererClass(aRendererClass : TMarkdownRendererClass; aBlockClass : TMarkdownBlockClass) : TMarkdownBlockRendererClass;
     procedure RegisterTextRenderer(aRendererClass : TMarkdownRendererClass; aTextRendererClass : TMarkdownTextRendererClass);
@@ -175,7 +222,7 @@ begin
 end;
 
 
-procedure TMarkdownBlockRenderer.render(aBlock: TMarkdownBlock);
+procedure TMarkdownBlockRenderer.Render(aBlock: TMarkdownBlock);
 
 begin
   DoRender(aBlock);
@@ -191,7 +238,7 @@ begin
 end;
 
 
-procedure TMarkdownTextRenderer.render(aElement: TMarkdownTextNode);
+procedure TMarkdownTextRenderer.Render(aElement: TMarkdownTextNode);
 
 begin
   DoRender(aElement);
@@ -269,7 +316,7 @@ var
 
 begin
   Result:=nil;
-  if FTextRenderer=Nil then;
+  if FTextRenderer=Nil then
     begin
     lRenderClass:=TMarkdownRendererClass(Self.ClassType);
     lClass:=TMarkdownRendererFactory.Instance.FindTextRendererClass(lRenderClass);
@@ -291,9 +338,86 @@ constructor TMarkdownRenderer.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
   FRenderStack:=TFPList.Create;
+  FAlertTitles[atNote]:=StringToMarkdown(SAlertNote);
+  FAlertTitles[atTip]:=StringToMarkdown(SAlertTip);
+  FAlertTitles[atImportant]:=StringToMarkdown(SAlertImportant);
+  FAlertTitles[atWarning]:=StringToMarkdown(SAlertWarning);
+  FAlertTitles[atCaution]:=StringToMarkdown(SAlertCaution);
 end;
 
-destructor TMarkdownRenderer.destroy;
+
+function TMarkdownRenderer.GetAlertTitle(aType : TAlertType): TMarkdownString;
+
+begin
+  Result:=FAlertTitles[aType];
+end;
+
+
+procedure TMarkdownRenderer.SetAlertTitle(aType : TAlertType; const aValue: TMarkdownString);
+
+begin
+  FAlertTitles[aType]:=aValue;
+end;
+
+
+procedure TMarkdownRenderer.WriteRaw(const aText: TMarkdownString);
+
+begin
+  if aText='' then ; // Silence warning
+end;
+
+
+procedure TMarkdownRenderer.DoMarker(const aName, aArgument, aValue: TMarkdownString);
+
+begin
+  if Assigned(FOnMarker) then
+    FOnMarker(Self,aName,aArgument,aValue);
+end;
+
+
+procedure TMarkdownRenderer.DoMarkerNode(aNode: TMarkdownTextNode);
+
+var
+  lName,lArgument,lValue : TMarkdownString;
+
+begin
+  if (aNode.Kind<>nkComment) or not aNode.HasAttrs then
+    Exit;
+  if not aNode.Attrs.TryGet('marker',lName) then
+    Exit;
+  aNode.Attrs.TryGet('argument',lArgument);
+  aNode.Attrs.TryGet('value',lValue);
+  DoMarker(lName,lArgument,lValue);
+end;
+
+
+function TMarkdownRenderer.DoResolveLink(var aHref, aText: TMarkdownString): Boolean;
+
+begin
+  Result:=False;
+  if Assigned(FOnResolveLink) then
+    FOnResolveLink(Self,aHref,aText,Result);
+end;
+
+
+function TMarkdownRenderer.GetHeadingNumber(aBlock: TMarkdownBlock): TMarkdownString;
+
+begin
+  Result:='';
+  if Assigned(FOnHeadingNumber) then
+    FOnHeadingNumber(Self,aBlock,Result);
+end;
+
+
+function TMarkdownRenderer.GetCaptionNumber(aBlock: TMarkdownBlock): TMarkdownString;
+
+begin
+  Result:='';
+  if Assigned(FOnCaptionNumber) then
+    FOnCaptionNumber(Self,aBlock,Result);
+end;
+
+destructor TMarkdownRenderer.Destroy;
 begin
   FreeAndNil(FRenderStack);
   FreeAndNil(FTextRenderer);
@@ -351,7 +475,7 @@ begin
   end;
 end;
 
-procedure TMarkdownRenderer.RenderCodeBlock(aBlock: TMarkdownBlock; const aLang: string);
+procedure TMarkdownRenderer.RenderCodeBlock(aBlock: TMarkdownBlock; const aLang: TMarkdownString);
 begin
   if (aLang='') then ; // Silence warning
   RenderBlock(aBlock);
@@ -399,13 +523,13 @@ begin
     end;
 end;
 
-constructor TMarkdownElementRenderer.create(aRenderer: TMarkdownRenderer);
+constructor TMarkdownElementRenderer.Create(aRenderer: TMarkdownRenderer);
 
 begin
   FRenderer:=aRenderer;
 end;
 
-procedure TMarkdownElementRenderer.reset;
+procedure TMarkdownElementRenderer.Reset;
 
 begin
   // Do nothing
@@ -413,13 +537,13 @@ end;
 
 { TMarkdownRendererFactory }
 
-constructor TMarkdownRendererFactory.create;
+constructor TMarkdownRendererFactory.Create;
 
 begin
   FRegistry:=TRenderBlockRenderersList.Create(True);
 end;
 
-destructor TMarkdownRendererFactory.destroy;
+destructor TMarkdownRendererFactory.Destroy;
 
 begin
   FreeAndNil(FRegistry);
@@ -447,15 +571,26 @@ function TMarkdownRendererFactory.FindBlockRendererClass(aRendererClass: TMarkdo
 var
   lList : TRenderBlockRenderers;
   lReg : TBlockRenderRegistration;
+  lClass,lRenderClass : TClass;
 
 begin
   Result:=Nil;
-  lList:=FindRenderer(aRendererClass,False);
-  if Assigned(lList) then
+  lClass:=aBlockClass;
+  while (Result=Nil) and Assigned(lClass) and (lClass<>TMarkdownBlock) do
     begin
-    lReg:=lList.FindBlock(aBlockClass,False);
-    if assigned(lReg) then
-      Result:=lReg.RendererClass;
+    lRenderClass:=aRendererClass;
+    while (Result=Nil) and Assigned(lRenderClass) and (lRenderClass<>TMarkdownRenderer) do
+      begin
+      lList:=FindRenderer(TMarkdownRendererClass(lRenderClass),False);
+      if Assigned(lList) then
+        begin
+        lReg:=lList.FindBlock(TMarkdownBlockClass(lClass),False);
+        if assigned(lReg) then
+          Result:=lReg.RendererClass;
+        end;
+      lRenderClass:=lRenderClass.ClassParent;
+      end;
+    lClass:=lClass.ClassParent;
     end;
 end;
 
@@ -476,11 +611,18 @@ function TMarkdownRendererFactory.FindTextRendererClass(aRendererClass: TMarkdow
 
 var
   lList : TRenderBlockRenderers;
+  lRenderClass : TClass;
 
 begin
-  lList:=FindRenderer(aRendererClass,True);
-  if assigned(lList) then
-    Result:=lList.Textrenderer;
+  Result:=Nil;
+  lRenderClass:=aRendererClass;
+  while (Result=Nil) and Assigned(lRenderClass) and (lRenderClass<>TMarkdownRenderer) do
+    begin
+    lList:=FindRenderer(TMarkdownRendererClass(lRenderClass),False);
+    if assigned(lList) then
+      Result:=lList.Textrenderer;
+    lRenderClass:=lRenderClass.ClassParent;
+    end;
 end;
 
 
@@ -507,14 +649,14 @@ begin
 end;
 
 
-class constructor TMarkdownRendererFactory.init;
+class constructor TMarkdownRendererFactory.Init;
 
 begin
   _Instance:=TMarkdownRendererFactory.Create;
 end;
 
 
-class destructor TMarkdownRendererFactory.done;
+class destructor TMarkdownRendererFactory.Done;
 
 begin
   FreeAndNil(_Instance);
@@ -523,7 +665,7 @@ end;
 
 { TMarkdownRendererFactory.TBlockRenderRegistration }
 
-constructor TMarkdownRendererFactory.TBlockRenderRegistration.create(aBlockClass: TMarkdownBlockClass;
+constructor TMarkdownRendererFactory.TBlockRenderRegistration.Create(aBlockClass: TMarkdownBlockClass;
   aRendererClass: TMarkdownBlockRendererClass);
 
 begin
@@ -534,7 +676,7 @@ end;
 
 { TMarkdownRendererFactory.TRenderBlockRenderers }
 
-constructor TMarkdownRendererFactory.TRenderBlockRenderers.create(aRenderer: TMarkdownRendererClass);
+constructor TMarkdownRendererFactory.TRenderBlockRenderers.Create(aRenderer: TMarkdownRendererClass);
 
 begin
   Renderer:=aRenderer;
@@ -542,7 +684,7 @@ begin
 end;
 
 
-destructor TMarkdownRendererFactory.TRenderBlockRenderers.destroy;
+destructor TMarkdownRendererFactory.TRenderBlockRenderers.Destroy;
 
 begin
   FreeAndNil(BlockRenderers);
