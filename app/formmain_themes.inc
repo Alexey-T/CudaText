@@ -27,6 +27,9 @@ begin
       if TATFlatToolbar(C).Themed then
         ApplyThemeToToolbar(TATFlatToolbar(C));
 
+    if C is TMarkDownControl then
+      ApplyThemeToMarkdown(TMarkDownControl(C));
+
     if C is TATStatus then
       TATStatus(C).AutoSize;
   end;

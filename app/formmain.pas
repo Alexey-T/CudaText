@@ -1332,6 +1332,7 @@ procedure RegisterSignalHandler;
 implementation
 
 uses
+  Markdown.Control,
   Emmet,
   EmmetHelper,
   TreeHelpers_Base,

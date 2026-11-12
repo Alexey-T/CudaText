@@ -1696,11 +1696,7 @@ begin
   end;
   if C is TMarkDownControl then
   begin
-    TMarkDownControl(C).FontName:= UiOps.VarFontName;
-    TMarkDownControl(C).MonoFontName:= EditorOps.OpFontName;
-    TMarkDownControl(C).FontColor:= AppTheme.Colors[TAppThemeColor.EdTextFont].color;
-    TMarkDownControl(C).FontCodeColor:= TMarkDownControl(C).FontColor;
-    TMarkDownControl(C).BGCodeColor:= AppTheme.Styles[TAppThemeStyle.IncludeBG1].BgColor;
+    ApplyThemeToMarkdown(TMarkDownControl(C));
     DoControl_SetState_Markdown(TMarkDownControl(C), S);
   end;
 end;

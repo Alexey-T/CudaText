@@ -21,6 +21,7 @@ uses
   ImgList, Dialogs, Forms, Menus, ExtCtrls, Math,
   LclIntf, LclType, LazFileUtils, StrUtils,
   Clipbrd,
+  Markdown.Control,
   BGRABitmap,
   appjsonconfig,
   ATSynEdit,
@@ -100,6 +101,7 @@ procedure AppTreeviewCopy(Src, Dst: TTreeView);
 procedure ApplyThemeToTreeview(C: TTreeview; AThemedColors, AChangeShowRoot: boolean);
 procedure ApplyThemeToToolbar(C: TATFlatToolbar);
 procedure ApplyThemeToImageBox(AImageBox: TATImageBox);
+procedure ApplyThemeToMarkdown(C: TMarkDownControl);
 
 function UpdateImagelistWithIconFromFile(AList: TCustomImagelist;
   const AFilename, ACallerAPI: string; AllowScaling: boolean=false): integer;
@@ -563,13 +565,24 @@ begin
   C.Invalidate;
 end;
 
-
-
 procedure ApplyThemeToToolbar(C: TATFlatToolbar);
 begin
   C.Color:= GetAppColor(TAppThemeColor.TabBg);
   C.Invalidate;
 end;
+
+procedure ApplyThemeToMarkdown(C: TMarkDownControl);
+begin
+  C.BaseFontSize:= UiOps.VarFontSize;
+  C.FontName:= UiOps.VarFontName;
+  C.MonoFontName:= EditorOps.OpFontName;
+  C.FontColor:= AppTheme.Colors[TAppThemeColor.EdTextFont].color;
+  C.FontCodeColor:= TMarkDownControl(C).FontColor;
+  C.BGCodeColor:= AppTheme.Styles[TAppThemeStyle.IncludeBG1].BgColor;
+  C.FontQuoteColor:= AppTheme.Styles[TAppThemeStyle.IncludeBG2].BgColor;
+  C.HyperLinkColor:= AppTheme.Colors[TAppThemeColor.EdLinks].color;
+end;
+
 
 function AppClipboardFormatsAsString: string;
 var
