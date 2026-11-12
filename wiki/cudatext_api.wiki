@@ -981,6 +981,7 @@ Shows dialog with controls of many types. This is legacy API, it is recommended 
 * "pages": PageControl: set of tabs, with pages attached to them (only one of pages is visible).
 * "splitter": divider bar (vertical or horizontal), which can be dragged by mouse, to change width/height of nearest control. It finds linked control, ie control with the same "parent" and "align", which position (coordinates) are nearest to the splitter. On mouse drag, splitter resizes this linked control. It's recommended to place another control with "align": ALIGN_CLIENT, so splitter will resize two controls at once. A panel may contain several splitters (mixed with other controls between them).
 * "scrollbox": like panel, but has two auto-shown scrollbars to scroll the area containing children controls (ie controls which parent is this scrollbox).
+* "md_view": panel which renders Markdown text.
 
 Details:
 
@@ -1068,6 +1069,7 @@ Action DLG_CTL_PROP_SET, for "listview", allows both "items" (it sets columns) a
 * For "scrollbox":
 ** on reading: value is 6 numbers ","-separated: vert_position, horz_position, vert_range, horz_range, vert_pagesize, horz_pagesize.
 ** on writing: value is only 2 numbers ","-separated: vert_position, horz_position.
+* For "md_view": value is text in control.
 
 ====dlg_custom - Properties "ex"====
 
@@ -5570,5 +5572,8 @@ It provides:
 * add: dlg_proc: form's event "on_drag_over"
 * add: on_state: APPSTATE_PROJECT_NODE_ADD
 * add: on_state: APPSTATE_PROJECT_NODE_DEL
+
+1.0.487 (app 1.239.2)
+* add: dlg_proc: control type "md_view"
 
 [[Category:CudaText]]
