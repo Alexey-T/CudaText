@@ -3,6 +3,10 @@
   - fixed
   * changed
 
+1.240.0 (2026/11)
+
++ add: new API to show Markdown with formatting/tables/pictures/bullets as the GUI control; will be used in LSP_Client and later in other plugins
+
 1.239.1 (2026/11)
 
 + add: after editor is shrinked by height (eg by showing of plugin Breadcrumbs / Folding_Caption), editor tries harder to keep caret on the bottom to remain visible, instead of being scrolled away (fixed by Z.ai)
