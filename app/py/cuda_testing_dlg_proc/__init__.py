@@ -1438,6 +1438,7 @@ end
             'name': 'markdown1',
             'align': ALIGN_CLIENT,
             'border': False,
+            'color': 0xC0F0C0,
             'val': '# aa\nii1\nii2\n# bb\nii1\n```\nint code1\nint code2\n```\nii2',
             })
 

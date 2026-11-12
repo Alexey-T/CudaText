@@ -71,9 +71,7 @@ var
 implementation
 
 uses
-  markdown.control,
-  markdown.processors,
-  markdown.canvasrender;
+  markdown.control;
 
 var
   FDialogShown: boolean = false;
@@ -699,6 +697,7 @@ end;
 procedure DoControl_SetState_Markdown(C: TMarkDownControl; const AValue: string);
 begin
   C.Markdown.Clear;
+  C.Markdown.TextLineBreakStyle:= tlbsLF;
   C.Markdown.Text:= AValue;
   C.Invalidate;
 end;
@@ -1700,7 +1699,8 @@ begin
     TMarkDownControl(C).FontName:= UiOps.VarFontName;
     TMarkDownControl(C).MonoFontName:= EditorOps.OpFontName;
     TMarkDownControl(C).FontColor:= AppTheme.Colors[TAppThemeColor.EdTextFont].color;
-    TMarkDownControl(C).Color:= AppTheme.Colors[TAppThemeColor.EdTextBg].color;
+    TMarkDownControl(C).FontCodeColor:= TMarkDownControl(C).FontColor;
+    TMarkDownControl(C).BGCodeColor:= AppTheme.Styles[TAppThemeStyle.IncludeBG1].BgColor;
     DoControl_SetState_Markdown(TMarkDownControl(C), S);
   end;
 end;
