@@ -1438,8 +1438,7 @@ end
             'name': 'markdown1',
             'align': ALIGN_CLIENT,
             'border': False,
-            'color': 0xa0ffa0,
-            'val': '# aa\naa1\naa2\n# bb\nbb1\nbb2',
+            'val': '# aa\nii1\nii2\n# bb\nii1\n```\nint code1\nint code2\n```\nii2',
             })
 
         n=dlg_proc(h, DLG_CTL_ADD, 'panel')
