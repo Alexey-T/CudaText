@@ -1,4 +1,38 @@
 2026.11.11 (@badrelmers)
+- the favorites list is a NATIVE listview again (the owner-drawn
+  listbox experiment of the previous build is reverted): the usual
+  native look, and the column widths can be resized by dragging the
+  header dividers again; the Path column is re-stretched when the
+  window is resized by 50+ px. The dialog listview has no checkboxes
+  and no per-row colors, so the multi-selection checkbox column is
+  gone (all commands act on the selected row) and dead paths keep
+  only the "? " name prefix, without the red color
+- fixed: the status line at the bottom of the favorites window
+  stretched and ate half of the window when it was maximized/enlarged
+  (its top side was still anchored - now only the bottom is)
+- fixed: "Access violation" errors (on_app_deactivate,
+  _dlg_proc_callback_proxy) when a folder favorite was opened:
+  opening/revealing now runs from a short timer AFTER the dialog
+  callback returns - the focus switch to Explorer happened inside the
+  callback and the nested event processing crashed. Also the form is
+  not freed from a timer anymore (it is only hidden and reused)
+- fixed: the favorites window size is now remembered for the whole
+  CudaText session - closing the window only hides the form and the
+  next open reuses it (size, position, column widths); the size
+  resets only when CudaText restarts
+- sorting by a click on the column header is registered as
+  on_click_col (reported by newer CudaText builds); the right-click
+  menu always has the Sort commands (★ first / by name / by path /
+  manual order) as a fallback
+- the options dialog was rebuilt with dlg_proc: the settings are
+  split into visually separated sections (Project tree / Panel and
+  opening files / Backups / New projects) with separator lines
+  between the groups, the long hints are split into short lines that
+  fit the window width (the "default projects folder" hint was eaten
+  before), and the layout is compact for small screens (the dialog
+  API has no scrollable panel)
+
+2026.11.11 (@badrelmers)
 - NEW: Favorites (bookmarks) for projects, files and folders,
   independent of the opened project (favorites.py). Three tabbed lists
   (Projects / Files / Folders) in one resizable non-modal window,

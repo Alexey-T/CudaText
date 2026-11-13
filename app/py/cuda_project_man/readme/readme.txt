@@ -397,78 +397,76 @@ button, and in their own window.
 THE FAVORITES WINDOW (★ toolbar button, or Favorites > Show Favorites
 window...)
   Resizable, non-modal, stays on top of the CudaText window; the
-  active tab and the sort order are remembered between sessions, the
-  window size only while CudaText runs (the size of a maximized window
-  is never restored — see below). Three tabs: Projects, Files,
-  Folders. Columns: ☐ | ★ | Name | Path.
-
-  Checkbox column (☐/☑)
-      Multi-selection: check several favorites, then Open, Delete,
-      Move up/down, Rename, Star, Copy path and Reveal act on ALL of
-      them at once (Delete asks for a confirmation when more than one
-      row is checked). Click the checkbox cell to toggle it; Space
-      toggles the checkbox of the selected row; Ctrl+A — or a click on
-      the ✓ header — checks all rows (and unchecks when all are
-      checked). Rows hidden by the filter never stay checked, so an
-      action can never touch invisible items; the checks reset when
-      you switch the tab. Renaming several items asks for each name,
-      one dialog after another; Cancel stops.
+  active tab and the sort order are remembered between sessions, and
+  the window size/position are kept for the WHOLE CudaText session:
+  closing the window only hides it and the next open reuses the same
+  form, so the size resets only when CudaText restarts (the size is
+  not saved to disk: a form recreated with the pixel size of a
+  maximized window ends up taller than the work area). Three tabs:
+  Projects, Files, Folders. Columns: ★ | Name | Path — a NATIVE
+  listview, so the column widths can be resized by dragging the
+  header dividers; the Path column is re-stretched when the window is
+  resized by 50+ px.
 
   Star column (★/☆)
-      The "favorite of favorites" flag. Every row shows ☆; click the
-      star cell and it becomes ★ (click again to clear). The default
-      sort is starred first, then by name — so starred bookmarks
-      float to the top without any manual ordering.
+      The "favorite of favorites" flag, drawn with the UTF-8 font
+      glyphs ☆/★ (no image files); toggle it from the right-click
+      menu (Star/Unstar). The default sort is starred first, then by
+      name — so starred bookmarks float to the top without any manual
+      ordering.
 
   Filter
       The field at the top filters by name AND path as you type; Esc
       clears it and shows the full list again (a second Esc closes the
       window). Favorites whose path no longer exists on disk are easy
-      to spot: their name is prefixed with "? " and the whole row is
-      drawn in red.
+      to spot: their name is prefixed with "? ".
 
   Sorting
-      Click a column header: 1st click sorts ascending, 2nd click
-      descending, 3rd click switches to manual (custom) order — the
-      order that Move up/down and Alt+Up/Alt+Down edit. Sorting by ★
-      always also sorts by name inside each group. The status line at
-      the bottom shows the active sort.
+      Click a column header (when the CudaText build reports the
+      click): 1st click sorts ascending, 2nd click descending, 3rd
+      click switches to manual (custom) order — the order that Move
+      up/down and Alt+Up/Alt+Down edit. The right-click menu always
+      has the same Sort commands, whatever the build reports. Sorting
+      by ★ always also sorts by name inside each group. The status
+      line at the bottom shows the active sort.
 
   Left button panel (grouped with visible gaps between the groups)
-      Open             open the target(s): projects open in Project
-                       Manager, files in the editor, folders in the
-                       OS file manager
+      Open             open the selected favorite: projects open in
+                       Project Manager, files in the editor, folders
+                       in the OS file manager
       Add...           pick a project / file / folder in a dialog
       Add opened...    a menu with the currently openable things: the
                        opened project, the current editor file, or the
                        folder of the current file (only the available
                        ones are listed)
       Move up /
-      Move down       reorder the target(s) (switches to manual order)
-      Delete           remove the target(s)
+      Move down       reorder the selected favorite (switches to
+                       manual order)
+      Delete           remove the selected favorite
       Close (bottom)   closes the window
 
-      "The target(s)" means: all checked rows when any row is
-      checked, otherwise the selected row.
+  All commands act on the selected row.
+
+  Opening a favorite (and "Reveal in file manager") runs from a short
+  timer after the click, not inside the click handler itself: the OS
+  file manager/editor steals the focus, CudaText deactivates, and the
+  nested event processing crashed with "Access violation" errors (in
+  on_app_deactivate) when it ran inside the dialog callback.
 
   Keyboard (active while the window has the keyboard focus — the
   shortcuts never clash with your editor hotkeys):
       Ctrl+1..9 / Alt+1..9    open the favorite at that position in
                                the visible (filtered) list
-      Enter / double-click    open the target(s)
-      Del                     delete the target(s)
-      F2                      rename the target(s)
-      Space                   toggle the checkbox of the selected row
-      Ctrl+A                  check all rows / uncheck when all are
-                               checked
-      Alt+Up / Alt+Down       move the target(s) up/down
+      Enter / double-click    open the selected favorite
+      Del                     delete it
+      F2                      rename it
+      Alt+Up / Alt+Down       move it up/down
       Esc                     clear the filter; second Esc closes
                                the window
 
-  Right-click menu: Open, Reveal in file manager, Copy path(s),
-  Star/Unstar, Rename..., Delete — all of them act on the checked
-  rows when any row is checked, else on the selected row — plus Check
-  all, Uncheck all, Add current file/folder/project.
+  Right-click menu: Open, Reveal in file manager, Copy path,
+  Star/Unstar, Rename..., Delete, Sort (★ first / by name / by path /
+  manual order), Add current file/folder/project.
 
 FIND FAVORITE (Favorites > Find favorite...)
   A compact modal picker over ALL favorites with a type-to-filter
@@ -492,8 +490,9 @@ WHERE THE DATA LIVES
   flag. The file is created on the first change. The window size is
   deliberately NOT stored: a CudaText form recreated with the pixel
   size of a maximized window ends up taller than the work area (its
-  bottom lands off-screen), so the size is remembered only while
-  CudaText runs, and never in the maximized state.
+  bottom lands off-screen). The closed window is only hidden and its
+  form reused, so the size still lives for the whole CudaText session
+  and resets only when CudaText restarts.
 
 IMPORT FROM THE "FAVORITES" PLUGIN (cuda_favorites)
   If you also use kvichans' "Favorites" plugin, its
