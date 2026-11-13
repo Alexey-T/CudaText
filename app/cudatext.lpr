@@ -17,6 +17,7 @@ uses
   form_find, form_frame, form_menu_py, form_rename_file, proc_appvariant,
   proc_cmd, proc_colors, proc_cssprovider, proc_customdialog,
   proc_customdialog_dummy, proc_editor, proc_editor_saving, proc_files,
+  proc_mdview_control,
   proc_install_zip, proc_keysdialog, proc_lexer_styles, proc_miscutils,
   proc_msg, proc_windows_dragsource, proc_windows_droptarget, proc_panelhost, proc_py,
   proc_py_const, proc_scrollbars, proc_str
