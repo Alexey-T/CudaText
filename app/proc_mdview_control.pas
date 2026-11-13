@@ -55,9 +55,9 @@ type
   end;
 
 // Enable/disable syntax highlighting of fenced code blocks for all
-// 'md_view'/'markdown' controls. Applied on the next text/layout change.
-procedure MdView_EnableCodeSyntax(AEnable: boolean);
-function MdView_IsCodeSyntaxEnabled: boolean;
+// 'md_view' controls. Applied on the next text/layout change.
+var
+  MdViewCodeSyntaxEnabled: boolean = true;
 
 type
   TCudaMdSegment = record
@@ -99,7 +99,6 @@ uses
   form_lexer_stylemap;
 
 var
-  MdViewCodeSyntaxEnabled: boolean = true;
   GSection: TCriticalSection = nil;
 
   // cache of the last tokenized code block
@@ -208,16 +207,6 @@ begin
   finally
     GSection.Leave;
   end;
-end;
-
-procedure MdView_EnableCodeSyntax(AEnable: boolean);
-begin
-  MdViewCodeSyntaxEnabled:= AEnable;
-end;
-
-function MdView_IsCodeSyntaxEnabled: boolean;
-begin
-  Result:= MdViewCodeSyntaxEnabled;
 end;
 
 { Find lexer: alias first, then name, then extension;
@@ -569,7 +558,7 @@ begin
   if not assigned(aBlock) then exit;
 
   // plain rendering when disabled, not fenced, or no language tag
-  if (not MdView_IsCodeSyntaxEnabled) or (lCode.Lang='') then
+  if (not MdViewCodeSyntaxEnabled) or (lCode.Lang='') then
   begin
     inherited DoRender(aBlock);
     exit;

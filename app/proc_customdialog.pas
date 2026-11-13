@@ -1476,10 +1476,10 @@ begin
   if (C is TMarkDownControl) then
   begin
     case AIndex of
-      // enable syntax highlighting of fenced code blocks,
-      // using lexers of app; applied when markdown text is set
-      0: MdView_EnableCodeSyntax(AppStrToBool(S));
+      // enable syntax highlighting of fenced code blocks
+      0: MdViewCodeSyntaxEnabled:= AppStrToBool(S);
     end;
+    exit;
   end;
 end;
 
