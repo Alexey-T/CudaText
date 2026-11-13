@@ -5575,10 +5575,7 @@ It provides:
 * add: on_state: APPSTATE_PROJECT_NODE_ADD
 * add: on_state: APPSTATE_PROJECT_NODE_DEL
 
-1.0.488
-* add: dlg_proc: control "md_view": property "ex0" (syntax highlighting of fenced code blocks, using lexers of app)
-
-1.0.487 (app 1.239.2)
+1.0.487 (app 1.240.0)
 * add: dlg_proc: control type "md_view"
 
 [[Category:CudaText]]
