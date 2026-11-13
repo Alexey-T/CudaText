@@ -224,8 +224,10 @@ end;
   applies the syntax theme like editor tabs do. }
 
 function MdView_FindLexer(const aInfo: utf8string): TecSyntAnalyzer;
+{
 var
   anNotCorrect: TecSyntAnalyzer;
+}
 begin
   Result:= nil;
   if aInfo='' then exit;
@@ -236,6 +238,7 @@ begin
   Result:= AppManager.FindLexerByAlias(LowerCase(aInfo));
   if Result<>nil then exit;
 
+  {
   // 2) lexer name, e.g. 'Python', 'C++'
   Result:= AppManager.FindLexerByName(aInfo);
   if Result<>nil then exit;
@@ -247,6 +250,7 @@ begin
   if Result<>nil then
     if Assigned(EControlOptions.OnLexerApplyTheme) then
       EControlOptions.OnLexerApplyTheme(Result, anNotCorrect);
+  }
 end;
 
 function MdView_Utf8CharLen(B: byte): integer; inline;
