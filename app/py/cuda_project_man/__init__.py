@@ -20,13 +20,6 @@ import cudatext_cmd
 from cudax_lib import get_translation
 _   = get_translation(__file__)  # i18n
 
-# Favorites (bookmarks) subsystem - see favorites.py. Imported ONCE at
-# the top of the module instead of lazily inside every command method:
-# Python caches modules in sys.modules, so there is exactly one module
-# load at plugin start and every later use is a plain cached lookup -
-# nothing is ever re-read or re-executed. The startup call below loads
-# the favorites data and runs the one-way import from the cuda_favorites
-# plugin's data file (see favorites.init_on_start).
 from . import favorites as _favorites
 try:
     _favorites.init_on_start()
@@ -588,6 +581,7 @@ class Command:
         "backup_enabled": True,
         "backup_folder": DEFAULT_BACKUP_FOLDER,
         "backup_count": DEFAULT_BACKUP_COUNT,
+        "projects_dir": "",
     }
     # Default options used as the base when loading from disk: any key
     # missing from the loaded file is filled in from here, so settings
@@ -598,6 +592,21 @@ class Command:
     h_dlg = None
     h_menu = None
     h_menu_cfg = None
+
+    #--- tree filter (the field above the tree) and type-ahead state
+    #: current filter text ('' = no filtering)
+    tree_filter = ''
+    #: control index of the filter edit (set in init_form_main)
+    filter_ctl_index = -1
+    #: folds/selection captured when the filtering started, restored
+    #: when it is cleared
+    _filter_saved_folds = None
+    _filter_saved_sel = ''
+    #: type-ahead buffer and the time of its last keystroke
+    _ta_buf = ''
+    _ta_time = 0.0
+    #: gap (seconds) after the last typed char which resets the buffer
+    TYPEAHEAD_TIMEOUT = 1.2
 
     action_cut_activate = False
 
@@ -773,11 +782,32 @@ class Command:
         toolbar_proc(self.h_bar, TOOLBAR_SET_WRAP, index=True)
         toolbar_proc(self.h_bar, TOOLBAR_UPDATE)
 
+        #---- filter field above the tree ----
+        # typing here shows only the nodes/files/folders whose name
+        # matches (folders keep the path to the matches); Esc clears it
+        EH = app_proc(PROC_GET_GUI_HEIGHT, 'edit') or 28
+        n = dlg_proc(self.h_dlg, DLG_CTL_ADD, prop='edit')
+        self.filter_ctl_index = n
+        dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'f_filter',
+            'a_t': ('bar', ']'),
+            'sp_t': 2,
+            'a_l': ('', '['),
+            'sp_l': 2,
+            'a_r': ('', ']'),
+            'sp_r': 2,
+            'h': EH,
+            'texthint': _('Filter the project tree...'),
+            'hint': _('Show only the files/folders whose name matches.\rEsc clears the filter'),
+            'on_change': self.panel_filter_on_change,
+        })
+
         n = dlg_proc(self.h_dlg, DLG_CTL_ADD, prop='treeview')
         self.tree_index = n
         dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, index=n, prop={
             'name':'tree',
-            'a_t':('bar', ']'),
+            'a_t':('f_filter', ']'),
+            'sp_t': 2,
             'a_r':('',']'), #anchor to entire form
             'a_b':('',']'),
             'on_menu': 'cuda_project_man.tree_on_menu',
@@ -2109,7 +2139,12 @@ class Command:
             self.enum_all_getfolds(unfolds)
             #msg_box('unfolds:\n'+', '.join(unfolds), MB_OK)
 
-            self.action_refresh_int(parent)
+            if self.tree_filter and parent is None:
+                # the filter field is active: refill with the FILTERED
+                # tree (action_refresh_int would show everything)
+                self.fill_tree_filtered()
+            else:
+                self.action_refresh_int(parent)
 
             self.enum_all_setfolds(unfolds)
         finally:
@@ -2193,28 +2228,7 @@ class Command:
             elif self.is_filename_ignored(spath, is_dir):
                 continue
 
-            if is_locked(spath):
-                imageindex = self.ICON_BAD
-            elif is_dir:
-                imageindex = self.ICON_DIR
-            elif is_simple_listed(path.name, MASKS_IMAGES):
-                imageindex = self.ICON_IMG
-            elif is_simple_listed(path.name, MASKS_ZIP):
-                imageindex = self.ICON_ZIP
-            elif is_simple_listed(path.name, MASKS_BINARY):
-                imageindex = self.ICON_BIN
-            elif is_simple_listed(path.name, MASKS_AUDIO):
-                imageindex = self.ICON_AUDIO
-            elif is_simple_listed(path.name, MASKS_VIDEO):
-                imageindex = self.ICON_VIDEO
-            else:
-                lexname = lexer_proc(LEXER_DETECT, path.name)
-                if lexname:
-                    imageindex = self.icon_get(lexname)
-                elif is_simple_listed(path.name, MASKS_TEXT):
-                    imageindex = self.ICON_TEXT
-                else:
-                    imageindex = self.ICON_ALL
+            imageindex = self._node_icon(spath, sname, is_dir)
 
             index = tree_proc(
                 self.tree,
@@ -2240,13 +2254,361 @@ class Command:
         if unfold:
             tree_proc(self.tree, TREE_ITEM_UNFOLD, parent)
 
+    #------------- tree filter (the field above the tree)
+
+    def panel_filter_on_change(self, id_dlg, id_ctl, data='', info=''):
+        """The filter field above the tree changed."""
+        if not self.tree:
+            return
+        try:
+            props = dlg_proc(self.h_dlg, DLG_CTL_PROP_GET, name='f_filter') or {}
+            text = str(props.get('val', '') or '')
+        except Exception:
+            text = ''
+        self.apply_tree_filter(text)
+
+    def apply_tree_filter(self, text):
+        """Show only the matching nodes in the tree. Empty text restores
+        the normal tree, with the folds/selection captured before the
+        filtering started."""
+        text = (text or '').strip()
+        if text == self.tree_filter or not self.tree:
+            return
+
+        if not self.tree_filter and text:
+            # filtering starts: remember what to restore later
+            folds = []
+            self.enum_all_getfolds(folds)
+            self._filter_saved_folds = folds
+            self._filter_saved_sel = ''
+            node = self.selected
+            if node:
+                prop = tree_proc(self.tree, TREE_ITEM_GET_PROPS, node)
+                if prop:
+                    self._filter_saved_sel = prop.get('data', '')
+
+        self.tree_filter = text
+        if text:
+            self.fill_tree_filtered()
+        else:
+            self.action_refresh()
+            # restore the state from before the filtering
+            if self._filter_saved_folds:
+                self.enum_all_setfolds(list(self._filter_saved_folds))
+            if self._filter_saved_sel:
+                self.enum_all_sel(self._filter_saved_sel)
+
+    def clear_panel_filter(self):
+        """Esc: clear the filter field and show the full tree again.
+        Setting the edit's value programmatically does not fire its
+        on_change event, so apply_tree_filter() must be called here."""
+        if not self.tree_filter:
+            return
+        try:
+            dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, name='f_filter',
+                     prop={'val': ''})
+        except Exception:
+            pass
+        self.apply_tree_filter('')
+
+    def _dir_listing(self, fn):
+        """Children of a folder as os.DirEntry objects, with the
+        plugin's ignore rules applied and sorted like the tree; None
+        when the folder cannot be read. Symlinked folders are skipped
+        (no cycles), like in enum_all_files()."""
+        try:
+            entries = list(os.scandir(fn))
+        except OSError:
+            return None
+        res = []
+        for e in entries:
+            try:
+                is_dir = e.is_dir()
+            except OSError:
+                continue
+            if is_dir and e.is_symlink():
+                continue
+            if self.options.get("no_hidden", True) and is_hidden(e.path):
+                continue
+            if self.is_filename_ignored(e.path, is_dir):
+                continue
+            res.append(e)
+
+        global sort_order
+        if sort_order != '':
+            try:
+                return sorted(res, key=Command.node_ordering_direntry)
+            except OSError:
+                pass
+        res.sort(key=lambda e: (not e.is_dir(), e.name.upper()))
+        return res
+
+    def _node_icon(self, spath, sname, is_dir):
+        """Icon index of one tree node (shared by the normal and the
+        filtered tree fill)."""
+        if is_locked(spath):
+            return self.ICON_BAD
+        if is_dir:
+            return self.ICON_DIR
+        if is_simple_listed(sname, MASKS_IMAGES):
+            return self.ICON_IMG
+        if is_simple_listed(sname, MASKS_ZIP):
+            return self.ICON_ZIP
+        if is_simple_listed(sname, MASKS_BINARY):
+            return self.ICON_BIN
+        if is_simple_listed(sname, MASKS_AUDIO):
+            return self.ICON_AUDIO
+        if is_simple_listed(sname, MASKS_VIDEO):
+            return self.ICON_VIDEO
+        lexname = lexer_proc(LEXER_DETECT, sname)
+        if lexname:
+            return self.icon_get(lexname)
+        if is_simple_listed(sname, MASKS_TEXT):
+            return self.ICON_TEXT
+        return self.ICON_ALL
+
+    def _add_tree_node(self, parent, sname, spath, is_dir):
+        """Add one tree node with the standard icon; returns its handle."""
+        return tree_proc(
+            self.tree,
+            TREE_ITEM_ADD,
+            parent,
+            -1,
+            sname,
+            self._node_icon(spath, sname, is_dir),
+            data=spath
+            )
+
+    def fill_tree_filtered(self):
+        """Rebuild the tree showing only what matches self.tree_filter:
+        files/folders whose name matches, folders whose name matches
+        (with their full content), and the folders on the path to a
+        matching descendant. Everything is added unfolded."""
+        if not self.tree:
+            return
+        global sort_order
+        sort_order = self.options.get('sort_order', 'ext')
+        flt = self.tree_filter.lower()
+
+        tree_proc(self.tree, TREE_LOCK)
+        try:
+            tree_proc(self.tree, TREE_ITEM_DELETE, 0)
+            parent = tree_proc(
+                self.tree,
+                TREE_ITEM_ADD,
+                0,
+                -1,
+                self.get_project_name(),
+                self.ICON_PROJ,
+            )
+
+            nodes = map(Path, self.project.get("nodes", []))
+            if sort_order != '':
+                nodes = sorted(nodes, key=Command.node_ordering_direntry)
+
+            for path in nodes:
+                spath = str(path)
+                sname = path.name
+                is_dir = path.is_dir()
+                if is_win_root(spath) or (not sname):
+                    sname = spath
+                elif self.options.get("no_hidden", True) and is_hidden(spath):
+                    continue
+                elif self.is_filename_ignored(spath, is_dir):
+                    continue
+
+                if is_dir:
+                    self._add_filtered_dir(parent, sname, spath, flt)
+                elif flt in sname.lower():
+                    self._add_tree_node(parent, sname, spath, False)
+
+            tree_proc(self.tree, TREE_ITEM_UNFOLD, parent)
+            # select the project root
+            items_root = tree_proc(self.tree, TREE_ITEM_ENUM_EX, 0)
+            if items_root:
+                tree_proc(self.tree, TREE_ITEM_SELECT, items_root[0]['id'])
+        finally:
+            tree_proc(self.tree, TREE_UNLOCK)
+
+    def _add_filtered_dir(self, parent, sname, spath, flt):
+        """Add one folder node (with children) when its name matches flt
+        or it contains a matching descendant. Returns the node handle,
+        or 0 when nothing was added."""
+        if flt in sname.lower():
+            # the folder itself matches: show ALL of its content
+            node = self._add_tree_node(parent, sname, spath, True)
+            self._add_all_children(node, spath)
+            return node
+        if self._filter_has_match(spath, flt):
+            node = self._add_tree_node(parent, sname, spath, True)
+            self._add_filtered_children(node, spath, flt)
+            return node
+        return 0
+
+    def _filter_has_match(self, fn, flt):
+        """Does the folder contain any file/folder whose name matches?"""
+        for e in self._dir_listing(fn) or []:
+            if flt in e.name.lower():
+                return True
+            if e.is_dir() and self._filter_has_match(e.path, flt):
+                return True
+        return False
+
+    def _add_filtered_children(self, parent, fn, flt):
+        """Add to parent only the children matching flt (a folder which
+        matches itself gets its full content)."""
+        for e in self._dir_listing(fn) or []:
+            if e.is_dir():
+                self._add_filtered_dir(parent, e.name, e.path, flt)
+            elif flt in e.name.lower():
+                self._add_tree_node(parent, e.name, e.path, False)
+
+    def _add_all_children(self, parent, fn):
+        """Add the full content of fn (the ignore rules still apply)."""
+        for e in self._dir_listing(fn) or []:
+            node = self._add_tree_node(parent, e.name, e.path, e.is_dir())
+            if e.is_dir():
+                self._add_all_children(node, e.path)
+
+    #------------- type-ahead (incremental search in the tree)
+
+    def _filter_edit_focused(self):
+        """True while the user types in the panel's filter field (those
+        keystrokes belong to the filter, not to the type-ahead)."""
+        if self.filter_ctl_index < 0 or not self.h_dlg:
+            return False
+        try:
+            props = dlg_proc(self.h_dlg, DLG_PROP_GET) or {}
+            return int(props.get('focused', -1)) == self.filter_ctl_index
+        except Exception:
+            return False
+
+    def _typeahead_scope(self):
+        """(node handles, position of the selection) of the level the
+        type-ahead searches in: the children of the selected node's
+        parent. Being 'inside' a folder means the selection is one of
+        its children, so typing jumps only inside that folder."""
+        if not self.tree:
+            return [], -1
+        items_root = tree_proc(self.tree, TREE_ITEM_ENUM_EX, 0) or []
+        if not items_root:
+            return [], -1
+        root = items_root[0]['id']
+
+        parent = root
+        sel = self.selected
+        cur = -1
+        if sel:
+            prop = tree_proc(self.tree, TREE_ITEM_GET_PROPS, sel)
+            if prop:
+                parent = prop.get('parent') or root
+
+        items = tree_proc(self.tree, TREE_ITEM_ENUM_EX, parent) or []
+        handles = []
+        for i, it in enumerate(items):
+            handles.append(it['id'])
+            if it['id'] == sel:
+                cur = i
+        return handles, cur
+
+    def _typeahead_match(self, text, select=False):
+        """First node of the current level whose caption starts with
+        text (case-insensitive), searched cyclically AFTER the selected
+        node - so pressing the same letter again jumps to the next
+        match. Selects the found node when select=True. Returns the node
+        handle, or None when nothing matches."""
+        text = (text or '').lower()
+        if not text:
+            return None
+        items, cur = self._typeahead_scope()
+        count = len(items)
+        if not count:
+            return None
+        for i in range(1, count + 1):
+            index = (cur + i) % count
+            node = items[index]
+            prop = tree_proc(self.tree, TREE_ITEM_GET_PROPS, node)
+            if not prop:
+                continue
+            caption = prop.get('text', '')
+            if not caption or not prop.get('data', ''):
+                continue  # skip the 'dummy' placeholders of folded dirs
+            if caption.lower().startswith(text):
+                if select:
+                    tree_proc(self.tree, TREE_ITEM_SELECT, node)
+                    tree_proc(self.tree, TREE_ITEM_SHOW, node)
+                return node
+        return None
+
+    def _typeahead_key(self, key):
+        """Windows-Explorer-like incremental search: plain letters and
+        digits jump to the first node of the current level starting with
+        the typed text ("myf" finds "myfile"); pressing the same letter
+        again cycles to the next match; the buffer resets after
+        TYPEAHEAD_TIMEOUT seconds of pause. Returns True when the key
+        was consumed."""
+        # on_key_down reports raw VK codes: letters are ALWAYS 65..90
+        # ('A'..'Z' - lowercase never appears), digits are 48..57 (top
+        # row). 96..111 are the NUMPAD keys - they must not be taken
+        # for letters (VK_NUMPAD1=97 would collide with ord('a'))
+        is_letter = ord('A') <= key <= ord('Z')
+        is_digit = ord('0') <= key <= ord('9')
+        if not (is_letter or is_digit):
+            self._ta_buf = ''  # any other key restarts the search
+            return False
+        if self._filter_edit_focused() or not self.tree:
+            return False
+
+        ch = chr(key).lower()
+        now = time.time()
+        if now - self._ta_time > self.TYPEAHEAD_TIMEOUT:
+            self._ta_buf = ''
+        self._ta_time = now
+
+        if self._ta_buf != ch:
+            # extend the buffer when the longer text still matches
+            # something ("m" + "y" -> "my"); when it doesn't, the buffer
+            # stays as it was and the same letter keeps cycling
+            if self._typeahead_match(self._ta_buf + ch) is not None:
+                self._ta_buf += ch
+
+        if self._typeahead_match(self._ta_buf, select=True) is None:
+            msg_status(_('No match in this folder: ') + self._ta_buf)
+        return True
+
+    def get_projects_dir(self):
+        """The default folder for new .cuda-proj files (the option
+        "projects_dir", empty by default). Supports the $settings
+        prefix - the CudaText settings folder - e.g. "$settings" or
+        "$settings/projects"; '~' is expanded too. A missing folder is
+        created. Returns '' when the option is empty or cannot be
+        resolved (the dialogs then use the last used folder as before)."""
+        s = (self.options.get('projects_dir') or '').strip()
+        if not s:
+            return ''
+        if '$settings' in s:
+            s = s.replace('$settings', app_path(APP_DIR_SETTINGS))
+        s = os.path.expanduser(s)
+        s = os.path.normpath(s)
+        try:
+            if not os.path.isdir(s):
+                os.makedirs(s, exist_ok=True)
+        except OSError as ex:
+            msg_status(_('Project Manager: cannot create projects folder: ')
+                       + s + ' (' + str(ex) + ')')
+            return ''
+        return s
+
     def action_new_project(self, info=None):
         """Create a new project. Prompts for save location, creates an empty
         session called 'session1' inside the project, and loads it."""
 
         path = info
         if path is None:
-            path = dlg_file(False, "", "", PROJECT_DIALOG_FILTER)
+            # the configured default projects folder, when set: the save
+            # dialog opens directly in it (the user just types a name)
+            path = dlg_file(False, "", self.get_projects_dir(),
+                            PROJECT_DIALOG_FILTER)
         if not path:
             return
 
@@ -2379,7 +2741,10 @@ class Command:
 
         path = info
         if path is None:
-            path = dlg_file(False, "", "", PROJECT_DIALOG_FILTER)
+            # the configured default projects folder, when set: the save
+            # dialog opens directly in it (the user just types a name)
+            path = dlg_file(False, "", self.get_projects_dir(),
+                            PROJECT_DIALOG_FILTER)
         if not path:
             return
 
@@ -3292,11 +3657,15 @@ class Command:
 
         need_refresh = path is None
         if path is None:
-            if self.project_file_path:
-                project_path = str(self.project_file_path.parent)
-            else:
-                project_path = ""
-            path = dlg_file(False, "", project_path, PROJECT_DIALOG_FILTER)
+            # the configured default projects folder wins; without it the
+            # dialog starts in the folder of the current project file
+            proj_dir = self.get_projects_dir()
+            if not proj_dir:
+                if self.project_file_path:
+                    proj_dir = str(self.project_file_path.parent)
+                else:
+                    proj_dir = ""
+            path = dlg_file(False, "", proj_dir, PROJECT_DIALOG_FILTER)
 
         if path:
             proj_dir = os.path.dirname(str(path))
@@ -3469,9 +3838,6 @@ class Command:
         self.menu_goto()
 
     #----- Favorites (bookmarks) - see favorites.py -----
-    # The module is imported ONCE at the top of this file (as
-    # _favorites) and cached by Python; the methods below are just thin
-    # wrappers for install.inf / the context menu.
 
     def favorites_show(self):
         """Open the Favorites (bookmarks) window: projects, files and
@@ -4171,6 +4537,13 @@ class Command:
             for item in items:
                 tree_proc(self.tree, TREE_ITEM_DELETE, item['id'])
 
+        if self.tree_filter:
+            # the filter is active: refill the children FILTERED (the
+            # normal refill below would add the full unfiltered content)
+            self._add_filtered_children(data, str(path),
+                                        self.tree_filter.lower())
+            return
+
         self.action_refresh_int(data) # call _int version, to avoid recursion
 
     def tree_on_menu(self, id_dlg, id_ctl, data='', info=''):
@@ -4262,6 +4635,9 @@ class Command:
         return False
 
     def tree_on_click(self, id_dlg, id_ctl, data='', info=''):
+
+        # a mouse click moves the selection: restart the type-ahead
+        self._ta_buf = ''
 
         # a drag gesture in the tree just ended on this mouse-up: LCL fires
         # OnClick even after a drag inside a control (and before OnMouseUp),
@@ -4375,6 +4751,27 @@ class Command:
 
     def form_key_down(self, id_dlg, id_ctl, data):
         reg_key = ('a' in data) or ('c' in data) or ('s' in data) or ('m' in data)
+
+        if self._filter_edit_focused():
+            # the user types in the tree filter field: Esc clears it,
+            # everything else belongs to the edit (the form has
+            # keypreview=True, so every keystroke passes here first)
+            if id_ctl == VK_ESCAPE and not reg_key and self.tree_filter:
+                self.clear_panel_filter()
+                return False  # block key
+            return None
+
+        # Esc anywhere else in the panel: clear the active tree filter
+        if id_ctl == VK_ESCAPE and not reg_key:
+            if self.tree_filter:
+                self.clear_panel_filter()
+                return False  # block key
+
+        # type-ahead: plain letters/digits jump to the node starting
+        # with the typed text (Explorer-like)
+        if not reg_key and self._typeahead_key(id_ctl):
+            return False  # block key
+
         if id_ctl in [VK_SPACE, VK_ENTER, VK_F4] and not reg_key:
             self.do_open_current_file(self.get_open_options())
             return False #block key

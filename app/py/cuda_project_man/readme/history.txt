@@ -1,44 +1,53 @@
-2026.11.11
+2026.11.11 (@badrelmers)
 - NEW: Favorites (bookmarks) for projects, files and folders,
   independent of the opened project (favorites.py). Three tabbed lists
   (Projects / Files / Folders) in one resizable non-modal window,
   opened from the new ★ toolbar button, from the "Favorites" submenus
   (panel context menu, below "Open main file", and Plugins > Project
-  Manager > Favorites), or the command palette. Columns ★ / Name /
-  Path; the ★ column is the "favorite of favorites" flag rendered with
-  the UTF-8 font icons ☆/★ (NO image files) — clicking the star cell
-  toggles it; default sort is starred first, then by name; a 3rd click
-  on a column header switches to manual (custom) order. Filter field
-  at the top (name and path, Esc clears it); vertical button panel on
-  the left (Open / Add... / Add opened... / Move up / Move down /
-  Delete, Close at the bottom) grouped with visible gaps; right-click
-  menu (Open, Reveal in file manager, Copy path, Star/Unstar, Rename,
-  Delete, Add current file/folder/project); dead paths prefixed "? ".
-  While the window has focus: Ctrl+1..9 / Alt+1..9 open the Nth
-  visible item, Enter/double-click open it, Del deletes, F2 renames,
-  Alt+Up/Down reorder — the shortcuts never clash with editor hotkeys.
-  "Find favorite..." is a compact modal picker over all favorites with
-  type-to-filter, also supporting Ctrl/Alt+1..9. Window size, tab and
-  sort order are remembered. Opening a favorite: projects open in
+  Manager > Favorites), or the command palette. Columns
+  ☐ / ★ / Name / Path; the ★ column is the "favorite of favorites"
+  flag rendered with the UTF-8 font glyphs ☆/★ (NO image files) —
+  clicking the star cell toggles it; default sort is starred first,
+  then by name; a 3rd click on a column header switches to manual
+  (custom) order. Filter field at the top (name and path, Esc clears
+  it); vertical button panel on the left (Open / Add... / Add
+  opened... / Move up / Move down / Delete, Close at the bottom)
+  grouped with visible gaps; right-click menu (Open, Reveal in file
+  manager, Copy path, Star/Unstar, Rename, Delete, Check all / Uncheck
+  all, Add current file/folder/project). While the window has focus:
+  Ctrl+1..9 / Alt+1..9 open the Nth visible item, Enter/double-click
+  open it, Del deletes, F2 renames, Alt+Up/Down reorder — the
+  shortcuts never clash with editor hotkeys. "Find favorite..." is a
+  compact modal picker over all favorites with type-to-filter, also
+  supporting Ctrl/Alt+1..9. Opening a favorite: projects open in
   Project Manager, files in the editor, folders simply open in the OS
   file manager. "Add opened..." shows the same chooser as "Add...":
   the opened project, the current editor file, or the folder of the
   current file (only the available ones are listed)
-- storage: settings/cuda_project_man_favorites.json (per entry: path,
-  name, star flag; plus "_ui" for the remembered window state and
-  "_deleted" — see below). Early versions used the misspelled
-  cuda_project_man_favorits.json; its data is migrated automatically
-  and the old file is removed after the renamed one is written
-- import from the "Favorites" plugin (kvichans' cuda_favorites): its
-  settings/cuda_favorites.json is read when Project Manager starts and
-  whenever a favorites window is opened; entries missing from our list
-  are imported (duplicates removed by normalized path, folders vs
-  files told apart by the path itself). The sync is strictly ONE-WAY
-  now (it was two-way in the first development build): nothing is ever
-  exported back and the file is never created if absent. Entries
-  deleted in our window are remembered in "_deleted" so the next
-  import does not resurrect them; adding a path again clears that
-  memory
+- favorites list: CHECKBOX column (drawn with the UTF-8 font glyphs
+  ☐/☑, no image files) before the star column — check several
+  favorites and Open / Delete (with a confirmation) / Move up / Move
+  down / Rename / Star / Copy path / Reveal act on ALL of them at
+  once; Space toggles the checkbox of the selected row, Ctrl+A (and a
+  click on the ✓ header) checks/unchecks all rows; rows hidden by the
+  filter never stay checked, so an action can never touch invisible
+  items; checks reset on a tab change. Renaming several items asks
+  for each name (Cancel stops)
+- favorites whose path no longer exists on disk are now drawn with RED
+  text (the name keeps the "? " prefix); the dialog listview control
+  of CudaText cannot color single rows, so the list is an owner-drawn
+  listbox_ex painted by the plugin (also the checkbox and star glyphs,
+  selection with the colors of the current UI theme, DPI-scaled
+  columns); the clickable header (checkbox / ★ / Name / Path with sort
+  arrows) uses the listbox header of CudaText 1.132.9+
+- fixed: the favorites window size saved after maximizing made the
+  window open with its bottom part off-screen at the next CudaText
+  start (the form is recreated with the pixel size of the MAXIMIZED
+  window, which is taller than the work area — a CudaText/LCL form
+  restore quirk), and only deleting "w"/"h" from the json fixed it.
+  The size is not saved to the json at all anymore: it is remembered
+  only while CudaText runs, and only in the NORMAL window state (the
+  size of a maximized window is never remembered)
 - fixed: the ★ column of the favorites list stayed empty when a star
   was toggled — the per-row listview icon indexes never showed with
   the image list; the star column is now plain text (☆/★) drawn with
@@ -54,10 +63,48 @@
   main file") and the Plugins menu (Plugins > Project Manager >
   Favorites: Show Favorites window..., Find favorite..., Add to
   favorites: current file/folder/project, Add opened...)
+- NEW: type-ahead (incremental search) in the project tree — while the
+  Project panel has the keyboard focus, typing letters/digits jumps to
+  the first node of the current level starting with the typed text
+  ("myf" finds "myfile"); pressing the same letter again jumps to the
+  next match; the buffer resets after ~1.2 s of pause. Searching is
+  scoped like Windows Explorer: only among the siblings of the
+  selected node ("inside" the folder the selection is in); keystrokes
+  of other controls (e.g. the filter field) are not hijacked
+- NEW: filter field above the project tree — typing shows only the
+  files/folders whose name matches; a folder whose name matches is
+  shown with its whole content, other folders only when they contain
+  a match (with the path to it); everything is shown unfolded; Esc
+  clears the filter and restores the tree with the folds and the
+  selection from before the filtering; the "Ignore files/folders/
+  hidden" options are respected while scanning
+- NEW: option "Default projects folder" (Project Manager options):
+  when set, "Create new project", "Create project from open tabs" and
+  "Save project as..." open the save dialog directly in that folder,
+  so only a name must be typed; the folder is created when missing.
+  The value supports $settings (the CudaText settings folder), e.g.
+  "$settings" or "$settings/projects", and ~; empty (default) = the
+  last used folder, as before
+- storage: settings/cuda_project_man_favorites.json (per entry: path,
+  name, star flag; plus "_ui" for the remembered tab and sort order,
+  and "_deleted" — see below). Tab and sort order are remembered
+  between sessions; the window size only while CudaText runs
+- import from the "Favorites" plugin (kvichans' cuda_favorites): its
+  settings/cuda_favorites.json is read when Project Manager starts and
+  whenever a favorites window is opened; entries missing from our list
+  are imported (duplicates removed by normalized path, folders vs
+  files told apart by the path itself). The sync is strictly ONE-WAY
+  now (it was two-way in the first development build): nothing is ever
+  exported back and the file is never created if absent. Entries
+  deleted in our window are remembered in "_deleted" so the next
+  import does not resurrect them; adding a path again clears that
+  memory
 - readme.txt gained a "FAVORITES (BOOKMARKS)" section documenting the
-  window, the star flag, sorting, filtering, the button panel, the
-  keyboard shortcuts, the "Find favorite" picker, the data file format
-  and the one-way import for end users
+  window, the checkbox multi-selection, the red dead-path marking, the
+  star flag, sorting, filtering, the button panel, the keyboard
+  shortcuts, the "Find favorite" picker, the data file format and the
+  one-way import for end users; the tree filter, the type-ahead and
+  the "Default projects folder" option are documented too
 
 2026.11.07 (@badrelmers)
 - the v2 migration guide moved from readme.txt into a SEPARATE file,

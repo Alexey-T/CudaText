@@ -196,7 +196,7 @@ method=_
 
 [item42]
 section=commands
-caption=&Project Manager\&Favorites\Show Favorites &window...
+caption=&Project Manager\Favorites\Show Favorites &window...
 method=favorites_show
 
 [item43]

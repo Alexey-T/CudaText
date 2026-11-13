@@ -53,7 +53,8 @@ def dialog_config(op):
     RES_BACKUP_EN = 19
     RES_BACKUP_DIR = 21
     RES_BACKUP_CNT = 23
-    RES_OK = 27
+    RES_PROJECTS_DIR = 26
+    RES_OK = 30
 
     themes = get_themes_filetype()
     try:
@@ -146,13 +147,17 @@ def dialog_config(op):
         +[c1.join(['type=edit', 'pos=136,536,200,0', 'val='+str(op.get('backup_count', DEFAULT_BACKUP_COUNT))])]
         +[c1.join(['type=label', 'pos=6,566,600,0', 'cap='+_('Relative folder is relative to the project file. Default: .cudatext/proj_bckp')])]
 
+        +[c1.join(['type=label', 'pos=6,594,130,0', 'cap='+_('Default projects &folder:')])]
+        +[c1.join(['type=edit', 'pos=136,590,500,0', 'val='+op.get('projects_dir', '')])]
+        +[c1.join(['type=label', 'pos=6,618,600,0', 'cap='+_('For new projects: empty = last used folder; $settings = CudaText settings folder, e.g. $settings/projects')])]
+
         +[c1.join(['type=label', 'pos=6,404,600,0', 'cap='+_('For more icons, get add-ons of kind "filetypeicons", "projtoolbaricons"')])]
-        +[c1.join(['type=label', 'pos=6,592,600,0', 'cap='+_('(*) - requires CudaText restart')])]
-        +[c1.join(['type=button', 'pos=300,616,400,0', 'cap='+_('&OK'), 'ex0=1'])]
-        +[c1.join(['type=button', 'pos=406,616,502,0', 'cap='+_('Cancel')])]
+        +[c1.join(['type=label', 'pos=6,646,600,0', 'cap='+_('(*) - requires CudaText restart')])]
+        +[c1.join(['type=button', 'pos=300,670,400,0', 'cap='+_('&OK'), 'ex0=1'])]
+        +[c1.join(['type=button', 'pos=406,670,502,0', 'cap='+_('Cancel')])]
     )
 
-    res = dlg_custom(_('Project Manager options'), 508, 650, text, get_dict=True)
+    res = dlg_custom(_('Project Manager options'), 508, 706, text, get_dict=True)
     if res is None:
         return
 
@@ -190,6 +195,8 @@ def dialog_config(op):
         op['backup_count'] = max(0, int(res[RES_BACKUP_CNT].strip()))
     except ValueError:
         op['backup_count'] = DEFAULT_BACKUP_COUNT
+
+    op['projects_dir'] = res[RES_PROJECTS_DIR].strip()
 
     return True
 

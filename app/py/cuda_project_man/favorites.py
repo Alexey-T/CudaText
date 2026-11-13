@@ -13,12 +13,18 @@ adding a path again clears that memory.
 
 Main window (non-modal, resizable):
 - tabs: Projects / Files / Folders
-- listview with columns: star, Name, Path; sortable per column,
-  default sort is "starred first, then by name"; a 3rd click on a
-  column header switches to manual (custom) order
-- star column: the UTF-8 font icons ☆ (unstarred) / ★ (starred) -
+- owner-drawn list (listbox_ex) with columns: checkbox, star, Name,
+  Path; the header line above the list is clickable to sort
+  ("starred first, then by name" by default; a 3rd click on a column
+  switches to manual (custom) order)
+- checkbox column: mark several favorites, then Open / Delete / Move /
+  Rename / Star / Copy path / Reveal act on ALL of them; Space toggles
+  the checkbox of the selected row, Ctrl+A checks/unchecks all
+- star column: the UTF-8 font glyphs ☆ (unstarred) / ★ (starred) -
   no image files; click the star cell to toggle the "favorite of
   favorites" star
+- favorites whose path no longer exists on disk are drawn in RED
+  (name prefixed with "? ")
 - filter field at the top filters by name and path; Esc clears it
 - vertical button panel on the left: Open / Add... / Add opened...,
   Move up / Move down, Delete; Close at the bottom
@@ -26,6 +32,11 @@ Main window (non-modal, resizable):
   that index (index in the currently visible, filtered list), Enter
   opens the selection, Del deletes it, F2 renames it,
   Alt+Up/Down move it, Esc clears the filter (or closes the window)
+- window size is remembered only while CudaText runs (the maximized
+  size is never restored from disk: a CudaText/LCL form recreated with
+  the pixel size of a maximized window ends up taller than the work
+  area and its bottom part lands off-screen, so the size is not saved
+  to the json at all)
 
 "Add opened..." shows the same chooser as "Add...": pick the opened
 project, the current editor file, or the folder of the current file.
@@ -50,9 +61,6 @@ OS_SUFFIX = app_proc(PROC_GET_OS_SUFFIX, '')
 
 #: our own storage file
 FAVORITES_FILENAME = 'cuda_project_man_favorites.json'
-#: the same data in early versions, under the misspelled name; read
-#: once for migration, removed after the renamed file is saved
-LEGACY_FAVORITES_FILENAME = 'cuda_project_man_favorits.json'
 #: data file of the "Favorites" plugin (cuda_favorites by kvichans);
 #: import-only - never created or modified by this plugin
 EXT_FAVORITES_FILENAME = 'cuda_favorites.json'
@@ -70,13 +78,29 @@ CAT_TITLES = {
 SORT_COLS = ('star', 'name', 'path')
 DEFAULT_SORT = 'star'
 
-# listview column indexes
-COL_STAR = 0
-COL_NAME = 1
-COL_PATH = 2
+# drawn/listbox-header column indexes
+COL_CHK = 0
+COL_STAR = 1
+COL_NAME = 2
+COL_PATH = 3
 
+#: unscaled px widths of the first columns; the Path column eats the rest
+COL_CHK_W = 40
 COL_STAR_W = 48
 COL_NAME_W = 230
+COL_TEXT_PAD = 8
+
+#: UTF-8 font glyphs (no image files) for the checkbox column
+GLYPH_CHECKED = '☑'
+GLYPH_UNCHECKED = '☐'
+#: TColor (BGR int) of the red text for favorites missing on disk
+COLOR_DEAD = 0x0000FF  # clRed
+
+MOD_COL = {
+    COL_STAR: 'star',
+    COL_NAME: 'name',
+    COL_PATH: 'path',
+}
 
 BTN_W = 126
 BTN_X = 8
@@ -88,11 +112,52 @@ FONT_H = 470
 FORM_MIN_W = 560
 FORM_MIN_H = 350
 
-MOD_COL = {
-    COL_STAR: 'star',
-    COL_NAME: 'name',
-    COL_PATH: 'path',
+#: fallback colors (TColor BGR ints) when the UI theme cannot be read
+_COLOR_FALLBACK = {
+    'bg': 0xFFFFFF,
+    'sel_bg': 0xCCCCCC,
+    'font': 0x000000,
+    'sel_font': 0x000000,
 }
+
+_theme_colors_cache = None
+
+
+def _theme_colors():
+    """{bg, sel_bg, font, sel_font} with int TColor values of the current
+    UI theme (keys 'ListBg'/'ListSelBg'/'ListFont'/'ListSelFont' of
+    app_proc(PROC_THEME_UI_DICT_GET)). Falls back to plain black on
+    white when the theme cannot be read."""
+    global _theme_colors_cache
+    if _theme_colors_cache is not None:
+        return _theme_colors_cache
+    res = dict(_COLOR_FALLBACK)
+    try:
+        theme = app_proc(PROC_THEME_UI_DICT_GET, '')
+        if isinstance(theme, dict):
+            for key_out, key_in in (('bg', 'ListBg'),
+                                    ('sel_bg', 'ListSelBg'),
+                                    ('font', 'ListFont'),
+                                    ('sel_font', 'ListSelFont')):
+                it = theme.get(key_in)
+                color = it.get('color') if isinstance(it, dict) else None
+                if isinstance(color, int) and color >= 0:
+                    res[key_out] = color
+    except Exception:
+        pass
+    _theme_colors_cache = res
+    return res
+
+
+def _ui_scale():
+    """Current UI scale factor (1.0 at 100% DPI), for the drawn column
+    widths - the listbox item font is scaled by CudaText, so the fixed
+    column offsets must be scaled by the same value."""
+    try:
+        val = app_proc(PROC_CONFIG_SCALE_GET, '')
+        return max(1.0, int(val[0]) / 100.0)
+    except Exception:
+        return 1.0
 
 
 def _norm_path(path):
@@ -215,7 +280,6 @@ class FavoritesCore:
 
     def __init__(self):
         self.path_own = os.path.join(app_path(APP_DIR_SETTINGS), FAVORITES_FILENAME)
-        self.path_legacy = os.path.join(app_path(APP_DIR_SETTINGS), LEGACY_FAVORITES_FILENAME)
         self.path_ext = os.path.join(app_path(APP_DIR_SETTINGS), EXT_FAVORITES_FILENAME)
         self.data = {cat: [] for cat in CATS}
         self.ui = {}
@@ -285,14 +349,10 @@ class FavoritesCore:
     #------------- load / save
 
     def load(self):
-        """Read our file (migrating once from the old misspelled file
-        name), then import new entries from cuda_favorites.json
+        """Read our file, then import new entries from cuda_favorites.json
         (one-way: imported here, never exported back). Returns the
         number of imported entries."""
         own = _read_json(self.path_own)
-        if own is None and os.path.exists(self.path_legacy):
-            # one-time migration from the old misspelled file name
-            own = _read_json(self.path_legacy)
         self.data = {cat: [] for cat in CATS}
         if isinstance(own, dict):
             for cat in CATS:
@@ -300,6 +360,10 @@ class FavoritesCore:
                 if isinstance(val, list):
                     self.data[cat] = val
         self.ui = own.get('_ui') if isinstance(own, dict) and isinstance(own.get('_ui'), dict) else {}
+        # window size is NOT persisted (see the module docstring) - drop
+        # the keys if an older build of this unreleased version wrote them
+        self.ui.pop('w', None)
+        self.ui.pop('h', None)
         self.deleted = [p for p in (own.get('_deleted') if isinstance(own, dict) else None) or []
                         if isinstance(p, str)]
         self._normalize()
@@ -327,16 +391,7 @@ class FavoritesCore:
         out = {cat: self.data[cat] for cat in CATS}
         out['_ui'] = self.ui
         out['_deleted'] = self.deleted
-        if not _write_json(self.path_own, out):
-            return
-        # one-time cleanup after the migration to the corrected file
-        # name: drop the old misspelled file once the new one is safely
-        # written
-        try:
-            if os.path.exists(self.path_legacy):
-                os.remove(self.path_legacy)
-        except OSError:
-            pass
+        _write_json(self.path_own, out)
 
     #------------- data operations
 
@@ -381,6 +436,16 @@ class FavoritesCore:
         if 0 <= index < len(self.data[cat]):
             self.data[cat][index]['star'] = not self.data[cat][index]['star']
             self.save()
+            return True
+        return False
+
+    def set_star(self, cat, index, value):
+        """Set the star flag of one entry to the given value (used by the
+        multi-selection Star command: star all / unstar all)."""
+        if 0 <= index < len(self.data[cat]):
+            if bool(self.data[cat][index]['star']) != bool(value):
+                self.data[cat][index]['star'] = bool(value)
+                self.save()
             return True
         return False
 
@@ -446,6 +511,10 @@ _core = None
 _form = None       # singleton of the main window
 _finder = None     # current 'find favorite' modal dialog
 
+#: window size remembered ONLY while CudaText runs (never saved to the
+#: json - see the module docstring); (w, h) of the last NORMAL state
+_last_size = None
+
 
 def get_core():
     global _core
@@ -484,13 +553,18 @@ class FavoritesForm:
     def __init__(self, core):
         self.core = core
         self.h = 0
+        self.h_list = 0        # handle of the owner-drawn listbox
+        self.list_ctl_index = -1
+        self._header_on = False # listbox header was set (needs CudaText 1.132+)
 
         self.tab = self._ui_get('tab', 0)
         self.sort_col = self._ui_get('sort_col', DEFAULT_SORT)
         self.sort_desc = bool(self._ui_get('sort_desc', False))
         self.filter = ''
         self.view = []          # [(data_index, item)] for the active tab
+        self.rows = []          # what is drawn: dicts with cached dead/checked
         self.selected_data = -1 # data index to re-select after refill
+        self.checked = set()    # paths of the checked (multi-select) rows
         self._closing = False
 
     def _ui_get(self, key, default):
@@ -518,12 +592,18 @@ class FavoritesForm:
         BH = app_proc(PROC_GET_GUI_HEIGHT, 'button') or 30
         EH = app_proc(PROC_GET_GUI_HEIGHT, 'edit') or 28
 
-        w = int(self._ui_get('w', FONT_W))
-        h = int(self._ui_get('h', FONT_H))
-        if w < FORM_MIN_W:
-            w = FONT_W
-        if h < FORM_MIN_H:
-            h = FONT_H
+        # window size: remembered only while CudaText runs (the maximized
+        # size is never restored from disk - see the module docstring)
+        w, h = FONT_W, FONT_H
+        if _last_size:
+            w = max(FORM_MIN_W, _last_size[0])
+            h = max(FORM_MIN_H, _last_size[1])
+
+        # scaled column widths (same factor as the scaled listbox font)
+        scale = _ui_scale()
+        self.chk_w = int(COL_CHK_W * scale)
+        self.star_w = int(COL_STAR_W * scale)
+        self.name_w = int(COL_NAME_W * scale)
 
         self.h = dlg_proc(0, DLG_CREATE)
         dlg_proc(self.h, DLG_PROP_SET, prop={
@@ -630,8 +710,8 @@ class FavoritesForm:
             'on_change': self.on_tab_change,
         })
 
-        # the status label must be created BEFORE the listview: the
-        # listview's bottom anchor references it by name
+        # the status label must be created BEFORE the list: the list's
+        # bottom anchor references it by name
         self._ctl('label', 'lbl_status', {
             'x': rx, 'y': h - 8 - 22, 'w': w - rx - 8, 'h': 22,
             'a_b': ('', ']'),
@@ -641,23 +721,35 @@ class FavoritesForm:
             'cap': '',
         })
 
-        self._ctl('listview', 'list', {
+        # owner-drawn list: the plain listview control of CudaText
+        # dialogs cannot color single rows (needed for the RED text of
+        # dead paths), so the list is a 'listbox_ex' painted here -
+        # checkbox / star / name / path columns, per-row colors
+        n = self._ctl('listbox_ex', 'list', {
             'x': rx, 'y': 8 + EH + BTN_GAP + BH + BTN_GAP,
             'w': w - rx - 8, 'h': h - (8 + EH + BTN_GAP + BH + BTN_GAP) - 8 - 22 - BTN_GAP,
             'tab_order': 2,
-            'ex0': True,          # grid lines
             'a_t': ('tabs', ']'),
             'sp_t': BTN_GAP,
             'a_b': ('lbl_status', '['),
             'sp_b': BTN_GAP,
             'a_r': ('', ']'),
             'sp_r': 8,
+            'on_change': self.list_on_change,
             'on_click': self.list_on_click,
             'on_click_dbl': self.list_on_dbl_click,
             'on_click_header': self.list_on_header_click,
-            'on_select': self.list_on_select,
+            'on_draw_item': self.list_draw_item,
             'on_menu': self.list_on_menu,
         })
+        self.list_ctl_index = n if n is not None else -1
+        self.h_list = dlg_proc(self.h, DLG_CTL_HANDLE, name='list')
+        try:
+            listbox_proc(self.h_list, LISTBOX_SET_DRAWN, 1)
+            listbox_proc(self.h_list, LISTBOX_SET_COLUMNS,
+                         text=[self.chk_w, self.star_w, self.name_w, -1])
+        except Exception as ex:
+            print('Favorites: cannot init the owner-drawn list: ', ex)
 
         dlg_proc(self.h, DLG_SCALE)
         self.fill_list()
@@ -689,12 +781,10 @@ class FavoritesForm:
                    lambda tag=None: dlg_proc(h, DLG_FREE), 200)
 
     def save_ui_state(self):
-        try:
-            props = dlg_proc(self.h, DLG_PROP_GET) or {}
-            self.core.ui['w'] = props.get('w', FONT_W)
-            self.core.ui['h'] = props.get('h', FONT_H)
-        except Exception:
-            pass
+        # NOTE: the window size is deliberately NOT saved to the json -
+        # see the module docstring (a form recreated with the pixel size
+        # of a maximized window ends up with its bottom off-screen).
+        # _last_size is kept in memory by form_on_resize instead.
         self.core.ui['tab'] = self.tab
         self.core.ui['sort_col'] = self.sort_col
         self.core.ui['sort_desc'] = self.sort_desc
@@ -707,47 +797,46 @@ class FavoritesForm:
             _form = None
 
     def form_on_resize(self, id_dlg, id_ctl=0, data=''):
-        self.stretch_path_column()
-
-    #------------- list filling
-
-    def visible_width(self):
-        try:
-            props = dlg_proc(self.h, DLG_CTL_PROP_GET, name='list') or {}
-            return int(props.get('w', 0))
-        except Exception:
-            return 0
-
-    def stretch_path_column(self):
-        """Make the Path column eat the free width of the listview."""
-        if not self.h:
-            return
-        w = self.visible_width()
-        if w <= 0:
+        # remember the size of the NORMAL window state (the size of a
+        # maximized window is never remembered - restoring it re-created
+        # the 'bottom is eaten' bug after a CudaText restart)
+        global _last_size
+        if self._closing or not self.h:
             return
         try:
-            scroll_w = int(app_proc(PROC_GET_GUI_HEIGHT, 'scrollbar') or 16)
-        except Exception:
-            scroll_w = 16
-        path_w = max(80, w - COL_STAR_W - COL_NAME_W - int(scroll_w) - 4)
-        try:
-            dlg_proc(self.h, DLG_CTL_PROP_SET, name='list', prop={
-                'columns': '\t'.join([
-                    self.header_caption(COL_STAR) + '\r' + str(COL_STAR_W) + '\r0\r0\rC\r0\r1',
-                    self.header_caption(COL_NAME) + '\r' + str(COL_NAME_W) + '\r40\r0\rL\r0\r1',
-                    self.header_caption(COL_PATH) + '\r' + str(path_w) + '\r60\r0\rL\r0\r1',
-                ]),
-            })
+            props = dlg_proc(self.h, DLG_PROP_GET) or {}
+            if str(props.get('form_state', 'normal')) == 'normal':
+                w = int(props.get('w', 0))
+                h = int(props.get('h', 0))
+                if w >= FORM_MIN_W and h >= FORM_MIN_H:
+                    _last_size = (w, h)
         except Exception:
             pass
 
-    def header_caption(self, col):
+    #------------- list filling
+
+    def _sort_caption(self, mode, base):
         """Column caption with the sort-direction marker."""
-        base = ['★', _('Name'), _('Path')][col]
-        mode = MOD_COL.get(col)
         if self.sort_col == 'manual' or mode != self.sort_col:
             return base
         return base + (' ↓' if self.sort_desc else ' ↑')
+
+    def update_header(self):
+        """Set the listbox header line (tab-separated column captions).
+        Clicking the checkbox column checks/unchecks all rows; clicking
+        the other columns changes the sort."""
+        if not self.h_list:
+            return
+        try:
+            listbox_proc(self.h_list, LISTBOX_SET_HEADER, text='\t'.join([
+                GLYPH_CHECKED[0],  # '✓': click = check/uncheck all
+                self._sort_caption('star', '★'),
+                self._sort_caption('name', _('Name')),
+                self._sort_caption('path', _('Path')),
+            ]))
+            self._header_on = True
+        except Exception:
+            self._header_on = False
 
     def fill_list(self, keep_selection=True):
         if not self.h:
@@ -755,40 +844,48 @@ class FavoritesForm:
         cat = self.cat()
         self.view = self.core.view(cat, self.sort_col, self.sort_desc, self.filter)
 
-        rows = []
-        for _data_idx, it in self.view:
-            name = it['name']
-            if not os.path.exists(it['path']):
-                name = '? ' + name
-            rows.append('\r'.join([
-                '★' if it['star'] else '☆',   # UTF-8 font icons, no images
-                name,
-                it['path'],
-            ]))
+        # what is drawn: dead/checked states are computed ONCE here, not
+        # on every repaint (os.path.exists on each paint would be slow)
+        self.rows = [{
+            'data_idx': data_idx,
+            'path': it['path'],
+            'name': it['name'],
+            'star': bool(it['star']),
+            'checked': it['path'] in self.checked,
+            'dead': not os.path.exists(it['path']),
+        } for (data_idx, it) in self.view]
 
-        items = '\t'.join(
-            ['\r'.join([
-                self.header_caption(COL_STAR) + '=C' + str(COL_STAR_W),
-                self.header_caption(COL_NAME) + '=' + str(COL_NAME_W),
-                self.header_caption(COL_PATH) + '=300',
-            ])] + rows)
+        # rows hidden by the filter must not stay checked (acting on
+        # checked rows must never touch invisible items)
+        visible = set(r['path'] for r in self.rows)
+        self.checked &= visible
+        for r in self.rows:
+            r['checked'] = r['path'] in self.checked
 
-        dlg_proc(self.h, DLG_CTL_PROP_SET, name='list', prop={'items': items})
+        try:
+            listbox_proc(self.h_list, LISTBOX_DELETE_ALL)
+            for r in self.rows:
+                listbox_proc(self.h_list, LISTBOX_ADD, -1, r['name'])
+        except Exception:
+            pass
 
         # restore selection
-        sel_view = -1
+        sel = -1
         if keep_selection:
-            for i, (data_idx, _it) in enumerate(self.view):
-                if data_idx == self.selected_data:
-                    sel_view = i
+            for i, r in enumerate(self.rows):
+                if r['data_idx'] == self.selected_data:
+                    sel = i
                     break
-        if sel_view < 0:
-            self.selected_data = self.view[0][0] if self.view else -1
-            sel_view = 0 if self.view else -1
-        if sel_view >= 0:
-            dlg_proc(self.h, DLG_CTL_PROP_SET, name='list', prop={'val': str(sel_view)})
+        if sel < 0:
+            self.selected_data = self.rows[0]['data_idx'] if self.rows else -1
+            sel = 0 if self.rows else -1
+        if sel >= 0:
+            try:
+                listbox_proc(self.h_list, LISTBOX_SET_SEL, sel)
+            except Exception:
+                pass
 
-        self.stretch_path_column()
+        self.update_header()
         self.update_status()
 
     def update_status(self):
@@ -796,19 +893,23 @@ class FavoritesForm:
             return
         cat = self.cat()
         total, starred = self.core.counts(cat)
-        shown = len(self.view)
+        shown = len(self.rows)
         if self.sort_col == 'manual':
             sort_info = _('sort: manual order')
         elif self.sort_col == 'star':
             sort_info = _('sort: ★, then name')
+        elif self.sort_col == 'name':
+            sort_info = _('sort: name') + (' ↓' if self.sort_desc else ' ↑')
         else:
-            sort_info = _('sort: ') + self.header_caption(COL_NAME if self.sort_col == 'name' else COL_PATH).strip()
+            sort_info = _('sort: path') + (' ↓' if self.sort_desc else ' ↑')
 
         parts = []
         if self.filter:
             parts.append(_('{} of {} shown').format(shown, total))
         else:
             parts.append(_('{} item(s), {} starred').format(total, starred))
+        if self.checked:
+            parts.append(_('{} checked').format(len(self.checked)))
         parts.append(sort_info)
         parts.append(_('Ctrl+1..9 / Alt+1..9 open item #'))
         try:
@@ -818,8 +919,8 @@ class FavoritesForm:
         except Exception:
             pass
 
-        # enable/disable the buttons which need a selection
-        has_sel = self.selected_data >= 0
+        # enable/disable the buttons which need a target row
+        has_sel = self.selected_row() is not None
         for name in ('btn_open', 'btn_up', 'btn_down', 'btn_del'):
             try:
                 dlg_proc(self.h, DLG_CTL_PROP_SET, name=name, prop={'en': has_sel})
@@ -828,20 +929,151 @@ class FavoritesForm:
 
     #------------- selection / view helpers
 
-    def selected_view_index(self):
+    def _sel_index(self):
         try:
-            props = dlg_proc(self.h, DLG_CTL_PROP_GET, name='list') or {}
-            val = props.get('val', '')
-            return int(val) if val not in ('', None) else -1
+            return int(listbox_proc(self.h_list, LISTBOX_GET_SEL))
         except Exception:
             return -1
 
-    def selected_pair(self):
-        """(data_index, item) of the selection, or None."""
-        i = self.selected_view_index()
-        if 0 <= i < len(self.view):
-            return self.view[i]
+    def selected_row(self):
+        """The row dict of the selection, or None."""
+        i = self._sel_index()
+        if 0 <= i < len(self.rows):
+            return self.rows[i]
         return None
+
+    def _row_at(self, x, y):
+        """Row index under the given listbox point, or -1."""
+        if not self.h_list or not self.rows:
+            return -1
+        try:
+            item_h = int(listbox_proc(self.h_list, LISTBOX_GET_ITEM_H)) or 20
+            top = int(listbox_proc(self.h_list, LISTBOX_GET_TOP))
+        except Exception:
+            return -1
+        yy = y - (item_h if self._header_on else 0)
+        if yy < 0:
+            return -1
+        index = top + yy // item_h
+        if 0 <= index < len(self.rows):
+            return index
+        return -1
+
+    def _list_focused(self):
+        """True when the keyboard focus is on the list itself (Space /
+        Ctrl+A must not fire while the user types in the filter edit or
+        presses a button with the keyboard)."""
+        if self.list_ctl_index < 0 or not self.h:
+            return False
+        try:
+            props = dlg_proc(self.h, DLG_PROP_GET) or {}
+            return int(props.get('focused', -1)) == self.list_ctl_index
+        except Exception:
+            return False
+
+    def _list_repaint(self):
+        """Force a repaint of the owner-drawn list (LISTBOX_SET_COLUMNS
+        always invalidates the control; the sizes stay the same)."""
+        if not self.h_list:
+            return
+        try:
+            listbox_proc(self.h_list, LISTBOX_SET_COLUMNS,
+                         text=[self.chk_w, self.star_w, self.name_w, -1])
+        except Exception:
+            pass
+
+    def targets(self):
+        """Rows (in view order) the next action applies to: all checked
+        rows, or the selected row when nothing is checked."""
+        if self.checked:
+            return [r for r in self.rows if r['checked']]
+        row = self.selected_row()
+        return [row] if row else []
+
+    #------------- owner drawing
+
+    def _draw_text(self, canvas, text, x, y1, row_h, centered=False):
+        try:
+            size = canvas_proc(canvas, CANVAS_GET_TEXT_SIZE, text=text)
+            tw, th = int(size[0]), int(size[1])
+        except Exception:
+            tw, th = 0, row_h
+        if centered:
+            x = x - tw // 2
+        canvas_proc(canvas, CANVAS_TEXT, text=text,
+                    x=x, y=y1 + max(0, (row_h - th) // 2))
+
+    def _fit_text(self, canvas, text, max_w):
+        """Truncate text with '…' so it fits into max_w pixels."""
+        if max_w <= 12 or not text:
+            return ''
+        try:
+            size = canvas_proc(canvas, CANVAS_GET_TEXT_SIZE, text=text)
+            if size and int(size[0]) <= max_w:
+                return text
+            while text:
+                text = text[:-1]
+                size = canvas_proc(canvas, CANVAS_GET_TEXT_SIZE, text=text + '…')
+                if not size or int(size[0]) <= max_w:
+                    break
+        except Exception:
+            return text
+        return text + '…'
+
+    def list_draw_item(self, id_dlg, id_ctl, data='', info=''):
+        """Owner-drawn painting of one row: checkbox glyph, star glyph,
+        name, path. Rows whose path is missing on disk are RED; the
+        selected row gets the theme's selection colors. Must never
+        raise: an exception inside LCL painting would break the form."""
+        if self._closing or not self.h_list:
+            return
+        try:
+            d = data if isinstance(data, dict) else {}
+            canvas = int(d.get('canvas', 0) or 0)
+            index = int(d.get('index', -1))
+            rect = d.get('rect') or (0, 0, 0, 0)
+            x1, y1, x2, y2 = int(rect[0]), int(rect[1]), int(rect[2]), int(rect[3])
+        except Exception:
+            return
+        if not canvas or not (0 <= index < len(self.rows)):
+            return
+        row = self.rows[index]
+        colors = _theme_colors()
+        sel = (self._sel_index() == index)
+        try:
+            # background
+            canvas_proc(canvas, CANVAS_SET_BRUSH,
+                        color=colors['sel_bg'] if sel else colors['bg'],
+                        style=BRUSH_SOLID)
+            canvas_proc(canvas, CANVAS_RECT_FILL, x=x1, y=y1, x2=x2, y2=y2)
+            canvas_proc(canvas, CANVAS_SET_BRUSH, style=BRUSH_CLEAR)
+            # font color: RED for dead paths, else theme colors
+            canvas_proc(canvas, CANVAS_SET_FONT,
+                        color=COLOR_DEAD if row['dead']
+                        else (colors['sel_font'] if sel else colors['font']))
+
+            row_h = y2 - y1
+            # checkbox column (before the star column)
+            self._draw_text(canvas,
+                            GLYPH_CHECKED if row['checked'] else GLYPH_UNCHECKED,
+                            x1 + self.chk_w // 2, y1, row_h, centered=True)
+            # star column
+            self._draw_text(canvas,
+                            '★' if row['star'] else '☆',
+                            x1 + self.chk_w + self.star_w // 2, y1, row_h,
+                            centered=True)
+            # name column (dead paths get the '? ' prefix)
+            name = ('? ' if row['dead'] else '') + row['name']
+            name = self._fit_text(canvas, name, self.name_w - 2 * COL_TEXT_PAD)
+            self._draw_text(canvas, name,
+                            x1 + self.chk_w + self.star_w + COL_TEXT_PAD,
+                            y1, row_h)
+            # path column: eats the rest of the width
+            self._draw_text(canvas, row['path'],
+                            x1 + self.chk_w + self.star_w + self.name_w + COL_TEXT_PAD,
+                            y1, row_h)
+        except Exception:
+            pass
 
     #------------- events
 
@@ -860,26 +1092,26 @@ class FavoritesForm:
         except Exception:
             pass
         self.selected_data = -1
+        self.checked = set()  # checks are per tab
         self.fill_list(keep_selection=False)
 
-    def list_on_select(self, id_dlg, id_ctl, data='', info=''):
-        # data = (item_index, selected); only react to the selected row
-        try:
-            idx, sel = data[0], data[1]
-        except Exception:
-            return
-        if not sel:
-            return
-        if 0 <= idx < len(self.view):
-            self.selected_data = self.view[idx][0]
+    def list_on_change(self, id_dlg, id_ctl, data='', info=''):
+        """Selection in the list moved (also fires right after a click
+        selected the clicked row)."""
+        row = self.selected_row()
+        self.selected_data = row['data_idx'] if row else -1
         self.update_status()
 
     def list_on_header_click(self, id_dlg, id_ctl, data='', info=''):
-        """Click on a column header: 1st click sorts ascending, 2nd
-        descending, 3rd switches to manual (custom) order."""
+        """Click on a column header: the checkbox column checks/unchecks
+        all rows; the others sort ascending, then descending, then switch
+        to manual (custom) order."""
         try:
             col = int(data)
         except Exception:
+            return
+        if col == COL_CHK:
+            self.check_all_toggle()
             return
         mode = MOD_COL.get(col)
         if not mode:
@@ -895,33 +1127,54 @@ class FavoritesForm:
         self.fill_list()
 
     def list_on_click(self, id_dlg, id_ctl, data='', info=''):
-        """Single click: the star (first) column toggles the star flag.
+        """Single click: the checkbox (first) column toggles the row's
+        checkbox, the star (second) column toggles the star flag.
         Header clicks go to on_click_header, they don't get here."""
         if not isinstance(data, (tuple, list)) or len(data) != 2:
             return
-        x = data[0]
         try:
-            x = int(x)
+            x = int(data[0])
+            y = int(data[1])
         except Exception:
             return
-        if x >= COL_STAR_W or not self.view:
+        index = self._row_at(x, y)
+        if index < 0:
             return
-        pair = self.selected_pair()
-        if pair is None:
+        if x < self.chk_w:
+            self.toggle_checked(index)
             return
-        data_idx, it = pair
-        self.core.toggle_star(self.cat(), data_idx)
-        self.fill_list()
+        if x < self.chk_w + self.star_w:
+            row = self.rows[index]
+            data_idx = self.core.find(self.cat(), row['path'])
+            if data_idx >= 0:
+                self.core.toggle_star(self.cat(), data_idx)
+                self.fill_list()
+            return
+        # click on the text columns: TATListbox already moved the
+        # selection; nothing else to do
 
     def list_on_dbl_click(self, id_dlg, id_ctl, data='', info=''):
-        pair = self.selected_pair()
-        if pair is None:
+        if not isinstance(data, (tuple, list)) or len(data) != 2:
             return
-        self.open_selected()
+        try:
+            x = int(data[0])
+            y = int(data[1])
+        except Exception:
+            return
+        index = self._row_at(x, y)
+        if index < 0:
+            return
+        if x < self.chk_w + self.star_w:
+            return  # checkbox/star cell: single clicks already acted
+        self.open_targets()
 
     def list_on_menu(self, id_dlg, id_ctl, data='', info=''):
-        """Right-click context menu of the favorites list."""
-        pair = self.selected_pair()
+        """Right-click context menu of the favorites list. Commands act
+        on ALL checked rows when any row is checked, else on the
+        selected row."""
+        rows = self.targets()
+        n = len(rows)
+        multi = ' ({})'.format(_('{} checked').format(n)) if n > 1 else ''
         menu = menu_proc(0, MENU_CREATE)
         menu_proc(menu, MENU_CLEAR)
 
@@ -934,14 +1187,17 @@ class FavoritesForm:
                 menu_proc(mid, MENU_SET_ENABLED, command=False)
             return mid
 
-        add(_('Open') + ' (Enter)', 'open', pair is not None)
-        add(_('Reveal in file manager'), 'reveal', pair is not None)
-        add(_('Copy path'), 'copy', pair is not None)
+        add(_('Open') + ' (Enter)' + multi, 'open', n > 0)
+        add(_('Reveal in file manager') + multi, 'reveal', n > 0)
+        add(_('Copy path') + ('s' if n > 1 else '') + multi, 'copy', n > 0)
         menu_proc(menu, MENU_ADD, caption='-')
-        add((_('Unstar') + ' ★') if (pair and pair[1]['star']) else (_('Star') + ' ★'),
-            'star', pair is not None)
-        add(_('Rename...') + ' (F2)', 'rename', pair is not None)
-        add(_('Delete') + ' (Del)', 'delete', pair is not None)
+        add(((_('Unstar') if (n and all(r['star'] for r in rows)) else _('Star'))
+             + ' ★' + multi), 'star', n > 0)
+        add(_('Rename...') + ' (F2)' + multi, 'rename', n > 0)
+        add(_('Delete') + ' (Del)' + multi, 'delete', n > 0)
+        menu_proc(menu, MENU_ADD, caption='-')
+        add(_('Check all'), 'check_all')
+        add(_('Uncheck all'), 'uncheck_all')
         menu_proc(menu, MENU_ADD, caption='-')
         add(_('Add current file'), 'add_file')
         add(_('Add folder of current file'), 'add_dir')
@@ -959,9 +1215,8 @@ class FavoritesForm:
         if ('c' in mods or 'a' in mods) and not ('c' in mods and 'a' in mods) \
            and (ord('1') <= key <= ord('9') or VK_NUMPAD1 <= key <= VK_NUMPAD9):
             n = key - ord('1') if key <= ord('9') else key - VK_NUMPAD1
-            if 0 <= n < len(self.view):
-                data_idx, it = self.view[n]
-                open_item(it['path'])
+            if 0 <= n < len(self.rows):
+                open_item(self.rows[n]['path'])
                 self.focus_again()
             else:
                 msg_status(_('Favorites: no item at #{}').format(n + 1))
@@ -970,13 +1225,21 @@ class FavoritesForm:
         # plain keys
         if 'a' not in mods and 'c' not in mods and 's' not in mods and 'm' not in mods:
             if key == VK_ENTER:
-                self.open_selected()
+                self.open_targets()
                 return False
             if key == VK_DELETE:
-                self.delete_selected()
+                self.delete_targets()
                 return False
             if key == VK_F2:
-                self.rename_selected()
+                self.rename_targets()
+                return False
+            if key == VK_SPACE and self._list_focused():
+                # Space: toggle the checkbox of the selected row (only
+                # when the list itself has focus - Space must keep
+                # pressing a focused button)
+                i = self._sel_index()
+                if 0 <= i < len(self.rows):
+                    self.toggle_checked(i)
                 return False
             if key == VK_ESCAPE:
                 if self.filter:
@@ -996,13 +1259,20 @@ class FavoritesForm:
                     return False
                 return None  # let the form close itself
 
-        # Alt+Up / Alt+Down: move the selected item
+        # Ctrl+A: check all visible rows (uncheck when all are checked);
+        # only with the list focused, so the edit's select-all still works
+        if 'c' in mods and 'a' not in mods and 's' not in mods and 'm' not in mods \
+           and key in (ord('A'), ord('a')) and self._list_focused():
+            self.check_all_toggle()
+            return False
+
+        # Alt+Up / Alt+Down: move the item(s)
         if 'a' in mods and 'c' not in mods and 's' not in mods:
             if key == VK_UP:
-                self.move_selected(-1)
+                self.move_targets(-1)
                 return False
             if key == VK_DOWN:
-                self.move_selected(+1)
+                self.move_targets(+1)
                 return False
 
         return None
@@ -1013,54 +1283,144 @@ class FavoritesForm:
         if self.h:
             dlg_proc(self.h, DLG_FOCUS)
 
-    #------------- actions
+    #------------- multi-selection helpers
 
-    def open_selected(self):
-        pair = self.selected_pair()
-        if pair is None:
+    def toggle_checked(self, index):
+        """Toggle the checkbox of the row at the given VIEW index."""
+        if not (0 <= index < len(self.rows)):
+            return
+        row = self.rows[index]
+        if row['checked']:
+            self.checked.discard(row['path'])
+            row['checked'] = False
+        else:
+            self.checked.add(row['path'])
+            row['checked'] = True
+        self._list_repaint()
+        self.update_status()
+
+    def check_all(self, value):
+        for r in self.rows:
+            r['checked'] = bool(value)
+            if value:
+                self.checked.add(r['path'])
+            else:
+                self.checked.discard(r['path'])
+        self._list_repaint()
+        self.update_status()
+
+    def check_all_toggle(self):
+        """Ctrl+A / the '✓' header: check everything, or uncheck when
+        everything is checked already."""
+        self.check_all(not (self.rows and all(r['checked'] for r in self.rows)))
+
+    #------------- actions (act on all checked rows, else the selection)
+
+    def open_targets(self):
+        rows = self.targets()
+        if not rows:
             msg_status(_('Favorites: nothing selected'))
             return
-        _data_idx, it = pair
-        if open_item(it['path']):
-            self.focus_again()
+        for r in rows:
+            open_item(r['path'])
+        self.focus_again()
 
-    def delete_selected(self):
-        pair = self.selected_pair()
-        if pair is None:
+    def delete_targets(self):
+        rows = self.targets()
+        if not rows:
             return
-        data_idx, it = pair
-        if self.core.remove_at(self.cat(), data_idx):
-            msg_status(_('Favorites: removed ') + it['name'])
-            self.selected_data = -1
-            self.fill_list(keep_selection=False)
+        if len(rows) > 1:
+            if msg_box(_('Favorites: delete {} item(s)?').format(len(rows)),
+                       MB_OKCANCEL + MB_ICONQUESTION) != ID_OK:
+                return
+        cat = self.cat()
+        # delete by descending data index so the indexes stay valid
+        for r in sorted(rows, key=lambda rr: self.core.find(cat, rr['path']),
+                        reverse=True):
+            data_idx = self.core.find(cat, r['path'])
+            if data_idx >= 0:
+                self.core.remove_at(cat, data_idx)
+            self.checked.discard(r['path'])
+        msg_status(_('Favorites: removed {} item(s)').format(len(rows)))
+        self.selected_data = -1
+        self.fill_list(keep_selection=False)
 
-    def rename_selected(self):
-        pair = self.selected_pair()
-        if pair is None:
+    def rename_targets(self):
+        rows = self.targets()
+        if not rows:
             return
-        data_idx, it = pair
-        new = dlg_input(_('New name of the favorite:'), it['name'])
-        if new and new.strip():
-            self.core.rename(self.cat(), data_idx, new.strip())
-            self.fill_list()
+        cat = self.cat()
+        for r in rows:
+            new = dlg_input(_('New name of the favorite:'), r['name'])
+            if new is None:
+                break  # Cancel stops renaming the rest
+            new = new.strip()
+            if new and new != r['name']:
+                data_idx = self.core.find(cat, r['path'])
+                if data_idx >= 0:
+                    self.core.rename(cat, data_idx, new)
+        self.fill_list()
 
-    def move_selected(self, delta):
-        pair = self.selected_pair()
-        if pair is None:
+    def move_targets(self, delta):
+        rows = self.targets()
+        if not rows:
             return
-        data_idx, _it = pair
         if self.sort_col != 'manual':
             self.sort_col = 'manual'
             msg_status(_('Favorites: manual order - Move up/down reorders the list'))
-        new_idx = self.core.move(self.cat(), data_idx, delta)
-        if new_idx == data_idx:
+        cat = self.cat()
+        # move the checked block as a block: process upwards moves
+        # top-down, downwards moves bottom-up (so the internal order is
+        # kept), and skip an item when the neighbor in that direction
+        # belongs to the block too - it moved itself (or is blocked at
+        # the edge), so moving would tear the block apart
+        target_paths = set(r['path'] for r in rows)
+        data = self.core.data[cat]
+        order = rows if delta < 0 else list(reversed(rows))
+        moved = False
+        for r in order:
+            idx = self.core.find(cat, r['path'])
+            if idx < 0:
+                continue
+            new = idx + delta
+            if not (0 <= new < len(data)):
+                continue  # at the edge of the list
+            if data[new]['path'] in target_paths:
+                continue  # the neighbor is part of the moving block
+            if self.core.move(cat, idx, delta) != idx:
+                moved = True
+        if not moved:
             msg_status(_('Favorites: already at the top') if delta < 0
                        else _('Favorites: already at the bottom'))
-        self.selected_data = new_idx
+        self.selected_data = self.core.find(cat, rows[0]['path'])
         self.fill_list()
 
+    def star_targets(self):
+        rows = self.targets()
+        if not rows:
+            return
+        cat = self.cat()
+        # if any target is unstarred -> star all, else unstar all
+        value = not all(r['star'] for r in rows)
+        for r in rows:
+            data_idx = self.core.find(cat, r['path'])
+            if data_idx >= 0:
+                self.core.set_star(cat, data_idx, value)
+        self.fill_list()
+
+    def copy_paths(self):
+        rows = self.targets()
+        if not rows:
+            return
+        app_proc(PROC_SET_CLIP, '\n'.join(r['path'] for r in rows))
+        msg_status(_('Favorites: copied {} path(s)').format(len(rows)))
+
+    def reveal_targets(self):
+        for r in self.targets():
+            reveal_in_file_manager(r['path'])
+
     def btn_open_click(self, id_dlg, id_ctl, data='', info=''):
-        self.open_selected()
+        self.open_targets()
 
     def btn_add_click(self, id_dlg, id_ctl, data='', info=''):
         res = dlg_menu(DMENU_LIST, [_('Project...'), _('File...'), _('Folder...')],
@@ -1080,18 +1440,7 @@ class FavoritesForm:
             return
         if os.path.isdir(fn) and cat == 'files':
             cat = 'folders'
-        added, err = self.core.add(cat, fn)
-        if added:
-            msg_status(_('Favorites: added ') + fn)
-            self.tab = CATS.index(cat)
-            try:
-                dlg_proc(self.h, DLG_CTL_PROP_SET, name='tabs', prop={'val': str(self.tab)})
-            except Exception:
-                pass
-            self.selected_data = self.core.find(cat, fn)
-            self.fill_list()
-        elif err:
-            msg_status(err)
+        self._do_add(cat, fn)
 
     def btn_add_opened_click(self, id_dlg, id_ctl, data='', info=''):
         """Same chooser as Add...: a menu with the opened project, the
@@ -1117,13 +1466,13 @@ class FavoritesForm:
             msg_status(err)
 
     def btn_up_click(self, id_dlg, id_ctl, data='', info=''):
-        self.move_selected(-1)
+        self.move_targets(-1)
 
     def btn_down_click(self, id_dlg, id_ctl, data='', info=''):
-        self.move_selected(+1)
+        self.move_targets(+1)
 
     def btn_del_click(self, id_dlg, id_ctl, data='', info=''):
-        self.delete_selected()
+        self.delete_targets()
 
     #------------- context-menu actions (called from Command._favorites_ctx)
 
@@ -1149,26 +1498,26 @@ class FavoritesForm:
             else:
                 msg_status(_('Favorites: no opened project'))
             return
-
-        pair = self.selected_pair()
-        if pair is None:
+        if action == 'check_all':
+            self.check_all(True)
             return
-        data_idx, it = pair
+        if action == 'uncheck_all':
+            self.check_all(False)
+            return
+        if not self.targets():
+            return
         if action == 'open':
-            if open_item(it['path']):
-                self.focus_again()
+            self.open_targets()
         elif action == 'reveal':
-            reveal_in_file_manager(it['path'])
+            self.reveal_targets()
         elif action == 'copy':
-            app_proc(PROC_SET_CLIP, it['path'])
-            msg_status(_('Favorites: copied ') + it['path'])
+            self.copy_paths()
         elif action == 'star':
-            self.core.toggle_star(self.cat(), data_idx)
-            self.fill_list()
+            self.star_targets()
         elif action == 'rename':
-            self.rename_selected()
+            self.rename_targets()
         elif action == 'delete':
-            self.delete_selected()
+            self.delete_targets()
 
 
 #==========================================================

@@ -292,6 +292,29 @@ editor font and needs no icon file.
 
 
 ------------------------------------------------------------------------------
+FILTERING AND TYPE-AHEAD IN THE TREE
+------------------------------------------------------------------------------
+
+The field between the toolbar and the tree filters the project tree:
+type a few letters and only the files and folders whose NAME contains
+them are shown. Folders whose own name matches are shown with their
+whole content; other folders appear only when something matches
+inside them, together with the path down to the match. Everything is
+shown unfolded, and the "Ignore files/folders/hidden" options are
+respected while scanning. Esc clears the field and restores the tree
+with the folds and the selection from before the filtering.
+
+While the panel has the keyboard focus (and you are not typing in the
+filter field), plain letters and digits jump to the first node of the
+current level whose name starts with the typed text — "myf" selects
+"myfile". Pressing the same letter again jumps to the next match; the
+typed text is forgotten after about a second of pause, and any other
+key or a mouse click restarts it. Like in Windows Explorer, the search
+is scoped to the folder you are in: only the siblings of the selected
+node are searched, so typing never jumps out of the current folder.
+
+
+------------------------------------------------------------------------------
 PLUGINS MENU COMMANDS
 ------------------------------------------------------------------------------
 
@@ -373,15 +396,36 @@ button, and in their own window.
 
 THE FAVORITES WINDOW (★ toolbar button, or Favorites > Show Favorites
 window...)
-  Resizable, non-modal, stays on top of the CudaText window; size,
-  active tab and sort order are remembered between sessions. Three
-  tabs: Projects, Files, Folders. Columns: ★ | Name | Path.
+  Resizable, non-modal, stays on top of the CudaText window; the
+  active tab and the sort order are remembered between sessions, the
+  window size only while CudaText runs (the size of a maximized window
+  is never restored — see below). Three tabs: Projects, Files,
+  Folders. Columns: ☐ | ★ | Name | Path.
+
+  Checkbox column (☐/☑)
+      Multi-selection: check several favorites, then Open, Delete,
+      Move up/down, Rename, Star, Copy path and Reveal act on ALL of
+      them at once (Delete asks for a confirmation when more than one
+      row is checked). Click the checkbox cell to toggle it; Space
+      toggles the checkbox of the selected row; Ctrl+A — or a click on
+      the ✓ header — checks all rows (and unchecks when all are
+      checked). Rows hidden by the filter never stay checked, so an
+      action can never touch invisible items; the checks reset when
+      you switch the tab. Renaming several items asks for each name,
+      one dialog after another; Cancel stops.
 
   Star column (★/☆)
       The "favorite of favorites" flag. Every row shows ☆; click the
       star cell and it becomes ★ (click again to clear). The default
       sort is starred first, then by name — so starred bookmarks
       float to the top without any manual ordering.
+
+  Filter
+      The field at the top filters by name AND path as you type; Esc
+      clears it and shows the full list again (a second Esc closes the
+      window). Favorites whose path no longer exists on disk are easy
+      to spot: their name is prefixed with "? " and the whole row is
+      drawn in red.
 
   Sorting
       Click a column header: 1st click sorts ascending, 2nd click
@@ -390,14 +434,8 @@ window...)
       always also sorts by name inside each group. The status line at
       the bottom shows the active sort.
 
-  Filter
-      The field at the top filters by name AND path as you type; Esc
-      clears it and shows the full list again (a second Esc closes the
-      window). Paths that no longer exist on disk are prefixed with
-      "? " so dead bookmarks are easy to spot.
-
   Left button panel (grouped with visible gaps between the groups)
-      Open             open the selection: projects open in Project
+      Open             open the target(s): projects open in Project
                        Manager, files in the editor, folders in the
                        OS file manager
       Add...           pick a project / file / folder in a dialog
@@ -406,23 +444,31 @@ window...)
                        folder of the current file (only the available
                        ones are listed)
       Move up /
-      Move down       reorder the selection (switches to manual order)
-      Delete           remove the selection
+      Move down       reorder the target(s) (switches to manual order)
+      Delete           remove the target(s)
       Close (bottom)   closes the window
+
+      "The target(s)" means: all checked rows when any row is
+      checked, otherwise the selected row.
 
   Keyboard (active while the window has the keyboard focus — the
   shortcuts never clash with your editor hotkeys):
       Ctrl+1..9 / Alt+1..9    open the favorite at that position in
                                the visible (filtered) list
-      Enter / double-click    open the selection
-      Del                     delete the selection
-      F2                      rename the selection
-      Alt+Up / Alt+Down       move the selection up/down
+      Enter / double-click    open the target(s)
+      Del                     delete the target(s)
+      F2                      rename the target(s)
+      Space                   toggle the checkbox of the selected row
+      Ctrl+A                  check all rows / uncheck when all are
+                               checked
+      Alt+Up / Alt+Down       move the target(s) up/down
       Esc                     clear the filter; second Esc closes
                                the window
 
-  Right-click menu: Open, Reveal in file manager, Copy path,
-  Star/Unstar, Rename..., Delete, Add current file/folder/project.
+  Right-click menu: Open, Reveal in file manager, Copy path(s),
+  Star/Unstar, Rename..., Delete — all of them act on the checked
+  rows when any row is checked, else on the selected row — plus Check
+  all, Uncheck all, Add current file/folder/project.
 
 FIND FAVORITE (Favorites > Find favorite...)
   A compact modal picker over ALL favorites with a type-to-filter
@@ -438,14 +484,16 @@ WHERE THE DATA LIVES
       "projects": [ {"path": "...", "name": "...", "star": false} ],
       "files":    [ ... ],
       "folders":  [ ... ],
-      "_ui":      { ...remembered window state... },
+      "_ui":      { ...remembered tab and sort order... },
       "_deleted": [ ...paths the import must not resurrect... ]
     }
 
   Each entry keeps its path, display name (rename with F2) and star
-  flag. The file is created on the first change. Data from early
-  versions (the misspelled cuda_project_man_favorits.json) is moved
-  there automatically and the old file is removed.
+  flag. The file is created on the first change. The window size is
+  deliberately NOT stored: a CudaText form recreated with the pixel
+  size of a maximized window ends up taller than the work area (its
+  bottom lands off-screen), so the size is remembered only while
+  CudaText runs, and never in the maximized state.
 
 IMPORT FROM THE "FAVORITES" PLUGIN (cuda_favorites)
   If you also use kvichans' "Favorites" plugin, its
@@ -527,6 +575,20 @@ Open via the menu: Project Manager > Config..., the panel context menu
                           automatic ones — "Backup project file now"
                           still works and always keeps the single
                           newest copy).
+
+  Default projects
+  folder:                The folder where "Create new empty project...",
+                          "Create new project from open tabs..." and
+                          "Save project as..." save new projects: the
+                          dialog opens directly in it, so you only type
+                          the project name. The folder is created when
+                          it does not exist. The value supports
+                          $settings — the CudaText settings folder —
+                          e.g. "$settings" or "$settings/projects", and
+                          "~" for the home folder. Empty (default) =
+                          the dialog starts in the last used folder
+                          (for "Save project as...", in the folder of
+                          the current project file), as before.
 
   (*) - requires CudaText restart
 
