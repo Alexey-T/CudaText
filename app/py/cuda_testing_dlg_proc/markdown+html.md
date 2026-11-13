@@ -112,9 +112,9 @@ superscript <sup>superscript</sup>
 ### ___ Images ___
 does not download from internet
 
-![ internet image](https://github.githubassets.com/favicons/favicon.png)
+![internet image](https://github.githubassets.com/favicons/favicon.png)
 
-![ local image](markdown.png)
+![local image](markdown.png)
 
 
 ### ___ Alerts ___
