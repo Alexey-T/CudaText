@@ -67,7 +67,7 @@ var
       begin
         ItemPtr:= Data._GetItemPtr(PrevHeadIndex[iHead]);
         if ItemPtr^.Y2<0 then
-          ItemPtr^.Y2:= ALine-2;
+          ItemPtr^.Y2:= ALine;
       end;
 
     if (AHeadLevel>=Low(PrevHeadIndex)) and (AHeadLevel<=High(PrevHeadIndex)) then
@@ -123,12 +123,12 @@ begin
         DataItem.Icon:= -1;
         Data.Add(DataItem);
 
-        ClosePrevHeader(NLevel, iLine);
+        ClosePrevHeader(NLevel, iLine-2);
       end;
     end;
   end;
 
-  ClosePrevHeader(Low(PrevHeadIndex), St.Count);
+  ClosePrevHeader(Low(PrevHeadIndex), St.Count-1);
 end;
 
 end.
