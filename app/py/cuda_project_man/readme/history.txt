@@ -1,4 +1,38 @@
 2026.11.11 (@badrelmers)
+- fixed: sorting by a click on a column header of the favorites list
+  did nothing. The event was registered under a prop name that does
+  not exist in the dialog API ('on_click_col'); the real event is
+  'on_click_header' (data = column index), verified in the CudaText
+  dialog engine source. Clicking a header works again: 1st click
+  ascending, 2nd descending, 3rd manual order
+- fixed: clicking the star glyph of a favorites row did nothing (only
+  the context menu worked). Restored via the 'on_click' event, which
+  reports the mouse position inside the control: a click below the
+  header and inside the star column toggles the star; a double-click
+  on the star cell only toggles (does not open the favorite). The
+  hit-test uses the LIVE star column width, so dragging the divider
+  does not break it
+- NEW: "State" column at the end of the favorites list: shows "?" when
+  the favorite's path is dead (missing on disk), nothing when it is
+  fine. The "? " prefix added to the name is removed. The "Find
+  favorite" picker got the same column. Sort by state: click the
+  State header or the new context-menu item "Sort: by state, dead
+  last" (ascending = dead favorites at the end, descending = first)
+- the column widths dragged in the favorites list now survive the
+  list refills (sorting, filtering, starring, window resize): the
+  live widths are read from the control before the refill (the Path
+  column still stretches to the free width)
+- options dialog: the "Recent projects" box is ~4 lines tall now (it
+  was ~1). Also fixed the real cause of the "I see only one line"
+  report: the dialog-API memo control separates its lines with TAB,
+  and the old code wrote/read them with \n - on OK all the projects
+  were merged into ONE tab-joined entry. The dialog now uses the TAB
+  separator both ways, and the plugin heals the merged entries made
+  by the older builds at startup
+- options dialog: a separator line between the "$settings" hint and
+  the footer notes ("For more icons...", "(*) - requires restart")
+
+2026.11.11 (@badrelmers)
 - the favorites list is a NATIVE listview again (the owner-drawn
   listbox experiment of the previous build is reverted): the usual
   native look, and the column widths can be resized by dragging the

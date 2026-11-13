@@ -19,13 +19,17 @@ Main window (non-modal, resizable):
   resized by 50+ px
   (an owner-drawn listbox was tried to get checkboxes + red rows for
   dead paths, but it lost the native look/behavior - reverted)
-- columns: star / Name / Path; the star is the UTF-8 font glyph
-  ☆/★ (no image files); dead paths (not on disk) get the "? " prefix
-  on the name - the dialog listview cannot color single rows
-- sorting: click a column header (when the CudaText build reports
-  on_click_col): 1st click ascending, 2nd descending, 3rd switches to
-  manual (custom) order; the right-click menu has the same Sort
-  commands as a fallback
+- columns: star / Name / Path / State; the star is the UTF-8 font
+  glyph ☆/★ (no image files); the State column shows "?" when the
+  path is dead (missing on disk) and nothing when it is fine - the
+  dialog listview cannot color single rows
+- clicking the star glyph cell of a row toggles the star: the
+  on_click event reports the mouse position in the control, so a
+  click on the star column is told apart from clicks elsewhere
+- sorting: click a column header (the on_click_header event of the
+  dialog API, data = column index): 1st click ascending, 2nd
+  descending, 3rd switches to manual (custom) order; the right-click
+  menu has the same Sort commands as a fallback
 - filter field at the top filters by name and path; Esc clears it
 - vertical button panel on the left: Open / Add... / Add opened...,
   Move up / Move down, Delete; Close at the bottom
@@ -80,20 +84,29 @@ CAT_TITLES = {
     'folders': _('Folder'),
 }
 
-#: sort modes: 'star', 'name', 'path', 'manual'
-SORT_COLS = ('star', 'name', 'path')
+#: sort modes: 'star', 'name', 'path', 'state', 'manual'
+SORT_COLS = ('star', 'name', 'path', 'state')
 DEFAULT_SORT = 'star'
 
 # listview column indexes
 COL_STAR = 0
 COL_NAME = 1
 COL_PATH = 2
+COL_STATE = 3
 
-#: unscaled px widths of the star and name columns; the Path column is
-#: stretched to the free width (and the user can drag all dividers)
+#: unscaled px widths of the star, name and state columns; the Path
+#: column is stretched to the free width (and the user can drag all
+#: dividers)
 STAR_W = 48
 NAME_W = 230
+STATE_W = 56
 PATH_MIN_W = 200
+
+#: rough unscaled height of the listview column header - clicks with
+#: y below it are item clicks, above it are header clicks (only
+#: needed on Linux/Qt where a header click can also fire on_click;
+#: on Windows the header is a child window and never fires it)
+HEADER_H = 30
 
 BTN_W = 126
 BTN_X = 8
@@ -436,6 +449,11 @@ class FavoritesCore:
         elif sort_col == 'name':
             pairs.sort(key=lambda p: p[1]['path'].lower())
             pairs.sort(key=lambda p: p[1]['name'].lower(), reverse=sort_desc)
+        elif sort_col == 'state':
+            # alive (empty state) first, dead ('?') last; ties by name
+            pairs.sort(key=lambda p: (p[1]['name'].lower(), p[1]['path'].lower()))
+            pairs.sort(key=lambda p: not os.path.exists(p[1]['path']),
+                       reverse=sort_desc)
         else:  # 'path'
             pairs.sort(key=lambda p: p[1]['name'].lower())
             pairs.sort(key=lambda p: p[1]['path'].lower(), reverse=sort_desc)
@@ -515,6 +533,12 @@ class FavoritesForm:
         self._closing = False
         self._sb_w = 20         # scrollbar width, for the Path stretch
         self._path_w = 0        # current width of the Path column
+        # column geometry (real values are computed in build(); these
+        # are the DPI-unscaled fallbacks for the click hit-testing)
+        self.star_w = STAR_W
+        self.name_w = NAME_W
+        self.state_w = STATE_W
+        self._header_h = HEADER_H
 
     def _ui_get(self, key, default):
         try:
@@ -548,6 +572,8 @@ class FavoritesForm:
         scale = _ui_scale()
         self.star_w = int(STAR_W * scale)
         self.name_w = int(NAME_W * scale)
+        self.state_w = int(STATE_W * scale)
+        self._header_h = int(HEADER_H * scale)
         try:
             self._sb_w = int(app_proc(PROC_GET_GUI_HEIGHT, 'scrollbar') or 20) or 20
         except Exception:
@@ -682,6 +708,15 @@ class FavoritesForm:
         # are separated by \t. The star column is the UTF-8 glyph
         # ☆/★ as text - image lists never rendered in the dialog
         # listview (see history), so no image files are used at all.
+        # Events (engine-verified):
+        # - on_click_header: click on a column header, data = column
+        #   index -> sorting; the old 'on_click_col' prop name never
+        #   existed in the API, that is why header sorting was dead
+        # - on_click: any click, data = (x, y) in control coords ->
+        #   a click on the star glyph cell toggles the star
+        # - on_click_dbl: data = (x, y) too; a double-click on the
+        #   star cell only toggles (already done by the 1st click),
+        #   so it must not open the favorite
         self._ctl('listview', 'list', {
             'x': rx, 'y': 8 + EH + BTN_GAP + BH + BTN_GAP,
             'w': w - rx - 8,
@@ -694,17 +729,11 @@ class FavoritesForm:
             'a_r': ('', ']'),
             'sp_r': 8,
             'on_change': self.list_on_change,
+            'on_click': self.list_on_click,
             'on_click_dbl': self.list_on_dbl_click,
+            'on_click_header': self.list_on_header_click,
             'on_menu': self.list_on_menu,
         })
-        # sorting by a click on the column header: the event name is
-        # registered separately - builds of CudaText that do not know
-        # it just ignore the prop (the context menu has Sort items too)
-        try:
-            dlg_proc(self.h, DLG_CTL_PROP_SET, name='list',
-                     prop={'on_click_col': self.list_on_col_click})
-        except Exception:
-            pass
 
         dlg_proc(self.h, DLG_SCALE)
         self.fill_list()
@@ -778,7 +807,39 @@ class FavoritesForm:
             return 0
         if w <= 0:
             return 0
-        return max(PATH_MIN_W, w - self.star_w - self.name_w - self._sb_w - 4)
+        return max(PATH_MIN_W, w - self.star_w - self.name_w - self.state_w
+                   - self._sb_w - 4)
+
+    def _live_col_widths(self):
+        """Live widths of the 4 columns (the user can drag the header
+        dividers, so the widths of the last 'items' string are only the
+        initial ones). The 'columns' prop of the control reports:
+        per column 'Caption\rWidth\r...', columns joined by TAB.
+        Returns [star, name, path, state] or None."""
+        try:
+            props = dlg_proc(self.h, DLG_CTL_PROP_GET, name='list') or {}
+            cols = str(props.get('columns', '') or '')
+        except Exception:
+            return None
+        if not cols:
+            return None
+        res = []
+        for col in cols.split('\t'):
+            parts = col.split('\r')
+            try:
+                w = int(parts[1])
+            except (IndexError, ValueError):
+                return None
+            if w < 0:
+                return None
+            res.append(w)
+        return res if len(res) == 4 else None
+
+    def _star_col_w(self):
+        """Live width of the star column for the click hit-test (a drag
+        of the divider must not break the star clicking)."""
+        live = self._live_col_widths()
+        return live[0] if live else self.star_w
 
     #------------- list filling
 
@@ -807,6 +868,14 @@ class FavoritesForm:
         if not self._path_w:
             self._path_w = self._calc_path_w() or PATH_MIN_W
 
+        # the user-dragged column widths survive the refill (the Path
+        # column is re-stretched to the free width below, as before);
+        # on the first fill there are no columns yet and None comes
+        # back, so the default widths are used
+        live = self._live_col_widths()
+        if live:
+            self.star_w, self.name_w, _w_path, self.state_w = live
+
         # NOTE: the format (header first, cells by \r, lines by \t,
         # 'Caption=Width' / 'Caption=C Width' in the header) is the
         # documented listview format; it must not contain stray \r/\t
@@ -815,13 +884,15 @@ class FavoritesForm:
             '★=C' + str(self.star_w),
             self._sort_caption('name', _('Name')) + '=' + str(self.name_w),
             self._sort_caption('path', _('Path')) + '=' + str(self._path_w),
+            self._sort_caption('state', _('State')) + '=C' + str(self.state_w),
         ])
         lines = [header]
         for r in self.rows:
             lines.append('\r'.join([
                 '★' if r['star'] else '☆',
-                ('? ' if r['dead'] else '') + r['name'],
+                r['name'],
                 r['path'],
+                '?' if r['dead'] else '',
             ]))
         items = '\t'.join(lines)
 
@@ -860,6 +931,8 @@ class FavoritesForm:
             sort_info = _('sort: ★, then name')
         elif self.sort_col == 'name':
             sort_info = _('sort: name') + (' ↓' if self.sort_desc else ' ↑')
+        elif self.sort_col == 'state':
+            sort_info = _('sort: state, dead last') + (' ↓' if self.sort_desc else ' ↑')
         else:
             sort_info = _('sort: path') + (' ↓' if self.sort_desc else ' ↑')
 
@@ -929,13 +1002,57 @@ class FavoritesForm:
         self.selected_data = row['data_idx'] if row else -1
         self.update_status()
 
+    def _click_pos(self, data):
+        """(x, y) of a click inside the list, from the event data (the
+        engine sends the mouse position in the control coordinates);
+        None when the event came without a position."""
+        if not (isinstance(data, (tuple, list)) and len(data) == 2):
+            return None
+        try:
+            return int(data[0]), int(data[1])
+        except (TypeError, ValueError):
+            return None
+
+    def _click_on_star(self, data):
+        """Is a click (x, y from on_click/on_click_dbl) on the star
+        column of a ROW (below the header area)?"""
+        pos = self._click_pos(data)
+        if pos is None:
+            return False
+        x, y = pos
+        return y > self._header_h and x < self._star_col_w()
+
+    def list_on_click(self, id_dlg, id_ctl, data='', info=''):
+        """Any single click inside the list: a click on the star glyph
+        cell toggles the star of that row (as the old builds did - the
+        on_click event reports the mouse position, so the star column
+        is told apart from the rest). Clicks on the column header and
+        on the other columns are ignored here."""
+        if self._closing or not self.h:
+            return
+        if not self._click_on_star(data):
+            return
+        row = self.selected_row()   # the click has selected the row
+        if row is None:
+            return   # clicked the empty area below the rows
+        data_idx = self.core.find(self.cat(), row['path'])
+        if data_idx >= 0:
+            self.core.toggle_star(self.cat(), data_idx)
+            self.selected_data = data_idx
+            self.fill_list()
+
     def list_on_dbl_click(self, id_dlg, id_ctl, data='', info=''):
+        """Double-click opens the favorite - except on the star cell:
+        there the 1st click already toggled the star, a double-click
+        must not also open the item."""
+        if self._click_on_star(data):
+            return
         self.open_selected()
 
-    def list_on_col_click(self, id_dlg, id_ctl, data='', info=''):
-        """Click on a column header (only when CudaText reports the
-        event): 1st click sorts ascending, 2nd descending, 3rd switches
-        to manual (custom) order."""
+    def list_on_header_click(self, id_dlg, id_ctl, data='', info=''):
+        """Click on a column header (the on_click_header event, data =
+        column index): 1st click sorts ascending, 2nd descending, 3rd
+        switches to manual (custom) order."""
         if isinstance(data, (tuple, list)) and data:
             data = data[0]
         try:
@@ -945,7 +1062,8 @@ class FavoritesForm:
         self.sort_by_column(col)
 
     def sort_by_column(self, col):
-        mode = {COL_STAR: 'star', COL_NAME: 'name', COL_PATH: 'path'}.get(col)
+        mode = {COL_STAR: 'star', COL_NAME: 'name', COL_PATH: 'path',
+                COL_STATE: 'state'}.get(col)
         if not mode:
             return
         if self.sort_col != mode:
@@ -987,6 +1105,7 @@ class FavoritesForm:
         add(_('Sort: ★ first, then name'), 'sort_star')
         add(_('Sort: by name'), 'sort_name')
         add(_('Sort: by path'), 'sort_path')
+        add(_('Sort: by state, dead last'), 'sort_state')
         add(_('Sort: manual order'), 'sort_manual')
         menu_proc(menu, MENU_ADD, caption='-')
         add(_('Add current file'), 'add_file')
@@ -1243,10 +1362,11 @@ class FavoritesForm:
             self.sort_col = 'manual'
             self.fill_list()
             return
-        if action in ('sort_star', 'sort_name', 'sort_path'):
+        if action in ('sort_star', 'sort_name', 'sort_path', 'sort_state'):
             self.sort_by_column({'sort_star': COL_STAR,
                                  'sort_name': COL_NAME,
-                                 'sort_path': COL_PATH}[action])
+                                 'sort_path': COL_PATH,
+                                 'sort_state': COL_STATE}[action])
             return
         if action == 'open':
             self.open_selected()
@@ -1364,22 +1484,21 @@ class FavoritesFinder:
         self.view = self.core.view_all(self.filter)
         rows = []
         for cat, _i, it in self.view:
-            name = it['name']
-            if not os.path.exists(it['path']):
-                name = '? ' + name
             rows.append('\r'.join([
                 '★' if it['star'] else '☆',   # UTF-8 font icons, no images
-                name,
+                it['name'],
                 CAT_TITLES[cat],
                 it['path'],
+                '?' if not os.path.exists(it['path']) else '',
             ]))
 
         items = '\t'.join(
             ['\r'.join([
                 '★=C48',
-                _('Name') + '=220',
+                _('Name') + '=210',
                 _('Type') + '=70',
-                _('Path') + '=280',
+                _('Path') + '=230',
+                _('State') + '=C56',
             ])] + rows)
 
         dlg_proc(self.h, DLG_CTL_PROP_SET, name='list', prop={'items': items})

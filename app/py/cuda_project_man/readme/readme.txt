@@ -403,32 +403,43 @@ window...)
   form, so the size resets only when CudaText restarts (the size is
   not saved to disk: a form recreated with the pixel size of a
   maximized window ends up taller than the work area). Three tabs:
-  Projects, Files, Folders. Columns: ★ | Name | Path — a NATIVE
-  listview, so the column widths can be resized by dragging the
+  Projects, Files, Folders. Columns: ★ | Name | Path | State — a
+  NATIVE listview, so the column widths can be resized by dragging the
   header dividers; the Path column is re-stretched when the window is
-  resized by 50+ px.
+  resized by 50+ px, and the widths you drag survive the list refills
+  (sorting, filtering, starring...).
 
   Star column (★/☆)
       The "favorite of favorites" flag, drawn with the UTF-8 font
-      glyphs ☆/★ (no image files); toggle it from the right-click
-      menu (Star/Unstar). The default sort is starred first, then by
-      name — so starred bookmarks float to the top without any manual
-      ordering.
+      glyphs ☆/★ (no image files); click the star cell of a row to
+      toggle it (a double-click on the star cell only toggles, it
+      does not open the item), or use Star/Unstar in the right-click
+      menu. The default sort is starred first, then by name — so
+      starred bookmarks float to the top without any manual ordering.
+
+  State column
+      Shows "?" when the favorite's path no longer exists on disk
+      (a dead favorite), and nothing when everything is fine. Sort by
+      it (click the header, or the right-click menu) to gather the
+      dead favorites at one end: ascending puts them last. The old
+      "? " prefix on the name is gone — the state lives in its own
+      column now.
 
   Filter
       The field at the top filters by name AND path as you type; Esc
       clears it and shows the full list again (a second Esc closes the
-      window). Favorites whose path no longer exists on disk are easy
-      to spot: their name is prefixed with "? ".
+      window).
 
   Sorting
-      Click a column header (when the CudaText build reports the
-      click): 1st click sorts ascending, 2nd click descending, 3rd
-      click switches to manual (custom) order — the order that Move
-      up/down and Alt+Up/Alt+Down edit. The right-click menu always
-      has the same Sort commands, whatever the build reports. Sorting
-      by ★ always also sorts by name inside each group. The status
-      line at the bottom shows the active sort.
+      Click a column header (★ / Name / Path / State): 1st click
+      sorts ascending, 2nd click descending, 3rd click switches to
+      manual (custom) order — the order that Move up/down and
+      Alt+Up/Alt+Down edit. The right-click menu always has the same
+      Sort commands, whatever the build reports. Sorting by ★ always
+      also sorts by name inside each group; sorting by State puts the
+      dead ('?') favorites last when ascending, first when
+      descending. The status line at the bottom shows the active
+      sort.
 
   Left button panel (grouped with visible gaps between the groups)
       Open             open the selected favorite: projects open in
@@ -466,13 +477,13 @@ window...)
 
   Right-click menu: Open, Reveal in file manager, Copy path,
   Star/Unstar, Rename..., Delete, Sort (★ first / by name / by path /
-  manual order), Add current file/folder/project.
+  by state, dead last / manual order), Add current file/folder/project.
 
 FIND FAVORITE (Favorites > Find favorite...)
   A compact modal picker over ALL favorites with a type-to-filter
-  field; columns ★ / Name / Type / Path; Enter or double-click opens
-  the choice; Ctrl+1..9 / Alt+1..9 work here too. Handy when bound to
-  a hotkey.
+  field; columns ★ / Name / Type / Path / State; Enter or double-click
+  opens the choice; Ctrl+1..9 / Alt+1..9 work here too. Handy when
+  bound to a hotkey.
 
 WHERE THE DATA LIVES
   settings/cuda_project_man_favorites.json (in the CudaText settings

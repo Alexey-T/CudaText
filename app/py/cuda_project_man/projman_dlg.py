@@ -209,11 +209,16 @@ def dialog_config(op):
     row_edit(_('Ignore fold&ers:'), 'no_dirs', op.get('no_dirs', '.git;.svn'))
     check('no_hidden', _('Ignore all &hidden files/folders'), op.get('no_hidden', True))
     lab(_('&Recent projects:'), X0, W - 2 * X0, dy=17)
+    # NOTE: the memo 'val' of the dialog API separates the lines with
+    # the TAB character (a real tab inside a line is escaped as chr(3))
+    # - with '\n' all projects were merged into a single line. The box
+    # is ~4 lines tall (a line is ~17 px).
     ctl('memo', 'recent', {
-        'x': X0, 'y': y[0], 'w': W - 2 * X0, 'h': 42,
-        'val': '\n'.join(op.get('recent_projects', [])),
+        'x': X0, 'y': y[0], 'w': W - 2 * X0, 'h': 80,
+        'val': '\t'.join(p.replace('\t', chr(3))
+                         for p in op.get('recent_projects', [])),
     })
-    y[0] += 47
+    y[0] += 85
 
     sep()
 
@@ -245,6 +250,8 @@ def dialog_config(op):
     hint(_('For new projects: empty = last used folder;'))
     hint('$settings = ' + _('CudaText settings folder, e.g. $settings/projects'))
 
+    sep()
+
     y[0] += 3
     hint(_('For more icons, get add-ons of kind "filetypeicons", "projtoolbaricons"'))
     hint(_('(*) - requires CudaText restart'))
@@ -274,7 +281,13 @@ def dialog_config(op):
         op['no_dirs'] = str(state.get('no_dirs', '')).strip()
         op['no_hidden'] = _val_bool(state.get('no_hidden'))
 
-        op['recent_projects'] = [s for s in str(state.get('recent', '') or '').splitlines()
+        # the memo value separates the lines with TAB (see the comment
+        # at the control); a tab inside a line comes back as chr(3).
+        # Entries merged into one tab-joined line by the old (buggy)
+        # builds are healed back into separate lines here.
+        raw_recent = str(state.get('recent', '') or '')
+        op['recent_projects'] = [s.replace(chr(3), '\t').strip()
+                                 for s in raw_recent.split('\t')
                                  if s.strip()]
 
         op['toolbar'] = _val_bool(state.get('toolbar'))

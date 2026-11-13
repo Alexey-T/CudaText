@@ -703,7 +703,14 @@ class Command:
                     loaded = json.load(fin)
                 self.options.update(loaded)
                 if "recent_projects" in self.options:
-                    self.options["recent_projects"] = [expand_macros('', fn) for fn in self.options["recent_projects"]]
+                    # heal entries merged into one tab-joined line by the
+                    # buggy options dialog of older builds (the dialog-API
+                    # memo control separates its lines with TAB, and the
+                    # old code read the value with splitlines())
+                    healed = []
+                    for fn in self.options["recent_projects"]:
+                        healed.extend(p for p in str(fn).split("\t") if p.strip())
+                    self.options["recent_projects"] = [expand_macros('', fn) for fn in healed]
             except Exception:
                 pass
 
