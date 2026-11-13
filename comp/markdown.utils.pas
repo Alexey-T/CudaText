@@ -474,6 +474,8 @@ begin
     if (aLength<=lLen) and (S[aLength]=' ') then
       inc(aLength);
     end;
+  if aLength>lLen then
+    exit(false);
   Result:=S[aLength]=aMatch;
   if Result then
     Dec(aLength);
@@ -494,6 +496,8 @@ begin
     if (aLength<=lLen) and (S[aLength]=' ') then
       inc(aLength);
     end;
+  if aLength>lLen then
+    exit(false);
   Result:=S[aLength] in aMatch;
   if Result then
     Dec(aLength);

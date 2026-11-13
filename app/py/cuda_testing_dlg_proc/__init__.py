@@ -1433,13 +1433,19 @@ end
             'border': DBORDER_SIZE,
             })
 
+        fn_md = os.path.join(os.path.dirname(__file__), 'markdown+html.md')
+        if os.path.isfile(fn_md):
+            text_md = open(fn_md, encoding='utf8').read()
+        else:
+            text_md = '\n\n# Error\nFile "markdown+html.md" was not found in "py/cuda_testing_dlg_proc" folder'
+
         n=dlg_proc(h, DLG_CTL_ADD, 'md_view')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
             'name': 'markdown1',
             'align': ALIGN_CLIENT,
             'border': False,
             'color': 0xC0F0C0,
-            'val': '# aa\nii1\nii2\n# bb\nii1\n```py\n# comment\ndef func(x):\n  return x**2\n```\nii2',
+            'val': text_md
             })
 
         n=dlg_proc(h, DLG_CTL_ADD, 'panel')
@@ -1457,7 +1463,7 @@ end
             'p': 'p_bottom',
             'x': 2,
             'y': 2,
-            'w': 100,
+            'w': 150,
             'on_change': 'module=cuda_testing_dlg_proc;cmd=callback_md_loadfile;'
             })
 
