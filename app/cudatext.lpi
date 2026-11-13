@@ -1572,6 +1572,9 @@
         <IsPartOfProject Value="True"/>
       </Unit>
       <Unit>
+        <Filename Value="proc_mdview_control.pas"/>
+      </Unit>
+      <Unit>
         <Filename Value="proc_miscutils.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit>

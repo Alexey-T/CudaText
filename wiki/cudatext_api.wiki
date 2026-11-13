@@ -981,7 +981,7 @@ Shows dialog with controls of many types. This is legacy API, it is recommended 
 * "pages": PageControl: set of tabs, with pages attached to them (only one of pages is visible).
 * "splitter": divider bar (vertical or horizontal), which can be dragged by mouse, to change width/height of nearest control. It finds linked control, ie control with the same "parent" and "align", which position (coordinates) are nearest to the splitter. On mouse drag, splitter resizes this linked control. It's recommended to place another control with "align": ALIGN_CLIENT, so splitter will resize two controls at once. A panel may contain several splitters (mixed with other controls between them).
 * "scrollbox": like panel, but has two auto-shown scrollbars to scroll the area containing children controls (ie controls which parent is this scrollbox).
-* "md_view": panel which renders Markdown text.
+* "md_view": panel which renders Markdown text. Supports "ex0": bool: enable syntax highlighting of fenced code blocks, using lexers of app.
 
 Details:
 
@@ -1077,6 +1077,8 @@ Properties "ex0"..."ex9" are specific to each control kind. They have different 
 
 * "button":
 ** "ex0": bool: default for Enter key.
+* "md_view":
+** "ex0": bool: enable syntax highlighting of fenced code blocks in the control, using lexers of app (e.g. "```python ..." blocks are colored like in editor with "Python" lexer). Set it before setting property "val" (text), because highlighting is applied while rendering the text. If lexer for a fenced block's language is not found, block is rendered w/o highlighting.
 * "edit":
 ** "ex0": bool: read-only.
 ** "ex1": bool: font is monospaced.
@@ -5572,6 +5574,9 @@ It provides:
 * add: dlg_proc: form's event "on_drag_over"
 * add: on_state: APPSTATE_PROJECT_NODE_ADD
 * add: on_state: APPSTATE_PROJECT_NODE_DEL
+
+1.0.488
+* add: dlg_proc: control "md_view": property "ex0" (syntax highlighting of fenced code blocks, using lexers of app)
 
 1.0.487 (app 1.239.2)
 * add: dlg_proc: control type "md_view"

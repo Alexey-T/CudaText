@@ -71,7 +71,8 @@ var
 implementation
 
 uses
-  markdown.control;
+  markdown.control,
+  proc_mdview_control;
 
 var
   FDialogShown: boolean = false;
@@ -224,6 +225,9 @@ begin
 
   if C is TMemo then
     exit(DoControl_GetState_Memo(TMemo(C)));
+
+  if C is TMarkDownControl then
+    exit(TMarkDownControl(C).MarkDown.Text);
 
   if C is TRadioGroup then
     exit(IntToStr(TRadioGroup(C).ItemIndex));
@@ -1465,6 +1469,16 @@ begin
   begin
     case AIndex of
       0: TRadioGroup(C).ColumnLayout:= TColumnLayout(StrToIntDef(S, 0));
+    end;
+    exit;
+  end;
+
+  if (C is TMarkDownControl) then
+  begin
+    case AIndex of
+      // enable syntax highlighting of fenced code blocks,
+      // using lexers of app; applied when markdown text is set
+      0: MdView_EnableCodeSyntax(AppStrToBool(S));
     end;
   end;
 end;
