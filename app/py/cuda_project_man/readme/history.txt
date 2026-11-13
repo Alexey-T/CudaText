@@ -1,3 +1,64 @@
+2026.11.11
+- NEW: Favorites (bookmarks) for projects, files and folders,
+  independent of the opened project (favorites.py). Three tabbed lists
+  (Projects / Files / Folders) in one resizable non-modal window,
+  opened from the new ★ toolbar button, from the "Favorites" submenus
+  (panel context menu, below "Open main file", and Plugins > Project
+  Manager > Favorites), or the command palette. Columns ★ / Name /
+  Path; the ★ column is the "favorite of favorites" flag rendered with
+  the UTF-8 font icons ☆/★ (NO image files) — clicking the star cell
+  toggles it; default sort is starred first, then by name; a 3rd click
+  on a column header switches to manual (custom) order. Filter field
+  at the top (name and path, Esc clears it); vertical button panel on
+  the left (Open / Add... / Add opened... / Move up / Move down /
+  Delete, Close at the bottom) grouped with visible gaps; right-click
+  menu (Open, Reveal in file manager, Copy path, Star/Unstar, Rename,
+  Delete, Add current file/folder/project); dead paths prefixed "? ".
+  While the window has focus: Ctrl+1..9 / Alt+1..9 open the Nth
+  visible item, Enter/double-click open it, Del deletes, F2 renames,
+  Alt+Up/Down reorder — the shortcuts never clash with editor hotkeys.
+  "Find favorite..." is a compact modal picker over all favorites with
+  type-to-filter, also supporting Ctrl/Alt+1..9. Window size, tab and
+  sort order are remembered. Opening a favorite: projects open in
+  Project Manager, files in the editor, folders simply open in the OS
+  file manager. "Add opened..." shows the same chooser as "Add...":
+  the opened project, the current editor file, or the folder of the
+  current file (only the available ones are listed)
+- storage: settings/cuda_project_man_favorites.json (per entry: path,
+  name, star flag; plus "_ui" for the remembered window state and
+  "_deleted" — see below). Early versions used the misspelled
+  cuda_project_man_favorits.json; its data is migrated automatically
+  and the old file is removed after the renamed one is written
+- import from the "Favorites" plugin (kvichans' cuda_favorites): its
+  settings/cuda_favorites.json is read when Project Manager starts and
+  whenever a favorites window is opened; entries missing from our list
+  are imported (duplicates removed by normalized path, folders vs
+  files told apart by the path itself). The sync is strictly ONE-WAY
+  now (it was two-way in the first development build): nothing is ever
+  exported back and the file is never created if absent. Entries
+  deleted in our window are remembered in "_deleted" so the next
+  import does not resurrect them; adding a path again clears that
+  memory
+- fixed: the ★ column of the favorites list stayed empty when a star
+  was toggled — the per-row listview icon indexes never showed with
+  the image list; the star column is now plain text (☆/★) drawn with
+  the UI font, and all star image files (fav_star_*.png) were removed;
+  the toolbar Favorites button is a text button showing ★ itself, so
+  the whole feature ships without any icon files
+- fixed: pressing Esc in the filter field cleared the edit but the
+  list kept showing the old filtered rows (setting the edit's value
+  programmatically does not fire its on_change event) — the list is
+  now refilled together with the clearing
+- favorites menu items are no longer scattered: everything lives under
+  one "Favorites" submenu, in both the panel context menu (below "Open
+  main file") and the Plugins menu (Plugins > Project Manager >
+  Favorites: Show Favorites window..., Find favorite..., Add to
+  favorites: current file/folder/project, Add opened...)
+- readme.txt gained a "FAVORITES (BOOKMARKS)" section documenting the
+  window, the star flag, sorting, filtering, the button panel, the
+  keyboard shortcuts, the "Find favorite" picker, the data file format
+  and the one-way import for end users
+
 2026.11.07 (@badrelmers)
 - the v2 migration guide moved from readme.txt into a SEPARATE file,
   readme/upgrade_v2.txt, and the upgrade dialog's "Open documentation"

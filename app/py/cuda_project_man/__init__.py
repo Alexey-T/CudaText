@@ -20,6 +20,20 @@ import cudatext_cmd
 from cudax_lib import get_translation
 _   = get_translation(__file__)  # i18n
 
+# Favorites (bookmarks) subsystem - see favorites.py. Imported ONCE at
+# the top of the module instead of lazily inside every command method:
+# Python caches modules in sys.modules, so there is exactly one module
+# load at plugin start and every later use is a plain cached lookup -
+# nothing is ever re-read or re-executed. The startup call below loads
+# the favorites data and runs the one-way import from the cuda_favorites
+# plugin's data file (see favorites.init_on_start).
+from . import favorites as _favorites
+try:
+    _favorites.init_on_start()
+except Exception as _favorites_startup_error:
+    print('Project Manager: favorites startup failed:',
+          _favorites_startup_error)
+
 IS_WIN = os.name == 'nt'
 IS_MAC = sys.platform == 'darwin'
 
@@ -549,7 +563,7 @@ class Command:
         (_("Go to file...")  , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_go_to_file", ""),
         (_("Go to main file"), "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.goto_main", ""),
         (_("Open main file"), "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.open_main", ""),
-        (_("Add to favorites"), "", [NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_add_to_favorites", ""),
+        (_("Favorites"), "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "favorites_submenu", ""),
         ("-"   , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "", ""),
         (_("Project sessions"), "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "sessions_submenu", ""),
         ("-"   , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "", ""),
@@ -740,16 +754,19 @@ class Command:
         self.h_btn_sync = toolbar_proc(self.h_bar, TOOLBAR_GET_BUTTON_HANDLE, index=btn_count-1)
         button_proc(self.h_btn_sync, BTN_SET_VISIBLE, not self.options.get('always_sync', False))
 
-        # Favorites (bookmarks) button - star icon, opens the Favorites
-        # window; added after h_btn_sync is captured so its handle stays
+        # Favorites (bookmarks) button - a TEXT button showing the ★
+        # UTF-8 font icon itself (no image files); opens the Favorites
+        # window. Added after h_btn_sync is captured so its handle stays
         # valid (it assumes it is the last button)
         try:
-            from .favorites import toolbar_icon
-            icon_fav = toolbar_icon(self.toolbar_imglist, toolbar_theme)
-            if icon_fav is not None:
-                _toolbar_add_btn(self.h_bar, hint='-')
-                _toolbar_add_btn(self.h_bar, hint=_('Favorites (bookmarks)'),
-                                 icon=icon_fav, command='cuda_project_man.favorites_show')
+            _toolbar_add_btn(self.h_bar, hint='-')
+            toolbar_proc(self.h_bar, TOOLBAR_ADD_ITEM)
+            cnt = toolbar_proc(self.h_bar, TOOLBAR_GET_COUNT)
+            h_btn_fav = toolbar_proc(self.h_bar, TOOLBAR_GET_BUTTON_HANDLE, index=cnt-1)
+            button_proc(h_btn_fav, BTN_SET_KIND, BTNKIND_TEXT_ONLY)
+            button_proc(h_btn_fav, BTN_SET_TEXT, '★')
+            button_proc(h_btn_fav, BTN_SET_HINT, _('Favorites (bookmarks)'))
+            button_proc(h_btn_fav, BTN_SET_DATA1, 'cuda_project_man.favorites_show')
         except Exception as e:
             print('Project Manager: cannot add Favorites toolbar button:', e)
 
@@ -1571,7 +1588,7 @@ class Command:
             else:
                 menu_use = menu_all
 
-            if item_action in ("collect_recent_projects", "sessions_submenu"):
+            if item_action in ("collect_recent_projects", "sessions_submenu", "favorites_submenu"):
                 action = ""
             else:
                 action = item_action
@@ -1589,6 +1606,8 @@ class Command:
 
             elif item_action == "sessions_submenu":
                 self.fill_sessions_menu(menu_added)
+            elif item_action == "favorites_submenu":
+                self.fill_favorites_menu(menu_added)
 
     @staticmethod
     def node_ordering(node):
@@ -3450,30 +3469,37 @@ class Command:
         self.menu_goto()
 
     #----- Favorites (bookmarks) - see favorites.py -----
+    # The module is imported ONCE at the top of this file (as
+    # _favorites) and cached by Python; the methods below are just thin
+    # wrappers for install.inf / the context menu.
 
     def favorites_show(self):
         """Open the Favorites (bookmarks) window: projects, files and
         folders in one resizable manager dialog."""
-        from . import favorites
-        favorites.show_favorites()
+        _favorites.show_favorites()
 
     def favorites_find(self):
         """Show the 'Find favorite' quick picker over all saved
         favorites."""
-        from . import favorites
-        favorites.find_favorite()
+        _favorites.find_favorite()
 
     def favorites_add_current_file(self):
-        from . import favorites
-        favorites.add_current_file()
+        """Bookmark the file open in the editor."""
+        _favorites.add_current_file()
 
     def favorites_add_current_dir(self):
-        from . import favorites
-        favorites.add_current_dir()
+        """Bookmark the folder of the file open in the editor."""
+        _favorites.add_current_dir()
 
     def favorites_add_current_project(self):
-        from . import favorites
-        favorites.add_current_project()
+        """Bookmark the currently opened project."""
+        _favorites.add_current_project()
+
+    def favorites_add_opened(self):
+        """'Add opened...' - a dialog to choose between the opened
+        project, the opened editor file, and the folder of the opened
+        file (same chooser as the Add opened... button)."""
+        _favorites.add_opened()
 
     def action_add_to_favorites(self):
         """Context-menu command: add the selected tree node (project,
@@ -3491,13 +3517,11 @@ class Command:
         if not path or path == '.':
             msg_status(_('Project is not saved yet, cannot add it to favorites'))
             return
-        from . import favorites
-        favorites.add_favorite(cat, path)
+        _favorites.add_favorite(cat, path)
 
     def _favorites_ctx(self, info=None):
         """Internal: callback of the favorites list context menu."""
-        from . import favorites
-        favorites.context_action(info)
+        _favorites.context_action(info)
 
     def action_project_properties(self):
         self.config_proj()
@@ -3553,6 +3577,25 @@ class Command:
         id = menu_proc(menu, MENU_ADD, command='cuda_project_man.action_import_external_session', caption=_('Import external session...'))
         if not self.project_file_path:
             menu_proc(id, MENU_SET_ENABLED, command=False)
+
+    def fill_favorites_menu(self, menu):
+        """Fill the context-menu "Favorites" submenu: add the clicked
+        node, then the same items as the Plugins-menu Favorites submenu
+        (see the Favorites > items in install.inf)."""
+        id = menu_proc(menu, MENU_ADD,
+                       command='cuda_project_man.action_add_to_favorites',
+                       caption=_('Add to favorites'))
+        if self.selected is None:
+            menu_proc(id, MENU_SET_ENABLED, command=False)
+
+        menu_proc(menu, MENU_ADD, caption='-')
+        menu_proc(menu, MENU_ADD, command='cuda_project_man.favorites_show',
+                  caption=_('Show Favorites window...'))
+        menu_proc(menu, MENU_ADD, command='cuda_project_man.favorites_find',
+                  caption=_('Find favorite...'))
+        menu_proc(menu, MENU_ADD, caption='-')
+        menu_proc(menu, MENU_ADD, command='cuda_project_man.favorites_add_opened',
+                  caption=_('Add opened...'))
 
     def update_global_data(self):
         global global_project_info

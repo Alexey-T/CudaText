@@ -250,6 +250,12 @@ GENERAL (context menu top level)
   Open main file
       Opens the project's main file in the editor.
 
+  Favorites >
+      The bookmarks submenu - see FAVORITES (BOOKMARKS) below. "Add
+      to favorites" bookmarks the right-clicked node (disabled when
+      nothing is selected); the rest is the same as the Plugins-menu
+      Favorites submenu.
+
   Project sessions >
       Same items as the toolbar sessions menu.
 
@@ -279,6 +285,10 @@ The toolbar (top of the panel) has these buttons, left to right:
 The "Show current file" button is hidden if "Automatically show current
 file in project tree" is enabled in options (since it then happens
 automatically on every tab switch).
+
+The last button, [★ Favorites], opens the Favorites (bookmarks) window;
+it is a text button that shows the ★ character itself, so it follows the
+editor font and needs no icon file.
 
 
 ------------------------------------------------------------------------------
@@ -332,6 +342,11 @@ Close tabs not belonging to project) live only in the Plugins menu.
       Delete session..., Import external session... — the same items as
       the sessions menu of the panel.
 
+  Favorites >
+      Submenu with the bookmarks commands: Show Favorites window...,
+      Find favorite..., Add to favorites: current file / current folder /
+      current project, Add opened... — see FAVORITES (BOOKMARKS) below.
+
   Close tabs not belonging to project
       Closes editor tabs whose files are not part of the project. Tabs
       with unsaved changes and untitled tabs get CudaText's own "save
@@ -345,6 +360,103 @@ Close tabs not belonging to project) live only in the Plugins menu.
       Project variables and main file; plugin options. Both are also
       added to CudaText's Settings menu; "Config..." is in the panel
       context menu as well.
+
+
+------------------------------------------------------------------------------
+FAVORITES (BOOKMARKS)
+------------------------------------------------------------------------------
+
+Favorites are quick bookmarks for projects, files and folders,
+independent of the opened project. They live in the "Favorites"
+submenus (panel context menu and Plugins menu), on the ★ toolbar
+button, and in their own window.
+
+THE FAVORITES WINDOW (★ toolbar button, or Favorites > Show Favorites
+window...)
+  Resizable, non-modal, stays on top of the CudaText window; size,
+  active tab and sort order are remembered between sessions. Three
+  tabs: Projects, Files, Folders. Columns: ★ | Name | Path.
+
+  Star column (★/☆)
+      The "favorite of favorites" flag. Every row shows ☆; click the
+      star cell and it becomes ★ (click again to clear). The default
+      sort is starred first, then by name — so starred bookmarks
+      float to the top without any manual ordering.
+
+  Sorting
+      Click a column header: 1st click sorts ascending, 2nd click
+      descending, 3rd click switches to manual (custom) order — the
+      order that Move up/down and Alt+Up/Alt+Down edit. Sorting by ★
+      always also sorts by name inside each group. The status line at
+      the bottom shows the active sort.
+
+  Filter
+      The field at the top filters by name AND path as you type; Esc
+      clears it and shows the full list again (a second Esc closes the
+      window). Paths that no longer exist on disk are prefixed with
+      "? " so dead bookmarks are easy to spot.
+
+  Left button panel (grouped with visible gaps between the groups)
+      Open             open the selection: projects open in Project
+                       Manager, files in the editor, folders in the
+                       OS file manager
+      Add...           pick a project / file / folder in a dialog
+      Add opened...    a menu with the currently openable things: the
+                       opened project, the current editor file, or the
+                       folder of the current file (only the available
+                       ones are listed)
+      Move up /
+      Move down       reorder the selection (switches to manual order)
+      Delete           remove the selection
+      Close (bottom)   closes the window
+
+  Keyboard (active while the window has the keyboard focus — the
+  shortcuts never clash with your editor hotkeys):
+      Ctrl+1..9 / Alt+1..9    open the favorite at that position in
+                               the visible (filtered) list
+      Enter / double-click    open the selection
+      Del                     delete the selection
+      F2                      rename the selection
+      Alt+Up / Alt+Down       move the selection up/down
+      Esc                     clear the filter; second Esc closes
+                               the window
+
+  Right-click menu: Open, Reveal in file manager, Copy path,
+  Star/Unstar, Rename..., Delete, Add current file/folder/project.
+
+FIND FAVORITE (Favorites > Find favorite...)
+  A compact modal picker over ALL favorites with a type-to-filter
+  field; columns ★ / Name / Type / Path; Enter or double-click opens
+  the choice; Ctrl+1..9 / Alt+1..9 work here too. Handy when bound to
+  a hotkey.
+
+WHERE THE DATA LIVES
+  settings/cuda_project_man_favorites.json (in the CudaText settings
+  folder):
+
+    {
+      "projects": [ {"path": "...", "name": "...", "star": false} ],
+      "files":    [ ... ],
+      "folders":  [ ... ],
+      "_ui":      { ...remembered window state... },
+      "_deleted": [ ...paths the import must not resurrect... ]
+    }
+
+  Each entry keeps its path, display name (rename with F2) and star
+  flag. The file is created on the first change. Data from early
+  versions (the misspelled cuda_project_man_favorits.json) is moved
+  there automatically and the old file is removed.
+
+IMPORT FROM THE "FAVORITES" PLUGIN (cuda_favorites)
+  If you also use kvichans' "Favorites" plugin, its
+  settings/cuda_favorites.json is READ (never written): when Project
+  Manager starts and whenever a favorites window is opened, entries
+  missing from our list are imported — duplicates removed by path,
+  files vs folders told apart by the path itself. The sync is strictly
+  one-way: nothing is ever exported back, and the file is never
+  created if it does not exist. Entries you delete here are remembered
+  in "_deleted" so the next import does not resurrect them; adding a
+  path again (Add... / Add opened...) clears that memory.
 
 
 ------------------------------------------------------------------------------

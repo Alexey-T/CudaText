@@ -1,36 +1,42 @@
 '''Favorites (bookmarks) manager for the CudaText "Project Manager" plugin.
 
 Stores three kinds of bookmarks - projects, files, folders - in
-"cuda_project_man_favorits.json" in the CudaText settings folder.
+"cuda_project_man_favorites.json" in the CudaText settings folder.
 
-Two-way sync with the separate "Favorites" plugin (cuda_favorites by
-kvichans): its data file "cuda_favorites.json" is read on every load,
-new entries are imported (merged, duplicates removed by path) into our
-own file; on every save our file/lists are merged back into
-"cuda_favorites.json" (only when that file already exists, so the other
-plugin's data format is never created from scratch here).
+One-way import from the separate "Favorites" plugin (cuda_favorites by
+kvichans): its data file "cuda_favorites.json" is read when this plugin
+starts and when a favorites window is opened; entries not present in
+our own list are imported (duplicates removed by path). Our data is
+NEVER written back to cuda_favorites.json. Entries deleted here are
+remembered (in our own file) so the import does not resurrect them;
+adding a path again clears that memory.
 
 Main window (non-modal, resizable):
 - tabs: Projects / Files / Folders
 - listview with columns: star, Name, Path; sortable per column,
   default sort is "starred first, then by name"; a 3rd click on a
   column header switches to manual (custom) order
-- star column: click the star icon to toggle the "favorite of
-  favorites" star (yellow = starred)
-- filter field at the top filters by name and path
-- vertical button panel on the left: Open / Add... / Add opened,
+- star column: the UTF-8 font icons ☆ (unstarred) / ★ (starred) -
+  no image files; click the star cell to toggle the "favorite of
+  favorites" star
+- filter field at the top filters by name and path; Esc clears it
+- vertical button panel on the left: Open / Add... / Add opened...,
   Move up / Move down, Delete; Close at the bottom
 - while the window is focused: Ctrl+1..9 / Alt+1..9 open the item at
   that index (index in the currently visible, filtered list), Enter
   opens the selection, Del deletes it, F2 renames it,
   Alt+Up/Down move it, Esc clears the filter (or closes the window)
+
+"Add opened..." shows the same chooser as "Add...": pick the opened
+project, the current editor file, or the folder of the current file.
+
+Opening a favorite: project -> opened by Project Manager; file ->
+opened in the editor; folder -> simply opened in the OS file manager.
 '''
 
 import os
-import re
 import sys
 import json
-import time
 
 from cudatext import *
 from cudatext_keys import *
@@ -42,9 +48,13 @@ IS_WIN = os.name == 'nt'
 IS_MAC = sys.platform == 'darwin'
 OS_SUFFIX = app_proc(PROC_GET_OS_SUFFIX, '')
 
-#: our own storage file (name is part of the feature spec)
-FAVORITES_FILENAME = 'cuda_project_man_favorits.json'
-#: data file of the "Favorites" plugin (cuda_favorites by kvichans)
+#: our own storage file
+FAVORITES_FILENAME = 'cuda_project_man_favorites.json'
+#: the same data in early versions, under the misspelled name; read
+#: once for migration, removed after the renamed file is saved
+LEGACY_FAVORITES_FILENAME = 'cuda_project_man_favorits.json'
+#: data file of the "Favorites" plugin (cuda_favorites by kvichans);
+#: import-only - never created or modified by this plugin
 EXT_FAVORITES_FILENAME = 'cuda_favorites.json'
 
 PROJECT_EXTENSION = '.cuda-proj'
@@ -83,10 +93,6 @@ MOD_COL = {
     COL_NAME: 'name',
     COL_PATH: 'path',
 }
-
-
-def _here():
-    return os.path.dirname(__file__)
 
 
 def _norm_path(path):
@@ -159,13 +165,28 @@ def reveal_in_file_manager(path):
             os.spawnvp(os.P_WAIT, 'xdg-open', ('xdg-open', 'file://' + parent))
 
 
+def open_folder_in_file_manager(path):
+    """Open the folder itself in the OS file manager (Windows Explorer,
+    Finder, ...)."""
+    sfn = str(path)
+    if OS_SUFFIX == '':
+        # Windows
+        os.startfile(sfn)
+    elif OS_SUFFIX == '__mac':
+        # macOS
+        os.system('open --new ' + sfn.replace(' ', '\\ '))
+    elif OS_SUFFIX == '__haiku':
+        os.spawnvp(os.P_WAIT, 'open', ('open', sfn))
+    else:
+        # Linux and other Unixes
+        os.spawnvp(os.P_WAIT, 'xdg-open', ('xdg-open', sfn))
+
+
 def open_item(path, from_modal=False):
     """Open one favorites item:
     - project file -> opened by Project Manager (via on_open_pre)
     - file -> opened in editor
-    - folder -> file-open dialog starting in that folder (same behavior
-      as the cuda_favorites plugin), so a folder bookmark is a quick
-      'open some file from that folder'
+    - folder -> simply opened in the OS file manager
     Returns True when something was opened."""
     path = str(path)
     if not path:
@@ -180,11 +201,7 @@ def open_item(path, from_modal=False):
         return True
 
     if os.path.isdir(path):
-        app_proc(PROC_SET_FOLDER, path)
-        fn = dlg_file(True, '', path, '')
-        if not fn:
-            return False
-        file_open(fn)
+        open_folder_in_file_manager(path)
         return True
 
     app_proc(PROC_SET_FOLDER, os.path.dirname(path))
@@ -193,14 +210,18 @@ def open_item(path, from_modal=False):
 
 
 class FavoritesCore:
-    """Data storage: load/merge/save of our json + sync with the
-    cuda_favorites plugin's json."""
+    """Data storage: load/save of our json + one-way import from the
+    cuda_favorites plugin's json (import-only, never exported back)."""
 
     def __init__(self):
         self.path_own = os.path.join(app_path(APP_DIR_SETTINGS), FAVORITES_FILENAME)
+        self.path_legacy = os.path.join(app_path(APP_DIR_SETTINGS), LEGACY_FAVORITES_FILENAME)
         self.path_ext = os.path.join(app_path(APP_DIR_SETTINGS), EXT_FAVORITES_FILENAME)
         self.data = {cat: [] for cat in CATS}
         self.ui = {}
+        #: paths deleted by the user: the one-way import must not
+        #: resurrect them (stored in our json as "_deleted")
+        self.deleted = []
         self.last_imported = 0
 
     #------------- helpers
@@ -224,6 +245,24 @@ class FavoritesCore:
                 it['star'] = bool(it.get('star', False))
                 items.append(it)
             self.data[cat] = items
+        # tombstones: a flat list of unique paths
+        seen = set()
+        deleted = []
+        for p in self.deleted or []:
+            if isinstance(p, str) and p:
+                key = _norm_path(p)
+                if key and key not in seen:
+                    seen.add(key)
+                    deleted.append(p)
+        self.deleted = deleted
+
+    def _is_deleted(self, path):
+        key = _norm_path(path)
+        return any(_norm_path(p) == key for p in self.deleted)
+
+    def _forget_deleted(self, path):
+        key = _norm_path(path)
+        self.deleted = [p for p in self.deleted if _norm_path(p) != key]
 
     def _add_if_new(self, cat, path, name=None, star=False):
         """Append an entry unless the path is already in that category.
@@ -240,15 +279,20 @@ class FavoritesCore:
             'name': name or _base_name(path),
             'star': bool(star),
         })
+        self._forget_deleted(path)  # re-adding clears the tombstone
         return True
 
     #------------- load / save
 
     def load(self):
-        """Read our file, merge new entries from cuda_favorites.json,
-        save our file when the merge added anything. Returns the number
-        of imported entries."""
+        """Read our file (migrating once from the old misspelled file
+        name), then import new entries from cuda_favorites.json
+        (one-way: imported here, never exported back). Returns the
+        number of imported entries."""
         own = _read_json(self.path_own)
+        if own is None and os.path.exists(self.path_legacy):
+            # one-time migration from the old misspelled file name
+            own = _read_json(self.path_legacy)
         self.data = {cat: [] for cat in CATS}
         if isinstance(own, dict):
             for cat in CATS:
@@ -256,73 +300,43 @@ class FavoritesCore:
                 if isinstance(val, list):
                     self.data[cat] = val
         self.ui = own.get('_ui') if isinstance(own, dict) and isinstance(own.get('_ui'), dict) else {}
+        self.deleted = [p for p in (own.get('_deleted') if isinstance(own, dict) else None) or []
+                        if isinstance(p, str)]
         self._normalize()
 
         imported = 0
         ext = _read_json(self.path_ext)
         if isinstance(ext, dict):
             for p in ext.get('fv_projs') or []:
-                if isinstance(p, str) and p:
+                if isinstance(p, str) and p and not self._is_deleted(p):
                     imported += 1 if self._add_if_new('projects', p) else 0
             for p in ext.get('fv_files') or []:
-                if isinstance(p, str) and p:
+                if isinstance(p, str) and p and not self._is_deleted(p):
                     cat = 'folders' if os.path.isdir(p) else 'files'
                     imported += 1 if self._add_if_new(cat, p) else 0
 
         if imported:
-            self.save(write_ext=False)
+            self.save()
         self.last_imported = imported
         return imported
 
-    def save(self, write_ext=True):
-        """Write our json; then (two-way sync) merge our lists back into
-        cuda_favorites.json, but only if that file already exists."""
+    def save(self):
+        """Write our own json - and nothing else: the sync with
+        cuda_favorites.json is one-way (import-only), that file is
+        never written here."""
         out = {cat: self.data[cat] for cat in CATS}
         out['_ui'] = self.ui
+        out['_deleted'] = self.deleted
         if not _write_json(self.path_own, out):
             return
-
-        if not write_ext:
-            return
-        if not os.path.exists(self.path_ext):
-            return  # never create the other plugin's file
-
-        ext = _read_json(self.path_ext)
-        if not isinstance(ext, dict):
-            return
-
-        def rebuild(old_list, cats):
-            """Keep the still-present entries in their original order,
-            append our new ones at the end."""
-            ours = set()
-            for cat in cats:
-                for it in self.data[cat]:
-                    ours.add(_norm_path(it['path']))
-            new = []
-            used = set()
-            for p in old_list or []:
-                if isinstance(p, str) and p and _norm_path(p) in ours:
-                    new.append(p)
-                    used.add(_norm_path(p))
-            for cat in cats:
-                for it in self.data[cat]:
-                    key = _norm_path(it['path'])
-                    if key not in used:
-                        new.append(it['path'])
-                        used.add(key)
-            return new
-
+        # one-time cleanup after the migration to the corrected file
+        # name: drop the old misspelled file once the new one is safely
+        # written
         try:
-            new_files = rebuild(ext.get('fv_files'), ('files', 'folders'))
-            new_projs = rebuild(ext.get('fv_projs'), ('projects',))
-            changed = (new_files != (ext.get('fv_files') or [])) or \
-                      (new_projs != (ext.get('fv_projs') or []))
-            if changed:
-                ext['fv_files'] = new_files
-                ext['fv_projs'] = new_projs
-                _write_json(self.path_ext, ext)
-        except Exception as ex:
-            print('Favorites: cannot sync with ' + EXT_FAVORITES_FILENAME + ': ' + str(ex))
+            if os.path.exists(self.path_legacy):
+                os.remove(self.path_legacy)
+        except OSError:
+            pass
 
     #------------- data operations
 
@@ -342,7 +356,12 @@ class FavoritesCore:
 
     def remove_at(self, cat, index):
         if 0 <= index < len(self.data[cat]):
+            path = self.data[cat][index]['path']
             del self.data[cat][index]
+            # remember the deletion so the one-way import from
+            # cuda_favorites.json does not bring the entry back
+            if not self._is_deleted(path):
+                self.deleted.append(path)
             self.save()
             return True
         return False
@@ -435,57 +454,25 @@ def get_core():
     return _core
 
 
+def init_on_start():
+    """Called once when the package is imported at CudaText startup:
+    load our data and run the one-way import from cuda_favorites.json
+    (silently - no status-bar message at startup). Never raises: a
+    broken or missing data file must not break the Project Manager."""
+    try:
+        get_core().load()
+    except Exception as ex:
+        print('Favorites: startup load failed: ' + str(ex))
+
+
 def refresh_core():
-    """(Re)load + merge data; returns (core, imported_count)."""
+    """(Re)load + one-way import from cuda_favorites.json; returns
+    (core, imported_count). Used when a favorites window is opened."""
     core = get_core()
     imported = core.load()
     if imported:
         msg_status(_('Favorites: imported {} item(s) from cuda_favorites').format(imported))
     return core, imported
-
-
-#==========================================================
-# star icons
-#==========================================================
-
-def _load_star_icons(h_form):
-    """ImageList with [0]=star on (yellow), [1]=star off (gray),
-    owned by the dialog (auto-freed with it)."""
-    imglist = imagelist_proc(0, IMAGELIST_CREATE, value=h_form)
-    if not imglist:
-        return None, -1, -1
-    try:
-        imagelist_proc(imglist, IMAGELIST_SET_SIZE, (16, 16))
-    except Exception:
-        pass
-    fn_on = os.path.join(_here(), 'fav_star_on_16.png')
-    fn_off = os.path.join(_here(), 'fav_star_off_16.png')
-    icon_on = imagelist_proc(imglist, IMAGELIST_ADD, value=fn_on)
-    icon_off = imagelist_proc(imglist, IMAGELIST_ADD, value=fn_off)
-    if icon_on is None or icon_off is None:
-        return None, -1, -1
-    return imglist, icon_on, icon_off
-
-
-def toolbar_icon(imglist, theme_name):
-    """Index of the favorites star icon for the Project Manager toolbar,
-    added to the toolbar's own imagelist; None on failure."""
-    n = 16
-    res = re.match(r'^\S+x(\d+)$', str(theme_name or ''))
-    if res:
-        try:
-            n = int(res.group(1))
-            if not 8 <= n <= 64:
-                n = 16
-        except ValueError:
-            n = 16
-    fn = os.path.join(_here(), 'fav_star_on_%d.png' % n)
-    if not os.path.isfile(fn):
-        fn = os.path.join(_here(), 'fav_star_on_16.png')
-    try:
-        return imagelist_proc(imglist, IMAGELIST_ADD, value=fn)
-    except Exception:
-        return None
 
 
 #==========================================================
@@ -497,9 +484,6 @@ class FavoritesForm:
     def __init__(self, core):
         self.core = core
         self.h = 0
-        self.imglist = None
-        self.icon_on = -1
-        self.icon_off = -1
 
         self.tab = self._ui_get('tab', 0)
         self.sort_col = self._ui_get('sort_col', DEFAULT_SORT)
@@ -562,7 +546,7 @@ class FavoritesForm:
             'cap': _('&Open'),
             'x': BTN_X, 'y': y, 'w': BTN_W, 'h': BH,
             'tab_order': 3,
-            'hint': _('Open the selected favorite\rEnter and double-click do the same.\rFolder: choose a file inside it; project: open the project'),
+            'hint': _('Open the selected favorite\rEnter and double-click do the same.\rProjects open in Project Manager, files in the editor,\rfolders in the OS file manager'),
             'on_change': self.btn_open_click,
         })
         y += BH + BTN_GAP
@@ -575,10 +559,10 @@ class FavoritesForm:
         })
         y += BH + BTN_GAP
         self._ctl('button', 'btn_add_opened', {
-            'cap': _('Add &opened'),
+            'cap': _('Add &opened...'),
             'x': BTN_X, 'y': y, 'w': BTN_W, 'h': BH,
             'tab_order': 5,
-            'hint': _('Add the opened project,\ror the current editor file,\ror the folder of the current file'),
+            'hint': _('Add the opened project, the current editor file,\ror the folder of the current file - a menu lets you choose'),
             'on_change': self.btn_add_opened_click,
         })
 
@@ -675,13 +659,6 @@ class FavoritesForm:
             'on_menu': self.list_on_menu,
         })
 
-        # star icons for the listview
-        self.imglist, self.icon_on, self.icon_off = _load_star_icons(self.h)
-        if self.imglist:
-            dlg_proc(self.h, DLG_CTL_PROP_SET, name='list', prop={
-                'imagelist_small': self.imglist,
-            })
-
         dlg_proc(self.h, DLG_SCALE)
         self.fill_list()
 
@@ -721,7 +698,7 @@ class FavoritesForm:
         self.core.ui['tab'] = self.tab
         self.core.ui['sort_col'] = self.sort_col
         self.core.ui['sort_desc'] = self.sort_desc
-        self.core.save(write_ext=False)
+        self.core.save()
 
     def form_on_close(self, id_dlg, id_ctl=0, data=''):
         global _form
@@ -779,13 +756,15 @@ class FavoritesForm:
         self.view = self.core.view(cat, self.sort_col, self.sort_desc, self.filter)
 
         rows = []
-        icons = []
         for _data_idx, it in self.view:
             name = it['name']
             if not os.path.exists(it['path']):
                 name = '? ' + name
-            rows.append('\r'.join(['', name, it['path']]))
-            icons.append(str(self.icon_on if it['star'] else self.icon_off))
+            rows.append('\r'.join([
+                '★' if it['star'] else '☆',   # UTF-8 font icons, no images
+                name,
+                it['path'],
+            ]))
 
         items = '\t'.join(
             ['\r'.join([
@@ -795,10 +774,6 @@ class FavoritesForm:
             ])] + rows)
 
         dlg_proc(self.h, DLG_CTL_PROP_SET, name='list', prop={'items': items})
-        if self.imglist:
-            dlg_proc(self.h, DLG_CTL_PROP_SET, name='list', prop={
-                'imageindexes': '\t'.join(icons) if icons else '-1',
-            })
 
         # restore selection
         sel_view = -1
@@ -1005,14 +980,19 @@ class FavoritesForm:
                 return False
             if key == VK_ESCAPE:
                 if self.filter:
-                    # first Esc clears the filter (the edit's on_change
-                    # refills the list), the next one closes the form
-                    # (the built-in Esc handling closes it when this
-                    # handler does not block the key)
+                    # first Esc clears the filter, the next one closes
+                    # the form (the built-in Esc handling closes it when
+                    # this handler does not block the key).
+                    # NOTE: setting 'val' programmatically does NOT fire
+                    # the edit's on_change event, so the list must be
+                    # refilled here too - otherwise it kept showing the
+                    # old filtered rows
                     try:
                         dlg_proc(self.h, DLG_CTL_PROP_SET, name='f_filter', prop={'val': ''})
                     except Exception:
                         pass
+                    self.filter = ''
+                    self.fill_list(keep_selection=False)
                     return False
                 return None  # let the form close itself
 
@@ -1114,17 +1094,13 @@ class FavoritesForm:
             msg_status(err)
 
     def btn_add_opened_click(self, id_dlg, id_ctl, data='', info=''):
-        """Smart add: the opened project, else the current editor file,
-        else the folder of the current editor file."""
-        proj = get_current_project()
-        if proj:
-            self._do_add('projects', proj)
+        """Same chooser as Add...: a menu with the opened project, the
+        current editor file, and the folder of the current file."""
+        res = choose_opened_favorite()
+        if res is None:
             return
-        fn = ed.get_prop(PROP_FN, '*') or ''
-        if fn:
-            self._do_add('files', fn)
-            return
-        msg_status(_('Favorites: no opened project, and the current tab is untitled'))
+        cat, path = res
+        self._do_add(cat, path)
 
     def _do_add(self, cat, path):
         added, err = self.core.add(cat, path)
@@ -1212,9 +1188,6 @@ class FavoritesFinder:
         self.result = None      # path to open after the dialog closes
         self.filter = ''
         self.view = []          # [(cat, data_index, item)]
-        self.imglist = None
-        self.icon_on = -1
-        self.icon_off = -1
 
     def _ctl(self, kind, name, prop):
         n = dlg_proc(self.h, DLG_CTL_ADD, prop=kind)
@@ -1281,12 +1254,6 @@ class FavoritesFinder:
             'on_click_dbl': self.list_on_dbl_click,
         })
 
-        self.imglist, self.icon_on, self.icon_off = _load_star_icons(self.h)
-        if self.imglist:
-            dlg_proc(self.h, DLG_CTL_PROP_SET, name='list', prop={
-                'imagelist_small': self.imglist,
-            })
-
         dlg_proc(self.h, DLG_SCALE)
         self.fill_list()
         dlg_proc(self.h, DLG_CTL_FOCUS, name='f_filter')
@@ -1306,13 +1273,16 @@ class FavoritesFinder:
     def fill_list(self):
         self.view = self.core.view_all(self.filter)
         rows = []
-        icons = []
         for cat, _i, it in self.view:
             name = it['name']
             if not os.path.exists(it['path']):
                 name = '? ' + name
-            rows.append('\r'.join(['', name, CAT_TITLES[cat], it['path']]))
-            icons.append(str(self.icon_on if it['star'] else self.icon_off))
+            rows.append('\r'.join([
+                '★' if it['star'] else '☆',   # UTF-8 font icons, no images
+                name,
+                CAT_TITLES[cat],
+                it['path'],
+            ]))
 
         items = '\t'.join(
             ['\r'.join([
@@ -1323,10 +1293,6 @@ class FavoritesFinder:
             ])] + rows)
 
         dlg_proc(self.h, DLG_CTL_PROP_SET, name='list', prop={'items': items})
-        if self.imglist:
-            dlg_proc(self.h, DLG_CTL_PROP_SET, name='list', prop={
-                'imageindexes': '\t'.join(icons) if icons else '-1',
-            })
         if self.view:
             dlg_proc(self.h, DLG_CTL_PROP_SET, name='list', prop={'val': '0'})
 
@@ -1391,10 +1357,12 @@ class FavoritesFinder:
 #==========================================================
 
 def show_favorites():
-    """Open (or focus) the Favorites window."""
+    """Open (or focus) the Favorites window. The one-way import from
+    cuda_favorites.json runs when the window is (re)created - not when
+    it is only focused, and not on every list operation."""
     global _form
-    refresh_core()
     if _form is None or not _form.h:
+        refresh_core()
         _form = FavoritesForm(get_core())
     _form.show()
     if _form.h:
@@ -1402,7 +1370,8 @@ def show_favorites():
 
 
 def find_favorite():
-    """Show the 'Find favorite' quick picker."""
+    """Show the 'Find favorite' quick picker (it is a favorites window
+    too, so it refreshes the imported data the same way)."""
     global _finder
     refresh_core()
     core = get_core()
@@ -1416,9 +1385,8 @@ def find_favorite():
 
 def add_favorite(cat, path):
     """Add one entry with a status-bar message (used by the Project
-    Manager context-menu item). Re-merges the data first, so favorites
-    added in the cuda_favorites plugin are always in sync."""
-    core, _imported = refresh_core()
+    Manager context-menu item)."""
+    core = get_core()
     added, err = core.add(cat, path)
     if added:
         msg_status(_('Favorites: added ') + str(path))
@@ -1436,17 +1404,47 @@ def add_favorite(cat, path):
     return False
 
 
-def add_opened_smart():
-    """Command 'Add opened': opened project, else current file, else its
-    folder variant is unavailable (untitled tab)."""
+def _opened_choices():
+    """(caption, cat, path) for everything that can be bookmarked right
+    now: the opened project, the current editor file, and the folder of
+    the current file. Only the available ones are listed."""
+    res = []
     proj = get_current_project()
     if proj:
-        return add_favorite('projects', proj)
+        res.append((_('Opened project') + ': ' + proj, 'projects', proj))
     fn = ed.get_prop(PROP_FN, '*') or ''
     if fn:
-        return add_favorite('files', fn)
-    msg_status(_('Favorites: no opened project, and the current tab is untitled'))
-    return False
+        res.append((_('Opened file') + ': ' + fn, 'files', fn))
+        res.append((_('Folder of opened file') + ': ' + os.path.dirname(fn),
+                    'folders', os.path.dirname(fn)))
+    return res
+
+
+def choose_opened_favorite():
+    """The 'Add opened...' dialog: a menu with the currently openable
+    things - the opened project, the current editor file, or the folder
+    of the current file (same chooser style as the Add... button).
+    Returns (cat, path), or None when cancelled / nothing to add."""
+    choices = _opened_choices()
+    if not choices:
+        msg_status(_('Favorites: no opened project, and the current tab is untitled'))
+        return None
+    res = dlg_menu(DMENU_LIST, [c[0] for c in choices],
+                   caption=_('Add opened favorite'))
+    if res is None:
+        return None
+    return choices[res][1], choices[res][2]
+
+
+def add_opened():
+    """Command 'Add opened...': a dialog to choose between the opened
+    project, the opened editor file, and the folder of the opened
+    file."""
+    res = choose_opened_favorite()
+    if res is None:
+        return False
+    cat, path = res
+    return add_favorite(cat, path)
 
 
 def add_current_file():
