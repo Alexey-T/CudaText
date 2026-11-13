@@ -28,7 +28,8 @@ uses
   ATSynEdit,
   ATSynEdit_Gaps,
   ATStatusBar,
-  ATListbox;
+  ATListbox,
+  markdown.canvasrender;
 
 type
   TAppPyCommonCallback = function(
@@ -211,7 +212,9 @@ implementation
 
 {$ifdef windows}
 uses
-  Windows, proc_windows_dragfiles, proc_windows_droptarget;
+  Windows,
+  proc_windows_dragfiles,
+  proc_windows_droptarget;
 
 type
   // QueueAsyncCall requires a method (of object), not a free procedure.
@@ -1776,11 +1779,25 @@ end;
 
 procedure TFormDummy.DoOnMarkdownGetImage(Sender: TObject; const aURL: string;
   var aImage: TPicture);
+var
+  fn: string;
 begin
-  if FileExists(aURL) then
+  //URLs not supported
+  if Pos('://', aURL)>0 then exit;
+
+  fn:= aURL;
+  if Pos(DirectorySeparator, fn)=0 then
   begin
-    aImage:=TPicture.Create;
-    aImage.LoadFromFile(aURL);
+    if (DirectorySeparator<>'/') and (Pos('/', fn)>0) then
+      fn:= StringReplace(fn, '/', DirectorySeparator, [rfReplaceAll])
+    else
+      fn:= ExtractFilePath((Sender as TMarkDownCanvasRenderer).Document.FileName)+aURL;
+  end;
+
+  if FileExists(fn) then
+  begin
+    aImage:= TPicture.Create;
+    aImage.LoadFromFile(fn);
   end;
 end;
 

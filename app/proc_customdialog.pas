@@ -698,6 +698,9 @@ begin
     C.HorzScrollBar.Position:= N;
 end;
 
+type
+  TMarkdownControlHack = class(TMarkdownControl);
+
 procedure DoControl_SetState_Markdown(C: TMarkDownControl; const AValue: string);
 begin
   C.Markdown.Clear;
