@@ -633,7 +633,7 @@ var
 begin
   Self.Font.Name:= UiOps.VarFontName;
   Self.Font.Size:= ATEditorScaleFont(UiOps.VarFontSize);
-  Self.Font.Color:= GetAppColor(TAppThemeColor.TabFont);
+  //Self.Font.Color:= GetAppColor(TAppThemeColor.TabFont); //gives bug on Gtk3: dark TMenuMenu font color on dark backgnd
 
   GroupsMain.SetTabFont(Self.Font);
   if FloatingForms then
