@@ -1439,7 +1439,7 @@ end
             'align': ALIGN_CLIENT,
             'border': False,
             'color': 0xC0F0C0,
-            'val': '# aa\nii1\nii2\n# bb\nii1\n```\nint code1\nint code2\n```\nii2',
+            'val': '# aa\nii1\nii2\n# bb\nii1\n```py\n# comment\ndef func(x):\n  return x**2\n```\nii2',
             })
 
         n=dlg_proc(h, DLG_CTL_ADD, 'panel')
