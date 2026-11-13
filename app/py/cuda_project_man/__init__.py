@@ -549,6 +549,7 @@ class Command:
         (_("Go to file...")  , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_go_to_file", ""),
         (_("Go to main file"), "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.goto_main", ""),
         (_("Open main file"), "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.open_main", ""),
+        (_("Add to favorites"), "", [NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_add_to_favorites", ""),
         ("-"   , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "", ""),
         (_("Project sessions"), "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "sessions_submenu", ""),
         ("-"   , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "", ""),
@@ -738,6 +739,19 @@ class Command:
         btn_count = toolbar_proc(self.h_bar, TOOLBAR_GET_COUNT)
         self.h_btn_sync = toolbar_proc(self.h_bar, TOOLBAR_GET_BUTTON_HANDLE, index=btn_count-1)
         button_proc(self.h_btn_sync, BTN_SET_VISIBLE, not self.options.get('always_sync', False))
+
+        # Favorites (bookmarks) button - star icon, opens the Favorites
+        # window; added after h_btn_sync is captured so its handle stays
+        # valid (it assumes it is the last button)
+        try:
+            from .favorites import toolbar_icon
+            icon_fav = toolbar_icon(self.toolbar_imglist, toolbar_theme)
+            if icon_fav is not None:
+                _toolbar_add_btn(self.h_bar, hint='-')
+                _toolbar_add_btn(self.h_bar, hint=_('Favorites (bookmarks)'),
+                                 icon=icon_fav, command='cuda_project_man.favorites_show')
+        except Exception as e:
+            print('Project Manager: cannot add Favorites toolbar button:', e)
 
         toolbar_proc(self.h_bar, TOOLBAR_SET_WRAP, index=True)
         toolbar_proc(self.h_bar, TOOLBAR_UPDATE)
@@ -3434,6 +3448,56 @@ class Command:
 
     def action_go_to_file(self):
         self.menu_goto()
+
+    #----- Favorites (bookmarks) - see favorites.py -----
+
+    def favorites_show(self):
+        """Open the Favorites (bookmarks) window: projects, files and
+        folders in one resizable manager dialog."""
+        from . import favorites
+        favorites.show_favorites()
+
+    def favorites_find(self):
+        """Show the 'Find favorite' quick picker over all saved
+        favorites."""
+        from . import favorites
+        favorites.find_favorite()
+
+    def favorites_add_current_file(self):
+        from . import favorites
+        favorites.add_current_file()
+
+    def favorites_add_current_dir(self):
+        from . import favorites
+        favorites.add_current_dir()
+
+    def favorites_add_current_project(self):
+        from . import favorites
+        favorites.add_current_project()
+
+    def action_add_to_favorites(self):
+        """Context-menu command: add the selected tree node (project,
+        file or folder node) to favorites."""
+        node = self.selected
+        if node is None:
+            return
+        node_type = self.get_node_type()
+        if node_type == NODE_PROJECT:
+            path = str(self.project_file_path) if self.project_file_path else ''
+            cat = 'projects'
+        else:
+            path = str(self.get_location_by_index(node))
+            cat = 'folders' if node_type == NODE_DIR else 'files'
+        if not path or path == '.':
+            msg_status(_('Project is not saved yet, cannot add it to favorites'))
+            return
+        from . import favorites
+        favorites.add_favorite(cat, path)
+
+    def _favorites_ctx(self, info=None):
+        """Internal: callback of the favorites list context menu."""
+        from . import favorites
+        favorites.context_action(info)
 
     def action_project_properties(self):
         self.config_proj()
