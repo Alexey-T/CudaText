@@ -632,6 +632,43 @@ def is_hidden(s):
 def is_win_root(s):
     return IS_WIN and s.endswith(':\\')
 
+def _rtrim_sep(s):
+    """Path without its trailing separator(s): 'D:\\' -> 'D:',
+    '\\\\server\\share\\' -> '\\\\server\\share'. Needed to compare
+    paths that keep/drop the trailing separator in different places
+    (the tree, the saved nodes list, the OS dialogs)."""
+    if not s:
+        return s
+    return s.rstrip('\\/' if IS_WIN else '/')
+
+def path_equals(a, b):
+    """True if the two paths are equal, IGNORING the trailing separator.
+    The tree stores a root node's path as pathlib renders it, which KEEPS
+    the backslash of a drive root ('D:\\') but DROPS it for a UNC root
+    ('\\\\server\\share'), while the saved nodes list keeps what the
+    folder dialog returned ('D:\\', '\\\\server\\share\\') - so an exact
+    'x in nodes' compare failed for BOTH root kinds and 'Stop tracking'
+    reported 'cannot find path' for a whole drive."""
+    if not a or not b:
+        return False
+    if a == b:
+        return True
+    return _rtrim_sep(a) == _rtrim_sep(b)
+
+def path_contains(parent, child):
+    """True if 'child' is 'parent' itself or lies under it (the trailing
+    separator is ignored on both sides; the boundary accepts both '\\'
+    and '/', so mixed-separator paths compare correctly too)."""
+    p = _rtrim_sep(parent)
+    c = _rtrim_sep(child)
+    if not p or not c:
+        return False
+    if c == p:
+        return True
+    # the char right after the common prefix must be a separator:
+    # 'D:\\data' is under 'D:' but 'D:\\database' is NOT under 'D:\\data'
+    return c.startswith(p) and len(c) > len(p) and c[len(p)] in '\\/'
+
 def is_locked(s):
     if IS_WIN:
         if s.endswith(':\\'):
@@ -1082,6 +1119,14 @@ class Command:
         # edit (nothing could be typed). With akLeft removed, the button
         # keeps its width (EH) and only MOVES with the panel's right
         # edge.
+        # The button's TOP+BOTTOM are re-anchored to the edit AFTER the
+        # edit is created (below): the engine resolves the control name
+        # of an anchor only if that control already exists, so the
+        # vertical glue cannot be set here yet. With both vertical edges
+        # glued to the edit (0 spacing), the button is EXACTLY as tall
+        # as the filter box at every DPI / GUI height - the fixed h=EH
+        # below is only the initial pre-anchor size (without the glue
+        # the button rendered SMALLER than the filter field).
         n = dlg_proc(self.h_dlg, DLG_CTL_ADD, prop='button_ex')
         dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, index=n, prop={
             'name': 'btn_fcancel',
@@ -1113,6 +1158,15 @@ class Command:
             'texthint': _('Filter the project tree...'),
             'hint': _('Show only the files/folders whose name matches.\rEsc clears the filter'),
             'on_change': self.panel_filter_on_change,
+        })
+        # 'f_filter' exists now: glue the cancel button's top and bottom
+        # edges to the edit's ones (0 spacing) - the button always keeps
+        # the same height as the filter field, at any DPI / GUI height
+        dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, name='btn_fcancel', prop={
+            'a_t': ('f_filter', '['),
+            'sp_t': 0,
+            'a_b': ('f_filter', ']'),
+            'sp_b': 0,
         })
 
         #---- filter status line (between the filter and the tree) ----
@@ -2046,7 +2100,11 @@ class Command:
     @_with_backup_cause('on project save')
     def add_node(self, path):
         if path:
-            if path in self.project["nodes"]:
+            # tolerant compare (path_equals): the dialog may return the
+            # path with or without the trailing separator ('D:\\' vs
+            # 'D:', UNC roots) - an exact 'in' check could let a root
+            # node in twice
+            if any(path_equals(path, n) for n in self.project["nodes"]):
                 return
 
             msg_status(_("Adding to project: ") + '"' + collapse_filename(path) + '"', True)
@@ -4192,15 +4250,29 @@ class Command:
                 break
             index = prop["parent"]
 
-        # fix for network UNC paths '\\server\share\'
-        if path.endswith('\\'):
-            path = path[:-1]
-
         tree_proc(self.tree, TREE_ITEM_DELETE, index)
-        if path in self.project["nodes"]:
-            self.project["nodes"].remove(path)
+
+        # find the SAVED node that matches the tree item's path: the tree
+        # renders a root path as pathlib does ('D:\\' for a drive root,
+        # '\\server\share' for a UNC root) while the saved nodes list
+        # keeps the folder dialog's form ('D:\\', '\\server\share\') -
+        # an exact compare failed for both root kinds (the old code
+        # blindly stripped the trailing backslash for UNC and then broke
+        # the drive roots: 'Stop tracking' on 'D:\' errored with
+        # 'cannot find path "D:"' and the node returned on refresh).
+        # Remove the entry that is ACTUALLY saved, so the removal sticks.
+        node = None
+        for n in self.project["nodes"]:
+            if path_equals(n, path):
+                node = n
+                break
+
+        if node is not None:
+            self.project["nodes"].remove(node)
             self._fire_project_nodes_removed()
-            if (self.cur_dir+os.sep).startswith(path+os.sep):
+            # reset the 'current folder' if it was under the removed
+            # node (trailing-separator-tolerant: 'D:\foo' IS under 'D:\')
+            if path_contains(node, self.cur_dir):
                 app_proc(PROC_SET_FOLDER, '')
                 self.cur_dir = ''
         else:

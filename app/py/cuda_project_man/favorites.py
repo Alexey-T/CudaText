@@ -22,12 +22,12 @@ Main window (non-modal, resizable):
   as a TAB STRIP: equal FIXED widths (TAB_W - the tabs hug their
   captions like the tabs of a browser or VS Code, they do NOT stretch
   over the whole list width), joined side by side directly above the
-  list; the ACTIVE one is marked ONLY by a bold GREEN underline in
-  the small strip between the tab buttons and the list (the underline
-  is a colored label painted on the form's own background - it must
-  not overlap the listbox, a label cannot paint over a windowed
-  control); the inactive tabs carry no marker at all - the OS-drawn
-  tab control could not be colored by the theme, so it was replaced
+  list; every tab carries a bottom bar in the small strip that joins
+  the buttons and the list FLUSH (no gap): a bold GREEN bar under the
+  ACTIVE tab, a bar in the tab's own button color under the inactive
+  ones (the bar is a colored panel - a label would never paint its
+  color, LCL labels are transparent); the OS-drawn tab control could
+  not be colored by the theme, so it was replaced
 - the list is the "listbox_ex" control - the flat listbox of CudaText
   dialogs, painted by the UI theme like the built-in Preferences
   dialog: its column header, items, selection and scrollbar all follow
@@ -158,15 +158,18 @@ DRAG_THRESHOLD = 4
 #: them (crHSplit in the LCL; crDefault = 0)
 CURSOR_HSPLIT = -14
 
-#: height (unscaled px) of the bold green UNDERLINE that marks the
-#: ACTIVE tab (browser/VS Code tab style; all three tabs have the
-#: same size, the underline is their only difference). The underline
-#: is a plain colored label living in the 4px strip BETWEEN the tab
-#: buttons and the list - it must NOT overlap the listbox: a label is
-#: a graphic control painted by the form, and a graphic control can
-#: never paint over a windowed control like listbox_ex, it is always
-#: covered by it (this is why the first version of the underline,
-#: glued to the list's top border, was invisible)
+#: height (unscaled px) of the bottom bar of every tab: a BOLD GREEN
+#: bar under the ACTIVE tab, a bar in the tab's own button color under
+#: the inactive ones (browser/VS Code tab style; all three tabs have
+#: the same size, the bar is their only difference). The bar is a
+#: 'panel' control (a plain TPanel paints its Color; the first version
+#: used a 'label', but an LCL label is TRANSPARENT - it never paints
+#: its Color, so the green was never visible). The bar lives in the
+#: TAB_ULINE_H strip between the tab buttons and the list, flush with
+#: both - the list is created AFTER the panels and later-created
+#: windowed siblings paint OVER earlier ones, so the panels must never
+#: overlap the listbox (they don't: the list is top-anchored exactly
+#: to the strip's bottom)
 TAB_ULINE_H = 4
 #: the green of the active tab's underline (a BGR int): a saturated
 #: green that reads well on both light and dark themes
@@ -731,11 +734,10 @@ class FavoritesForm:
         # button height hugs the caption text too tightly (the text
         # almost touched the button's border)
         BTN_H = BH + BTN_PAD
-        # the tab strip is BTN_H tall PLUS the TAB_ULINE_H strip for the
-        # green underline of the active tab (the underline is a colored
-        # label that must sit on the FORM background, between the tab
-        # buttons and the list - see the TAB_ULINE_H note), so the tab
-        # buttons keep the FULL padding of the other buttons
+        # the tab strip is BTN_H tall PLUS the TAB_ULINE_H strip that
+        # carries every tab's bottom bar (green = active, button color
+        # = inactive; a colored panel - see the TAB_ULINE_H note), so
+        # the tab buttons keep the FULL padding of the other buttons
         TABS_H = BTN_H + TAB_ULINE_H
 
         # min window height: the right button column (4 buttons, group
@@ -832,7 +834,7 @@ class FavoritesForm:
         })
         y += BTN_H + BTN_GAP
         self._ctl('button_ex', 'btn_checked', {
-            'cap': _('Checked') + ' ▾',
+            'cap': _('Checked') + ' ▼',
             'x': bx, 'y': y, 'w': BTN_W, 'h': BTN_H,
             'tab_order': 6,
             'hint': _('Run one command on ALL checked favorites:\ropen, star/unstar, copy paths, rename,\rmove up/down as a block, delete.\rCheck rows with the checkbox column\r(click the "All" header cell to check all)'),
@@ -933,14 +935,98 @@ class FavoritesForm:
         # live in listbox_proc (LISTBOX_SET_COLUMNS / LISTBOX_SET_HEADER);
         # the header dividers are dragged to resize the columns
         # (list_on_mouse_down/move/up).
-        # ANCHORS: the list is glued to all 4 sides of the window area
-        # (left offset BTN_X / right: the button column's left edge /
-        # top: below the tab strip / bottom: above the status line) - so
-        # it RESIZES with the window. The Path column is auto-stretched
-        # by the engine (column size 0), so the columns always fill the
-        # resized list exactly.
+        # The list control itself is created BELOW the tab strip (its
+        # top anchor references 'tab0').
+
+        #---- the tab strip (three flat themed buttons) ----
+        # The OS-drawn 'tabs' control could not be themed, so it is
+        # button_ex buttons. The three buttons form a LEFT-ALIGNED strip
+        # of EQUAL FIXED widths (TAB_W, browser/VS Code style - they hug
+        # their captions and do NOT stretch over the whole list width),
+        # joined with a small TAB_GAP, sitting directly above the list.
+        # ALL THREE HAVE THE SAME HEIGHT - the active one differs ONLY
+        # by its green bottom bar (uline0..2 below), not by its size.
+        # Only the LEFT edges are anchored (chained to each other) -
+        # anchoring a button's right edge to the next button's left
+        # edge AND back would be a circular anchor pair, which the
+        # engine cannot resolve (it used to break the strip after a
+        # window resize: unequal widths, the first tab sliding over the
+        # button column). _layout_tabs re-splits the widths on resizes
+        # (fixed TAB_W, shrinking only in a too-narrow window).
+        tab_caps = (_('Projects'), _('Files'), _('Folders'))
+        tab_names = ('tab0', 'tab1', 'tab2')
+        tab_w = TAB_W
+        for i in range(3):
+            prop = {
+                'cap': tab_caps[i],
+                'x': BTN_X + i * (tab_w + TAB_GAP),
+                'y': ty,             # sane pre-anchor position; the top
+                                     # anchor below places the strip
+                'a_t': ('f_filter', ']'),   # BTN_GAP below the REAL filter
+                'sp_t': BTN_GAP,            # bottom, at every scale/DPI
+                'w': tab_w,
+                'h': BTN_H,          # the FULLY padded height, like every
+                                     # other button; the TAB_ULINE_H strip
+                                     # below the buttons carries every
+                                     # tab's bottom bar (green = active)
+                'tab_order': 1,
+                'act': True,
+                'hint': _('Show {} favorites').format(tab_caps[i]),
+                'on_change': (lambda id_dlg, id_ctl, data='', info='', _i=i:
+                              self.on_tab_button(_i)),
+            }
+            if i == 0:
+                # sp_l is REQUIRED: setting a_l re-glues the edge to the
+                # form's left side + sp_l (sp_l defaults to 0)
+                prop['a_l'] = ('', '[')
+                prop['sp_l'] = BTN_X
+            else:
+                prop['a_l'] = (tab_names[i - 1], ']')
+                prop['sp_l'] = TAB_GAP
+            self._ctl('button_ex', tab_names[i], prop)
+
+        #---- the BOTTOM BAR of every tab ----
+        # A thin colored PANEL glued to the BOTTOM EDGE of its tab (its
+        # left, right and top edges are anchored to that tab, so it
+        # follows the window resizes and _layout_tabs' re-splits). The
+        # bar lives in the TAB_ULINE_H strip BETWEEN the buttons and the
+        # list, FLUSH with both (no gap): the list below is top-anchored
+        # to tab0's bottom with the spacing of exactly TAB_ULINE_H. A
+        # 'panel' (plain LCL TPanel, bevels off) paints its Color - the
+        # first version used a 'label', but LCL labels are TRANSPARENT
+        # and never paint their Color, so the bar was never visible.
+        # All three bars are ALWAYS TAB_ULINE_H tall: GREEN for the
+        # active tab, the tab's own button color for the inactive ones
+        # (set in _update_tabs) - so the strip reads as the bottom edge
+        # of the tab row, not as empty form background.
+        for i in range(3):
+            self._ctl('panel', 'uline{}'.format(i), {
+                'x': BTN_X + i * (tab_w + TAB_GAP),
+                'y': ty + BTN_H,        # sane pre-anchor position; the
+                                        # top anchor places the strip
+                'w': tab_w,
+                'h': TAB_ULINE_H,
+                'a_l': (tab_names[i], '['),
+                'sp_l': 0,
+                'a_r': (tab_names[i], ']'),
+                'sp_r': 0,
+                'a_t': (tab_names[i], ']'),
+                'sp_t': 0,
+                'color': TAB_GREEN,   # corrected per tab by _update_tabs
+            })
+
+        #---- the list ----
+        # Created AFTER the tab strip: its top anchor references 'tab0',
+        # and the dialog engine resolves a control name in an anchor only
+        # if that control already exists. The top anchor chains the main
+        # column FLUSH at every DPI / UI scale: filter -> (BTN_GAP) ->
+        # tab buttons -> (TAB_ULINE_H of the bar strip) -> list. The old
+        # layout placed the list at a fixed offset from the filter's
+        # bottom - at a non-100% scale the scaled offsets and the
+        # controls' real heights drifted apart and a wide empty gap
+        # opened between the tabs and the list.
         self._ctl('listbox_ex', 'list', {
-            'x': BTN_X, 'y': ty + TABS_H,
+            'x': BTN_X, 'y': ty + TABS_H,   # sane pre-anchor position
             'w': bx - 2 * BTN_X,
             'h': h - (ty + TABS_H) - 8 - 22 - BTN_GAP,
             'tab_order': 2,
@@ -949,8 +1035,8 @@ class FavoritesForm:
             'a_l': ('', '['),
             'sp_l': BTN_X,
             **MAIN_RIGHT,
-            'a_t': ('f_filter', ']'),
-            'sp_t': TABS_H + BTN_GAP,   # the tab strip lives in this gap
+            'a_t': ('tab0', ']'),
+            'sp_t': TAB_ULINE_H,   # exactly the bar strip: flush, no gap
             'a_b': ('lbl_status', '['),
             'sp_b': BTN_GAP,
             'on_change': self.list_on_change,
@@ -971,81 +1057,8 @@ class FavoritesForm:
                          index=int(ITEM_H * scale))
             listbox_proc(self.h_list, LISTBOX_SET_DRAWN, index=1)
 
-        #---- the tab strip (three flat themed buttons) ----
-        # The OS-drawn 'tabs' control could not be themed, so it is
-        # button_ex buttons. The three buttons form a LEFT-ALIGNED strip
-        # of EQUAL FIXED widths (TAB_W, browser/VS Code style - they hug
-        # their captions and do NOT stretch over the whole list width),
-        # joined with a small TAB_GAP, sitting directly above the list.
-        # ALL THREE HAVE THE SAME HEIGHT - the active one differs ONLY
-        # by its green underline (uline0..2 below), not by its size.
-        # Only the LEFT edges are anchored (chained to each other) -
-        # anchoring a button's right edge to the next button's left
-        # edge AND back would be a circular anchor pair, which the
-        # engine cannot resolve (it used to break the strip after a
-        # window resize: unequal widths, the first tab sliding over the
-        # button column). _layout_tabs re-splits the widths on resizes
-        # (fixed TAB_W, shrinking only in a too-narrow window).
-        tab_caps = (_('Projects'), _('Files'), _('Folders'))
-        tab_names = ('tab0', 'tab1', 'tab2')
-        tab_w = TAB_W
-        for i in range(3):
-            prop = {
-                'cap': tab_caps[i],
-                'x': BTN_X + i * (tab_w + TAB_GAP),
-                'y': ty,
-                'w': tab_w,
-                'h': BTN_H,          # the FULLY padded height, like every
-                                     # other button; the TAB_ULINE_H strip
-                                     # below the buttons carries the green
-                                     # underline of the active tab
-                'tab_order': 1,
-                'act': True,
-                'hint': _('Show {} favorites').format(tab_caps[i]),
-                'on_change': (lambda id_dlg, id_ctl, data='', info='', _i=i:
-                              self.on_tab_button(_i)),
-            }
-            if i == 0:
-                # sp_l is REQUIRED: setting a_l re-glues the edge to the
-                # form's left side + sp_l (sp_l defaults to 0)
-                prop['a_l'] = ('', '[')
-                prop['sp_l'] = BTN_X
-            else:
-                prop['a_l'] = (tab_names[i - 1], ']')
-                prop['sp_l'] = TAB_GAP
-            self._ctl('button_ex', tab_names[i], prop)
-
-        #---- the GREEN UNDERLINE of the active tab ----
-        # A thin colored label glued to the BOTTOM EDGE of its tab (its
-        # left, right and top edges are anchored to that tab, so it
-        # follows the window resizes and _layout_tabs' re-splits). The
-        # tab buttons are TAB_ULINE_H px shorter than the strip, so the
-        # label lives in that strip BETWEEN the buttons and the list,
-        # painted on the FORM's own background: a label is a graphic
-        # control painted by the form, and a graphic control can NEVER
-        # paint over a windowed control like the listbox - the first
-        # version of the underline (overlapping the list's top border)
-        # was simply covered by the list's window and invisible. Only
-        # the ACTIVE tab's label gets its height (in _update_tabs); the
-        # inactive ones stay collapsed to 0 = invisible.
-        for i in range(3):
-            self._ctl('label', 'uline{}'.format(i), {
-                'x': BTN_X + i * (tab_w + TAB_GAP),
-                'y': ty + BTN_H,
-                'w': tab_w,
-                'h': 0,
-                'a_l': (tab_names[i], '['),
-                'sp_l': 0,
-                'a_r': (tab_names[i], ']'),
-                'sp_r': 0,
-                'a_t': (tab_names[i], ']'),
-                'sp_t': 0,
-                'color': TAB_GREEN,
-            })
-
         dlg_proc(self.h, DLG_SCALE)
-        self.apply_theme()
-        self._update_tabs()
+        self.apply_theme()   # also calls _update_tabs (tab bar colors)
         self._layout_tabs()
         self.fill_list()
 
@@ -1077,6 +1090,10 @@ class FavoritesForm:
                          prop={'font_color': colors['label_font']})
         except Exception:
             pass
+        # re-color the tab bars (the inactive bars take the new theme's
+        # button face color; the active one stays green) - the theme can
+        # be switched while the window is open
+        self._update_tabs()
         # repaint the owner-drawn rows with the new colors
         if self.h_list and self.rows:
             self.fill_list()
@@ -1374,24 +1391,34 @@ class FavoritesForm:
     def _update_tabs(self):
         """Redraw the tab strip for the current self.tab. All three
         tabs ALWAYS have the same caption style, position and size
-        (browser/VS Code style) - the ONLY difference of the active
-        one is its bold GREEN UNDERLINE: the thin 'ulineN' label in
-        the TAB_ULINE_H strip between the tab buttons and the list
-        gets its height, the inactive tabs' underlines stay collapsed
-        to 0 (invisible). The underline lives on the form background
-        (NOT over the listbox - a graphic control can never paint over
-        a windowed control, see the TAB_ULINE_H note). The prop values
-        are REAL pixels (this runs after DLG_SCALE), so the unscaled
-        underline height is multiplied by the scale factor."""
+        (browser/VS Code style) - the ONLY difference of the active one
+        is the COLOR of its bottom bar: the 'ulineN' panel in the
+        TAB_ULINE_H strip between the tab buttons and the list is
+        GREEN for the active tab, and painted in the theme's button
+        face color for the inactive ones (the same color the flat tab
+        buttons use) - so every tab carries a visible bottom bar and
+        the strip reads as the bottom edge of the tab row. The height
+        is already fixed (TAB_ULINE_H, set at creation and scaled by
+        DLG_SCALE); the 'h' here re-applies it in REAL pixels (this
+        runs after DLG_SCALE) to survive any scale rounding."""
         sc = self._scale or 1.0
+        # the theme's flat-button face color (what button_ex paints
+        # itself with); falls back to the form color when the theme
+        # does not define it
+        d = _theme_dict()
+        face = _theme_color(d, 'ButtonBgPassive', None)
+        if face is None:
+            face = _theme_color(d, 'TabBg', 0xE0E0E0)
+        bar_h = int(TAB_ULINE_H * sc)
         for i in range(3):
             # the tab buttons themselves need no update (same caption,
-            # same size for all three) - only the underlines change
+            # same size for all three) - only the bars change color
             try:
                 dlg_proc(self.h, DLG_CTL_PROP_SET,
                          name='uline{}'.format(i),
-                         prop={'h': int(TAB_ULINE_H * sc)
-                               if i == self.tab else 0})
+                         prop={'h': bar_h,
+                               'color': TAB_GREEN if i == self.tab
+                               else face})
             except Exception:
                 pass
 
@@ -1613,9 +1640,10 @@ class FavoritesForm:
         self.fill_list(keep_selection=False)
 
     def on_tab_button(self, index):
-        """A themed tab button was clicked: switch the category (the
-        strip is redrawn by _update_tabs via fill_list - the active
-        tab changes its geometry, not only its caption)."""
+        """A themed tab button was clicked: switch the category (the tab
+        strip is recolored by _update_tabs via fill_list - the active
+        tab's bottom bar turns green, the others take the button color;
+        sizes never change)."""
         if index == self.tab:
             return
         self.tab = index

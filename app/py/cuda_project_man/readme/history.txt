@@ -1,4 +1,35 @@
 2026.11.13 (@badrelmers)
+- FIXED: "Stop tracking" on a drive root (D:\, C:\...) errored with
+  'cannot find path "D:" in root nodes list' and the node came back on
+  refresh: the tree stores a root path as pathlib renders it (the drive
+  root KEEPS its trailing backslash, a UNC root drops it) while the
+  saved nodes list keeps the folder dialog's form - the removal
+  compared the two with a blind 'strip the trailing backslash' hack
+  that broke drive roots. Path compares (add/remove node) are
+  trailing-separator-tolerant now, and the entry that is actually
+  saved gets removed
+- FIXED: the green bottom bar of the active Favorites tab was still
+  invisible: an LCL label is TRANSPARENT, it never paints its Color -
+  the bar is a colored 'panel' control now (a plain TPanel paints its
+  background). The inactive tabs carry a bar in the theme's button
+  face color (ButtonBgPassive), so all three tabs show a bottom bar
+  and only its color differs - and the bars are recolored live when
+  the UI theme is switched
+- FIXED: the gap between the Favorites tab strip and the list: the
+  main column is vertically CHAINED by anchors now (filter ->
+  BTN_GAP -> tab buttons -> the bar strip -> the list), so the list
+  starts flush under the tab bars at every DPI / UI scale - the old
+  fixed offset from the filter's bottom drifted away from the controls'
+  real heights at a non-100% scale and opened a wide empty gap
+- FIXED: the cancel (x) button of the Project panel's tree filter was
+  smaller than the filter field: its top and bottom edges are glued to
+  the filter's ones now (both vertical anchors, 0 spacing), so the
+  button always has exactly the height of the filter box, at every
+  DPI / GUI height
+- the "Checked" button of the Favorites window shows the '▼' arrow
+  now (was '▾')
+
+2026.11.13 (@badrelmers)
 - FIXED: the cancel (x) button of the Project panel's tree filter
   stretched across the WHOLE filter row and the filter text could not
   be typed into: the dialog engine maps the a_l/a_r props onto the LCL

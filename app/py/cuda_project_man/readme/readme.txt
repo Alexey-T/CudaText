@@ -454,9 +454,10 @@ window...)
   begins. Three tabs: Projects, Files, Folders - a TAB STRIP of flat
   themed buttons with equal FIXED widths (the tabs hug their captions
   like the tabs of a browser or VS Code, they don't stretch over the
-  whole list width); the active tab is marked ONLY by a bold GREEN
-  underline in the small strip between the tab buttons and the list,
-  the inactive tabs carry no marker. Columns: check | ★ | Name |
+  whole list width); every tab carries a bottom bar in the thin strip
+  that joins the tab buttons and the list flush (no gap): a bold GREEN
+  bar marks the active tab, the inactive ones carry a bar in the
+  tab's own button color. Columns: check | ★ | Name |
   Path | State, separated by vertical lines. The list is the flat
   themed listbox of CudaText dialogs (listbox_ex, the same control
   the built-in Preferences dialog uses), so the list, its column
@@ -526,7 +527,7 @@ window...)
                        opened project, the current editor file, or the
                        folder of the current file (only the available
                        ones are listed)
-      Checked ▾        a menu with the commands that run on ALL
+      Checked ▼        a menu with the commands that run on ALL
                        checked favorites: open, star/unstar, copy
                        paths, rename, move up/down as a block,
                        delete, uncheck all
