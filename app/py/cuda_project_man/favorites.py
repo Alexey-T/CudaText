@@ -12,16 +12,22 @@ remembered (in our own file) so the import does not resurrect them;
 adding a path again clears that memory.
 
 Main window (non-modal, resizable):
-- "tabs": three flat themed buttons (Projects / Files / Folders), the
-  active one marked with a leading bullet - the OS-drawn tab control
-  could not be colored by the theme, so it was replaced
+- "tabs": three flat themed buttons (Projects / Files / Folders) drawn
+  as a TAB STRIP: equal fixed widths, joined side by side directly
+  above the list; the ACTIVE tab is taller and reaches into the list
+  (it covers the list's top border, so it looks connected to the
+  content), the inactive tabs are slightly lifted; the active one is
+  also marked with a leading bullet - the OS-drawn tab control could
+  not be colored by the theme, so it was replaced
 - the list is the "listbox_ex" control - the flat listbox of CudaText
   dialogs, painted by the UI theme like the built-in Preferences
   dialog: its column header, items, selection and scrollbar all follow
-  the theme, live, also when the theme is switched while CudaText runs
-- columns: check / star / Name / Path / State. Every row is painted by
-  the plugin (on_draw_item owner-drawing) from the theme colors:
-  checkbox, star glyph, texts
+  the theme, live, also when the theme is switched while CudaText runs;
+  the list is ANCHORED to the form, so it grows/shrinks with the window
+- columns: check / star / Name / Path / State, separated by vertical
+  lines (painted with the rows). Every row is painted by the plugin
+  (on_draw_item owner-drawing) from the theme colors: checkbox, star
+  glyph, texts, column separators
 - checkbox column: click it to check rows, then run one command on ALL
   checked favorites at once - open, star/unstar, copy paths, rename,
   move up/down (as a block), delete - from the "With checked..."
@@ -34,8 +40,9 @@ Main window (non-modal, resizable):
   order; the right-click menu has the same Sort commands as a fallback;
   the direction is shown by an arrow in the header caption
 - column widths are RESIZABLE: drag the vertical divider between two
-  header captions (mouse down near a caption border, move, release);
-  the Path column is re-stretched when the window is resized by 50+ px
+  header captions (the mouse cursor changes to the split shape over a
+  divider); the Path column is auto-stretched - it always fills the
+  free width, also when the window is resized
 - filter field at the top filters by name and path; Esc clears it
 - vertical button panel on the left: Open / Add... / Add opened...,
   With checked..., Move up / Move down, Delete; Close at the bottom
@@ -67,7 +74,15 @@ Opens and "Reveal in file manager" do NOT run inside the dialog
 callback but from a short timer afterwards: the shell call switches
 the focus away, CudaText deactivates, and the nested event processing
 crashed with "Access violation" in on_app_deactivate - the same
-workaround the cuda_favorites plugin uses.
+workaround the cuda_favorites plugin uses. When SEVERAL favorites are
+opened at once (Open all checked), each one gets its own timer tick,
+so the app can process the events between the opens.
+
+DPI NOTE: app_proc(PROC_GET_GUI_HEIGHT) returns the DPI-SCALED height
+of a control; the layout here is computed in UNSCALED units and
+DLG_SCALE scales it afterwards - so the returned heights are divided
+by the UI scale factor first (a double-scaled button height used to
+blow up the button column at 125%/150% DPI and make buttons disappear).
 '''
 
 import os
@@ -116,8 +131,9 @@ NCOLS = 5
 LIST_SEP = chr(1)
 
 #: unscaled px widths of the check, star, name and state columns; the
-#: Path column is stretched to the free width (and the user can drag
-#: all header dividers)
+#: Path column is AUTO-STRETCHED by the listbox itself (column size 0
+#: = "share the free width" in listbox_ex) - it always fills the list
+#: up to its right edge, also when the window is resized
 CHECK_W = 38
 STAR_W = 46
 NAME_W = 210
@@ -135,14 +151,27 @@ COL_MIN_W = (24, 26, 60, 100, 34)
 #: that, releasing over the header is a normal header click = sorting)
 DRAG_THRESHOLD = 4
 
-BTN_W = 126
+#: LCL mouse-cursor id of the horizontal-split (left-right arrows)
+#: shape: shown over the draggable header dividers and while dragging
+#: them (crHSplit in the LCL; crDefault = 0)
+CURSOR_HSPLIT = -14
+
+#: vertical size (unscaled px) by which the ACTIVE tab is taller than
+#: the inactive ones: it reaches DOWN INTO the list and covers the
+#: list's top border, so the tab looks connected to the content below
+TAB_OVERLAP = 3
+#: gap between the tab buttons (unscaled px): tight, so the three
+#: buttons read as one tab strip, not as separate buttons
+TAB_GAP = 2
+
+BTN_W = 150
 BTN_X = 8
 BTN_GAP = 6
 GRP_GAP = 18
 
 FONT_W = 720
 FONT_H = 500
-FORM_MIN_W = 560
+FORM_MIN_W = 600
 FORM_MIN_H = 350
 
 #: delay (ms) before a favorite is actually opened/revealed: the OS
@@ -151,10 +180,21 @@ FORM_MIN_H = 350
 #: still caught the app mid-deactivation sometimes
 OPEN_DELAY_MS = 400
 
-#: how much the window width must change before the Path column is
-#: re-stretched (the list is refilled then - doing it on every pixel
-#: of an interactive resize would flicker)
-STRETCH_STEP = 50
+def _unscale_px(v, scale, default):
+    """Unscaled layout value of a DPI-scaled pixel size.
+    app_proc(PROC_GET_GUI_HEIGHT) returns the already-scaled height of
+    a real control; the layout of these dialogs is computed in
+    unscaled units and scaled once by DLG_SCALE at the end - so the
+    value must be divided by the scale factor here (without this, the
+    button/edit heights were scaled TWICE and the button column blew
+    up / overflowed at 125%/150% DPI)."""
+    try:
+        v = int(v)
+    except (TypeError, ValueError):
+        return default
+    if v <= 0:
+        return default
+    return max(1, int(round(v / scale))) if scale > 1.001 else v
 
 
 def _ui_scale():
@@ -641,8 +681,10 @@ class FavoritesForm:
         self.checked = set()
         #: colors for the owner-drawn rows (filled by _load_draw_theme)
         self._theme = {}
-        #: active column-resize drag: dict(col, x0, orig_w, moved)
+        #: active column-resize drag: dict(col, x0, orig_w, sign, moved)
         self._col_drag = None
+        #: the split cursor is currently shown over the list
+        self._cursor_split = False
         #: a resize drag just ended: swallow the header-click (sort)
         #: that the release would fire
         self._suppress_header_click = False
@@ -671,26 +713,41 @@ class FavoritesForm:
         return n
 
     def build(self):
-        BH = app_proc(PROC_GET_GUI_HEIGHT, 'button') or 30
-        EH = app_proc(PROC_GET_GUI_HEIGHT, 'edit') or 28
+        scale = _ui_scale()
+        # the GUI heights come back DPI-SCALED; the layout is unscaled
+        # and DLG_SCALE scales it once at the end (see _unscale_px)
+        BH = _unscale_px(app_proc(PROC_GET_GUI_HEIGHT, 'button'), scale, 30)
+        EH = _unscale_px(app_proc(PROC_GET_GUI_HEIGHT, 'edit'), scale, 28)
 
         w, h = FONT_W, FONT_H
 
         # scaled column widths / row height (DLG_SCALE scales control
         # coordinates but not the listbox_ex internals)
-        scale = _ui_scale()
         self._scale = scale
         self.cols = [
             int(CHECK_W * scale),
             int(STAR_W * scale),
             int(NAME_W * scale),
-            0,   # Path: stretched in fill_list()
+            0,   # Path: auto-stretched by the listbox (column size 0)
             int(STATE_W * scale),
         ]
         try:
             self._sb_w = int(app_proc(PROC_GET_GUI_HEIGHT, 'scrollbar') or 20) or 20
         except Exception:
             self._sb_w = 20
+
+        # tab strip geometry (unscaled; _update_tabs applies it scaled).
+        # The ACTIVE tab is taller and reaches TAB_OVERLAP px INTO the
+        # list (covering its top border - the "connected tab" look);
+        # the inactive tabs are lifted by the same amount.
+        ty = 8 + EH + BTN_GAP          # top of the strip
+        self._tab_geo = {
+            'y_active': ty,
+            'y_inactive': ty + TAB_OVERLAP,
+            'h_active': BH + TAB_OVERLAP,
+            'h_inactive': BH - TAB_OVERLAP,
+            'list_y': ty + BH,          # = top of the list control
+        }
 
         self.h = dlg_proc(0, DLG_CREATE)
         dlg_proc(self.h, DLG_PROP_SET, prop={
@@ -701,7 +758,6 @@ class FavoritesForm:
             'h_min': FORM_MIN_H,
             'border': DBORDER_SIZE,     # resizable + minimize/maximize
             'keypreview': True,         # needed for on_key_down
-            'topmost': True,            # stay above the CudaText window
             'on_key_down': self.form_on_key,
             'on_close': self.form_on_close,
             'on_resize': self.form_on_resize,
@@ -738,7 +794,7 @@ class FavoritesForm:
         })
         y += BH + BTN_GAP
         self._ctl('button_ex', 'btn_checked', {
-            'cap': _('With checked...'),
+            'cap': _('With checked...') + ' ▾',
             'x': BTN_X, 'y': y, 'w': BTN_W, 'h': BH,
             'tab_order': 6,
             'hint': _('Run one command on ALL checked favorites:\ropen, star/unstar, copy paths, rename,\rmove up/down as a block, delete.\rCheck rows with the checkbox column\r(click the "All" header cell to check all)'),
@@ -783,7 +839,7 @@ class FavoritesForm:
             'on_change': self.close,
         })
 
-        #---- right column: filter, tab buttons, list, status ----
+        #---- right column: filter, list, status, tab strip ----
         rx = BTN_X + BTN_W + 8
 
         self._ctl('edit', 'f_filter', {
@@ -796,43 +852,6 @@ class FavoritesForm:
             'sp_r': 8,
             'on_change': self.on_filter_change,
         })
-
-        # "tabs": three flat themed buttons. The OS-drawn 'tabs' control
-        # could not be themed, so it was replaced by button_ex - the
-        # active tab is marked with a leading bullet. The buttons are
-        # chained by anchors so they stretch in equal thirds.
-        tab_caps = (_('Projects'), _('Files'), _('Folders'))
-        tab_names = ('tab0', 'tab1', 'tab2')
-        tab_w = (w - rx - 8 - 2 * BTN_GAP) // 3
-        ty = 8 + EH + BTN_GAP
-        for i in range(3):
-            prop = {
-                'cap': tab_caps[i],
-                'x': rx + i * (tab_w + BTN_GAP), 'y': ty,
-                'w': tab_w, 'h': BH,
-                'tab_order': 1,
-                'act': True,
-                'hint': _('Show {} favorites').format(tab_caps[i]),
-                'a_t': ('f_filter', ']'),
-                'sp_t': BTN_GAP,
-                'on_change': (lambda id_dlg, id_ctl, data='', info='', _i=i:
-                              self.on_tab_button(_i)),
-            }
-            if i == 0:
-                prop['a_l'] = ('', '[')
-                prop['a_r'] = (tab_names[1], '[')
-                prop['sp_r'] = BTN_GAP
-            elif i == 1:
-                prop['a_l'] = (tab_names[0], ']')
-                prop['sp_l'] = BTN_GAP
-                prop['a_r'] = (tab_names[2], '[')
-                prop['sp_r'] = BTN_GAP
-            else:
-                prop['a_l'] = (tab_names[1], ']')
-                prop['sp_l'] = BTN_GAP
-                prop['a_r'] = ('', ']')
-                prop['sp_r'] = 8
-            self._ctl('button_ex', tab_names[i], prop)
 
         # the status label must be created BEFORE the list: the list's
         # bottom anchor references it by name.
@@ -851,21 +870,35 @@ class FavoritesForm:
 
         # the list: "listbox_ex" - the flat themed listbox of CudaText
         # dialogs (like the list in the built-in Preferences dialog).
-        # The engine paints its themed column header and its themed
-        # scrollbar; the rows are painted by on_draw_item (owner-drawn
-        # mode, LISTBOX_SET_DRAWN) so the checkbox column, the star
-        # glyphs and the dead-path '?' are all drawn from the theme
-        # colors. Column widths / the header captions live in
-        # listbox_proc (LISTBOX_SET_COLUMNS / LISTBOX_SET_HEADER); the
-        # header dividers are dragged to resize the columns
+        # The engine paints its themed column header (with vertical
+        # lines between the captions) and its themed scrollbar; the rows
+        # are painted by on_draw_item (owner-drawn mode,
+        # LISTBOX_SET_DRAWN) so the checkbox column, the star glyphs,
+        # the dead-path '?' and the vertical column lines are all drawn
+        # from the theme colors. Column widths / the header captions
+        # live in listbox_proc (LISTBOX_SET_COLUMNS / LISTBOX_SET_HEADER);
+        # the header dividers are dragged to resize the columns
         # (list_on_mouse_down/move/up).
+        # ANCHORS: the list is glued to all 4 sides of the window area
+        # (left offset rx / right 8 / top: below the tab strip / bottom:
+        # above the status line) - so it RESIZES with the window. The
+        # Path column is auto-stretched by the engine (column size 0),
+        # so the columns always fill the resized list exactly.
         self._ctl('listbox_ex', 'list', {
-            'x': rx, 'y': ty + BH + BTN_GAP,
+            'x': rx, 'y': ty + BH,
             'w': w - rx - 8,
-            'h': h - (ty + BH + BTN_GAP) - 8 - 22 - BTN_GAP,
+            'h': h - (ty + BH) - 8 - 22 - BTN_GAP,
             'tab_order': 2,
             'act': True,          # fire on_change when the selection moves
             'border': True,
+            'a_l': ('', '['),
+            'sp_l': rx,
+            'a_r': ('', ']'),
+            'sp_r': 8,
+            'a_t': ('f_filter', ']'),
+            'sp_t': BH + BTN_GAP,   # the tab strip lives in this gap
+            'a_b': ('lbl_status', '['),
+            'sp_b': BTN_GAP,
             'on_change': self.list_on_change,
             'on_click': self.list_on_click,
             'on_click_dbl': self.list_on_dbl_click,
@@ -874,6 +907,7 @@ class FavoritesForm:
             'on_mouse_down': self.list_on_mouse_down,
             'on_mouse_move': self.list_on_mouse_move,
             'on_mouse_up': self.list_on_mouse_up,
+            'on_mouse_exit': self.list_on_mouse_exit,
             'on_draw_item': self.list_on_draw_item,
         })
         self.h_list = dlg_proc(self.h, DLG_CTL_HANDLE, name='list') or 0
@@ -883,8 +917,48 @@ class FavoritesForm:
                          index=int(ITEM_H * scale))
             listbox_proc(self.h_list, LISTBOX_SET_DRAWN, index=1)
 
+        #---- the tab strip (created AFTER the list: controls created
+        # later are drawn on top, which lets the ACTIVE tab reach into
+        # the list and cover its top border - the "connected" look) ----
+        # "tabs": three flat themed buttons. The OS-drawn 'tabs' control
+        # could not be themed, so it was replaced by button_ex. The
+        # three buttons form a strip: EQUAL FIXED widths, joined with a
+        # small TAB_GAP, sitting directly on the list. Only the LEFT
+        # edges are anchored (chained to each other) - anchoring a
+        # button's right edge to the next button's left edge AND back
+        # would be a circular anchor pair, which the engine cannot
+        # resolve (it used to break the strip after a window resize:
+        # unequal widths, the first tab sliding over the button column).
+        tab_caps = (_('Projects'), _('Files'), _('Folders'))
+        tab_names = ('tab0', 'tab1', 'tab2')
+        tab_w = (w - rx - 8 - 2 * TAB_GAP) // 3
+        for i in range(3):
+            prop = {
+                'cap': tab_caps[i],
+                'x': rx + i * (tab_w + TAB_GAP),
+                'y': ty + (0 if i == self.tab else TAB_OVERLAP),
+                'w': tab_w,
+                'h': BH + (TAB_OVERLAP if i == self.tab else -TAB_OVERLAP),
+                'tab_order': 1,
+                'act': True,
+                'hint': _('Show {} favorites').format(tab_caps[i]),
+                'on_change': (lambda id_dlg, id_ctl, data='', info='', _i=i:
+                              self.on_tab_button(_i)),
+            }
+            if i == 0:
+                # sp_l is REQUIRED: setting a_l re-glues the edge to the
+                # form's left side + sp_l (sp_l defaults to 0)
+                prop['a_l'] = ('', '[')
+                prop['sp_l'] = rx
+            else:
+                prop['a_l'] = (tab_names[i - 1], ']')
+                prop['sp_l'] = TAB_GAP
+            self._ctl('button_ex', tab_names[i], prop)
+
         dlg_proc(self.h, DLG_SCALE)
         self.apply_theme()
+        self._update_tabs()
+        self._layout_tabs()
         self.fill_list()
 
     def apply_theme(self):
@@ -984,17 +1058,47 @@ class FavoritesForm:
         # form - keep it alive for the next show()
         self.close()
 
-    def form_on_resize(self, id_dlg, id_ctl=0, data=''):
-        """Keep the Path column eating the free width: when the window
-        width changed by STRETCH_STEP or more, the Path column width is
-        recomputed and the columns are re-applied (doing it on every
-        pixel of an interactive resize would flicker)."""
+    def form_on_resize(self, id_dlg, id_ctl=0, data='', info=''):
+        """Keep the tab strip filling the width: the three tab buttons
+        are re-split into equal thirds of the (new) width. The list
+        itself is anchored to the window (it grows/shrinks with it) and
+        the Path column is auto-stretched by the listbox engine
+        (column size 0 = share the free width), so the columns always
+        fill the list exactly - nothing else to recompute here."""
         if self._closing or not self.h or not self.h_list:
             return
-        path_w = self._calc_path_w()
-        if path_w and abs(path_w - self.cols[COL_PATH]) >= STRETCH_STEP:
-            self.cols[COL_PATH] = path_w
-            self._apply_columns()
+        self._layout_tabs()
+        self._repaint_list()
+
+    def _layout_tabs(self):
+        """Re-split the tab strip into three EQUAL widths filling the
+        window (the buttons are left-anchored to each other, so only
+        their widths are set; this runs after DLG_SCALE and on every
+        window resize - the created widths were a static guess and the
+        strip would overflow a narrowed window without this)."""
+        if not self.h:
+            return
+        sc = self._scale or 1.0
+        rx = int((BTN_X + BTN_W + 8) * sc)
+        right = int(8 * sc)
+        gap = max(1, int(TAB_GAP * sc))
+        try:
+            props = dlg_proc(self.h, DLG_PROP_GET) or {}
+            form_w = int(props.get('w', 0) or 0)
+        except Exception:
+            form_w = 0
+        if form_w <= 0:
+            return
+        avail = form_w - rx - right
+        if avail < 3 * 60:
+            return   # window too narrow: keep the last sane layout
+        tab_w = (avail - 2 * gap) // 3
+        for name in ('tab0', 'tab1', 'tab2'):
+            try:
+                dlg_proc(self.h, DLG_CTL_PROP_SET, name=name,
+                         prop={'w': tab_w})
+            except Exception:
+                pass
 
     def _live_list_w(self):
         """Live width of the list control ('w' is a live prop), or 0."""
@@ -1004,15 +1108,38 @@ class FavoritesForm:
         except Exception:
             return 0
 
-    def _calc_path_w(self):
-        """Width of the Path column so that it fills the listbox up to
-        its right edge; 0 when it cannot be read."""
+    def _live_list_h(self):
+        """Live height of the list control, or 0."""
+        try:
+            props = dlg_proc(self.h, DLG_CTL_PROP_GET, name='list') or {}
+            return int(props.get('h', 0) or 0)
+        except Exception:
+            return 0
+
+    def _live_cols(self):
+        """Effective widths of the columns, in REAL pixels. Mirrors
+        TATListbox.UpdateColumnWidths: sizes >0 are fixed, a size of 0
+        is auto-stretched (it gets the free width of the listbox,
+        minus the vertical scrollbar when the rows overflow it).
+        self.cols keeps the SET sizes; this returns what is actually
+        painted - used for hit-testing (checkbox/star cells) and for
+        the header divider positions."""
+        cols = list(self.cols)
+        if 0 not in cols:
+            return cols
         w = self._live_list_w()
         if w <= 0:
-            return 0
-        others = sum(self.cols[i] for i in range(NCOLS) if i != COL_PATH)
-        return max(int(PATH_MIN_W * self._scale),
-                   w - others - self._sb_w - 4)
+            # control size not readable yet: a sane fallback
+            return [max(1, int(PATH_MIN_W * self._scale)) if c == 0 else c
+                    for c in cols]
+        ih = self._item_h()
+        h = self._live_list_h()
+        if h > 0 and ih > 0 and len(self.rows) * ih > h:
+            # the vertical scrollbar is shown (it is inside the control)
+            w -= self._sb_w
+        fixed = sum(c for c in cols if c > 0)
+        auto_w = max(0, w - fixed)
+        return [auto_w if c == 0 else c for c in cols]
 
     #------------- list geometry helpers
 
@@ -1027,10 +1154,12 @@ class FavoritesForm:
         return int(ITEM_H * self._scale)
 
     def _col_bounds(self):
-        """[(x0, x1), ...] of the NCOLS columns."""
+        """[(x0, x1), ...] of the NCOLS columns, from the LIVE widths
+        (the Path column is auto-stretched, so its real width is only
+        known from the control size)."""
         res = []
         x = 0
-        for wc in self.cols:
+        for wc in self._live_cols():
             res.append((x, x + wc))
             x += wc
         return res
@@ -1119,11 +1248,6 @@ class FavoritesForm:
             'checked': _norm_path(it['path']) in self.checked,
         } for (data_idx, it) in self.view]
 
-        # the Path column fills the free width on the first fill (later
-        # fills keep the current width - the user may have dragged it)
-        if not self.cols[COL_PATH]:
-            self.cols[COL_PATH] = self._calc_path_w() or int(PATH_MIN_W * self._scale)
-
         # items: the visible text is painted by on_draw_item, the item
         # text only carries the data (name + path, sep-separated)
         try:
@@ -1151,17 +1275,31 @@ class FavoritesForm:
             except Exception:
                 pass
 
-        self._update_tab_captions()
+        self._update_tabs()
         self.update_status()
 
-    def _update_tab_captions(self):
-        """Mark the active tab button with a leading bullet (the flat
-        button cannot be recolored, so the caption carries the state)."""
+    def _update_tabs(self):
+        """Redraw the tab strip for the current self.tab: the ACTIVE
+        tab is marked with a leading bullet AND by its geometry - it is
+        taller and reaches TAB_OVERLAP px INTO the list (covering the
+        list's top border, so it looks connected to the content below),
+        the inactive tabs are lifted by the same amount. The prop
+        values are REAL pixels (this runs after DLG_SCALE), so the
+        unscaled strip geometry is multiplied by the scale factor."""
         caps = (_('Projects'), _('Files'), _('Folders'))
+        geo = getattr(self, '_tab_geo', None)
+        if not geo:
+            return
+        sc = self._scale or 1.0
         for i, name in enumerate(('tab0', 'tab1', 'tab2')):
-            cap = ('• ' + caps[i]) if i == self.tab else caps[i]
+            active = (i == self.tab)
+            cap = ('• ' + caps[i]) if active else caps[i]
             try:
-                dlg_proc(self.h, DLG_CTL_PROP_SET, name=name, prop={'cap': cap})
+                dlg_proc(self.h, DLG_CTL_PROP_SET, name=name, prop={
+                    'cap': cap,
+                    'y': int(geo['y_active' if active else 'y_inactive'] * sc),
+                    'h': int(geo['h_active' if active else 'h_inactive'] * sc),
+                })
             except Exception:
                 pass
 
@@ -1352,6 +1490,22 @@ class FavoritesForm:
                                  self.cols[COL_STATE], row_h,
                                  '?', th['dead'], centered=True)
 
+        # vertical column separators: a 1px line at the right edge of
+        # every column, over the whole row height (the themed header
+        # draws the same lines for its captions; the default row
+        # painting of listbox_ex draws them too, but owner-drawn rows
+        # replace that painting - so they are drawn here)
+        try:
+            canvas_proc(cnv, CANVAS_SET_PEN, color=th['border'],
+                        size=1, style=PEN_STYLE_SOLID)
+            for b in bounds:
+                lx = b[1] - 1
+                if x0 <= lx < x1:
+                    canvas_proc(cnv, CANVAS_LINE,
+                                x=lx, y=y0, x2=lx, y2=y1 - 1)
+        except Exception:
+            pass
+
     #------------- events: filter, tabs, selection
 
     def on_filter_change(self, id_dlg, id_ctl, data='', info=''):
@@ -1363,7 +1517,9 @@ class FavoritesForm:
         self.fill_list(keep_selection=False)
 
     def on_tab_button(self, index):
-        """A themed tab button was clicked: switch the category."""
+        """A themed tab button was clicked: switch the category (the
+        strip is redrawn by _update_tabs via fill_list - the active
+        tab changes its geometry, not only its caption)."""
         if index == self.tab:
             return
         self.tab = index
@@ -1495,17 +1651,30 @@ class FavoritesForm:
 
     def _boundary_at(self, x):
         """Index of the header divider near x (-1 = none). Boundary k is
-        between column k and k+1; dragging it resizes column k."""
+        between column k and k+1. Uses the LIVE column widths (the Path
+        column is auto-stretched, so its right edge sits at the end of
+        the header)."""
         best = -1
         best_d = RESIZE_GRIP
         pos = 0
+        cols = self._live_cols()
         for k in range(NCOLS - 1):
-            pos += self.cols[k]
+            pos += cols[k]
             d = abs(x - pos)
             if d <= best_d:
                 best = k
                 best_d = d
         return best
+
+    def _set_list_cursor(self, hsplit):
+        """Show the horizontal-split (left-right arrows) cursor over
+        the list - or the normal one. The 'cursor' prop is a live
+        control prop (LCL cursor id; crHSplit = -14)."""
+        try:
+            dlg_proc(self.h, DLG_CTL_PROP_SET, name='list',
+                     prop={'cursor': CURSOR_HSPLIT if hsplit else 0})
+        except Exception:
+            pass
 
     def list_on_mouse_down(self, id_dlg, id_ctl, data='', info=''):
         """Start a column resize when the press is on the header, near a
@@ -1529,29 +1698,51 @@ class FavoritesForm:
         k = self._boundary_at(x)
         if k < 0:
             return
+        # which column the drag resizes: normally the one LEFT of the
+        # divider; but the Path|State divider resizes STATE - the Path
+        # column is auto-stretched (size 0), it must stay 0 and simply
+        # absorbs whatever width is left, so the divider still follows
+        # the mouse exactly
+        k_col = COL_STATE if k == COL_PATH else k
         self._col_drag = {
-            'col': k,
+            'col': k_col,
             'x0': x,
-            'orig_w': self.cols[k],
+            'orig_w': self.cols[k_col] if self.cols[k_col] > 0
+                      else self._live_cols()[k_col],
+            'sign': -1 if k == COL_PATH else 1,
             'moved': False,
         }
+        self._set_list_cursor(True)
 
     def list_on_mouse_move(self, id_dlg, id_ctl, data='', info=''):
-        """Resize the dragged column live (the divider follows the
-        mouse; the column cannot shrink below its minimum)."""
-        if self._col_drag is None or not isinstance(data, dict):
+        """With a drag in progress: resize the dragged column live (the
+        divider follows the mouse; the column cannot shrink below its
+        minimum). Without a drag: show the split cursor while the mouse
+        hovers a draggable header divider."""
+        if not isinstance(data, dict) or self._closing:
             return
         try:
             x = int(data.get('x', -1))
+            y = int(data.get('y', -1))
         except (TypeError, ValueError):
             return
+
+        if self._col_drag is None:
+            # hover: split cursor over a header divider, normal elsewhere
+            on_divider = (0 <= y < self._item_h()
+                          and self._boundary_at(x) >= 0)
+            if on_divider != self._cursor_split:
+                self._cursor_split = on_divider
+                self._set_list_cursor(on_divider)
+            return
+
         d = self._col_drag
         dx = x - d['x0']
         if not d['moved'] and abs(dx) < DRAG_THRESHOLD:
             return
         d['moved'] = True
         k = d['col']
-        new_w = d['orig_w'] + dx
+        new_w = d['orig_w'] + d['sign'] * dx
         min_w = int(COL_MIN_W[k] * self._scale)
         self.cols[k] = max(min_w, new_w)
         self._apply_columns()
@@ -1563,10 +1754,22 @@ class FavoritesForm:
             return
         moved = self._col_drag.get('moved')
         self._col_drag = None
+        self._cursor_split = False
+        self._set_list_cursor(False)
         if moved:
             self._suppress_header_click = True
-            # final repaint (also fixes the Path stretch after a drag)
+            # final repaint of the owner-drawn rows
             self._repaint_list()
+
+    def list_on_mouse_exit(self, id_dlg, id_ctl, data='', info=''):
+        """Mouse left the list: drop the split cursor (and a resize drag
+        that is still tracked - the release outside is not reported)."""
+        if self._col_drag is not None:
+            self._col_drag = None
+            self._suppress_header_click = True
+        if self._cursor_split:
+            self._cursor_split = False
+            self._set_list_cursor(False)
 
     #------------- events: context menu
 
@@ -1739,11 +1942,15 @@ class FavoritesForm:
         deactivates, and the nested event processing crashed with
         "Access violation" (on_app_deactivate of several plugins). The
         timer lets the callback return first - the same trick the
-        cuda_favorites plugin uses. The focus is given back to the
-        window ONLY when nothing was opened in the OS file manager:
-        a shell-opened folder made ANOTHER app active, and forcing the
-        focus back in that moment fought the app deactivation - the
-        remaining source of the on_app_deactivate crashes."""
+        cuda_favorites plugin uses. When SEVERAL favorites are opened,
+        each one gets its OWN timer tick (a chain of one-shot timers):
+        opening them all inside a single callback made the app process
+        a burst of nested events (tab switches, focus changes) while
+        it was mid-deactivation - another source of the "Access
+        violation" reports. The focus is given back to the window ONLY
+        when nothing was opened in the OS file manager: a shell-opened
+        folder made ANOTHER app active, and forcing the focus back in
+        that moment fought the app deactivation."""
         paths = [str(p) for p in paths if p]
         if not paths:
             return
@@ -1753,16 +1960,20 @@ class FavoritesForm:
             os.path.isdir(p) and not p.endswith(PROJECT_EXTENSION)
             for p in paths)
 
-        def do_open(tag=None):
+        def open_next(tag=None):
+            if not paths:
+                if not opened_shell:
+                    self.focus_again()
+                return
+            p = paths.pop(0)
             try:
-                for p in paths:
-                    open_item(p)
+                open_item(p)
             except Exception as ex:
                 print('Favorites: cannot open favorite: ' + str(ex))
-            if not opened_shell:
-                self.focus_again()
+            # chain the next one (or the final focus-restore)
+            timer_proc(TIMER_START_ONE, open_next, OPEN_DELAY_MS)
 
-        timer_proc(TIMER_START_ONE, do_open, OPEN_DELAY_MS)
+        timer_proc(TIMER_START_ONE, open_next, OPEN_DELAY_MS)
 
     def open_selected(self):
         row = self.selected_row()
@@ -1888,7 +2099,7 @@ class FavoritesForm:
         if added:
             msg_status(_('Favorites: added ') + str(path))
             self.tab = CATS.index(cat)
-            self._update_tab_captions()
+            self._update_tabs()
             self.selected_data = self.core.find(cat, path)
             self.fill_list()
         elif err:
@@ -2178,9 +2389,12 @@ class FavoritesFinder:
         return n
 
     def show(self):
-        BH = app_proc(PROC_GET_GUI_HEIGHT, 'button') or 30
-        EH = app_proc(PROC_GET_GUI_HEIGHT, 'edit') or 28
         scale = _ui_scale()
+        # unscale the DPI-scaled GUI heights: the layout below is
+        # unscaled and DLG_SCALE scales it once at the end (favorites
+        # module docstring, "DPI NOTE")
+        BH = _unscale_px(app_proc(PROC_GET_GUI_HEIGHT, 'button'), scale, 30)
+        EH = _unscale_px(app_proc(PROC_GET_GUI_HEIGHT, 'edit'), scale, 28)
 
         self.h = dlg_proc(0, DLG_CREATE)
         dlg_proc(self.h, DLG_PROP_SET, prop={
@@ -2426,7 +2640,7 @@ def add_favorite(cat, path):
         msg_status(_('Favorites: added ') + str(path))
         if _form is not None and _form.h:
             _form.tab = CATS.index(cat)
-            _form._update_tab_captions()
+            _form._update_tabs()
             _form.selected_data = core.find(cat, path)
             _form.fill_list()
         return True

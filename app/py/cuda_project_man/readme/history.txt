@@ -1,3 +1,67 @@
+2026.11.13 (@badrelmers)
+- FIXED: the Favorites window did not follow its size - the list kept
+  the size it was created with when the window was resized. The list
+  is anchored to the window sides now (left offset/right/top/bottom),
+  so it grows and shrinks together with the form. The Path column is
+  auto-stretched by the listbox itself (listbox_ex column size 0 =
+  "share the free width"), so the columns always fill the list
+  exactly - on every resize, with no re-fill steps
+- FIXED: the "Projects" tab of the Favorites window slid over the
+  button column and the three tabs got unequal widths after a window
+  resize: the buttons were chained with CIRCULAR anchors (each tab's
+  right edge to the next tab's left edge AND back), which the anchor
+  engine cannot resolve. The tab strip is rebuilt: equal FIXED widths,
+  only the left edges are chained (to each other, the first one to the
+  form with its spacing)
+- the tab strip of the Favorites window is redesigned to look like
+  TABS, not like three buttons: the buttons are joined side by side
+  with a 2px gap directly above the list, the ACTIVE tab is 3px taller
+  and reaches into the list (covering its top border - it looks
+  connected to the content; the tab strip is created after the list,
+  so the tabs are drawn on top), the inactive tabs are lifted by the
+  same 3px. The active tab keeps its leading bullet too
+- the columns of the Favorites list are separated by vertical lines
+  now (1px, the theme's border color, drawn with the owner-drawn
+  rows - the themed header has drawn them for its own captions all
+  along, the rows had none)
+- the mouse cursor over a draggable header divider of the Favorites
+  list changes to the resize (split) shape now, also while dragging
+- FIXED: the "Add..." button of the Favorites window disappeared at
+  125%/150% DPI: app_proc(PROC_GET_GUI_HEIGHT) returns the already
+  DPI-scaled height of a control, and the layout (unscaled, scaled
+  once by DLG_SCALE at the end) used it as an unscaled value - the
+  button heights were scaled TWICE, the button column overflowed and
+  covered/pushed out buttons. All plugin dialogs now divide the GUI
+  heights by the UI scale factor before the layout (Favorites window,
+  Find favorite, options, project properties). The button column is
+  also wider (150px) so captions like "With checked..." are not cut
+  anymore ("With checked..." also shows a small menu arrow now)
+- the Favorites window is not topmost anymore (a topmost tool window
+  fighting the focus during app deactivations was one suspect of the
+  sporadic "Access violation" reports in on_app_deactivate), and
+  opening SEVERAL favorites at once (Open all checked) opens them one
+  per timer tick - a chain of one-shot timers - instead of all inside
+  a single callback, so the app can process the events between the
+  opens
+- FIXED: the tree filter field of the Project panel still hung
+  CudaText on the FIRST scan of a very big folder tree (the scan is
+  what takes seconds, the debounce only spread the keystrokes). The
+  recursive disk scan now runs in a BACKGROUND thread (it never calls
+  the CudaText API - the results are applied by a small polling timer
+  on the UI thread), so CudaText stays responsive even while the first
+  scan runs. A status line under the filter field shows the progress
+  the whole time the filter is not empty: "Filter: searching... N
+  match(es) so far" while the background scan runs, "Filter:
+  finished, N match(es) found" when it ended; clearing the field
+  removes the line
+- the boolean options of the options dialog are themed TOGGLE ROWS
+  now: flat button_ex buttons which are painted in their "checked"
+  state while the option is on (button_proc BTN_SET_CHECKED - the
+  engine paints the checked background from the UI theme), with a
+  check/cross mark in the caption. This finally removes the last
+  OS-drawn checkbox glyphs (the dialog API has no themed checkbox
+  control; the old 'check' boxes never followed the theme)
+
 2026.11.12 (@badrelmers)
 - the options dialog ("Project Manager options..."), the "Project
   properties" dialog and the read-only Properties memo dialog follow

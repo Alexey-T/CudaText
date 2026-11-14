@@ -4,9 +4,12 @@ from cudatext_keys import *
 from cudax_lib import get_translation
 from .projman_glob import *
 from .projman_backup import DEFAULT_BACKUP_COUNT, DEFAULT_BACKUP_FOLDER
-from .favorites import get_theme_ui_colors
+from .favorites import get_theme_ui_colors, _unscale_px, _ui_scale
 
 _   = get_translation(__file__)  # i18n
+
+#: LCL cursor constant crHSplit is not in cudatext.py - not needed here;
+#: button states come from button_proc (BTN_SET_CHECKED)
 
 
 def _theme_props(colors, bg_key='edit_bg', font_key='edit_font'):
@@ -55,12 +58,16 @@ def dialog_config(op):
     scrollable panel, so a compact grouped layout is the way to survive
     small screens. The dialog follows the CudaText UI theme like the
     built-in Preferences dialog: the form, the labels, the edit/memo/
-    combo backgrounds and fonts and the checkbox captions are colored
-    from app_proc(PROC_THEME_UI_DICT_GET), and the OK/Cancel buttons
-    are the flat themed button_ex controls (the OS 'button' cannot be
-    themed by the API; button_ex has no "default button" support, so
-    Enter is handled by the form itself). The checkbox GLYPH stays
-    OS-drawn - the dialog API has no themed checkbox.
+    combo backgrounds and fonts are colored from
+    app_proc(PROC_THEME_UI_DICT_GET), the OK/Cancel buttons are the
+    flat themed button_ex controls (the OS 'button' cannot be themed
+    by the API; button_ex has no "default button" support, so Enter
+    is handled by the form itself), and the BOOLEAN options are themed
+    toggle rows: flat button_ex buttons whose checked state is set
+    with button_proc(BTN_SET_CHECKED) - the button then paints its
+    "checked" background from the theme, and the caption carries a
+    \u2713 / \u00d7 mark (the OS-drawn 'check' control was replaced:
+    its little square glyph never followed the theme).
     Returns True when OK was pressed."""
 
     themes = get_themes_filetype()
@@ -101,15 +108,21 @@ def dialog_config(op):
     items_sort_val = items_sort_id.index(s if s in items_sort_id else 'ext')
 
     W = 640
-    BH = app_proc(PROC_GET_GUI_HEIGHT, 'button') or 30
+    scale = _ui_scale()
+    # unscale the DPI-scaled GUI height: the layout is unscaled and
+    # DLG_SCALE scales it once at the end (see the favorites module's
+    # "DPI NOTE")
+    BH = _unscale_px(app_proc(PROC_GET_GUI_HEIGHT, 'button'), scale, 30)
     colors = get_theme_ui_colors()
 
     state = {'ok': False}
+    # live values of the boolean toggle rows (keyed by control name)
+    checks = {}
     # control names read back when OK is pressed
-    READ_NAMES = ('no_files', 'no_dirs', 'no_hidden', 'recent',
+    READ_NAMES = ('no_files', 'no_dirs', 'recent',
                   'toolbar', 'goto_open', 'preview', 'd_click', 'always_sync',
                   'icon_theme', 'toolbar_theme', 'sort_order',
-                  'backup_enabled', 'backup_folder', 'backup_count',
+                  'backup_folder', 'backup_count',
                   'projects_dir')
 
     def ctl(kind, name, prop):
@@ -133,6 +146,10 @@ def dialog_config(op):
         state['ok'] = True
         for nm in READ_NAMES:
             state[nm] = get_val(nm)
+        # the toggle rows keep their live values here (button_ex has
+        # no 'val' to read back)
+        for nm, val in checks.items():
+            state[nm] = '1' if val else '0'
         dlg_proc(h, DLG_HIDE)
 
     def on_cancel(id_dlg, id_ctl, data='', info=''):
@@ -212,17 +229,47 @@ def dialog_config(op):
         y[0] += 16
 
     def check(name, cap, value):
-        # the checkbox GLYPH stays OS-drawn (the dialog API has no
-        # themed checkbox); the caption and the background follow the
-        # theme
+        """One boolean option as a THEMED TOGGLE ROW: a flat button_ex
+        painted in its "checked" state while the option is on
+        (button_proc BTN_SET_CHECKED - the engine paints the checked
+        background from the UI theme), with a \u2713/\u00d7 mark in the
+        caption. Clicking the row toggles it in place. This replaces
+        the OS-drawn 'check' control, whose little square glyph never
+        followed the theme."""
+        cap = cap.replace('&&', '\x01').replace('&', '').replace('\x01', '&')
+        checks[name] = bool(value)
+
+        def caption(val):
+            return ('\u2713 ' if val else '\u00d7 ') + cap
+
+        def on_toggle(id_dlg, id_ctl, data='', info=''):
+            checks[name] = not checks[name]
+            val = checks[name]
+            try:
+                dlg_proc(h, DLG_CTL_PROP_SET, name=name,
+                         prop={'cap': caption(val)})
+                hb = dlg_proc(h, DLG_CTL_HANDLE, name=name)
+                if hb:
+                    button_proc(hb, BTN_SET_CHECKED, val)
+            except Exception:
+                pass
+
         p = {
-            'x': X0, 'y': y[0], 'w': W - 2 * X0, 'h': 22,
-            'cap': cap,
-            'val': '1' if value else '0',
+            'x': X0, 'y': y[0], 'w': W - 2 * X0, 'h': 24,
+            'cap': caption(bool(value)),
+            'on_change': on_toggle,
+            'hint': cap,
         }
-        p.update(_theme_props(colors, bg_key='form_bg', font_key='label_font'))
-        ctl('check', name, p)
-        y[0] += 23
+        ctl('button_ex', name, p)
+        # the checked look cannot be set at creation (button_ex has no
+        # 'val'): apply it right after the control exists
+        try:
+            hb = dlg_proc(h, DLG_CTL_HANDLE, name=name)
+            if hb and value:
+                button_proc(hb, BTN_SET_CHECKED, True)
+        except Exception:
+            pass
+        y[0] += 27
 
     def row_edit(lab_cap, name, val, edit_w=None):
         n_lab[0] += 1
@@ -390,7 +437,10 @@ def dialog_proj_prop(prop):
     main_file = str(prop.get('mainfile', ''))
 
     colors = get_theme_ui_colors()
-    BH = app_proc(PROC_GET_GUI_HEIGHT, 'button') or 30
+    # unscale the DPI-scaled GUI height (see the favorites module's
+    # "DPI NOTE"): the layout is unscaled, DLG_SCALE scales it once
+    BH = _unscale_px(app_proc(PROC_GET_GUI_HEIGHT, 'button'),
+                     _ui_scale(), 30)
 
     W, H = 508, 330
     state = {'ok': False}

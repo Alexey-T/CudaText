@@ -308,15 +308,23 @@ shown unfolded, and the "Ignore files/folders/hidden" options are
 respected while scanning. Esc clears the field and restores the tree
 with the folds and the selection from before the filtering.
 
-The filtering is debounced and cached: the tree is re-filled only
-after the typing pauses (0.4 s), and the scanned folder listings are
-reused by the following keystrokes - so even a project with many
-thousands of files no longer freezes CudaText while typing (the very
-first filtering still scans the disk once). Clearing the filter drops
-the cache, so the next filtering sees the current disk state.
+The scan runs in a BACKGROUND thread, so even a very big folder tree
+never hangs CudaText while it is searched (the very first scan of a
+huge tree is the slow one; it is also cached for 20 s, so the next
+keystrokes reuse it). While the filter field is not empty, a status
+line right under it always tells what the search is doing: "Filter:
+searching... N match(es) so far" while the background scan runs, and
+"Filter: finished, N match(es) found" when it ended; the tree is
+refilled from the results at that moment (a result of many thousands
+of rows is added in chunks, so even that does not block the UI for
+long). Clearing the field removes the line. The filtering is also
+debounced: the scan starts 0.4 s after the typing pauses, not on
+every keystroke. Clearing the filter drops the scan cache, so the
+next filtering sees the current disk state.
 
-The field is colored with the current UI theme (like the tree and the
-toolbar around it), and it is re-colored when the theme is switched.
+The field, the status line and the panel background are colored with
+the current UI theme (like the tree and the toolbar around them), and
+they are re-colored when the theme is switched.
 
 While the panel has the keyboard focus (and you are not typing in the
 filter field), plain letters and digits jump to the first node of the
@@ -397,9 +405,10 @@ Close tabs not belonging to project) live only in the Plugins menu.
       Project variables and main file; plugin options. Both are also
       added to CudaText's Settings menu; "Config..." is in the panel
       context menu as well. Both dialogs follow the UI theme (form,
-      labels, input fields, flat themed OK/Cancel buttons); only the
-      little checkbox squares in the options dialog are still drawn by
-      the OS - the dialog API has no themed checkbox.
+      labels, input fields, flat themed OK/Cancel buttons). The
+      boolean options are themed TOGGLE ROWS: flat buttons painted in
+      their "checked" state while the option is on, with a check /
+      cross mark in the caption - click a row to flip it.
 
 
 ------------------------------------------------------------------------------
@@ -413,25 +422,30 @@ button, and in their own window.
 
 THE FAVORITES WINDOW (☆ toolbar button, or Favorites > Show Favorites
 window...)
-  Resizable, non-modal, stays on top of the CudaText window; the
-  active tab and the sort order are remembered between sessions, and
-  the window size/position are kept for the WHOLE CudaText session:
-  closing the window only hides it and the next open reuses the same
-  form, so the size resets only when CudaText restarts (the size is
-  not saved to disk: a form recreated with the pixel size of a
-  maximized window ends up taller than the work area). Three tabs:
-  Projects, Files, Folders - flat themed buttons, the active one
-  marked with a leading bullet. Columns: check | ★ | Name | Path |
-  State. The list is the flat themed listbox of CudaText dialogs
-  (listbox_ex, the same control the built-in Preferences dialog
-  uses), so the list, its column header, the selection and the
+  Resizable, non-modal; the active tab and the sort order are
+  remembered between sessions, and the window size/position are kept
+  for the WHOLE CudaText session: closing the window only hides it
+  and the next open reuses the same form, so the size resets only
+  when CudaText restarts (the size is not saved to disk: a form
+  recreated with the pixel size of a maximized window ends up taller
+  than the work area). The list is anchored to the window, so it
+  grows and shrinks with it. Three tabs: Projects, Files, Folders -
+  a TAB STRIP of flat themed buttons: equal widths, joined side by
+  side directly above the list, the active tab taller and connected
+  to the list (it covers the list's top border), the inactive tabs
+  slightly lifted, the active one also marked with a leading
+  bullet. Columns: check | ★ | Name | Path | State, separated by
+  vertical lines. The list is the flat themed listbox of CudaText
+  dialogs (listbox_ex, the same control the built-in Preferences
+  dialog uses), so the list, its column header, the selection and the
   scrollbar all follow the UI theme - also live, when the theme is
   switched while CudaText runs. The rows are painted by the plugin
   from the theme colors (owner-drawing). The column widths are
-  RESIZABLE: drag the divider between two header captions (mouse
-  down near a caption border, move, release); the Path column is
-  re-stretched when the window is resized by 50+ px, and the widths
-  you drag survive the list refills (sorting, filtering, starring...).
+  RESIZABLE: drag the vertical divider between two header captions
+  (the mouse cursor takes the split shape over a divider); the Path
+  column is auto-stretched - it always fills the list up to its
+  right edge, also when the window is resized, and the widths you
+  drag survive the list refills (sorting, filtering, starring...).
 
   Checkbox column
       The first column holds a checkbox per row. Check several rows,
@@ -504,7 +518,9 @@ window...)
   timer after the click, not inside the click handler itself: the OS
   file manager/editor steals the focus, CudaText deactivates, and the
   nested event processing crashed with "Access violation" errors (in
-  on_app_deactivate) when it ran inside the dialog callback.
+  on_app_deactivate) when it ran inside the dialog callback. Opening
+  SEVERAL favorites at once (Open all checked) chains one timer per
+  item, so the app can process the events between the opens.
 
   Keyboard (active while the window has the keyboard focus — the
   shortcuts never clash with your editor hotkeys):
