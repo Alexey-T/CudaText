@@ -303,24 +303,37 @@ The field between the toolbar and the tree filters the project tree:
 type a few letters and only the files and folders whose NAME contains
 them are shown. Folders whose own name matches are shown with their
 whole content; other folders appear only when something matches
-inside them, together with the path down to the match. Everything is
-shown unfolded, and the "Ignore files/folders/hidden" options are
-respected while scanning. Esc clears the field and restores the tree
-with the folds and the selection from before the filtering.
+inside them, together with the path down to the match. The result
+opens level by level as you expand it (see below), and the "Ignore
+files/folders/hidden" options are respected while scanning. Esc
+clears the field and restores the tree with the folds and the
+selection from before the filtering.
 
 The scan runs in a BACKGROUND thread, so even a very big folder tree
-never hangs CudaText while it is searched (the very first scan of a
-huge tree is the slow one; it is also cached for 20 s, so the next
-keystrokes reuse it). While the filter field is not empty, a status
-line right under it always tells what the search is doing: "Filter:
-searching... N match(es) so far" while the background scan runs, and
-"Filter: finished, N match(es) found" when it ended; the tree is
-refilled from the results at that moment (a result of many thousands
-of rows is added in chunks, so even that does not block the UI for
-long). Clearing the field removes the line. The filtering is also
-debounced: the scan starts 0.4 s after the typing pauses, not on
-every keystroke. Clearing the filter drops the scan cache, so the
-next filtering sees the current disk state.
+never hangs CudaText while it is searched. The walk makes exactly ONE
+pass over the disk (every folder is listed once) and it caches
+NOTHING, so it eats no extra RAM. While the filter field is not
+empty, a status line right under it always tells what the search is
+doing: "Filter: searching... N match(es) so far" while the background
+scan runs, and "Filter: finished, N match(es) found" when it ended.
+The x button at the right of the field cancels a running search (the
+tree keeps what is shown, the line reports what was found so far);
+with no search running, x clears the filter like Esc. The filtering
+is also debounced: the scan starts 0.4 s after the typing pauses,
+not on every keystroke.
+
+The filtered tree is filled LAZILY: when the scan finishes, the tree
+shows the top level of the result, and every deeper level loads the
+moment you expand its folder - straight from the finished scan's
+in-memory index, with no disk access at all. So a match list of many
+thousands of rows never floods the tree at once, and expanding a
+folder while the filter is active costs exactly as little as
+expanding it with no filter (which was not true before: expanding a
+drive-sized folder during a search could hang CudaText for minutes
+and eat gigabytes of RAM). A folder the index does not know yet (the
+tree still shows an older state, or the search was cancelled) falls
+back to a single-level name filter over one directory listing - the
+same cost as the normal expand.
 
 The field, the status line and the panel background are colored with
 the current UI theme (like the tree and the toolbar around them), and
@@ -406,9 +419,10 @@ Close tabs not belonging to project) live only in the Plugins menu.
       added to CudaText's Settings menu; "Config..." is in the panel
       context menu as well. Both dialogs follow the UI theme (form,
       labels, input fields, flat themed OK/Cancel buttons). The
-      boolean options are themed TOGGLE ROWS: flat buttons painted in
-      their "checked" state while the option is on, with a check /
-      cross mark in the caption - click a row to flip it.
+      boolean options are the standard OS-drawn checkboxes (the
+      little square glyph is painted by the operating system - the
+      dialog API cannot theme it; the caption follows the theme like
+      the labels).
 
 
 ------------------------------------------------------------------------------
@@ -431,11 +445,11 @@ window...)
   than the work area). The list is anchored to the window, so it
   grows and shrinks with it. Three tabs: Projects, Files, Folders -
   a TAB STRIP of flat themed buttons: equal widths, joined side by
-  side directly above the list, the active tab taller and connected
-  to the list (it covers the list's top border), the inactive tabs
-  slightly lifted, the active one also marked with a leading
-  bullet. Columns: check | ★ | Name | Path | State, separated by
-  vertical lines. The list is the flat themed listbox of CudaText
+  side directly above the list, ALL THREE WITH THE SAME SIZE (like
+  the tabs of a browser or VS Code); the active tab is marked ONLY
+  by a bold GREEN underline along its bottom edge, the inactive tabs
+  carry no marker. Columns: check | ★ | Name | Path | State, separated
+  by vertical lines. The list is the flat themed listbox of CudaText
   dialogs (listbox_ex, the same control the built-in Preferences
   dialog uses), so the list, its column header, the selection and the
   scrollbar all follow the UI theme - also live, when the theme is
@@ -446,13 +460,16 @@ window...)
   column is auto-stretched - it always fills the list up to its
   right edge, also when the window is resized, and the widths you
   drag survive the list refills (sorting, filtering, starring...).
+  The buttons (the left column and the tabs) have comfortable
+  vertical padding, so their captions never touch the button
+  borders.
 
   Checkbox column
       The first column holds a checkbox per row. Check several rows,
       then run ONE command on all of them at once: open, star, unstar,
       copy paths, rename (one by one, Cancel stops), move up/down
       (the checked rows move as a block), delete. The commands are in
-      the "With checked..." button and in the right-click menu (the
+      the "Checked" button and in the right-click menu (the
       "Checked (N):" section); the status line shows how many rows are
       checked. Click the "All" header cell (or right-click the header)
       to check/uncheck everything; Space checks/unchecks the selected
@@ -501,7 +518,7 @@ window...)
                        opened project, the current editor file, or the
                        folder of the current file (only the available
                        ones are listed)
-      With checked...  a menu with the commands that run on ALL
+      Checked ▾        a menu with the commands that run on ALL
                        checked favorites: open, star/unstar, copy
                        paths, rename, move up/down as a block,
                        delete, uncheck all
@@ -512,7 +529,7 @@ window...)
       Close (bottom)   closes the window
 
   The Open / Move / Delete buttons act on the selected row; the
-  commands of "With checked..." act on the checked rows.
+  commands of "Checked" act on the checked rows.
 
   Opening a favorite (and "Reveal in file manager") runs from a short
   timer after the click, not inside the click handler itself: the OS

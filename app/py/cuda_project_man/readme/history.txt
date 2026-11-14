@@ -1,4 +1,61 @@
 2026.11.13 (@badrelmers)
+- FIXED: the paths of the Favorites list were cut to "D..." even with
+  lots of free space in the column: the Path column is the
+  auto-stretched one (listbox_ex column size 0 = "share the free
+  width"), and the row painter passed that 0 as the cell width - so
+  every path was truncated to its first letter + an ellipsis. The
+  painter uses the LIVE column widths now (the same values the
+  hit-testing and the header dividers use)
+- the buttons of the Favorites window and its tabs got real vertical
+  padding (+8 px over the raw GUI button height - the caption text
+  used to touch the button borders); the minimum window height is
+  computed from the real button height now, so the button column can
+  never reach into the Close button at small window sizes
+- the Favorites tabs are redesigned again, browser/VS Code style:
+  ALL THREE TABS HAVE THE SAME SIZE (the previous design made the
+  active tab taller and lifted the inactive ones - it did not look
+  like tabs), and the ONLY difference of the active tab is a bold
+  GREEN underline along its bottom edge (a thin label glued to the
+  tab, painted over the list's top border, following the tab on
+  window resizes); the inactive tabs carry no marker at all
+- the "With checked..." button of the Favorites window is renamed to
+  "Checked"
+- the boolean options of the options dialog are the standard OS-drawn
+  checkboxes again ('check' controls): the themed toggle rows looked
+  worse than the native checkboxes. Only the caption's background and
+  font follow the theme, like the labels; the checkbox glyph is
+  painted by the operating system (the dialog API cannot theme it)
+- NEW: a cancel button for the tree filter of the Project panel - the
+  x at the right of the filter field. While a search is RUNNING it
+  cancels it: the tree keeps its current content, the status line
+  reports how many matches were found so far, and the filter text
+  stays (the user can keep browsing what is shown). With no search
+  running, x clears the filter, like the x of a usual search box
+- FIXED: expanding a big folder in the Project tree while the filter
+  search was running hung CudaText at ~50% CPU and ate RAM (1.5 GB
+  per minute on a c:\-sized folder): expanding a node re-scanned its
+  whole subtree ON THE UI THREAD, and the scan cache kept every
+  directory listing of the walk in RAM. The whole filtering is
+  redesigned around a lightweight lazy scheme:
+  * the background scan makes exactly ONE pass over the disk (every
+    folder is listed once; the old scan re-explored subtrees), builds
+    no flat row list, and caches NOTHING - the 20 s listing cache is
+    gone, it was the RAM eater
+  * the result is a lazy index: parent folder -> its filtered
+    children. The tree is filled with the TOP level only; deeper
+    levels are added from the index the moment their folder is
+    expanded (pure memory reads, no disk access). Expanding a folder
+    with the filter active is exactly as cheap as expanding it with
+    no filter now - a huge match list never floods the tree at once
+    either (the old chunked fill is gone with it)
+  * folders the index does not know (the tree still shows an older
+    state, or the search was cancelled) fall back to a SINGLE-LEVEL
+    name filter over ONE directory listing - the same cost as the
+    normal unfiltered expand, never a recursive walk
+  * the walk is iterative (an explicit job stack), so a drive-deep
+    folder chain cannot hit Python's recursion limit
+
+2026.11.13 (@badrelmers)
 - FIXED: the Favorites window did not follow its size - the list kept
   the size it was created with when the window was resized. The list
   is anchored to the window sides now (left offset/right/top/bottom),

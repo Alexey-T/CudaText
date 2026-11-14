@@ -14,11 +14,12 @@ adding a path again clears that memory.
 Main window (non-modal, resizable):
 - "tabs": three flat themed buttons (Projects / Files / Folders) drawn
   as a TAB STRIP: equal fixed widths, joined side by side directly
-  above the list; the ACTIVE tab is taller and reaches into the list
-  (it covers the list's top border, so it looks connected to the
-  content), the inactive tabs are slightly lifted; the active one is
-  also marked with a leading bullet - the OS-drawn tab control could
-  not be colored by the theme, so it was replaced
+  above the list; ALL THREE TABS HAVE THE SAME SIZE (like the tabs of
+  a browser or VS Code), and the ACTIVE one is marked ONLY by a bold
+  GREEN underline along its bottom edge (a thin label glued to the
+  tab, following it on window resizes); the inactive tabs carry no
+  marker at all - the OS-drawn tab control could not be colored by
+  the theme, so it was replaced
 - the list is the "listbox_ex" control - the flat listbox of CudaText
   dialogs, painted by the UI theme like the built-in Preferences
   dialog: its column header, items, selection and scrollbar all follow
@@ -30,8 +31,8 @@ Main window (non-modal, resizable):
   glyph, texts, column separators
 - checkbox column: click it to check rows, then run one command on ALL
   checked favorites at once - open, star/unstar, copy paths, rename,
-  move up/down (as a block), delete - from the "With checked..."
-  button or from the right-click menu; click the "All" header cell to
+  move up/down (as a block), delete - from the "Checked" button or
+  from the right-click menu; click the "All" header cell to
   check/uncheck everything; Space checks/unchecks the selected row
 - star column (★/☆): click the star cell of a row to toggle it (a
   double-click on the star cell only toggles, it does not open)
@@ -44,8 +45,9 @@ Main window (non-modal, resizable):
   divider); the Path column is auto-stretched - it always fills the
   free width, also when the window is resized
 - filter field at the top filters by name and path; Esc clears it
-- vertical button panel on the left: Open / Add... / Add opened...,
-  With checked..., Move up / Move down, Delete; Close at the bottom
+- vertical button panel on the left (with comfortable vertical
+  padding around the captions): Open / Add... / Add opened...,
+  Checked..., Move up / Move down, Delete; Close at the bottom
 - while the window is focused: Ctrl+1..9 / Alt+1..9 open the item at
   that index (index in the currently visible, filtered list), Enter
   opens the selection, Del deletes it, F2 renames it, Space checks it,
@@ -156,13 +158,20 @@ DRAG_THRESHOLD = 4
 #: them (crHSplit in the LCL; crDefault = 0)
 CURSOR_HSPLIT = -14
 
-#: vertical size (unscaled px) by which the ACTIVE tab is taller than
-#: the inactive ones: it reaches DOWN INTO the list and covers the
-#: list's top border, so the tab looks connected to the content below
-TAB_OVERLAP = 3
+#: height (unscaled px) of the bold green UNDERLINE that marks the
+#: ACTIVE tab (browser/VS Code tab style; all three tabs have the
+#: same size, the underline is their only difference)
+TAB_ULINE_H = 4
+#: the green of the active tab's underline (a BGR int): a saturated
+#: green that reads well on both light and dark themes
+TAB_GREEN = 0x37A800
 #: gap between the tab buttons (unscaled px): tight, so the three
 #: buttons read as one tab strip, not as separate buttons
 TAB_GAP = 2
+#: extra vertical padding (unscaled px) added to the raw GUI button
+#: height of the buttons/tabs: the raw height hugs the caption text
+#: too tightly (the text and the button border almost touched)
+BTN_PAD = 8
 
 BTN_W = 150
 BTN_X = 8
@@ -172,7 +181,10 @@ GRP_GAP = 18
 FONT_W = 720
 FONT_H = 500
 FORM_MIN_W = 600
-FORM_MIN_H = 350
+#: tall enough for the padded button column (7 buttons + 2 group gaps)
+#: plus the Close button at the bottom - at the old 350 the last
+#: button could reach into Close when the OS button height is big
+FORM_MIN_H = 410
 
 #: delay (ms) before a favorite is actually opened/revealed: the OS
 #: shell call must not run inside the dialog callback (see the module
@@ -718,8 +730,21 @@ class FavoritesForm:
         # and DLG_SCALE scales it once at the end (see _unscale_px)
         BH = _unscale_px(app_proc(PROC_GET_GUI_HEIGHT, 'button'), scale, 30)
         EH = _unscale_px(app_proc(PROC_GET_GUI_HEIGHT, 'edit'), scale, 28)
+        # the buttons and tabs get extra vertical padding: the raw GUI
+        # button height hugs the caption text too tightly (the text
+        # almost touched the button's border)
+        BTN_H = BH + BTN_PAD
 
-        w, h = FONT_W, FONT_H
+        # min window height: the left button column (4 buttons, group
+        # gap, 2 buttons, group gap, Delete) + Close + the status line
+        # + some list - computed from the REAL button height, so a
+        # system with tall buttons can never make Delete reach into
+        # Close at the minimum size
+        col_bottom = (8 + 4 * (BTN_H + BTN_GAP) + GRP_GAP
+                      + 2 * (BTN_H + BTN_GAP) + GRP_GAP + BTN_H)
+        min_h = col_bottom + BTN_GAP + BTN_H + 8 + 22 + 80
+
+        w, h = FONT_W, max(FONT_H, min_h)
 
         # scaled column widths / row height (DLG_SCALE scales control
         # coordinates but not the listbox_ex internals)
@@ -737,16 +762,13 @@ class FavoritesForm:
             self._sb_w = 20
 
         # tab strip geometry (unscaled; _update_tabs applies it scaled).
-        # The ACTIVE tab is taller and reaches TAB_OVERLAP px INTO the
-        # list (covering its top border - the "connected tab" look);
-        # the inactive tabs are lifted by the same amount.
+        # All tabs share ONE height (browser/VS Code style); the active
+        # one is marked only by its green underline (see below).
         ty = 8 + EH + BTN_GAP          # top of the strip
         self._tab_geo = {
-            'y_active': ty,
-            'y_inactive': ty + TAB_OVERLAP,
-            'h_active': BH + TAB_OVERLAP,
-            'h_inactive': BH - TAB_OVERLAP,
-            'list_y': ty + BH,          # = top of the list control
+            'y': ty,
+            'h': BTN_H,
+            'list_y': ty + BTN_H,      # = top of the list control
         }
 
         self.h = dlg_proc(0, DLG_CREATE)
@@ -755,7 +777,7 @@ class FavoritesForm:
             'w': w,
             'h': h,
             'w_min': FORM_MIN_W,
-            'h_min': FORM_MIN_H,
+            'h_min': max(FORM_MIN_H, min_h),
             'border': DBORDER_SIZE,     # resizable + minimize/maximize
             'keypreview': True,         # needed for on_key_down
             'on_key_down': self.form_on_key,
@@ -771,57 +793,57 @@ class FavoritesForm:
         y = 8
         self._ctl('button_ex', 'btn_open', {
             'cap': _('Open'),
-            'x': BTN_X, 'y': y, 'w': BTN_W, 'h': BH,
+            'x': BTN_X, 'y': y, 'w': BTN_W, 'h': BTN_H,
             'tab_order': 3,
             'hint': _('Open the selected favorite\rEnter and double-click do the same.\rProjects open in Project Manager, files in the editor,\rfolders in the OS file manager'),
             'on_change': self.btn_open_click,
         })
-        y += BH + BTN_GAP
+        y += BTN_H + BTN_GAP
         self._ctl('button_ex', 'btn_add', {
             'cap': _('Add...'),
-            'x': BTN_X, 'y': y, 'w': BTN_W, 'h': BH,
+            'x': BTN_X, 'y': y, 'w': BTN_W, 'h': BTN_H,
             'tab_order': 4,
             'hint': _('Add a new favorite: project, file or folder'),
             'on_change': self.btn_add_click,
         })
-        y += BH + BTN_GAP
+        y += BTN_H + BTN_GAP
         self._ctl('button_ex', 'btn_add_opened', {
             'cap': _('Add opened...'),
-            'x': BTN_X, 'y': y, 'w': BTN_W, 'h': BH,
+            'x': BTN_X, 'y': y, 'w': BTN_W, 'h': BTN_H,
             'tab_order': 5,
             'hint': _('Add the opened project, the current editor file,\ror the folder of the current file - a menu lets you choose'),
             'on_change': self.btn_add_opened_click,
         })
-        y += BH + BTN_GAP
+        y += BTN_H + BTN_GAP
         self._ctl('button_ex', 'btn_checked', {
-            'cap': _('With checked...') + ' ▾',
-            'x': BTN_X, 'y': y, 'w': BTN_W, 'h': BH,
+            'cap': _('Checked') + ' ▾',
+            'x': BTN_X, 'y': y, 'w': BTN_W, 'h': BTN_H,
             'tab_order': 6,
             'hint': _('Run one command on ALL checked favorites:\ropen, star/unstar, copy paths, rename,\rmove up/down as a block, delete.\rCheck rows with the checkbox column\r(click the "All" header cell to check all)'),
             'on_change': self.btn_checked_click,
         })
 
-        y += BH + GRP_GAP  # visible gap between the groups
+        y += BTN_H + GRP_GAP  # visible gap between the groups
         self._ctl('button_ex', 'btn_up', {
             'cap': _('Move up'),
-            'x': BTN_X, 'y': y, 'w': BTN_W, 'h': BH,
+            'x': BTN_X, 'y': y, 'w': BTN_W, 'h': BTN_H,
             'tab_order': 7,
             'hint': _('Move the selected favorite up\r(switches the list to manual order)'),
             'on_change': self.btn_up_click,
         })
-        y += BH + BTN_GAP
+        y += BTN_H + BTN_GAP
         self._ctl('button_ex', 'btn_down', {
             'cap': _('Move down'),
-            'x': BTN_X, 'y': y, 'w': BTN_W, 'h': BH,
+            'x': BTN_X, 'y': y, 'w': BTN_W, 'h': BTN_H,
             'tab_order': 8,
             'hint': _('Move the selected favorite down\r(switches the list to manual order)'),
             'on_change': self.btn_down_click,
         })
 
-        y += BH + GRP_GAP  # visible gap between the groups
+        y += BTN_H + GRP_GAP  # visible gap between the groups
         self._ctl('button_ex', 'btn_del', {
             'cap': _('Delete'),
-            'x': BTN_X, 'y': y, 'w': BTN_W, 'h': BH,
+            'x': BTN_X, 'y': y, 'w': BTN_W, 'h': BTN_H,
             'tab_order': 9,
             'hint': _('Delete the selected favorite (Del key)'),
             'on_change': self.btn_del_click,
@@ -831,7 +853,7 @@ class FavoritesForm:
         # anchor is detached, otherwise it would stretch vertically)
         self._ctl('button_ex', 'btn_close', {
             'cap': _('Close'),
-            'x': BTN_X, 'y': h - BH - 8, 'w': BTN_W, 'h': BH,
+            'x': BTN_X, 'y': h - BTN_H - 8, 'w': BTN_W, 'h': BTN_H,
             'tab_order': 10,
             'a_t': None,          # detach top anchor
             'a_b': ('', ']'),     # stick to the bottom of the form
@@ -885,9 +907,9 @@ class FavoritesForm:
         # Path column is auto-stretched by the engine (column size 0),
         # so the columns always fill the resized list exactly.
         self._ctl('listbox_ex', 'list', {
-            'x': rx, 'y': ty + BH,
+            'x': rx, 'y': ty + BTN_H,
             'w': w - rx - 8,
-            'h': h - (ty + BH) - 8 - 22 - BTN_GAP,
+            'h': h - (ty + BTN_H) - 8 - 22 - BTN_GAP,
             'tab_order': 2,
             'act': True,          # fire on_change when the selection moves
             'border': True,
@@ -896,7 +918,7 @@ class FavoritesForm:
             'a_r': ('', ']'),
             'sp_r': 8,
             'a_t': ('f_filter', ']'),
-            'sp_t': BH + BTN_GAP,   # the tab strip lives in this gap
+            'sp_t': BTN_H + BTN_GAP,   # the tab strip lives in this gap
             'a_b': ('lbl_status', '['),
             'sp_b': BTN_GAP,
             'on_change': self.list_on_change,
@@ -917,14 +939,16 @@ class FavoritesForm:
                          index=int(ITEM_H * scale))
             listbox_proc(self.h_list, LISTBOX_SET_DRAWN, index=1)
 
-        #---- the tab strip (created AFTER the list: controls created
-        # later are drawn on top, which lets the ACTIVE tab reach into
-        # the list and cover its top border - the "connected" look) ----
+        #---- the tab strip (created AFTER the list so the GREEN
+        # UNDERLINE of the active tab is drawn ON TOP of the list's
+        # top border - the browser/VS Code tab look) ----
         # "tabs": three flat themed buttons. The OS-drawn 'tabs' control
         # could not be themed, so it was replaced by button_ex. The
         # three buttons form a strip: EQUAL FIXED widths, joined with a
-        # small TAB_GAP, sitting directly on the list. Only the LEFT
-        # edges are anchored (chained to each other) - anchoring a
+        # small TAB_GAP, sitting directly on the list, and ALL THREE
+        # HAVE THE SAME HEIGHT - the active one differs ONLY by its
+        # green underline (uline0..2 below), not by its size. Only the
+        # LEFT edges are anchored (chained to each other) - anchoring a
         # button's right edge to the next button's left edge AND back
         # would be a circular anchor pair, which the engine cannot
         # resolve (it used to break the strip after a window resize:
@@ -936,9 +960,9 @@ class FavoritesForm:
             prop = {
                 'cap': tab_caps[i],
                 'x': rx + i * (tab_w + TAB_GAP),
-                'y': ty + (0 if i == self.tab else TAB_OVERLAP),
+                'y': ty,
                 'w': tab_w,
-                'h': BH + (TAB_OVERLAP if i == self.tab else -TAB_OVERLAP),
+                'h': BTN_H,
                 'tab_order': 1,
                 'act': True,
                 'hint': _('Show {} favorites').format(tab_caps[i]),
@@ -954,6 +978,30 @@ class FavoritesForm:
                 prop['a_l'] = (tab_names[i - 1], ']')
                 prop['sp_l'] = TAB_GAP
             self._ctl('button_ex', tab_names[i], prop)
+
+        #---- the GREEN UNDERLINE of the active tab ----
+        # A thin label glued to the BOTTOM EDGE of its tab (left,
+        # right and top anchored to that tab, so it follows the window
+        # resizes and _layout_tabs' width re-splits). It is created
+        # after the tabs and the list, so it paints over the list's
+        # top border - a bold green line exactly where a browser/VS
+        # Code tab carries its indicator. Only the ACTIVE tab's label
+        # gets its height (in _update_tabs); the inactive ones stay
+        # collapsed to 0 = invisible.
+        for i in range(3):
+            self._ctl('label', 'uline{}'.format(i), {
+                'x': rx + i * (tab_w + TAB_GAP),
+                'y': ty + BTN_H,
+                'w': tab_w,
+                'h': 0,
+                'a_l': (tab_names[i], '['),
+                'sp_l': 0,
+                'a_r': (tab_names[i], ']'),
+                'sp_r': 0,
+                'a_t': (tab_names[i], ']'),
+                'sp_t': 0,
+                'color': TAB_GREEN,
+            })
 
         dlg_proc(self.h, DLG_SCALE)
         self.apply_theme()
@@ -1279,27 +1327,24 @@ class FavoritesForm:
         self.update_status()
 
     def _update_tabs(self):
-        """Redraw the tab strip for the current self.tab: the ACTIVE
-        tab is marked with a leading bullet AND by its geometry - it is
-        taller and reaches TAB_OVERLAP px INTO the list (covering the
-        list's top border, so it looks connected to the content below),
-        the inactive tabs are lifted by the same amount. The prop
+        """Redraw the tab strip for the current self.tab. All three
+        tabs ALWAYS have the same caption style, position and size
+        (browser/VS Code style) - the ONLY difference of the active
+        one is its bold GREEN UNDERLINE: the thin 'ulineN' label
+        glued to the tab's bottom edge gets its height, the inactive
+        tabs' underlines stay collapsed to 0 (invisible). The prop
         values are REAL pixels (this runs after DLG_SCALE), so the
-        unscaled strip geometry is multiplied by the scale factor."""
-        caps = (_('Projects'), _('Files'), _('Folders'))
-        geo = getattr(self, '_tab_geo', None)
-        if not geo:
-            return
+        unscaled underline height is multiplied by the scale
+        factor."""
         sc = self._scale or 1.0
-        for i, name in enumerate(('tab0', 'tab1', 'tab2')):
-            active = (i == self.tab)
-            cap = ('• ' + caps[i]) if active else caps[i]
+        for i in range(3):
+            # the tab buttons themselves need no update (same caption,
+            # same size for all three) - only the underlines change
             try:
-                dlg_proc(self.h, DLG_CTL_PROP_SET, name=name, prop={
-                    'cap': cap,
-                    'y': int(geo['y_active' if active else 'y_inactive'] * sc),
-                    'h': int(geo['h_active' if active else 'h_inactive'] * sc),
-                })
+                dlg_proc(self.h, DLG_CTL_PROP_SET,
+                         name='uline{}'.format(i),
+                         prop={'h': int(TAB_ULINE_H * sc)
+                               if i == self.tab else 0})
             except Exception:
                 pass
 
@@ -1463,7 +1508,10 @@ class FavoritesForm:
 
         # path (col 3): refill its background first so a long name
         # cannot bleed into it, then draw the path (dimmed when the
-        # theme defines a sign color)
+        # theme defines a sign color). The cell width is the LIVE
+        # width of the auto-stretched column (self.cols[COL_PATH] is
+        # just the 0 = "stretch" marker - passing 0 as the width
+        # truncated every path to a single letter + ellipsis)
         try:
             canvas_proc(cnv, CANVAS_SET_BRUSH, color=bg, style=BRUSH_SOLID)
             canvas_proc(cnv, CANVAS_RECT_FILL, x=bounds[COL_PATH][0], y=y0,
@@ -1473,8 +1521,9 @@ class FavoritesForm:
         path_col = fg
         if not selected and th.get('path') is not None:
             path_col = th['path']
+        path_w = bounds[COL_PATH][1] - bounds[COL_PATH][0]
         self._draw_text_cell(cnv, bounds[COL_PATH][0], y0,
-                             self.cols[COL_PATH], row_h,
+                             path_w, row_h,
                              row['path'], path_col)
 
         # state (col 4): fill to the right edge (covers a long path),
@@ -2240,8 +2289,8 @@ class FavoritesForm:
         self.update_status()
 
     def btn_checked_click(self, id_dlg, id_ctl, data='', info=''):
-        """The 'With checked...' button: a menu with the commands that
-        run on ALL checked favorites (the same commands the right-click
+        """The 'Checked' button: a menu with the commands that run on
+        ALL checked favorites (the same commands the right-click
         menu has)."""
         nchecked = sum(1 for r in self.rows if r['checked'])
         menu = menu_proc(0, MENU_CREATE)
