@@ -1,25 +1,34 @@
-"""Move files/folders to the OS trash - NEVER delete permanently.
+"""Move files/folders to the OS trash - permanent deletion ONLY on
+OSes without trash support and ONLY after an explicit confirmation.
 
-This module is the ONLY way Project Manager removes anything from the
-disk. Every "delete" in the plugin funnels through send_to_trash():
+This module is the ONLY place where Project Manager removes anything
+from the disk. The trash engine is the bundled Send2Trash library
+(https://pypi.org/project/Send2Trash/ - the vendored copy lives in
+the send2trash/ subfolder of this plugin, BSD license):
 
-- Windows: the Recycle Bin (shell SHFileOperationW with "allow undo").
-  A pre-check with SHQueryRecycleBinW refuses the operation when the
-  drive has NO Recycle Bin (network share, removable drive with
-  recycling disabled): SHFileOperation would silently delete such a
-  file PERMANENTLY, which this plugin must never do.
-- macOS: the Trash, via a Finder AppleScript ("delete" moves to Trash).
-- Linux and other Unixes (XDG/Freedesktop): the trash of the desktop
-  environment - first the standard tools ("gio trash", then
-  "trash-put"), and when no tool exists, the FreeDesktop.org trash
-  specification is implemented by hand (home trash for files on the
-  user's partition, per-volume .Trash-<uid> folders for the rest).
-- Haiku: no implementation - the operation is refused, nothing is
-  ever deleted.
+- Windows: the Recycle Bin - the modern IFileOperation COM interface
+  when pywin32 is available, else SHFileOperationW. A pre-check with
+  SHQueryRecycleBinW refuses the operation when the drive has NO
+  Recycle Bin (network share, removable drive with recycling
+  disabled): the plain shell delete there would be PERMANENT, which
+  must not happen behind the user's back.
+- macOS: the Trash - NSFileManager (pyobjc) when available, else the
+  CoreServices FSMoveObjectToTrashSync call via ctypes.
+- Linux: GIO when the 'gi' module is importable, else the
+  FreeDesktop.org trash spec implemented inside Send2Trash. When even
+  that fails on an exotic filesystem (its mount-point detection is
+  fooled by some overlay/container layers), a built-in spec-conforming
+  trash move retries before any error is reported - a move to trash
+  only, NEVER a deletion.
 
-Any failure raises OSError with a readable message and leaves the file
-on the disk untouched. Callers show that message to the user; they
-never fall back to a real deletion.
+The other OSes (*BSD, Haiku, ...) have no trash integration:
+trash_supported() reports False there, and the delete commands show
+the separate warning dialog with the "DELETE PERMANENTLY" button -
+delete_permanently() runs only after the user pressed it.
+
+Any trash failure raises OSError with a readable message and leaves
+the file on the disk untouched. Callers show that message to the
+user; they never fall back to a real deletion on their own.
 """
 
 import os
@@ -27,6 +36,7 @@ import sys
 
 IS_WIN = os.name == 'nt'
 IS_MAC = sys.platform == 'darwin'
+IS_LINUX = sys.platform.startswith('linux')
 
 if IS_WIN:
     try:
@@ -44,6 +54,26 @@ try:
 except Exception:
     _ = lambda s: s
 
+# the vendored Send2Trash package lives in THIS folder; make sure the
+# folder is importable no matter how CudaText loaded the plugin
+_HERE = os.path.dirname(os.path.abspath(__file__))
+try:
+    if _HERE not in sys.path:
+        sys.path.insert(0, _HERE)
+except Exception:
+    pass
+
+# loaded only on the OSes with a real trash. Send2Trash would also run
+# its FreeDesktop code on the *BSDs, but there is no OS trash
+# integration there - trash_supported() reports False instead, and
+# the delete commands offer the explicit PERMANENT deletion dialog
+_send2trash = None
+if IS_WIN or IS_MAC or IS_LINUX:
+    try:
+        from send2trash import send2trash as _send2trash
+    except Exception:
+        _send2trash = None
+
 
 def trash_label():
     """Localized OS-specific name of the place deleted files go to:
@@ -53,12 +83,20 @@ def trash_label():
     return _("Recycle Bin") if IS_WIN else _("Trash")
 
 
+def trash_supported():
+    """True when the running OS has a real trash/recycle bin the plugin
+    can move deleted items to (Windows, macOS, Linux). False on the
+    other systems - the delete commands then show the separate warning
+    dialog with the explicit "DELETE PERMANENTLY" button instead."""
+    return _send2trash is not None
+
+
 def send_to_trash(path):
     """Move the file/folder 'path' to the OS trash/recycle bin.
 
-    NEVER deletes permanently: when the OS offers no trash, or the move
-    fails for any reason, an OSError with a readable message is raised
-    and 'path' stays untouched on the disk.
+    NEVER deletes permanently: when the OS offers no trash, or the
+    move fails for any reason, an OSError with a readable message is
+    raised and 'path' stays untouched on the disk.
     """
     path = str(path)
     if not path:
@@ -66,38 +104,66 @@ def send_to_trash(path):
     if not os.path.exists(path):
         raise OSError(_('Path not found: ') + path)
 
-    # optional send2trash library: used FIRST when the user installed
-    # it (it is the best-tested on Windows); when it fails, the file
-    # is still in place and the built-in per-OS ways below take over
-    try:
-        from send2trash import send2trash as _s2t
-    except ImportError:
-        _s2t = None
-
-    if _s2t is not None:
-        try:
-            _s2t(path)
-            return
-        except Exception:
-            if not os.path.exists(path):
-                # moved in spite of the raised error - treat as done
-                return
-
-    if IS_WIN:
-        _trash_windows(path)
-    elif IS_MAC:
-        _trash_macos(path)
-    elif sys.platform.startswith('haiku'):
+    if _send2trash is None:
         raise OSError(
-            _('Moving to trash is not implemented for this OS, '
-              'nothing was deleted. Delete the file in the file '
-              'manager if you really want it gone.'))
-    else:
-        _trash_freedesktop(path)
+            _('Moving to trash is not supported on this operating '
+              'system. Nothing was deleted.'))
+
+    # Windows: refuse drives without a Recycle Bin BEFORE calling the
+    # engine - the plain shell delete would be permanent there
+    if IS_WIN and not _win_recycle_bin_available(path):
+        raise OSError(
+            _('Cannot move to the Recycle Bin:\n%s\n\n'
+              'This drive has no Recycle Bin (a network or removable '
+              'drive), so deleting would be permanent. Nothing was '
+              'deleted - remove the file in the file manager if you '
+              'really want it gone.') % path)
+
+    try:
+        _send2trash(path)
+        return
+    except Exception as e:
+        # Linux: Send2Trash's FreeDesktop backend can fail on exotic
+        # filesystems (overlay/container layers fool its mount-point
+        # detection) - the built-in spec-conforming move retries the
+        # SAME trash operation before any error is reported. It is a
+        # move to trash only; a permanent deletion is never a fallback.
+        if IS_LINUX and os.path.exists(path):
+            try:
+                _trash_freedesktop_manual(path)
+                return
+            except OSError:
+                pass
+        # the file is still in place, only the move failed - report
+        # the reason; the caller NEVER continues with a real delete
+        raise OSError(_('Cannot move to the %s:\n%s\n\n%s')
+                      % (trash_label(), path, e))
+
+
+def delete_permanently(path):
+    """Delete the file/folder 'path' PERMANENTLY - the ONLY permanent
+    deletion in the whole plugin. It runs exclusively after the user
+    pressed the "DELETE PERMANENTLY" button of the warning dialog that
+    the delete commands show on an OS without trash support (see
+    trash_supported())."""
+    import shutil
+    path = str(path)
+    if not path:
+        raise OSError(_('Empty path'))
+    if not os.path.exists(path) and not os.path.islink(path):
+        raise OSError(_('Path not found: ') + path)
+    try:
+        if os.path.isdir(path) and not os.path.islink(path):
+            shutil.rmtree(path)
+        else:
+            os.remove(path)
+    except OSError as e:
+        raise OSError(_('Cannot delete permanently:\n%s\n\n%s')
+                      % (path, e))
 
 
 #---------------------------------------------------------------------
-# Windows
+# Windows guard
 #---------------------------------------------------------------------
 
 def _win_recycle_bin_available(path):
@@ -131,103 +197,11 @@ def _win_recycle_bin_available(path):
     return hres == 0
 
 
-def _trash_windows(path):
-    """Move to the Recycle Bin via SHFileOperationW (FOF_ALLOWUNDO)."""
-    if ctypes is None:
-        raise OSError(_('Cannot move to the Recycle Bin: '
-                        'the ctypes module is not available'))
-
-    if not _win_recycle_bin_available(path):
-        raise OSError(
-            _('Cannot move to the Recycle Bin:\n%s\n\n'
-              'This drive has no Recycle Bin (a network or removable '
-              'drive), so deleting would be permanent. Nothing was '
-              'deleted - remove the file in the file manager if you '
-              'really want it gone.') % path)
-
-    FO_DELETE = 3
-    FOF_ALLOWUNDO = 0x40
-    FOF_NOCONFIRMATION = 0x10
-    # no FOF_SILENT: let Windows show its own progress dialog for big
-    # folders; no FOF_NOERRORUI: a locked file shows the standard
-    # Windows error dialog, which explains the problem better than a
-    # plain error code
-
-    class SHFILEOPSTRUCTW(ctypes.Structure):
-        _fields_ = (
-            ('hwnd', ctypes.c_void_p),
-            ('wFunc', ctypes.c_uint),
-            ('pFrom', ctypes.c_void_p),
-            ('pTo', ctypes.c_void_p),
-            ('fFlags', ctypes.c_ushort),
-            ('fAnyOperationsAborted', ctypes.c_int),
-            ('hNameMappings', ctypes.c_void_p),
-            ('lpszProgressTitle', ctypes.c_wchar_p),
-        )
-
-    # the path list must be double-null-terminated
-    buf = ctypes.create_unicode_buffer(os.path.abspath(path) + '\0')
-    op = SHFILEOPSTRUCTW()
-    op.hwnd = None
-    op.wFunc = FO_DELETE
-    op.pFrom = ctypes.addressof(buf)
-    op.pTo = None
-    op.fFlags = FOF_ALLOWUNDO | FOF_NOCONFIRMATION
-    op.fAnyOperationsAborted = 0
-    op.hNameMappings = None
-    op.lpszProgressTitle = None
-
-    res = ctypes.windll.shell32.SHFileOperationW(ctypes.byref(op))
-    if res != 0:
-        raise OSError(_('Cannot move to the Recycle Bin (error %d)')
-                      % res)
-    if op.fAnyOperationsAborted:
-        raise OSError(_('The operation was cancelled - nothing was '
-                        'deleted'))
-
-
 #---------------------------------------------------------------------
-# macOS
+# Linux fallback: FreeDesktop.org trash spec by hand
+# (used when Send2Trash's own FreeDesktop backend cannot handle the
+#  filesystem - exotic overlay/container layers)
 #---------------------------------------------------------------------
-
-def _trash_macos(path):
-    """Move to the Trash with a Finder AppleScript ("delete" in
-    Finder's dictionary moves the item to the Trash)."""
-    import subprocess
-    # escape the path for the AppleScript string literal
-    s = path.replace('\\', '\\\\').replace('"', '\\"')
-    script = 'tell application "Finder" to delete POSIX file "%s"' % s
-    try:
-        res = subprocess.call(['osascript', '-e', script])
-    except OSError as e:
-        raise OSError(_('Cannot move to the Trash: %s') % e)
-    if res != 0:
-        raise OSError(_('Cannot move to the Trash (osascript error %d)')
-                      % res)
-
-
-#---------------------------------------------------------------------
-# Linux / BSD: FreeDesktop.org trash specification
-#---------------------------------------------------------------------
-
-def _trash_freedesktop(path):
-    """Move to the XDG trash: prefer the desktop environment's own
-    tool, fall back to a hand-made spec-conforming trash move."""
-    import subprocess
-
-    for cmdname in ('gio', 'trash-put'):
-        argv = [cmdname, 'trash', path] if cmdname == 'gio' else [cmdname, path]
-        try:
-            res = subprocess.call(argv)
-        except (OSError, FileNotFoundError):
-            continue
-        if res == 0:
-            return
-        # the tool exists but failed - try the next one / the manual
-        # implementation (e.g. gio present but no trash backend)
-
-    _trash_freedesktop_manual(path)
-
 
 def _device_of(path):
     """Device id of the nearest EXISTING ancestor of 'path' (the path
@@ -247,11 +221,11 @@ def _is_real_mount(path):
     """True when 'path' is an actual mount point of the kernel.
 
     Needed because the device-walk below can find a FALSE boundary:
-    on overlayfs (docker/flatpak layers) a freshly created directory
-    gets the upper layer's st_dev, which differs from its parent's -
-    the directory then looks like a mount point while it is an
-    ordinary folder of one filesystem. The kernel's mount table
-    (/proc/mounts) tells the real mounts apart from that."""
+    on overlayfs (docker/flatpak layers) a freshly created item can
+    get the upper layer's st_dev, which differs from its parent's -
+    the item then looks like a mount point while it is an ordinary
+    entry of one filesystem. The kernel's mount table (/proc/mounts)
+    tells the real mounts apart from that."""
     try:
         with open('/proc/mounts', 'r') as f:
             for line in f:
@@ -287,10 +261,11 @@ def _trash_freedesktop_manual(path):
     file_dev = os.stat(path).st_dev
 
     # mount point (the "top dir" of the spec) of the file: walk up
-    # while the PARENT is still on the same device - the mount point
-    # is the last directory on the file's device (a device-walk, not
-    # os.path.ismount: on overlay/bind mounts ismount reports
-    # nonsense and the topdir came out wrong)
+    # from the file's PARENT while the PARENT is still on the same
+    # device - the mount point is the last directory on the file's
+    # device (a device-walk, not os.path.ismount on the file itself:
+    # a freshly written file can carry the upper layer's device on
+    # overlay/container filesystems, which fools ismount)
     topdir = os.path.dirname(path)
     while True:
         parent = os.path.dirname(topdir)

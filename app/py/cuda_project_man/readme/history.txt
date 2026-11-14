@@ -1,19 +1,36 @@
 2026.11.14 (@badrelmers)
-- SAFETY: no command deletes anything permanently anymore, on any OS.
-  Every delete now moves the file/folder to the OS trash (the Recycle
-  Bin on Windows, the Trash on macOS/Linux) through the new
-  projman_trash module: Windows uses the shell file operation with
-  "allow undo" and REFUSES drives that have no Recycle Bin (network /
-  removable drives - the shell would delete permanently there);
-  macOS drives a Finder AppleScript; Linux tries "gio trash", then
-  "trash-put", then a hand-made FreeDesktop-spec trash move (home
-  trash, or per-volume .Trash-<uid>, with a .trashinfo file so the
-  file manager's "restore" works). The optional send2trash library,
-  when installed, is tried first. A failed move shows the reason in a
-  dialog and leaves the file untouched - there is NO permanent-delete
-  fallback, ever. The confirmation dialogs now say that the item can
-  be restored from the trash/recycle bin, and the status message
-  reports "Moved to Trash: name".
+- SAFETY: no command deletes anything permanently on Windows, macOS
+  or Linux. Every delete now moves the file/folder to the OS trash (the
+  Recycle Bin on Windows, the Trash on macOS/Linux) through the new
+  projman_trash module - powered by the BUNDLED Send2Trash library
+  (https://pypi.org/project/Send2Trash/, BSD license, vendored into
+  the plugin's send2trash/ subfolder, nothing to install): Windows
+  uses the IFileOperation COM interface (pywin32) or SHFileOperationW
+  and REFUSES drives that have no Recycle Bin (network / removable
+  drives - the shell would delete permanently there); macOS uses
+  NSFileManager (pyobjc) or the CoreServices call via ctypes; Linux
+  uses GIO or the FreeDesktop-spec trash move (home trash, per-volume
+  .Trash-<uid>, with a .trashinfo file so the file manager's
+  "restore" works). When even that backend fails on an exotic
+  filesystem (overlay/container layers fool its mount-point
+  detection), a built-in FreeDesktop-spec trash move retries before
+  any error is reported - a move to trash only, never a deletion.
+  A failed move shows the reason in a dialog and leaves the file
+  untouched.
+- NEW: the delete confirmations use msg_box_ex, so their buttons say
+  what they do: "Move to trash" (the trash-delete confirmation, which
+  keeps the restore-from-trash hint) and "Stop tracking" (the
+  root-node untrack confirmation). On an OS WITHOUT trash support
+  (the BSDs, Haiku, ...) a DIFFERENT warning dialog appears - the
+  warning icon, the explanation that this OS cannot move items to
+  the trash and that the deletion is permanent, and the buttons
+  "DELETE PERMANENTLY" (uppercase) and "Cancel" (focused, so Enter
+  cancels): permanent deletion happens ONLY there and ONLY after
+  that button (delete_permanently in projman_trash is the single
+  permanent deleter of the whole plugin). trash_supported() decides
+  which dialog shows; the status message after a trash move reports
+  "Moved to Trash: name", after a permanent delete "Deleted
+  permanently: name".
 - SAFETY: top-level nodes can no longer be deleted from the disk at
   all. The "Delete" context-menu item is hidden when a ROOT node is
   right-clicked, and every delete command (context menu, Del key,

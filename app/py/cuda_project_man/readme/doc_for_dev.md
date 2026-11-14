@@ -28,6 +28,7 @@ and #6366 (external session switch detection).
 12. Known non-obvious behaviors
 13. Drag & drop
 14. Project file backups
+15. Trash and deletion safety (projman_trash)
 
 ---
 ## 1. Core concepts
@@ -811,6 +812,46 @@ backups") for the user-facing rules; the developer-facing ones:
   option is skipped in `_backup_project_file`, and a `backup_count`
   below 1 is raised to 1 in `ProjectFileBackups.run` — so the manual
   snapshot always works and always keeps the single newest copy.
+
+## 15. Trash and deletion safety (projman_trash)
+
+`projman_trash.py` is the ONLY module that removes anything from the
+disk — every delete of the plugin funnels through it, so the safety
+policy is auditable in one file. The engine is the bundled Send2Trash
+library (vendored in `send2trash/`, BSD license, see `send2trash/LICENSE`):
+
+- `send_to_trash(path)` — the normal delete. Moves the item to the OS
+  trash (Recycle Bin / Trash / GIO-or-FreeDesktop-spec). NEVER deletes
+  permanently: any failure raises `OSError` with a readable message,
+  and the caller shows it — no caller ever falls back to a real delete.
+  On Windows a `SHQueryRecycleBinW` pre-check REFUSES drives with no
+  Recycle Bin (network/removable): the shell file operation would
+  delete PERMANENTLY there, and Send2Trash's legacy backend has no
+  guard of its own for that case (its modern pywin32 backend does —
+  the `PreDeleteItem` sink blocks non-recycled deletes). On Linux,
+  when Send2Trash's own FreeDesktop backend cannot handle an exotic
+  filesystem (overlay/container layers can fool its `os.path.ismount`
+  walk), `_trash_freedesktop_manual` retries the SAME spec-conforming
+  trash move (device-walk + `/proc/mounts` real-mount check) before
+  the error is reported.
+- `trash_supported()` — True on Windows/macOS/Linux (a real OS trash
+  exists), False on the other Unixes. The delete commands choose the
+  dialog from it: True → the "Move to trash" confirmation; False →
+  the warning dialog with the "DELETE PERMANENTLY" button.
+- `delete_permanently(path)` — the ONLY permanent deletion in the
+  plugin (`os.remove` / `shutil.rmtree`). It runs ONLY after the user
+  pressed "DELETE PERMANENTLY" in that warning dialog — on an OS
+  without trash support; there is no other caller, no fallback path.
+- `trash_label()` — localized "Recycle Bin"/"Trash" for dialog texts.
+
+Vendoring note: `send2trash`'s internal imports are absolute
+(`from send2trash.xxx import ...`), so the plugin folder is inserted
+into `sys.path` by `projman_trash` at import time; the plugin is
+otherwise a package with relative imports, so this is the one place
+  a top-level import is used. Python >= 3.8 is required (Send2Trash
+2.2.0). The dialogs are `msg_box_ex()` calls — custom captions,
+  custom button lists, an icon, a focused-button index, and a 0-based
+  button index (or `None` when cancelled) as the result.
 
 ### API additions this plugin depends on (app 1.239.0)
 

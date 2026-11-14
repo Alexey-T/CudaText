@@ -21,32 +21,44 @@ QUICK START
 4. Optional: right-click a file > Set as main file; bookmark often-used
    items in Favorites; keep several named sessions per project.
 
-Nothing you delete from this panel is ever removed permanently - see
-"DELETING AND TRASH SAFETY" below.
+Nothing you delete from this panel is removed permanently on Windows,
+macOS or Linux - see "DELETING AND TRASH SAFETY" below. (On the rare
+OSes without a trash the plugin warns you explicitly before any
+permanent deletion.)
 
 
 ------------------------------------------------------------------------------
 DELETING AND TRASH SAFETY
 ------------------------------------------------------------------------------
 
-No command of this plugin ever deletes a file or folder permanently, on
-any OS.
+On Windows, macOS and Linux no command of this plugin ever deletes a
+file or folder permanently.
 
 - Deleting a file or folder INSIDE a node (the "Delete" context-menu
   item, or the Del key) moves it to the OS trash - the Recycle Bin on
-  Windows, the Trash on macOS and Linux - after a confirmation dialog
-  which says so. Restore it from there with your file manager whenever
-  you need it back. If the move is not possible (a drive without a
-  Recycle Bin, a locked file), an error dialog explains why and NOTHING
-  happens to the file.
+  Windows, the Trash on macOS and Linux. The confirmation dialog's
+  button says "Move to trash" (not a bare "OK"), and its text reminds
+  you that the item can be restored from there. Restore it with your
+  file manager whenever you need it back. If the move is not possible
+  (a drive without a Recycle Bin, a locked file), an error dialog
+  explains why and NOTHING happens to the file.
+
+- On an operating system WITHOUT trash support (e.g. the BSDs,
+  Haiku) the delete command shows a DIFFERENT dialog: a warning icon,
+  the explanation that this OS cannot move items to the trash and
+  that the deletion would be permanent, and the buttons
+  "DELETE PERMANENTLY" and "Cancel". The file is permanently deleted
+  ONLY after you press "DELETE PERMANENTLY" - and this is the only
+  permanent deletion the plugin can ever perform.
 
 - A TOP-LEVEL NODE (a root folder/file you added to the project) cannot
   be deleted from here at all: the "Delete" item does not even show for
   it. Pressing Del on it (or running any delete command on it) asks
-  "Are you sure you want to stop tracking this file/folder?" and then
-  only untracks it - the entry is removed from the project tree, while
-  the file/folder itself stays on the disk, untouched. Re-add it any
-  time with Add folder... / Add file....
+  "Are you sure you want to stop tracking this file/folder?" (the
+  button says "Stop tracking") and then only untracks it - the entry is
+  removed from the project tree, while the file/folder itself stays on
+  the disk, untouched. Re-add it any time with Add folder... /
+  Add file....
 
 
 ------------------------------------------------------------------------------
@@ -736,9 +748,13 @@ KEYBOARD SHORTCUTS (project tree)
 
   Enter, Space or double-click   open the selected file / unfold the
                                  selected folder
-  Del                            delete to trash (files/folders inside
-                                 a node) / stop tracking (a root node -
-                                 nothing is ever deleted permanently)
+  Del                            move to trash (files/folders inside a
+                                 node; the dialog button says "Move to
+                                 trash"), or - only on an OS without
+                                 trash support - permanent deletion after
+                                 the explicit warning dialog; a root
+                                 node: stop tracking (nothing is deleted
+                                 from the disk)
   F2                             rename
   F5 (or Ctrl+R)                 refresh the tree
   F7                             new folder
@@ -775,6 +791,11 @@ NOTES
   file format details for plugin authors) is in the file
   doc_for_dev.md next to the plugin source code.
 
+- The trash support is powered by the bundled Send2Trash library
+  (https://pypi.org/project/Send2Trash/) - it ships inside the
+  plugin's send2trash/ subfolder, so nothing extra needs to be
+  installed.
+
 
 ------------------------------------------------------------------------------
 AUTHORS
@@ -785,4 +806,6 @@ AUTHORS
 - ildar r. khasanshin  https://github.com/ildarkhasanshin
 - Badr ELmers  https://github.com/badrelmers
 
-License: MIT
+License: MIT. The plugin bundles the BSD-licensed Send2Trash library
+(https://pypi.org/project/Send2Trash/) in its send2trash/ subfolder;
+its license text is kept in send2trash/LICENSE.

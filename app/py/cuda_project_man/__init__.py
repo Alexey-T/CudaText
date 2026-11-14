@@ -14,7 +14,8 @@ from fnmatch import fnmatch
 from pathlib import Path, PurePosixPath
 from .projman_glob import *
 from .projman_backup import ProjectFileBackups, DEFAULT_BACKUP_COUNT, DEFAULT_BACKUP_FOLDER
-from .projman_trash import send_to_trash, trash_label
+from .projman_trash import (send_to_trash, trash_label,
+                             trash_supported, delete_permanently)
 
 from cudatext import *
 from cudatext_keys import *
@@ -2414,6 +2415,55 @@ class Command:
         self.action_refresh()
         msg_status(_("Copied to: ") + str(collapse_filename(str(new_location.name))))
 
+    def _confirm_and_delete(self, what, location):
+        """The shared confirmation + deletion of a file/folder INSIDE
+        a node. Returns 'trash' / 'permanent' when the item was
+        removed from the disk, None when the user cancelled or the
+        deletion failed (an error dialog was already shown).
+
+        With a trash-capable OS the confirmation dialog's button is
+        "Move to trash" - not a generic "OK" - and the item goes to
+        the OS trash/recycle bin. On an OS WITHOUT trash support a
+        DIFFERENT dialog appears: the warning icon, the explanation
+        that this OS cannot move items to the trash and that the
+        deletion is permanent, and the explicit "DELETE PERMANENTLY"
+        button (Cancel is focused, so Enter cancels) - the only door
+        to the plugin's only permanent deletion."""
+        if trash_supported():
+            msg = _("Are you sure you want to delete this %s?\n\n%s\n\n"
+                    "You can restore it from the %s.") \
+                  % (what, str(location), trash_label())
+            res = msg_box_ex(_("Delete %s") % what, msg,
+                             [_("Move to trash"), _("Cancel")],
+                             MB_ICONQUESTION)
+            if res != 0:
+                return None
+            try:
+                send_to_trash(location)
+            except OSError as e:
+                msg_box(_("Cannot move to the %s:\n%s\n\n%s")
+                        % (trash_label(), str(location), str(e)),
+                        MB_OK + MB_ICONERROR)
+                return None
+            return 'trash'
+
+        msg = _("This operating system does not support moving files "
+                "to the trash.\n\nAre you sure you want to delete this "
+                "%s?\n\n%s\n\nThe %s will be deleted PERMANENTLY - "
+                "this cannot be undone!") % (what, str(location), what)
+        res = msg_box_ex(_("Delete %s") % what, msg,
+                         [_("DELETE PERMANENTLY"), _("Cancel")],
+                         MB_ICONWARNING, focused=1)
+        if res != 0:
+            return None
+        try:
+            delete_permanently(location)
+        except OSError as e:
+            msg_box(_("Cannot delete:\n%s\n\n%s")
+                    % (str(location), str(e)), MB_OK + MB_ICONERROR)
+            return None
+        return 'permanent'
+
     def action_delete_file(self):
         """Context menu / Del key on a file.
 
@@ -2421,8 +2471,11 @@ class Command:
         whether to stop tracking it, and the node is only removed from
         the project tree (action_remove_node).
         A file INSIDE a node is moved to the OS trash/recycle bin -
-        never deleted permanently; a failed move leaves the file in
-        place and reports the reason."""
+        never deleted permanently on Windows/macOS/Linux; only on an
+        OS without any trash support, after the separate warning
+        dialog with the "DELETE PERMANENTLY" button, can it be
+        permanently deleted (_confirm_and_delete). A failed move
+        leaves the file in place and reports the reason."""
         location = Path(self.get_location_by_index(self.selected))
         if not str(location):
             return
@@ -2432,18 +2485,8 @@ class Command:
             self.confirm_stop_tracking(location)
             return
 
-        msg = _("Are you sure you want to delete this file?\n\n%s\n\n"
-                "You can restore it from the %s.") \
-              % (str(location), trash_label())
-        if msg_box(msg, MB_OKCANCEL + MB_ICONWARNING) != ID_OK:
-            return
-
-        try:
-            send_to_trash(location)
-        except OSError as e:
-            msg_box(_("Cannot move to the %s:\n%s\n\n%s")
-                    % (trash_label(), str(location), str(e)),
-                    MB_OK + MB_ICONERROR)
+        outcome = self._confirm_and_delete(_("file"), location)
+        if outcome is None:
             return
 
         # a root node never reaches here (it returns above), so this is
@@ -2451,20 +2494,27 @@ class Command:
         h_parent = tree_proc(self.tree, TREE_ITEM_GET_PROPS, self.selected)['parent']
         tree_proc(self.tree, TREE_ITEM_SELECT, h_parent)
         self.action_refresh(h_parent)
-        msg_status(_("Moved to %s: ") % trash_label() + str(location.name))
+        if outcome == 'trash':
+            msg_status(_("Moved to %s: ") % trash_label() + str(location.name))
+        else:
+            msg_status(_("Deleted permanently: ") + str(location.name))
 
     def confirm_stop_tracking(self, location):
         """Ask whether to stop tracking the given top-level node, then
         untrack it (action_remove_node): the entry is removed from the
         project tree ONLY - the file/folder itself is never deleted,
         moved or changed on the disk. Used by the Del key and by the
-        delete commands when they land on a root node."""
+        delete commands when they land on a root node. The button says
+        what it does - "Stop tracking", not a generic "OK"."""
         is_dir = location.is_dir()
         what = _("folder") if is_dir else _("file")
         msg = _("Are you sure you want to stop tracking this %s?\n\n%s\n\n"
                 "It is only removed from the project tree,\n"
                 "the %s itself stays on the disk.") % (what, str(location), what)
-        if msg_box(msg, MB_OKCANCEL + MB_ICONQUESTION) != ID_OK:
+        res = msg_box_ex(_("Stop tracking"), msg,
+                         [_("Stop tracking"), _("Cancel")],
+                         MB_ICONQUESTION)
+        if res != 0:
             return
 
         self.action_remove_node()
@@ -2694,7 +2744,9 @@ class Command:
     def action_delete_directory(self):
         """Context menu / Del key on a folder - see action_delete_file:
         a top-level node is only untracked, a folder inside a node is
-        moved to the OS trash/recycle bin, never deleted."""
+        moved to the OS trash/recycle bin; only on an OS without any
+        trash support, after the separate warning dialog with the
+        "DELETE PERMANENTLY" button, can it be permanently deleted."""
         location = Path(self.get_location_by_index(self.selected))
         if not str(location):
             return
@@ -2704,18 +2756,8 @@ class Command:
             self.confirm_stop_tracking(location)
             return
 
-        msg = _("Are you sure you want to delete this folder?\n\n%s\n\n"
-                "You can restore it from the %s.") \
-              % (str(location), trash_label())
-        if msg_box(msg, MB_OKCANCEL + MB_ICONWARNING) != ID_OK:
-            return
-
-        try:
-            send_to_trash(location)
-        except OSError as e:
-            msg_box(_("Cannot move to the %s:\n%s\n\n%s")
-                    % (trash_label(), str(location), str(e)),
-                    MB_OK + MB_ICONERROR)
+        outcome = self._confirm_and_delete(_("folder"), location)
+        if outcome is None:
             return
 
         h_parent = tree_proc(self.tree, TREE_ITEM_GET_PROPS, self.selected)['parent']
@@ -2726,7 +2768,10 @@ class Command:
         app_proc(PROC_SET_FOLDER, path)
         self.cur_dir = path
 
-        msg_status(_("Moved to %s: ") % trash_label() + str(location.name))
+        if outcome == 'trash':
+            msg_status(_("Moved to %s: ") % trash_label() + str(location.name))
+        else:
+            msg_status(_("Deleted permanently: ") + str(location.name))
 
     def action_new_directory(self):
         location = Path(self.get_location_by_index(self.selected))
@@ -5966,12 +6011,14 @@ class Command:
             return False #block key
         elif id_ctl == VK_DELETE and not reg_key:
             node_type = self.get_node_type()
-            # Del NEVER deletes permanently: a top-level node is asked
+            # Del is trash-safe by design: a top-level node is asked
             # whether to stop tracking (removed from the tree only),
             # a file/folder inside a node is moved to the OS trash /
-            # recycle bin (both with a confirmation dialog). The root
-            # node check lives in the delete actions themselves, so
-            # every caller (key, context menu, command) is covered.
+            # recycle bin - only on an OS WITHOUT trash support, after
+            # the separate "DELETE PERMANENTLY" warning dialog, can it
+            # be permanently deleted. The root node check lives in the
+            # delete actions themselves, so every caller (key, context
+            # menu, command) is covered.
             if node_type in (NODE_FILE, NODE_BAD):
                 self.action_delete_file()
             elif node_type == NODE_DIR:
