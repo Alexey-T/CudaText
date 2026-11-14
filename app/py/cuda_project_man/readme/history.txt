@@ -1,4 +1,52 @@
 2026.11.13 (@badrelmers)
+- REVISED: the whole search logic of the tree filter - it was still
+  flawed after the previous live-update rework. What was wrong:
+  while a search ran, results did not show in the tree at all (the
+  tree stayed empty until the scan ended); cancelling the search left
+  nothing visible even when matches had been found; and a folder
+  whose NAME matched the keyword showed its whole content, even the
+  files which did not match anything. The filter machinery is
+  rewritten around a simple, uniform model:
+  (1) MATCHING RULES: a file shows when its name matches; a folder
+  shows when its name matches OR something matches inside it (any
+  depth), so the path down to every match is visible. A
+  name-matching folder does NOT bring its whole content anymore -
+  its children follow the same two rules. The rules hold everywhere:
+  in the scan, in the live view while it runs, in the finished
+  result, in the expand fallback, and after a cancel.
+  (2) LIVE VIEW: every progress tick REBUILDS the visible part of
+  the tree from the worker's partial index (the old fragile
+  incremental row-insertion with its sorted-position math is gone) -
+  findings appear at the top level and inside every folder the user
+  expanded, within one tick of being found; the rebuild carries the
+  user's unfolds and the selection over, so rows only ever appear.
+  The scan walks BREADTH-FIRST now, so the top level is complete
+  from the very start and shallow levels fill first, where the user
+  is looking. A version counter still skips idle rebuilds.
+  (3) CANCEL: the x button rebuilds the tree from a cleaned snapshot
+  of the partial index - everything found so far STAYS visible and
+  browsable, and expands after the cancel refill exactly those rows.
+  (4) EXPAND: a folder no index knows yet (the scan has not reached
+  it) falls back to a cached single-level name filter - one scandir,
+  the same cost as the normal expand, cached per search so the
+  repeating rebuilds never re-read the disk.
+  (5) The worker keeps optimistic folder rows during the walk and
+  drops them in ONE final cleanup pass (the per-folder 'check'
+  removal is gone); the UI never shows a folder which is not live,
+  so the cleanup cannot flicker anything.
+  (6) The selection carry-over works for folder nodes too now (the
+  shared enum_all_sel helper can only select file nodes; the filter
+  paths use their own by-path selector, which also scrolls to the
+  node)
+  (7) tree_on_unfold is blocked while a rebuild is filling the
+  levels (the rebuild's own programmatic unfolds must not
+  delete/refill what it just placed), and the unfolds the user makes
+  during a search are remembered so a level which is still empty
+  keeps its expanded state for the rows which come later
+- note: readme.txt documents the current filter behavior (rules,
+  live view, cancel, lazy expand)
+
+2026.11.13 (@badrelmers)
 - FIXED: the bottom bars were removed from the Favorites tab strip
   (the green bar of the active tab and the button-colored bars of the
   inactive ones): the tabs are plain colored rectangles ('colorpanel'

@@ -299,13 +299,14 @@ FILTERING AND TYPE-AHEAD IN THE TREE
 
 The field between the toolbar and the tree filters the project tree:
 type a few letters and only the files and folders whose NAME contains
-them are shown. Folders whose own name matches are shown with their
-whole content; other folders appear only when something matches
-inside them, together with the path down to the match. The result
-opens level by level as you expand it (see below), and the "Ignore
-files/folders/hidden" options are respected while scanning. Esc
-clears the field and restores the tree with the folds and the
-selection from before the filtering.
+them are shown. A folder is shown when its own name matches, or when
+something matches inside it - together with the whole path down to
+the match. A folder whose name matches does NOT bring its whole
+content: its children follow the same rules (matching names, or
+folders with matches inside). The result opens level by level as you
+expand it (see below), and the "Ignore files/folders/hidden" options
+are respected while scanning. Esc clears the field and restores the
+tree with the folds and the selection from before the filtering.
 
 The scan runs in a BACKGROUND thread, so even a very big folder tree
 never hangs CudaText while it is searched. The walk makes exactly ONE
@@ -314,34 +315,34 @@ NOTHING, so it eats no extra RAM. While the filter field is not
 empty, a status line right under it always tells what the search is
 doing: "Filter: searching... N match(es) so far" while the background
 scan runs, and "Filter: finished, N match(es) found" when it ended.
-The x button at the right of the field cancels a running search (the
-tree keeps what is shown, the line reports what was found so far);
-with no search running, x clears the filter like Esc. It is visible
-only while it can do something: while the field has text or a search
-is running; with an empty field it hides and the filter field takes
-the whole row. The filtering is also debounced: the scan starts 0.4 s
+The x button at the right of the field cancels a running search - the
+tree KEEPS everything found so far (you can keep browsing and
+expanding it), and the line reports what was found; with no search
+running, x clears the filter like Esc. The button is visible only
+while it can do something: while the field has text or a search is
+running; with an empty field it hides and the filter field takes the
+whole row. The filtering is also debounced: the scan starts 0.4 s
 after the typing pauses, not on every keystroke.
 
 The filter is LIVE, it does not wait for the scan to end: the moment
 the scan starts, every node whose own name does not match hides at
 once, and a folder APPEARS the very moment a match is found inside it
-(a folder whose name matches stays visible from the start, with its
-whole content). If you expand a folder while the search is still
-running, you see the findings so far, and the level keeps GROWING:
-every new finding is inserted into its sorted place as the search
-continues - no need to re-expand or wait for the end.
+(a folder whose name matches stays visible from the start). While
+the search runs, the tree is refreshed with the findings so far every
+fraction of a second: if you expand a folder, you see what was found
+there already, and the level keeps GROWING as the search continues -
+no need to re-expand or wait for the end.
 
 The filtered tree is filled LAZILY: when the scan finishes, the tree
-shows the top level of the result (what you had unfolded and selected
-while it ran is restored on top of it), and every deeper level loads
-the moment you expand its folder - straight from the finished scan's
-in-memory index, with no disk access at all. So a match list of many
-thousands of rows never floods the tree at once, and expanding a
-folder while the filter is active costs exactly as little as
-expanding it with no filter. A folder the scan has not reached yet
-falls back to a single-level name filter over one directory listing -
-the same cost as the normal expand; a folder whose own name matches
-shows its whole content even in that fallback.
+holds the full result (what you had unfolded and selected while it
+ran is kept), and every deeper level loads the moment you expand its
+folder - straight from the finished scan's in-memory index, with no
+disk access at all. So a match list of many thousands of rows never
+floods the tree at once, and expanding a folder while the filter is
+active costs exactly as little as expanding it with no filter. A
+folder the scan has not reached yet falls back to a single-level
+name filter over one directory listing - the same cost as the normal
+expand, and with the same matching rules.
 
 The field, the status line and the panel background are colored with
 the current UI theme (like the tree and the toolbar around them), and
