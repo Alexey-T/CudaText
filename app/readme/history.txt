@@ -6,6 +6,11 @@
 1.240.0 (2026/11)
 
 + add: new API to show Markdown with formatting/tables/pictures/bullets; it will be used in LSP_Client and later in other plugins
++ add: Project Manager: 
+   + add: added Favorites, can add projects/files/folders; has a filter search, favorite of favorites, auto import kvichans Favorites plugin content, batch action of favorites, detect dead favorits, and a lot more features
+   + add: added a search filter for project and its folders/files, the search run in bakground so no cudatext hang with very huge folders
+   + add: Options dialog redesigned to support themes colors, all GUI now works correctly with any theme
+   + add: safety: no command deletes anything permanently anymore, on any OS
 
 1.239.1 (2026/11)
 
