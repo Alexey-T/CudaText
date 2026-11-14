@@ -883,6 +883,10 @@ class Command:
     tree_filter = ''
     #: control index of the filter edit (set in init_form_main)
     filter_ctl_index = -1
+    #: full (shown) width of the filter's (x) button, set in
+    #: init_form_main; the hidden state collapses the button to w=0
+    #: (see _filter_cancel_btn_update)
+    _filter_cancel_w = 0
     #: folds/selection captured when the filtering started, restored
     #: when it is cleared
     _filter_saved_folds = None
@@ -1111,6 +1115,13 @@ class Command:
         # what was found so far); when no search is running it clears
         # the filter, like the x of a usual search box. button_ex = the
         # flat themed button, so it follows the UI theme.
+        # VISIBILITY: the button shows ONLY while it can do something -
+        # the filter field has text, or a background search is running
+        # (_filter_cancel_btn_update, called on every filter change).
+        # Hidden, it is also COLLAPSED to zero width, so the filter
+        # field stretches over the full row: a hidden control keeps
+        # its bounds, so only hiding it would leave an empty gap at
+        # the right of the field.
         # ANCHORS: 'a_l': None is REQUIRED. The dialog engine maps a_l/
         # a_r onto the LCL anchors, and the LCL default is akLeft=on:
         # with the left anchor kept, the left edge stayed pinned to the
@@ -1118,7 +1129,9 @@ class Command:
         # button stretched across the WHOLE filter row and covered the
         # edit (nothing could be typed). With akLeft removed, the button
         # keeps its width (EH) and only MOVES with the panel's right
-        # edge.
+        # edge - and setting 'w': 0 (the hidden state) moves its left
+        # edge to the panel's right edge, which is what lets the edit
+        # grow.
         # The button's TOP+BOTTOM are re-anchored to the edit AFTER the
         # edit is created (below): the engine resolves the control name
         # of an anchor only if that control already exists, so the
@@ -1168,6 +1181,11 @@ class Command:
             'a_b': ('f_filter', ']'),
             'sp_b': 0,
         })
+        # the (x) button starts HIDDEN and collapsed: with no filter
+        # text and no running search there is nothing it could do
+        # (every later filter change calls _filter_cancel_btn_update)
+        self._filter_cancel_w = EH
+        self._filter_cancel_btn_update()
 
         #---- filter status line (between the filter and the tree) ----
         # While the filter field is not empty, it ALWAYS shows what the
@@ -2735,6 +2753,8 @@ class Command:
             text = str(props.get('val', '') or '')
         except Exception:
             text = ''
+        # the (x) button shows only with text / a running search
+        self._filter_cancel_btn_update()
         if not text:
             timer_proc(TIMER_STOP, self._filter_timer_fire, 0)
             self._filter_pending = None
@@ -2771,6 +2791,35 @@ class Command:
             return
         self.apply_tree_filter(text)
 
+    def _filter_cancel_btn_update(self):
+        """Show the filter's (x) button only while it can do something:
+        while the filter field has text, or a background search is
+        running. With no text and no search the button is hidden AND
+        collapsed to zero width, so the filter field stretches over
+        the full row (the field's right edge is anchored to the
+        button's LEFT edge, and a hidden control keeps its bounds - so
+        only hiding the button would leave an empty gap at the right
+        of the field). Called at panel build, on every filter-field
+        change and whenever a scan starts or ends."""
+        if not self.h_dlg:
+            return
+        try:
+            props = dlg_proc(self.h_dlg, DLG_CTL_PROP_GET, name='f_filter') or {}
+            text = str(props.get('val', '') or '')
+        except Exception:
+            text = ''
+        w = self._filter_worker
+        searching = (w is not None) and (not w.done)
+        try:
+            if text or searching:
+                dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, name='btn_fcancel',
+                         prop={'w': self._filter_cancel_w, 'vis': True})
+            else:
+                dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, name='btn_fcancel',
+                         prop={'w': 0, 'vis': False})
+        except Exception:
+            pass
+
     def apply_tree_filter(self, text):
         """Show only the matching nodes in the tree: starts the
         BACKGROUND scan (the tree keeps its current content until the
@@ -2802,6 +2851,11 @@ class Command:
         else:
             self._filter_cancel_scan()
             self._filter_label_clear()
+            # the (x) button hides with the scan stopped and (normally)
+            # the field emptied - AFTER the cancel, so the update sees
+            # the worker already gone (an update before the cancel
+            # would still see it running and keep the button visible)
+            self._filter_cancel_btn_update()
             # drop the lazy index of the finished scan: the next
             # filtering builds a fresh one
             self._filter_index = None
@@ -2814,13 +2868,15 @@ class Command:
                 self.enum_all_sel(self._filter_saved_sel)
 
     def panel_filter_cancel_click(self, id_dlg, id_ctl, data='', info=''):
-        """The x button at the right of the filter field. While a
-        search is RUNNING (the background worker) it CANCELS the
-        search: the tree keeps its current content, the status line
-        reports what was found so far, and the filter text stays - the
-        user can keep browsing what is shown. With no search running,
-        it clears the filter, like the x button of a usual search
-        box."""
+        """The x button at the right of the filter field (it is only
+        visible while the field has text or a search is running - see
+        _filter_cancel_btn_update). While a search is RUNNING (the
+        background worker) it CANCELS the search: the tree keeps its
+        current content, the status line reports what was found so
+        far, and the filter text stays - the user can keep browsing
+        what is shown (so the button stays visible). With no search
+        running, it clears the filter, like the x button of a usual
+        search box - and the button hides with the text gone."""
         if not self.tree:
             return
         w = self._filter_worker
@@ -2832,13 +2888,34 @@ class Command:
         self._filter_label_cancelled(w.count)
 
     def clear_panel_filter(self):
-        """Esc: clear the filter field and show the full tree again.
-        Setting the edit's value programmatically does not fire its
-        on_change event, so apply_tree_filter() must be called here."""
-        if not self.tree_filter:
-            return
+        """Esc / the (x) button: clear the filter field and show the
+        full tree again. Setting the edit's value programmatically does
+        not fire its on_change event, so apply_tree_filter() must be
+        called here. The field is also cleared while the typed text is
+        still inside the debounce delay (not applied yet): the pending
+        scan is dropped, the tree was never filtered, so there is
+        nothing to restore - and the (x) button, which shows for ANY
+        text, must always have an effect."""
+        try:
+            props = dlg_proc(self.h_dlg, DLG_CTL_PROP_GET, name='f_filter') or {}
+            text = str(props.get('val', '') or '')
+        except Exception:
+            text = ''
+        # stop the debounce of a not-yet-applied filter text (harmless
+        # when no timer is armed)
         timer_proc(TIMER_STOP, self._filter_timer_fire, 0)
         self._filter_pending = None
+        if not self.tree_filter:
+            # nothing applied: just empty the field (if it holds the
+            # not-yet-applied text) and hide the (x) button
+            if text:
+                try:
+                    dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, name='f_filter',
+                             prop={'val': ''})
+                except Exception:
+                    pass
+                self._filter_cancel_btn_update()
+            return
         self._filter_cancel_scan()
         self._filter_label_clear()
         try:
@@ -2903,6 +2980,9 @@ class Command:
             return
         self._filter_label_running(0)
         self._filter_timer_start()
+        # a search is running now: the (x) button must show even before
+        # the next keystroke reports the text
+        self._filter_cancel_btn_update()
 
     def _filter_cancel_worker(self):
         """Cancel the running background scan (if any): it notices the
@@ -2951,6 +3031,8 @@ class Command:
 
         # finished
         self._filter_worker = None
+        # the search ended: the (x) button now depends on the text alone
+        self._filter_cancel_btn_update()
         if not self.tree or not self.tree_filter:
             self._filter_timer_stop()
             return
