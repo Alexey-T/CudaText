@@ -8,10 +8,14 @@ import copy
 import functools
 import string
 import time
+import threading
+from collections import deque
 from fnmatch import fnmatch
 from pathlib import Path, PurePosixPath
 from .projman_glob import *
 from .projman_backup import ProjectFileBackups, DEFAULT_BACKUP_COUNT, DEFAULT_BACKUP_FOLDER
+from .projman_trash import (send_to_trash, trash_label,
+                             trash_supported, delete_permanently)
 
 from cudatext import *
 from cudatext_keys import *
@@ -20,11 +24,25 @@ import cudatext_cmd
 from cudax_lib import get_translation
 _   = get_translation(__file__)  # i18n
 
+from . import favorites as _favorites
+try:
+    _favorites.init_on_start()
+except Exception as _favorites_startup_error:
+    print('Project Manager: favorites startup failed:',
+          _favorites_startup_error)
+
 IS_WIN = os.name == 'nt'
 IS_MAC = sys.platform == 'darwin'
 
 S_CTRL_API = 'm' if IS_MAC else 'c'
 S_CTRL_NAME = 'Meta' if IS_MAC else 'Ctrl'
+
+# on_state code of the "UI theme changed" app event; the constant is
+# missing in older cudatext.py builds, so a literal fallback is kept
+try:
+    APPSTATE_THEME_UI
+except NameError:
+    APPSTATE_THEME_UI = 21
 
 ctypes = None
 if IS_WIN:
@@ -38,6 +56,16 @@ PROJECT_DIALOG_FILTER = _("CudaText projects") + "|*" + PROJECT_EXTENSION
 PROJECT_UNSAVED_NAME = _("(No project)")
 NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD = range(4)
 OS_SUFFIX = app_proc(PROC_GET_OS_SUFFIX, '')
+
+#: delay (ms) after the last keystroke in the tree filter field before
+#: the (possibly slow) filtered scan starts: it walks the whole project
+#: tree recursively, and running it per keystroke hammered the disk
+FILTER_APPLY_DELAY_MS = 400
+
+#: cache of tree node icons: (name, is_dir, locked) -> icon index.
+#: The lexer detection per file name is not free, and the filtered
+#: fill asks for thousands of icons
+_icon_cache = {}
 DEF_SES = 'default'+OS_SUFFIX+'.cuda-session'
 # Suffix of the internal session created by the automatic import of the
 # current (external) session when an old-format project file is opened:
@@ -59,6 +87,268 @@ DOC_FILE_V2 = 'upgrade_v2.txt'
 
 global_project_info = {}
 sort_order = 'ext'
+
+#==========================================================
+# background filtering of the project tree
+#
+# The filtered scan walks the WHOLE project recursively; on a big
+# folder tree that takes seconds, so it runs in a background THREAD
+# (pure os calls, no CudaText API - the API is not thread-safe). The
+# worker makes exactly ONE pass over the disk (every folder is listed
+# at most once, no re-scans, no cached listings - the old listing
+# cache kept millions of os.DirEntry objects in RAM while scanning a
+# drive-sized project and CudaText's memory grew by gigabytes) and
+# builds the result as a LAZY TREE INDEX instead of a flat row list:
+# parent folder path -> [(name, path, is_dir), ...].
+#
+# What the filtered tree shows (the matching rules):
+#   - a FILE whose name matches the filter;
+#   - a FOLDER whose own name matches, or which contains (at any
+#     depth) a matching node - so the path down to every match shows.
+#     A name-matching folder does NOT bring its whole content: its
+#     children follow the same two rules.
+#
+# The live behavior the user sees:
+#   - typing hides every non-matching node AT ONCE (the instant view
+#     of _filter_start shows only the name-matching root nodes);
+#   - while the scan runs, the status line counts the matches so far,
+#     and every progress tick REBUILDS the visible tree from the
+#     worker's partial index: a folder appears the moment a match is
+#     found inside it, and a folder the user expanded gets every new
+#     finding as it comes (nothing shows only when nothing was found
+#     yet - the rebuild is skipped while the worker has no news);
+#   - cancelling the search KEEPS the findings so far (the tree is
+#     rebuilt from a cleaned snapshot of the partial index);
+#   - when the scan finishes, the tree is rebuilt from the final
+#     index; deeper levels load LAZILY when their folder is expanded
+#     (instant, no disk access) - a huge match list never floods the
+#     tree at once, and expanding a folder while the filter is active
+#     costs exactly as little as expanding it without a filter.
+#==========================================================
+
+#: interval (ms) of the UI timer which polls the running filter worker
+FILTER_PROGRESS_MS = 150
+
+
+def _direntry_ordering(path, order):
+    """Sort key of one os.DirEntry / pathlib.Path for an explicit
+    sort order (the same rules Command.node_ordering_direntry applies
+    to the visible tree). Module-level so the background worker can
+    use it without touching the plugin state."""
+    isfile = path.is_file()
+    if order == 'ext':
+        key = _file_ext(path.name).upper() if isfile else ''
+    elif order == 'name':
+        key = path.name.upper()
+    elif order == 'size':
+        key = -path.stat().st_size if isfile else ''
+    elif order == 'size-':
+        key = path.stat().st_size if isfile else ''
+    elif order == 'mtime':
+        key = -path.stat().st_mtime if isfile else ''
+    elif order == 'mtime-':
+        key = path.stat().st_mtime if isfile else ''
+    elif order == 'ctime':
+        key = -path.stat().st_ctime if isfile else ''
+    elif order == 'ctime-':
+        key = path.stat().st_ctime if isfile else ''
+    else:
+        key = ''
+    return isfile, key, path.name.upper()
+
+
+def scan_dir_entries(fn, opts):
+    """Children of a folder as os.DirEntry objects, with the ignore
+    rules from the given options dict applied and sorted like the
+    tree; None when the folder cannot be read. Symlinked folders are
+    skipped (no cycles). NOT cached: the filtered scan walks each
+    folder once anyway, and a cache of the whole walk lived in RAM
+    for gigabytes on drive-sized projects (see the "background
+    filtering" note above). One uncached scandir of a single folder
+    is what the normal (unfiltered) tree expand does too - it is
+    fast.
+
+    Called on the UI thread AND from the background filter worker
+    (os.scandir is safe to call from several threads)."""
+    try:
+        entries = list(os.scandir(fn))
+    except OSError:
+        return None
+    res = []
+    no_hidden = opts.get("no_hidden", True)
+    no_files = str(opts.get("no_files", "") or "")
+    no_dirs = str(opts.get("no_dirs", "") or "")
+    for e in entries:
+        try:
+            is_dir = e.is_dir()
+        except OSError:
+            continue
+        if is_dir and e.is_symlink():
+            continue
+        if no_hidden and is_hidden(e.path):
+            continue
+        msk = no_dirs if is_dir else no_files
+        if msk and is_mask_listed(e.name, msk):
+            continue
+        res.append(e)
+
+    order = opts.get('sort_order', 'ext')
+    if order != '':
+        try:
+            res = sorted(res, key=lambda p: _direntry_ordering(p, order))
+        except OSError:
+            pass
+    else:
+        res.sort(key=lambda e: (not e.is_dir(), e.name.upper()))
+    return res
+
+
+class _FilterWorker(threading.Thread):
+    """Background scan for the tree filter. Walks the project's root
+    nodes ONCE, BREADTH-FIRST, and builds the LAZY TREE INDEX of the
+    result:
+        {parent folder path: [(name, path, is_dir), ...]}
+    (the project root's children live under the key ''). The UI thread
+    rebuilds the visible part of the tree from this index on every
+    progress tick, so the index must be readable WHILE the scan runs:
+      - every scanned folder gets an OPTIMISTIC row in its parent's
+        bucket at once (the final cleanup drops the rows of the folders
+        in which no match was ever found);
+      - `live` collects the folders allowed to show: folders whose own
+        name matches, and every ancestor folder of a match - so a
+        folder row shows from the moment the scan finds a match inside
+        it, and the whole path down to a match is visible at once.
+
+    The matching rules (what the filtered tree shows):
+      - a FILE whose name matches the filter;
+      - a FOLDER whose own name matches, or which contains (at any
+        depth) a matching node. A name-matching folder does NOT bring
+        its whole content: its children follow the same two rules.
+
+    The worker NEVER calls the CudaText API (not thread-safe) - it only
+    touches the disk. The UI thread polls .done/.count/.version with a
+    timer and reads .res/.live while the scan runs; a new filter text
+    cancels the previous worker co-operatively (the .cancel flag is
+    checked around every folder). The walk is ITERATIVE (an explicit
+    FIFO queue), not recursive: a drive-deep folder chain cannot hit
+    Python's recursion limit, and the breadth-first order makes the
+    live tree grow where the user looks at it (shallow levels first)."""
+
+    def __init__(self, text, roots):
+        threading.Thread.__init__(self)
+        self.daemon = True
+        self.text = text
+        #: [(spath, sname, is_dir)] of the project's root nodes,
+        #: pre-filtered and sorted by the UI thread
+        self.roots = roots
+        #: snapshot of the options which rule the scan
+        self.opts = {}
+        self.cancel = False
+        #: matches found so far - files whose name matches plus folders
+        #: whose name matches (a folder which only CONTAINS matches is
+        #: not itself a match): the live counter of the status line
+        self.count = 0
+        #: the PARTIAL lazy index, readable by the UI thread WHILE the
+        #: scan runs: {parent path: [(name, path, is_dir)]}. During the
+        #: walk buckets are only ever APPENDED to; the final cleanup
+        #: REPLACES bucket lists instead of mutating them, so a
+        #: concurrent UI read is always a consistent snapshot (CPython
+        #: list/dict reads are safe against that)
+        self.res = {}
+        #: folder paths whose row is allowed to SHOW in the live tree: a
+        #: folder whose own name does not match the filter stays hidden
+        #: until the scan finds a match INSIDE it - the exact rule the
+        #: live filtered tree follows. A marked folder always implies
+        #: its ancestors are marked too
+        self.live = set()
+        #: bumped on every index/live change, so the UI timer can skip
+        #: idle refreshes (e.g. the worker stuck on one slow network
+        #: folder)
+        self.version = 0
+        #: the finished result: {parent path: [(name, path, is_dir)]}
+        #: (cleaned of the optimistic rows; None when cancelled)
+        self.tree = None
+        self.done = False
+
+    def _mark_chain(self, path):
+        """Mark the folder `path` and every ancestor folder up to the
+        top as live-visible. Early-exits on an already-marked folder
+        (chains are always marked whole, so a marked folder implies
+        that all its ancestors are marked too). Harmlessly also marks
+        paths above the project roots: no tree row exists for them."""
+        live = self.live
+        p = path
+        while p and p not in live:
+            live.add(p)
+            nxt = os.path.dirname(p)
+            if nxt == p:
+                break
+            p = nxt
+
+    def run(self):
+        try:
+            res = self.res
+            flt = self.text.lower()
+            queue = deque()
+            # roots: every root FOLDER gets its (optimistic) top-level
+            # row immediately, so the top level of the live tree is
+            # complete from the very start (a root folder shows as soon
+            # as a match is found inside it, a name-matching root at
+            # once); a root FILE only shows when its name matches
+            for spath, sname, is_dir in self.roots:
+                if is_dir:
+                    res.setdefault('', []).append((sname, spath, True))
+                    if flt in sname.lower():
+                        self.count += 1
+                        self._mark_chain(spath)
+                    queue.append(spath)
+                elif flt in sname.lower():
+                    res.setdefault('', []).append((sname, spath, False))
+                    self.count += 1
+            self.version += 1
+            while queue:
+                if self.cancel:
+                    break
+                path = queue.popleft()
+                for e in scan_dir_entries(path, self.opts) or []:
+                    if self.cancel:
+                        break
+                    if e.is_dir():
+                        # optimistic row: hidden (not live) until a
+                        # match is found inside, or the name matches
+                        res.setdefault(path, []).append(
+                            (e.name, e.path, True))
+                        if flt in e.name.lower():
+                            self.count += 1
+                            self._mark_chain(e.path)
+                        queue.append(e.path)
+                    elif flt in e.name.lower():
+                        res.setdefault(path, []).append(
+                            (e.name, e.path, False))
+                        self.count += 1
+                        # a match was found: the folder chain above
+                        # the file becomes visible at once
+                        self._mark_chain(path)
+                self.version += 1
+            if not self.cancel:
+                # final cleanup: drop the optimistic rows of the folders
+                # in which no match was ever found (the live tree never
+                # showed them - the UI filters folder rows by `live`);
+                # buckets which end up empty are removed completely, so
+                # the finished index holds only real findings
+                cleaned = {}
+                for key, bucket in res.items():
+                    rows = [r for r in bucket
+                            if not r[2] or r[1] in self.live]
+                    if rows:
+                        cleaned[key] = rows
+                self.tree = cleaned
+                self.version += 1
+        except Exception:
+            self.tree = {}
+        finally:
+            self.done = True
+
 
 # Project file format version written by this plugin. Files without a
 # "version" key are the old format (version 1) and are upgraded on open.
@@ -377,6 +667,43 @@ def is_hidden(s):
 def is_win_root(s):
     return IS_WIN and s.endswith(':\\')
 
+def _rtrim_sep(s):
+    """Path without its trailing separator(s): 'D:\\' -> 'D:',
+    '\\\\server\\share\\' -> '\\\\server\\share'. Needed to compare
+    paths that keep/drop the trailing separator in different places
+    (the tree, the saved nodes list, the OS dialogs)."""
+    if not s:
+        return s
+    return s.rstrip('\\/' if IS_WIN else '/')
+
+def path_equals(a, b):
+    """True if the two paths are equal, IGNORING the trailing separator.
+    The tree stores a root node's path as pathlib renders it, which KEEPS
+    the backslash of a drive root ('D:\\') but DROPS it for a UNC root
+    ('\\\\server\\share'), while the saved nodes list keeps what the
+    folder dialog returned ('D:\\', '\\\\server\\share\\') - so an exact
+    'x in nodes' compare failed for BOTH root kinds and 'Stop tracking'
+    reported 'cannot find path' for a whole drive."""
+    if not a or not b:
+        return False
+    if a == b:
+        return True
+    return _rtrim_sep(a) == _rtrim_sep(b)
+
+def path_contains(parent, child):
+    """True if 'child' is 'parent' itself or lies under it (the trailing
+    separator is ignored on both sides; the boundary accepts both '\\'
+    and '/', so mixed-separator paths compare correctly too)."""
+    p = _rtrim_sep(parent)
+    c = _rtrim_sep(child)
+    if not p or not c:
+        return False
+    if c == p:
+        return True
+    # the char right after the common prefix must be a separator:
+    # 'D:\\data' is under 'D:' but 'D:\\database' is NOT under 'D:\\data'
+    return c.startswith(p) and len(c) > len(p) and c[len(p)] in '\\/'
+
 def is_locked(s):
     if IS_WIN:
         if s.endswith(':\\'):
@@ -384,6 +711,34 @@ def is_locked(s):
         return is_hidden_win32(s)
     else:
         return not os.access(s, os.R_OK)
+
+
+def _open_folder_in_fileman(path):
+    """Open the FOLDER 'path' itself in the OS file manager (no item
+    selected inside it). Shared by "Open project folder", "Open
+    containing folder" and the dead-path fallback of "Reveal in file
+    manager". Returns False when the folder does not exist or the OS
+    has no implementation."""
+    path = str(path)
+    if not path or not os.path.isdir(path):
+        return False
+
+    suffix = OS_SUFFIX
+    if suffix=='':
+        #Windows
+        import subprocess
+        subprocess.Popen(('explorer.exe', path), shell=True)
+    elif suffix=='__mac':
+        #macOS
+        os.system('open "%s"' % path)
+    elif suffix=='__haiku':
+        #Haiku
+        msg_status(_('Opening a folder in the file manager is not implemented for this OS'))
+        return False
+    else:
+        #Linux and other Unixes
+        os.spawnvp(os.P_WAIT, 'xdg-open', ('xdg-open', Path(path).as_uri()))
+    return True
 
 
 def _toolbar_add_btn(h_bar, hint, icon=-1, command=''):
@@ -549,8 +904,11 @@ class Command:
         (_("Go to file...")  , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_go_to_file", ""),
         (_("Go to main file"), "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.goto_main", ""),
         (_("Open main file"), "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.open_main", ""),
+        (_("Open containing folder"), "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_open_containing_folder", ""),
         ("-"   , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "", ""),
         (_("Project sessions"), "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "sessions_submenu", ""),
+        ("-"   , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "", ""),
+        (_("Favorites"), "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "favorites_submenu", ""),
         ("-"   , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "", ""),
         (_("Project Manager options..."), "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_config", ""),
     )
@@ -573,6 +931,7 @@ class Command:
         "backup_enabled": True,
         "backup_folder": DEFAULT_BACKUP_FOLDER,
         "backup_count": DEFAULT_BACKUP_COUNT,
+        "projects_dir": "",
     }
     # Default options used as the base when loading from disk: any key
     # missing from the loaded file is filled in from here, so settings
@@ -583,6 +942,66 @@ class Command:
     h_dlg = None
     h_menu = None
     h_menu_cfg = None
+
+    #--- tree filter (the field above the tree) and type-ahead state
+    #: current filter text ('' = no filtering)
+    tree_filter = ''
+    #: control index of the filter edit (set in init_form_main)
+    filter_ctl_index = -1
+    #: full (shown) width of the filter's (x) button, set in
+    #: init_form_main; the hidden state collapses the button to w=0
+    #: (see _filter_cancel_btn_update)
+    _filter_cancel_w = 0
+    #: folds/selection captured when the filtering started, restored
+    #: when it is cleared
+    _filter_saved_folds = None
+    _filter_saved_sel = ''
+    #: filter text the debounce timer is waiting for (None = no timer
+    #: armed); see panel_filter_on_change
+    _filter_pending = None
+    #: the background scan of the current filter (a _FilterWorker
+    #: thread, or None); polled by _filter_progress_tick
+    _filter_worker = None
+    #: True while the repeating progress timer is armed
+    _filter_progress_on = False
+    #: match count of the last FINISHED filtered scan (used to restore
+    #: the "finished, N match(es)" line when the debounce fires for an
+    #: unchanged filter text)
+    _filter_rows_count = 0
+    #: the LAZY TREE INDEX of the last finished/cancelled filtered scan:
+    #: {parent folder path: [(name, path, is_dir), ...]}, the project
+    #: root's children under the key ''. The tree is filled from it
+    #: level by level as the user expands the nodes - see
+    #: _filter_rebuild / _filter_refill_children
+    _filter_index = None
+    #: options snapshot of the running/last scan (for the lazy
+    #: single-level fallback refill of folders the index does not know)
+    _filter_opts = None
+    #: the live set of the scan whose (finished or cancelled) result is
+    #: in _filter_index: the uniform live filter of _filter_rows_for
+    #: keeps needing it after the worker object is dropped
+    _filter_live_done = None
+    #: {folder path: [(name, path, is_dir)]} cached single-level
+    #: fallback scans of folders no scan index knew when the user
+    #: expanded them; per-search cache, so the repeating live rebuilds
+    #: never re-read the disk
+    _filter_fallback = None
+    #: folder paths the user unfolded during the current search: a
+    #: level which is (still) empty shows no expander, so the rebuild
+    #: must remember its unfolded state for the rows which come later
+    _filter_expanded = None
+    #: worker .version last shown by a live rebuild (lets the progress
+    #: tick skip a refresh when the worker found nothing new)
+    _filter_live_version = -1
+    #: True while _filter_rebuild recreates the filtered tree: blocks
+    #: tree_on_unfold, whose refill would fight the rebuild's own
+    #: programmatic unfolds
+    _filter_rebuilding = False
+    #: type-ahead buffer and the time of its last keystroke
+    _ta_buf = ''
+    _ta_time = 0.0
+    #: gap (seconds) after the last typed char which resets the buffer
+    TYPEAHEAD_TIMEOUT = 1.2
 
     action_cut_activate = False
 
@@ -679,7 +1098,14 @@ class Command:
                     loaded = json.load(fin)
                 self.options.update(loaded)
                 if "recent_projects" in self.options:
-                    self.options["recent_projects"] = [expand_macros('', fn) for fn in self.options["recent_projects"]]
+                    # heal entries merged into one tab-joined line by the
+                    # buggy options dialog of older builds (the dialog-API
+                    # memo control separates its lines with TAB, and the
+                    # old code read the value with splitlines())
+                    healed = []
+                    for fn in self.options["recent_projects"]:
+                        healed.extend(p for p in str(fn).split("\t") if p.strip())
+                    self.options["recent_projects"] = [expand_macros('', fn) for fn in healed]
             except Exception:
                 pass
 
@@ -739,14 +1165,140 @@ class Command:
         self.h_btn_sync = toolbar_proc(self.h_bar, TOOLBAR_GET_BUTTON_HANDLE, index=btn_count-1)
         button_proc(self.h_btn_sync, BTN_SET_VISIBLE, not self.options.get('always_sync', False))
 
+        # Favorites (bookmarks) button - a TEXT button showing the ☆
+        # UTF-8 font icon itself (no image files); opens the Favorites
+        # window. Added after h_btn_sync is captured so its handle stays
+        # valid (it assumes it is the last button)
+        try:
+            _toolbar_add_btn(self.h_bar, hint='-')
+            toolbar_proc(self.h_bar, TOOLBAR_ADD_ITEM)
+            cnt = toolbar_proc(self.h_bar, TOOLBAR_GET_COUNT)
+            h_btn_fav = toolbar_proc(self.h_bar, TOOLBAR_GET_BUTTON_HANDLE, index=cnt-1)
+            button_proc(h_btn_fav, BTN_SET_KIND, BTNKIND_TEXT_ONLY)
+            button_proc(h_btn_fav, BTN_SET_TEXT, '☆')
+            button_proc(h_btn_fav, BTN_SET_HINT, _('Favorites (bookmarks)'))
+            button_proc(h_btn_fav, BTN_SET_DATA1, 'cuda_project_man.favorites_show')
+        except Exception as e:
+            print('Project Manager: cannot add Favorites toolbar button:', e)
+
         toolbar_proc(self.h_bar, TOOLBAR_SET_WRAP, index=True)
         toolbar_proc(self.h_bar, TOOLBAR_UPDATE)
+
+        #---- filter field above the tree ----
+        # typing here shows only the nodes/files/folders whose name
+        # matches (folders keep the path to the matches); Esc clears it
+        # NOTE 'act': True is REQUIRED: the dialog engine fires the
+        # on_change event of an edit only for controls marked 'act'
+        # (DoOnChange -> "if not Props.FActive then exit"), and 'edit'
+        # controls don't get it by default (buttons do) - without it
+        # typing in the field did nothing at all
+        EH = app_proc(PROC_GET_GUI_HEIGHT, 'edit') or 28
+        #---- cancel (x) button at the right of the filter field ----
+        # Created BEFORE the edit: the edit's right edge is anchored to
+        # this button's left edge. Clicking it cancels a RUNNING search
+        # (the tree keeps its current content, the status line reports
+        # what was found so far); when no search is running it clears
+        # the filter, like the x of a usual search box. button_ex = the
+        # flat themed button, so it follows the UI theme.
+        # VISIBILITY: the button shows ONLY while it can do something -
+        # the filter field has text, or a background search is running
+        # (_filter_cancel_btn_update, called on every filter change).
+        # Hidden, it is also COLLAPSED to zero width, so the filter
+        # field stretches over the full row: a hidden control keeps
+        # its bounds, so only hiding it would leave an empty gap at
+        # the right of the field.
+        # ANCHORS: 'a_l': None is REQUIRED. The dialog engine maps a_l/
+        # a_r onto the LCL anchors, and the LCL default is akLeft=on:
+        # with the left anchor kept, the left edge stayed pinned to the
+        # initial x=0 while the right edge followed the panel edge - the
+        # button stretched across the WHOLE filter row and covered the
+        # edit (nothing could be typed). With akLeft removed, the button
+        # keeps its width (EH) and only MOVES with the panel's right
+        # edge - and setting 'w': 0 (the hidden state) moves its left
+        # edge to the panel's right edge, which is what lets the edit
+        # grow.
+        # The button's TOP+BOTTOM are re-anchored to the edit AFTER the
+        # edit is created (below): the engine resolves the control name
+        # of an anchor only if that control already exists, so the
+        # vertical glue cannot be set here yet. With both vertical edges
+        # glued to the edit (0 spacing), the button is EXACTLY as tall
+        # as the filter box at every DPI / GUI height - the fixed h=EH
+        # below is only the initial pre-anchor size (without the glue
+        # the button rendered SMALLER than the filter field).
+        n = dlg_proc(self.h_dlg, DLG_CTL_ADD, prop='button_ex')
+        dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'btn_fcancel',
+            'x': 300, 'y': 2,      # sane pre-anchor position; the right
+                                   # anchor places the button finally
+            'a_t': ('bar', ']'),
+            'sp_t': 2,
+            'a_l': None,
+            'a_r': ('', ']'),
+            'sp_r': 2,
+            'w': EH,
+            'h': EH,
+            'cap': '×',
+            'hint': _('Cancel the running search\r(or clear the filter when no search is running)'),
+            'on_change': self.panel_filter_cancel_click,
+        })
+        n = dlg_proc(self.h_dlg, DLG_CTL_ADD, prop='edit')
+        self.filter_ctl_index = n
+        dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'f_filter',
+            'a_t': ('bar', ']'),
+            'sp_t': 2,
+            'a_l': ('', '['),
+            'sp_l': 2,
+            'a_r': ('btn_fcancel', '['),
+            'sp_r': 2,
+            'h': EH,
+            'act': True,
+            'texthint': _('Filter the project tree...'),
+            'hint': _('Show only the files/folders whose name matches.\rEsc clears the filter'),
+            'on_change': self.panel_filter_on_change,
+        })
+        # 'f_filter' exists now: glue the cancel button's top and bottom
+        # edges to the edit's ones (0 spacing) - the button always keeps
+        # the same height as the filter field, at any DPI / GUI height
+        dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, name='btn_fcancel', prop={
+            'a_t': ('f_filter', '['),
+            'sp_t': 0,
+            'a_b': ('f_filter', ']'),
+            'sp_b': 0,
+        })
+        # the (x) button starts HIDDEN and collapsed: with no filter
+        # text and no running search there is nothing it could do
+        # (every later filter change calls _filter_cancel_btn_update)
+        self._filter_cancel_w = EH
+        self._filter_cancel_btn_update()
+
+        #---- filter status line (between the filter and the tree) ----
+        # While the filter field is not empty, it ALWAYS shows what the
+        # background search is doing: "searching... N match(es) so far"
+        # while the scan runs, "finished, N match(es) found" when it
+        # ended. Empty caption = no filtering.
+        n = dlg_proc(self.h_dlg, DLG_CTL_ADD, prop='label')
+        dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'lbl_fstat',
+            'a_t': ('f_filter', ']'),
+            'sp_t': 2,
+            'a_l': ('', '['),
+            'sp_l': 4,
+            'a_r': ('', ']'),
+            'sp_r': 4,
+            'x': 4,
+            'y': EH + 4 + 2,
+            'w': 400,
+            'h': 17,
+            'cap': '',
+        })
 
         n = dlg_proc(self.h_dlg, DLG_CTL_ADD, prop='treeview')
         self.tree_index = n
         dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, index=n, prop={
             'name':'tree',
-            'a_t':('bar', ']'),
+            'a_t':('lbl_fstat', ']'),
+            'sp_t': 2,
             'a_r':('',']'), #anchor to entire form
             'a_b':('',']'),
             'on_menu': 'cuda_project_man.tree_on_menu',
@@ -774,6 +1326,42 @@ class Command:
         self.ICON_TEXT = self.icon_get('_text')
         self.ICON_AUDIO = self.icon_get('_audio')
         self.ICON_VIDEO = self.icon_get('_video')
+
+        # color the form and the filter field with the current UI theme
+        # (the tree and the toolbar are themed by the engine itself)
+        self.apply_panel_theme()
+
+    def apply_panel_theme(self):
+        """Re-color the panel background, the filter field and the
+        filter status line to the current UI theme (the treeview and
+        the toolbar are re-themed by CudaText itself - TREE_THEME /
+        TOOLBAR_THEME and the app's theme-change pass over the docked
+        plugin dialogs; the form, the edit and the label are ours to
+        color). Also called when the UI theme is switched while
+        CudaText runs (on_state, APPSTATE_THEME_UI)."""
+        if not self.h_dlg:
+            return
+        colors = _favorites.get_theme_ui_colors()
+        try:
+            if colors['form_bg'] is not None:
+                dlg_proc(self.h_dlg, DLG_PROP_SET, prop={
+                    'color': colors['form_bg']})
+            if colors['edit_bg'] is not None:
+                dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, name='f_filter',
+                         prop={'color': colors['edit_bg']})
+            if colors['edit_font'] is not None:
+                dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, name='f_filter',
+                         prop={'font_color': colors['edit_font']})
+            lbl = {}
+            if colors['form_bg'] is not None:
+                lbl['color'] = colors['form_bg']
+            if colors['label_font'] is not None:
+                lbl['font_color'] = colors['label_font']
+            if lbl:
+                dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, name='lbl_fstat',
+                         prop=lbl)
+        except Exception:
+            pass
 
 
     def init_panel(self, and_activate=True):
@@ -1525,6 +2113,18 @@ class Command:
             elif n == self.ICON_BAD: node_type = NODE_BAD
             else: node_type = NODE_FILE
 
+        # a TOP-LEVEL node (level 1) must never offer "Delete": nodes
+        # are only untracked ("Stop tracking this folder/file"), their
+        # files/folders stay on the disk. Delete (which moves to the OS
+        # trash) is offered only for items INSIDE a node. The delete
+        # actions themselves make the same check, so the command
+        # palette and the Del key are covered as well.
+        sel_is_root_node = False
+        if self.selected is not None and node_type in (NODE_DIR, NODE_FILE, NODE_BAD):
+            prop = tree_proc(self.tree, TREE_ITEM_GET_PROPS, self.selected)
+            if prop and prop.get('level') == 1:
+                sel_is_root_node = True
+
         if not self.h_menu:
             self.h_menu = menu_proc(0, MENU_CREATE)
 
@@ -1546,6 +2146,13 @@ class Command:
             if node_type not in item_types:
                 continue
 
+            # no disk deletion for top-level nodes - see the comment
+            # at sel_is_root_node above
+            if sel_is_root_node and item_action in (
+                    "cuda_project_man.action_delete_file",
+                    "cuda_project_man.action_delete_directory"):
+                continue
+
             if item_parent == "proj":
                 menu_use = menu_proj
             elif item_parent == "nodes":
@@ -1557,7 +2164,7 @@ class Command:
             else:
                 menu_use = menu_all
 
-            if item_action in ("collect_recent_projects", "sessions_submenu"):
+            if item_action in ("collect_recent_projects", "sessions_submenu", "favorites_submenu"):
                 action = ""
             else:
                 action = item_action
@@ -1575,6 +2182,8 @@ class Command:
 
             elif item_action == "sessions_submenu":
                 self.fill_sessions_menu(menu_added)
+            elif item_action == "favorites_submenu":
+                self.fill_favorites_menu(menu_added)
 
     @staticmethod
     def node_ordering(node):
@@ -1613,7 +2222,11 @@ class Command:
     @_with_backup_cause('on project save')
     def add_node(self, path):
         if path:
-            if path in self.project["nodes"]:
+            # tolerant compare (path_equals): the dialog may return the
+            # path with or without the trailing separator ('D:\\' vs
+            # 'D:', UNC roots) - an exact 'in' check could let a root
+            # node in twice
+            if any(path_equals(path, n) for n in self.project["nodes"]):
                 return
 
             msg_status(_("Adding to project: ") + '"' + collapse_filename(path) + '"', True)
@@ -1691,8 +2304,14 @@ class Command:
     def action_focus_in_fileman(self):
         fn = self.get_location_by_index(self.selected)
         sfn = str(fn)
-        #if not os.path.isfile(sfn):
-            #return
+        # a path that no longer exists (a dead node) cannot be selected
+        # in any file manager: open its PARENT folder instead, so the
+        # user still lands where the item used to live
+        if not os.path.exists(sfn):
+            if not _open_folder_in_fileman(fn.parent):
+                msg_status(_('Path not found: ') + sfn)
+            return
+
         suffix = OS_SUFFIX
 
         if suffix=='':
@@ -1711,6 +2330,20 @@ class Command:
             #Linux and others
             if os.spawnvp(os.P_WAIT, 'dbus-send', ('dbus-send', '--session', '--dest=org.freedesktop.FileManager1', '--type=method_call', '--print-reply', '/org/freedesktop/FileManager1', 'org.freedesktop.FileManager1.ShowItems', 'array:string:'+fn.as_uri(), 'string:')):
                 os.spawnvp(os.P_WAIT, 'xdg-open', ('xdg-open', fn.parent.as_uri()))
+
+    def action_open_containing_folder(self):
+        """Context menu "Open containing folder" (visible for the
+        project, root nodes, files, folders and an empty click):
+        opens the folder that CONTAINS the clicked thing in the OS
+        file manager. The project row (and an empty click) open the
+        folder of the .cuda-proj file - what "Open project folder"
+        does; a node/file/folder reveals itself in its containing
+        folder - what "Reveal in file manager" does."""
+        node_type = self.get_node_type()
+        if node_type in (None, NODE_PROJECT):
+            self.action_open_project_folder()
+        else:
+            self.action_focus_in_fileman()
 
     def action_rename(self):
         location = Path(self.get_location_by_index(self.selected))
@@ -1782,19 +2415,109 @@ class Command:
         self.action_refresh()
         msg_status(_("Copied to: ") + str(collapse_filename(str(new_location.name))))
 
+    def _confirm_and_delete(self, what, location):
+        """The shared confirmation + deletion of a file/folder INSIDE
+        a node. Returns 'trash' / 'permanent' when the item was
+        removed from the disk, None when the user cancelled or the
+        deletion failed (an error dialog was already shown).
+
+        With a trash-capable OS the confirmation dialog's button is
+        "Move to trash" - not a generic "OK" - and the item goes to
+        the OS trash/recycle bin. On an OS WITHOUT trash support a
+        DIFFERENT dialog appears: the warning icon, the explanation
+        that this OS cannot move items to the trash and that the
+        deletion is permanent, and the explicit "DELETE PERMANENTLY"
+        button (Cancel is focused, so Enter cancels) - the only door
+        to the plugin's only permanent deletion."""
+        if trash_supported():
+            msg = _("Are you sure you want to delete this %s?\n\n%s\n\n"
+                    "You can restore it from the %s.") \
+                  % (what, str(location), trash_label())
+            res = msg_box_ex(_("Delete %s") % what, msg,
+                             [_("Move to trash"), _("Cancel")],
+                             MB_ICONQUESTION)
+            if res != 0:
+                return None
+            try:
+                send_to_trash(location)
+            except OSError as e:
+                msg_box(_("Cannot move to the %s:\n%s\n\n%s")
+                        % (trash_label(), str(location), str(e)),
+                        MB_OK + MB_ICONERROR)
+                return None
+            return 'trash'
+
+        msg = _("This operating system does not support moving files "
+                "to the trash.\n\nAre you sure you want to delete this "
+                "%s?\n\n%s\n\nThe %s will be deleted PERMANENTLY - "
+                "this cannot be undone!") % (what, str(location), what)
+        res = msg_box_ex(_("Delete %s") % what, msg,
+                         [_("DELETE PERMANENTLY"), _("Cancel")],
+                         MB_ICONWARNING, focused=1)
+        if res != 0:
+            return None
+        try:
+            delete_permanently(location)
+        except OSError as e:
+            msg_box(_("Cannot delete:\n%s\n\n%s")
+                    % (str(location), str(e)), MB_OK + MB_ICONERROR)
+            return None
+        return 'permanent'
+
     def action_delete_file(self):
+        """Context menu / Del key on a file.
+
+        A TOP-LEVEL NODE is never touched on the disk: the user is asked
+        whether to stop tracking it, and the node is only removed from
+        the project tree (action_remove_node).
+        A file INSIDE a node is moved to the OS trash/recycle bin -
+        never deleted permanently on Windows/macOS/Linux; only on an
+        OS without any trash support, after the separate warning
+        dialog with the "DELETE PERMANENTLY" button, can it be
+        permanently deleted (_confirm_and_delete). A failed move
+        leaves the file in place and reports the reason."""
         location = Path(self.get_location_by_index(self.selected))
-        if msg_box(_("Delete file from disk:\n") + str(location), MB_OKCANCEL + MB_ICONWARNING) != ID_OK:
+        if not str(location):
             return
 
-        location.unlink()
+        # a root node: only the tree entry goes, the disk file stays
         if self.is_path_in_root(location):
-            self.action_remove_node()
+            self.confirm_stop_tracking(location)
+            return
+
+        outcome = self._confirm_and_delete(_("file"), location)
+        if outcome is None:
+            return
+
+        # a root node never reaches here (it returns above), so this is
+        # a file inside a node: refresh the parent folder of the tree
+        h_parent = tree_proc(self.tree, TREE_ITEM_GET_PROPS, self.selected)['parent']
+        tree_proc(self.tree, TREE_ITEM_SELECT, h_parent)
+        self.action_refresh(h_parent)
+        if outcome == 'trash':
+            msg_status(_("Moved to %s: ") % trash_label() + str(location.name))
         else:
-            h_parent = tree_proc(self.tree, TREE_ITEM_GET_PROPS, self.selected)['parent']
-            tree_proc(self.tree, TREE_ITEM_SELECT, h_parent)
-            self.action_refresh(h_parent)
-        msg_status(_("Deleted file: ") + str(location.name))
+            msg_status(_("Deleted permanently: ") + str(location.name))
+
+    def confirm_stop_tracking(self, location):
+        """Ask whether to stop tracking the given top-level node, then
+        untrack it (action_remove_node): the entry is removed from the
+        project tree ONLY - the file/folder itself is never deleted,
+        moved or changed on the disk. Used by the Del key and by the
+        delete commands when they land on a root node. The button says
+        what it does - "Stop tracking", not a generic "OK"."""
+        is_dir = location.is_dir()
+        what = _("folder") if is_dir else _("file")
+        msg = _("Are you sure you want to stop tracking this %s?\n\n%s\n\n"
+                "It is only removed from the project tree,\n"
+                "the %s itself stays on the disk.") % (what, str(location), what)
+        res = msg_box_ex(_("Stop tracking"), msg,
+                         [_("Stop tracking"), _("Cancel")],
+                         MB_ICONQUESTION)
+        if res != 0:
+            return
+
+        self.action_remove_node()
 
     def action_copy_relative_path(self):
         file_path = str(self.get_location_by_index(self.selected))
@@ -1878,17 +2601,35 @@ class Command:
 
     def show_memo(self, text, caption):
         w_, h_ = self.get_w_h()
-        h = dlg_proc(0, DLG_CREATE)
-        dlg_proc(h, DLG_PROP_SET, prop={
+        colors = _favorites.get_theme_ui_colors()
+
+        def on_form_key(id_dlg, id_ctl, data='', info=''):
+            # button_ex has no "default button" support, so the form
+            # handles Enter itself (Esc closes the modal form - engine)
+            if id_ctl == VK_ENTER and not (data or ''):
+                dlg_proc(id_dlg, DLG_HIDE)
+                return False
+            return None
+
+        fprop = {
             'w': w_,
             'h': h_,
             'w_min': 300,
             'h_min': 150,
             'cap': caption,
             'border': DBORDER_SIZE,
-        })
+            'keypreview': True,     # needed for on_key_down (Enter = OK)
+            'on_key_down': on_form_key,
+        }
+        if colors['form_bg'] is not None:
+            fprop['color'] = colors['form_bg']
+        h = dlg_proc(0, DLG_CREATE)
+        dlg_proc(h, DLG_PROP_SET, prop=fprop)
 
-        n = dlg_proc(h, DLG_CTL_ADD, prop='button')
+        # button_ex = the flat themed CudaText button (follows the UI
+        # theme); the OS 'button' cannot be themed via the dialog API.
+        # It draws its caption itself, so no '&' accelerator
+        n = dlg_proc(h, DLG_CTL_ADD, prop='button_ex')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
             'name': 'btn_ok',
             'a_l': None,
@@ -1899,13 +2640,11 @@ class Command:
             'x': w_-100,
             'y': h_-6-25,
             'w': 100-6,
-            'cap': _('&OK'),
+            'cap': _('OK'),
             'on_change': 'module=cuda_project_man;cmd=callback_button_ok;',
-            'ex0': True,
         })
 
-        n = dlg_proc(h, DLG_CTL_ADD, prop='memo')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
+        mp = {
             'name': 'memo_log',
             'val': text,
             'a_r': ('btn_ok', ']'),
@@ -1914,9 +2653,15 @@ class Command:
             'y': 6,
             'w': w_-6*2,
             'h': h_-6*3-25,
-            'ex0': True,
-            'ex1': True,
-        })
+            'ex0': True,           # read-only (dialog API prop of edit/memo)
+            'ex1': True,           # monospaced font
+        }
+        if colors['edit_bg'] is not None:
+            mp['color'] = colors['edit_bg']
+        if colors['edit_font'] is not None:
+            mp['font_color'] = colors['edit_font']
+        n = dlg_proc(h, DLG_CTL_ADD, prop='memo')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop=mp)
 
         dlg_proc(h, DLG_CTL_FOCUS, name='btn_ok')
         dlg_proc(h, DLG_SCALE)
@@ -1996,32 +2741,37 @@ class Command:
         if text:
             self.show_memo(text, _('Properties'))
 
-    def do_delete_dir(self, location):
-        for path in location.glob("*"):
-            if path.is_file():
-                path.unlink()
-            elif path.is_dir():
-                self.do_delete_dir(path)
-        location.rmdir()
-
     def action_delete_directory(self):
+        """Context menu / Del key on a folder - see action_delete_file:
+        a top-level node is only untracked, a folder inside a node is
+        moved to the OS trash/recycle bin; only on an OS without any
+        trash support, after the separate warning dialog with the
+        "DELETE PERMANENTLY" button, can it be permanently deleted."""
         location = Path(self.get_location_by_index(self.selected))
-        if msg_box(_("Delete folder from disk:\n") + str(location), MB_OKCANCEL + MB_ICONWARNING) != ID_OK:
+        if not str(location):
             return
 
-        self.do_delete_dir(location)
+        # a root node: only the tree entry goes, the disk folder stays
         if self.is_path_in_root(location):
-            self.action_remove_node()
+            self.confirm_stop_tracking(location)
+            return
+
+        outcome = self._confirm_and_delete(_("folder"), location)
+        if outcome is None:
+            return
+
+        h_parent = tree_proc(self.tree, TREE_ITEM_GET_PROPS, self.selected)['parent']
+        tree_proc(self.tree, TREE_ITEM_SELECT, h_parent)
+        self.action_refresh(h_parent)
+
+        path = self.get_location_by_index(self.selected)
+        app_proc(PROC_SET_FOLDER, path)
+        self.cur_dir = path
+
+        if outcome == 'trash':
+            msg_status(_("Moved to %s: ") % trash_label() + str(location.name))
         else:
-            h_parent = tree_proc(self.tree, TREE_ITEM_GET_PROPS, self.selected)['parent']
-            tree_proc(self.tree, TREE_ITEM_SELECT, h_parent)
-            self.action_refresh(h_parent)
-
-            path = self.get_location_by_index(self.selected)
-            app_proc(PROC_SET_FOLDER, path)
-            self.cur_dir = path
-
-        msg_status(_("Deleted folder: ") + str(location.name))
+            msg_status(_("Deleted permanently: ") + str(location.name))
 
     def action_new_directory(self):
         location = Path(self.get_location_by_index(self.selected))
@@ -2076,7 +2826,26 @@ class Command:
             self.enum_all_getfolds(unfolds)
             #msg_box('unfolds:\n'+', '.join(unfolds), MB_OK)
 
-            self.action_refresh_int(parent)
+            if self.tree_filter:
+                if parent is None:
+                    # the filter field is active: re-run the BACKGROUND
+                    # filtered scan (action_refresh_int would show
+                    # everything); the tree is refilled when it finishes
+                    self._filter_start(self.tree_filter)
+                else:
+                    # refresh ONE node, filtered: the same cheap lazy
+                    # refill an expand does (from the index / one-level
+                    # name filter) - see _filter_refill_children
+                    fn = str(self.get_location_by_index(parent) or '')
+                    if fn:
+                        items = tree_proc(self.tree, TREE_ITEM_ENUM_EX,
+                                          parent) or []
+                        for item in items:
+                            tree_proc(self.tree, TREE_ITEM_DELETE,
+                                      item['id'])
+                        self._filter_refill_children(parent, fn)
+            else:
+                self.action_refresh_int(parent)
 
             self.enum_all_setfolds(unfolds)
         finally:
@@ -2160,28 +2929,7 @@ class Command:
             elif self.is_filename_ignored(spath, is_dir):
                 continue
 
-            if is_locked(spath):
-                imageindex = self.ICON_BAD
-            elif is_dir:
-                imageindex = self.ICON_DIR
-            elif is_simple_listed(path.name, MASKS_IMAGES):
-                imageindex = self.ICON_IMG
-            elif is_simple_listed(path.name, MASKS_ZIP):
-                imageindex = self.ICON_ZIP
-            elif is_simple_listed(path.name, MASKS_BINARY):
-                imageindex = self.ICON_BIN
-            elif is_simple_listed(path.name, MASKS_AUDIO):
-                imageindex = self.ICON_AUDIO
-            elif is_simple_listed(path.name, MASKS_VIDEO):
-                imageindex = self.ICON_VIDEO
-            else:
-                lexname = lexer_proc(LEXER_DETECT, path.name)
-                if lexname:
-                    imageindex = self.icon_get(lexname)
-                elif is_simple_listed(path.name, MASKS_TEXT):
-                    imageindex = self.ICON_TEXT
-                else:
-                    imageindex = self.ICON_ALL
+            imageindex = self._node_icon(spath, sname, is_dir)
 
             index = tree_proc(
                 self.tree,
@@ -2207,13 +2955,867 @@ class Command:
         if unfold:
             tree_proc(self.tree, TREE_ITEM_UNFOLD, parent)
 
+    #------------- tree filter (the field above the tree)
+
+    def panel_filter_on_change(self, id_dlg, id_ctl, data='', info=''):
+        """The filter field above the tree changed. The (slow) filtered
+        fill does NOT run per keystroke: a one-shot timer applies the
+        text only after the typing pauses, then the scan runs in a
+        BACKGROUND thread - a big tree never freezes CudaText anymore.
+        Clearing the field is applied at once (it is cheap). While the
+        field is not empty, the status line under it always shows what
+        the search is doing."""
+        if not self.tree:
+            return
+        try:
+            props = dlg_proc(self.h_dlg, DLG_CTL_PROP_GET, name='f_filter') or {}
+            text = str(props.get('val', '') or '')
+        except Exception:
+            text = ''
+        # the (x) button shows only with text / a running search
+        self._filter_cancel_btn_update()
+        if not text:
+            timer_proc(TIMER_STOP, self._filter_timer_fire, 0)
+            self._filter_pending = None
+            self.apply_tree_filter('')
+            return
+        # the filter is active from the FIRST keystroke: the status
+        # line shows "searching" right away (the debounce only delays
+        # the scan start)
+        self._filter_label_running(0)
+        self._filter_pending = text
+        # re-arm the debounce: stop the pending one-shot timer, then
+        # start a fresh one, so it fires FILTER_APPLY_DELAY_MS after
+        # the LAST keystroke, not after the first
+        timer_proc(TIMER_STOP, self._filter_timer_fire, 0)
+        timer_proc(TIMER_START_ONE, self._filter_timer_fire,
+                   FILTER_APPLY_DELAY_MS)
+
+    def _filter_timer_fire(self, tag=None):
+        """The debounce delay passed: apply the live filter text."""
+        self._filter_pending = None
+        if not self.tree:
+            return
+        try:
+            props = dlg_proc(self.h_dlg, DLG_CTL_PROP_GET, name='f_filter') or {}
+            text = str(props.get('val', '') or '')
+        except Exception:
+            return
+        if text == self.tree_filter:
+            # the field was edited back to the same text: nothing to
+            # re-scan, just restore the "finished" line which the
+            # keystroke had replaced with "searching"
+            if text:
+                self._filter_label_done(self._filter_rows_count)
+            return
+        self.apply_tree_filter(text)
+
+    def _filter_cancel_btn_update(self):
+        """Show the filter's (x) button only while it can do something:
+        while the filter field has text, or a background search is
+        running. With no text and no search the button is hidden AND
+        collapsed to zero width, so the filter field stretches over
+        the full row (the field's right edge is anchored to the
+        button's LEFT edge, and a hidden control keeps its bounds - so
+        only hiding the button would leave an empty gap at the right
+        of the field). Called at panel build, on every filter-field
+        change and whenever a scan starts or ends."""
+        if not self.h_dlg:
+            return
+        try:
+            props = dlg_proc(self.h_dlg, DLG_CTL_PROP_GET, name='f_filter') or {}
+            text = str(props.get('val', '') or '')
+        except Exception:
+            text = ''
+        w = self._filter_worker
+        searching = (w is not None) and (not w.done)
+        try:
+            if text or searching:
+                dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, name='btn_fcancel',
+                         prop={'w': self._filter_cancel_w, 'vis': True})
+            else:
+                dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, name='btn_fcancel',
+                         prop={'w': 0, 'vis': False})
+        except Exception:
+            pass
+
+    def apply_tree_filter(self, text):
+        """Show only the matching nodes in the tree: starts the
+        BACKGROUND scan and shows its INSTANT first view (only the
+        root nodes whose own name matches - see _filter_start); while
+        the scan runs, the progress timer grows the tree with the
+        findings so far, and when it finishes the tree is refilled
+        with the TOP level of the scan's lazy index (deeper levels
+        load as the user expands them). Empty text cancels the scan
+        and restores the normal tree, with the folds/selection
+        captured before the filtering started."""
+        text = (text or '').strip()
+        if not self.tree:
+            return
+        if text == self.tree_filter:
+            return
+
+        if not self.tree_filter and text:
+            # filtering starts: remember what to restore later
+            folds = []
+            self.enum_all_getfolds(folds)
+            self._filter_saved_folds = folds
+            self._filter_saved_sel = ''
+            node = self.selected
+            if node:
+                prop = tree_proc(self.tree, TREE_ITEM_GET_PROPS, node)
+                if prop:
+                    self._filter_saved_sel = prop.get('data', '')
+
+        self.tree_filter = text
+        if text:
+            self._filter_start(text)
+        else:
+            self._filter_cancel_scan()
+            self._filter_label_clear()
+            # the (x) button hides with the scan stopped and (normally)
+            # the field emptied - AFTER the cancel, so the update sees
+            # the worker already gone (an update before the cancel
+            # would still see it running and keep the button visible)
+            self._filter_cancel_btn_update()
+            # drop the lazy index of the finished scan and the fallback
+            # cache: the next filtering builds fresh ones
+            self._filter_index = None
+            self._filter_live_done = None
+            self._filter_fallback = None
+            self._filter_expanded = None
+            self._filter_rows_count = 0
+            self.action_refresh()
+            # restore the state from before the filtering
+            if self._filter_saved_folds:
+                self.enum_all_setfolds(list(self._filter_saved_folds))
+            if self._filter_saved_sel:
+                self._filter_select_by_path(self._filter_saved_sel)
+
+    def panel_filter_cancel_click(self, id_dlg, id_ctl, data='', info=''):
+        """The x button at the right of the filter field (it is only
+        visible while the field has text or a search is running - see
+        _filter_cancel_btn_update). While a search is RUNNING (the
+        background worker) it CANCELS the search: the tree is rebuilt
+        from the findings SO FAR, so they stay visible and browsable
+        (expanding their folders keeps refilling exactly those rows),
+        the status line reports what was found, and the filter text
+        stays - the user can keep browsing what is shown (so the
+        button stays visible). With no search running, it clears the
+        filter, like the x button of a usual search box - and the
+        button hides with the text gone."""
+        if not self.tree:
+            return
+        w = self._filter_worker
+        if w is None or w.done:
+            # nothing to cancel - clear the filter
+            self.clear_panel_filter()
+            return
+        self._filter_cancel_scan()
+        # promote the PARTIAL result to a finished-style lazy index,
+        # cleaned of the optimistic rows (the folders in which no match
+        # was found so far): the tree keeps showing the findings so far,
+        # and expanding nodes after the cancel must refill exactly those
+        # rows - not the single-level fallback, which knows nothing
+        # about the deeper matches. The worker thread may still be
+        # running (it dies on the cancel flag a moment later), so the
+        # dict snapshot retries while it keeps adding buckets - a plain
+        # .items() loop could raise "dictionary changed size during
+        # iteration"
+        while True:
+            try:
+                items = list((w.res or {}).items())
+                break
+            except RuntimeError:
+                continue
+        cleaned = {}
+        for key, bucket in items:
+            rows = [r for r in bucket if not r[2] or r[1] in w.live]
+            if rows:
+                cleaned[key] = rows
+        self._filter_index = cleaned
+        self._filter_live_done = w.live
+        self._filter_rows_count = w.count
+        self._filter_label_cancelled(w.count)
+        # rebuild the visible tree from the snapshot: the findings stay
+        self._filter_rebuild(cleaned, w.live)
+
+    def clear_panel_filter(self):
+        """Esc / the (x) button: clear the filter field and show the
+        full tree again. Setting the edit's value programmatically does
+        not fire its on_change event, so apply_tree_filter() must be
+        called here. The field is also cleared while the typed text is
+        still inside the debounce delay (not applied yet): the pending
+        scan is dropped, the tree was never filtered, so there is
+        nothing to restore - and the (x) button, which shows for ANY
+        text, must always have an effect."""
+        try:
+            props = dlg_proc(self.h_dlg, DLG_CTL_PROP_GET, name='f_filter') or {}
+            text = str(props.get('val', '') or '')
+        except Exception:
+            text = ''
+        # stop the debounce of a not-yet-applied filter text (harmless
+        # when no timer is armed)
+        timer_proc(TIMER_STOP, self._filter_timer_fire, 0)
+        self._filter_pending = None
+        if not self.tree_filter:
+            # nothing applied: just empty the field (if it holds the
+            # not-yet-applied text) and hide the (x) button
+            if text:
+                try:
+                    dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, name='f_filter',
+                             prop={'val': ''})
+                except Exception:
+                    pass
+                self._filter_cancel_btn_update()
+            return
+        self._filter_cancel_scan()
+        self._filter_label_clear()
+        try:
+            dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, name='f_filter',
+                     prop={'val': ''})
+        except Exception:
+            pass
+        self.apply_tree_filter('')
+
+    #------------- background scan (the _FilterWorker thread)
+
+    def _filter_start(self, text):
+        """(Re)start the background scan for the given filter text: a
+        fresh _FilterWorker thread (the previous one is cancelled
+        co-operatively) + the repeating progress timer which polls it.
+        The root nodes and the scan-ruling options are snapshotted
+        HERE, on the UI thread - the worker never touches the plugin
+        state (the CudaText API is not thread-safe).
+
+        The tree also gets the INSTANT first view of the filter right
+        here, before any scanning: only the root nodes whose own name
+        matches stay visible, everything else hides at once - a node
+        can only come back when the scan finds a match inside it (the
+        progress timer's live rebuilds show those findings as they
+        come). The previous search's lazy index and fallback cache are
+        dropped as well: their rows belong to the OLD filter text and
+        must never leak into a rebuild or an expand of the new search."""
+        if not self.tree or not text:
+            return
+        self._filter_cancel_worker()
+        global sort_order
+        sort_order = self.options.get('sort_order', 'ext')
+
+        roots = []
+        nodes = map(Path, self.project.get("nodes", []))
+        if sort_order != '':
+            nodes = sorted(nodes, key=Command.node_ordering_direntry)
+        for path in nodes:
+            spath = str(path)
+            sname = path.name
+            is_dir = path.is_dir()
+            if is_win_root(spath) or (not sname):
+                sname = spath
+            elif self.options.get("no_hidden", True) and is_hidden(spath):
+                continue
+            elif self.is_filename_ignored(spath, is_dir):
+                continue
+            roots.append((spath, sname, bool(is_dir)))
+
+        w = _FilterWorker(text, roots)
+        w.opts = {
+            'no_hidden': bool(self.options.get('no_hidden', True)),
+            'no_files': str(self.options.get('no_files', '') or ''),
+            'no_dirs': str(self.options.get('no_dirs', '') or ''),
+            'sort_order': sort_order,
+        }
+        # remember the snapshot for the lazy single-level fallback
+        # refill too (folders the scan index does not know)
+        self._filter_opts = dict(w.opts)
+        self._filter_worker = w
+        # drop the previous search's lazy index and fallback cache (its
+        # rows are for the OLD filter text - a rebuild or an expand of
+        # the new search must never show them) and reset the live-rebuild
+        # bookkeeping
+        self._filter_index = None
+        self._filter_live_done = None
+        self._filter_fallback = {}
+        self._filter_expanded = set()
+        self._filter_rows_count = 0
+        self._filter_live_version = -1
+        # the instant view: the root nodes whose own name matches
+        inst_rows = [(sname, spath, is_dir)
+                     for spath, sname, is_dir in roots
+                     if text.lower() in sname.lower()]
+        try:
+            w.start()
+        except Exception as ex:
+            # cannot start a thread (very exotic): fall back to the
+            # name-only view rather than break the panel (expands then
+            # use the single-level fallback filter)
+            print('Project Manager: cannot start the filter thread: ' + str(ex))
+            self._filter_worker = None
+            self._filter_index = {}
+            self._fill_tree_filtered_top(inst_rows)
+            self._filter_label_done(0)
+            return
+        self._fill_tree_filtered_top(inst_rows)
+        self._filter_label_running(0)
+        self._filter_timer_start()
+        # a search is running now: the (x) button must show even before
+        # the next keystroke reports the text
+        self._filter_cancel_btn_update()
+
+    def _filter_cancel_worker(self):
+        """Cancel the running background scan (if any): it notices the
+        flag around every directory and dies quietly; its result is
+        dropped by _filter_progress_tick."""
+        w = self._filter_worker
+        self._filter_worker = None
+        if w is not None:
+            w.cancel = True
+
+    def _filter_cancel_scan(self):
+        """Full stop of the filter machinery: worker + progress timer
+        (there is no chunked fill anymore - the tree is filled lazily
+        from the index). The status line is NOT touched here (the
+        callers decide what it shows next)."""
+        self._filter_cancel_worker()
+        self._filter_timer_stop()
+
+    def _filter_timer_start(self):
+        if not self._filter_progress_on:
+            timer_proc(TIMER_START, self._filter_progress_tick,
+                       FILTER_PROGRESS_MS)
+            self._filter_progress_on = True
+
+    def _filter_timer_stop(self):
+        if self._filter_progress_on:
+            timer_proc(TIMER_STOP, self._filter_progress_tick, 0)
+            self._filter_progress_on = False
+
+    def _filter_progress_tick(self, tag=''):
+        """Repeating UI timer which polls the running filter worker.
+        While it runs, the status line shows the live match count AND
+        the visible tree is REBUILT from the worker's partial index
+        whenever it changed (see _filter_rebuild): the findings so far
+        are always shown, at the top level and inside every folder the
+        user expanded - rows only ever appear, nothing else moves.
+        When the scan finishes (and its text is still the current
+        filter), its cleaned index becomes the search result, the tree
+        is rebuilt from it once more (deeper levels still load lazily
+        on expand - see _filter_refill_children), and the line reports
+        the final count. Then the timer stops: nothing is left to do.
+        The result of a cancelled/stale worker is dropped."""
+        w = self._filter_worker
+        if w is None:
+            self._filter_timer_stop()
+            return
+        if not w.done:
+            self._filter_label_running(w.count)
+            if w.version != self._filter_live_version:
+                self._filter_live_version = w.version
+                self._filter_rebuild(w.res, w.live)
+            return
+
+        # finished
+        self._filter_worker = None
+        # the search ended: the (x) button now depends on the text alone
+        self._filter_cancel_btn_update()
+        if not self.tree or not self.tree_filter:
+            self._filter_timer_stop()
+            return
+        if w.text == self.tree_filter and w.tree is not None:
+            self._filter_rows_count = w.count
+            self._filter_label_done(w.count)
+            self._filter_index = w.tree
+            self._filter_live_done = w.live
+            self._filter_live_version = w.version
+            self._filter_rebuild(w.tree, w.live)
+        # else: stale (the filter text changed / the scan was
+        # cancelled) - the newer worker reports itself
+        self._filter_timer_stop()
+
+    def _filter_scan_index(self):
+        """The lazy index the filtered rows must be read from RIGHT
+        NOW: the running worker's partial index, or the snapshot of the
+        finished/cancelled scan."""
+        w = self._filter_worker
+        if w is not None and not w.done:
+            return w.res
+        return self._filter_index
+
+    def _filter_scan_live(self):
+        """The live set belonging to _filter_scan_index()."""
+        w = self._filter_worker
+        if w is not None and not w.done:
+            return w.live
+        return self._filter_live_done or set()
+
+    def _filter_rows_for(self, key, index, live):
+        """Rows to show under the folder `key`, read from the given
+        index: its bucket (files always - a file row only enters a
+        bucket when its name matched - and folders only when live: a
+        match was found inside, or the folder's own name matches). A
+        folder the index does not know yet (the scan has not reached
+        it) shows the cached single-level fallback instead (see
+        _filter_fallback_rows); the TOP level ('' key) is always read
+        from the index alone - its bucket exists from the very first
+        worker step."""
+        bucket = (index or {}).get(key)
+        if bucket is None:
+            if key:
+                return self._filter_fallback_rows(key)
+            return []
+        return [r for r in bucket if not r[2] or r[1] in live]
+
+    def _filter_fallback_rows(self, path):
+        """Cached single-level fallback for a folder no scan index
+        knows: the names matching the filter in ONE listing of that
+        folder - one scandir, the same cost as the normal unfiltered
+        expand, never a recursive walk. Folders whose name matches show
+        in it too (they ARE matches), with their +/- expander; what is
+        inside them is found by the scan (or by expanding them - the
+        same fallback again, one level deeper). Cached per search: the
+        repeating live rebuilds must not re-read the disk, and the
+        cache is dropped when the filter text changes or is cleared."""
+        if self._filter_fallback is None:
+            self._filter_fallback = {}
+        cached = self._filter_fallback.get(path)
+        if cached is not None:
+            return cached
+        flt = (self.tree_filter or '').lower()
+        opts = self._filter_opts or self.options
+        rows = []
+        for e in scan_dir_entries(path, opts) or []:
+            try:
+                if flt in e.name.lower():
+                    rows.append((e.name, e.path, e.is_dir()))
+            except OSError:
+                pass
+        self._filter_fallback[path] = rows
+        return rows
+
+    def _filter_capture_expanded(self):
+        """Folder paths whose nodes are unfolded RIGHT NOW, plus the
+        folders the user unfolded earlier in this search whose level is
+        (still) empty: such a level shows no expander, so its state can
+        only be remembered in _filter_expanded - without that, rows
+        which appear later would stay hidden behind a collapsed node.
+        Folders the user folded again are NOT captured (they must stay
+        folded); expanded folders hidden below a folded parent need no
+        capture either - their level is refilled when the user expands
+        the parent again."""
+        res = set()
+        if not self.tree:
+            return res
+        ever = self._filter_expanded or set()
+
+        def walk(node):
+            for it in tree_proc(self.tree, TREE_ITEM_ENUM_EX, node) or []:
+                d = it.get('data', '')
+                if not d:
+                    continue    # dummy / project node
+                if it.get('sub_items'):
+                    prop = tree_proc(self.tree, TREE_ITEM_GET_PROPS,
+                                     it['id'])
+                    if prop and not prop.get('folded', True):
+                        res.add(d)
+                        walk(it['id'])
+                elif d in ever:
+                    # leaf node of a folder the user unfolded when the
+                    # level was still empty: keep it expanded
+                    res.add(d)
+
+        items = tree_proc(self.tree, TREE_ITEM_ENUM_EX, 0) or []
+        if items:
+            walk(items[0]['id'])
+        return res
+
+    def _filter_select_by_path(self, path):
+        """Select (and show) the tree node whose data is `path` - file OR
+        folder node (the shared enum_all_sel can only select file nodes:
+        its walk treats every node with sub-items as a folder to recurse
+        into). Used to carry the selection over the filtered-tree
+        rebuilds and back to the normal tree when the filter is
+        cleared."""
+        if not path or not self.tree:
+            return
+        found = []
+
+        def cb(fn, node):
+            if fn == path:
+                found.append(node)
+                return False
+            return True
+
+        self.enum_all(cb)
+        if found:
+            tree_proc(self.tree, TREE_ITEM_SELECT, found[0])
+            tree_proc(self.tree, TREE_ITEM_SHOW, found[0])
+
+    def _filter_rebuild(self, index, live):
+        """Rebuild the visible part of the filtered tree from a lazy
+        index - the worker's PARTIAL index while the scan runs (called
+        from _filter_progress_tick), its cleaned result when it finished
+        or was cancelled. The user's unfolded folders (see
+        _filter_capture_expanded) and the selection are carried over,
+        so a rebuild is visually calm: rows only ever appear, the folds
+        and the selected node stay where they were.
+
+        The tree stays LAZY: every folder which is not unfolded gets a
+        'dummy' child, and its real rows are added on the expand
+        (tree_on_unfold -> _filter_refill_children) - so even a match
+        list of many thousands of rows (a single common letter can
+        match that many files) never floods the tree at once, and
+        expanding a folder while the filter is active costs exactly as
+        little as expanding it with no filter at all."""
+        if not self.tree or not self.tree_filter:
+            return
+        expanded = self._filter_capture_expanded()
+        sel_path = ''
+        sel = self.selected
+        if sel:
+            prop = tree_proc(self.tree, TREE_ITEM_GET_PROPS, sel)
+            if prop:
+                sel_path = str(prop.get('data', '') or '')
+        # block tree_on_unfold: the rebuild's own programmatic unfolds
+        # must not delete/refill the levels it is filling right now
+        self._filter_rebuilding = True
+        tree_proc(self.tree, TREE_LOCK)
+        try:
+            tree_proc(self.tree, TREE_ITEM_DELETE, 0)
+            parent = tree_proc(
+                self.tree,
+                TREE_ITEM_ADD,
+                0,
+                -1,
+                self.get_project_name(),
+                self.ICON_PROJ,
+            )
+            self._filter_fill_level(parent, '', index, live, expanded)
+            tree_proc(self.tree, TREE_ITEM_UNFOLD, parent)
+        finally:
+            tree_proc(self.tree, TREE_UNLOCK)
+            self._filter_rebuilding = False
+        # keep the selection where it was; select the project node when
+        # the old selection does not exist anymore
+        if sel_path:
+            self._filter_select_by_path(sel_path)
+        if not self.selected:
+            items_root = tree_proc(self.tree, TREE_ITEM_ENUM_EX, 0)
+            if items_root:
+                tree_proc(self.tree, TREE_ITEM_SELECT, items_root[0]['id'])
+
+    def _filter_fill_level(self, node, key, index, live, expanded):
+        """Add the rows of ONE level of the filtered tree (the children
+        of `node`, addressed by the index bucket key `key`): files
+        always, folders only when live (see _filter_rows_for). A folder
+        the user unfolded (its path is in `expanded`) gets its level
+        filled recursively and STAYS unfolded - the on_unfold event of
+        that programmatic unfold is blocked by _filter_rebuilding, so
+        it cannot re-refill the level; every other folder gets a
+        'dummy' child, so expanding it later fires tree_on_unfold,
+        which lazily refills the real (filtered) children."""
+        for sname, spath, is_dir in self._filter_rows_for(key, index,
+                                                          live):
+            child = self._add_tree_node(node, sname, spath, is_dir)
+            if not is_dir:
+                continue
+            if spath in expanded:
+                self._filter_fill_level(child, spath, index, live,
+                                        expanded)
+                tree_proc(self.tree, TREE_ITEM_UNFOLD, child)
+            else:
+                tree_proc(self.tree, TREE_ITEM_ADD, child, -1,
+                          'dummy', -1)
+
+    def _filter_label_running(self, count):
+        self._filter_label(
+            _('Filter: searching... {} match(es) so far').format(count))
+
+    def _filter_label_done(self, count):
+        self._filter_label(
+            _('Filter: finished, {} match(es) found').format(count))
+
+    def _filter_label_cancelled(self, count):
+        self._filter_label(
+            _('Filter: cancelled, {} match(es) so far').format(count))
+
+    def _filter_label_clear(self):
+        self._filter_label('')
+
+    def _filter_label(self, cap):
+        """Set the caption of the status line under the filter field
+        (empty = no filtering: no text is shown, as promised)."""
+        if not self.h_dlg:
+            return
+        try:
+            dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, name='lbl_fstat',
+                     prop={'cap': cap})
+        except Exception:
+            pass
+
+    def _node_icon(self, spath, sname, is_dir):
+        """Icon index of one tree node (shared by the normal and the
+        filtered tree fill). Cached by (name, is_dir, locked): the
+        lexer detection per file name is not free, and the filtered
+        fill asks for thousands of icons."""
+        locked = is_locked(spath)
+        key = (sname, is_dir, locked)
+        res = _icon_cache.get(key)
+        if res is not None:
+            return res
+
+        if locked:
+            res = self.ICON_BAD
+        elif is_dir:
+            res = self.ICON_DIR
+        elif is_simple_listed(sname, MASKS_IMAGES):
+            res = self.ICON_IMG
+        elif is_simple_listed(sname, MASKS_ZIP):
+            res = self.ICON_ZIP
+        elif is_simple_listed(sname, MASKS_BINARY):
+            res = self.ICON_BIN
+        elif is_simple_listed(sname, MASKS_AUDIO):
+            res = self.ICON_AUDIO
+        elif is_simple_listed(sname, MASKS_VIDEO):
+            res = self.ICON_VIDEO
+        else:
+            lexname = lexer_proc(LEXER_DETECT, sname)
+            if lexname:
+                res = self.icon_get(lexname)
+            elif is_simple_listed(sname, MASKS_TEXT):
+                res = self.ICON_TEXT
+            else:
+                res = self.ICON_ALL
+        _icon_cache[key] = res
+        return res
+
+    def _add_tree_node(self, parent, sname, spath, is_dir, index=-1):
+        """Add one tree node with the standard icon; returns its
+        handle. index=-1 appends the node, otherwise it is inserted at
+        that 0-based position among the parent's children (the live
+        filter sync uses it to drop new findings into their place)."""
+        return tree_proc(
+            self.tree,
+            TREE_ITEM_ADD,
+            parent,
+            index,
+            sname,
+            self._node_icon(spath, sname, is_dir),
+            data=spath
+            )
+
+    def _fill_tree_filtered_top(self, rows=None):
+        """Rebuild the tree showing its TOP level only: the direct
+        children of the project root taken from `rows` - the explicit
+        rows of the INSTANT name-only view a scan starts with (only the
+        root nodes whose own name matches: everything else hides until
+        the scan finds a match inside it). Each folder gets a 'dummy'
+        child so it can be expanded. Deeper levels are added LAZILY
+        when their folder is expanded, and the whole visible tree is
+        refreshed with the findings so far by _filter_rebuild while the
+        scan runs. The project root is selected."""
+        if not self.tree:
+            return
+        if rows is None:
+            rows = (self._filter_index or {}).get('') or []
+        tree_proc(self.tree, TREE_LOCK)
+        try:
+            tree_proc(self.tree, TREE_ITEM_DELETE, 0)
+            parent = tree_proc(
+                self.tree,
+                TREE_ITEM_ADD,
+                0,
+                -1,
+                self.get_project_name(),
+                self.ICON_PROJ,
+            )
+            for sname, spath, is_dir in rows:
+                node = self._add_tree_node(parent, sname, spath, is_dir)
+                if is_dir:
+                    # dummy child: gives the folder its +/- expander;
+                    # expanding it fires tree_on_unfold, which refills
+                    # the real (filtered) children lazily
+                    tree_proc(self.tree, TREE_ITEM_ADD, node, -1,
+                              'dummy', -1)
+            tree_proc(self.tree, TREE_ITEM_UNFOLD, parent)
+            items_root = tree_proc(self.tree, TREE_ITEM_ENUM_EX, 0)
+            if items_root:
+                tree_proc(self.tree, TREE_ITEM_SELECT, items_root[0]['id'])
+        finally:
+            tree_proc(self.tree, TREE_UNLOCK)
+
+    def _filter_refill_children(self, node, path):
+        """Refill the children of ONE folder of the filtered tree,
+        LAZILY and CHEAPLY - this is what runs when the user expands a
+        node while the filter is active (see _filter_rows_for):
+        the rows the current scan state knows - the running worker's
+        PARTIAL index (files always, folders only when a match was
+        already found inside them), or the finished/cancelled snapshot
+        (pure memory reads, no disk access at all) - and, for a folder
+        no index knows yet, the cached SINGLE-LEVEL name filter over
+        one directory listing (one scandir, the same cost as the normal
+        unfiltered expand). The level keeps growing while the scan
+        continues: every progress tick rebuilds it with the findings
+        so far (see _filter_rebuild).
+
+        It NEVER walks a folder recursively on the UI thread (the old
+        implementation re-scanned whole subtrees here: expanding a
+        drive-sized folder while a search was running hung CudaText
+        and ate RAM). Every folder child gets a 'dummy' node, so the
+        deeper levels keep loading the same lazy way."""
+        if not self.tree or not self.tree_filter:
+            return
+        children = self._filter_rows_for(path,
+                                         self._filter_scan_index(),
+                                         self._filter_scan_live())
+        tree_proc(self.tree, TREE_LOCK)
+        try:
+            for sname, spath, is_dir in children:
+                child = self._add_tree_node(node, sname, spath, is_dir)
+                if is_dir:
+                    tree_proc(self.tree, TREE_ITEM_ADD, child, -1,
+                              'dummy', -1)
+        finally:
+            tree_proc(self.tree, TREE_UNLOCK)
+
+    #------------- type-ahead (incremental search in the tree)
+
+    def _filter_edit_focused(self):
+        """True while the user types in the panel's filter field (those
+        keystrokes belong to the filter, not to the type-ahead)."""
+        if self.filter_ctl_index < 0 or not self.h_dlg:
+            return False
+        try:
+            props = dlg_proc(self.h_dlg, DLG_PROP_GET) or {}
+            return int(props.get('focused', -1)) == self.filter_ctl_index
+        except Exception:
+            return False
+
+    def _typeahead_scope(self):
+        """(node handles, position of the selection) of the level the
+        type-ahead searches in: the children of the selected node's
+        parent. Being 'inside' a folder means the selection is one of
+        its children, so typing jumps only inside that folder."""
+        if not self.tree:
+            return [], -1
+        items_root = tree_proc(self.tree, TREE_ITEM_ENUM_EX, 0) or []
+        if not items_root:
+            return [], -1
+        root = items_root[0]['id']
+
+        parent = root
+        sel = self.selected
+        cur = -1
+        if sel:
+            prop = tree_proc(self.tree, TREE_ITEM_GET_PROPS, sel)
+            if prop:
+                parent = prop.get('parent') or root
+
+        items = tree_proc(self.tree, TREE_ITEM_ENUM_EX, parent) or []
+        handles = []
+        for i, it in enumerate(items):
+            handles.append(it['id'])
+            if it['id'] == sel:
+                cur = i
+        return handles, cur
+
+    def _typeahead_match(self, text, select=False):
+        """First node of the current level whose caption starts with
+        text (case-insensitive), searched cyclically AFTER the selected
+        node - so pressing the same letter again jumps to the next
+        match. Selects the found node when select=True. Returns the node
+        handle, or None when nothing matches."""
+        text = (text or '').lower()
+        if not text:
+            return None
+        items, cur = self._typeahead_scope()
+        count = len(items)
+        if not count:
+            return None
+        for i in range(1, count + 1):
+            index = (cur + i) % count
+            node = items[index]
+            prop = tree_proc(self.tree, TREE_ITEM_GET_PROPS, node)
+            if not prop:
+                continue
+            caption = prop.get('text', '')
+            if not caption or not prop.get('data', ''):
+                continue  # skip the 'dummy' placeholders of folded dirs
+            if caption.lower().startswith(text):
+                if select:
+                    tree_proc(self.tree, TREE_ITEM_SELECT, node)
+                    tree_proc(self.tree, TREE_ITEM_SHOW, node)
+                return node
+        return None
+
+    def _typeahead_key(self, key):
+        """Windows-Explorer-like incremental search: plain letters and
+        digits jump to the first node of the current level starting with
+        the typed text ("myf" finds "myfile"); pressing the same letter
+        again cycles to the next match; the buffer resets after
+        TYPEAHEAD_TIMEOUT seconds of pause. Returns True when the key
+        was consumed."""
+        # on_key_down reports raw VK codes: letters are ALWAYS 65..90
+        # ('A'..'Z' - lowercase never appears), digits are 48..57 (top
+        # row). 96..111 are the NUMPAD keys - they must not be taken
+        # for letters (VK_NUMPAD1=97 would collide with ord('a'))
+        is_letter = ord('A') <= key <= ord('Z')
+        is_digit = ord('0') <= key <= ord('9')
+        if not (is_letter or is_digit):
+            self._ta_buf = ''  # any other key restarts the search
+            return False
+        if self._filter_edit_focused() or not self.tree:
+            return False
+
+        ch = chr(key).lower()
+        now = time.time()
+        if now - self._ta_time > self.TYPEAHEAD_TIMEOUT:
+            self._ta_buf = ''
+        self._ta_time = now
+
+        if self._ta_buf != ch:
+            # extend the buffer when the longer text still matches
+            # something ("m" + "y" -> "my"); when it doesn't, the buffer
+            # stays as it was and the same letter keeps cycling
+            if self._typeahead_match(self._ta_buf + ch) is not None:
+                self._ta_buf += ch
+
+        if self._typeahead_match(self._ta_buf, select=True) is None:
+            msg_status(_('No match in this folder: ') + self._ta_buf)
+        return True
+
+    def get_projects_dir(self):
+        """The default folder for new .cuda-proj files (the option
+        "projects_dir", empty by default). Supports the $settings
+        prefix - the CudaText settings folder - e.g. "$settings" or
+        "$settings/projects"; '~' is expanded too. A missing folder is
+        created. Returns '' when the option is empty or cannot be
+        resolved (the dialogs then use the last used folder as before)."""
+        s = (self.options.get('projects_dir') or '').strip()
+        if not s:
+            return ''
+        if '$settings' in s:
+            s = s.replace('$settings', app_path(APP_DIR_SETTINGS))
+        s = os.path.expanduser(s)
+        s = os.path.normpath(s)
+        try:
+            if not os.path.isdir(s):
+                os.makedirs(s, exist_ok=True)
+        except OSError as ex:
+            msg_status(_('Project Manager: cannot create projects folder: ')
+                       + s + ' (' + str(ex) + ')')
+            return ''
+        return s
+
     def action_new_project(self, info=None):
         """Create a new project. Prompts for save location, creates an empty
         session called 'session1' inside the project, and loads it."""
 
         path = info
         if path is None:
-            path = dlg_file(False, "", "", PROJECT_DIALOG_FILTER)
+            # the configured default projects folder, when set: the save
+            # dialog opens directly in it (the user just types a name)
+            path = dlg_file(False, "", self.get_projects_dir(),
+                            PROJECT_DIALOG_FILTER)
         if not path:
             return
 
@@ -2346,7 +3948,10 @@ class Command:
 
         path = info
         if path is None:
-            path = dlg_file(False, "", "", PROJECT_DIALOG_FILTER)
+            # the configured default projects folder, when set: the save
+            # dialog opens directly in it (the user just types a name)
+            path = dlg_file(False, "", self.get_projects_dir(),
+                            PROJECT_DIALOG_FILTER)
         if not path:
             return
 
@@ -3201,15 +4806,29 @@ class Command:
                 break
             index = prop["parent"]
 
-        # fix for network UNC paths '\\server\share\'
-        if path.endswith('\\'):
-            path = path[:-1]
-
         tree_proc(self.tree, TREE_ITEM_DELETE, index)
-        if path in self.project["nodes"]:
-            self.project["nodes"].remove(path)
+
+        # find the SAVED node that matches the tree item's path: the tree
+        # renders a root path as pathlib does ('D:\\' for a drive root,
+        # '\\server\share' for a UNC root) while the saved nodes list
+        # keeps the folder dialog's form ('D:\\', '\\server\share\') -
+        # an exact compare failed for both root kinds (the old code
+        # blindly stripped the trailing backslash for UNC and then broke
+        # the drive roots: 'Stop tracking' on 'D:\' errored with
+        # 'cannot find path "D:"' and the node returned on refresh).
+        # Remove the entry that is ACTUALLY saved, so the removal sticks.
+        node = None
+        for n in self.project["nodes"]:
+            if path_equals(n, path):
+                node = n
+                break
+
+        if node is not None:
+            self.project["nodes"].remove(node)
             self._fire_project_nodes_removed()
-            if (self.cur_dir+os.sep).startswith(path+os.sep):
+            # reset the 'current folder' if it was under the removed
+            # node (trailing-separator-tolerant: 'D:\foo' IS under 'D:\')
+            if path_contains(node, self.cur_dir):
                 app_proc(PROC_SET_FOLDER, '')
                 self.cur_dir = ''
         else:
@@ -3259,11 +4878,15 @@ class Command:
 
         need_refresh = path is None
         if path is None:
-            if self.project_file_path:
-                project_path = str(self.project_file_path.parent)
-            else:
-                project_path = ""
-            path = dlg_file(False, "", project_path, PROJECT_DIALOG_FILTER)
+            # the configured default projects folder wins; without it the
+            # dialog starts in the folder of the current project file
+            proj_dir = self.get_projects_dir()
+            if not proj_dir:
+                if self.project_file_path:
+                    proj_dir = str(self.project_file_path.parent)
+                else:
+                    proj_dir = ""
+            path = dlg_file(False, "", proj_dir, PROJECT_DIALOG_FILTER)
 
         if path:
             proj_dir = os.path.dirname(str(path))
@@ -3435,6 +5058,53 @@ class Command:
     def action_go_to_file(self):
         self.menu_goto()
 
+    #----- Favorites (bookmarks) - see favorites.py -----
+
+    def favorites_show(self):
+        """Open the Favorites (bookmarks) window: projects, files and
+        folders in one resizable manager dialog."""
+        _favorites.show_favorites()
+
+    def favorites_add_current_file(self):
+        """Bookmark the file open in the editor."""
+        _favorites.add_current_file()
+
+    def favorites_add_current_dir(self):
+        """Bookmark the folder of the file open in the editor."""
+        _favorites.add_current_dir()
+
+    def favorites_add_current_project(self):
+        """Bookmark the currently opened project."""
+        _favorites.add_current_project()
+
+    def favorites_add_opened(self):
+        """'Add opened...' - a dialog to choose between the opened
+        project, the opened editor file, and the folder of the opened
+        file (same chooser as the Add opened... button)."""
+        _favorites.add_opened()
+
+    def action_add_to_favorites(self):
+        """Context-menu command: add the selected tree node (project,
+        file or folder node) to favorites."""
+        node = self.selected
+        if node is None:
+            return
+        node_type = self.get_node_type()
+        if node_type == NODE_PROJECT:
+            path = str(self.project_file_path) if self.project_file_path else ''
+            cat = 'projects'
+        else:
+            path = str(self.get_location_by_index(node))
+            cat = 'folders' if node_type == NODE_DIR else 'files'
+        if not path or path == '.':
+            msg_status(_('Project is not saved yet, cannot add it to favorites'))
+            return
+        _favorites.add_favorite(cat, path)
+
+    def _favorites_ctx(self, info=None):
+        """Internal: callback of the favorites list context menu."""
+        _favorites.context_action(info)
+
     def action_project_properties(self):
         self.config_proj()
 
@@ -3489,6 +5159,27 @@ class Command:
         id = menu_proc(menu, MENU_ADD, command='cuda_project_man.action_import_external_session', caption=_('Import external session...'))
         if not self.project_file_path:
             menu_proc(id, MENU_SET_ENABLED, command=False)
+
+    def fill_favorites_menu(self, menu):
+        """Fill the context-menu "Favorites" submenu: the Favorites
+        window first (the most used command), then the add-commands
+        (the same items as the Plugins-menu Favorites submenu - see
+        the Favorites > items in install.inf)."""
+        menu_proc(menu, MENU_ADD,
+                  command='cuda_project_man.favorites_show',
+                  caption=_('Show Favorites window...'))
+
+        menu_proc(menu, MENU_ADD, caption='-')
+
+        id = menu_proc(menu, MENU_ADD,
+                       command='cuda_project_man.action_add_to_favorites',
+                       caption=_('Add to favorites'))
+        if self.selected is None:
+            menu_proc(id, MENU_SET_ENABLED, command=False)
+
+        menu_proc(menu, MENU_ADD, caption='-')
+        menu_proc(menu, MENU_ADD, command='cuda_project_man.favorites_add_opened',
+                  caption=_('Add opened...'))
 
     def update_global_data(self):
         global global_project_info
@@ -3686,6 +5377,9 @@ class Command:
         # fires OnExit first, then DoOps_SaveHistory saves the session) --
         # instead of the default 'by timer'
         self._backup_cause = 'on exit'
+        # stop the background filter scan and its progress timer: no
+        # dialog/tree updates may run after this point
+        self._filter_cancel_scan()
         if self.project_file_path:
             self.action_save_project_as(self.project_file_path)
         else:
@@ -4047,6 +5741,11 @@ class Command:
 
 
     def tree_on_unfold(self, id_dlg, id_ctl, data='', info=''):
+        # a filtered-tree rebuild is filling the levels itself: its own
+        # programmatic unfolds must not delete/refill anything (the
+        # rebuild already placed the correct rows)
+        if self._filter_rebuilding:
+            return
         info = self.get_info(data)
         path = self.get_location_by_index(data)
 
@@ -4063,6 +5762,21 @@ class Command:
         if items:
             for item in items:
                 tree_proc(self.tree, TREE_ITEM_DELETE, item['id'])
+
+        if self.tree_filter:
+            # the filter is active: remember the unfold (the repeating
+            # live rebuilds of this search must keep the level visible
+            # and growing), then refill the children LAZILY and cheaply
+            # (from the scan's partial/finished index, or a single-level
+            # name filter) - see _filter_refill_children. NEVER the
+            # normal unfiltered refill (it would show everything), and
+            # never a recursive re-scan of the subtree (that hung
+            # CudaText on drive-sized folders while a search ran)
+            if self._filter_expanded is None:
+                self._filter_expanded = set()
+            self._filter_expanded.add(str(path))
+            self._filter_refill_children(data, str(path))
+            return
 
         self.action_refresh_int(data) # call _int version, to avoid recursion
 
@@ -4155,6 +5869,9 @@ class Command:
         return False
 
     def tree_on_click(self, id_dlg, id_ctl, data='', info=''):
+
+        # a mouse click moves the selection: restart the type-ahead
+        self._ta_buf = ''
 
         # a drag gesture in the tree just ended on this mouse-up: LCL fires
         # OnClick even after a drag inside a control (and before OnMouseUp),
@@ -4268,12 +5985,41 @@ class Command:
 
     def form_key_down(self, id_dlg, id_ctl, data):
         reg_key = ('a' in data) or ('c' in data) or ('s' in data) or ('m' in data)
+
+        if self._filter_edit_focused():
+            # the user types in the tree filter field: Esc clears it,
+            # everything else belongs to the edit (the form has
+            # keypreview=True, so every keystroke passes here first)
+            if id_ctl == VK_ESCAPE and not reg_key and self.tree_filter:
+                self.clear_panel_filter()
+                return False  # block key
+            return None
+
+        # Esc anywhere else in the panel: clear the active tree filter
+        if id_ctl == VK_ESCAPE and not reg_key:
+            if self.tree_filter:
+                self.clear_panel_filter()
+                return False  # block key
+
+        # type-ahead: plain letters/digits jump to the node starting
+        # with the typed text (Explorer-like)
+        if not reg_key and self._typeahead_key(id_ctl):
+            return False  # block key
+
         if id_ctl in [VK_SPACE, VK_ENTER, VK_F4] and not reg_key:
             self.do_open_current_file(self.get_open_options())
             return False #block key
         elif id_ctl == VK_DELETE and not reg_key:
             node_type = self.get_node_type()
-            if node_type == NODE_FILE:
+            # Del is trash-safe by design: a top-level node is asked
+            # whether to stop tracking (removed from the tree only),
+            # a file/folder inside a node is moved to the OS trash /
+            # recycle bin - only on an OS WITHOUT trash support, after
+            # the separate "DELETE PERMANENTLY" warning dialog, can it
+            # be permanently deleted. The root node check lives in the
+            # delete actions themselves, so every caller (key, context
+            # menu, command) is covered.
+            if node_type in (NODE_FILE, NODE_BAD):
                 self.action_delete_file()
             elif node_type == NODE_DIR:
                 self.action_delete_directory()
@@ -4348,7 +6094,7 @@ class Command:
         """Open the folder that contains the project's .cuda-proj file in
         the OS file manager (Windows Explorer, Finder, ...). Added folders
         are not used here — they already have "Reveal in file manager"
-        in their own context menu."""
+        and "Open containing folder" in their own context menu."""
         if not self.project_file_path:
             msg_status(_('No project open'))
             return
@@ -4358,20 +6104,7 @@ class Command:
             msg_status(_('Project folder not found: ') + path)
             return
 
-        suffix = OS_SUFFIX
-        if suffix=='':
-            #Windows
-            import subprocess
-            subprocess.Popen(('explorer.exe', path), shell=True)
-        elif suffix=='__mac':
-            #macOS
-            os.system('open "%s"'%path)
-        elif suffix=='__haiku':
-            #Haiku
-            msg_status('"Open project folder" is not implemented for this OS')
-        else:
-            #Linux and other Unixes
-            os.spawnvp(os.P_WAIT, 'xdg-open', ('xdg-open', Path(path).as_uri()))
+        _open_folder_in_fileman(path)
 
 
     def goto_main(self):
@@ -5057,8 +6790,13 @@ class Command:
             # and the data mirror is never trusted (see session_save_as)
 
     def is_path_in_root(self, path):
-
-        return str(path) in self.project['nodes']
+        """True when 'path' is one of the project's top-level nodes.
+        Tolerant compare (path_equals): the tree renders a root node
+        as pathlib does ('D:\\' keeps the backslash, a UNC root drops
+        it) while the saved nodes list keeps the dialog's spelling, so
+        an exact compare missed root nodes and broke the 'a node is
+        never deleted, only untracked' rule for them."""
+        return any(path_equals(n, str(path)) for n in self.project['nodes'])
 
     def on_tab_change(self, ed_self):
 
@@ -5097,6 +6835,20 @@ class Command:
 
         Session changes made by the plugin itself are guarded with
         _session_set_by_plugin and ignored here."""
+        if state == APPSTATE_THEME_UI:
+            # the UI theme was switched while CudaText runs: the app
+            # re-themes the panel tree and toolbar itself (its pass over
+            # the docked plugin dialogs), our own parts (the panel form
+            # background, the filter field) and the favorites windows
+            # are re-colored here
+            if self.tree:
+                self.apply_panel_theme()
+            try:
+                _favorites.apply_theme_all()
+            except Exception:
+                pass
+            return
+
         if state == APPSTATE_SESSION_SAVE_AFTER:
             if self._backup_flow:
                 # a plugin command is running which saves the session:

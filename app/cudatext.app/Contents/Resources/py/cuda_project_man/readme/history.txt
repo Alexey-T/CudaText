@@ -1,3 +1,675 @@
+2026.11.14 (@badrelmers)
+- SAFETY: no command deletes anything permanently on Windows, macOS
+  or Linux. Every delete now moves the file/folder to the OS trash (the
+  Recycle Bin on Windows, the Trash on macOS/Linux) through the new
+  projman_trash module - powered by the BUNDLED Send2Trash library
+  (https://pypi.org/project/Send2Trash/, BSD license, vendored into
+  the plugin's send2trash/ subfolder, nothing to install): Windows
+  uses the IFileOperation COM interface (pywin32) or SHFileOperationW
+  and REFUSES drives that have no Recycle Bin (network / removable
+  drives - the shell would delete permanently there); macOS uses
+  NSFileManager (pyobjc) or the CoreServices call via ctypes; Linux
+  uses GIO or the FreeDesktop-spec trash move (home trash, per-volume
+  .Trash-<uid>, with a .trashinfo file so the file manager's
+  "restore" works). When even that backend fails on an exotic
+  filesystem (overlay/container layers fool its mount-point
+  detection), a built-in FreeDesktop-spec trash move retries before
+  any error is reported - a move to trash only, never a deletion.
+  A failed move shows the reason in a dialog and leaves the file
+  untouched.
+- NEW: the delete confirmations use msg_box_ex, so their buttons say
+  what they do: "Move to trash" (the trash-delete confirmation, which
+  keeps the restore-from-trash hint) and "Stop tracking" (the
+  root-node untrack confirmation). On an OS WITHOUT trash support
+  (the BSDs, Haiku, ...) a DIFFERENT warning dialog appears - the
+  warning icon, the explanation that this OS cannot move items to
+  the trash and that the deletion is permanent, and the buttons
+  "DELETE PERMANENTLY" (uppercase) and "Cancel" (focused, so Enter
+  cancels): permanent deletion happens ONLY there and ONLY after
+  that button (delete_permanently in projman_trash is the single
+  permanent deleter of the whole plugin). trash_supported() decides
+  which dialog shows; the status message after a trash move reports
+  "Moved to Trash: name", after a permanent delete "Deleted
+  permanently: name".
+- SAFETY: top-level nodes can no longer be deleted from the disk at
+  all. The "Delete" context-menu item is hidden when a ROOT node is
+  right-clicked, and every delete command (context menu, Del key,
+  direct command call) that lands on a root node asks "Are you sure
+  you want to stop tracking this file/folder?" and only untracks it:
+  the entry is removed from the project tree, the disk file/folder
+  stays untouched (confirm_stop_tracking helper; the recursive
+  permanent deleter do_delete_dir is gone). is_path_in_root() now
+  compares tolerantly (path_equals: trailing separators, drive/UNC
+  roots) - the old exact compare missed root nodes and would have let
+  the delete flow through for them.
+- NEW: context-menu item "Open containing folder", right below "Open
+  main file", visible for every click target (project row, root node,
+  file, folder, empty area): for the project row / empty area it opens
+  the folder of the .cuda-proj file (what "Open project folder" does);
+  for nodes/files/folders it reveals the item in its containing folder
+  (what "Reveal in file manager" does). "Reveal in file manager" on a
+  path that no longer exists now opens the item's parent folder
+  instead of failing. The folder-opening code of "Open project folder"
+  is factored into _open_folder_in_fileman() and shared.
+- CHANGED: panel context menu - "Favorites" moved BELOW "Project
+  sessions"; inside the "Favorites" submenu, "Show Favorites window..."
+  is the first item now (it was in the middle).
+- CHANGED: the bundled Send2Trash library is PRIVATE to the plugin
+  now. Its internal imports were rewritten to relative ones, so it
+  loads as the subpackage cuda_project_man.send2trash through the
+  plugin's own package path: nothing is ever added to sys.path and no
+  top-level send2trash module is registered. Other plugins / app
+  code can neither import this copy nor shadow it with their own, and
+  this copy cannot shadow a real system-wide Send2Trash installation
+  (both directions are covered by tests). When the plugin is somehow
+  loaded NOT as a package, projman_trash falls back to a synthetic
+  private host module (_cuda_project_man_s2t) - sys.path stays
+  untouched either way.
+- REVISED: readme.txt for the end user - quick start and trash-safety
+  sections added, keyboard shortcuts collected into one table, menu
+  structure updated for the new items; heavy implementation internals
+  (filter threading, favorites window painting, backup rotation
+  details) removed - doc_for_dev.md keeps the deep details.
+
+2026.11.13 (@badrelmers)
+- REVISED: the whole search logic of the tree filter - it was still
+  flawed after the previous live-update rework. What was wrong:
+  while a search ran, results did not show in the tree at all (the
+  tree stayed empty until the scan ended); cancelling the search left
+  nothing visible even when matches had been found; and a folder
+  whose NAME matched the keyword showed its whole content, even the
+  files which did not match anything. The filter machinery is
+  rewritten around a simple, uniform model:
+  (1) MATCHING RULES: a file shows when its name matches; a folder
+  shows when its name matches OR something matches inside it (any
+  depth), so the path down to every match is visible. A
+  name-matching folder does NOT bring its whole content anymore -
+  its children follow the same two rules. The rules hold everywhere:
+  in the scan, in the live view while it runs, in the finished
+  result, in the expand fallback, and after a cancel.
+  (2) LIVE VIEW: every progress tick REBUILDS the visible part of
+  the tree from the worker's partial index (the old fragile
+  incremental row-insertion with its sorted-position math is gone) -
+  findings appear at the top level and inside every folder the user
+  expanded, within one tick of being found; the rebuild carries the
+  user's unfolds and the selection over, so rows only ever appear.
+  The scan walks BREADTH-FIRST now, so the top level is complete
+  from the very start and shallow levels fill first, where the user
+  is looking. A version counter still skips idle rebuilds.
+  (3) CANCEL: the x button rebuilds the tree from a cleaned snapshot
+  of the partial index - everything found so far STAYS visible and
+  browsable, and expands after the cancel refill exactly those rows.
+  (4) EXPAND: a folder no index knows yet (the scan has not reached
+  it) falls back to a cached single-level name filter - one scandir,
+  the same cost as the normal expand, cached per search so the
+  repeating rebuilds never re-read the disk.
+  (5) The worker keeps optimistic folder rows during the walk and
+  drops them in ONE final cleanup pass (the per-folder 'check'
+  removal is gone); the UI never shows a folder which is not live,
+  so the cleanup cannot flicker anything.
+  (6) The selection carry-over works for folder nodes too now (the
+  shared enum_all_sel helper can only select file nodes; the filter
+  paths use their own by-path selector, which also scrolls to the
+  node)
+  (7) tree_on_unfold is blocked while a rebuild is filling the
+  levels (the rebuild's own programmatic unfolds must not
+  delete/refill what it just placed), and the unfolds the user makes
+  during a search are remembered so a level which is still empty
+  keeps its expanded state for the rows which come later
+- note: readme.txt documents the current filter behavior (rules,
+  live view, cancel, lazy expand)
+
+2026.11.13 (@badrelmers)
+- FIXED: the bottom bars were removed from the Favorites tab strip
+  (the green bar of the active tab and the button-colored bars of the
+  inactive ones): the tabs are plain colored rectangles ('colorpanel'
+  controls) with their own 1px border now. The ACTIVE tab keeps the
+  theme's flat-button face color (the very color the previous
+  button_ex tabs were painted with, so the active look did not
+  change); the INACTIVE tabs are DIMMED so they clearly read as
+  inactive: their face is blended toward the window background
+  (TAB_INACTIVE_MIX) and their caption toward that dimmed face
+  (TAB_INACTIVE_FONT_MIX). Some themes paint the window background
+  barely different from the button face, and a halfway blend of such
+  twins is invisible - the blend therefore EXTRAPOLATES past the
+  background (see _dim_toward, guaranteed minimum distance
+  TAB_INACTIVE_DIST) so the dimming step stays visible on every
+  theme, light and dark alike. Hovering a tab (active or not)
+  highlights its face with the theme's button hover color. The whole
+  strip is recolored live when the UI theme is switched
+- FIXED: the cancel (x) button of the Project panel's tree filter
+  showed permanently, even with an empty filter field and no search
+  running (with nothing to cancel or clear it was dead UI). It is
+  visible only while it can do something now - while the filter
+  field has text, or a background search is running - and hidden
+  otherwise; hidden, it is also COLLAPSED to zero width (a hidden
+  control keeps its bounds), so the filter field stretches over the
+  full row. The visibility is refreshed on every filter-field change
+  and whenever a scan starts or ends
+
+2026.11.13 (@badrelmers)
+- FIXED: the tree filter was not live. (1) Nodes stayed visible during
+  the whole background scan even when nothing matched inside them:
+  they only disappeared when the scan ended. Now the moment the scan
+  starts, every node whose own name does not match HIDES at once (the
+  tree is instantly rebuilt with the name-matching top nodes only),
+  and a folder APPEARS the very moment a match is found inside it -
+  exactly the wanted "hidden until a match is found inside, shown the
+  moment it is; kept shown when its own name matches" rule. (2)
+  Expanding a folder while a search ran showed a stale one-shot
+  snapshot: the partial results of that moment (or, worse, the
+  finished index of the PREVIOUS filter text - a stale-index bug),
+  and newly found matches never showed up until the scan ended. Now
+  the worker shares its partial lazy index and its live-visibility
+  set with the UI thread (CPython-safe reads), the progress timer
+  syncs every expanded level of the tree with the findings so far,
+  inserting each new row at its sorted place, and an expand during a
+  running scan reads the partial rows instead of any stale index.
+  The worker bumps a version counter so idle ticks skip the sync.
+  When the scan finishes, the final top-level refill now also
+  RESTORES what the user had unfolded and selected while it ran (each
+  restore-unfold refills its level lazily from the finished index).
+  The x button promotes the cleaned partial result (live rows only,
+  optimistic folder rows dropped) to the finished-style index, so
+  expands after a cancelled search refill exactly what the tree
+  shows. The single-level fallback of an expand the scan has not
+  reached yet now also shows the whole content of a folder whose own
+  name matches (the same rule the scan follows)
+
+2026.11.13 (@badrelmers)
+- FIXED: a border line showed between every Favorites tab and its
+  bottom bar: the themed flat button (button_ex) always paints its own
+  1px border on all four edges and the dialog API has no prop to turn
+  that border off. The bar panels now reach TAB_OVERLAP px UP into
+  their tab button (top-anchored to the tab's top edge, height
+  TAB_ULINE_H + TAB_OVERLAP): the panels are created after the buttons
+  and later-created windowed siblings paint over earlier ones, so the
+  bar covers the button's bottom border - the bar meets the tab face
+  flush, like a browser tab. The +1px height bias tucks the bar's
+  bottom edge under the list, so DLG_SCALE rounding can never open a
+  hairline gap between the bar and the list
+- FIXED: hovering an inactive Favorites tab highlighted only the tab
+  face, not its bottom bar: the tab buttons AND their bar panels
+  handle on_mouse_enter / on_mouse_exit now, and the hovered inactive
+  tab's bar takes the same theme 'ButtonBgOver' color the hovered face
+  is painted with (the engine feeds both from that key), so the tab
+  and its bar read as ONE hovered element - also when the mouse
+  crosses from the face into the bar or arrives at the tab from the
+  list below. The hover state is tracked as two separate flags (face /
+  bar), because Windows can deliver a control's mouse-leave after the
+  next control's mouse-enter, which would flicker a single shared
+  index. The ACTIVE tab's green bar is never hover-colored - the green
+  is the state marker itself
+
+2026.11.13 (@badrelmers)
+- FIXED: "Stop tracking" on a drive root (D:\, C:\...) errored with
+  'cannot find path "D:" in root nodes list' and the node came back on
+  refresh: the tree stores a root path as pathlib renders it (the drive
+  root KEEPS its trailing backslash, a UNC root drops it) while the
+  saved nodes list keeps the folder dialog's form - the removal
+  compared the two with a blind 'strip the trailing backslash' hack
+  that broke drive roots. Path compares (add/remove node) are
+  trailing-separator-tolerant now, and the entry that is actually
+  saved gets removed
+- FIXED: the green bottom bar of the active Favorites tab was still
+  invisible: an LCL label is TRANSPARENT, it never paints its Color -
+  the bar is a colored 'panel' control now (a plain TPanel paints its
+  background). The inactive tabs carry a bar in the theme's button
+  face color (ButtonBgPassive), so all three tabs show a bottom bar
+  and only its color differs - and the bars are recolored live when
+  the UI theme is switched
+- FIXED: the gap between the Favorites tab strip and the list: the
+  main column is vertically CHAINED by anchors now (filter ->
+  BTN_GAP -> tab buttons -> the bar strip -> the list), so the list
+  starts flush under the tab bars at every DPI / UI scale - the old
+  fixed offset from the filter's bottom drifted away from the controls'
+  real heights at a non-100% scale and opened a wide empty gap
+- FIXED: the cancel (x) button of the Project panel's tree filter was
+  smaller than the filter field: its top and bottom edges are glued to
+  the filter's ones now (both vertical anchors, 0 spacing), so the
+  button always has exactly the height of the filter box, at every
+  DPI / GUI height
+- the "Checked" button of the Favorites window shows the '▼' arrow
+  now (was '▾')
+
+2026.11.13 (@badrelmers)
+- FIXED: the cancel (x) button of the Project panel's tree filter
+  stretched across the WHOLE filter row and the filter text could not
+  be typed into: the dialog engine maps the a_l/a_r props onto the LCL
+  anchors and the LCL keeps the default akLeft on, so the button's
+  left edge stayed pinned to x=0 while its right edge followed the
+  panel edge. The left anchor is detached now ('a_l': None) - the
+  button keeps its size and only moves with the panel's right edge
+- FIXED: the green underline of the active Favorites tab was invisible.
+  A label is a graphic control painted by the FORM, and a graphic
+  control can never paint over a windowed control like the listbox -
+  the underline was glued to the list's top border and was simply
+  covered by the list's window. The tab buttons are TAB_ULINE_H px
+  shorter now and the underline lives in that strip between the
+  buttons and the list, painted on the form's own background - always
+  visible
+- the Favorites tabs are fixed-width now (browser/VS Code style: the
+  tabs hug their captions instead of stretching over the whole list
+  width, which looked bloated); they only shrink when the window is
+  too narrow for three fixed tabs
+- the button block of the Favorites window moved to the RIGHT edge of
+  the window: the main column (filter, tabs, list, status line) comes
+  first on the left, the buttons (Open / Add... / Add opened... /
+  Checked / Move up / Move down / Delete, Close in the bottom-right
+  corner) follow on its right and move with the window's right edge
+- FIXED: the captions of the checkboxes in the options dialog stayed
+  black on the dark themed form (unreadable): on Windows the caption
+  of a checkbox control is painted by the OS theme and ignores
+  Font.Color. Every boolean option is now a glyph-only checkbox (the
+  OS-drawn little square, as before) + a separate themed LABEL with
+  the caption; clicking the label toggles the checkbox
+- the OK/Cancel buttons of the options dialog and of the Project
+  properties dialog got the same comfortable vertical padding as the
+  Favorites window buttons (the raw GUI button height made them look
+  like thin slabs)
+- REMOVED: the "Find favorite" picker window (Favorites > Find
+  favorite... menu item, the dialog, the picker-only code paths). The
+  Favorites window itself covers it: it has the same type-to-filter
+  field and the three category tabs. Nothing else of the favorites
+  feature is affected
+
+2026.11.13 (@badrelmers)
+- FIXED: the paths of the Favorites list were cut to "D..." even with
+  lots of free space in the column: the Path column is the
+  auto-stretched one (listbox_ex column size 0 = "share the free
+  width"), and the row painter passed that 0 as the cell width - so
+  every path was truncated to its first letter + an ellipsis. The
+  painter uses the LIVE column widths now (the same values the
+  hit-testing and the header dividers use)
+- the buttons of the Favorites window and its tabs got real vertical
+  padding (+8 px over the raw GUI button height - the caption text
+  used to touch the button borders); the minimum window height is
+  computed from the real button height now, so the button column can
+  never reach into the Close button at small window sizes
+- the Favorites tabs are redesigned again, browser/VS Code style:
+  ALL THREE TABS HAVE THE SAME SIZE (the previous design made the
+  active tab taller and lifted the inactive ones - it did not look
+  like tabs), and the ONLY difference of the active tab is a bold
+  GREEN underline along its bottom edge (a thin label glued to the
+  tab, painted over the list's top border, following the tab on
+  window resizes); the inactive tabs carry no marker at all
+- the "With checked..." button of the Favorites window is renamed to
+  "Checked"
+- the boolean options of the options dialog are the standard OS-drawn
+  checkboxes again ('check' controls): the themed toggle rows looked
+  worse than the native checkboxes. Only the caption's background and
+  font follow the theme, like the labels; the checkbox glyph is
+  painted by the operating system (the dialog API cannot theme it)
+- NEW: a cancel button for the tree filter of the Project panel - the
+  x at the right of the filter field. While a search is RUNNING it
+  cancels it: the tree keeps its current content, the status line
+  reports how many matches were found so far, and the filter text
+  stays (the user can keep browsing what is shown). With no search
+  running, x clears the filter, like the x of a usual search box
+- FIXED: expanding a big folder in the Project tree while the filter
+  search was running hung CudaText at ~50% CPU and ate RAM (1.5 GB
+  per minute on a c:\-sized folder): expanding a node re-scanned its
+  whole subtree ON THE UI THREAD, and the scan cache kept every
+  directory listing of the walk in RAM. The whole filtering is
+  redesigned around a lightweight lazy scheme:
+  * the background scan makes exactly ONE pass over the disk (every
+    folder is listed once; the old scan re-explored subtrees), builds
+    no flat row list, and caches NOTHING - the 20 s listing cache is
+    gone, it was the RAM eater
+  * the result is a lazy index: parent folder -> its filtered
+    children. The tree is filled with the TOP level only; deeper
+    levels are added from the index the moment their folder is
+    expanded (pure memory reads, no disk access). Expanding a folder
+    with the filter active is exactly as cheap as expanding it with
+    no filter now - a huge match list never floods the tree at once
+    either (the old chunked fill is gone with it)
+  * folders the index does not know (the tree still shows an older
+    state, or the search was cancelled) fall back to a SINGLE-LEVEL
+    name filter over ONE directory listing - the same cost as the
+    normal unfiltered expand, never a recursive walk
+  * the walk is iterative (an explicit job stack), so a drive-deep
+    folder chain cannot hit Python's recursion limit
+
+2026.11.13 (@badrelmers)
+- FIXED: the Favorites window did not follow its size - the list kept
+  the size it was created with when the window was resized. The list
+  is anchored to the window sides now (left offset/right/top/bottom),
+  so it grows and shrinks together with the form. The Path column is
+  auto-stretched by the listbox itself (listbox_ex column size 0 =
+  "share the free width"), so the columns always fill the list
+  exactly - on every resize, with no re-fill steps
+- FIXED: the "Projects" tab of the Favorites window slid over the
+  button column and the three tabs got unequal widths after a window
+  resize: the buttons were chained with CIRCULAR anchors (each tab's
+  right edge to the next tab's left edge AND back), which the anchor
+  engine cannot resolve. The tab strip is rebuilt: equal FIXED widths,
+  only the left edges are chained (to each other, the first one to the
+  form with its spacing)
+- the tab strip of the Favorites window is redesigned to look like
+  TABS, not like three buttons: the buttons are joined side by side
+  with a 2px gap directly above the list, the ACTIVE tab is 3px taller
+  and reaches into the list (covering its top border - it looks
+  connected to the content; the tab strip is created after the list,
+  so the tabs are drawn on top), the inactive tabs are lifted by the
+  same 3px. The active tab keeps its leading bullet too
+- the columns of the Favorites list are separated by vertical lines
+  now (1px, the theme's border color, drawn with the owner-drawn
+  rows - the themed header has drawn them for its own captions all
+  along, the rows had none)
+- the mouse cursor over a draggable header divider of the Favorites
+  list changes to the resize (split) shape now, also while dragging
+- FIXED: the "Add..." button of the Favorites window disappeared at
+  125%/150% DPI: app_proc(PROC_GET_GUI_HEIGHT) returns the already
+  DPI-scaled height of a control, and the layout (unscaled, scaled
+  once by DLG_SCALE at the end) used it as an unscaled value - the
+  button heights were scaled TWICE, the button column overflowed and
+  covered/pushed out buttons. All plugin dialogs now divide the GUI
+  heights by the UI scale factor before the layout (Favorites window,
+  Find favorite, options, project properties). The button column is
+  also wider (150px) so captions like "With checked..." are not cut
+  anymore ("With checked..." also shows a small menu arrow now)
+- the Favorites window is not topmost anymore (a topmost tool window
+  fighting the focus during app deactivations was one suspect of the
+  sporadic "Access violation" reports in on_app_deactivate), and
+  opening SEVERAL favorites at once (Open all checked) opens them one
+  per timer tick - a chain of one-shot timers - instead of all inside
+  a single callback, so the app can process the events between the
+  opens
+- FIXED: the tree filter field of the Project panel still hung
+  CudaText on the FIRST scan of a very big folder tree (the scan is
+  what takes seconds, the debounce only spread the keystrokes). The
+  recursive disk scan now runs in a BACKGROUND thread (it never calls
+  the CudaText API - the results are applied by a small polling timer
+  on the UI thread), so CudaText stays responsive even while the first
+  scan runs. A status line under the filter field shows the progress
+  the whole time the filter is not empty: "Filter: searching... N
+  match(es) so far" while the background scan runs, "Filter:
+  finished, N match(es) found" when it ended; clearing the field
+  removes the line
+- the boolean options of the options dialog are themed TOGGLE ROWS
+  now: flat button_ex buttons which are painted in their "checked"
+  state while the option is on (button_proc BTN_SET_CHECKED - the
+  engine paints the checked background from the UI theme), with a
+  check/cross mark in the caption. This finally removes the last
+  OS-drawn checkbox glyphs (the dialog API has no themed checkbox
+  control; the old 'check' boxes never followed the theme)
+
+2026.11.12 (@badrelmers)
+- the options dialog ("Project Manager options..."), the "Project
+  properties" dialog and the read-only Properties memo dialog follow
+  the CudaText UI theme now (they were the remaining OS-colored plugin
+  windows): the form, the labels, the edit/memo/combo backgrounds and
+  fonts and the checkbox captions are colored from
+  app_proc(PROC_THEME_UI_DICT_GET) - only the theme keys a theme
+  actually defines are applied, so partial themes never paint wrong
+  colors. The OK/Cancel buttons are the flat themed button_ex controls
+  (the OS 'button' cannot be themed by the dialog API); button_ex has
+  no "default button" support, so the forms handle Enter themselves
+  (keypreview + on_key_down; Esc still cancels the modal form). Known
+  limit: the checkbox GLYPH itself stays OS-drawn - the dialog API has
+  no themed checkbox control
+- "Project properties" is built with dlg_proc now (was the old
+  dlg_custom): same look as the other dialogs + theme colors, and the
+  variables memo now escapes/restores real TABs inside a value (chr(3))
+  - before, a tab inside a variable silently split it
+- FIXED: the tree filter field of the Project panel froze CudaText on
+  big projects: the filtered tree fill rescanned the whole project
+  recursively from the disk on EVERY keystroke. Two fixes: (1) the
+  filtering is debounced now - the tree is re-filled 400 ms after the
+  last keystroke (a one-shot timer, re-armed on every change; clearing
+  the field still acts at once); (2) the scanned folder listings are
+  cached for 20 s (module dict, dir path -> (time, entries)), so the
+  follow-up keystrokes reuse the first scan; clearing the filter drops
+  the cache. Also the tree node icons are cached by (name, is_dir,
+  locked) - the lexer detection per file name was called thousands of
+  times per fill
+- FIXED: the list header and the tab headers of the Favorites window
+  stayed OS-colored on theme switches (the dialog API cannot theme the
+  native listview header nor the TTabControl). Both controls are
+  replaced by controls that the engine themes itself: the list is a
+  "listbox_ex" now (the flat themed listbox used by the built-in
+  Preferences dialog - its header, rows, selection and scrollbar are
+  painted from the UI theme, live) and the tabs are three flat
+  button_ex buttons (active tab marked with a leading bullet; the
+  buttons are chained by anchors so they stretch in equal thirds).
+  The rows are owner-drawn (on_draw_item) from the theme dict
+  (TreeBg/TreeSelBg/TreeFont/TreeSelFont - the same keys the engine
+  themes listbox_ex from), so the checkbox column, the star glyphs and
+  the dead-path '?' are theme-aware too. The "Find favorite" picker's
+  list is a listbox_ex as well (engine-drawn rows, themed header). The
+  whole favorites UI now follows the theme with no OS-colored parts
+- NEW: checkbox column in the Favorites list (before the star column).
+  Check several rows, then run one command on ALL of them: open,
+  star, unstar, copy paths (newline-joined), rename (one prompt per
+  item, Cancel stops), move up/down (the checked rows move as one
+  block, keeping their inner order), delete (one confirmation).
+  Commands are in the new "With checked..." button and in the
+  "Checked (N):" section of the right-click menu; the status line
+  shows the checked count. Click the "All" header cell to check/uncheck
+  everything; Space checks/unchecks the selected row; checking is
+  independent of the selection. Deleting several entries is a single
+  save now (new FavoritesCore.remove_many)
+- NEW: the favorites column widths are resizable again - the native
+  header that allowed dragging is gone with the themed list, so the
+  resizing is implemented on the listbox_ex itself: press the left
+  button near a divider between two header captions, drag, release.
+  The drag is told apart from a header click (sorting) by a 4 px
+  threshold; the dragged column cannot shrink below its minimum; the
+  Path column keeps filling the free width on window resizes
+- fixed: the tree filter field of the Project panel did NOTHING when
+  you typed in it. The dialog engine fires the on_change event of an
+  edit control only when the control is marked 'act':True (engine
+  source: DoOnChange checks Props.FActive, and 'edit' controls don't
+  get it by default - only buttons do); the field was missing that
+  prop, so no keystroke ever reached the filtering code. The Favorites
+  window filter already had it - that is why it worked there
+- the Favorites toolbar button of the panel now shows the empty star ☆
+  (it showed the filled ★ before)
+- the plugin's dialogs now follow the CudaText UI theme, like the
+  built-in Preferences dialog does: the Favorites window, the "Find
+  favorite" picker and the panel's filter field are colored from
+  app_proc(PROC_THEME_UI_DICT_GET) (window background from TabBg,
+  filter field from EdTextBg/EdTextFont, lists from TreeBg/TreeFont,
+  status line font from EdTextFont), and all buttons of the Favorites
+  windows are the flat themed button_ex controls (painted with the
+  global ATFlatTheme) instead of the OS buttons. The colors are
+  re-read on every window open, and re-applied LIVE when the UI theme
+  is switched while CudaText runs (on_state, APPSTATE_THEME_UI - the
+  event was already subscribed with the ~ suffix, so it only fires
+  when the plugin is loaded). The panel tree/toolbar were already
+  re-themed by CudaText itself; the panel form background and the
+  filter field are now colored too. Note: the native listview header
+  and the tab headers stay OS-colored - the dialog API cannot color
+  them. TATButton draws captions itself, so the button captions lost
+  their & accelerators (the buttons are not focus targets anyway);
+  Enter in "Find favorite" is now handled by the form (button_ex has
+  no "default button" support)
+- fixed: rare "Access violation" errors (on_app_deactivate of several
+  plugins at once) could still appear when a FOLDER favorite was
+  opened: after the shell opened Explorer/Finder, the plugin still
+  forced the keyboard focus back to the Favorites window - fighting
+  the app deactivation in that exact moment is what crashed the
+  on_app_deactivate callbacks. The focus is now restored only when
+  everything was opened INSIDE CudaText (projects/files); the open
+  delay is 400 ms now (the value the cuda_favorites plugin uses) and
+  all deferred timer bodies are guarded against exceptions
+
+2026.11.11 (@badrelmers)
+- fixed: sorting by a click on a column header of the favorites list
+  did nothing. The event was registered under a prop name that does
+  not exist in the dialog API ('on_click_col'); the real event is
+  'on_click_header' (data = column index), verified in the CudaText
+  dialog engine source. Clicking a header works again: 1st click
+  ascending, 2nd descending, 3rd manual order
+- fixed: clicking the star glyph of a favorites row did nothing (only
+  the context menu worked). Restored via the 'on_click' event, which
+  reports the mouse position inside the control: a click below the
+  header and inside the star column toggles the star; a double-click
+  on the star cell only toggles (does not open the favorite). The
+  hit-test uses the LIVE star column width, so dragging the divider
+  does not break it
+- NEW: "State" column at the end of the favorites list: shows "?" when
+  the favorite's path is dead (missing on disk), nothing when it is
+  fine. The "? " prefix added to the name is removed. The "Find
+  favorite" picker got the same column. Sort by state: click the
+  State header or the new context-menu item "Sort: by state, dead
+  last" (ascending = dead favorites at the end, descending = first)
+- the column widths dragged in the favorites list now survive the
+  list refills (sorting, filtering, starring, window resize): the
+  live widths are read from the control before the refill (the Path
+  column still stretches to the free width)
+- options dialog: the "Recent projects" box is ~4 lines tall now (it
+  was ~1). Also fixed the real cause of the "I see only one line"
+  report: the dialog-API memo control separates its lines with TAB,
+  and the old code wrote/read them with \n - on OK all the projects
+  were merged into ONE tab-joined entry. The dialog now uses the TAB
+  separator both ways, and the plugin heals the merged entries made
+  by the older builds at startup
+- options dialog: a separator line between the "$settings" hint and
+  the footer notes ("For more icons...", "(*) - requires restart")
+
+2026.11.11 (@badrelmers)
+- the favorites list is a NATIVE listview again (the owner-drawn
+  listbox experiment of the previous build is reverted): the usual
+  native look, and the column widths can be resized by dragging the
+  header dividers again; the Path column is re-stretched when the
+  window is resized by 50+ px. The dialog listview has no checkboxes
+  and no per-row colors, so the multi-selection checkbox column is
+  gone (all commands act on the selected row) and dead paths keep
+  only the "? " name prefix, without the red color
+- fixed: the status line at the bottom of the favorites window
+  stretched and ate half of the window when it was maximized/enlarged
+  (its top side was still anchored - now only the bottom is)
+- fixed: "Access violation" errors (on_app_deactivate,
+  _dlg_proc_callback_proxy) when a folder favorite was opened:
+  opening/revealing now runs from a short timer AFTER the dialog
+  callback returns - the focus switch to Explorer happened inside the
+  callback and the nested event processing crashed. Also the form is
+  not freed from a timer anymore (it is only hidden and reused)
+- fixed: the favorites window size is now remembered for the whole
+  CudaText session - closing the window only hides the form and the
+  next open reuses it (size, position, column widths); the size
+  resets only when CudaText restarts
+- sorting by a click on the column header is registered as
+  on_click_col (reported by newer CudaText builds); the right-click
+  menu always has the Sort commands (★ first / by name / by path /
+  manual order) as a fallback
+- the options dialog was rebuilt with dlg_proc: the settings are
+  split into visually separated sections (Project tree / Panel and
+  opening files / Backups / New projects) with separator lines
+  between the groups, the long hints are split into short lines that
+  fit the window width (the "default projects folder" hint was eaten
+  before), and the layout is compact for small screens (the dialog
+  API has no scrollable panel)
+
+2026.11.11 (@badrelmers)
+- NEW: Favorites (bookmarks) for projects, files and folders,
+  independent of the opened project (favorites.py). Three tabbed lists
+  (Projects / Files / Folders) in one resizable non-modal window,
+  opened from the new ★ toolbar button, from the "Favorites" submenus
+  (panel context menu, below "Open main file", and Plugins > Project
+  Manager > Favorites), or the command palette. Columns
+  ☐ / ★ / Name / Path; the ★ column is the "favorite of favorites"
+  flag rendered with the UTF-8 font glyphs ☆/★ (NO image files) —
+  clicking the star cell toggles it; default sort is starred first,
+  then by name; a 3rd click on a column header switches to manual
+  (custom) order. Filter field at the top (name and path, Esc clears
+  it); vertical button panel on the left (Open / Add... / Add
+  opened... / Move up / Move down / Delete, Close at the bottom)
+  grouped with visible gaps; right-click menu (Open, Reveal in file
+  manager, Copy path, Star/Unstar, Rename, Delete, Check all / Uncheck
+  all, Add current file/folder/project). While the window has focus:
+  Ctrl+1..9 / Alt+1..9 open the Nth visible item, Enter/double-click
+  open it, Del deletes, F2 renames, Alt+Up/Down reorder — the
+  shortcuts never clash with editor hotkeys. "Find favorite..." is a
+  compact modal picker over all favorites with type-to-filter, also
+  supporting Ctrl/Alt+1..9. Opening a favorite: projects open in
+  Project Manager, files in the editor, folders simply open in the OS
+  file manager. "Add opened..." shows the same chooser as "Add...":
+  the opened project, the current editor file, or the folder of the
+  current file (only the available ones are listed)
+- favorites list: CHECKBOX column (drawn with the UTF-8 font glyphs
+  ☐/☑, no image files) before the star column — check several
+  favorites and Open / Delete (with a confirmation) / Move up / Move
+  down / Rename / Star / Copy path / Reveal act on ALL of them at
+  once; Space toggles the checkbox of the selected row, Ctrl+A (and a
+  click on the ✓ header) checks/unchecks all rows; rows hidden by the
+  filter never stay checked, so an action can never touch invisible
+  items; checks reset on a tab change. Renaming several items asks
+  for each name (Cancel stops)
+- favorites whose path no longer exists on disk are now drawn with RED
+  text (the name keeps the "? " prefix); the dialog listview control
+  of CudaText cannot color single rows, so the list is an owner-drawn
+  listbox_ex painted by the plugin (also the checkbox and star glyphs,
+  selection with the colors of the current UI theme, DPI-scaled
+  columns); the clickable header (checkbox / ★ / Name / Path with sort
+  arrows) uses the listbox header of CudaText 1.132.9+
+- fixed: the favorites window size saved after maximizing made the
+  window open with its bottom part off-screen at the next CudaText
+  start (the form is recreated with the pixel size of the MAXIMIZED
+  window, which is taller than the work area — a CudaText/LCL form
+  restore quirk), and only deleting "w"/"h" from the json fixed it.
+  The size is not saved to the json at all anymore: it is remembered
+  only while CudaText runs, and only in the NORMAL window state (the
+  size of a maximized window is never remembered)
+- fixed: the ★ column of the favorites list stayed empty when a star
+  was toggled — the per-row listview icon indexes never showed with
+  the image list; the star column is now plain text (☆/★) drawn with
+  the UI font, and all star image files (fav_star_*.png) were removed;
+  the toolbar Favorites button is a text button showing ★ itself, so
+  the whole feature ships without any icon files
+- fixed: pressing Esc in the filter field cleared the edit but the
+  list kept showing the old filtered rows (setting the edit's value
+  programmatically does not fire its on_change event) — the list is
+  now refilled together with the clearing
+- favorites menu items are no longer scattered: everything lives under
+  one "Favorites" submenu, in both the panel context menu (below "Open
+  main file") and the Plugins menu (Plugins > Project Manager >
+  Favorites: Show Favorites window..., Find favorite..., Add to
+  favorites: current file/folder/project, Add opened...)
+- NEW: type-ahead (incremental search) in the project tree — while the
+  Project panel has the keyboard focus, typing letters/digits jumps to
+  the first node of the current level starting with the typed text
+  ("myf" finds "myfile"); pressing the same letter again jumps to the
+  next match; the buffer resets after ~1.2 s of pause. Searching is
+  scoped like Windows Explorer: only among the siblings of the
+  selected node ("inside" the folder the selection is in); keystrokes
+  of other controls (e.g. the filter field) are not hijacked
+- NEW: filter field above the project tree — typing shows only the
+  files/folders whose name matches; a folder whose name matches is
+  shown with its whole content, other folders only when they contain
+  a match (with the path to it); everything is shown unfolded; Esc
+  clears the filter and restores the tree with the folds and the
+  selection from before the filtering; the "Ignore files/folders/
+  hidden" options are respected while scanning
+- NEW: option "Default projects folder" (Project Manager options):
+  when set, "Create new project", "Create project from open tabs" and
+  "Save project as..." open the save dialog directly in that folder,
+  so only a name must be typed; the folder is created when missing.
+  The value supports $settings (the CudaText settings folder), e.g.
+  "$settings" or "$settings/projects", and ~; empty (default) = the
+  last used folder, as before
+- storage: settings/cuda_project_man_favorites.json (per entry: path,
+  name, star flag; plus "_ui" for the remembered tab and sort order,
+  and "_deleted" — see below). Tab and sort order are remembered
+  between sessions; the window size only while CudaText runs
+- import from the "Favorites" plugin (kvichans' cuda_favorites): its
+  settings/cuda_favorites.json is read when Project Manager starts and
+  whenever a favorites window is opened; entries missing from our list
+  are imported (duplicates removed by normalized path, folders vs
+  files told apart by the path itself). The sync is strictly ONE-WAY
+  now (it was two-way in the first development build): nothing is ever
+  exported back and the file is never created if absent. Entries
+  deleted in our window are remembered in "_deleted" so the next
+  import does not resurrect them; adding a path again clears that
+  memory
+- readme.txt gained a "FAVORITES (BOOKMARKS)" section documenting the
+  window, the checkbox multi-selection, the red dead-path marking, the
+  star flag, sorting, filtering, the button panel, the keyboard
+  shortcuts, the "Find favorite" picker, the data file format and the
+  one-way import for end users; the tree filter, the type-ahead and
+  the "Default projects folder" option are documented too
+
 2026.11.07 (@badrelmers)
 - the v2 migration guide moved from readme.txt into a SEPARATE file,
   readme/upgrade_v2.txt, and the upgrade dialog's "Open documentation"
