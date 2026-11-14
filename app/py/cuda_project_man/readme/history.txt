@@ -1,4 +1,29 @@
 2026.11.13 (@badrelmers)
+- FIXED: a border line showed between every Favorites tab and its
+  bottom bar: the themed flat button (button_ex) always paints its own
+  1px border on all four edges and the dialog API has no prop to turn
+  that border off. The bar panels now reach TAB_OVERLAP px UP into
+  their tab button (top-anchored to the tab's top edge, height
+  TAB_ULINE_H + TAB_OVERLAP): the panels are created after the buttons
+  and later-created windowed siblings paint over earlier ones, so the
+  bar covers the button's bottom border - the bar meets the tab face
+  flush, like a browser tab. The +1px height bias tucks the bar's
+  bottom edge under the list, so DLG_SCALE rounding can never open a
+  hairline gap between the bar and the list
+- FIXED: hovering an inactive Favorites tab highlighted only the tab
+  face, not its bottom bar: the tab buttons AND their bar panels
+  handle on_mouse_enter / on_mouse_exit now, and the hovered inactive
+  tab's bar takes the same theme 'ButtonBgOver' color the hovered face
+  is painted with (the engine feeds both from that key), so the tab
+  and its bar read as ONE hovered element - also when the mouse
+  crosses from the face into the bar or arrives at the tab from the
+  list below. The hover state is tracked as two separate flags (face /
+  bar), because Windows can deliver a control's mouse-leave after the
+  next control's mouse-enter, which would flicker a single shared
+  index. The ACTIVE tab's green bar is never hover-colored - the green
+  is the state marker itself
+
+2026.11.13 (@badrelmers)
 - FIXED: "Stop tracking" on a drive root (D:\, C:\...) errored with
   'cannot find path "D:" in root nodes list' and the node came back on
   refresh: the tree stores a root path as pathlib renders it (the drive

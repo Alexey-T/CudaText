@@ -26,7 +26,15 @@ Main window (non-modal, resizable):
   the buttons and the list FLUSH (no gap): a bold GREEN bar under the
   ACTIVE tab, a bar in the tab's own button color under the inactive
   ones (the bar is a colored panel - a label would never paint its
-  color, LCL labels are transparent); the OS-drawn tab control could
+  color, LCL labels are transparent); the bar's top TAB_OVERLAP px
+  reach UP over the tab button's own bottom border to COVER it (the
+  themed flat button always draws a 1px border on all four edges and
+  the API cannot turn it off - without the overlap a dark line showed
+  between the tab face and its bar); hovering an INACTIVE tab
+  highlights its bar together with its face (on_mouse_enter/exit
+  recolor the bar to the same theme 'ButtonBgOver' the hovered face
+  uses - the tab and its bar read as one hovered element; the active
+  tab's green bar never changes); the OS-drawn tab control could
   not be colored by the theme, so it was replaced
 - the list is the "listbox_ex" control - the flat listbox of CudaText
   dialogs, painted by the UI theme like the built-in Preferences
@@ -158,10 +166,10 @@ DRAG_THRESHOLD = 4
 #: them (crHSplit in the LCL; crDefault = 0)
 CURSOR_HSPLIT = -14
 
-#: height (unscaled px) of the bottom bar of every tab: a BOLD GREEN
-#: bar under the ACTIVE tab, a bar in the tab's own button color under
-#: the inactive ones (browser/VS Code tab style; all three tabs have
-#: the same size, the bar is their only difference). The bar is a
+#: height (unscaled px) of the VISIBLE bottom bar of every tab: a BOLD
+#: GREEN bar under the ACTIVE tab, a bar in the tab's own button color
+#: under the inactive ones (browser/VS Code tab style; all three tabs
+#: have the same size, the bar is their only difference). The bar is a
 #: 'panel' control (a plain TPanel paints its Color; the first version
 #: used a 'label', but an LCL label is TRANSPARENT - it never paints
 #: its Color, so the green was never visible). The bar lives in the
@@ -171,6 +179,19 @@ CURSOR_HSPLIT = -14
 #: overlap the listbox (they don't: the list is top-anchored exactly
 #: to the strip's bottom)
 TAB_ULINE_H = 4
+#: how far (unscaled px) the bar panels reach UP INTO their tab
+#: button: the themed flat button (TATButton) ALWAYS paints its own
+#: 1px border on all four edges - the dialog API has no prop to turn
+#: that border off - and that bottom border row sat between the tab
+#: face and its bar as a visible dark line ("a border seen between it
+#: and the tab"). The bar panels are created AFTER the tab buttons and
+#: later-created windowed siblings paint OVER earlier ones, so raising
+#: the bar TAB_OVERLAP px over the button's bottom edge COVERS the
+#: button's bottom border (and any 1px DLG_SCALE rounding gap): the
+#: bar meets the tab face flush, like a browser tab. 3 px also covers
+#: the wider hover/pressed borders (up to PressedBorderWidth=3) that
+#: the button paints around its face while the mouse is on it.
+TAB_OVERLAP = 3
 #: the green of the active tab's underline (a BGR int): a saturated
 #: green that reads well on both light and dark themes
 TAB_GREEN = 0x37A800
@@ -687,6 +708,17 @@ class FavoritesForm:
         self.rows = []          # what is shown: dicts with cached dead
         self.selected_data = -1 # data index to re-select after refill
         self._closing = False
+        #: hover state of the tab strip, as TWO order-independent flags
+        #: (Windows can deliver a control's mouse-LEAVE after the next
+        #: control's mouse-ENTER, so a single 'hovered tab' index would
+        #: flicker): the index of the tab whose BUTTON FACE is under the
+        #: mouse, or -1
+        self._hover_btn = -1
+        #: the index of the tab whose bottom BAR panel is under the
+        #: mouse (the bar reaches up into its tab button, so the mouse
+        #: crosses button<->bar inside one tab), or -1; a tab counts as
+        #: hovered when EITHER flag names it
+        self._hover_bar = -1
         self._sb_w = 20         # scrollbar width, for the Path stretch
         self._scale = 1.0
         #: norm-keys of the checked favorites (checkbox column)
@@ -974,6 +1006,13 @@ class FavoritesForm:
                 'hint': _('Show {} favorites').format(tab_caps[i]),
                 'on_change': (lambda id_dlg, id_ctl, data='', info='', _i=i:
                               self.on_tab_button(_i)),
+                # hover of the whole tab = face + bar: the engine paints
+                # the hovered face itself, these events recolor the bar
+                # under it (inactive tabs only - see on_tab_hover)
+                'on_mouse_enter': (lambda id_dlg, id_ctl, data='', info='',
+                                   _i=i: self.on_tab_hover(_i, True, False)),
+                'on_mouse_exit': (lambda id_dlg, id_ctl, data='', info='',
+                                  _i=i: self.on_tab_hover(_i, False, False)),
             }
             if i == 0:
                 # sp_l is REQUIRED: setting a_l re-glues the edge to the
@@ -986,33 +1025,54 @@ class FavoritesForm:
             self._ctl('button_ex', tab_names[i], prop)
 
         #---- the BOTTOM BAR of every tab ----
-        # A thin colored PANEL glued to the BOTTOM EDGE of its tab (its
-        # left, right and top edges are anchored to that tab, so it
-        # follows the window resizes and _layout_tabs' re-splits). The
-        # bar lives in the TAB_ULINE_H strip BETWEEN the buttons and the
-        # list, FLUSH with both (no gap): the list below is top-anchored
-        # to tab0's bottom with the spacing of exactly TAB_ULINE_H. A
-        # 'panel' (plain LCL TPanel, bevels off) paints its Color - the
-        # first version used a 'label', but LCL labels are TRANSPARENT
-        # and never paint their Color, so the bar was never visible.
-        # All three bars are ALWAYS TAB_ULINE_H tall: GREEN for the
-        # active tab, the tab's own button color for the inactive ones
-        # (set in _update_tabs) - so the strip reads as the bottom edge
-        # of the tab row, not as empty form background.
+        # A thin colored PANEL glued to the BOTTOM of its tab (left and
+        # right edges anchored to that tab, so it follows the window
+        # resizes and _layout_tabs' re-splits). The bar lives in the
+        # TAB_ULINE_H strip BETWEEN the buttons and the list, FLUSH with
+        # the list: the list below is top-anchored to tab0's bottom with
+        # the spacing of exactly TAB_ULINE_H. A 'panel' (plain LCL
+        # TPanel, bevels off) paints its Color - the first version used
+        # a 'label', but LCL labels are TRANSPARENT and never paint
+        # their Color, so the bar was never visible.
+        # All three bars show a TAB_ULINE_H tall strip below the buttons:
+        # GREEN for the active tab, the tab's own button color for the
+        # inactive ones (set in _update_tabs) - so the strip reads as the
+        # bottom edge of the tab row, not as empty form background.
+        # The bar's TOP edge is TAB_OVERLAP px ABOVE its tab's bottom
+        # edge (top-anchored to the tab's '[' side with the spacing of
+        # BTN_H - TAB_OVERLAP, height TAB_ULINE_H + TAB_OVERLAP): the
+        # panel is created AFTER the buttons, and later-created
+        # windowed siblings paint OVER earlier ones, so those TAB_OVERLAP
+        # px COVER the button's own bottom border - the themed flat
+        # button always draws a 1px border on all four edges and that
+        # line used to show between the tab face and its bar (the API
+        # has no prop to disable the button border, so it is covered
+        # instead). The visible bar below the button stays TAB_ULINE_H.
         for i in range(3):
             self._ctl('panel', 'uline{}'.format(i), {
                 'x': BTN_X + i * (tab_w + TAB_GAP),
-                'y': ty + BTN_H,        # sane pre-anchor position; the
-                                        # top anchor places the strip
+                'y': ty + BTN_H - TAB_OVERLAP,  # sane pre-anchor
+                                             # position; the top anchor
+                                             # places the strip
                 'w': tab_w,
-                'h': TAB_ULINE_H,
+                'h': TAB_ULINE_H + TAB_OVERLAP,
                 'a_l': (tab_names[i], '['),
                 'sp_l': 0,
                 'a_r': (tab_names[i], ']'),
                 'sp_r': 0,
-                'a_t': (tab_names[i], ']'),
-                'sp_t': 0,
+                'a_t': (tab_names[i], '['),
+                'sp_t': BTN_H - TAB_OVERLAP,  # top edge INSIDE the tab,
+                                             # TAB_OVERLAP over its border
                 'color': TAB_GREEN,   # corrected per tab by _update_tabs
+                # the bar is part of its tab for the hover too: moving the
+                # mouse from the list up into the bar (or from the face
+                # down into the bar) keeps the tab highlighted as one
+                # element (the bar overlaps the button's bottom, so the
+                # mouse crosses between the two controls inside one tab)
+                'on_mouse_enter': (lambda id_dlg, id_ctl, data='', info='',
+                                   _i=i: self.on_tab_hover(_i, True, True)),
+                'on_mouse_exit': (lambda id_dlg, id_ctl, data='', info='',
+                                  _i=i: self.on_tab_hover(_i, False, True)),
             })
 
         #---- the list ----
@@ -1120,6 +1180,11 @@ class FavoritesForm:
     def show(self):
         if not self.h:
             self.build()
+        # drop stale hover flags (the window was closed while the mouse
+        # was over a tab): without this, the next show could paint a
+        # hover-colored bar with no mouse over it
+        self._hover_btn = -1
+        self._hover_bar = -1
         # the UI theme may have changed while the window was hidden:
         # re-read the colors on every show (the form is reused)
         self.apply_theme()
@@ -1389,18 +1454,27 @@ class FavoritesForm:
         self.update_status()
 
     def _update_tabs(self):
-        """Redraw the tab strip for the current self.tab. All three
-        tabs ALWAYS have the same caption style, position and size
-        (browser/VS Code style) - the ONLY difference of the active one
-        is the COLOR of its bottom bar: the 'ulineN' panel in the
-        TAB_ULINE_H strip between the tab buttons and the list is
-        GREEN for the active tab, and painted in the theme's button
-        face color for the inactive ones (the same color the flat tab
-        buttons use) - so every tab carries a visible bottom bar and
-        the strip reads as the bottom edge of the tab row. The height
-        is already fixed (TAB_ULINE_H, set at creation and scaled by
-        DLG_SCALE); the 'h' here re-applies it in REAL pixels (this
-        runs after DLG_SCALE) to survive any scale rounding."""
+        """Redraw the tab strip for the current self.tab. All three tabs
+        ALWAYS have the same caption style, position and size
+        (browser/VS Code style) - the ONLY differences are the COLORS of
+        the bottom bars ('ulineN' panels in the TAB_ULINE_H strip
+        between the tab buttons and the list): GREEN for the active
+        tab, the theme's button face color for the inactive ones (the
+        same color the flat tab buttons paint themselves with), and the
+        theme's button HOVER color for an inactive tab while the mouse
+        is over it - the hovered tab face takes that very same color
+        (the engine feeds both from the 'ButtonBgPassive'/'ButtonBgOver'
+        theme keys - see formmain_themes.inc), so the tab and its bar
+        read as ONE hovered element. The ACTIVE tab's green bar is
+        never hover-colored: the green IS the state marker.
+        The bar height is TAB_ULINE_H + TAB_OVERLAP: its top TAB_OVERLAP
+        px reach UP over the button's own bottom border to hide the
+        border line that used to show between the tab and the bar (see
+        TAB_OVERLAP). The 'h' is re-applied here in REAL pixels (this
+        runs after DLG_SCALE) to survive any scale rounding, and +1 px
+        biases the bottom edge slightly UNDER the list (the list is
+        created later and paints over the bars), so rounding can never
+        open a hairline gap between the bar and the list."""
         sc = self._scale or 1.0
         # the theme's flat-button face color (what button_ex paints
         # itself with); falls back to the form color when the theme
@@ -1409,16 +1483,24 @@ class FavoritesForm:
         face = _theme_color(d, 'ButtonBgPassive', None)
         if face is None:
             face = _theme_color(d, 'TabBg', 0xE0E0E0)
-        bar_h = int(TAB_ULINE_H * sc)
+        # the exact color the hovered flat-button face is painted with
+        # (fed from the same 'ButtonBgOver' theme key), so the hovered
+        # bar and the hovered face match perfectly
+        hover = _theme_color(d, 'ButtonBgOver', 0xD0B0B0)
+        ov = max(1, int(TAB_OVERLAP * sc))
+        bar_h = int(TAB_ULINE_H * sc) + ov + 1
         for i in range(3):
-            # the tab buttons themselves need no update (same caption,
-            # same size for all three) - only the bars change color
+            if i == self.tab:
+                col = TAB_GREEN
+            elif i == self._hover_btn or i == self._hover_bar:
+                col = hover
+            else:
+                col = face
             try:
                 dlg_proc(self.h, DLG_CTL_PROP_SET,
                          name='uline{}'.format(i),
                          prop={'h': bar_h,
-                               'color': TAB_GREEN if i == self.tab
-                               else face})
+                               'color': col})
             except Exception:
                 pass
 
@@ -1649,6 +1731,31 @@ class FavoritesForm:
         self.tab = index
         self.selected_data = -1
         self.fill_list(keep_selection=False)
+
+    def on_tab_hover(self, index, entered, on_bar):
+        """The mouse entered/left a tab button or its bottom bar panel
+        (on_mouse_enter / on_mouse_exit of the button_ex and panel
+        controls; the bar overlaps the button's bottom edge, so the
+        mouse crosses between the two controls inside one tab). While
+        the mouse is anywhere over an INACTIVE tab, its bar takes the
+        SAME theme hover color as the tab face, so the tab and its bar
+        read as ONE hovered element. The ACTIVE tab's green bar is
+        never hover-colored - the green is the state marker itself, and
+        the hovered face of that tab still highlights on its own.
+        The two flags (_hover_btn / _hover_bar) are kept SEPARATE and
+        only merged in _update_tabs: Windows can deliver a control's
+        mouse-LEAVE after the NEXT control's mouse-ENTER, and a single
+        shared 'hovered tab' index would then clear the just-set hover
+        (leave(tab1's face) arriving after enter(tab1's bar) would
+        erase it); with separate flags the late leave only clears its
+        own source."""
+        if not self.h or self._closing:
+            return
+        if on_bar:
+            self._hover_bar = index if entered else -1
+        else:
+            self._hover_btn = index if entered else -1
+        self._update_tabs()
 
     def list_on_change(self, id_dlg, id_ctl, data='', info=''):
         """Selection in the list moved."""

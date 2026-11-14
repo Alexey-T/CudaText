@@ -457,7 +457,11 @@ window...)
   whole list width); every tab carries a bottom bar in the thin strip
   that joins the tab buttons and the list flush (no gap): a bold GREEN
   bar marks the active tab, the inactive ones carry a bar in the
-  tab's own button color. Columns: check | ★ | Name |
+  tab's own button color (the bar reaches a few px up into its tab
+  button and covers the button's own bottom border, so the bar meets
+  the tab face without a separating line, like a browser tab).
+  Hovering an inactive tab highlights its bar together with its face;
+  the active tab's green bar keeps its color. Columns: check | ★ | Name |
   Path | State, separated by vertical lines. The list is the flat
   themed listbox of CudaText dialogs (listbox_ex, the same control
   the built-in Preferences dialog uses), so the list, its column
