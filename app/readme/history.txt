@@ -11,7 +11,7 @@
    + add: added a search filter for project and its folders/files, the search run in bakground so no cudatext hang with very huge folders
    + add: Options dialog redesigned to support themes colors, all GUI now works correctly with any theme
    + add: safety: no command deletes anything permanently anymore, on any OS
-- fix: Gtk3 version on X11 had too fast caret blinking (thanks @SmallJoker, fixed by Z.ai)
+- fix: Gtk3 version on X11 had incorrect caret blinking (thanks @SmallJoker, fixed by Z.ai)
 
 1.239.1 (2026/11)
 
