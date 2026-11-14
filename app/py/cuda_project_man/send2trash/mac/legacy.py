@@ -8,7 +8,7 @@
 from ctypes import cdll, byref, Structure, c_char, c_char_p
 from ctypes.util import find_library
 
-from send2trash.util import preprocess_paths
+from ..util import preprocess_paths
 
 Foundation = cdll.LoadLibrary(find_library("Foundation"))
 CoreServices = cdll.LoadLibrary(find_library("CoreServices"))

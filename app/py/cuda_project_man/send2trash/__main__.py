@@ -4,10 +4,14 @@
 # which should be included with this package. The terms are also available at
 # http://www.hardcoded.net/licenses/bsd_license
 
+# Vendored: relative import so the package stays private to the
+# cuda_project_man plugin (run as a module only for debugging, e.g.
+# "python -m cuda_project_man.send2trash" from the app's py/ folder).
+
 import sys
 
 from argparse import ArgumentParser
-from send2trash import send2trash
+from . import send2trash
 
 if sys.version_info[0] < 3:
     raise RuntimeError("send2trash is only compatible with Python 3 and above (use versions <= 1.8.3 for python 2).")

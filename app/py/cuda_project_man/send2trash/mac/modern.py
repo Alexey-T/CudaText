@@ -5,7 +5,7 @@
 # http://www.hardcoded.net/licenses/bsd_license
 
 from Foundation import NSFileManager, NSURL
-from send2trash.util import preprocess_paths
+from ..util import preprocess_paths
 
 
 def check_op_result(op_result):

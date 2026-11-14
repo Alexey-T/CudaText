@@ -54,6 +54,17 @@
 - CHANGED: panel context menu - "Favorites" moved BELOW "Project
   sessions"; inside the "Favorites" submenu, "Show Favorites window..."
   is the first item now (it was in the middle).
+- CHANGED: the bundled Send2Trash library is PRIVATE to the plugin
+  now. Its internal imports were rewritten to relative ones, so it
+  loads as the subpackage cuda_project_man.send2trash through the
+  plugin's own package path: nothing is ever added to sys.path and no
+  top-level send2trash module is registered. Other plugins / app
+  code can neither import this copy nor shadow it with their own, and
+  this copy cannot shadow a real system-wide Send2Trash installation
+  (both directions are covered by tests). When the plugin is somehow
+  loaded NOT as a package, projman_trash falls back to a synthetic
+  private host module (_cuda_project_man_s2t) - sys.path stays
+  untouched either way.
 - REVISED: readme.txt for the end user - quick start and trash-safety
   sections added, keyboard shortcuts collected into one table, menu
   structure updated for the new items; heavy implementation internals

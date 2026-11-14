@@ -9,8 +9,8 @@ from platform import version
 import pythoncom
 import pywintypes
 from win32com.shell import shell, shellcon
-from send2trash.util import preprocess_paths
-from send2trash.win.IFileOperationProgressSink import create_sink
+from ..util import preprocess_paths
+from .IFileOperationProgressSink import create_sink
 
 
 def send2trash(paths):

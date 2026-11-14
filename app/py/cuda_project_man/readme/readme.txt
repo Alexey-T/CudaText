@@ -794,7 +794,9 @@ NOTES
 - The trash support is powered by the bundled Send2Trash library
   (https://pypi.org/project/Send2Trash/) - it ships inside the
   plugin's send2trash/ subfolder, so nothing extra needs to be
-  installed.
+  installed. It is loaded privately inside the plugin only: it never
+  touches the global Python module path, so it cannot conflict with
+  other plugins or with a Send2Trash you may have installed yourself.
 
 
 ------------------------------------------------------------------------------

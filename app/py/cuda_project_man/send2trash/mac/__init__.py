@@ -12,10 +12,10 @@ macos_ver_str = mac_ver()[0]
 macos_ver = tuple(int(part) for part in macos_ver_str.split(".")) if macos_ver_str else None
 if version_info >= (3, 6) and (macos_ver is None or macos_ver >= (10, 9)):
     try:
-        from send2trash.mac.modern import send2trash
+        from .modern import send2trash
     except ImportError:
         # Try to fall back to ctypes version, although likely problematic still
-        from send2trash.mac.legacy import send2trash
+        from .legacy import send2trash
 else:
     # Just use the old version otherwise
-    from send2trash.mac.legacy import send2trash  # noqa: F401
+    from .legacy import send2trash  # noqa: F401

@@ -17,7 +17,7 @@ from ctypes import (
 )
 from ctypes.wintypes import HWND, UINT, LPCWSTR, BOOL
 
-from send2trash.util import preprocess_paths
+from ..util import preprocess_paths
 
 kernel32 = windll.kernel32
 GetShortPathNameW = kernel32.GetShortPathNameW

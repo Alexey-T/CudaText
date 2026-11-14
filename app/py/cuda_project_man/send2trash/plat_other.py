@@ -22,8 +22,8 @@ import os.path as op
 from datetime import datetime
 import stat
 from urllib.parse import quote
-from send2trash.util import preprocess_paths
-from send2trash.exceptions import TrashPermissionError
+from .util import preprocess_paths
+from .exceptions import TrashPermissionError
 
 FILES_DIR = b"files"
 INFO_DIR = b"info"
