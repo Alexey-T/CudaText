@@ -1,3 +1,42 @@
+2026.11.12 (@badrelmers)
+- fixed: the tree filter field of the Project panel did NOTHING when
+  you typed in it. The dialog engine fires the on_change event of an
+  edit control only when the control is marked 'act':True (engine
+  source: DoOnChange checks Props.FActive, and 'edit' controls don't
+  get it by default - only buttons do); the field was missing that
+  prop, so no keystroke ever reached the filtering code. The Favorites
+  window filter already had it - that is why it worked there
+- the Favorites toolbar button of the panel now shows the empty star ☆
+  (it showed the filled ★ before)
+- the plugin's dialogs now follow the CudaText UI theme, like the
+  built-in Preferences dialog does: the Favorites window, the "Find
+  favorite" picker and the panel's filter field are colored from
+  app_proc(PROC_THEME_UI_DICT_GET) (window background from TabBg,
+  filter field from EdTextBg/EdTextFont, lists from TreeBg/TreeFont,
+  status line font from EdTextFont), and all buttons of the Favorites
+  windows are the flat themed button_ex controls (painted with the
+  global ATFlatTheme) instead of the OS buttons. The colors are
+  re-read on every window open, and re-applied LIVE when the UI theme
+  is switched while CudaText runs (on_state, APPSTATE_THEME_UI - the
+  event was already subscribed with the ~ suffix, so it only fires
+  when the plugin is loaded). The panel tree/toolbar were already
+  re-themed by CudaText itself; the panel form background and the
+  filter field are now colored too. Note: the native listview header
+  and the tab headers stay OS-colored - the dialog API cannot color
+  them. TATButton draws captions itself, so the button captions lost
+  their & accelerators (the buttons are not focus targets anyway);
+  Enter in "Find favorite" is now handled by the form (button_ex has
+  no "default button" support)
+- fixed: rare "Access violation" errors (on_app_deactivate of several
+  plugins at once) could still appear when a FOLDER favorite was
+  opened: after the shell opened Explorer/Finder, the plugin still
+  forced the keyboard focus back to the Favorites window - fighting
+  the app deactivation in that exact moment is what crashed the
+  on_app_deactivate callbacks. The focus is now restored only when
+  everything was opened INSIDE CudaText (projects/files); the open
+  delay is 400 ms now (the value the cuda_favorites plugin uses) and
+  all deferred timer bodies are guarded against exceptions
+
 2026.11.11 (@badrelmers)
 - fixed: sorting by a click on a column header of the favorites list
   did nothing. The event was registered under a prop name that does

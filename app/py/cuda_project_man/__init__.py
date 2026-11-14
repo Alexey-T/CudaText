@@ -33,6 +33,13 @@ IS_MAC = sys.platform == 'darwin'
 S_CTRL_API = 'm' if IS_MAC else 'c'
 S_CTRL_NAME = 'Meta' if IS_MAC else 'Ctrl'
 
+# on_state code of the "UI theme changed" app event; the constant is
+# missing in older cudatext.py builds, so a literal fallback is kept
+try:
+    APPSTATE_THEME_UI
+except NameError:
+    APPSTATE_THEME_UI = 21
+
 ctypes = None
 if IS_WIN:
     try:
@@ -770,7 +777,7 @@ class Command:
         self.h_btn_sync = toolbar_proc(self.h_bar, TOOLBAR_GET_BUTTON_HANDLE, index=btn_count-1)
         button_proc(self.h_btn_sync, BTN_SET_VISIBLE, not self.options.get('always_sync', False))
 
-        # Favorites (bookmarks) button - a TEXT button showing the ★
+        # Favorites (bookmarks) button - a TEXT button showing the ☆
         # UTF-8 font icon itself (no image files); opens the Favorites
         # window. Added after h_btn_sync is captured so its handle stays
         # valid (it assumes it is the last button)
@@ -780,7 +787,7 @@ class Command:
             cnt = toolbar_proc(self.h_bar, TOOLBAR_GET_COUNT)
             h_btn_fav = toolbar_proc(self.h_bar, TOOLBAR_GET_BUTTON_HANDLE, index=cnt-1)
             button_proc(h_btn_fav, BTN_SET_KIND, BTNKIND_TEXT_ONLY)
-            button_proc(h_btn_fav, BTN_SET_TEXT, '★')
+            button_proc(h_btn_fav, BTN_SET_TEXT, '☆')
             button_proc(h_btn_fav, BTN_SET_HINT, _('Favorites (bookmarks)'))
             button_proc(h_btn_fav, BTN_SET_DATA1, 'cuda_project_man.favorites_show')
         except Exception as e:
@@ -792,6 +799,11 @@ class Command:
         #---- filter field above the tree ----
         # typing here shows only the nodes/files/folders whose name
         # matches (folders keep the path to the matches); Esc clears it
+        # NOTE 'act': True is REQUIRED: the dialog engine fires the
+        # on_change event of an edit only for controls marked 'act'
+        # (DoOnChange -> "if not Props.FActive then exit"), and 'edit'
+        # controls don't get it by default (buttons do) - without it
+        # typing in the field did nothing at all
         EH = app_proc(PROC_GET_GUI_HEIGHT, 'edit') or 28
         n = dlg_proc(self.h_dlg, DLG_CTL_ADD, prop='edit')
         self.filter_ctl_index = n
@@ -804,6 +816,7 @@ class Command:
             'a_r': ('', ']'),
             'sp_r': 2,
             'h': EH,
+            'act': True,
             'texthint': _('Filter the project tree...'),
             'hint': _('Show only the files/folders whose name matches.\rEsc clears the filter'),
             'on_change': self.panel_filter_on_change,
@@ -842,6 +855,33 @@ class Command:
         self.ICON_TEXT = self.icon_get('_text')
         self.ICON_AUDIO = self.icon_get('_audio')
         self.ICON_VIDEO = self.icon_get('_video')
+
+        # color the form and the filter field with the current UI theme
+        # (the tree and the toolbar are themed by the engine itself)
+        self.apply_panel_theme()
+
+    def apply_panel_theme(self):
+        """Re-color the panel background and the filter field to the
+        current UI theme (the treeview and the toolbar are re-themed by
+        CudaText itself - TREE_THEME / TOOLBAR_THEME and the app's
+        theme-change pass over the docked plugin dialogs; the form and
+        the edit are ours to color). Also called when the UI theme is
+        switched while CudaText runs (on_state, APPSTATE_THEME_UI)."""
+        if not self.h_dlg:
+            return
+        colors = _favorites.get_theme_ui_colors()
+        try:
+            if colors['form_bg'] is not None:
+                dlg_proc(self.h_dlg, DLG_PROP_SET, prop={
+                    'color': colors['form_bg']})
+            if colors['edit_bg'] is not None:
+                dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, name='f_filter',
+                         prop={'color': colors['edit_bg']})
+            if colors['edit_font'] is not None:
+                dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, name='f_filter',
+                         prop={'font_color': colors['edit_font']})
+        except Exception:
+            pass
 
 
     def init_panel(self, and_activate=True):
@@ -5608,6 +5648,20 @@ class Command:
 
         Session changes made by the plugin itself are guarded with
         _session_set_by_plugin and ignored here."""
+        if state == APPSTATE_THEME_UI:
+            # the UI theme was switched while CudaText runs: the app
+            # re-themes the panel tree and toolbar itself (its pass over
+            # the docked plugin dialogs), our own parts (the panel form
+            # background, the filter field) and the favorites windows
+            # are re-colored here
+            if self.tree:
+                self.apply_panel_theme()
+            try:
+                _favorites.apply_theme_all()
+            except Exception:
+                pass
+            return
+
         if state == APPSTATE_SESSION_SAVE_AFTER:
             if self._backup_flow:
                 # a plugin command is running which saves the session:

@@ -286,8 +286,8 @@ The "Show current file" button is hidden if "Automatically show current
 file in project tree" is enabled in options (since it then happens
 automatically on every tab switch).
 
-The last button, [★ Favorites], opens the Favorites (bookmarks) window;
-it is a text button that shows the ★ character itself, so it follows the
+The last button, [☆ Favorites], opens the Favorites (bookmarks) window;
+it is a text button that shows the ☆ character itself, so it follows the
 editor font and needs no icon file.
 
 
@@ -303,6 +303,9 @@ inside them, together with the path down to the match. Everything is
 shown unfolded, and the "Ignore files/folders/hidden" options are
 respected while scanning. Esc clears the field and restores the tree
 with the folds and the selection from before the filtering.
+
+The field is colored with the current UI theme (like the tree and the
+toolbar around it), and it is re-colored when the theme is switched.
 
 While the panel has the keyboard focus (and you are not typing in the
 filter field), plain letters and digits jump to the first node of the
@@ -391,10 +394,10 @@ FAVORITES (BOOKMARKS)
 
 Favorites are quick bookmarks for projects, files and folders,
 independent of the opened project. They live in the "Favorites"
-submenus (panel context menu and Plugins menu), on the ★ toolbar
+submenus (panel context menu and Plugins menu), on the ☆ toolbar
 button, and in their own window.
 
-THE FAVORITES WINDOW (★ toolbar button, or Favorites > Show Favorites
+THE FAVORITES WINDOW (☆ toolbar button, or Favorites > Show Favorites
 window...)
   Resizable, non-modal, stays on top of the CudaText window; the
   active tab and the sort order are remembered between sessions, and
@@ -408,6 +411,16 @@ window...)
   header dividers; the Path column is re-stretched when the window is
   resized by 50+ px, and the widths you drag survive the list refills
   (sorting, filtering, starring...).
+
+  Theme colors
+      The window follows the CudaText UI theme, like the built-in
+      Preferences dialog: the window background, the filter field,
+      the list and the status line are colored from the current theme,
+      and the buttons are the flat themed buttons of CudaText. The
+      colors are re-read every time the window opens, and re-applied
+      live when the theme is switched while CudaText runs (the
+      OS-drawn list header and the tab headers stay OS-colored —
+      the dialog API cannot color them).
 
   Star column (★/☆)
       The "favorite of favorites" flag, drawn with the UTF-8 font
@@ -483,7 +496,8 @@ FIND FAVORITE (Favorites > Find favorite...)
   A compact modal picker over ALL favorites with a type-to-filter
   field; columns ★ / Name / Type / Path / State; Enter or double-click
   opens the choice; Ctrl+1..9 / Alt+1..9 work here too. Handy when
-  bound to a hotkey.
+  bound to a hotkey. The dialog is colored with the current UI theme
+  (like the Favorites window).
 
 WHERE THE DATA LIVES
   settings/cuda_project_man_favorites.json (in the CudaText settings

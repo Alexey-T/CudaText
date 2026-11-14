@@ -43,6 +43,14 @@ Main window (non-modal, resizable):
   form recreated with the pixel size of a maximized window ends up
   taller than the work area)
 
+THEME COLORS: the window, the filter field, the list and the status
+line are colored from the current CudaText UI theme (like the built-in
+Preferences dialog - app_proc(PROC_THEME_UI_DICT_GET)), and the
+buttons are the flat themed 'button_ex' controls, so the whole window
+follows the theme; the colors are re-read on every open and when the
+theme is switched while CudaText runs. The OS-drawn list header and
+the tab headers stay OS-colored.
+
 "Add opened..." shows the same chooser as "Add...": pick the opened
 project, the current editor file, or the folder of the current file.
 
@@ -120,8 +128,9 @@ FORM_MIN_H = 350
 
 #: delay (ms) before a favorite is actually opened/revealed: the OS
 #: shell call must not run inside the dialog callback (see the module
-#: docstring)
-OPEN_DELAY_MS = 250
+#: docstring); 400 ms like the cuda_favorites plugin - a shorter delay
+#: still caught the app mid-deactivation sometimes
+OPEN_DELAY_MS = 400
 
 #: how much the window width must change before the Path column is
 #: re-stretched (the list is refilled then - doing it on every pixel
@@ -138,6 +147,42 @@ def _ui_scale():
         return max(1.0, int(val[0]) / 100.0)
     except Exception:
         return 1.0
+
+
+def get_theme_ui_colors():
+    """Colors of the current CudaText UI theme, for coloring the
+    plugin's dialogs the way the built-in Preferences dialog does
+    (app_proc(PROC_THEME_UI_DICT_GET)). Returns a dict of int colors
+    (or None for the keys a theme may not define - the caller skips
+    those). The flat button_ex buttons and the panel tree/toolbar are
+    themed by the engine itself, everything else is colored with
+    these."""
+    try:
+        d = app_proc(PROC_THEME_UI_DICT_GET, '')
+    except Exception:
+        d = None
+
+    def col(key):
+        try:
+            v = d.get(key)
+            if isinstance(v, dict) and v.get('color') is not None:
+                return int(v['color'])
+        except Exception:
+            pass
+        return None
+
+    return {
+        # window background: the tab-bar color (what cuda_prefs uses)
+        'form_bg': col('TabBg'),
+        # text input: the editor colors
+        'edit_bg': col('EdTextBg'),
+        'edit_font': col('EdTextFont'),
+        # the list: the tree colors
+        'list_bg': col('TreeBg'),
+        'list_font': col('TreeFont'),
+        # plain labels on the form background
+        'label_font': col('EdTextFont'),
+    }
 
 
 def _norm_path(path):
@@ -595,25 +640,30 @@ class FavoritesForm:
         })
 
         #---- left vertical button column ----
+        # All buttons are 'button_ex' (the flat CudaText button): it is
+        # painted with the global ATFlatTheme, so it follows the UI
+        # theme automatically - the native 'button' control would stay
+        # OS-light on a dark theme. TATButton draws its caption itself
+        # (no & accelerators), so the captions have no '&'.
         y = 8
-        self._ctl('button', 'btn_open', {
-            'cap': _('&Open'),
+        self._ctl('button_ex', 'btn_open', {
+            'cap': _('Open'),
             'x': BTN_X, 'y': y, 'w': BTN_W, 'h': BH,
             'tab_order': 3,
             'hint': _('Open the selected favorite\rEnter and double-click do the same.\rProjects open in Project Manager, files in the editor,\rfolders in the OS file manager'),
             'on_change': self.btn_open_click,
         })
         y += BH + BTN_GAP
-        self._ctl('button', 'btn_add', {
-            'cap': _('Add&...'),
+        self._ctl('button_ex', 'btn_add', {
+            'cap': _('Add...'),
             'x': BTN_X, 'y': y, 'w': BTN_W, 'h': BH,
             'tab_order': 4,
             'hint': _('Add a new favorite: project, file or folder'),
             'on_change': self.btn_add_click,
         })
         y += BH + BTN_GAP
-        self._ctl('button', 'btn_add_opened', {
-            'cap': _('Add &opened...'),
+        self._ctl('button_ex', 'btn_add_opened', {
+            'cap': _('Add opened...'),
             'x': BTN_X, 'y': y, 'w': BTN_W, 'h': BH,
             'tab_order': 5,
             'hint': _('Add the opened project, the current editor file,\ror the folder of the current file - a menu lets you choose'),
@@ -621,16 +671,16 @@ class FavoritesForm:
         })
 
         y += BH + GRP_GAP  # visible gap between the groups
-        self._ctl('button', 'btn_up', {
-            'cap': _('Move &up'),
+        self._ctl('button_ex', 'btn_up', {
+            'cap': _('Move up'),
             'x': BTN_X, 'y': y, 'w': BTN_W, 'h': BH,
             'tab_order': 6,
             'hint': _('Move the selected favorite up\r(switches the list to manual order)'),
             'on_change': self.btn_up_click,
         })
         y += BH + BTN_GAP
-        self._ctl('button', 'btn_down', {
-            'cap': _('Move do&wn'),
+        self._ctl('button_ex', 'btn_down', {
+            'cap': _('Move down'),
             'x': BTN_X, 'y': y, 'w': BTN_W, 'h': BH,
             'tab_order': 7,
             'hint': _('Move the selected favorite down\r(switches the list to manual order)'),
@@ -638,8 +688,8 @@ class FavoritesForm:
         })
 
         y += BH + GRP_GAP  # visible gap between the groups
-        self._ctl('button', 'btn_del', {
-            'cap': _('&Delete'),
+        self._ctl('button_ex', 'btn_del', {
+            'cap': _('Delete'),
             'x': BTN_X, 'y': y, 'w': BTN_W, 'h': BH,
             'tab_order': 8,
             'hint': _('Delete the selected favorite (Del key)'),
@@ -648,7 +698,7 @@ class FavoritesForm:
 
         # Close is anchored to the bottom of the window only (its top
         # anchor is detached, otherwise it would stretch vertically)
-        self._ctl('button', 'btn_close', {
+        self._ctl('button_ex', 'btn_close', {
             'cap': _('Close'),
             'x': BTN_X, 'y': h - BH - 8, 'w': BTN_W, 'h': BH,
             'tab_order': 9,
@@ -736,13 +786,51 @@ class FavoritesForm:
         })
 
         dlg_proc(self.h, DLG_SCALE)
+        self.apply_theme()
         self.fill_list()
+
+    def apply_theme(self):
+        """Re-color the window to the current UI theme - the same way
+        the built-in Preferences dialog does it (the theme colors come
+        from app_proc(PROC_THEME_UI_DICT_GET)). Called on build, on
+        every show(), and when CudaText switches its UI theme while the
+        window is open (see apply_theme_all). The button_ex buttons and
+        the OS-drawn tab headers follow the theme automatically; the
+        form, the filter field, the list and the status line are
+        (re-)colored here."""
+        if not self.h:
+            return
+        colors = get_theme_ui_colors()
+        try:
+            if colors['form_bg'] is not None:
+                dlg_proc(self.h, DLG_PROP_SET, prop={
+                    'color': colors['form_bg']})
+            if colors['edit_bg'] is not None:
+                dlg_proc(self.h, DLG_CTL_PROP_SET, name='f_filter',
+                         prop={'color': colors['edit_bg']})
+            if colors['edit_font'] is not None:
+                dlg_proc(self.h, DLG_CTL_PROP_SET, name='f_filter',
+                         prop={'font_color': colors['edit_font']})
+            if colors['list_bg'] is not None:
+                dlg_proc(self.h, DLG_CTL_PROP_SET, name='list',
+                         prop={'color': colors['list_bg']})
+            if colors['list_font'] is not None:
+                dlg_proc(self.h, DLG_CTL_PROP_SET, name='list',
+                         prop={'font_color': colors['list_font']})
+            if colors['label_font'] is not None:
+                dlg_proc(self.h, DLG_CTL_PROP_SET, name='lbl_status',
+                         prop={'font_color': colors['label_font']})
+        except Exception:
+            pass
 
     #------------- showing / closing
 
     def show(self):
         if not self.h:
             self.build()
+        # the UI theme may have changed while the window was hidden:
+        # re-read the colors on every show (the form is reused)
+        self.apply_theme()
         dlg_proc(self.h, DLG_SHOW_NONMODAL)
         dlg_proc(self.h, DLG_TO_FRONT)
         # focus the filter: type-to-filter right away; Ctrl+1..9 etc work
@@ -1174,7 +1262,10 @@ class FavoritesForm:
         """Give the keyboard focus back to the favorites window after
         an editor tab was opened."""
         if self.h:
-            dlg_proc(self.h, DLG_FOCUS)
+            try:
+                dlg_proc(self.h, DLG_FOCUS)
+            except Exception:
+                pass
 
     #------------- actions (on the selected row)
 
@@ -1184,15 +1275,28 @@ class FavoritesForm:
         deactivates, and the nested event processing crashed with
         "Access violation" (on_app_deactivate of several plugins). The
         timer lets the callback return first - the same trick the
-        cuda_favorites plugin uses."""
+        cuda_favorites plugin uses. The focus is given back to the
+        window ONLY when nothing was opened in the OS file manager:
+        a shell-opened folder made ANOTHER app active, and forcing the
+        focus back in that moment fought the app deactivation - the
+        remaining source of the on_app_deactivate crashes."""
         paths = [str(p) for p in paths if p]
         if not paths:
             return
+        # a folder favorite is opened by the OS shell (Explorer,
+        # Finder...); projects and files are opened inside CudaText
+        opened_shell = any(
+            os.path.isdir(p) and not p.endswith(PROJECT_EXTENSION)
+            for p in paths)
 
         def do_open(tag=None):
-            for p in paths:
-                open_item(p)
-            self.focus_again()
+            try:
+                for p in paths:
+                    open_item(p)
+            except Exception as ex:
+                print('Favorites: cannot open favorite: ' + str(ex))
+            if not opened_shell:
+                self.focus_again()
 
         timer_proc(TIMER_START_ONE, do_open, OPEN_DELAY_MS)
 
@@ -1274,7 +1378,10 @@ class FavoritesForm:
         path = row['path']
 
         def do_reveal(tag=None):
-            reveal_in_file_manager(path)
+            try:
+                reveal_in_file_manager(path)
+            except Exception as ex:
+                print('Favorites: cannot reveal in file manager: ' + str(ex))
 
         # deferred, like opening (see _open_paths)
         timer_proc(TIMER_START_ONE, do_reveal, OPEN_DELAY_MS)
@@ -1430,17 +1537,19 @@ class FavoritesFinder:
         })
 
         # buttons must be created BEFORE the listview: the listview's
-        # bottom anchor references btn_ok by name
-        self._ctl('button', 'btn_ok', {
-            'cap': _('&Open'),
+        # bottom anchor references btn_ok by name.
+        # 'button_ex' = the flat themed CudaText button (follows the UI
+        # theme); it has no "default button" support, so Enter is
+        # handled in form_on_key instead of the old 'ex0' prop
+        self._ctl('button_ex', 'btn_ok', {
+            'cap': _('Open'),
             'x': self.W - 8 - 90 - 6 - 90, 'y': self.H - BH - 8, 'w': 90, 'h': BH,
-            'ex0': True,  # default for Enter
             'a_t': None,
             'a_b': ('', ']'),
             'sp_b': 8,
             'on_change': self.btn_ok_click,
         })
-        self._ctl('button', 'btn_cancel', {
+        self._ctl('button_ex', 'btn_cancel', {
             'cap': _('Cancel'),
             'x': self.W - 8 - 90, 'y': self.H - BH - 8, 'w': 90, 'h': BH,
             'a_t': None,
@@ -1454,7 +1563,6 @@ class FavoritesFinder:
         self._ctl('listview', 'list', {
             'x': 8, 'y': 8 + EH + 6,
             'w': self.W - 16, 'h': self.H - EH - 6 - BH - 16 - 8 - 6,
-            'ex0': True,
             'a_r': ('', ']'),
             'sp_r': 8,
             'a_t': ('f_filter', ']'),
@@ -1465,6 +1573,27 @@ class FavoritesFinder:
         })
 
         dlg_proc(self.h, DLG_SCALE)
+        # color the dialog with the current UI theme (like the built-in
+        # Preferences dialog does)
+        colors = get_theme_ui_colors()
+        try:
+            if colors['form_bg'] is not None:
+                dlg_proc(self.h, DLG_PROP_SET, prop={
+                    'color': colors['form_bg']})
+            if colors['edit_bg'] is not None:
+                dlg_proc(self.h, DLG_CTL_PROP_SET, name='f_filter',
+                         prop={'color': colors['edit_bg']})
+            if colors['edit_font'] is not None:
+                dlg_proc(self.h, DLG_CTL_PROP_SET, name='f_filter',
+                         prop={'font_color': colors['edit_font']})
+            if colors['list_bg'] is not None:
+                dlg_proc(self.h, DLG_CTL_PROP_SET, name='list',
+                         prop={'color': colors['list_bg']})
+            if colors['list_font'] is not None:
+                dlg_proc(self.h, DLG_CTL_PROP_SET, name='list',
+                         prop={'font_color': colors['list_font']})
+        except Exception:
+            pass
         self.fill_list()
         dlg_proc(self.h, DLG_CTL_FOCUS, name='f_filter')
 
@@ -1478,7 +1607,14 @@ class FavoritesFinder:
         # the cuda_favorites plugin uses)
         if self.result:
             path = self.result
-            timer_proc(TIMER_START_ONE, lambda tag=None: open_item(path), 300)
+
+            def do_open(tag=None):
+                try:
+                    open_item(path)
+                except Exception as ex:
+                    print('Favorites: cannot open favorite: ' + str(ex))
+
+            timer_proc(TIMER_START_ONE, do_open, OPEN_DELAY_MS)
 
     def fill_list(self):
         self.view = self.core.view_all(self.filter)
@@ -1557,6 +1693,12 @@ class FavoritesFinder:
             else:
                 msg_status(_('Favorites: no item at #{}').format(n + 1))
             return False
+        # Enter opens the selection (the flat button_ex buttons have
+        # no "default button" support, so the form handles it)
+        if 'a' not in mods and 'c' not in mods and 's' not in mods \
+           and 'm' not in mods and key == VK_ENTER:
+            self.accept()
+            return False
         # Esc is handled by the form itself (modal: cancels the dialog)
         return None
 
@@ -1564,6 +1706,15 @@ class FavoritesFinder:
 #==========================================================
 # module API (used by cuda_project_man/__init__.py)
 #==========================================================
+
+def apply_theme_all():
+    """Re-apply the current UI theme to the open favorites window.
+    Called when CudaText switches its UI theme while the window is
+    open (on_state / APPSTATE_THEME_UI in __init__.py); a hidden
+    window is re-themed by its next show() anyway."""
+    if _form is not None and _form.h:
+        _form.apply_theme()
+
 
 def show_favorites():
     """Open (or focus) the Favorites window. The one-way import from
