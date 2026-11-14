@@ -134,7 +134,9 @@ PROJECT FILE
   Project properties...
       Opens a dialog to edit project variables (Name=Value pairs, one
       per line) and view the main file. Variables can be used in macros
-      via {VarName} syntax.
+      via {VarName} syntax. A tab inside a value is kept (it does not
+      split the variable). The dialog follows the UI theme like the
+      other plugin windows.
 
 ROOT NODES (Contents)
   Add folder...
@@ -174,6 +176,8 @@ SELECTED FOLDER (when a folder is right-clicked)
   Find in folder...
   Reveal in file manager
   Properties... (Alt+Enter)
+      Read-only info window (size, dates, ...). It follows the UI
+      theme like the other plugin dialogs.
 
 SELECTED FILE (when a file is right-clicked)
   Open in default application
@@ -304,6 +308,13 @@ shown unfolded, and the "Ignore files/folders/hidden" options are
 respected while scanning. Esc clears the field and restores the tree
 with the folds and the selection from before the filtering.
 
+The filtering is debounced and cached: the tree is re-filled only
+after the typing pauses (0.4 s), and the scanned folder listings are
+reused by the following keystrokes - so even a project with many
+thousands of files no longer freezes CudaText while typing (the very
+first filtering still scans the disk once). Clearing the filter drops
+the cache, so the next filtering sees the current disk state.
+
 The field is colored with the current UI theme (like the tree and the
 toolbar around it), and it is re-colored when the theme is switched.
 
@@ -385,7 +396,10 @@ Close tabs not belonging to project) live only in the Plugins menu.
   Project properties... / Config...
       Project variables and main file; plugin options. Both are also
       added to CudaText's Settings menu; "Config..." is in the panel
-      context menu as well.
+      context menu as well. Both dialogs follow the UI theme (form,
+      labels, input fields, flat themed OK/Cancel buttons); only the
+      little checkbox squares in the options dialog are still drawn by
+      the OS - the dialog API has no themed checkbox.
 
 
 ------------------------------------------------------------------------------
@@ -406,21 +420,30 @@ window...)
   form, so the size resets only when CudaText restarts (the size is
   not saved to disk: a form recreated with the pixel size of a
   maximized window ends up taller than the work area). Three tabs:
-  Projects, Files, Folders. Columns: ★ | Name | Path | State — a
-  NATIVE listview, so the column widths can be resized by dragging the
-  header dividers; the Path column is re-stretched when the window is
-  resized by 50+ px, and the widths you drag survive the list refills
-  (sorting, filtering, starring...).
+  Projects, Files, Folders - flat themed buttons, the active one
+  marked with a leading bullet. Columns: check | ★ | Name | Path |
+  State. The list is the flat themed listbox of CudaText dialogs
+  (listbox_ex, the same control the built-in Preferences dialog
+  uses), so the list, its column header, the selection and the
+  scrollbar all follow the UI theme - also live, when the theme is
+  switched while CudaText runs. The rows are painted by the plugin
+  from the theme colors (owner-drawing). The column widths are
+  RESIZABLE: drag the divider between two header captions (mouse
+  down near a caption border, move, release); the Path column is
+  re-stretched when the window is resized by 50+ px, and the widths
+  you drag survive the list refills (sorting, filtering, starring...).
 
-  Theme colors
-      The window follows the CudaText UI theme, like the built-in
-      Preferences dialog: the window background, the filter field,
-      the list and the status line are colored from the current theme,
-      and the buttons are the flat themed buttons of CudaText. The
-      colors are re-read every time the window opens, and re-applied
-      live when the theme is switched while CudaText runs (the
-      OS-drawn list header and the tab headers stay OS-colored —
-      the dialog API cannot color them).
+  Checkbox column
+      The first column holds a checkbox per row. Check several rows,
+      then run ONE command on all of them at once: open, star, unstar,
+      copy paths, rename (one by one, Cancel stops), move up/down
+      (the checked rows move as a block), delete. The commands are in
+      the "With checked..." button and in the right-click menu (the
+      "Checked (N):" section); the status line shows how many rows are
+      checked. Click the "All" header cell (or right-click the header)
+      to check/uncheck everything; Space checks/unchecks the selected
+      row. Checking never changes the selection - it is a separate
+      mechanism on top of it.
 
   Star column (★/☆)
       The "favorite of favorites" flag, drawn with the UTF-8 font
@@ -432,11 +455,12 @@ window...)
 
   State column
       Shows "?" when the favorite's path no longer exists on disk
-      (a dead favorite), and nothing when everything is fine. Sort by
-      it (click the header, or the right-click menu) to gather the
-      dead favorites at one end: ascending puts them last. The old
-      "? " prefix on the name is gone — the state lives in its own
-      column now.
+      (a dead favorite), and nothing when everything is fine; the
+      name of a dead favorite is painted in the theme's accent color
+      too. Sort by it (click the header, or the right-click menu) to
+      gather the dead favorites at one end: ascending puts them last.
+      The old "? " prefix on the name is gone — the state lives in
+      its own column now.
 
   Filter
       The field at the top filters by name AND path as you type; Esc
@@ -463,13 +487,18 @@ window...)
                        opened project, the current editor file, or the
                        folder of the current file (only the available
                        ones are listed)
+      With checked...  a menu with the commands that run on ALL
+                       checked favorites: open, star/unstar, copy
+                       paths, rename, move up/down as a block,
+                       delete, uncheck all
       Move up /
       Move down       reorder the selected favorite (switches to
                        manual order)
       Delete           remove the selected favorite
       Close (bottom)   closes the window
 
-  All commands act on the selected row.
+  The Open / Move / Delete buttons act on the selected row; the
+  commands of "With checked..." act on the checked rows.
 
   Opening a favorite (and "Reveal in file manager") runs from a short
   timer after the click, not inside the click handler itself: the OS
@@ -484,20 +513,25 @@ window...)
       Enter / double-click    open the selected favorite
       Del                     delete it
       F2                      rename it
+      Space                   check/uncheck it (checkbox column)
       Alt+Up / Alt+Down       move it up/down
       Esc                     clear the filter; second Esc closes
                                the window
 
   Right-click menu: Open, Reveal in file manager, Copy path,
-  Star/Unstar, Rename..., Delete, Sort (★ first / by name / by path /
-  by state, dead last / manual order), Add current file/folder/project.
+  Star/Unstar, Rename..., Delete, the "Checked (N):" commands (open /
+  star / unstar / copy paths / rename / move up / move down / delete /
+  uncheck all), Sort (★ first / by name / by path / by state, dead
+  last / manual order), Add current file/folder/project. A right-
+  click on the header offers the Sort commands + Check/Uncheck all.
 
 FIND FAVORITE (Favorites > Find favorite...)
   A compact modal picker over ALL favorites with a type-to-filter
   field; columns ★ / Name / Type / Path / State; Enter or double-click
   opens the choice; Ctrl+1..9 / Alt+1..9 work here too. Handy when
-  bound to a hotkey. The dialog is colored with the current UI theme
-  (like the Favorites window).
+  bound to a hotkey. The list is the same flat themed listbox (with
+  its themed header), and the dialog is colored with the current UI
+  theme (like the Favorites window).
 
 WHERE THE DATA LIVES
   settings/cuda_project_man_favorites.json (in the CudaText settings

@@ -1,4 +1,65 @@
 2026.11.12 (@badrelmers)
+- the options dialog ("Project Manager options..."), the "Project
+  properties" dialog and the read-only Properties memo dialog follow
+  the CudaText UI theme now (they were the remaining OS-colored plugin
+  windows): the form, the labels, the edit/memo/combo backgrounds and
+  fonts and the checkbox captions are colored from
+  app_proc(PROC_THEME_UI_DICT_GET) - only the theme keys a theme
+  actually defines are applied, so partial themes never paint wrong
+  colors. The OK/Cancel buttons are the flat themed button_ex controls
+  (the OS 'button' cannot be themed by the dialog API); button_ex has
+  no "default button" support, so the forms handle Enter themselves
+  (keypreview + on_key_down; Esc still cancels the modal form). Known
+  limit: the checkbox GLYPH itself stays OS-drawn - the dialog API has
+  no themed checkbox control
+- "Project properties" is built with dlg_proc now (was the old
+  dlg_custom): same look as the other dialogs + theme colors, and the
+  variables memo now escapes/restores real TABs inside a value (chr(3))
+  - before, a tab inside a variable silently split it
+- FIXED: the tree filter field of the Project panel froze CudaText on
+  big projects: the filtered tree fill rescanned the whole project
+  recursively from the disk on EVERY keystroke. Two fixes: (1) the
+  filtering is debounced now - the tree is re-filled 400 ms after the
+  last keystroke (a one-shot timer, re-armed on every change; clearing
+  the field still acts at once); (2) the scanned folder listings are
+  cached for 20 s (module dict, dir path -> (time, entries)), so the
+  follow-up keystrokes reuse the first scan; clearing the filter drops
+  the cache. Also the tree node icons are cached by (name, is_dir,
+  locked) - the lexer detection per file name was called thousands of
+  times per fill
+- FIXED: the list header and the tab headers of the Favorites window
+  stayed OS-colored on theme switches (the dialog API cannot theme the
+  native listview header nor the TTabControl). Both controls are
+  replaced by controls that the engine themes itself: the list is a
+  "listbox_ex" now (the flat themed listbox used by the built-in
+  Preferences dialog - its header, rows, selection and scrollbar are
+  painted from the UI theme, live) and the tabs are three flat
+  button_ex buttons (active tab marked with a leading bullet; the
+  buttons are chained by anchors so they stretch in equal thirds).
+  The rows are owner-drawn (on_draw_item) from the theme dict
+  (TreeBg/TreeSelBg/TreeFont/TreeSelFont - the same keys the engine
+  themes listbox_ex from), so the checkbox column, the star glyphs and
+  the dead-path '?' are theme-aware too. The "Find favorite" picker's
+  list is a listbox_ex as well (engine-drawn rows, themed header). The
+  whole favorites UI now follows the theme with no OS-colored parts
+- NEW: checkbox column in the Favorites list (before the star column).
+  Check several rows, then run one command on ALL of them: open,
+  star, unstar, copy paths (newline-joined), rename (one prompt per
+  item, Cancel stops), move up/down (the checked rows move as one
+  block, keeping their inner order), delete (one confirmation).
+  Commands are in the new "With checked..." button and in the
+  "Checked (N):" section of the right-click menu; the status line
+  shows the checked count. Click the "All" header cell to check/uncheck
+  everything; Space checks/unchecks the selected row; checking is
+  independent of the selection. Deleting several entries is a single
+  save now (new FavoritesCore.remove_many)
+- NEW: the favorites column widths are resizable again - the native
+  header that allowed dragging is gone with the themed list, so the
+  resizing is implemented on the listbox_ex itself: press the left
+  button near a divider between two header captions, drag, release.
+  The drag is told apart from a header click (sorting) by a 4 px
+  threshold; the dragged column cannot shrink below its minimum; the
+  Path column keeps filling the free width on window resizes
 - fixed: the tree filter field of the Project panel did NOTHING when
   you typed in it. The dialog engine fires the on_change event of an
   edit control only when the control is marked 'act':True (engine

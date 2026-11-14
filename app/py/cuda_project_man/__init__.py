@@ -52,6 +52,24 @@ PROJECT_DIALOG_FILTER = _("CudaText projects") + "|*" + PROJECT_EXTENSION
 PROJECT_UNSAVED_NAME = _("(No project)")
 NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD = range(4)
 OS_SUFFIX = app_proc(PROC_GET_OS_SUFFIX, '')
+
+#: delay (ms) after the last keystroke in the tree filter field before
+#: the (possibly slow) filtered tree fill runs: the fill scans the
+#: whole project tree recursively, and running it per keystroke froze
+#: CudaText on big trees
+FILTER_APPLY_DELAY_MS = 400
+
+#: cache of directory listings for the filtered tree fill:
+#: dir path -> (monotonic time, entries). One scan of the disk is
+#: reused by the following filter keystrokes; the TTL picks up new
+#: files soon enough, and clearing the filter drops the cache
+_dir_listing_cache = {}
+DIR_CACHE_TTL = 20.0
+
+#: cache of tree node icons: (name, is_dir, locked) -> icon index.
+#: The lexer detection per file name is not free, and the filtered
+#: fill asks for thousands of icons
+_icon_cache = {}
 DEF_SES = 'default'+OS_SUFFIX+'.cuda-session'
 # Suffix of the internal session created by the automatic import of the
 # current (external) session when an old-format project file is opened:
@@ -609,6 +627,9 @@ class Command:
     #: when it is cleared
     _filter_saved_folds = None
     _filter_saved_sel = ''
+    #: filter text the debounce timer is waiting for (None = no timer
+    #: armed); see panel_filter_on_change
+    _filter_pending = None
     #: type-ahead buffer and the time of its last keystroke
     _ta_buf = ''
     _ta_time = 0.0
@@ -1988,17 +2009,35 @@ class Command:
 
     def show_memo(self, text, caption):
         w_, h_ = self.get_w_h()
-        h = dlg_proc(0, DLG_CREATE)
-        dlg_proc(h, DLG_PROP_SET, prop={
+        colors = _favorites.get_theme_ui_colors()
+
+        def on_form_key(id_dlg, id_ctl, data='', info=''):
+            # button_ex has no "default button" support, so the form
+            # handles Enter itself (Esc closes the modal form - engine)
+            if id_ctl == VK_ENTER and not (data or ''):
+                dlg_proc(id_dlg, DLG_HIDE)
+                return False
+            return None
+
+        fprop = {
             'w': w_,
             'h': h_,
             'w_min': 300,
             'h_min': 150,
             'cap': caption,
             'border': DBORDER_SIZE,
-        })
+            'keypreview': True,     # needed for on_key_down (Enter = OK)
+            'on_key_down': on_form_key,
+        }
+        if colors['form_bg'] is not None:
+            fprop['color'] = colors['form_bg']
+        h = dlg_proc(0, DLG_CREATE)
+        dlg_proc(h, DLG_PROP_SET, prop=fprop)
 
-        n = dlg_proc(h, DLG_CTL_ADD, prop='button')
+        # button_ex = the flat themed CudaText button (follows the UI
+        # theme); the OS 'button' cannot be themed via the dialog API.
+        # It draws its caption itself, so no '&' accelerator
+        n = dlg_proc(h, DLG_CTL_ADD, prop='button_ex')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
             'name': 'btn_ok',
             'a_l': None,
@@ -2009,13 +2048,11 @@ class Command:
             'x': w_-100,
             'y': h_-6-25,
             'w': 100-6,
-            'cap': _('&OK'),
+            'cap': _('OK'),
             'on_change': 'module=cuda_project_man;cmd=callback_button_ok;',
-            'ex0': True,
         })
 
-        n = dlg_proc(h, DLG_CTL_ADD, prop='memo')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
+        mp = {
             'name': 'memo_log',
             'val': text,
             'a_r': ('btn_ok', ']'),
@@ -2024,9 +2061,15 @@ class Command:
             'y': 6,
             'w': w_-6*2,
             'h': h_-6*3-25,
-            'ex0': True,
-            'ex1': True,
-        })
+            'ex0': True,           # read-only (dialog API prop of edit/memo)
+            'ex1': True,           # monospaced font
+        }
+        if colors['edit_bg'] is not None:
+            mp['color'] = colors['edit_bg']
+        if colors['edit_font'] is not None:
+            mp['font_color'] = colors['edit_font']
+        n = dlg_proc(h, DLG_CTL_ADD, prop='memo')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop=mp)
 
         dlg_proc(h, DLG_CTL_FOCUS, name='btn_ok')
         dlg_proc(h, DLG_SCALE)
@@ -2304,7 +2347,11 @@ class Command:
     #------------- tree filter (the field above the tree)
 
     def panel_filter_on_change(self, id_dlg, id_ctl, data='', info=''):
-        """The filter field above the tree changed."""
+        """The filter field above the tree changed. The (possibly slow)
+        filtered fill does NOT run per keystroke: a one-shot timer
+        applies the text only after the typing pauses - the recursive
+        disk scan of a big tree used to freeze CudaText on every key.
+        Clearing the field is applied at once (it is cheap)."""
         if not self.tree:
             return
         try:
@@ -2312,6 +2359,29 @@ class Command:
             text = str(props.get('val', '') or '')
         except Exception:
             text = ''
+        if not text:
+            timer_proc(TIMER_STOP, self._filter_timer_fire, 0)
+            self._filter_pending = None
+            self.apply_tree_filter('')
+            return
+        self._filter_pending = text
+        # re-arm the debounce: stop the pending one-shot timer, then
+        # start a fresh one, so it fires FILTER_APPLY_DELAY_MS after
+        # the LAST keystroke, not after the first
+        timer_proc(TIMER_STOP, self._filter_timer_fire, 0)
+        timer_proc(TIMER_START_ONE, self._filter_timer_fire,
+                   FILTER_APPLY_DELAY_MS)
+
+    def _filter_timer_fire(self, tag=None):
+        """The debounce delay passed: apply the live filter text."""
+        self._filter_pending = None
+        if not self.tree:
+            return
+        try:
+            props = dlg_proc(self.h_dlg, DLG_CTL_PROP_GET, name='f_filter') or {}
+            text = str(props.get('val', '') or '')
+        except Exception:
+            return
         self.apply_tree_filter(text)
 
     def apply_tree_filter(self, text):
@@ -2338,6 +2408,9 @@ class Command:
         if text:
             self.fill_tree_filtered()
         else:
+            # drop the cached disk listings: the next filtering starts
+            # a fresh scan and must see the current disk state
+            _dir_listing_cache.clear()
             self.action_refresh()
             # restore the state from before the filtering
             if self._filter_saved_folds:
@@ -2351,6 +2424,8 @@ class Command:
         on_change event, so apply_tree_filter() must be called here."""
         if not self.tree_filter:
             return
+        timer_proc(TIMER_STOP, self._filter_timer_fire, 0)
+        self._filter_pending = None
         try:
             dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, name='f_filter',
                      prop={'val': ''})
@@ -2362,10 +2437,21 @@ class Command:
         """Children of a folder as os.DirEntry objects, with the
         plugin's ignore rules applied and sorted like the tree; None
         when the folder cannot be read. Symlinked folders are skipped
-        (no cycles), like in enum_all_files()."""
+        (no cycles), like in enum_all_files(). The listings are cached
+        for DIR_CACHE_TTL seconds: the filtered tree fill scans the
+        whole project recursively, and without the cache every filter
+        keystroke rescanned the entire disk (CudaText froze on big
+        trees - the cache makes the first scan the only slow one)."""
+        key = str(fn)
+        now = time.monotonic()
+        hit = _dir_listing_cache.get(key)
+        if hit is not None and now - hit[0] < DIR_CACHE_TTL:
+            return hit[1]
+
         try:
             entries = list(os.scandir(fn))
         except OSError:
+            # not cached: a broken folder may appear/readable later
             return None
         res = []
         for e in entries:
@@ -2384,35 +2470,50 @@ class Command:
         global sort_order
         if sort_order != '':
             try:
-                return sorted(res, key=Command.node_ordering_direntry)
+                res = sorted(res, key=Command.node_ordering_direntry)
             except OSError:
                 pass
-        res.sort(key=lambda e: (not e.is_dir(), e.name.upper()))
+        else:
+            res.sort(key=lambda e: (not e.is_dir(), e.name.upper()))
+
+        _dir_listing_cache[key] = (now, res)
         return res
 
     def _node_icon(self, spath, sname, is_dir):
         """Icon index of one tree node (shared by the normal and the
-        filtered tree fill)."""
-        if is_locked(spath):
-            return self.ICON_BAD
-        if is_dir:
-            return self.ICON_DIR
-        if is_simple_listed(sname, MASKS_IMAGES):
-            return self.ICON_IMG
-        if is_simple_listed(sname, MASKS_ZIP):
-            return self.ICON_ZIP
-        if is_simple_listed(sname, MASKS_BINARY):
-            return self.ICON_BIN
-        if is_simple_listed(sname, MASKS_AUDIO):
-            return self.ICON_AUDIO
-        if is_simple_listed(sname, MASKS_VIDEO):
-            return self.ICON_VIDEO
-        lexname = lexer_proc(LEXER_DETECT, sname)
-        if lexname:
-            return self.icon_get(lexname)
-        if is_simple_listed(sname, MASKS_TEXT):
-            return self.ICON_TEXT
-        return self.ICON_ALL
+        filtered tree fill). Cached by (name, is_dir, locked): the
+        lexer detection per file name is not free, and the filtered
+        fill asks for thousands of icons."""
+        locked = is_locked(spath)
+        key = (sname, is_dir, locked)
+        res = _icon_cache.get(key)
+        if res is not None:
+            return res
+
+        if locked:
+            res = self.ICON_BAD
+        elif is_dir:
+            res = self.ICON_DIR
+        elif is_simple_listed(sname, MASKS_IMAGES):
+            res = self.ICON_IMG
+        elif is_simple_listed(sname, MASKS_ZIP):
+            res = self.ICON_ZIP
+        elif is_simple_listed(sname, MASKS_BINARY):
+            res = self.ICON_BIN
+        elif is_simple_listed(sname, MASKS_AUDIO):
+            res = self.ICON_AUDIO
+        elif is_simple_listed(sname, MASKS_VIDEO):
+            res = self.ICON_VIDEO
+        else:
+            lexname = lexer_proc(LEXER_DETECT, sname)
+            if lexname:
+                res = self.icon_get(lexname)
+            elif is_simple_listed(sname, MASKS_TEXT):
+                res = self.ICON_TEXT
+            else:
+                res = self.ICON_ALL
+        _icon_cache[key] = res
+        return res
 
     def _add_tree_node(self, parent, sname, spath, is_dir):
         """Add one tree node with the standard icon; returns its handle."""

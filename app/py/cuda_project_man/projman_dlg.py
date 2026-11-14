@@ -1,10 +1,24 @@
 import os
 from cudatext import *
+from cudatext_keys import *
 from cudax_lib import get_translation
 from .projman_glob import *
 from .projman_backup import DEFAULT_BACKUP_COUNT, DEFAULT_BACKUP_FOLDER
+from .favorites import get_theme_ui_colors
 
 _   = get_translation(__file__)  # i18n
+
+
+def _theme_props(colors, bg_key='edit_bg', font_key='edit_font'):
+    """'color'/'font_color' props for a control, from the theme colors
+    (only the keys the current theme defines; a missing key never adds
+    a prop, so the control keeps the engine default)."""
+    res = {}
+    if colors.get(bg_key) is not None:
+        res['color'] = colors[bg_key]
+    if colors.get(font_key) is not None:
+        res['font_color'] = colors[font_key]
+    return res
 
 
 def get_themes_filetype():
@@ -39,7 +53,15 @@ def dialog_config(op):
     sections, the long hints are split into short lines that fit the
     window width, and the layout is compact. The dialog API has no
     scrollable panel, so a compact grouped layout is the way to survive
-    small screens. Returns True when OK was pressed."""
+    small screens. The dialog follows the CudaText UI theme like the
+    built-in Preferences dialog: the form, the labels, the edit/memo/
+    combo backgrounds and fonts and the checkbox captions are colored
+    from app_proc(PROC_THEME_UI_DICT_GET), and the OK/Cancel buttons
+    are the flat themed button_ex controls (the OS 'button' cannot be
+    themed by the API; button_ex has no "default button" support, so
+    Enter is handled by the form itself). The checkbox GLYPH stays
+    OS-drawn - the dialog API has no themed checkbox.
+    Returns True when OK was pressed."""
 
     themes = get_themes_filetype()
     try:
@@ -80,14 +102,7 @@ def dialog_config(op):
 
     W = 640
     BH = app_proc(PROC_GET_GUI_HEIGHT, 'button') or 30
-
-    h = dlg_proc(0, DLG_CREATE)
-    dlg_proc(h, DLG_PROP_SET, prop={
-        'cap': _('Project Manager options'),
-        'w': W,
-        'h': 120,               # the real height is set after the layout
-        'border': DBORDER_DIALOG,
-    })
+    colors = get_theme_ui_colors()
 
     state = {'ok': False}
     # control names read back when OK is pressed
@@ -124,6 +139,27 @@ def dialog_config(op):
         state['ok'] = False
         dlg_proc(h, DLG_HIDE)
 
+    def on_form_key(id_dlg, id_ctl, data='', info=''):
+        """button_ex has no "default button" support, so the form
+        handles Enter itself (Esc cancels the modal form - engine)."""
+        if id_ctl == VK_ENTER and not (data or ''):
+            on_ok(id_dlg, id_ctl)
+            return False
+        return None
+
+    fprop = {
+        'cap': _('Project Manager options'),
+        'w': W,
+        'h': 120,               # the real height is set after the layout
+        'border': DBORDER_DIALOG,
+        'keypreview': True,     # needed for on_key_down (Enter = OK)
+        'on_key_down': on_form_key,
+    }
+    if colors['form_bg'] is not None:
+        fprop['color'] = colors['form_bg']
+    h = dlg_proc(0, DLG_CREATE)
+    dlg_proc(h, DLG_PROP_SET, prop=fprop)
+
     #--------- small layout helpers (absolute coords, DLG_SCALE after)
 
     X0 = 12          # left margin
@@ -136,9 +172,9 @@ def dialog_config(op):
 
     def lab(cap, x, w, dy=16):
         n_lab[0] += 1
-        ctl('label', 'lab{}'.format(n_lab[0]), {
-            'x': x, 'y': y[0], 'w': w, 'h': dy, 'cap': cap,
-        })
+        p = {'x': x, 'y': y[0], 'w': w, 'h': dy, 'cap': cap}
+        p.update(_theme_props(colors, bg_key='form_bg', font_key='label_font'))
+        ctl('label', 'lab{}'.format(n_lab[0]), p)
         y[0] += dy
 
     def section(cap):
@@ -146,60 +182,73 @@ def dialog_config(op):
         separation between the option groups."""
         y[0] += 2
         n_lab[0] += 1
-        ctl('label', 'lab{}'.format(n_lab[0]), {
+        p = {
             'x': X0, 'y': y[0], 'w': W - 2 * X0, 'h': 17,
             'cap': cap + ':',
-        })
+        }
+        p.update(_theme_props(colors, bg_key='form_bg', font_key='label_font'))
+        ctl('label', 'lab{}'.format(n_lab[0]), p)
         y[0] += 21
 
     def sep():
         """Separator line between the option groups."""
         y[0] += 4
         n_lab[0] += 1
-        ctl('label', 'lab{}'.format(n_lab[0]), {
+        p = {
             'x': X0, 'y': y[0], 'w': W - 2 * X0, 'h': 6,
             'cap': '─' * 92,
-        })
+        }
+        p.update(_theme_props(colors, bg_key='form_bg', font_key='label_font'))
+        ctl('label', 'lab{}'.format(n_lab[0]), p)
         y[0] += 12
 
     def hint(cap):
         """Small hint line - SHORT on purpose: the old dlg_custom dialog
         had hints wider than the window, so their ends were eaten."""
         n_lab[0] += 1
-        ctl('label', 'lab{}'.format(n_lab[0]), {
-            'x': X0 + 8, 'y': y[0], 'w': W - 2 * X0 - 8, 'h': 16, 'cap': cap,
-        })
+        p = {'x': X0 + 8, 'y': y[0], 'w': W - 2 * X0 - 8, 'h': 16, 'cap': cap}
+        p.update(_theme_props(colors, bg_key='form_bg', font_key='label_font'))
+        ctl('label', 'lab{}'.format(n_lab[0]), p)
         y[0] += 16
 
     def check(name, cap, value):
-        ctl('check', name, {
+        # the checkbox GLYPH stays OS-drawn (the dialog API has no
+        # themed checkbox); the caption and the background follow the
+        # theme
+        p = {
             'x': X0, 'y': y[0], 'w': W - 2 * X0, 'h': 22,
             'cap': cap,
             'val': '1' if value else '0',
-        })
+        }
+        p.update(_theme_props(colors, bg_key='form_bg', font_key='label_font'))
+        ctl('check', name, p)
         y[0] += 23
 
     def row_edit(lab_cap, name, val, edit_w=None):
         n_lab[0] += 1
-        ctl('label', 'lab{}'.format(n_lab[0]), {
-            'x': X0, 'y': y[0] + 3, 'w': LW, 'h': 16, 'cap': lab_cap,
-        })
-        ctl('edit', name, {
+        lp = {'x': X0, 'y': y[0] + 3, 'w': LW, 'h': 16, 'cap': lab_cap}
+        lp.update(_theme_props(colors, bg_key='form_bg', font_key='label_font'))
+        ctl('label', 'lab{}'.format(n_lab[0]), lp)
+        ep = {
             'x': EX, 'y': y[0], 'w': edit_w or EW, 'h': 23,
             'val': val,
-        })
+        }
+        ep.update(_theme_props(colors))
+        ctl('edit', name, ep)
         y[0] += 28
 
     def row_combo(lab_cap, name, items, index):
         n_lab[0] += 1
-        ctl('label', 'lab{}'.format(n_lab[0]), {
-            'x': X0, 'y': y[0] + 3, 'w': LW, 'h': 16, 'cap': lab_cap,
-        })
-        ctl('combo_ro', name, {
+        lp = {'x': X0, 'y': y[0] + 3, 'w': LW, 'h': 16, 'cap': lab_cap}
+        lp.update(_theme_props(colors, bg_key='form_bg', font_key='label_font'))
+        ctl('label', 'lab{}'.format(n_lab[0]), lp)
+        cp = {
             'x': EX, 'y': y[0], 'w': 300, 'h': 23,
             'items': '\t'.join(items),
             'val': str(index),
-        })
+        }
+        cp.update(_theme_props(colors))
+        ctl('combo_ro', name, cp)
         y[0] += 28
 
     #--------- the layout
@@ -213,11 +262,13 @@ def dialog_config(op):
     # the TAB character (a real tab inside a line is escaped as chr(3))
     # - with '\n' all projects were merged into a single line. The box
     # is ~4 lines tall (a line is ~17 px).
-    ctl('memo', 'recent', {
+    mp = {
         'x': X0, 'y': y[0], 'w': W - 2 * X0, 'h': 80,
         'val': '\t'.join(p.replace('\t', chr(3))
                          for p in op.get('recent_projects', [])),
-    })
+    }
+    mp.update(_theme_props(colors))
+    ctl('memo', 'recent', mp)
     y[0] += 85
 
     sep()
@@ -259,12 +310,16 @@ def dialog_config(op):
     #--------- buttons (bottom-right) and the final height
 
     y[0] += 6
-    ctl('button', 'btn_ok', {
+    # button_ex = the flat themed CudaText button (follows the UI
+    # theme); the OS 'button' cannot be themed via the API. button_ex
+    # draws its caption itself, so no '&' accelerators. Enter is
+    # handled by the form (on_form_key), Esc cancels (engine).
+    ctl('button_ex', 'btn_ok', {
         'x': W - X0 - 90 - 6 - 90, 'y': y[0], 'w': 90, 'h': BH,
-        'cap': _('&OK'), 'ex0': True,          # default for Enter
+        'cap': _('OK'),
         'on_change': on_ok,
     })
-    ctl('button', 'btn_cancel', {
+    ctl('button_ex', 'btn_cancel', {
         'x': W - X0 - 90, 'y': y[0], 'w': 90, 'h': BH,
         'cap': _('Cancel'),
         'on_change': on_cancel,
@@ -320,32 +375,115 @@ def dialog_config(op):
 
 
 def dialog_proj_prop(prop):
+    """Project properties dialog (variables + main file). Built with
+    dlg_proc (the old dlg_custom version could not follow the UI
+    theme): the form, the labels, the memo and the read-only edit are
+    colored from the theme dict, and the buttons are the flat themed
+    button_ex controls (Enter is handled by the form - button_ex has no
+    "default button" support; Esc cancels the modal form - engine).
+    Returns True when OK was pressed."""
 
-    list_vars = prop.get('vars', '')
-    main_file = prop.get('mainfile', '')
+    if isinstance(prop.get('vars'), list):
+        list_vars = [str(v) for v in prop['vars']]
+    else:
+        list_vars = []
+    main_file = str(prop.get('mainfile', ''))
 
-    RES_VARS = 1
-    RES_OK = 4
+    colors = get_theme_ui_colors()
+    BH = app_proc(PROC_GET_GUI_HEIGHT, 'button') or 30
 
-    c1 = chr(1)
-    text = '\n'.join([]
-        +[c1.join(['type=label', 'pos=6,6,500,0', 'cap='+_('&Variables (in form Name=Value)')])]
-        +[c1.join(['type=memo', 'pos=6,26,500,180', 'val='+'\t'.join(list_vars) ])]
-        +[c1.join(['type=label', 'pos=6,186,500,0', 'cap='+_('&Main file (read-only, change in context menu)')])]
-        +[c1.join(['type=edit', 'pos=6,206,500,0', 'ex0=1', 'ex1=0', 'ex2=1', 'val='+main_file])]
-        +[c1.join(['type=button', 'pos=300,300,400,0', 'cap='+_('&OK'), 'ex0=1'])]
-        +[c1.join(['type=button', 'pos=406,300,502,0', 'cap='+_('Cancel')])]
-    )
+    W, H = 508, 330
+    state = {'ok': False}
 
-    res = dlg_custom(_('Project properties'), 508, 330, text, get_dict=True)
-    if res is None:
-        return
+    def on_ok(id_dlg, id_ctl, data='', info=''):
+        state['ok'] = True
+        dlg_proc(h, DLG_HIDE)
 
-    if res['clicked'] != RES_OK:
-        return
+    def on_cancel(id_dlg, id_ctl, data='', info=''):
+        state['ok'] = False
+        dlg_proc(h, DLG_HIDE)
 
-    s = res[RES_VARS].split('\t')
-    s = [item.strip() for item in s if '=' in item]
-    prop['vars'] = s
+    def on_form_key(id_dlg, id_ctl, data='', info=''):
+        if id_ctl == VK_ENTER and not (data or ''):
+            on_ok(id_dlg, id_ctl)
+            return False
+        return None
 
-    return True
+    fprop = {
+        'cap': _('Project properties'),
+        'w': W,
+        'h': H,
+        'border': DBORDER_DIALOG,
+        'keypreview': True,
+        'on_key_down': on_form_key,
+    }
+    if colors['form_bg'] is not None:
+        fprop['color'] = colors['form_bg']
+    h = dlg_proc(0, DLG_CREATE)
+    dlg_proc(h, DLG_PROP_SET, prop=fprop)
+
+    def ctl(kind, name, cprop):
+        n = dlg_proc(h, DLG_CTL_ADD, prop=kind)
+        if n is None:
+            return None
+        cprop = dict(cprop)
+        cprop['name'] = name
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop=cprop)
+        return n
+
+    def label(name, cap, x, y, w):
+        p = {'x': x, 'y': y, 'w': w, 'h': 16, 'cap': cap}
+        p.update(_theme_props(colors, bg_key='form_bg', font_key='label_font'))
+        ctl('label', name, p)
+
+    label('lab_vars', _('&Variables (in form Name=Value)'), 6, 6, W - 12)
+
+    # the memo 'val' separates the lines with TAB; a real tab inside a
+    # line is escaped as chr(3) (dialog API rule, same as the options
+    # dialog's "Recent projects" box)
+    mp = {
+        'x': 6, 'y': 26, 'w': W - 12, 'h': 154,
+        'val': '\t'.join(v.replace('\t', chr(3)) for v in list_vars),
+    }
+    mp.update(_theme_props(colors))
+    ctl('memo', 'vars_memo', mp)
+
+    label('lab_main', _('&Main file (read-only, change in context menu)'),
+          6, 190, W - 12)
+
+    ep = {
+        'x': 6, 'y': 210, 'w': W - 12, 'h': 23,
+        'val': main_file,
+        'ex0': True,          # read-only (dialog API prop of edit/memo)
+    }
+    ep.update(_theme_props(colors))
+    ctl('edit', 'main_file', ep)
+
+    # flat themed buttons, bottom-right (button_ex draws its caption
+    # itself, so no '&' accelerators)
+    ctl('button_ex', 'btn_ok', {
+        'x': W - 8 - 96 - 6 - 90, 'y': H - 8 - BH, 'w': 90, 'h': BH,
+        'cap': _('OK'),
+        'on_change': on_ok,
+    })
+    ctl('button_ex', 'btn_cancel', {
+        'x': W - 8 - 96, 'y': H - 8 - BH, 'w': 96, 'h': BH,
+        'cap': _('Cancel'),
+        'on_change': on_cancel,
+    })
+
+    dlg_proc(h, DLG_SCALE)
+    dlg_proc(h, DLG_SHOW_MODAL)
+
+    ok = state.get('ok', False)
+    if ok:
+        try:
+            props_memo = dlg_proc(h, DLG_CTL_PROP_GET, name='vars_memo') or {}
+            raw = str(props_memo.get('val', '') or '')
+        except Exception:
+            raw = ''
+        prop['vars'] = [item.strip().replace(chr(3), '\t')
+                        for item in raw.split('\t') if '=' in item]
+
+    dlg_proc(h, DLG_FREE)
+    return True if ok else None
