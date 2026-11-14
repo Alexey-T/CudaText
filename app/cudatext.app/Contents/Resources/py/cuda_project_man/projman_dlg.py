@@ -1,16 +1,30 @@
 import os
 from cudatext import *
+from cudatext_keys import *
 from cudax_lib import get_translation
 from .projman_glob import *
 from .projman_backup import DEFAULT_BACKUP_COUNT, DEFAULT_BACKUP_FOLDER
+from .favorites import (get_theme_ui_colors, _unscale_px, _ui_scale,
+                        BTN_PAD)
 
 _   = get_translation(__file__)  # i18n
 
+#: LCL cursor constant crHSplit is not in cudatext.py - not needed here
+#: width (unscaled px) of the glyph-only checkbox of a boolean option
+#: (the caption is a separate themed label - see dialog_config.check)
+CHECK_GLYPH_W = 20
 
-def bool_to_str(b):
-    return '1' if b else '0'
-def str_to_bool(s):
-    return s=='1'
+
+def _theme_props(colors, bg_key='edit_bg', font_key='edit_font'):
+    """'color'/'font_color' props for a control, from the theme colors
+    (only the keys the current theme defines; a missing key never adds
+    a prop, so the control keeps the engine default)."""
+    res = {}
+    if colors.get(bg_key) is not None:
+        res['color'] = colors[bg_key]
+    if colors.get(font_key) is not None:
+        res['font_color'] = colors[font_key]
+    return res
 
 
 def get_themes_filetype():
@@ -24,49 +38,55 @@ def get_themes_toolbar():
     return sorted(os.listdir(dir))
 
 
-def _combo_index(res, key):
-    """Selected index of a combo box from a dlg_custom() result dict.
-    Returns -1 when the value is missing or not a number, so a shifted
-    control index can never crash the dialog handler (an index drift once
-    made the Cancel button run the OK parsing and crash on int(''))."""
-    s = res.get(key, '')
+def _val_bool(v):
+    """Boolean value of a check control ('1'/'0', or a bool on some
+    builds)."""
+    return str(v) in ('1', 'True', 'true')
+
+
+def _val_int(v):
+    """Int value of a combo/edit control, or -1 (a bad index must never
+    crash the dialog handler)."""
     try:
-        return int(s)
+        return int(str(v))
     except (TypeError, ValueError):
         return -1
 
 
 def dialog_config(op):
-
-    RES_NO_FILES = 1
-    RES_NO_DIRS = 3
-    RES_NO_HIDDEN = 4
-    RES_RECENTS = 6
-    RES_TOOLBAR = 7
-    RES_GOTO_OPEN = 8
-    RES_PREVIEW = 9
-    RES_D_CLICK = 10
-    RES_SYNC = 11
-    RES_ICONS = 13
-    RES_ICONS_TB = 15
-    RES_SORT_ORDER = 17
-    RES_BACKUP_EN = 19
-    RES_BACKUP_DIR = 21
-    RES_BACKUP_CNT = 23
-    RES_OK = 27
+    """Project Manager options dialog, built with dlg_proc (not
+    dlg_custom): the settings are split into visually SEPARATED
+    sections, the long hints are split into short lines that fit the
+    window width, and the layout is compact. The dialog API has no
+    scrollable panel, so a compact grouped layout is the way to survive
+    small screens. The dialog follows the CudaText UI theme like the
+    built-in Preferences dialog: the form, the labels, the edit/memo/
+    combo backgrounds and fonts are colored from
+    app_proc(PROC_THEME_UI_DICT_GET), and the OK/Cancel buttons are
+    the flat themed button_ex controls with the same comfortable
+    vertical padding as the Favorites window buttons (the OS 'button'
+    cannot be themed by the API; button_ex has no "default button"
+    support, so Enter is handled by the form itself). The BOOLEAN
+    options are the standard OS-drawn checkboxes ('check' controls)
+    with an EMPTY caption - only the little square glyph is painted by
+    the operating system (the dialog API cannot theme it), and the
+    caption is a SEPARATE themed label glued to the right of the
+    glyph: on Windows the caption of a checkbox control is painted by
+    the OS theme and IGNORES Font.Color, so a caption on the control
+    itself stayed black on the dark form. Clicking the label toggles
+    the checkbox (on_click works for labels too).
+    Returns True when OK was pressed."""
 
     themes = get_themes_filetype()
     try:
-        s = op.get('icon_theme', 'vscode_16x16')
-        theme_index = themes.index(s)
-    except:
+        theme_index = themes.index(op.get('icon_theme', 'vscode_16x16'))
+    except ValueError:
         theme_index = -1
 
     themes_tb = get_themes_toolbar()
     try:
-        s = op.get('toolbar_theme', 'default_16x16')
-        theme_index_tb = themes_tb.index(s)
-    except:
+        theme_index_tb = themes_tb.index(op.get('toolbar_theme', 'default_16x16'))
+    except ValueError:
         theme_index_tb = -1
 
     items_sort_id = [
@@ -94,133 +114,444 @@ def dialog_config(op):
     s = op.get('sort_order', 'ext')
     items_sort_val = items_sort_id.index(s if s in items_sort_id else 'ext')
 
-    c1 = chr(1)
-    text = '\n'.join([]
-        +[c1.join(['type=label', 'pos=6,6,110,0', 'cap='+_('Ignore &files:')])]
-        +[c1.join(['type=edit', 'pos=116,4,500,0', 'val='+op.get('no_files', '')])]
+    W = 640
+    scale = _ui_scale()
+    # unscale the DPI-scaled GUI height: the layout is unscaled and
+    # DLG_SCALE scales it once at the end (see the favorites module's
+    # "DPI NOTE")
+    BH = _unscale_px(app_proc(PROC_GET_GUI_HEIGHT, 'button'), scale, 30)
+    colors = get_theme_ui_colors()
 
-        +[c1.join(['type=label', 'pos=6,40,110,0', 'cap='+_('Ignore fold&ers:')])]
-        +[c1.join(['type=edit', 'pos=116,38,500,0', 'val='+op.get('no_dirs', '.git;.svn')])]
+    state = {'ok': False}
+    # control names read back when OK is pressed (the boolean options
+    # too: a 'check' control keeps its live value in 'val')
+    READ_NAMES = ('no_files', 'no_dirs', 'no_hidden', 'recent',
+                  'toolbar', 'goto_open', 'preview', 'd_click', 'always_sync',
+                  'icon_theme', 'toolbar_theme', 'sort_order',
+                  'backup_enabled',
+                  'backup_folder', 'backup_count',
+                  'projects_dir')
 
-        +[c1.join(['type=check', 'pos=6,68,500,84', 'cap='+_('Ignore all &hidden files/folders'),
-          'val='+bool_to_str(op.get('no_hidden', True))])]
+    def ctl(kind, name, prop):
+        n = dlg_proc(h, DLG_CTL_ADD, prop=kind)
+        if n is None:
+            return None
+        prop = dict(prop)
+        prop['name'] = name
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop=prop)
+        return n
 
-        +[c1.join(['type=label', 'pos=6,92,500,0', 'cap='+_('&Recent projects:')])]
-        +[c1.join(['type=memo', 'pos=6,112,500,196',
-            'val='+'\t'.join(op.get('recent_projects', [])) ])]
-        +[c1.join(['type=check', 'pos=6,210,400,0', 'cap='+_('&Show toolbar'),
-            'val='+bool_to_str(op.get('toolbar', True)) ])]
-        +[c1.join(['type=check', 'pos=6,236,400,0', 'cap='+_('Open file after "&Go to file" command'),
-            'val='+bool_to_str(op.get('goto_open', False)) ])]
-        +[c1.join(['type=check', 'pos=6,262,400,0', 'cap='+_('&Use "preview tab" on item clicking'),
-            'val='+bool_to_str(op.get('preview', True)) ])]
-        +[c1.join(['type=check', 'pos=6,288,400,0', 'cap='+_('Open files by &double-click'),
-            'val='+bool_to_str(op.get('d_click', False)) ])]
-        +[c1.join(['type=check', 'pos=6,314,400,0', 'cap='+_('Automatically show current file in project tree'),
-            'val='+bool_to_str(op.get('always_sync', False)) ])]
+    def get_val(name):
+        try:
+            props = dlg_proc(h, DLG_CTL_PROP_GET, name=name) or {}
+            return props.get('val', '')
+        except Exception:
+            return ''
 
-        +[c1.join(['type=label', 'pos=6,348,130,0', 'cap='+_('File type icons (*):')])]
-        +[c1.join(['type=combo_ro', 'pos=160,343,400,0',
-            'items='+'\t'.join(themes),
-            'val='+str(theme_index)
-            ])]
+    def on_ok(id_dlg, id_ctl, data='', info=''):
+        # read the values while the dialog is definitely alive
+        state['ok'] = True
+        for nm in READ_NAMES:
+            state[nm] = get_val(nm)
+        dlg_proc(h, DLG_HIDE)
 
-        +[c1.join(['type=label', 'pos=6,378,130,0', 'cap='+_('Toolbar icons (*):')])]
-        +[c1.join(['type=combo_ro', 'pos=160,373,400,0',
-            'items='+'\t'.join(themes_tb),
-            'val='+str(theme_index_tb)
-            ])]
+    def on_cancel(id_dlg, id_ctl, data='', info=''):
+        state['ok'] = False
+        dlg_proc(h, DLG_HIDE)
 
-        +[c1.join(['type=label', 'pos=6,428,130,0', 'cap='+_('Sorting order (*):')])]
-        +[c1.join(['type=combo_ro', 'pos=160,423,400,0',
-            'items='+'\t'.join(items_sort_str),
-            'val='+str(items_sort_val)
-            ])]
+    def on_form_key(id_dlg, id_ctl, data='', info=''):
+        """button_ex has no "default button" support, so the form
+        handles Enter itself (Esc cancels the modal form - engine)."""
+        if id_ctl == VK_ENTER and not (data or ''):
+            on_ok(id_dlg, id_ctl)
+            return False
+        return None
 
-        +[c1.join(['type=label', 'pos=6,462,600,0', 'cap='+_('Project file backups (rotating copies of the whole .cuda-proj):')])]
-        +[c1.join(['type=check', 'pos=6,486,500,0', 'cap='+_('&Backup project file when its sessions change'),
-            'val='+bool_to_str(op.get('backup_enabled', True)) ])]
-        +[c1.join(['type=label', 'pos=6,514,130,0', 'cap='+_('Backup &folder:')])]
-        +[c1.join(['type=edit', 'pos=136,510,500,0', 'val='+op.get('backup_folder', DEFAULT_BACKUP_FOLDER)])]
-        +[c1.join(['type=label', 'pos=6,540,130,0', 'cap='+_('Backups to &keep:')])]
-        +[c1.join(['type=edit', 'pos=136,536,200,0', 'val='+str(op.get('backup_count', DEFAULT_BACKUP_COUNT))])]
-        +[c1.join(['type=label', 'pos=6,566,600,0', 'cap='+_('Relative folder is relative to the project file. Default: .cudatext/proj_bckp')])]
+    fprop = {
+        'cap': _('Project Manager options'),
+        'w': W,
+        'h': 120,               # the real height is set after the layout
+        'border': DBORDER_DIALOG,
+        'keypreview': True,     # needed for on_key_down (Enter = OK)
+        'on_key_down': on_form_key,
+    }
+    if colors['form_bg'] is not None:
+        fprop['color'] = colors['form_bg']
+    h = dlg_proc(0, DLG_CREATE)
+    dlg_proc(h, DLG_PROP_SET, prop=fprop)
 
-        +[c1.join(['type=label', 'pos=6,404,600,0', 'cap='+_('For more icons, get add-ons of kind "filetypeicons", "projtoolbaricons"')])]
-        +[c1.join(['type=label', 'pos=6,592,600,0', 'cap='+_('(*) - requires CudaText restart')])]
-        +[c1.join(['type=button', 'pos=300,616,400,0', 'cap='+_('&OK'), 'ex0=1'])]
-        +[c1.join(['type=button', 'pos=406,616,502,0', 'cap='+_('Cancel')])]
-    )
+    def toggle_check(name):
+        """Flip the checkbox of one boolean option (the click came on
+        its caption label)."""
+        try:
+            props = dlg_proc(h, DLG_CTL_PROP_GET, name=name) or {}
+            cur = str(props.get('val', '') or '')
+        except Exception:
+            return
+        new = '0' if cur in ('1', 'True', 'true') else '1'
+        try:
+            dlg_proc(h, DLG_CTL_PROP_SET, name=name, prop={'val': new})
+        except Exception:
+            pass
 
-    res = dlg_custom(_('Project Manager options'), 508, 650, text, get_dict=True)
-    if res is None:
-        return
+    #--------- small layout helpers (absolute coords, DLG_SCALE after)
 
-    if res['clicked'] != RES_OK:
-        return
+    X0 = 12          # left margin
+    LW = 175         # width of the label column
+    EX = X0 + LW + 10
+    EW = W - EX - X0
 
-    op['no_files'] = res[RES_NO_FILES].strip()
-    op['no_dirs'] = res[RES_NO_DIRS].strip()
-    op['no_hidden'] = str_to_bool(res[RES_NO_HIDDEN])
+    y = [10]         # mutable layout cursor
+    n_lab = [0]
 
-    s = res[RES_RECENTS].split('\t')
-    op['recent_projects'] = s
+    def lab(cap, x, w, dy=16):
+        n_lab[0] += 1
+        p = {'x': x, 'y': y[0], 'w': w, 'h': dy, 'cap': cap}
+        p.update(_theme_props(colors, bg_key='form_bg', font_key='label_font'))
+        ctl('label', 'lab{}'.format(n_lab[0]), p)
+        y[0] += dy
 
-    op['toolbar'] = str_to_bool(res[RES_TOOLBAR])
-    op['goto_open'] = str_to_bool(res[RES_GOTO_OPEN])
-    op['preview'] = str_to_bool(res[RES_PREVIEW])
-    op['d_click'] = str_to_bool(res[RES_D_CLICK])
-    op['always_sync'] = str_to_bool(res[RES_SYNC])
+    def section(cap):
+        """Section caption - together with sep() it gives the visible
+        separation between the option groups."""
+        y[0] += 2
+        n_lab[0] += 1
+        p = {
+            'x': X0, 'y': y[0], 'w': W - 2 * X0, 'h': 17,
+            'cap': cap + ':',
+        }
+        p.update(_theme_props(colors, bg_key='form_bg', font_key='label_font'))
+        ctl('label', 'lab{}'.format(n_lab[0]), p)
+        y[0] += 21
 
-    index = _combo_index(res, RES_ICONS)
-    if 0 <= index < len(themes):
-        op['icon_theme'] = themes[index]
+    def sep():
+        """Separator line between the option groups."""
+        y[0] += 4
+        n_lab[0] += 1
+        p = {
+            'x': X0, 'y': y[0], 'w': W - 2 * X0, 'h': 6,
+            'cap': '─' * 92,
+        }
+        p.update(_theme_props(colors, bg_key='form_bg', font_key='label_font'))
+        ctl('label', 'lab{}'.format(n_lab[0]), p)
+        y[0] += 12
 
-    index = _combo_index(res, RES_ICONS_TB)
-    if 0 <= index < len(themes_tb):
-        op['toolbar_theme'] = themes_tb[index]
+    def hint(cap):
+        """Small hint line - SHORT on purpose: the old dlg_custom dialog
+        had hints wider than the window, so their ends were eaten."""
+        n_lab[0] += 1
+        p = {'x': X0 + 8, 'y': y[0], 'w': W - 2 * X0 - 8, 'h': 16, 'cap': cap}
+        p.update(_theme_props(colors, bg_key='form_bg', font_key='label_font'))
+        ctl('label', 'lab{}'.format(n_lab[0]), p)
+        y[0] += 16
 
-    index = _combo_index(res, RES_SORT_ORDER)
-    if 0 <= index < len(items_sort_id):
-        op['sort_order'] = items_sort_id[index]
+    def check(name, cap, value):
+        """One boolean option = a themed LABEL with the caption + a
+        glyph-only OS-drawn CHECKBOX. The 'check' control carries an
+        EMPTY caption because on Windows the checkbox caption is
+        painted by the OS theme and ignores Font.Color - it stayed
+        BLACK on the dark themed form, unreadable (the little square
+        glyph itself is fine: that is exactly the OS-drawn look that
+        was asked for). The label follows the theme like every other
+        label, and its on_click TOGGLES the checkbox (on_click works
+        for labels too; the dialog API wires the click event of every
+        control), so the whole row behaves like one big checkbox.
+        The label is created BEFORE its checkbox on purpose: the
+        dialog engine auto-wires FocusControl of a label to the win
+        control created right after it - this way the label focuses
+        ITS OWN checkbox (with the wrong order it focused the next
+        row's one). The value lives in the control's 'val' ('1'/'0')
+        and is read back by on_ok like any other control."""
+        cap = cap.replace('&&', '\x01').replace('&', '').replace('\x01', '&')
+        n_lab[0] += 1
+        lp = {
+            'x': X0 + CHECK_GLYPH_W + 4, 'y': y[0] + 3,
+            'w': W - 2 * X0 - CHECK_GLYPH_W - 4, 'h': 16,
+            'cap': cap,
+            'on_click': (lambda id_dlg, id_ctl, data='', info='',
+                         _name=name: toggle_check(_name)),
+        }
+        lp.update(_theme_props(colors, bg_key='form_bg', font_key='label_font'))
+        ctl('label', 'lab{}'.format(n_lab[0]), lp)
+        p = {
+            'x': X0, 'y': y[0], 'w': CHECK_GLYPH_W, 'h': 22,
+            'cap': '',
+            'val': '1' if value else '0',
+        }
+        p.update(_theme_props(colors, bg_key='form_bg', font_key='label_font'))
+        ctl('check', name, p)
+        y[0] += 26
 
-    op['backup_enabled'] = str_to_bool(res[RES_BACKUP_EN])
-    op['backup_folder'] = res[RES_BACKUP_DIR].strip()
-    try:
-        op['backup_count'] = max(0, int(res[RES_BACKUP_CNT].strip()))
-    except ValueError:
-        op['backup_count'] = DEFAULT_BACKUP_COUNT
+    def row_edit(lab_cap, name, val, edit_w=None):
+        n_lab[0] += 1
+        lp = {'x': X0, 'y': y[0] + 3, 'w': LW, 'h': 16, 'cap': lab_cap}
+        lp.update(_theme_props(colors, bg_key='form_bg', font_key='label_font'))
+        ctl('label', 'lab{}'.format(n_lab[0]), lp)
+        ep = {
+            'x': EX, 'y': y[0], 'w': edit_w or EW, 'h': 23,
+            'val': val,
+        }
+        ep.update(_theme_props(colors))
+        ctl('edit', name, ep)
+        y[0] += 28
 
-    return True
+    def row_combo(lab_cap, name, items, index):
+        n_lab[0] += 1
+        lp = {'x': X0, 'y': y[0] + 3, 'w': LW, 'h': 16, 'cap': lab_cap}
+        lp.update(_theme_props(colors, bg_key='form_bg', font_key='label_font'))
+        ctl('label', 'lab{}'.format(n_lab[0]), lp)
+        cp = {
+            'x': EX, 'y': y[0], 'w': 300, 'h': 23,
+            'items': '\t'.join(items),
+            'val': str(index),
+        }
+        cp.update(_theme_props(colors))
+        ctl('combo_ro', name, cp)
+        y[0] += 28
+
+    #--------- the layout
+
+    section(_('Project tree'))
+    row_edit(_('Ignore &files:'), 'no_files', op.get('no_files', ''))
+    row_edit(_('Ignore fold&ers:'), 'no_dirs', op.get('no_dirs', '.git;.svn'))
+    check('no_hidden', _('Ignore all &hidden files/folders'), op.get('no_hidden', True))
+    lab(_('&Recent projects:'), X0, W - 2 * X0, dy=17)
+    # NOTE: the memo 'val' of the dialog API separates the lines with
+    # the TAB character (a real tab inside a line is escaped as chr(3))
+    # - with '\n' all projects were merged into a single line. The box
+    # is ~4 lines tall (a line is ~17 px).
+    mp = {
+        'x': X0, 'y': y[0], 'w': W - 2 * X0, 'h': 80,
+        'val': '\t'.join(p.replace('\t', chr(3))
+                         for p in op.get('recent_projects', [])),
+    }
+    mp.update(_theme_props(colors))
+    ctl('memo', 'recent', mp)
+    y[0] += 85
+
+    sep()
+
+    section(_('Panel and opening files'))
+    check('toolbar', _('&Show toolbar'), op.get('toolbar', True))
+    check('goto_open', _('Open file after "&Go to file" command'), op.get('goto_open', False))
+    check('preview', _('&Use "preview tab" on item clicking'), op.get('preview', True))
+    check('d_click', _('Open files by &double-click'), op.get('d_click', False))
+    check('always_sync', _('Automatically show current file in project tree'), op.get('always_sync', False))
+    row_combo(_('File type icons (*):'), 'icon_theme', themes, theme_index)
+    row_combo(_('Toolbar icons (*):'), 'toolbar_theme', themes_tb, theme_index_tb)
+    row_combo(_('Sorting order (*):'), 'sort_order', items_sort_str, items_sort_val)
+
+    sep()
+
+    section(_('Project file backups'))
+    check('backup_enabled', _('&Backup project file when its sessions change'),
+          op.get('backup_enabled', True))
+    row_edit(_('Backup &folder:'), 'backup_folder',
+             op.get('backup_folder', DEFAULT_BACKUP_FOLDER))
+    row_edit(_('Backups to &keep:'), 'backup_count',
+             str(op.get('backup_count', DEFAULT_BACKUP_COUNT)), edit_w=90)
+    hint(_('Relative folder is relative to the project file. Default: .cudatext/proj_bckp'))
+
+    sep()
+
+    section(_('New projects'))
+    row_edit(_('Default projects &folder:'), 'projects_dir', op.get('projects_dir', ''))
+    hint(_('For new projects: empty = last used folder;'))
+    hint('$settings = ' + _('CudaText settings folder, e.g. $settings/projects'))
+
+    sep()
+
+    y[0] += 3
+    hint(_('For more icons, get add-ons of kind "filetypeicons", "projtoolbaricons"'))
+    hint(_('(*) - requires CudaText restart'))
+
+    #--------- buttons (bottom-right) and the final height
+
+    y[0] += 6
+    # button_ex = the flat themed CudaText button (follows the UI
+    # theme); the OS 'button' cannot be themed via the API. button_ex
+    # draws its caption itself, so no '&' accelerators. Enter is
+    # handled by the form (on_form_key), Esc cancels (engine).
+    # BTN_H adds the same comfortable vertical padding as the buttons
+    # of the Favorites window (the raw GUI button height hugs the
+    # caption too tightly - the buttons looked like thin slabs).
+    BTN_H = BH + BTN_PAD
+    ctl('button_ex', 'btn_ok', {
+        'x': W - X0 - 90 - 6 - 90, 'y': y[0], 'w': 90, 'h': BTN_H,
+        'cap': _('OK'),
+        'on_change': on_ok,
+    })
+    ctl('button_ex', 'btn_cancel', {
+        'x': W - X0 - 90, 'y': y[0], 'w': 90, 'h': BTN_H,
+        'cap': _('Cancel'),
+        'on_change': on_cancel,
+    })
+    H = y[0] + BTN_H + 12
+
+    dlg_proc(h, DLG_PROP_SET, prop={'h': H})
+    dlg_proc(h, DLG_SCALE)
+    dlg_proc(h, DLG_SHOW_MODAL)
+
+    ok = state.pop('ok', False)
+    if ok:
+        op['no_files'] = str(state.get('no_files', '')).strip()
+        op['no_dirs'] = str(state.get('no_dirs', '')).strip()
+        op['no_hidden'] = _val_bool(state.get('no_hidden'))
+
+        # the memo value separates the lines with TAB (see the comment
+        # at the control); a tab inside a line comes back as chr(3).
+        # Entries merged into one tab-joined line by the old (buggy)
+        # builds are healed back into separate lines here.
+        raw_recent = str(state.get('recent', '') or '')
+        op['recent_projects'] = [s.replace(chr(3), '\t').strip()
+                                 for s in raw_recent.split('\t')
+                                 if s.strip()]
+
+        op['toolbar'] = _val_bool(state.get('toolbar'))
+        op['goto_open'] = _val_bool(state.get('goto_open'))
+        op['preview'] = _val_bool(state.get('preview'))
+        op['d_click'] = _val_bool(state.get('d_click'))
+        op['always_sync'] = _val_bool(state.get('always_sync'))
+
+        index = _val_int(state.get('icon_theme'))
+        if 0 <= index < len(themes):
+            op['icon_theme'] = themes[index]
+
+        index = _val_int(state.get('toolbar_theme'))
+        if 0 <= index < len(themes_tb):
+            op['toolbar_theme'] = themes_tb[index]
+
+        index = _val_int(state.get('sort_order'))
+        if 0 <= index < len(items_sort_id):
+            op['sort_order'] = items_sort_id[index]
+
+        op['backup_enabled'] = _val_bool(state.get('backup_enabled'))
+        op['backup_folder'] = str(state.get('backup_folder', '')).strip()
+        cnt = _val_int(state.get('backup_count'))
+        op['backup_count'] = max(0, cnt) if cnt >= 0 else DEFAULT_BACKUP_COUNT
+
+        op['projects_dir'] = str(state.get('projects_dir', '')).strip()
+
+    dlg_proc(h, DLG_FREE)
+    return True if ok else None
 
 
 def dialog_proj_prop(prop):
+    """Project properties dialog (variables + main file). Built with
+    dlg_proc (the old dlg_custom version could not follow the UI
+    theme): the form, the labels, the memo and the read-only edit are
+    colored from the theme dict, and the buttons are the flat themed
+    button_ex controls with the same vertical padding as the other
+    dialogs (Enter is handled by the form - button_ex has no
+    "default button" support; Esc cancels the modal form - engine).
+    Returns True when OK was pressed."""
 
-    list_vars = prop.get('vars', '')
-    main_file = prop.get('mainfile', '')
+    if isinstance(prop.get('vars'), list):
+        list_vars = [str(v) for v in prop['vars']]
+    else:
+        list_vars = []
+    main_file = str(prop.get('mainfile', ''))
 
-    RES_VARS = 1
-    RES_OK = 4
+    colors = get_theme_ui_colors()
+    # unscale the DPI-scaled GUI height (see the favorites module's
+    # "DPI NOTE"): the layout is unscaled, DLG_SCALE scales it once
+    BH = _unscale_px(app_proc(PROC_GET_GUI_HEIGHT, 'button'),
+                     _ui_scale(), 30)
+    # the same comfortable vertical padding as in the other dialogs
+    BTN_H = BH + BTN_PAD
 
-    c1 = chr(1)
-    text = '\n'.join([]
-        +[c1.join(['type=label', 'pos=6,6,500,0', 'cap='+_('&Variables (in form Name=Value)')])]
-        +[c1.join(['type=memo', 'pos=6,26,500,180', 'val='+'\t'.join(list_vars) ])]
-        +[c1.join(['type=label', 'pos=6,186,500,0', 'cap='+_('&Main file (read-only, change in context menu)')])]
-        +[c1.join(['type=edit', 'pos=6,206,500,0', 'ex0=1', 'ex1=0', 'ex2=1', 'val='+main_file])]
-        +[c1.join(['type=button', 'pos=300,300,400,0', 'cap='+_('&OK'), 'ex0=1'])]
-        +[c1.join(['type=button', 'pos=406,300,502,0', 'cap='+_('Cancel')])]
-    )
+    W, H = 508, 330
+    state = {'ok': False}
 
-    res = dlg_custom(_('Project properties'), 508, 330, text, get_dict=True)
-    if res is None:
-        return
+    def on_ok(id_dlg, id_ctl, data='', info=''):
+        state['ok'] = True
+        dlg_proc(h, DLG_HIDE)
 
-    if res['clicked'] != RES_OK:
-        return
+    def on_cancel(id_dlg, id_ctl, data='', info=''):
+        state['ok'] = False
+        dlg_proc(h, DLG_HIDE)
 
-    s = res[RES_VARS].split('\t')
-    s = [item.strip() for item in s if '=' in item]
-    prop['vars'] = s
+    def on_form_key(id_dlg, id_ctl, data='', info=''):
+        if id_ctl == VK_ENTER and not (data or ''):
+            on_ok(id_dlg, id_ctl)
+            return False
+        return None
 
-    return True
+    fprop = {
+        'cap': _('Project properties'),
+        'w': W,
+        'h': H,
+        'border': DBORDER_DIALOG,
+        'keypreview': True,
+        'on_key_down': on_form_key,
+    }
+    if colors['form_bg'] is not None:
+        fprop['color'] = colors['form_bg']
+    h = dlg_proc(0, DLG_CREATE)
+    dlg_proc(h, DLG_PROP_SET, prop=fprop)
+
+    def ctl(kind, name, cprop):
+        n = dlg_proc(h, DLG_CTL_ADD, prop=kind)
+        if n is None:
+            return None
+        cprop = dict(cprop)
+        cprop['name'] = name
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop=cprop)
+        return n
+
+    def label(name, cap, x, y, w):
+        p = {'x': x, 'y': y, 'w': w, 'h': 16, 'cap': cap}
+        p.update(_theme_props(colors, bg_key='form_bg', font_key='label_font'))
+        ctl('label', name, p)
+
+    label('lab_vars', _('&Variables (in form Name=Value)'), 6, 6, W - 12)
+
+    # the memo 'val' separates the lines with TAB; a real tab inside a
+    # line is escaped as chr(3) (dialog API rule, same as the options
+    # dialog's "Recent projects" box)
+    mp = {
+        'x': 6, 'y': 26, 'w': W - 12, 'h': 154,
+        'val': '\t'.join(v.replace('\t', chr(3)) for v in list_vars),
+    }
+    mp.update(_theme_props(colors))
+    ctl('memo', 'vars_memo', mp)
+
+    label('lab_main', _('&Main file (read-only, change in context menu)'),
+          6, 190, W - 12)
+
+    ep = {
+        'x': 6, 'y': 210, 'w': W - 12, 'h': 23,
+        'val': main_file,
+        'ex0': True,          # read-only (dialog API prop of edit/memo)
+    }
+    ep.update(_theme_props(colors))
+    ctl('edit', 'main_file', ep)
+
+    # flat themed buttons, bottom-right (button_ex draws its caption
+    # itself, so no '&' accelerators)
+    ctl('button_ex', 'btn_ok', {
+        'x': W - 8 - 96 - 6 - 90, 'y': H - 8 - BTN_H, 'w': 90, 'h': BTN_H,
+        'cap': _('OK'),
+        'on_change': on_ok,
+    })
+    ctl('button_ex', 'btn_cancel', {
+        'x': W - 8 - 96, 'y': H - 8 - BTN_H, 'w': 96, 'h': BTN_H,
+        'cap': _('Cancel'),
+        'on_change': on_cancel,
+    })
+
+    dlg_proc(h, DLG_SCALE)
+    dlg_proc(h, DLG_SHOW_MODAL)
+
+    ok = state.get('ok', False)
+    if ok:
+        try:
+            props_memo = dlg_proc(h, DLG_CTL_PROP_GET, name='vars_memo') or {}
+            raw = str(props_memo.get('val', '') or '')
+        except Exception:
+            raw = ''
+        prop['vars'] = [item.strip().replace(chr(3), '\t')
+                        for item in raw.split('\t') if '=' in item]
+
+    dlg_proc(h, DLG_FREE)
+    return True if ok else None

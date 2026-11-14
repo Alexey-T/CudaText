@@ -189,6 +189,41 @@ section=commands
 caption=&Project Manager\Close tabs not belonging to project (no prompt)
 method=close_foreign_tabs_force
 
+[item40]
+section=commands
+caption=&Project Manager\-
+method=_
+
+[item42]
+section=commands
+caption=&Project Manager\Favorites\Show Favorites &window...
+method=favorites_show
+
+[item44]
+section=commands
+caption=&Project Manager\Favorites\-
+method=_
+
+[item45]
+section=commands
+caption=&Project Manager\Favorites\Add to favorites: current &file
+method=favorites_add_current_file
+
+[item46]
+section=commands
+caption=&Project Manager\Favorites\Add to favorites: current f&older
+method=favorites_add_current_dir
+
+[item47]
+section=commands
+caption=&Project Manager\Favorites\Add to favorites: current &project
+method=favorites_add_current_project
+
+[item48]
+section=commands
+caption=&Project Manager\Favorites\Add &opened...
+method=favorites_add_opened
+
 [item200]
 section=commands
 caption=&Project Manager\-
