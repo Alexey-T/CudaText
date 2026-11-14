@@ -4,11 +4,15 @@ from cudatext_keys import *
 from cudax_lib import get_translation
 from .projman_glob import *
 from .projman_backup import DEFAULT_BACKUP_COUNT, DEFAULT_BACKUP_FOLDER
-from .favorites import get_theme_ui_colors, _unscale_px, _ui_scale
+from .favorites import (get_theme_ui_colors, _unscale_px, _ui_scale,
+                        BTN_PAD)
 
 _   = get_translation(__file__)  # i18n
 
 #: LCL cursor constant crHSplit is not in cudatext.py - not needed here
+#: width (unscaled px) of the glyph-only checkbox of a boolean option
+#: (the caption is a separate themed label - see dialog_config.check)
+CHECK_GLYPH_W = 20
 
 
 def _theme_props(colors, bg_key='edit_bg', font_key='edit_font'):
@@ -59,14 +63,18 @@ def dialog_config(op):
     built-in Preferences dialog: the form, the labels, the edit/memo/
     combo backgrounds and fonts are colored from
     app_proc(PROC_THEME_UI_DICT_GET), and the OK/Cancel buttons are
-    the flat themed button_ex controls (the OS 'button' cannot be
-    themed by the API; button_ex has no "default button" support, so
-    Enter is handled by the form itself). The BOOLEAN options are the
-    standard OS-drawn checkboxes ('check' controls): their little
-    square glyph is painted by the operating system (the dialog API
-    cannot theme it), which reads perfectly fine next to the themed
-    labels - the themed toggle-row experiment was dropped: users
-    found it worse-looking than the native checkboxes.
+    the flat themed button_ex controls with the same comfortable
+    vertical padding as the Favorites window buttons (the OS 'button'
+    cannot be themed by the API; button_ex has no "default button"
+    support, so Enter is handled by the form itself). The BOOLEAN
+    options are the standard OS-drawn checkboxes ('check' controls)
+    with an EMPTY caption - only the little square glyph is painted by
+    the operating system (the dialog API cannot theme it), and the
+    caption is a SEPARATE themed label glued to the right of the
+    glyph: on Windows the caption of a checkbox control is painted by
+    the OS theme and IGNORES Font.Color, so a caption on the control
+    itself stayed black on the dark form. Clicking the label toggles
+    the checkbox (on_click works for labels too).
     Returns True when OK was pressed."""
 
     themes = get_themes_filetype()
@@ -172,6 +180,20 @@ def dialog_config(op):
     h = dlg_proc(0, DLG_CREATE)
     dlg_proc(h, DLG_PROP_SET, prop=fprop)
 
+    def toggle_check(name):
+        """Flip the checkbox of one boolean option (the click came on
+        its caption label)."""
+        try:
+            props = dlg_proc(h, DLG_CTL_PROP_GET, name=name) or {}
+            cur = str(props.get('val', '') or '')
+        except Exception:
+            return
+        new = '0' if cur in ('1', 'True', 'true') else '1'
+        try:
+            dlg_proc(h, DLG_CTL_PROP_SET, name=name, prop={'val': new})
+        except Exception:
+            pass
+
     #--------- small layout helpers (absolute coords, DLG_SCALE after)
 
     X0 = 12          # left margin
@@ -224,17 +246,36 @@ def dialog_config(op):
         y[0] += 16
 
     def check(name, cap, value):
-        """One boolean option: the standard OS-drawn CHECKBOX ('check'
-        control). The glyph is painted by the operating system (the
-        dialog API cannot theme it) - the themed toggle-row experiment
-        was dropped: it looked worse than the native checkbox. Only the
-        caption's background/font follow the theme, like the labels.
-        The value lives in the control's 'val' ('1'/'0') and is read
-        back by on_ok like any other control."""
+        """One boolean option = a themed LABEL with the caption + a
+        glyph-only OS-drawn CHECKBOX. The 'check' control carries an
+        EMPTY caption because on Windows the checkbox caption is
+        painted by the OS theme and ignores Font.Color - it stayed
+        BLACK on the dark themed form, unreadable (the little square
+        glyph itself is fine: that is exactly the OS-drawn look that
+        was asked for). The label follows the theme like every other
+        label, and its on_click TOGGLES the checkbox (on_click works
+        for labels too; the dialog API wires the click event of every
+        control), so the whole row behaves like one big checkbox.
+        The label is created BEFORE its checkbox on purpose: the
+        dialog engine auto-wires FocusControl of a label to the win
+        control created right after it - this way the label focuses
+        ITS OWN checkbox (with the wrong order it focused the next
+        row's one). The value lives in the control's 'val' ('1'/'0')
+        and is read back by on_ok like any other control."""
         cap = cap.replace('&&', '\x01').replace('&', '').replace('\x01', '&')
-        p = {
-            'x': X0, 'y': y[0], 'w': W - 2 * X0, 'h': 22,
+        n_lab[0] += 1
+        lp = {
+            'x': X0 + CHECK_GLYPH_W + 4, 'y': y[0] + 3,
+            'w': W - 2 * X0 - CHECK_GLYPH_W - 4, 'h': 16,
             'cap': cap,
+            'on_click': (lambda id_dlg, id_ctl, data='', info='',
+                         _name=name: toggle_check(_name)),
+        }
+        lp.update(_theme_props(colors, bg_key='form_bg', font_key='label_font'))
+        ctl('label', 'lab{}'.format(n_lab[0]), lp)
+        p = {
+            'x': X0, 'y': y[0], 'w': CHECK_GLYPH_W, 'h': 22,
+            'cap': '',
             'val': '1' if value else '0',
         }
         p.update(_theme_props(colors, bg_key='form_bg', font_key='label_font'))
@@ -331,17 +372,21 @@ def dialog_config(op):
     # theme); the OS 'button' cannot be themed via the API. button_ex
     # draws its caption itself, so no '&' accelerators. Enter is
     # handled by the form (on_form_key), Esc cancels (engine).
+    # BTN_H adds the same comfortable vertical padding as the buttons
+    # of the Favorites window (the raw GUI button height hugs the
+    # caption too tightly - the buttons looked like thin slabs).
+    BTN_H = BH + BTN_PAD
     ctl('button_ex', 'btn_ok', {
-        'x': W - X0 - 90 - 6 - 90, 'y': y[0], 'w': 90, 'h': BH,
+        'x': W - X0 - 90 - 6 - 90, 'y': y[0], 'w': 90, 'h': BTN_H,
         'cap': _('OK'),
         'on_change': on_ok,
     })
     ctl('button_ex', 'btn_cancel', {
-        'x': W - X0 - 90, 'y': y[0], 'w': 90, 'h': BH,
+        'x': W - X0 - 90, 'y': y[0], 'w': 90, 'h': BTN_H,
         'cap': _('Cancel'),
         'on_change': on_cancel,
     })
-    H = y[0] + BH + 12
+    H = y[0] + BTN_H + 12
 
     dlg_proc(h, DLG_PROP_SET, prop={'h': H})
     dlg_proc(h, DLG_SCALE)
@@ -396,7 +441,8 @@ def dialog_proj_prop(prop):
     dlg_proc (the old dlg_custom version could not follow the UI
     theme): the form, the labels, the memo and the read-only edit are
     colored from the theme dict, and the buttons are the flat themed
-    button_ex controls (Enter is handled by the form - button_ex has no
+    button_ex controls with the same vertical padding as the other
+    dialogs (Enter is handled by the form - button_ex has no
     "default button" support; Esc cancels the modal form - engine).
     Returns True when OK was pressed."""
 
@@ -411,6 +457,8 @@ def dialog_proj_prop(prop):
     # "DPI NOTE"): the layout is unscaled, DLG_SCALE scales it once
     BH = _unscale_px(app_proc(PROC_GET_GUI_HEIGHT, 'button'),
                      _ui_scale(), 30)
+    # the same comfortable vertical padding as in the other dialogs
+    BTN_H = BH + BTN_PAD
 
     W, H = 508, 330
     state = {'ok': False}
@@ -482,12 +530,12 @@ def dialog_proj_prop(prop):
     # flat themed buttons, bottom-right (button_ex draws its caption
     # itself, so no '&' accelerators)
     ctl('button_ex', 'btn_ok', {
-        'x': W - 8 - 96 - 6 - 90, 'y': H - 8 - BH, 'w': 90, 'h': BH,
+        'x': W - 8 - 96 - 6 - 90, 'y': H - 8 - BTN_H, 'w': 90, 'h': BTN_H,
         'cap': _('OK'),
         'on_change': on_ok,
     })
     ctl('button_ex', 'btn_cancel', {
-        'x': W - 8 - 96, 'y': H - 8 - BH, 'w': 96, 'h': BH,
+        'x': W - 8 - 96, 'y': H - 8 - BTN_H, 'w': 96, 'h': BTN_H,
         'cap': _('Cancel'),
         'on_change': on_cancel,
     })

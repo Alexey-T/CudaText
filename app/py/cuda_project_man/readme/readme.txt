@@ -402,8 +402,8 @@ Close tabs not belonging to project) live only in the Plugins menu.
 
   Favorites >
       Submenu with the bookmarks commands: Show Favorites window...,
-      Find favorite..., Add to favorites: current file / current folder /
-      current project, Add opened... — see FAVORITES (BOOKMARKS) below.
+      Add to favorites: current file / current folder / current
+      project, Add opened... — see FAVORITES (BOOKMARKS) below.
 
   Close tabs not belonging to project
       Closes editor tabs whose files are not part of the project. Tabs
@@ -421,8 +421,10 @@ Close tabs not belonging to project) live only in the Plugins menu.
       labels, input fields, flat themed OK/Cancel buttons). The
       boolean options are the standard OS-drawn checkboxes (the
       little square glyph is painted by the operating system - the
-      dialog API cannot theme it; the caption follows the theme like
-      the labels).
+      dialog API cannot theme it) with the caption on a separate
+      themed label right of the glyph: the checkbox control's own
+      caption cannot be recolored on Windows, it stayed black on the
+      dark form. Clicking the caption toggles the checkbox.
 
 
 ------------------------------------------------------------------------------
@@ -443,26 +445,32 @@ window...)
   when CudaText restarts (the size is not saved to disk: a form
   recreated with the pixel size of a maximized window ends up taller
   than the work area). The list is anchored to the window, so it
-  grows and shrinks with it. Three tabs: Projects, Files, Folders -
-  a TAB STRIP of flat themed buttons: equal widths, joined side by
-  side directly above the list, ALL THREE WITH THE SAME SIZE (like
-  the tabs of a browser or VS Code); the active tab is marked ONLY
-  by a bold GREEN underline along its bottom edge, the inactive tabs
-  carry no marker. Columns: check | ★ | Name | Path | State, separated
-  by vertical lines. The list is the flat themed listbox of CudaText
-  dialogs (listbox_ex, the same control the built-in Preferences
-  dialog uses), so the list, its column header, the selection and the
-  scrollbar all follow the UI theme - also live, when the theme is
-  switched while CudaText runs. The rows are painted by the plugin
-  from the theme colors (owner-drawing). The column widths are
-  RESIZABLE: drag the vertical divider between two header captions
-  (the mouse cursor takes the split shape over a divider); the Path
-  column is auto-stretched - it always fills the list up to its
-  right edge, also when the window is resized, and the widths you
-  drag survive the list refills (sorting, filtering, starring...).
-  The buttons (the left column and the tabs) have comfortable
-  vertical padding, so their captions never touch the button
-  borders.
+  grows and shrinks with it. Layout: the MAIN column on the left
+  (the filter field, the tab strip, the list, the status line) and
+  the vertical button column on the RIGHT edge - Open, Add...,
+  Add opened..., Checked, Move up, Move down, Delete, with Close in
+  the bottom-right corner; the buttons move with the window's right
+  edge and the main column always ends where the button column
+  begins. Three tabs: Projects, Files, Folders - a TAB STRIP of flat
+  themed buttons with equal FIXED widths (the tabs hug their captions
+  like the tabs of a browser or VS Code, they don't stretch over the
+  whole list width); the active tab is marked ONLY by a bold GREEN
+  underline in the small strip between the tab buttons and the list,
+  the inactive tabs carry no marker. Columns: check | ★ | Name |
+  Path | State, separated by vertical lines. The list is the flat
+  themed listbox of CudaText dialogs (listbox_ex, the same control
+  the built-in Preferences dialog uses), so the list, its column
+  header, the selection and the scrollbar all follow the UI theme -
+  also live, when the theme is switched while CudaText runs. The rows
+  are painted by the plugin from the theme colors (owner-drawing).
+  The column widths are RESIZABLE: drag the vertical divider between
+  two header captions (the mouse cursor takes the split shape over a
+  divider); the Path column is auto-stretched - it always fills the
+  list up to its right edge, also when the window is resized, and
+  the widths you drag survive the list refills (sorting, filtering,
+  starring...). The buttons (the right column and the tabs) have
+  comfortable vertical padding, so their captions never touch the
+  button borders.
 
   Checkbox column
       The first column holds a checkbox per row. Check several rows,
@@ -557,14 +565,6 @@ window...)
   uncheck all), Sort (★ first / by name / by path / by state, dead
   last / manual order), Add current file/folder/project. A right-
   click on the header offers the Sort commands + Check/Uncheck all.
-
-FIND FAVORITE (Favorites > Find favorite...)
-  A compact modal picker over ALL favorites with a type-to-filter
-  field; columns ★ / Name / Type / Path / State; Enter or double-click
-  opens the choice; Ctrl+1..9 / Alt+1..9 work here too. Handy when
-  bound to a hotkey. The list is the same flat themed listbox (with
-  its themed header), and the dialog is colored with the current UI
-  theme (like the Favorites window).
 
 WHERE THE DATA LIVES
   settings/cuda_project_man_favorites.json (in the CudaText settings

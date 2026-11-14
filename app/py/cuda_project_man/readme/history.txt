@@ -1,4 +1,45 @@
 2026.11.13 (@badrelmers)
+- FIXED: the cancel (x) button of the Project panel's tree filter
+  stretched across the WHOLE filter row and the filter text could not
+  be typed into: the dialog engine maps the a_l/a_r props onto the LCL
+  anchors and the LCL keeps the default akLeft on, so the button's
+  left edge stayed pinned to x=0 while its right edge followed the
+  panel edge. The left anchor is detached now ('a_l': None) - the
+  button keeps its size and only moves with the panel's right edge
+- FIXED: the green underline of the active Favorites tab was invisible.
+  A label is a graphic control painted by the FORM, and a graphic
+  control can never paint over a windowed control like the listbox -
+  the underline was glued to the list's top border and was simply
+  covered by the list's window. The tab buttons are TAB_ULINE_H px
+  shorter now and the underline lives in that strip between the
+  buttons and the list, painted on the form's own background - always
+  visible
+- the Favorites tabs are fixed-width now (browser/VS Code style: the
+  tabs hug their captions instead of stretching over the whole list
+  width, which looked bloated); they only shrink when the window is
+  too narrow for three fixed tabs
+- the button block of the Favorites window moved to the RIGHT edge of
+  the window: the main column (filter, tabs, list, status line) comes
+  first on the left, the buttons (Open / Add... / Add opened... /
+  Checked / Move up / Move down / Delete, Close in the bottom-right
+  corner) follow on its right and move with the window's right edge
+- FIXED: the captions of the checkboxes in the options dialog stayed
+  black on the dark themed form (unreadable): on Windows the caption
+  of a checkbox control is painted by the OS theme and ignores
+  Font.Color. Every boolean option is now a glyph-only checkbox (the
+  OS-drawn little square, as before) + a separate themed LABEL with
+  the caption; clicking the label toggles the checkbox
+- the OK/Cancel buttons of the options dialog and of the Project
+  properties dialog got the same comfortable vertical padding as the
+  Favorites window buttons (the raw GUI button height made them look
+  like thin slabs)
+- REMOVED: the "Find favorite" picker window (Favorites > Find
+  favorite... menu item, the dialog, the picker-only code paths). The
+  Favorites window itself covers it: it has the same type-to-filter
+  field and the three category tabs. Nothing else of the favorites
+  feature is affected
+
+2026.11.13 (@badrelmers)
 - FIXED: the paths of the Favorites list were cut to "D..." even with
   lots of free space in the column: the Path column is the
   auto-stretched one (listbox_ex column size 0 = "share the free

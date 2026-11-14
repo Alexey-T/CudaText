@@ -12,14 +12,22 @@ remembered (in our own file) so the import does not resurrect them;
 adding a path again clears that memory.
 
 Main window (non-modal, resizable):
+- layout: the MAIN column on the left (filter, tab strip, list, status
+  line) and the vertical BUTTON column on the RIGHT edge (Open /
+  Add... / Add opened..., Checked..., Move up / Move down, Delete;
+  Close in the bottom-right corner) - the buttons move with the
+  window's right edge, the main column ends exactly where the button
+  column begins
 - "tabs": three flat themed buttons (Projects / Files / Folders) drawn
-  as a TAB STRIP: equal fixed widths, joined side by side directly
-  above the list; ALL THREE TABS HAVE THE SAME SIZE (like the tabs of
-  a browser or VS Code), and the ACTIVE one is marked ONLY by a bold
-  GREEN underline along its bottom edge (a thin label glued to the
-  tab, following it on window resizes); the inactive tabs carry no
-  marker at all - the OS-drawn tab control could not be colored by
-  the theme, so it was replaced
+  as a TAB STRIP: equal FIXED widths (TAB_W - the tabs hug their
+  captions like the tabs of a browser or VS Code, they do NOT stretch
+  over the whole list width), joined side by side directly above the
+  list; the ACTIVE one is marked ONLY by a bold GREEN underline in
+  the small strip between the tab buttons and the list (the underline
+  is a colored label painted on the form's own background - it must
+  not overlap the listbox, a label cannot paint over a windowed
+  control); the inactive tabs carry no marker at all - the OS-drawn
+  tab control could not be colored by the theme, so it was replaced
 - the list is the "listbox_ex" control - the flat listbox of CudaText
   dialogs, painted by the UI theme like the built-in Preferences
   dialog: its column header, items, selection and scrollbar all follow
@@ -45,9 +53,6 @@ Main window (non-modal, resizable):
   divider); the Path column is auto-stretched - it always fills the
   free width, also when the window is resized
 - filter field at the top filters by name and path; Esc clears it
-- vertical button panel on the left (with comfortable vertical
-  padding around the captions): Open / Add... / Add opened...,
-  Checked..., Move up / Move down, Delete; Close at the bottom
 - while the window is focused: Ctrl+1..9 / Alt+1..9 open the item at
   that index (index in the currently visible, filtered list), Enter
   opens the selection, Del deletes it, F2 renames it, Space checks it,
@@ -110,11 +115,6 @@ EXT_FAVORITES_FILENAME = 'cuda_favorites.json'
 PROJECT_EXTENSION = '.cuda-proj'
 
 CATS = ('projects', 'files', 'folders')
-CAT_TITLES = {
-    'projects': _('Project'),
-    'files': _('File'),
-    'folders': _('Folder'),
-}
 
 #: sort modes: 'star', 'name', 'path', 'state', 'manual'
 SORT_COLS = ('star', 'name', 'path', 'state')
@@ -160,11 +160,23 @@ CURSOR_HSPLIT = -14
 
 #: height (unscaled px) of the bold green UNDERLINE that marks the
 #: ACTIVE tab (browser/VS Code tab style; all three tabs have the
-#: same size, the underline is their only difference)
+#: same size, the underline is their only difference). The underline
+#: is a plain colored label living in the 4px strip BETWEEN the tab
+#: buttons and the list - it must NOT overlap the listbox: a label is
+#: a graphic control painted by the form, and a graphic control can
+#: never paint over a windowed control like listbox_ex, it is always
+#: covered by it (this is why the first version of the underline,
+#: glued to the list's top border, was invisible)
 TAB_ULINE_H = 4
 #: the green of the active tab's underline (a BGR int): a saturated
 #: green that reads well on both light and dark themes
 TAB_GREEN = 0x37A800
+#: unscaled FIXED width of every tab button (browser/VS Code tabs
+#: hug their caption, they do NOT stretch over the whole list width -
+#: full-width tabs looked bloated); when the window is narrowed below
+#: the space needed by three fixed tabs, they shrink to equal thirds
+#: (see _layout_tabs), never overflowing into the button column
+TAB_W = 120
 #: gap between the tab buttons (unscaled px): tight, so the three
 #: buttons read as one tab strip, not as separate buttons
 TAB_GAP = 2
@@ -174,6 +186,8 @@ TAB_GAP = 2
 BTN_PAD = 8
 
 BTN_W = 150
+#: margin (unscaled px) between the window edge and the button column
+#: / the main column (filter, tabs, list, status line)
 BTN_X = 8
 BTN_GAP = 6
 GRP_GAP = 18
@@ -608,23 +622,6 @@ class FavoritesCore:
             pairs.sort(key=lambda p: p[1]['path'].lower(), reverse=sort_desc)
         return pairs
 
-    def view_all(self, flt=''):
-        """List of (category, data_index, item) across all categories,
-        for the 'Find favorite' picker: projects, then files, then
-        folders; starred first, then by name inside each."""
-        flt = (flt or '').strip().lower()
-        res = []
-        for cat in CATS:
-            for i, it in enumerate(self.data[cat]):
-                if flt and flt not in it['name'].lower() and flt not in it['path'].lower():
-                    continue
-                res.append((cat, i, it))
-            res_sorted = [p for p in res if p[0] == cat]
-            res_sorted.sort(key=lambda p: (p[2]['name'].lower(), p[2]['path'].lower()))
-            res_sorted.sort(key=lambda p: not p[2]['star'])
-            res = [p for p in res if p[0] != cat] + res_sorted
-        return res
-
     def counts(self, cat):
         items = self.data[cat]
         return len(items), sum(1 for it in items if it['star'])
@@ -734,8 +731,14 @@ class FavoritesForm:
         # button height hugs the caption text too tightly (the text
         # almost touched the button's border)
         BTN_H = BH + BTN_PAD
+        # the tab strip is BTN_H tall PLUS the TAB_ULINE_H strip for the
+        # green underline of the active tab (the underline is a colored
+        # label that must sit on the FORM background, between the tab
+        # buttons and the list - see the TAB_ULINE_H note), so the tab
+        # buttons keep the FULL padding of the other buttons
+        TABS_H = BTN_H + TAB_ULINE_H
 
-        # min window height: the left button column (4 buttons, group
+        # min window height: the right button column (4 buttons, group
         # gap, 2 buttons, group gap, Delete) + Close + the status line
         # + some list - computed from the REAL button height, so a
         # system with tall buttons can never make Delete reach into
@@ -761,15 +764,10 @@ class FavoritesForm:
         except Exception:
             self._sb_w = 20
 
-        # tab strip geometry (unscaled; _update_tabs applies it scaled).
-        # All tabs share ONE height (browser/VS Code style); the active
-        # one is marked only by its green underline (see below).
+        # tab strip geometry (unscaled): the strip top ty; the strip is
+        # TABS_H tall (BTN_H of button + TAB_ULINE_H of underline zone),
+        # the list starts right below it at ty + TABS_H
         ty = 8 + EH + BTN_GAP          # top of the strip
-        self._tab_geo = {
-            'y': ty,
-            'h': BTN_H,
-            'list_y': ty + BTN_H,      # = top of the list control
-        }
 
         self.h = dlg_proc(0, DLG_CREATE)
         dlg_proc(self.h, DLG_PROP_SET, prop={
@@ -785,93 +783,126 @@ class FavoritesForm:
             'on_resize': self.form_on_resize,
         })
 
-        #---- left vertical button column ----
+        #---- RIGHT vertical button column ----
         # All buttons are 'button_ex' (the flat CudaText button): it is
         # painted with the global flat theme, so it follows the UI
         # theme automatically - the native 'button' control would stay
         # OS-light on a dark theme.
+        # ANCHORS: every button carries 'a_l': None + 'a_r': ('', ']') -
+        # the dialog engine maps a_l/a_r onto the LCL anchors and the
+        # LCL default is akLeft=on, which would pin the left edge while
+        # the right edge follows the window edge (= the button stretches
+        # on every resize). With akLeft removed the buttons keep their
+        # width and the whole column only MOVES with the window's right
+        # edge. The main column (filter/tabs/list/status) anchors its
+        # RIGHT side to btn_open's LEFT edge, so it always ends exactly
+        # where the button column begins.
+        bx = w - BTN_W - BTN_X
+        RIGHT_ANCHORS = {
+            'a_l': None,
+            'a_r': ('', ']'),
+            'sp_r': BTN_X,
+        }
         y = 8
         self._ctl('button_ex', 'btn_open', {
             'cap': _('Open'),
-            'x': BTN_X, 'y': y, 'w': BTN_W, 'h': BTN_H,
+            'x': bx, 'y': y, 'w': BTN_W, 'h': BTN_H,
             'tab_order': 3,
             'hint': _('Open the selected favorite\rEnter and double-click do the same.\rProjects open in Project Manager, files in the editor,\rfolders in the OS file manager'),
             'on_change': self.btn_open_click,
+            **RIGHT_ANCHORS,
         })
         y += BTN_H + BTN_GAP
         self._ctl('button_ex', 'btn_add', {
             'cap': _('Add...'),
-            'x': BTN_X, 'y': y, 'w': BTN_W, 'h': BTN_H,
+            'x': bx, 'y': y, 'w': BTN_W, 'h': BTN_H,
             'tab_order': 4,
             'hint': _('Add a new favorite: project, file or folder'),
             'on_change': self.btn_add_click,
+            **RIGHT_ANCHORS,
         })
         y += BTN_H + BTN_GAP
         self._ctl('button_ex', 'btn_add_opened', {
             'cap': _('Add opened...'),
-            'x': BTN_X, 'y': y, 'w': BTN_W, 'h': BTN_H,
+            'x': bx, 'y': y, 'w': BTN_W, 'h': BTN_H,
             'tab_order': 5,
             'hint': _('Add the opened project, the current editor file,\ror the folder of the current file - a menu lets you choose'),
             'on_change': self.btn_add_opened_click,
+            **RIGHT_ANCHORS,
         })
         y += BTN_H + BTN_GAP
         self._ctl('button_ex', 'btn_checked', {
             'cap': _('Checked') + ' ▾',
-            'x': BTN_X, 'y': y, 'w': BTN_W, 'h': BTN_H,
+            'x': bx, 'y': y, 'w': BTN_W, 'h': BTN_H,
             'tab_order': 6,
             'hint': _('Run one command on ALL checked favorites:\ropen, star/unstar, copy paths, rename,\rmove up/down as a block, delete.\rCheck rows with the checkbox column\r(click the "All" header cell to check all)'),
             'on_change': self.btn_checked_click,
+            **RIGHT_ANCHORS,
         })
 
         y += BTN_H + GRP_GAP  # visible gap between the groups
         self._ctl('button_ex', 'btn_up', {
             'cap': _('Move up'),
-            'x': BTN_X, 'y': y, 'w': BTN_W, 'h': BTN_H,
+            'x': bx, 'y': y, 'w': BTN_W, 'h': BTN_H,
             'tab_order': 7,
             'hint': _('Move the selected favorite up\r(switches the list to manual order)'),
             'on_change': self.btn_up_click,
+            **RIGHT_ANCHORS,
         })
         y += BTN_H + BTN_GAP
         self._ctl('button_ex', 'btn_down', {
             'cap': _('Move down'),
-            'x': BTN_X, 'y': y, 'w': BTN_W, 'h': BTN_H,
+            'x': bx, 'y': y, 'w': BTN_W, 'h': BTN_H,
             'tab_order': 8,
             'hint': _('Move the selected favorite down\r(switches the list to manual order)'),
             'on_change': self.btn_down_click,
+            **RIGHT_ANCHORS,
         })
 
         y += BTN_H + GRP_GAP  # visible gap between the groups
         self._ctl('button_ex', 'btn_del', {
             'cap': _('Delete'),
-            'x': BTN_X, 'y': y, 'w': BTN_W, 'h': BTN_H,
+            'x': bx, 'y': y, 'w': BTN_W, 'h': BTN_H,
             'tab_order': 9,
             'hint': _('Delete the selected favorite (Del key)'),
             'on_change': self.btn_del_click,
+            **RIGHT_ANCHORS,
         })
 
-        # Close is anchored to the bottom of the window only (its top
-        # anchor is detached, otherwise it would stretch vertically)
+        # Close sits in the window's BOTTOM-RIGHT corner (top anchor
+        # detached, otherwise it would stretch vertically; left anchor
+        # detached, otherwise it would stretch horizontally)
         self._ctl('button_ex', 'btn_close', {
             'cap': _('Close'),
-            'x': BTN_X, 'y': h - BTN_H - 8, 'w': BTN_W, 'h': BTN_H,
+            'x': bx, 'y': h - BTN_H - 8, 'w': BTN_W, 'h': BTN_H,
             'tab_order': 10,
-            'a_t': None,          # detach top anchor
+            'a_l': None,          # detach left anchor (do not stretch)
+            'a_r': ('', ']'),     # stick to the right of the form
+            'sp_r': BTN_X,
+            'a_t': None,          # detach top anchor (do not stretch)
             'a_b': ('', ']'),     # stick to the bottom of the form
             'sp_b': 8,
             'on_change': self.close,
         })
 
-        #---- right column: filter, list, status, tab strip ----
-        rx = BTN_X + BTN_W + 8
+        #---- left/main column: filter, tabs, list, status ----
+        # Everything here starts at the window's left edge (BTN_X) and
+        # ends at the button column's left edge (anchored to
+        # btn_open's '[' side with a BTN_X gap).
+        MAIN_RIGHT = {
+            'a_r': ('btn_open', '['),
+            'sp_r': BTN_X,
+        }
 
         self._ctl('edit', 'f_filter', {
-            'x': rx, 'y': 8, 'w': w - rx - 8, 'h': EH,
+            'x': BTN_X, 'y': 8, 'w': bx - 2 * BTN_X, 'h': EH,
             'tab_order': 0,
             'act': True,
             'texthint': _('Filter by name or path...'),
             'hint': _('Quickly filter the favorites list.\rEsc clears the filter'),
-            'a_r': ('', ']'),
-            'sp_r': 8,
+            'a_l': ('', '['),
+            'sp_l': BTN_X,
+            **MAIN_RIGHT,
             'on_change': self.on_filter_change,
         })
 
@@ -881,12 +912,13 @@ class FavoritesForm:
         # default top anchor kept, the label stretched vertically and
         # ate half of the window when it was maximized/enlarged.
         self._ctl('label', 'lbl_status', {
-            'x': rx, 'y': h - 8 - 22, 'w': w - rx - 8, 'h': 22,
+            'x': BTN_X, 'y': h - 8 - 22, 'w': bx - 2 * BTN_X, 'h': 22,
+            'a_l': ('', '['),
+            'sp_l': BTN_X,
             'a_t': None,          # detach top anchor (do not stretch!)
             'a_b': ('', ']'),
             'sp_b': 8,
-            'a_r': ('', ']'),
-            'sp_r': 8,
+            **MAIN_RIGHT,
             'cap': '',
         })
 
@@ -902,23 +934,23 @@ class FavoritesForm:
         # the header dividers are dragged to resize the columns
         # (list_on_mouse_down/move/up).
         # ANCHORS: the list is glued to all 4 sides of the window area
-        # (left offset rx / right 8 / top: below the tab strip / bottom:
-        # above the status line) - so it RESIZES with the window. The
-        # Path column is auto-stretched by the engine (column size 0),
-        # so the columns always fill the resized list exactly.
+        # (left offset BTN_X / right: the button column's left edge /
+        # top: below the tab strip / bottom: above the status line) - so
+        # it RESIZES with the window. The Path column is auto-stretched
+        # by the engine (column size 0), so the columns always fill the
+        # resized list exactly.
         self._ctl('listbox_ex', 'list', {
-            'x': rx, 'y': ty + BTN_H,
-            'w': w - rx - 8,
-            'h': h - (ty + BTN_H) - 8 - 22 - BTN_GAP,
+            'x': BTN_X, 'y': ty + TABS_H,
+            'w': bx - 2 * BTN_X,
+            'h': h - (ty + TABS_H) - 8 - 22 - BTN_GAP,
             'tab_order': 2,
             'act': True,          # fire on_change when the selection moves
             'border': True,
             'a_l': ('', '['),
-            'sp_l': rx,
-            'a_r': ('', ']'),
-            'sp_r': 8,
+            'sp_l': BTN_X,
+            **MAIN_RIGHT,
             'a_t': ('f_filter', ']'),
-            'sp_t': BTN_H + BTN_GAP,   # the tab strip lives in this gap
+            'sp_t': TABS_H + BTN_GAP,   # the tab strip lives in this gap
             'a_b': ('lbl_status', '['),
             'sp_b': BTN_GAP,
             'on_change': self.list_on_change,
@@ -939,30 +971,34 @@ class FavoritesForm:
                          index=int(ITEM_H * scale))
             listbox_proc(self.h_list, LISTBOX_SET_DRAWN, index=1)
 
-        #---- the tab strip (created AFTER the list so the GREEN
-        # UNDERLINE of the active tab is drawn ON TOP of the list's
-        # top border - the browser/VS Code tab look) ----
-        # "tabs": three flat themed buttons. The OS-drawn 'tabs' control
-        # could not be themed, so it was replaced by button_ex. The
-        # three buttons form a strip: EQUAL FIXED widths, joined with a
-        # small TAB_GAP, sitting directly on the list, and ALL THREE
-        # HAVE THE SAME HEIGHT - the active one differs ONLY by its
-        # green underline (uline0..2 below), not by its size. Only the
-        # LEFT edges are anchored (chained to each other) - anchoring a
-        # button's right edge to the next button's left edge AND back
-        # would be a circular anchor pair, which the engine cannot
-        # resolve (it used to break the strip after a window resize:
-        # unequal widths, the first tab sliding over the button column).
+        #---- the tab strip (three flat themed buttons) ----
+        # The OS-drawn 'tabs' control could not be themed, so it is
+        # button_ex buttons. The three buttons form a LEFT-ALIGNED strip
+        # of EQUAL FIXED widths (TAB_W, browser/VS Code style - they hug
+        # their captions and do NOT stretch over the whole list width),
+        # joined with a small TAB_GAP, sitting directly above the list.
+        # ALL THREE HAVE THE SAME HEIGHT - the active one differs ONLY
+        # by its green underline (uline0..2 below), not by its size.
+        # Only the LEFT edges are anchored (chained to each other) -
+        # anchoring a button's right edge to the next button's left
+        # edge AND back would be a circular anchor pair, which the
+        # engine cannot resolve (it used to break the strip after a
+        # window resize: unequal widths, the first tab sliding over the
+        # button column). _layout_tabs re-splits the widths on resizes
+        # (fixed TAB_W, shrinking only in a too-narrow window).
         tab_caps = (_('Projects'), _('Files'), _('Folders'))
         tab_names = ('tab0', 'tab1', 'tab2')
-        tab_w = (w - rx - 8 - 2 * TAB_GAP) // 3
+        tab_w = TAB_W
         for i in range(3):
             prop = {
                 'cap': tab_caps[i],
-                'x': rx + i * (tab_w + TAB_GAP),
+                'x': BTN_X + i * (tab_w + TAB_GAP),
                 'y': ty,
                 'w': tab_w,
-                'h': BTN_H,
+                'h': BTN_H,          # the FULLY padded height, like every
+                                     # other button; the TAB_ULINE_H strip
+                                     # below the buttons carries the green
+                                     # underline of the active tab
                 'tab_order': 1,
                 'act': True,
                 'hint': _('Show {} favorites').format(tab_caps[i]),
@@ -973,24 +1009,28 @@ class FavoritesForm:
                 # sp_l is REQUIRED: setting a_l re-glues the edge to the
                 # form's left side + sp_l (sp_l defaults to 0)
                 prop['a_l'] = ('', '[')
-                prop['sp_l'] = rx
+                prop['sp_l'] = BTN_X
             else:
                 prop['a_l'] = (tab_names[i - 1], ']')
                 prop['sp_l'] = TAB_GAP
             self._ctl('button_ex', tab_names[i], prop)
 
         #---- the GREEN UNDERLINE of the active tab ----
-        # A thin label glued to the BOTTOM EDGE of its tab (left,
-        # right and top anchored to that tab, so it follows the window
-        # resizes and _layout_tabs' width re-splits). It is created
-        # after the tabs and the list, so it paints over the list's
-        # top border - a bold green line exactly where a browser/VS
-        # Code tab carries its indicator. Only the ACTIVE tab's label
-        # gets its height (in _update_tabs); the inactive ones stay
-        # collapsed to 0 = invisible.
+        # A thin colored label glued to the BOTTOM EDGE of its tab (its
+        # left, right and top edges are anchored to that tab, so it
+        # follows the window resizes and _layout_tabs' re-splits). The
+        # tab buttons are TAB_ULINE_H px shorter than the strip, so the
+        # label lives in that strip BETWEEN the buttons and the list,
+        # painted on the FORM's own background: a label is a graphic
+        # control painted by the form, and a graphic control can NEVER
+        # paint over a windowed control like the listbox - the first
+        # version of the underline (overlapping the list's top border)
+        # was simply covered by the list's window and invisible. Only
+        # the ACTIVE tab's label gets its height (in _update_tabs); the
+        # inactive ones stay collapsed to 0 = invisible.
         for i in range(3):
             self._ctl('label', 'uline{}'.format(i), {
-                'x': rx + i * (tab_w + TAB_GAP),
+                'x': BTN_X + i * (tab_w + TAB_GAP),
                 'y': ty + BTN_H,
                 'w': tab_w,
                 'h': 0,
@@ -1107,40 +1147,45 @@ class FavoritesForm:
         self.close()
 
     def form_on_resize(self, id_dlg, id_ctl=0, data='', info=''):
-        """Keep the tab strip filling the width: the three tab buttons
-        are re-split into equal thirds of the (new) width. The list
-        itself is anchored to the window (it grows/shrinks with it) and
-        the Path column is auto-stretched by the listbox engine
-        (column size 0 = share the free width), so the columns always
-        fill the list exactly - nothing else to recompute here."""
+        """Keep the tab strip inside the window: the three tab buttons
+        keep their fixed TAB_W width (they only shrink when the window
+        is too narrow - see _layout_tabs). The list itself is anchored
+        to the window (it grows/shrinks with it) and the Path column is
+        auto-stretched by the listbox engine (column size 0 = share the
+        free width), so the columns always fill the list exactly -
+        nothing else to recompute here."""
         if self._closing or not self.h or not self.h_list:
             return
         self._layout_tabs()
         self._repaint_list()
 
     def _layout_tabs(self):
-        """Re-split the tab strip into three EQUAL widths filling the
-        window (the buttons are left-anchored to each other, so only
-        their widths are set; this runs after DLG_SCALE and on every
-        window resize - the created widths were a static guess and the
-        strip would overflow a narrowed window without this)."""
+        """Apply the tab widths after DLG_SCALE and on every window
+        resize: the FIXED TAB_W (browser/VS Code tabs hug their
+        captions, they do NOT stretch over the whole list width -
+        full-width tabs looked bloated), and when the window is too
+        narrow for three fixed tabs, three EQUAL shrunk thirds - so the
+        strip can never overflow into the right button column. The
+        buttons are left-anchored to each other, so only their widths
+        are set here."""
         if not self.h:
             return
         sc = self._scale or 1.0
-        rx = int((BTN_X + BTN_W + 8) * sc)
-        right = int(8 * sc)
         gap = max(1, int(TAB_GAP * sc))
+        left = int(BTN_X * sc)
+        # right boundary of the strip = the button column's LIVE left
+        # edge (btn_open) minus the same BTN_X gap the main column uses
         try:
-            props = dlg_proc(self.h, DLG_PROP_GET) or {}
-            form_w = int(props.get('w', 0) or 0)
+            props = dlg_proc(self.h, DLG_CTL_PROP_GET, name='btn_open') or {}
+            right = int(props.get('x', 0) or 0) - left
         except Exception:
-            form_w = 0
-        if form_w <= 0:
-            return
-        avail = form_w - rx - right
-        if avail < 3 * 60:
-            return   # window too narrow: keep the last sane layout
-        tab_w = (avail - 2 * gap) // 3
+            right = 0
+        if right <= left + 3 * 46:
+            return   # button column not placed yet / window too narrow:
+                    # keep the last sane layout
+        avail = right - left
+        fixed = int(TAB_W * sc)
+        tab_w = min(fixed, (avail - 2 * gap) // 3)
         for name in ('tab0', 'tab1', 'tab2'):
             try:
                 dlg_proc(self.h, DLG_CTL_PROP_SET, name=name,
@@ -1330,12 +1375,14 @@ class FavoritesForm:
         """Redraw the tab strip for the current self.tab. All three
         tabs ALWAYS have the same caption style, position and size
         (browser/VS Code style) - the ONLY difference of the active
-        one is its bold GREEN UNDERLINE: the thin 'ulineN' label
-        glued to the tab's bottom edge gets its height, the inactive
-        tabs' underlines stay collapsed to 0 (invisible). The prop
-        values are REAL pixels (this runs after DLG_SCALE), so the
-        unscaled underline height is multiplied by the scale
-        factor."""
+        one is its bold GREEN UNDERLINE: the thin 'ulineN' label in
+        the TAB_ULINE_H strip between the tab buttons and the list
+        gets its height, the inactive tabs' underlines stay collapsed
+        to 0 (invisible). The underline lives on the form background
+        (NOT over the listbox - a graphic control can never paint over
+        a windowed control, see the TAB_ULINE_H note). The prop values
+        are REAL pixels (this runs after DLG_SCALE), so the unscaled
+        underline height is multiplied by the scale factor."""
         sc = self._scale or 1.0
         for i in range(3):
             # the tab buttons themselves need no update (same caption,
@@ -2408,239 +2455,6 @@ class FavoritesForm:
         self.fill_list()
 
 #==========================================================
-# "Find favorite" quick picker (modal)
-#==========================================================
-
-class FavoritesFinder:
-    """Small modal dialog: type-to-filter over ALL favorites (projects,
-    files, folders), Enter/double-click opens the selection. The list
-    is a "listbox_ex" (the flat themed listbox) with its themed header;
-    its items are painted by the engine from the theme."""
-
-    W = 660
-    H = 400
-
-    def __init__(self, core):
-        self.core = core
-        self.h = 0
-        self.h_list = 0
-        self.result = None      # path to open after the dialog closes
-        self.filter = ''
-        self.view = []          # [(cat, data_index, item)]
-
-    def _ctl(self, kind, name, prop):
-        n = dlg_proc(self.h, DLG_CTL_ADD, prop=kind)
-        if n is None:
-            return None
-        prop = dict(prop)
-        prop['name'] = name
-        dlg_proc(self.h, DLG_CTL_PROP_SET, index=n, prop=prop)
-        return n
-
-    def show(self):
-        scale = _ui_scale()
-        # unscale the DPI-scaled GUI heights: the layout below is
-        # unscaled and DLG_SCALE scales it once at the end (favorites
-        # module docstring, "DPI NOTE")
-        BH = _unscale_px(app_proc(PROC_GET_GUI_HEIGHT, 'button'), scale, 30)
-        EH = _unscale_px(app_proc(PROC_GET_GUI_HEIGHT, 'edit'), scale, 28)
-
-        self.h = dlg_proc(0, DLG_CREATE)
-        dlg_proc(self.h, DLG_PROP_SET, prop={
-            'cap': _('Find favorite'),
-            'w': self.W,
-            'h': self.H,
-            'border': DBORDER_DIALOG,
-            'keypreview': True,
-            'on_key_down': self.form_on_key,
-        })
-
-        self._ctl('edit', 'f_filter', {
-            'x': 8, 'y': 8, 'w': self.W - 16, 'h': EH,
-            'act': True,
-            'texthint': _('Type to filter by name or path...'),
-            'on_change': self.on_filter_change,
-        })
-
-        # buttons must be created BEFORE the list: the list's
-        # bottom anchor references btn_ok by name.
-        # 'button_ex' = the flat themed CudaText button (follows the UI
-        # theme); it has no "default button" support, so Enter is
-        # handled in form_on_key instead of the old 'ex0' prop
-        self._ctl('button_ex', 'btn_ok', {
-            'cap': _('Open'),
-            'x': self.W - 8 - 90 - 6 - 90, 'y': self.H - BH - 8, 'w': 90, 'h': BH,
-            'a_t': None,
-            'a_b': ('', ']'),
-            'sp_b': 8,
-            'on_change': self.btn_ok_click,
-        })
-        self._ctl('button_ex', 'btn_cancel', {
-            'cap': _('Cancel'),
-            'x': self.W - 8 - 90, 'y': self.H - BH - 8, 'w': 90, 'h': BH,
-            'a_t': None,
-            'a_b': ('', ']'),
-            'sp_b': 8,
-            'a_r': ('', ']'),
-            'sp_r': 8,
-            'on_change': self.btn_cancel_click,
-        })
-
-        # the list: "listbox_ex" - the flat themed listbox, so the list
-        # AND its column header follow the UI theme (the old native
-        # listview kept an OS-colored header)
-        self._ctl('listbox_ex', 'list', {
-            'x': 8, 'y': 8 + EH + 6,
-            'w': self.W - 16, 'h': self.H - EH - 6 - BH - 16 - 8 - 6,
-            'act': True,
-            'border': True,
-            'a_r': ('', ']'),
-            'sp_r': 8,
-            'a_t': ('f_filter', ']'),
-            'sp_t': 6,
-            'a_b': ('btn_ok', '['),
-            'sp_b': 8,
-            'on_click_dbl': self.list_on_dbl_click,
-        })
-        self.h_list = dlg_proc(self.h, DLG_CTL_HANDLE, name='list') or 0
-        if self.h_list:
-            listbox_proc(self.h_list, LISTBOX_SET_COLUMN_SEP, text=LIST_SEP)
-            listbox_proc(self.h_list, LISTBOX_SET_ITEM_H,
-                         index=int(ITEM_H * scale))
-
-        dlg_proc(self.h, DLG_SCALE)
-        # color the dialog with the current UI theme (like the built-in
-        # Preferences dialog does); the listbox_ex list is themed by the
-        # engine itself
-        colors = get_theme_ui_colors()
-        try:
-            if colors['form_bg'] is not None:
-                dlg_proc(self.h, DLG_PROP_SET, prop={
-                    'color': colors['form_bg']})
-            if colors['edit_bg'] is not None:
-                dlg_proc(self.h, DLG_CTL_PROP_SET, name='f_filter',
-                         prop={'color': colors['edit_bg']})
-            if colors['edit_font'] is not None:
-                dlg_proc(self.h, DLG_CTL_PROP_SET, name='f_filter',
-                         prop={'font_color': colors['edit_font']})
-        except Exception:
-            pass
-        self.fill_list()
-        dlg_proc(self.h, DLG_CTL_FOCUS, name='f_filter')
-
-        dlg_proc(self.h, DLG_SHOW_MODAL)
-        dlg_proc(self.h, DLG_FREE)
-        self.h = 0
-        self.h_list = 0
-
-        # open the chosen item after the modal dialog is fully closed
-        # (a timer is needed: right after DLG_SHOW_MODAL returns, the app
-        # still restores focus to the previous UI group - same trick as
-        # the cuda_favorites plugin uses)
-        if self.result:
-            path = self.result
-
-            def do_open(tag=None):
-                try:
-                    open_item(path)
-                except Exception as ex:
-                    print('Favorites: cannot open favorite: ' + str(ex))
-
-            timer_proc(TIMER_START_ONE, do_open, OPEN_DELAY_MS)
-
-    def fill_list(self):
-        self.view = self.core.view_all(self.filter)
-        if not self.h_list:
-            return
-        # column widths are not scaled by DLG_SCALE - scale here
-        s = _ui_scale()
-        try:
-            listbox_proc(self.h_list, LISTBOX_DELETE_ALL)
-            for cat, _i, it in self.view:
-                listbox_proc(self.h_list, LISTBOX_ADD, index=-1,
-                             text=LIST_SEP.join((
-                                 '★' if it['star'] else '☆',   # UTF-8 icons
-                                 it['name'],
-                                 CAT_TITLES[cat],
-                                 it['path'],
-                                 '?' if not os.path.exists(it['path']) else '',
-                             )))
-            listbox_proc(self.h_list, LISTBOX_SET_COLUMNS, text=[
-                int(46 * s), int(200 * s), int(64 * s), int(230 * s),
-                int(54 * s)])
-            listbox_proc(self.h_list, LISTBOX_SET_HEADER, text=LIST_SEP.join((
-                '★',
-                _('Name'),
-                _('Type'),
-                _('Path'),
-                _('State'),
-            )))
-            if self.view:
-                listbox_proc(self.h_list, LISTBOX_SET_SEL, index=0)
-        except Exception:
-            pass
-
-    def selected_pair(self):
-        try:
-            i = int(listbox_proc(self.h_list, LISTBOX_GET_SEL))
-        except Exception:
-            i = -1
-        if 0 <= i < len(self.view):
-            return self.view[i]
-        return None
-
-    def accept(self):
-        pair = self.selected_pair()
-        if pair is None:
-            if not self.view:
-                msg_status(_('Favorites: no favorites yet'))
-            return
-        _cat, _i, it = pair
-        self.result = it['path']
-        dlg_proc(self.h, DLG_HIDE)
-
-    def on_filter_change(self, id_dlg, id_ctl, data='', info=''):
-        try:
-            props = dlg_proc(self.h, DLG_CTL_PROP_GET, name='f_filter') or {}
-            self.filter = str(props.get('val', '') or '')
-        except Exception:
-            self.filter = ''
-        self.fill_list()
-
-    def list_on_dbl_click(self, id_dlg, id_ctl, data='', info=''):
-        self.accept()
-
-    def btn_ok_click(self, id_dlg, id_ctl, data='', info=''):
-        self.accept()
-
-    def btn_cancel_click(self, id_dlg, id_ctl, data='', info=''):
-        self.result = None
-        dlg_proc(self.h, DLG_HIDE)
-
-    def form_on_key(self, id_dlg, id_ctl, data=''):
-        key = id_ctl
-        mods = data or ''
-        if ('c' in mods or 'a' in mods) and not ('c' in mods and 'a' in mods) \
-           and (ord('1') <= key <= ord('9') or VK_NUMPAD1 <= key <= VK_NUMPAD9):
-            n = key - ord('1') if key <= ord('9') else key - VK_NUMPAD1
-            if 0 <= n < len(self.view):
-                _cat, _i, it = self.view[n]
-                self.result = it['path']
-                dlg_proc(self.h, DLG_HIDE)
-            else:
-                msg_status(_('Favorites: no item at #{}').format(n + 1))
-            return False
-        # Enter opens the selection (the flat button_ex buttons have
-        # no "default button" support, so the form handles it)
-        if 'a' not in mods and 'c' not in mods and 's' not in mods \
-           and 'm' not in mods and key == VK_ENTER:
-            self.accept()
-            return False
-        # Esc is handled by the form itself (modal: cancels the dialog)
-        return None
-
-
-#==========================================================
 # module API (used by cuda_project_man/__init__.py)
 #==========================================================
 
@@ -2666,18 +2480,6 @@ def show_favorites():
         # (hidden) form before showing it
         _form.fill_list()
     _form.show()
-
-
-def find_favorite():
-    """Show the 'Find favorite' quick picker (it is a favorites window
-    too, so it refreshes the imported data the same way)."""
-    refresh_core()
-    core = get_core()
-    if not any(core.data[cat] for cat in CATS):
-        msg_status(_('Favorites: the list is empty'))
-        return
-    finder = FavoritesFinder(core)
-    finder.show()
 
 
 def add_favorite(cat, path):

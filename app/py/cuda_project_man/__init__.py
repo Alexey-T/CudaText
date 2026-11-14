@@ -1074,11 +1074,22 @@ class Command:
         # what was found so far); when no search is running it clears
         # the filter, like the x of a usual search box. button_ex = the
         # flat themed button, so it follows the UI theme.
+        # ANCHORS: 'a_l': None is REQUIRED. The dialog engine maps a_l/
+        # a_r onto the LCL anchors, and the LCL default is akLeft=on:
+        # with the left anchor kept, the left edge stayed pinned to the
+        # initial x=0 while the right edge followed the panel edge - the
+        # button stretched across the WHOLE filter row and covered the
+        # edit (nothing could be typed). With akLeft removed, the button
+        # keeps its width (EH) and only MOVES with the panel's right
+        # edge.
         n = dlg_proc(self.h_dlg, DLG_CTL_ADD, prop='button_ex')
         dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, index=n, prop={
             'name': 'btn_fcancel',
+            'x': 300, 'y': 2,      # sane pre-anchor position; the right
+                                   # anchor places the button finally
             'a_t': ('bar', ']'),
             'sp_t': 2,
+            'a_l': None,
             'a_r': ('', ']'),
             'sp_r': 2,
             'w': EH,
@@ -4426,11 +4437,6 @@ class Command:
         folders in one resizable manager dialog."""
         _favorites.show_favorites()
 
-    def favorites_find(self):
-        """Show the 'Find favorite' quick picker over all saved
-        favorites."""
-        _favorites.find_favorite()
-
     def favorites_add_current_file(self):
         """Bookmark the file open in the editor."""
         _favorites.add_current_file()
@@ -4539,8 +4545,6 @@ class Command:
         menu_proc(menu, MENU_ADD, caption='-')
         menu_proc(menu, MENU_ADD, command='cuda_project_man.favorites_show',
                   caption=_('Show Favorites window...'))
-        menu_proc(menu, MENU_ADD, command='cuda_project_man.favorites_find',
-                  caption=_('Find favorite...'))
         menu_proc(menu, MENU_ADD, caption='-')
         menu_proc(menu, MENU_ADD, command='cuda_project_man.favorites_add_opened',
                   caption=_('Add opened...'))

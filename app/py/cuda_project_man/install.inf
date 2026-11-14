@@ -199,11 +199,6 @@ section=commands
 caption=&Project Manager\Favorites\Show Favorites &window...
 method=favorites_show
 
-[item43]
-section=commands
-caption=&Project Manager\Favorites\&Find favorite...
-method=favorites_find
-
 [item44]
 section=commands
 caption=&Project Manager\Favorites\-
