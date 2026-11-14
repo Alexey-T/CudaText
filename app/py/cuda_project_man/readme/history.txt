@@ -1,3 +1,48 @@
+2026.11.14 (@badrelmers)
+- SAFETY: no command deletes anything permanently anymore, on any OS.
+  Every delete now moves the file/folder to the OS trash (the Recycle
+  Bin on Windows, the Trash on macOS/Linux) through the new
+  projman_trash module: Windows uses the shell file operation with
+  "allow undo" and REFUSES drives that have no Recycle Bin (network /
+  removable drives - the shell would delete permanently there);
+  macOS drives a Finder AppleScript; Linux tries "gio trash", then
+  "trash-put", then a hand-made FreeDesktop-spec trash move (home
+  trash, or per-volume .Trash-<uid>, with a .trashinfo file so the
+  file manager's "restore" works). The optional send2trash library,
+  when installed, is tried first. A failed move shows the reason in a
+  dialog and leaves the file untouched - there is NO permanent-delete
+  fallback, ever. The confirmation dialogs now say that the item can
+  be restored from the trash/recycle bin, and the status message
+  reports "Moved to Trash: name".
+- SAFETY: top-level nodes can no longer be deleted from the disk at
+  all. The "Delete" context-menu item is hidden when a ROOT node is
+  right-clicked, and every delete command (context menu, Del key,
+  direct command call) that lands on a root node asks "Are you sure
+  you want to stop tracking this file/folder?" and only untracks it:
+  the entry is removed from the project tree, the disk file/folder
+  stays untouched (confirm_stop_tracking helper; the recursive
+  permanent deleter do_delete_dir is gone). is_path_in_root() now
+  compares tolerantly (path_equals: trailing separators, drive/UNC
+  roots) - the old exact compare missed root nodes and would have let
+  the delete flow through for them.
+- NEW: context-menu item "Open containing folder", right below "Open
+  main file", visible for every click target (project row, root node,
+  file, folder, empty area): for the project row / empty area it opens
+  the folder of the .cuda-proj file (what "Open project folder" does);
+  for nodes/files/folders it reveals the item in its containing folder
+  (what "Reveal in file manager" does). "Reveal in file manager" on a
+  path that no longer exists now opens the item's parent folder
+  instead of failing. The folder-opening code of "Open project folder"
+  is factored into _open_folder_in_fileman() and shared.
+- CHANGED: panel context menu - "Favorites" moved BELOW "Project
+  sessions"; inside the "Favorites" submenu, "Show Favorites window..."
+  is the first item now (it was in the middle).
+- REVISED: readme.txt for the end user - quick start and trash-safety
+  sections added, keyboard shortcuts collected into one table, menu
+  structure updated for the new items; heavy implementation internals
+  (filter threading, favorites window painting, backup rotation
+  details) removed - doc_for_dev.md keeps the deep details.
+
 2026.11.13 (@badrelmers)
 - REVISED: the whole search logic of the tree filter - it was still
   flawed after the previous live-update rework. What was wrong:

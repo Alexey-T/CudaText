@@ -14,6 +14,7 @@ from fnmatch import fnmatch
 from pathlib import Path, PurePosixPath
 from .projman_glob import *
 from .projman_backup import ProjectFileBackups, DEFAULT_BACKUP_COUNT, DEFAULT_BACKUP_FOLDER
+from .projman_trash import send_to_trash, trash_label
 
 from cudatext import *
 from cudatext_keys import *
@@ -711,6 +712,34 @@ def is_locked(s):
         return not os.access(s, os.R_OK)
 
 
+def _open_folder_in_fileman(path):
+    """Open the FOLDER 'path' itself in the OS file manager (no item
+    selected inside it). Shared by "Open project folder", "Open
+    containing folder" and the dead-path fallback of "Reveal in file
+    manager". Returns False when the folder does not exist or the OS
+    has no implementation."""
+    path = str(path)
+    if not path or not os.path.isdir(path):
+        return False
+
+    suffix = OS_SUFFIX
+    if suffix=='':
+        #Windows
+        import subprocess
+        subprocess.Popen(('explorer.exe', path), shell=True)
+    elif suffix=='__mac':
+        #macOS
+        os.system('open "%s"' % path)
+    elif suffix=='__haiku':
+        #Haiku
+        msg_status(_('Opening a folder in the file manager is not implemented for this OS'))
+        return False
+    else:
+        #Linux and other Unixes
+        os.spawnvp(os.P_WAIT, 'xdg-open', ('xdg-open', Path(path).as_uri()))
+    return True
+
+
 def _toolbar_add_btn(h_bar, hint, icon=-1, command=''):
     toolbar_proc(h_bar, TOOLBAR_ADD_ITEM)
     cnt = toolbar_proc(h_bar, TOOLBAR_GET_COUNT)
@@ -874,9 +903,11 @@ class Command:
         (_("Go to file...")  , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_go_to_file", ""),
         (_("Go to main file"), "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.goto_main", ""),
         (_("Open main file"), "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.open_main", ""),
-        (_("Favorites"), "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "favorites_submenu", ""),
+        (_("Open containing folder"), "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_open_containing_folder", ""),
         ("-"   , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "", ""),
         (_("Project sessions"), "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "sessions_submenu", ""),
+        ("-"   , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "", ""),
+        (_("Favorites"), "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "favorites_submenu", ""),
         ("-"   , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "", ""),
         (_("Project Manager options..."), "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_config", ""),
     )
@@ -2081,6 +2112,18 @@ class Command:
             elif n == self.ICON_BAD: node_type = NODE_BAD
             else: node_type = NODE_FILE
 
+        # a TOP-LEVEL node (level 1) must never offer "Delete": nodes
+        # are only untracked ("Stop tracking this folder/file"), their
+        # files/folders stay on the disk. Delete (which moves to the OS
+        # trash) is offered only for items INSIDE a node. The delete
+        # actions themselves make the same check, so the command
+        # palette and the Del key are covered as well.
+        sel_is_root_node = False
+        if self.selected is not None and node_type in (NODE_DIR, NODE_FILE, NODE_BAD):
+            prop = tree_proc(self.tree, TREE_ITEM_GET_PROPS, self.selected)
+            if prop and prop.get('level') == 1:
+                sel_is_root_node = True
+
         if not self.h_menu:
             self.h_menu = menu_proc(0, MENU_CREATE)
 
@@ -2100,6 +2143,13 @@ class Command:
             item_action = item[3]
             item_hotkey = item[4]
             if node_type not in item_types:
+                continue
+
+            # no disk deletion for top-level nodes - see the comment
+            # at sel_is_root_node above
+            if sel_is_root_node and item_action in (
+                    "cuda_project_man.action_delete_file",
+                    "cuda_project_man.action_delete_directory"):
                 continue
 
             if item_parent == "proj":
@@ -2253,8 +2303,14 @@ class Command:
     def action_focus_in_fileman(self):
         fn = self.get_location_by_index(self.selected)
         sfn = str(fn)
-        #if not os.path.isfile(sfn):
-            #return
+        # a path that no longer exists (a dead node) cannot be selected
+        # in any file manager: open its PARENT folder instead, so the
+        # user still lands where the item used to live
+        if not os.path.exists(sfn):
+            if not _open_folder_in_fileman(fn.parent):
+                msg_status(_('Path not found: ') + sfn)
+            return
+
         suffix = OS_SUFFIX
 
         if suffix=='':
@@ -2273,6 +2329,20 @@ class Command:
             #Linux and others
             if os.spawnvp(os.P_WAIT, 'dbus-send', ('dbus-send', '--session', '--dest=org.freedesktop.FileManager1', '--type=method_call', '--print-reply', '/org/freedesktop/FileManager1', 'org.freedesktop.FileManager1.ShowItems', 'array:string:'+fn.as_uri(), 'string:')):
                 os.spawnvp(os.P_WAIT, 'xdg-open', ('xdg-open', fn.parent.as_uri()))
+
+    def action_open_containing_folder(self):
+        """Context menu "Open containing folder" (visible for the
+        project, root nodes, files, folders and an empty click):
+        opens the folder that CONTAINS the clicked thing in the OS
+        file manager. The project row (and an empty click) open the
+        folder of the .cuda-proj file - what "Open project folder"
+        does; a node/file/folder reveals itself in its containing
+        folder - what "Reveal in file manager" does."""
+        node_type = self.get_node_type()
+        if node_type in (None, NODE_PROJECT):
+            self.action_open_project_folder()
+        else:
+            self.action_focus_in_fileman()
 
     def action_rename(self):
         location = Path(self.get_location_by_index(self.selected))
@@ -2345,18 +2415,59 @@ class Command:
         msg_status(_("Copied to: ") + str(collapse_filename(str(new_location.name))))
 
     def action_delete_file(self):
+        """Context menu / Del key on a file.
+
+        A TOP-LEVEL NODE is never touched on the disk: the user is asked
+        whether to stop tracking it, and the node is only removed from
+        the project tree (action_remove_node).
+        A file INSIDE a node is moved to the OS trash/recycle bin -
+        never deleted permanently; a failed move leaves the file in
+        place and reports the reason."""
         location = Path(self.get_location_by_index(self.selected))
-        if msg_box(_("Delete file from disk:\n") + str(location), MB_OKCANCEL + MB_ICONWARNING) != ID_OK:
+        if not str(location):
             return
 
-        location.unlink()
+        # a root node: only the tree entry goes, the disk file stays
         if self.is_path_in_root(location):
-            self.action_remove_node()
-        else:
-            h_parent = tree_proc(self.tree, TREE_ITEM_GET_PROPS, self.selected)['parent']
-            tree_proc(self.tree, TREE_ITEM_SELECT, h_parent)
-            self.action_refresh(h_parent)
-        msg_status(_("Deleted file: ") + str(location.name))
+            self.confirm_stop_tracking(location)
+            return
+
+        msg = _("Are you sure you want to delete this file?\n\n%s\n\n"
+                "You can restore it from the %s.") \
+              % (str(location), trash_label())
+        if msg_box(msg, MB_OKCANCEL + MB_ICONWARNING) != ID_OK:
+            return
+
+        try:
+            send_to_trash(location)
+        except OSError as e:
+            msg_box(_("Cannot move to the %s:\n%s\n\n%s")
+                    % (trash_label(), str(location), str(e)),
+                    MB_OK + MB_ICONERROR)
+            return
+
+        # a root node never reaches here (it returns above), so this is
+        # a file inside a node: refresh the parent folder of the tree
+        h_parent = tree_proc(self.tree, TREE_ITEM_GET_PROPS, self.selected)['parent']
+        tree_proc(self.tree, TREE_ITEM_SELECT, h_parent)
+        self.action_refresh(h_parent)
+        msg_status(_("Moved to %s: ") % trash_label() + str(location.name))
+
+    def confirm_stop_tracking(self, location):
+        """Ask whether to stop tracking the given top-level node, then
+        untrack it (action_remove_node): the entry is removed from the
+        project tree ONLY - the file/folder itself is never deleted,
+        moved or changed on the disk. Used by the Del key and by the
+        delete commands when they land on a root node."""
+        is_dir = location.is_dir()
+        what = _("folder") if is_dir else _("file")
+        msg = _("Are you sure you want to stop tracking this %s?\n\n%s\n\n"
+                "It is only removed from the project tree,\n"
+                "the %s itself stays on the disk.") % (what, str(location), what)
+        if msg_box(msg, MB_OKCANCEL + MB_ICONQUESTION) != ID_OK:
+            return
+
+        self.action_remove_node()
 
     def action_copy_relative_path(self):
         file_path = str(self.get_location_by_index(self.selected))
@@ -2580,32 +2691,42 @@ class Command:
         if text:
             self.show_memo(text, _('Properties'))
 
-    def do_delete_dir(self, location):
-        for path in location.glob("*"):
-            if path.is_file():
-                path.unlink()
-            elif path.is_dir():
-                self.do_delete_dir(path)
-        location.rmdir()
-
     def action_delete_directory(self):
+        """Context menu / Del key on a folder - see action_delete_file:
+        a top-level node is only untracked, a folder inside a node is
+        moved to the OS trash/recycle bin, never deleted."""
         location = Path(self.get_location_by_index(self.selected))
-        if msg_box(_("Delete folder from disk:\n") + str(location), MB_OKCANCEL + MB_ICONWARNING) != ID_OK:
+        if not str(location):
             return
 
-        self.do_delete_dir(location)
+        # a root node: only the tree entry goes, the disk folder stays
         if self.is_path_in_root(location):
-            self.action_remove_node()
-        else:
-            h_parent = tree_proc(self.tree, TREE_ITEM_GET_PROPS, self.selected)['parent']
-            tree_proc(self.tree, TREE_ITEM_SELECT, h_parent)
-            self.action_refresh(h_parent)
+            self.confirm_stop_tracking(location)
+            return
 
-            path = self.get_location_by_index(self.selected)
-            app_proc(PROC_SET_FOLDER, path)
-            self.cur_dir = path
+        msg = _("Are you sure you want to delete this folder?\n\n%s\n\n"
+                "You can restore it from the %s.") \
+              % (str(location), trash_label())
+        if msg_box(msg, MB_OKCANCEL + MB_ICONWARNING) != ID_OK:
+            return
 
-        msg_status(_("Deleted folder: ") + str(location.name))
+        try:
+            send_to_trash(location)
+        except OSError as e:
+            msg_box(_("Cannot move to the %s:\n%s\n\n%s")
+                    % (trash_label(), str(location), str(e)),
+                    MB_OK + MB_ICONERROR)
+            return
+
+        h_parent = tree_proc(self.tree, TREE_ITEM_GET_PROPS, self.selected)['parent']
+        tree_proc(self.tree, TREE_ITEM_SELECT, h_parent)
+        self.action_refresh(h_parent)
+
+        path = self.get_location_by_index(self.selected)
+        app_proc(PROC_SET_FOLDER, path)
+        self.cur_dir = path
+
+        msg_status(_("Moved to %s: ") % trash_label() + str(location.name))
 
     def action_new_directory(self):
         location = Path(self.get_location_by_index(self.selected))
@@ -4995,18 +5116,22 @@ class Command:
             menu_proc(id, MENU_SET_ENABLED, command=False)
 
     def fill_favorites_menu(self, menu):
-        """Fill the context-menu "Favorites" submenu: add the clicked
-        node, then the same items as the Plugins-menu Favorites submenu
-        (see the Favorites > items in install.inf)."""
+        """Fill the context-menu "Favorites" submenu: the Favorites
+        window first (the most used command), then the add-commands
+        (the same items as the Plugins-menu Favorites submenu - see
+        the Favorites > items in install.inf)."""
+        menu_proc(menu, MENU_ADD,
+                  command='cuda_project_man.favorites_show',
+                  caption=_('Show Favorites window...'))
+
+        menu_proc(menu, MENU_ADD, caption='-')
+
         id = menu_proc(menu, MENU_ADD,
                        command='cuda_project_man.action_add_to_favorites',
                        caption=_('Add to favorites'))
         if self.selected is None:
             menu_proc(id, MENU_SET_ENABLED, command=False)
 
-        menu_proc(menu, MENU_ADD, caption='-')
-        menu_proc(menu, MENU_ADD, command='cuda_project_man.favorites_show',
-                  caption=_('Show Favorites window...'))
         menu_proc(menu, MENU_ADD, caption='-')
         menu_proc(menu, MENU_ADD, command='cuda_project_man.favorites_add_opened',
                   caption=_('Add opened...'))
@@ -5841,7 +5966,13 @@ class Command:
             return False #block key
         elif id_ctl == VK_DELETE and not reg_key:
             node_type = self.get_node_type()
-            if node_type == NODE_FILE:
+            # Del NEVER deletes permanently: a top-level node is asked
+            # whether to stop tracking (removed from the tree only),
+            # a file/folder inside a node is moved to the OS trash /
+            # recycle bin (both with a confirmation dialog). The root
+            # node check lives in the delete actions themselves, so
+            # every caller (key, context menu, command) is covered.
+            if node_type in (NODE_FILE, NODE_BAD):
                 self.action_delete_file()
             elif node_type == NODE_DIR:
                 self.action_delete_directory()
@@ -5916,7 +6047,7 @@ class Command:
         """Open the folder that contains the project's .cuda-proj file in
         the OS file manager (Windows Explorer, Finder, ...). Added folders
         are not used here — they already have "Reveal in file manager"
-        in their own context menu."""
+        and "Open containing folder" in their own context menu."""
         if not self.project_file_path:
             msg_status(_('No project open'))
             return
@@ -5926,20 +6057,7 @@ class Command:
             msg_status(_('Project folder not found: ') + path)
             return
 
-        suffix = OS_SUFFIX
-        if suffix=='':
-            #Windows
-            import subprocess
-            subprocess.Popen(('explorer.exe', path), shell=True)
-        elif suffix=='__mac':
-            #macOS
-            os.system('open "%s"'%path)
-        elif suffix=='__haiku':
-            #Haiku
-            msg_status('"Open project folder" is not implemented for this OS')
-        else:
-            #Linux and other Unixes
-            os.spawnvp(os.P_WAIT, 'xdg-open', ('xdg-open', Path(path).as_uri()))
+        _open_folder_in_fileman(path)
 
 
     def goto_main(self):
@@ -6625,8 +6743,13 @@ class Command:
             # and the data mirror is never trusted (see session_save_as)
 
     def is_path_in_root(self, path):
-
-        return str(path) in self.project['nodes']
+        """True when 'path' is one of the project's top-level nodes.
+        Tolerant compare (path_equals): the tree renders a root node
+        as pathlib does ('D:\\' keeps the backslash, a UNC root drops
+        it) while the saved nodes list keeps the dialog's spelling, so
+        an exact compare missed root nodes and broke the 'a node is
+        never deleted, only untracked' rule for them."""
+        return any(path_equals(n, str(path)) for n in self.project['nodes'])
 
     def on_tab_change(self, ed_self):
 
