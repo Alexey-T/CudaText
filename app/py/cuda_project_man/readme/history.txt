@@ -1,4 +1,61 @@
 2026.11.13 (@badrelmers)
+- FIXED: the bottom bars were removed from the Favorites tab strip
+  (the green bar of the active tab and the button-colored bars of the
+  inactive ones): the tabs are plain colored rectangles ('colorpanel'
+  controls) with their own 1px border now. The ACTIVE tab keeps the
+  theme's flat-button face color (the very color the previous
+  button_ex tabs were painted with, so the active look did not
+  change); the INACTIVE tabs are DIMMED so they clearly read as
+  inactive: their face is blended toward the window background
+  (TAB_INACTIVE_MIX) and their caption toward that dimmed face
+  (TAB_INACTIVE_FONT_MIX). Some themes paint the window background
+  barely different from the button face, and a halfway blend of such
+  twins is invisible - the blend therefore EXTRAPOLATES past the
+  background (see _dim_toward, guaranteed minimum distance
+  TAB_INACTIVE_DIST) so the dimming step stays visible on every
+  theme, light and dark alike. Hovering a tab (active or not)
+  highlights its face with the theme's button hover color. The whole
+  strip is recolored live when the UI theme is switched
+- FIXED: the cancel (x) button of the Project panel's tree filter
+  showed permanently, even with an empty filter field and no search
+  running (with nothing to cancel or clear it was dead UI). It is
+  visible only while it can do something now - while the filter
+  field has text, or a background search is running - and hidden
+  otherwise; hidden, it is also COLLAPSED to zero width (a hidden
+  control keeps its bounds), so the filter field stretches over the
+  full row. The visibility is refreshed on every filter-field change
+  and whenever a scan starts or ends
+
+2026.11.13 (@badrelmers)
+- FIXED: the tree filter was not live. (1) Nodes stayed visible during
+  the whole background scan even when nothing matched inside them:
+  they only disappeared when the scan ended. Now the moment the scan
+  starts, every node whose own name does not match HIDES at once (the
+  tree is instantly rebuilt with the name-matching top nodes only),
+  and a folder APPEARS the very moment a match is found inside it -
+  exactly the wanted "hidden until a match is found inside, shown the
+  moment it is; kept shown when its own name matches" rule. (2)
+  Expanding a folder while a search ran showed a stale one-shot
+  snapshot: the partial results of that moment (or, worse, the
+  finished index of the PREVIOUS filter text - a stale-index bug),
+  and newly found matches never showed up until the scan ended. Now
+  the worker shares its partial lazy index and its live-visibility
+  set with the UI thread (CPython-safe reads), the progress timer
+  syncs every expanded level of the tree with the findings so far,
+  inserting each new row at its sorted place, and an expand during a
+  running scan reads the partial rows instead of any stale index.
+  The worker bumps a version counter so idle ticks skip the sync.
+  When the scan finishes, the final top-level refill now also
+  RESTORES what the user had unfolded and selected while it ran (each
+  restore-unfold refills its level lazily from the finished index).
+  The x button promotes the cleaned partial result (live rows only,
+  optimistic folder rows dropped) to the finished-style index, so
+  expands after a cancelled search refill exactly what the tree
+  shows. The single-level fallback of an expand the scan has not
+  reached yet now also shows the whole content of a folder whose own
+  name matches (the same rule the scan follows)
+
+2026.11.13 (@badrelmers)
 - FIXED: a border line showed between every Favorites tab and its
   bottom bar: the themed flat button (button_ex) always paints its own
   1px border on all four edges and the dialog API has no prop to turn

@@ -98,12 +98,18 @@ sort_order = 'ext'
 # builds the result as a LAZY TREE INDEX instead of a flat row list:
 # parent folder path -> [(name, path, is_dir), ...]. The UI thread
 # polls the worker with a small repeating timer, shows the live match
-# count in the status line under the filter box, and when the scan
-# finishes it fills the tree with the TOP level of the index only;
-# deeper levels are added LAZILY from the index when their folder is
-# expanded (instant, no disk access - a huge match list never floods
-# the tree at once). Expanding a folder while the filter is active is
-# therefore exactly as cheap as expanding it without a filter.
+# count in the status line under the filter box, and refreshes the
+# tree LIVE while the scan runs: at the start only the nodes whose own
+# name matches stay visible (everything else hides at once), a folder
+# appears the moment a match is found inside it, and a folder the user
+# expanded gets every new finding inserted as it is found. When the
+# scan finishes, the tree is refilled with the TOP level of the final
+# index only (the user's unfolded folders and selection are restored
+# on top of it); deeper levels are added LAZILY from the index when
+# their folder is expanded (instant, no disk access - a huge match
+# list never floods the tree at once). Expanding a folder while the
+# filter is active is therefore exactly as cheap as expanding it
+# without a filter.
 #==========================================================
 
 #: interval (ms) of the UI timer which polls the running filter worker
@@ -221,13 +227,48 @@ class _FilterWorker(threading.Thread):
         self.cancel = False
         #: rows found so far (also the live progress counter)
         self.count = 0
+        #: the PARTIAL lazy index, readable by the UI thread WHILE the
+        #: scan runs: {parent path: [(name, path, is_dir)]}. Built in
+        #: place, never replaced: the UI thread only .get()s buckets
+        #: and iterates them, and CPython list/dict reads are safe
+        #: against concurrent appends/deletes (a bucket read one row
+        #: short is simply completed by the next progress tick)
+        self.res = {}
+        #: folder paths whose row is currently allowed to SHOW in the
+        #: live tree: a folder whose own name does not match the filter
+        #: stays hidden until the scan finds a match INSIDE it - the
+        #: exact rule the live filtered tree follows. A marked folder
+        #: always implies its ancestors are marked too, so a found
+        #: match shows the whole path down to itself
+        self.live = set()
+        #: bumped on every index/live change, so the UI timer can skip
+        #: idle refreshes (e.g. the worker stuck on one slow network
+        #: folder)
+        self.version = 0
         #: the finished result: {parent path: [(name, path, is_dir)]}
+        #: (the same object as .res when the scan was not cancelled)
         self.tree = None
         self.done = False
 
+    def _mark_chain(self, path):
+        """Mark the folder `path` and every ancestor folder up to the
+        top as live-visible. Early-exits on an already-marked folder
+        (chains are always marked whole, so a marked folder implies
+        that all its ancestors are marked too). Harmlessly also marks
+        paths above the project roots: no tree row exists for them."""
+        live = self.live
+        p = path
+        while p and p not in live:
+            live.add(p)
+            self.version += 1
+            nxt = os.path.dirname(p)
+            if nxt == p:
+                break
+            p = nxt
+
     def run(self):
         try:
-            res = {}
+            res = self.res
             flt = self.text.lower()
             # job kinds (tuples; the stack is LIFO, so children are
             # pushed in REVERSE to pop in listing order):
@@ -260,6 +301,8 @@ class _FilterWorker(threading.Thread):
                         res.setdefault(parent_key, []).append(
                             (name, path, True))
                         self.count += 1
+                        self.version += 1
+                        self._mark_chain(path)
                         stack.append(('full', path))
                         continue
                     listing = scan_dir_entries(path, self.opts)
@@ -270,6 +313,7 @@ class _FilterWorker(threading.Thread):
                     # optimistic folder row - removed by the 'check'
                     # job when no descendant matches
                     bucket.append((name, path, True))
+                    self.version += 1
                     stack.append(('check', path, parent_key, bucket,
                                   marker))
                     for e in reversed(listing):
@@ -282,6 +326,10 @@ class _FilterWorker(threading.Thread):
                     res.setdefault(parent_key, []).append((name, path,
                                                            False))
                     self.count += 1
+                    self.version += 1
+                    # a match was found: the folder chain above the
+                    # file becomes visible in the live tree at once
+                    self._mark_chain(parent_key)
                 elif kind == 'full':
                     _k, path = job
                     listing = scan_dir_entries(path, self.opts)
@@ -297,6 +345,11 @@ class _FilterWorker(threading.Thread):
                     res.setdefault(parent_key, []).append((name, path,
                                                            is_dir))
                     self.count += 1
+                    self.version += 1
+                    if is_dir:
+                        # subfolder of a name-matched folder: its full
+                        # content shows too, so it is live-visible
+                        self._mark_chain(path)
                 elif kind == 'check':
                     _k, path, parent_key, bucket, marker = job
                     if not res.get(path):
@@ -308,6 +361,7 @@ class _FilterWorker(threading.Thread):
                         if 0 <= marker < len(bucket) \
                                 and bucket[marker][1] == path:
                             del bucket[marker]
+                            self.version += 1
             self.tree = None if self.cancel else res
         except Exception:
             self.tree = {}
@@ -912,6 +966,14 @@ class Command:
     #: options snapshot of the running/last scan (for the lazy
     #: single-level fallback refill of folders the index does not know)
     _filter_opts = None
+    #: roots order of the running scan: {root path: index in the roots
+    #: list} - the canonical order of the tree's TOP level for the
+    #: live sync (the worker's '' bucket follows it too); None when no
+    #: scan runs
+    _filter_top_pos = None
+    #: worker .version last consumed by the live tree sync (lets the
+    #: progress tick skip a refresh when the worker found nothing new)
+    _filter_live_version = -1
     #: type-ahead buffer and the time of its last keystroke
     _ta_buf = ''
     _ta_time = 0.0
@@ -2822,11 +2884,14 @@ class Command:
 
     def apply_tree_filter(self, text):
         """Show only the matching nodes in the tree: starts the
-        BACKGROUND scan (the tree keeps its current content until the
-        scan finishes, then its TOP level is refilled from the scan's
-        lazy index; deeper levels load as the user expands them).
-        Empty text cancels the scan and restores the normal tree, with
-        the folds/selection captured before the filtering started."""
+        BACKGROUND scan and shows its INSTANT first view (only the
+        root nodes whose own name matches - see _filter_start); while
+        the scan runs, the progress timer grows the tree with the
+        findings so far, and when it finishes the tree is refilled
+        with the TOP level of the scan's lazy index (deeper levels
+        load as the user expands them). Empty text cancels the scan
+        and restores the normal tree, with the folds/selection
+        captured before the filtering started."""
         text = (text or '').strip()
         if not self.tree:
             return
@@ -2859,6 +2924,7 @@ class Command:
             # drop the lazy index of the finished scan: the next
             # filtering builds a fresh one
             self._filter_index = None
+            self._filter_top_pos = None
             self._filter_rows_count = 0
             self.action_refresh()
             # restore the state from before the filtering
@@ -2885,6 +2951,28 @@ class Command:
             self.clear_panel_filter()
             return
         self._filter_cancel_scan()
+        # promote the PARTIAL result to a finished-style lazy index,
+        # cleaned of the optimistic rows: the tree keeps showing the
+        # findings so far, and expanding nodes after the cancel must
+        # refill exactly those rows - not the single-level fallback,
+        # which knows nothing about the deeper matches. The worker
+        # thread may still be running (it dies on the cancel flag a
+        # moment later), so the dict snapshot retries while it keeps
+        # adding buckets - a plain .items() loop could raise
+        # "dictionary changed size during iteration"
+        while True:
+            try:
+                items = list((w.res or {}).items())
+                break
+            except RuntimeError:
+                continue
+        cleaned = {}
+        for key, bucket in items:
+            rows = [r for r in bucket if not r[2] or r[1] in w.live]
+            if rows:
+                cleaned[key] = rows
+        self._filter_index = cleaned
+        self._filter_rows_count = w.count
         self._filter_label_cancelled(w.count)
 
     def clear_panel_filter(self):
@@ -2933,7 +3021,16 @@ class Command:
         co-operatively) + the repeating progress timer which polls it.
         The root nodes and the scan-ruling options are snapshotted
         HERE, on the UI thread - the worker never touches the plugin
-        state (the CudaText API is not thread-safe)."""
+        state (the CudaText API is not thread-safe).
+
+        The tree also gets the INSTANT first view of the filter right
+        here, before any scanning: only the root nodes whose own name
+        matches stay visible, everything else hides at once - a node
+        can only come back when the scan finds a match inside it (the
+        progress timer's live sync appends those findings as they
+        come). The previous search's lazy index is dropped as well:
+        its rows belong to the OLD filter text and must never leak
+        into an expand which runs while the new scan is still going."""
         if not self.tree or not text:
             return
         self._filter_cancel_worker()
@@ -2967,17 +3064,31 @@ class Command:
         # refill too (folders the finished index does not know)
         self._filter_opts = dict(w.opts)
         self._filter_worker = w
+        # drop the previous search's lazy index (its rows are for the
+        # OLD filter text - an expand while the new scan runs must
+        # never show them) and remember the roots order for the live
+        # sync of the top level
+        self._filter_index = None
+        self._filter_rows_count = 0
+        self._filter_top_pos = {r[0]: i for i, r in enumerate(roots)}
+        self._filter_live_version = -1
+        # the instant view: the root nodes whose own name matches
+        inst_rows = [(sname, spath, is_dir)
+                     for spath, sname, is_dir in roots
+                     if text.lower() in sname.lower()]
         try:
             w.start()
         except Exception as ex:
-            # cannot start a thread (very exotic): fall back to an
-            # empty result rather than break the panel
+            # cannot start a thread (very exotic): fall back to the
+            # name-only view rather than break the panel (expands then
+            # use the single-level fallback filter)
             print('Project Manager: cannot start the filter thread: ' + str(ex))
             self._filter_worker = None
             self._filter_index = {}
-            self._fill_tree_filtered_top()
+            self._fill_tree_filtered_top(inst_rows)
             self._filter_label_done(0)
             return
+        self._fill_tree_filtered_top(inst_rows)
         self._filter_label_running(0)
         self._filter_timer_start()
         # a search is running now: the (x) button must show even before
@@ -3014,19 +3125,25 @@ class Command:
 
     def _filter_progress_tick(self, tag=''):
         """Repeating UI timer which polls the running filter worker.
-        While it runs, the status line shows the live match count;
-        when it finishes (and its text is still the current filter),
-        the lazy index of the result replaces the old one, the tree is
-        refilled with the TOP level of the result (deeper levels load
-        on expand - see _filter_refill_children) and the line reports
-        the final count. Then the timer stops: nothing is left to do.
-        The result of a cancelled/stale worker is dropped."""
+        While it runs, the status line shows the live match count AND
+        the visible tree grows with the findings so far: folders with
+        a match inside them appear at once, and every folder the user
+        expanded gets its new rows inserted (see _filter_live_update).
+        When the scan finishes (and its text is still the current
+        filter), the lazy index of the result replaces the old one,
+        the tree is refilled with the TOP level of the result (deeper
+        levels load on expand - see _filter_refill_children), the
+        user's unfolded folders and selection are restored on top of
+        it, and the line reports the final count. Then the timer
+        stops: nothing is left to do. The result of a cancelled/stale
+        worker is dropped."""
         w = self._filter_worker
         if w is None:
             self._filter_timer_stop()
             return
         if not w.done:
             self._filter_label_running(w.count)
+            self._filter_live_update(w)
             return
 
         # finished
@@ -3040,10 +3157,120 @@ class Command:
             self._filter_rows_count = w.count
             self._filter_label_done(w.count)
             self._filter_index = w.tree
+            # keep what the user unfolded/selected while the search
+            # ran: the top refill below collapses everything, so the
+            # folds are captured first and re-applied afterwards -
+            # every unfold lazily refills its level from the finished
+            # index (tree_on_unfold -> _filter_refill_children)
+            folds = []
+            self.enum_all_getfolds(folds)
+            sel_fn = ''
+            sel = self.selected
+            if sel:
+                prop = tree_proc(self.tree, TREE_ITEM_GET_PROPS, sel)
+                if prop:
+                    sel_fn = prop.get('data', '')
             self._fill_tree_filtered_top()
+            if folds:
+                self.enum_all_setfolds(list(folds))
+            if sel_fn:
+                self.enum_all_sel(sel_fn)
         # else: stale (the filter text changed / the scan was
         # cancelled) - the newer worker reports itself
         self._filter_timer_stop()
+
+    def _filter_live_update(self, w):
+        """Grow the visible tree with the worker's findings SO FAR -
+        called from the progress timer while the scan runs. The rules
+        the user sees: a folder whose own name matches the filter is
+        visible from the start (the instant view built by
+        _filter_start); every other folder hides at the start and
+        APPEARS the moment the scan finds a match inside it; an
+        expanded folder gets its new findings inserted at their
+        sorted place at once. Nothing is ever REMOVED while the scan
+        runs: the only rows the worker deletes are the optimistic
+        folder rows whose subtree ended with no match - and those were
+        never live, so they were never shown."""
+        if not self.tree or not self.tree_filter:
+            return
+        if w.text != self.tree_filter:
+            return
+        ver = w.version
+        if ver == self._filter_live_version:
+            return  # nothing new since the last tick
+        self._filter_live_version = ver
+        items = tree_proc(self.tree, TREE_ITEM_ENUM_EX, 0) or []
+        if not items:
+            return
+        tree_proc(self.tree, TREE_LOCK)
+        try:
+            self._filter_live_sync_level(items[0]['id'], '', w)
+        finally:
+            tree_proc(self.tree, TREE_UNLOCK)
+
+    def _filter_live_sync_level(self, node, key, w):
+        """One level of the live filtered tree (the children of `node`,
+        addressed by the worker's bucket key `key`): insert the rows
+        which became visible since the last tick, then recurse into
+        the levels the user expanded - they must grow too. Reads the
+        worker's partial structures only (thread-safe: see
+        _FilterWorker.res). Must be called inside TREE_LOCK (does no
+        locking of its own)."""
+        # rows allowed to show now: files always (a file row only
+        # enters a bucket when it matched, or as part of the full
+        # content of a name-matched folder), folders only when live
+        # (a match was already found inside, or the name matches)
+        bucket = w.res.get(key) or []
+        live = w.live
+        children = tree_proc(self.tree, TREE_ITEM_ENUM_EX, node) or []
+        have = set()
+        for it in children:
+            if it.get('data', ''):
+                have.add(it['data'])
+        new = [r for r in bucket
+               if r[1] not in have and (not r[2] or r[1] in live)]
+        if new:
+            # canonical order of the level = the bucket's order (one
+            # folder's rows are appended in its listing's sorted
+            # order); the top level additionally knows the roots
+            # order, for the instant rows the worker has not reached
+            # yet (its '' bucket fills in that same order)
+            pos = {r[1]: i for i, r in enumerate(bucket)}
+            if not key and self._filter_top_pos:
+                pos.update(self._filter_top_pos)
+            for r in new:
+                sname, spath, is_dir = r
+                # insert after every displayed child the bucket orders
+                # before this row; children the bucket does not know
+                # (e.g. fallback rows of an expand which ran ahead of
+                # the scan) keep their place - the final refill sorts
+                # everything again
+                p_new = pos.get(spath, len(pos))
+                ins = 0
+                for it in children:
+                    d = it.get('data', '')
+                    if d and pos.get(d, -1) < p_new:
+                        ins += 1
+                h = self._add_tree_node(node, sname, spath, is_dir,
+                                        index=ins)
+                if is_dir:
+                    # dummy child: gives the folder its +/- expander;
+                    # expanding it fires tree_on_unfold, which refills
+                    # the real (filtered) children lazily
+                    tree_proc(self.tree, TREE_ITEM_ADD, h, -1,
+                              'dummy', -1)
+                children.insert(ins, {'id': h, 'data': spath})
+        # walk the levels the user expanded: they must grow as well
+        for it in children:
+            if not it.get('sub_items'):
+                continue
+            d = it.get('data', '')
+            if not d:
+                continue
+            prop = tree_proc(self.tree, TREE_ITEM_GET_PROPS, it['id'])
+            if not prop or prop.get('folded', True):
+                continue
+            self._filter_live_sync_level(it['id'], d, w)
 
     def _filter_label_running(self, count):
         self._filter_label(
@@ -3107,31 +3334,40 @@ class Command:
         _icon_cache[key] = res
         return res
 
-    def _add_tree_node(self, parent, sname, spath, is_dir):
-        """Add one tree node with the standard icon; returns its handle."""
+    def _add_tree_node(self, parent, sname, spath, is_dir, index=-1):
+        """Add one tree node with the standard icon; returns its
+        handle. index=-1 appends the node, otherwise it is inserted at
+        that 0-based position among the parent's children (the live
+        filter sync uses it to drop new findings into their place)."""
         return tree_proc(
             self.tree,
             TREE_ITEM_ADD,
             parent,
-            -1,
+            index,
             sname,
             self._node_icon(spath, sname, is_dir),
             data=spath
             )
 
-    def _fill_tree_filtered_top(self):
-        """Rebuild the tree from the FINISHED background scan, showing
-        its TOP level only: the direct children of the project root
-        (from the lazy index bucket ''), each folder with a 'dummy'
-        child so it can be expanded. Deeper levels are added LAZILY
-        from the index by _filter_refill_children when their folder is
-        expanded - so even a match list of many thousands of rows
-        (a single common letter can match that many files) never
-        floods the tree at once, and expanding a folder while the
-        filter is active costs exactly as little as expanding it with
-        no filter at all. The project root is selected."""
+    def _fill_tree_filtered_top(self, rows=None):
+        """Rebuild the tree showing its TOP level only: the direct
+        children of the project root taken from `rows` - either the
+        explicit rows of the INSTANT name-only view a scan starts with
+        (only the root nodes whose own name matches: everything else
+        hides until the scan finds a match inside it), or, with no
+        argument, the TOP level of the finished scan's lazy index
+        (bucket ''). Each folder gets a 'dummy' child so it can be
+        expanded. Deeper levels are added LAZILY from the index by
+        _filter_refill_children when their folder is expanded - so
+        even a match list of many thousands of rows (a single common
+        letter can match that many files) never floods the tree at
+        once, and expanding a folder while the filter is active costs
+        exactly as little as expanding it with no filter at all. The
+        project root is selected."""
         if not self.tree:
             return
+        if rows is None:
+            rows = (self._filter_index or {}).get('') or []
         tree_proc(self.tree, TREE_LOCK)
         try:
             tree_proc(self.tree, TREE_ITEM_DELETE, 0)
@@ -3143,8 +3379,7 @@ class Command:
                 self.get_project_name(),
                 self.ICON_PROJ,
             )
-            for sname, spath, is_dir in ((self._filter_index or {}).get('')
-                                         or []):
+            for sname, spath, is_dir in rows:
                 node = self._add_tree_node(parent, sname, spath, is_dir)
                 if is_dir:
                     # dummy child: gives the folder its +/- expander;
@@ -3164,14 +3399,20 @@ class Command:
         LAZILY and CHEAPLY - this is what runs when the user expands a
         node while the filter is active:
 
+        - a scan is RUNNING: the worker's PARTIAL index is used - the
+          rows which may show so far (files always, folders only when
+          a match was already found inside them). The level keeps
+          growing while the scan continues: the progress timer's live
+          sync (_filter_live_update) inserts every new finding into
+          this expanded node;
         - the folder is in the finished scan's lazy index: its
           (already computed, already filtered) children are added
           from the index - pure memory reads, no disk access at all;
-        - the index does not know the folder (the tree still shows an
-          older state, or the scan was cancelled): a SINGLE-LEVEL
-          name filter over one directory listing is used - one
-          scandir of that folder, the same cost as the normal
-          unfiltered expand.
+        - no index knows the folder: a SINGLE-LEVEL name filter over
+          one directory listing is used - one scandir of that folder,
+          the same cost as the normal unfiltered expand (a folder
+          whose own name matches shows its whole content, like the
+          scan itself would).
 
         It NEVER walks a folder recursively on the UI thread (the old
         implementation re-scanned whole subtrees here: expanding a
@@ -3181,15 +3422,30 @@ class Command:
         if not self.tree or not self.tree_filter:
             return
         children = None
-        if self._filter_index:
+        w = self._filter_worker
+        if w is not None and not w.done:
+            # the scan is still running: show its PARTIAL rows (live
+            # ones only); the finished index of a PREVIOUS search must
+            # never be used here - it holds the OLD filter's findings
+            bucket = w.res.get(path)
+            if bucket is not None:
+                children = [r for r in bucket
+                            if not r[2] or r[1] in w.live]
+        if children is None and self._filter_index:
             children = self._filter_index.get(path)
         if children is None:
             flt = self.tree_filter.lower()
             opts = self._filter_opts or self.options
+            # a folder whose own name matches the filter shows its
+            # WHOLE content - the same rule the scan follows
+            show_all = False
+            prop = tree_proc(self.tree, TREE_ITEM_GET_PROPS, node)
+            if prop:
+                show_all = flt in str(prop.get('text', '') or '').lower()
             children = []
             for e in scan_dir_entries(path, opts) or []:
                 try:
-                    if flt in e.name.lower():
+                    if show_all or flt in e.name.lower():
                         children.append((e.name, e.path, e.is_dir()))
                 except OSError:
                     pass

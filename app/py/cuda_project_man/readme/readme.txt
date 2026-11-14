@@ -69,9 +69,7 @@ first internal session (named after the external session plus
 
 The one breaking change to know: the session is now always stored
 INSIDE the project file, so a project and an external session (e.g.
-default.cuda-session) can no longer be open at the same time. This
-rule fixed real bugs of lost and overwritten sessions (issues #6352
-and #6600).
+default.cuda-session) can no longer be open at the same time.
 
 The complete guide to the v2 change — why it was needed, the two
 kinds of sessions, how the workflow looked before and looks now, the
@@ -318,22 +316,32 @@ doing: "Filter: searching... N match(es) so far" while the background
 scan runs, and "Filter: finished, N match(es) found" when it ended.
 The x button at the right of the field cancels a running search (the
 tree keeps what is shown, the line reports what was found so far);
-with no search running, x clears the filter like Esc. The filtering
-is also debounced: the scan starts 0.4 s after the typing pauses,
-not on every keystroke.
+with no search running, x clears the filter like Esc. It is visible
+only while it can do something: while the field has text or a search
+is running; with an empty field it hides and the filter field takes
+the whole row. The filtering is also debounced: the scan starts 0.4 s
+after the typing pauses, not on every keystroke.
+
+The filter is LIVE, it does not wait for the scan to end: the moment
+the scan starts, every node whose own name does not match hides at
+once, and a folder APPEARS the very moment a match is found inside it
+(a folder whose name matches stays visible from the start, with its
+whole content). If you expand a folder while the search is still
+running, you see the findings so far, and the level keeps GROWING:
+every new finding is inserted into its sorted place as the search
+continues - no need to re-expand or wait for the end.
 
 The filtered tree is filled LAZILY: when the scan finishes, the tree
-shows the top level of the result, and every deeper level loads the
-moment you expand its folder - straight from the finished scan's
+shows the top level of the result (what you had unfolded and selected
+while it ran is restored on top of it), and every deeper level loads
+the moment you expand its folder - straight from the finished scan's
 in-memory index, with no disk access at all. So a match list of many
 thousands of rows never floods the tree at once, and expanding a
 folder while the filter is active costs exactly as little as
-expanding it with no filter (which was not true before: expanding a
-drive-sized folder during a search could hang CudaText for minutes
-and eat gigabytes of RAM). A folder the index does not know yet (the
-tree still shows an older state, or the search was cancelled) falls
-back to a single-level name filter over one directory listing - the
-same cost as the normal expand.
+expanding it with no filter. A folder the scan has not reached yet
+falls back to a single-level name filter over one directory listing -
+the same cost as the normal expand; a folder whose own name matches
+shows its whole content even in that fallback.
 
 The field, the status line and the panel background are colored with
 the current UI theme (like the tree and the toolbar around them), and
@@ -451,17 +459,19 @@ window...)
   Add opened..., Checked, Move up, Move down, Delete, with Close in
   the bottom-right corner; the buttons move with the window's right
   edge and the main column always ends where the button column
-  begins. Three tabs: Projects, Files, Folders - a TAB STRIP of flat
-  themed buttons with equal FIXED widths (the tabs hug their captions
-  like the tabs of a browser or VS Code, they don't stretch over the
-  whole list width); every tab carries a bottom bar in the thin strip
-  that joins the tab buttons and the list flush (no gap): a bold GREEN
-  bar marks the active tab, the inactive ones carry a bar in the
-  tab's own button color (the bar reaches a few px up into its tab
-  button and covers the button's own bottom border, so the bar meets
-  the tab face without a separating line, like a browser tab).
-  Hovering an inactive tab highlights its bar together with its face;
-  the active tab's green bar keeps its color. Columns: check | ★ | Name |
+  begins. Three tabs: Projects, Files, Folders - a TAB STRIP of three
+  colored tab rectangles with equal FIXED widths (the tabs hug their
+  captions like the tabs of a browser or VS Code, they don't stretch
+  over the whole list width), joined side by side directly above the
+  list. The ACTIVE tab carries the theme's button face color; the
+  INACTIVE tabs are dimmed - their face and caption are blended toward
+  the window background, keeping a clearly visible step below the
+  active face on light and dark themes alike - so the strip reads at
+  a glance which tab is the open one. Every tab keeps its 1px border
+  in the theme's button border color. Hovering a tab (active or not)
+  highlights it with the theme's button hover color, like a hovered
+  button; the whole strip is recolored when the UI theme is switched.
+  Columns: check | ★ | Name |
   Path | State, separated by vertical lines. The list is the flat
   themed listbox of CudaText dialogs (listbox_ex, the same control
   the built-in Preferences dialog uses), so the list, its column
@@ -501,10 +511,9 @@ window...)
       Shows "?" when the favorite's path no longer exists on disk
       (a dead favorite), and nothing when everything is fine; the
       name of a dead favorite is painted in the theme's accent color
-      too. Sort by it (click the header, or the right-click menu) to
+      too, and the state lives in its own column, separate from the
+      name. Sort by it (click the header, or the right-click menu) to
       gather the dead favorites at one end: ascending puts them last.
-      The old "? " prefix on the name is gone — the state lives in
-      its own column now.
 
   Filter
       The field at the top filters by name AND path as you type; Esc
@@ -545,12 +554,12 @@ window...)
   commands of "Checked" act on the checked rows.
 
   Opening a favorite (and "Reveal in file manager") runs from a short
-  timer after the click, not inside the click handler itself: the OS
-  file manager/editor steals the focus, CudaText deactivates, and the
-  nested event processing crashed with "Access violation" errors (in
-  on_app_deactivate) when it ran inside the dialog callback. Opening
-  SEVERAL favorites at once (Open all checked) chains one timer per
-  item, so the app can process the events between the opens.
+  timer after the click, not inside the click handler itself — the OS
+  file manager/editor takes the focus meanwhile, and the short delay
+  lets CudaText process that focus change cleanly before the open
+  happens. Opening SEVERAL favorites at once (Open all checked)
+  chains one timer per item, so the app can process the events
+  between the opens.
 
   Keyboard (active while the window has the keyboard focus — the
   shortcuts never clash with your editor hotkeys):
