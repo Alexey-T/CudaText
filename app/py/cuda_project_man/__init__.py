@@ -1153,11 +1153,11 @@ class Command:
         _toolbar_add_btn(self.h_bar, hint=_('Recent projects'), icon=icon_recents, command='cuda_project_man.menu_recents' )
         _toolbar_add_btn(self.h_bar, hint=_('Open project'), icon=icon_open, command='cuda_project_man.action_open_project' )
         _toolbar_add_btn(self.h_bar, hint=_('Save project'), icon=icon_save, command='cuda_project_man.action_save_project' )
-        _toolbar_add_btn(self.h_bar, hint='-' )
+        # _toolbar_add_btn(self.h_bar, hint='-' )
         _toolbar_add_btn(self.h_bar, hint=_('Add folder'), icon=icon_add_dir, command='cuda_project_man.action_add_folder' )
         _toolbar_add_btn(self.h_bar, hint=_('Add file'), icon=icon_add_file, command='cuda_project_man.action_add_file' )
         # _toolbar_add_btn(self.h_bar, hint=_('Remove node'), icon=icon_del, command='cuda_project_man.action_remove_node' )
-        _toolbar_add_btn(self.h_bar, hint='-' )
+        # _toolbar_add_btn(self.h_bar, hint='-' )
         _toolbar_add_btn(self.h_bar, hint=_('Project sessions'), icon=icon_cfg, command='cuda_project_man.menu_cfg')
         _toolbar_add_btn(self.h_bar, hint=_('Show current file in project tree'), icon=icon_sync, command='cuda_project_man.sync_to_ed' )
 
@@ -1170,7 +1170,7 @@ class Command:
         # window. Added after h_btn_sync is captured so its handle stays
         # valid (it assumes it is the last button)
         try:
-            _toolbar_add_btn(self.h_bar, hint='-')
+            # _toolbar_add_btn(self.h_bar, hint='-')
             toolbar_proc(self.h_bar, TOOLBAR_ADD_ITEM)
             cnt = toolbar_proc(self.h_bar, TOOLBAR_GET_COUNT)
             h_btn_fav = toolbar_proc(self.h_bar, TOOLBAR_GET_BUTTON_HANDLE, index=cnt-1)
