@@ -894,3 +894,33 @@ result.
   and `_move_node_on_disk` (DEL+ADD, the path was replaced). A pure
   reorder of root nodes (`_reorder_root_node`) fires nothing — the
   same nodes, only their order changed.
+
+---
+## 16. Options dialog + toolbar internals (issues #6633/#6634)
+
+- The options dialog is resizable (`border: DBORDER_SIZE`) with an
+  `on_resize` handler that refits the options `scrollbox` and re-pins
+  the OK/Cancel buttons to the dialog bottom. Every option control is
+  parented DIRECTLY into the scrollbox (no intermediate panel), so
+  TScrollBox.AutoScroll shows/hides the scrollbar from the children
+  bounds - the pattern of the reference plugin the user attached.
+- The dialog opens at the fixed `DEF_CLIENT_H` client height
+  (projman_dlg.py); on small screens `_monitor_client_h()` lowers it
+  (monitor minus taskbar minus title bar, all sanity-checked). A
+  broken monitor API is simply ignored - the dialog then keeps the
+  default size, never the full content height.
+- The boolean options are drawn checkboxes without image files: a
+  `colorpanel` square (1 px border in ButtonBorderPassive blended 40%
+  toward the theme's text color - plain ButtonBorderPassive is nearly
+  invisible on grey themes) with the check mark as a text-glyph
+  caption in the text color, plus a clickable caption label; a click
+  on either toggles the option.
+- Toolbar icon spacing: `TOOLBAR_ICON_SPACING` (unscaled px) sets
+  every icon button's width to icon size + 2x its value via
+  `button_proc(BTN_SET_WIDTH)` - REPLACING ATFlatControls' own
+  default (icon + GapForAutoSize = 8 px per button, too wide for the
+  panel's factory width). The button centers its icon, so the width
+  becomes an even gap at both sides. The toolbar's UpdateControls
+  (behind every `toolbar_proc(TOOLBAR_UPDATE)`) recomputes icon-only
+  widths, so `toolbar_apply_icon_spacing()` must run after every
+  toolbar update: at panel init and after every `toolbar_icons_load()`.

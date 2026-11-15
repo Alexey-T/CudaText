@@ -53,12 +53,16 @@ except NameError:
 ICONS_DEFAULT = 'default_16x16'
 ICONS_DEFAULT_WHITE = 'default_white_16x16'
 
-#: extra space between the toolbar's icon buttons (unscaled px,
-#: multiplied by the UI scale at runtime): every button is widened by
-#: 2x this value - an icon-only button centers its icon, so the extra
-#: width becomes an even gap on both sides of every icon. 0 = the
-#: default tight packing. See Command.toolbar_apply_icon_spacing.
-TOOLBAR_ICON_SPACING = 2
+#: space between the toolbar's icon buttons (unscaled px, multiplied
+#: by the UI scale at runtime): every icon button's width is set to
+#: icon size + 2x this value, REPLACING the theme's default gap
+#: (ATFlatControls' GapForAutoSize = 8 px per button, which made the
+#: 8 buttons too wide for the panel's factory width and wrapped them
+#: to a second line). 1 = one px gap at each side of every icon (the
+#: buttons total ~144 px, so all 8 icons keep in one line); 0 = the
+#: icons touch each other; raise it for more air. See
+#: Command.toolbar_apply_icon_spacing.
+TOOLBAR_ICON_SPACING = 1
 
 
 def get_theme_category():
@@ -6000,6 +6004,9 @@ class Command:
             return msg_box(_('Project Manager: bad icons size: "%s"') % theme_name, MB_OK+MB_ICONERROR)
 
         imagelist_proc(imglist, IMAGELIST_SET_SIZE, (n, n))
+        #: the icon size of the current set - toolbar_apply_icon_spacing
+        #: needs it to compute the button widths
+        self._toolbar_icon_px = n
 
     def toolbar_icons_effective(self):
         """Icon set the toolbar actually uses: the configured set
@@ -6039,10 +6046,16 @@ class Command:
         self.toolbar_apply_icon_spacing()
 
     def toolbar_apply_icon_spacing(self):
-        """Widen every toolbar icon button by 2xTOOLBAR_ICON_SPACING
-        (scaled): an icon-only button CENTERS its icon (ATFlatControls
-        paints it at (width-icon)/2), so the added width shows as an
-        even gap on both sides of every icon = space between icons.
+        """Set every toolbar icon button's width to
+        icon size + 2xTOOLBAR_ICON_SPACING (scaled) - this REPLACES
+        the toolbar's own default width (icon size + the theme's
+        GapForAutoSize = 8 px per button): smaller values TIGHTEN the
+        buttons (the factory panel width fits all 8 icons in one line
+        again), larger ones give them more air. An icon-only button
+        CENTERS its icon (ATFlatControls paints it at
+        (width-icon)/2), so the width shows as an even gap on both
+        sides of every icon; the width never goes below the icon
+        size, so the icons are never clipped.
 
         MUST run AFTER every toolbar_proc(TOOLBAR_UPDATE) (and after
         TOOLBAR_SET_WRAP, which also relayouts): the toolbar's
@@ -6050,19 +6063,21 @@ class Command:
         the image size + the theme gap, discarding any width set
         before. Nothing else touches the widths - a later toolbar
         resize only re-anchors the buttons, keeping their sizes."""
-        if not self.h_bar:
+        if not self.h_bar or not self._toolbar_icon_btns:
             return
         try:
-            add = int(round(TOOLBAR_ICON_SPACING * _favorites._ui_scale()))
+            scale = _favorites._ui_scale()
         except Exception:
-            add = TOOLBAR_ICON_SPACING
-        if add <= 0:
-            return
+            scale = 1
+        icon = int(getattr(self, '_toolbar_icon_px', 16) * scale) or 16
+        try:
+            gap = max(0, int(round(TOOLBAR_ICON_SPACING * scale)))
+        except Exception:
+            gap = 0
+        w = icon + 2 * gap
         for h_btn, _fn_icon, _cmd in self._toolbar_icon_btns:
             try:
-                w = button_proc(h_btn, BTN_GET_WIDTH)
-                if w:
-                    button_proc(h_btn, BTN_SET_WIDTH, int(w) + 2 * add)
+                button_proc(h_btn, BTN_SET_WIDTH, w)
             except Exception:
                 pass
 

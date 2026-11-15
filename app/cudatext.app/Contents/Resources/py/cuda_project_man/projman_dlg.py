@@ -17,6 +17,12 @@ SCROLLBAR_W = 20
 #: height (unscaled px) of the "Recent projects" editor: 5 text lines
 #: (a line is ~17 px at the default editor font) plus the frame
 RECENT_H = 92
+#: the DEFAULT client height (unscaled px) of the options dialog: a
+#: fixed modest size that fits every common screen (768 px tall
+#: included), so the dialog never opens eating the whole screen. The
+#: dialog is RESIZABLE, and the option area scrolls - smaller screens
+#: are additionally protected by _monitor_client_h
+DEF_CLIENT_H = 560
 #: side of the checkbox square of a boolean option (unscaled px) - the
 #: same size as the checkbox column of the Favorites window
 CHECK_SZ = 15
@@ -49,27 +55,34 @@ def get_themes_toolbar():
     return sorted(os.listdir(dir))
 
 
+def _blend(c1, c2, k):
+    """Linear blend of two 0xRRGGBB colors: k=0 -> c1, k=1 -> c2."""
+    r = int(((c1 >> 16) & 255) + (((c2 >> 16) & 255) - ((c1 >> 16) & 255)) * k)
+    g = int(((c1 >> 8) & 255) + (((c2 >> 8) & 255) - ((c1 >> 8) & 255)) * k)
+    b = int((c1 & 255) + ((c2 & 255) - (c1 & 255)) * k)
+    return (r << 16) | (g << 8) | b
+
+
 def _monitor_client_h(scale):
-    """Max unscaled CLIENT height a modal dialog may occupy: 70% of the
-    current monitor's pixel height (the user-requested cap - a dialog
-    that eats the whole screen is annoying), minus the title bar; the
-    value also never exceeds the monitor minus a taskbar-sized strip
-    (issue #6634 asked to subtract the taskbar). The layout is
-    unscaled and DLG_SCALE multiplies it by 'scale', so the monitor's
-    real pixels are divided back by 'scale'. Returns None when the
-    monitor API is not usable - the caller then keeps the full content
-    height."""
+    """Max unscaled CLIENT height a modal dialog may occupy: the
+    current monitor's pixel height, minus a Windows-taskbar-sized strip
+    (32-48 px) and the title bar (issue #6634 asked exactly for this).
+    This is only the SAFETY CLAMP for small screens - the dialog's
+    normal size is the fixed DEF_CLIENT_H, so a broken/odd monitor API
+    can never make the dialog open full-screen (it is simply ignored).
+    The layout is unscaled and DLG_SCALE multiplies it by 'scale', so
+    the monitor's real pixels are divided back by 'scale'. Returns None
+    when the monitor API is not usable - the caller then keeps the
+    default size."""
     try:
         rect = app_proc(PROC_COORD_MONITOR)
         if not rect or len(rect) != 4:
             return None
         mon_h = int(rect[3]) - int(rect[1])
-        if mon_h <= 0:
+        if not 400 <= mon_h <= 20000:
             return None
-        # 70% of the monitor, capped at monitor-minus-taskbar, both in
-        # REAL pixels; then subtract the ~36 px dialog title bar
-        win_px = min(mon_h * 70 // 100, mon_h - 48)
-        avail_px = win_px - int(36 * scale)
+        # 48 px taskbar + ~36 px dialog title bar, both in REAL pixels
+        avail_px = mon_h - 48 - int(36 * scale)
         if avail_px <= 200:
             return None
         return int(avail_px / scale)
@@ -112,15 +125,16 @@ def dialog_config(op):
     - list options: 'editor_combo' dropdowns (the OS 'combo_ro'
       painted with OS colors, issue #6634);
     - OK/Cancel: the flat themed 'button_ex' buttons.
-    The option area is a 'scrollbox' (issue #6634): the dialog height
-    is capped at 70% of the current monitor (and never beyond the
-    monitor minus the taskbar), and whatever does not fit scrolls; the
-    OK/Cancel buttons live OUTSIDE the scrollbox at the dialog bottom,
-    so they are always fully visible at any scroll position. When
-    everything fits (a tall screen), no scrollbar is shown and the
-    dialog looks like a plain fixed form.
-    Enter is handled by the form itself (button_ex has no "default
-    button" support); Esc cancels the modal form (engine).
+    The option area is a 'scrollbox' (issue #6634): the dialog opens at
+    a fixed default size (DEF_CLIENT_H) that fits every common screen,
+    it is RESIZABLE (DBORDER_SIZE + the on_resize handler keeps the
+    OK/Cancel buttons pinned to the dialog bottom and the scrollbox
+    filling the rest), and whatever does not fit scrolls - the buttons
+    stay fully visible at any scroll position and any window size. On
+    small screens the height is additionally clamped by
+    _monitor_client_h. Enter is handled by the form itself (button_ex
+    has no "default button" support); Esc cancels the modal form
+    (engine).
     Returns True when OK was pressed."""
 
     themes = get_themes_filetype()
@@ -183,9 +197,16 @@ def dialog_config(op):
     # colors of the drawn checkbox, from the same theme keys the
     # Favorites window uses for its checkbox column (the square's
     # border is ButtonBorderPassive there; the check mark is the row
-    # text color - here the label text color of the dialog)
+    # text color - here the label text color of the dialog). The
+    # border is blended 40% toward the text color: plain
+    # ButtonBorderPassive is nearly invisible on grey themes, and the
+    # blend gives it a clearly visible step toward the text on every
+    # theme (dark text darkens it on light themes, light text
+    # brightens it on dark ones)
     th_dict = _theme_dict()
     check_border = _theme_color(th_dict, 'ButtonBorderPassive', 0x808080)
+    if colors['label_font'] is not None:
+        check_border = _blend(check_border, colors['label_font'], 0.4)
 
     def ctl(kind, name, prop):
         n = dlg_proc(h, DLG_CTL_ADD, prop=kind)
@@ -251,7 +272,9 @@ def dialog_config(op):
         'cap': _('Project Manager options'),
         'w': W,
         'h': 120,               # the real height is set after the layout
-        'border': DBORDER_DIALOG,
+        # resizable window (issue #6634): the user can scale it, and
+        # on_resize keeps the bottom buttons + the scrollbox in place
+        'border': DBORDER_SIZE,
         'keypreview': True,     # needed for on_key_down (Enter = OK)
         'on_key_down': on_form_key,
     }
@@ -261,15 +284,15 @@ def dialog_config(op):
     dlg_proc(h, DLG_PROP_SET, prop=fprop)
 
     #--------- the scrollable options area (issue #6634)
-    # The options sit inside a 'scrollbox' on ONE inner content panel:
-    # the panel's height equals the FULL layout height, so the scrollbar
-    # range covers every control however the dialog is clamped; the
-    # panel is narrower than the scrollbox by SCROLLBAR_W, so the
-    # appearing vertical scrollbar never creates a horizontal one. The
-    # OK/Cancel buttons are NOT in the scrollbox (added after it, on
-    # the form itself): they stay at the dialog bottom at any scroll
-    # position. Both boxes start with a temporary size; the final sizes
-    # are set after the layout is known.
+    # Every option control is parented DIRECTLY into this scrollbox
+    # (no intermediate panel): TScrollBox.AutoScroll then shows the
+    # scrollbar whenever the controls' bottom is below the client
+    # area. The controls are ~SCROLLBAR_W narrower than the box, so
+    # the appearing vertical scrollbar never creates a horizontal
+    # one. The OK/Cancel buttons are NOT in the scrollbox (added
+    # after it, on the form itself): they stay at the dialog bottom
+    # at any scroll position, and on_resize re-pins them when the
+    # user resizes the window.
     # NOTE the scrollbox's own SCROLLBAR is painted by the OS (the
     # dialog API offers no themed scrollbar for it) - everything else
     # in the dialog is theme-drawn.
@@ -282,24 +305,15 @@ def dialog_config(op):
     n = dlg_proc(h, DLG_CTL_ADD, prop='scrollbox')
     dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop=sp)
 
-    # width of the content panel = dialog width minus the scrollbar
-    # reserve; all layout helpers below position inside this width
+    # usable width inside the scrollbox = its width minus the
+    # scrollbar reserve; all layout helpers below position in it
     PANEL_W = W - SCROLLBAR_W
-    pp = {
-        'name': 'content', 'p': 'scr', 'x': 0, 'y': 0,
-        'w': PANEL_W, 'h': 100,
-        'border': False,
-    }
-    if colors['form_bg'] is not None:
-        pp['color'] = colors['form_bg']
-    n = dlg_proc(h, DLG_CTL_ADD, prop='panel')
-    dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop=pp)
 
     #--------- small layout helpers (absolute coords, DLG_SCALE after)
-    # Every helper parents its control to the 'content' panel ('p' is
-    # the FIRST prop: the x/y/w/h after it are then relative to the
-    # panel, which sits at 0,0 of the scrollbox, which sits at 0,0 of
-    # the form - so the numbers are plain dialog coordinates).
+    # Every helper parents its control directly to the scrollbox 'scr'
+    # ('p' is the FIRST prop: the x/y/w/h after it are relative to the
+    # scrollbox, which sits at 0,0 of the form - so the numbers are
+    # plain dialog coordinates).
 
     X0 = 12          # left margin
     LW = 175         # width of the label column
@@ -311,7 +325,7 @@ def dialog_config(op):
 
     def lab(cap, x, w, dy=16):
         n_lab[0] += 1
-        p = {'p': 'content', 'x': x, 'y': y[0], 'w': w, 'h': dy, 'cap': cap}
+        p = {'p': 'scr', 'x': x, 'y': y[0], 'w': w, 'h': dy, 'cap': cap}
         p.update(_theme_props(colors, bg_key='form_bg', font_key='label_font'))
         ctl('label', 'lab{}'.format(n_lab[0]), p)
         y[0] += dy
@@ -322,7 +336,7 @@ def dialog_config(op):
         y[0] += 2
         n_lab[0] += 1
         p = {
-            'p': 'content',
+            'p': 'scr',
             'x': X0, 'y': y[0], 'w': PANEL_W - 2 * X0, 'h': 17,
             'cap': cap + ':',
         }
@@ -335,7 +349,7 @@ def dialog_config(op):
         y[0] += 4
         n_lab[0] += 1
         p = {
-            'p': 'content',
+            'p': 'scr',
             'x': X0, 'y': y[0], 'w': PANEL_W - 2 * X0, 'h': 6,
             'cap': '─' * 92,
         }
@@ -348,7 +362,7 @@ def dialog_config(op):
         had hints wider than the window, so their ends were eaten."""
         n_lab[0] += 1
         p = {
-            'p': 'content',
+            'p': 'scr',
             'x': X0 + 8, 'y': y[0], 'w': PANEL_W - 2 * X0 - 8, 'h': 16,
             'cap': cap,
         }
@@ -360,9 +374,9 @@ def dialog_config(op):
         """One boolean option = a DRAWN checkbox, the same style as the
         checkbox column of the Favorites window, and NO image files:
         - the square is a 'colorpanel' (TATPanelColor) painting its own
-          1px border in ButtonBorderPassive (the very theme key the
-          Favorites window uses for its checkbox squares) on the form
-          background;
+          1px border in ButtonBorderPassive blended 40% toward the
+          theme's text color (plain ButtonBorderPassive was nearly
+          invisible on grey themes) on the form background;
         - the check mark is the CHECK_GLYPH text glyph as the panel's
           centered caption, in the theme's label color (the Favorites
           window paints its check strokes in the row text color - same
@@ -379,7 +393,7 @@ def dialog_config(op):
         # wires a label created BEFORE a TWinControl as its FocusControl
         # - creating the label second avoids that bogus wiring)
         box = {
-            'p': 'content',
+            'p': 'scr',
             'x': X0, 'y': y[0] + 5, 'w': CHECK_SZ, 'h': CHECK_SZ,
             # 'act' is REQUIRED: the colorpanel reports its click
             # through on_change, and DoOnChange drops the event for
@@ -402,7 +416,7 @@ def dialog_config(op):
             check_names[n] = name
         n_lab[0] += 1
         lp = {
-            'p': 'content',
+            'p': 'scr',
             'x': X0 + CHECK_SZ + 6, 'y': y[0] + 4,
             'w': PANEL_W - 2 * X0 - CHECK_SZ - 6, 'h': 16,
             'cap': cap,
@@ -422,13 +436,13 @@ def dialog_config(op):
         'val' prop does not serve editor controls."""
         n_lab[0] += 1
         lp = {
-            'p': 'content',
+            'p': 'scr',
             'x': X0, 'y': y[0] + 3, 'w': LW, 'h': 16, 'cap': lab_cap,
         }
         lp.update(_theme_props(colors, bg_key='form_bg', font_key='label_font'))
         ctl('label', 'lab{}'.format(n_lab[0]), lp)
         n = ctl('editor_edit', name, {
-            'p': 'content',
+            'p': 'scr',
             'x': EX, 'y': y[0], 'w': edit_w or EW, 'h': EH,
         })
         if n is not None:
@@ -451,13 +465,13 @@ def dialog_config(op):
         the Editor object and mapped to an index."""
         n_lab[0] += 1
         lp = {
-            'p': 'content',
+            'p': 'scr',
             'x': X0, 'y': y[0] + 3, 'w': LW, 'h': 16, 'cap': lab_cap,
         }
         lp.update(_theme_props(colors, bg_key='form_bg', font_key='label_font'))
         ctl('label', 'lab{}'.format(n_lab[0]), lp)
         n = ctl('editor_combo', name, {
-            'p': 'content',
+            'p': 'scr',
             'x': EX, 'y': y[0], 'w': 300, 'h': EH,
         })
         if n is not None:
@@ -484,7 +498,7 @@ def dialog_config(op):
     # '\n' separation (the old OS 'memo' needed the dialog API's TAB
     # line-separation plus the chr(3) tab-escaping - both gone with it)
     n = ctl('editor', 'recent', {
-        'p': 'content',
+        'p': 'scr',
         'x': X0, 'y': y[0], 'w': PANEL_W - 2 * X0, 'h': RECENT_H,
     })
     if n is not None:
@@ -552,11 +566,11 @@ def dialog_config(op):
     BTN_ROW = BTN_H + 18      # the buttons + 8 px above + 10 px below
     needed_h = content_h + 8 + BTN_ROW
 
-    # never taller than 70% of the current monitor (and never beyond
-    # monitor minus the taskbar, minus the title bar - issue #6634):
-    # what does not fit scrolls; on a tall screen with room to spare
-    # no scrollbar appears at all
-    H = needed_h
+    # the fixed default client height (fits every common screen -
+    # never a full-screen dialog), even lower only when the content
+    # is shorter or on a small screen (the _monitor_client_h safety
+    # clamp): what does not fit scrolls
+    H = min(needed_h, DEF_CLIENT_H)
     max_h = _monitor_client_h(scale)
     if max_h is not None:
         H = min(H, max_h)
@@ -575,10 +589,42 @@ def dialog_config(op):
         'on_change': on_cancel,
     })
 
-    dlg_proc(h, DLG_PROP_SET, prop={'h': H})
+    def on_form_resize(id_dlg, id_ctl, data='', info=''):
+        """The user resized the (resizable) window: keep the option
+        scrollbox filling everything above the bottom button row and
+        the OK/Cancel buttons pinned to the dialog bottom - the
+        scrollbox itself shows/hides its scrollbar automatically
+        (TScrollBox.AutoScroll) as its client grows or shrinks. All
+        sizes here are the LIVE SCALED pixels of the form
+        (DLG_PROP_GET returns the client size), so the unscaled
+        layout constants are multiplied by 'scale'."""
+        try:
+            prop = dlg_proc(id_dlg, DLG_PROP_GET)
+            new_w = int(prop.get('w') or 0)
+            new_h = int(prop.get('h') or 0)
+            if new_w <= 0 or new_h <= 0:
+                return
+            bottom = int(BTN_ROW * scale)
+            y_b = new_h - max(int(10 * scale), 8) - int(BTN_H * scale)
+            dlg_proc(id_dlg, DLG_CTL_PROP_SET, name='scr',
+                     prop={'w': new_w,
+                           'h': max(60, new_h - bottom)})
+            dlg_proc(id_dlg, DLG_CTL_PROP_SET, name='btn_ok',
+                     prop={'y': y_b})
+            dlg_proc(id_dlg, DLG_CTL_PROP_SET, name='btn_cancel',
+                     prop={'y': y_b})
+        except Exception:
+            pass
+
+    dlg_proc(h, DLG_PROP_SET, prop={'h': H, 'on_resize': on_form_resize})
     dlg_proc(h, DLG_CTL_PROP_SET, name='scr', prop={'h': scr_h})
-    dlg_proc(h, DLG_CTL_PROP_SET, name='content', prop={'h': content_h})
     dlg_proc(h, DLG_SCALE)
+    # the resize constraints are raw pixels (not scaled by DLG_SCALE),
+    # so set them AFTER the scaling with the scaled numbers
+    dlg_proc(h, DLG_PROP_SET, prop={
+        'w_min': int((W - 80) * scale),
+        'h_min': int(320 * scale),
+    })
     dlg_proc(h, DLG_SHOW_MODAL)
 
     ok = state.pop('ok', False)

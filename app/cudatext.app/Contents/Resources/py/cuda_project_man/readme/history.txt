@@ -1,90 +1,25 @@
 2026.11.15
-- The Favorites toolbar button's star.png is an OUTLINE star now
-  (transparent inside, ~1px border): the geometry of the feather
-  "star" icon scaled to 16 px, but drawn with the thin stroke of the
-  bundled icons (the svg's stroke-width 2 at 24 px = ~1.33 px at
-  16 px was too bold and too high-contrast) - the first version of
-  the icon was a filled star.
-- FIX: the "Project sessions" toolbar icon (cfg.png) did not use the
-  icon set's color - the default sets' gear was painted at <= 65%
-  opacity (faded grey), the feather sets' was a bold two-tone blob.
-  It is drawn from scratch now: the same thin-line cog in every set,
-  full opacity, in the color of the set's other icons (#555753 in
-  the black sets, #EEEEEE in the white sets - the majority ink
-  there).
-- The options dialog height is capped at 70% of the current monitor
-  now (it used to grow up to the monitor height minus the taskbar,
-  which still looked like a nearly full-screen dialog); whatever
-  does not fit keeps scrolling, the OK/Cancel buttons stay pinned
-  at the dialog bottom.
-- The boolean options of the options dialog are DRAWN checkboxes
-  without any image files (the first version used checkbox glyph
-  pngs): a 'colorpanel' square with its own 1px border in
-  ButtonBorderPassive + the check mark as a text glyph in the
-  theme's text color - the same style as the checkbox column of
-  the Favorites window. A click on the square OR on its caption
-  label toggles the option; the plugin's icons/ image folder is
-  gone again.
-- NEW: the TOOLBAR_ICON_SPACING global (cuda_project_man's
-  __init__.py) sets the space between the toolbar's icon buttons
-  (unscaled px, scaled for the screen DPI at runtime; 0 = the
-  default tight packing). Every icon button is widened by 2x the
-  value - an icon-only button centers its icon, so the extra width
-  shows as an even gap on both sides of every icon. The toolbar's
-  UpdateControls recomputes icon-button widths, so the plugin
-  re-applies the spacing after every toolbar update (panel init and
-  every icon-set reload).
-- FIX (issue #6633): the 'edit' fields had an OS-drawn border, too
-  light on dark themes. All of them - the tree filter field, the
-  Favorites filter field, the edit rows of the options dialog and of
-  the Project properties dialog - are the themed 'editor_edit' control
-  now (the ATSynEdit-based one-line edit the engine colors entirely
-  from the UI theme, border included; the same control the built-in
-  Preferences dialog uses). The fields' text is read/written through
-  the Editor handle, because the dialog 'val' prop does not serve
-  editor controls.
-- FIX (issue #6634): the options dialog is never taller than the
-  screen anymore. Its height is clamped to the current monitor minus a
-  taskbar-sized strip (app_proc(PROC_COORD_MONITOR), 48 px + the title
-  bar); whatever does not fit scrolls - all options live on a content
-  panel inside a 'scrollbox', while the OK/Cancel buttons stay outside
-  it, pinned to the dialog bottom and always fully visible. On a
-  screen with room to spare no scrollbar appears at all.
-- FIX (issue #6634): every control of the options dialog and of the
-  Project properties dialog follows the UI theme now. The OS-drawn
-  controls that ignored theme colors are replaced by their theme-aware
-  counterparts (the very control types the built-in Preferences dialog
-  uses): the "Recent projects" box is a real 5-line 'editor' (was the
-  OS 'memo'; one project per plain line now - the dialog API's TAB
-  line-separation and chr(3) tab-escaping are gone), the boolean
-  options are flat 'button_ex' rows with the checkbox glyph pngs from
-  the new icons/ subfolder (was the OS 'check'), and the three
-  dropdowns are read-only 'editor_combo' controls (was the OS
-  'combo_ro'). The only OS-painted part left is the scrollbox's own
-  scrollbar - the dialog API has no themed one.
-- FIX: the toolbar Favorites (bookmarks) button is a normal icon
-  button with the new star.png of the configured icon set (added to
-  all four bundled sets, drawn in each set's color) - it was a text
-  button showing the UTF-8 star glyph of the font, which could render
-  thin/missing with some fonts and never followed the icon set. It
-  also participates in the theme-based black/white icon auto-switch
-  now, like every other button.
 - FIX (issue #6632, idea by @badrelmers): the toolbar icons follow the
-  UI theme now, so they stay visible in dark themes too. While a
-  DEFAULT icon set is configured (default_16x16 or
-  default_white_16x16 - the same artwork as black and as white), the
-  plugin picks the variant the current theme needs: 'black' themes get
-  the white icons, 'white'/'grey' themes the black ones. The theme
-  category comes from the new 'category' string of
-  app_proc(PROC_THEME_UI_DICT_GET) - preinstalled themes define it in
-  their .cuda-theme-ui file; a custom theme without the key is
-  estimated from the luminosity of the editor background color (the
-  fallback differ2 had to hardcode theme names for). The switch runs
-  at panel init and when the UI theme changes while CudaText runs
-  (on_state, APPSTATE_THEME_UI). A non-default set (feather_*, a
-  custom folder) is the user's deliberate choice and is never
-  re-picked. The "Toolbar icons" option applies immediately now (no
-  restart needed anymore).
+  UI theme now - while a default icon set is used, dark themes get
+  the white icons and light themes the black ones, also when the
+  theme is changed while CudaText runs. A set picked in the options is
+  kept as configured, and the "Toolbar icons" option applies
+  immediately now (no restart needed).
+- FIX (issue #6633): the edit fields (the tree filter, the Favorites
+  filter, the edit rows of the options and Project properties
+  dialogs) had a too-light border on dark themes; they follow the UI
+  theme now.
+- FIX (issue #6634): the options dialog never grows past the screen
+  anymore. It opens at a fixed default size, can be resized, scrolls
+  its options, and the OK/Cancel buttons always stay visible at the
+  bottom. Every control of the dialog follows the UI theme now; the
+  "Recent projects" box takes one project per line.
+- The [Favorites] toolbar button is a normal icon button now (an
+  outline star), like every other button - it used to be a text
+  button with a font-dependent star glyph. The [Project sessions]
+  icon uses the colors of its icon set now.
+- NEW: the space between the toolbar icons can be changed with the
+  TOOLBAR_ICON_SPACING constant in the plugin's __init__.py.
 
 2026.11.14 (@badrelmers)
 - SAFETY: no command deletes anything permanently on Windows, macOS
