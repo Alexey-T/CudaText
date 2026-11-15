@@ -279,18 +279,20 @@ TOOLBAR
 The toolbar (top of the panel) has these buttons, left to right:
 
   [Recent projects]  - shows the recent projects menu
-  [Open project]     - opens an existing project
-  [Save project]     - saves the current project in place
+  [Project file]     - shows the "Project file" menu: new/open/save/
+                      close project, recent projects, properties (the
+                      same items as the tree's context menu)
   ---
   [Add folder]       - adds a folder to the project
   [Add file]         - adds a file to the project
   ---
   [Project sessions] - shows the sessions menu
   [Show current file in project tree]
+  [Favorites]        - opens the Favorites window
 
 The "Show current file" button is hidden if "Automatically show current
 file in project tree" is enabled in options (it then happens on every
-tab switch). The last button, [Favorites], opens the Favorites window.
+tab switch).
 
 
 ------------------------------------------------------------------------------
@@ -465,7 +467,8 @@ panel context menu (at the bottom), or CudaText's Settings menu.
   Ignore all hidden
   files/folders:          Hides files/folders with the hidden attribute.
 
-  Recent projects:        Editable list of recently opened projects.
+  Recent projects:        Editable list of recently opened projects -
+                          one project per line.
 
   Show toolbar:           Shows/hides the panel toolbar.
 
@@ -489,12 +492,25 @@ panel context menu (at the bottom), or CudaText's Settings menu.
                           on every tab change. When enabled, the
                           "Show current file" toolbar button is hidden.
 
-  File type icons (*):    Icon theme for file types in the tree.
+  Sorting order:          How to sort items in the tree: by name,
+                          extension, size, date, etc. (applies
+                          immediately, no restart).
 
-  Toolbar icons (*):      Icon theme for the toolbar buttons.
+  File type icons:        Icon theme for file types in the tree
+                          (applies immediately, no restart).
 
-  Sorting order (*):      How to sort items in the tree: by name,
-                          extension, size, date, etc.
+  Toolbar icons:          Icon theme for the toolbar buttons.
+                          "auto" (the default) uses the default icons
+                          and automatically switches between the black
+                          set (default_16x16) for a light UI theme and
+                          the white set (default_white_16x16) for a
+                          dark one (dark or light is detected from
+                          the theme's editor background color), also
+                          when the theme changes while CudaText
+                          runs. Every other choice - the two
+                          "default" sets included - is a fixed set,
+                          used exactly as configured whatever the
+                          theme is.
 
   Backup project file
   when its sessions
@@ -524,7 +540,6 @@ panel context menu (at the bottom), or CudaText's Settings menu.
                           (default) = the dialog starts in the last
                           used folder.
 
-  (*) - requires CudaText restart
 
 
 ------------------------------------------------------------------------------

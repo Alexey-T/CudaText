@@ -583,11 +583,28 @@ successful save).
 - The side panel is built ONCE per CudaText run, on the first
   `init_panel()` call (`init_form_main`: dialog, toolbar, tree, both
   icon imagelists, `icon_init`). CudaText has no API to recreate a
-  docked plugin panel in place, so the icon-theme options can only
-  take effect on a panel that does not exist yet — that is why the
-  options dialog marks them with "(*)": new file-type/toolbar icon
-  themes need a CudaText restart. (Changed before the panel is first
-  shown, they apply without a restart.)
+  docked plugin panel in place, so the file-type icon theme option can
+  only take effect on a panel that does not exist yet — that is why
+  the options dialog marks it with "(*)": a new file-type icon theme
+  needs a CudaText restart. (Changed before the panel is first shown,
+  it applies without a restart.)
+- The TOOLBAR icons are different: `toolbar_icons_load()` can refill
+  the toolbar's imagelist in place (it clears it with
+  `IMAGELIST_DELETE_ALL`, re-adds the pngs and re-points the buttons
+  with `BTN_SET_IMAGEINDEX`), so the "Toolbar icons" option applies
+  immediately. It runs at panel init, after the options dialog, and
+  from `toolbar_icons_refresh()` on every UI theme change
+  (on_state/APPSTATE_THEME_UI): while a DEFAULT icon set is
+  configured (`default_16x16` / `default_white_16x16`), the set is
+  re-picked for the theme (a "black" theme gets the white icons, a
+  "white"/"grey" theme the black ones; `toolbar_icons_effective()` /
+  `get_theme_category()`, the latter estimates the category from the
+  LUMINOSITY of the theme's EDITOR BACKGROUND color -
+  `PROC_THEME_UI_DICT_GET` gives every UI color, the editor
+  background is the surface dark/light themes always differ in; this
+  color-reading detection is what the maintainer asked for, instead
+  of new keys in theme files (PR #6636)). A non-default set never
+  depends on the theme.
 
 ---
 ## 13. Drag & drop
@@ -880,3 +897,94 @@ result.
   and `_move_node_on_disk` (DEL+ADD, the path was replaced). A pure
   reorder of root nodes (`_reorder_root_node`) fires nothing — the
   same nodes, only their order changed.
+
+---
+## 16. Options dialog + toolbar internals (issues #6633/#6634)
+
+- The options dialog is resizable (`border: DBORDER_SIZE`) with an
+  `on_resize` handler that refits the options `scrollbox` and re-pins
+  the OK/Cancel buttons to the dialog bottom. Every option control is
+  parented DIRECTLY into the scrollbox (no intermediate panel), so
+  TScrollBox.AutoScroll shows/hides the scrollbar from the children
+  bounds - the pattern of the reference plugin the user attached.
+- The dialog opens at the fixed `DEF_CLIENT_H` client height
+  (projman_dlg.py); on small screens `_monitor_client_h()` lowers it
+  (monitor minus taskbar minus title bar, all sanity-checked). A
+  broken monitor API is simply ignored - the dialog then keeps the
+  default size, never the full content height.
+- The boolean options are drawn checkboxes without image files, one
+  SANDWICH of two `colorpanel` controls per square: the OUTER panel
+  draws only the 1 px border (ButtonBorderPassive blended 40% toward
+  the theme's text color - plain ButtonBorderPassive is nearly
+  invisible on grey themes), the INNER panel (1 px inset) carries the
+  '✓' glyph caption in the text color. Two panels are needed because
+  TATPanelColor paints a caption with Canvas.TextOut, whose text
+  BACKGROUND (the panel's fill brush, as large as the text extent) is
+  not clipped - on a single 15 px panel the glyph extent overpainted
+  the border ring, so a CHECKED box lost its border; the inner panel
+  is clipped 1 px inside the ring. A click on either panel or on the
+  caption label toggles the option.
+- The group separator lines are 2 px `colorpanel` fills EXACTLY as
+  wide as the option rows. They were labels with a 92-character '─'
+  caption before - that text renders wider than the scrollbox, which
+  made TScrollBox show a horizontal scrollbar although every option
+  control fits.
+- The file-type icon theme applies without a restart:
+  `tree_icons_reload()` clears the tree's imagelist, re-runs
+  `icon_init()` (which re-reads the option, the set's icons.json and
+  resets the ext->index cache), re-fetches the ICON_* indexes
+  (`_tree_icon_constants()` - the indexes change on every refill) and
+  rebuilds the tree via `action_refresh()` (not `_int`: it keeps the
+  folds and the selection and handles an active tree filter). The
+  other tree-affecting options (sorting order, ignore masks, hidden
+  files) apply through a plain `action_refresh()` - `config()`
+  dispatches on whether the icon theme changed.
+- The "Project sessions" toolbar button uses `sessions.png` (the
+  feather-"layers" geometry: three stacked sheets, one per saved
+  state - the old gear read as "settings"). A 3rd-party icon set
+  without a newer file (sessions.png, star.png, locate.png) falls
+  back to the default set's copy in `toolbar_icons_load()`, so no
+  button ever ends up blank.
+- The `toolbar_theme` option value `auto` (the default) is resolved
+  to `default_16x16` / `default_white_16x16` by the UI theme's color
+  category (detected from the editor background luminosity, see
+  `get_theme_category()`) in `toolbar_icons_effective()`; every other
+  value -
+  including the two default sets themselves - is used as a FIXED set
+  (only `auto` follows the theme; before this round both default sets
+  auto-switched). The options dialog lists `auto` first with a
+  friendlier label (display list and value list are separate, like
+  the sorting combo). `migrate_loaded_options()` one-time-moves the
+  stored OLD default `default_16x16` to `auto` (flagged by the
+  `_toolbar_theme_migrated` option key): under the old semantics that
+  value meant exactly "auto", so the migration is
+  behavior-preserving, and a `default_16x16` chosen under the NEW
+  semantics is never touched again.
+- The toolbar is 7 icon buttons now: [Recent projects] [Project file]
+  [Add folder] [Add file] [Project sessions] [Show current file in
+  project tree] [Favorites]. The [Project file] button (the old
+  [Open project] icon, open.png) shows a popup menu filled by
+  `fill_project_file_menu()` - the single source of the "Project
+  file" items, used by the tree's context menu submenu too (the
+  separate [Save project] button is gone; its command lives in that
+  menu). The sync button uses `locate.png`, a crosshair - the
+  standard "locate the current thing" metaphor (the old sync.png was
+  a "send/share" arrow).
+- The group separator colorpanels have their y SNAPPED up to a
+  multiple of 8 layout px: DPI scaling (DLG_SCALE -> LCL
+  AutoAdjustLayout) rounds every control's scaled Top and Bottom
+  independently with round-half-to-even, so a 2px panel renders 2px
+  or 3px thick depending on its y phase - at 125% the four
+  separators rendered 3,2,2,3 px (measured in the user's screenshot).
+  Separators sharing one phase (mod 8: 8px at every 25% scale step
+  stays an even integer, fixing phase AND rounding parity) always
+  render equally thick at any scale CudaText offers.
+- Toolbar icon spacing: `TOOLBAR_ICON_SPACING` (unscaled px) sets
+  every icon button's width to icon size + 2x its value via
+  `button_proc(BTN_SET_WIDTH)` - REPLACING ATFlatControls' own
+  default (icon + GapForAutoSize = 8 px per button, too wide for the
+  panel's factory width). The button centers its icon, so the width
+  becomes an even gap at both sides. The toolbar's UpdateControls
+  (behind every `toolbar_proc(TOOLBAR_UPDATE)`) recomputes icon-only
+  widths, so `toolbar_apply_icon_spacing()` must run after every
+  toolbar update: at panel init and after every `toolbar_icons_load()`.
