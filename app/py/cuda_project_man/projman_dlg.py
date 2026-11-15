@@ -4,15 +4,32 @@ from cudatext_keys import *
 from cudax_lib import get_translation
 from .projman_glob import *
 from .projman_backup import DEFAULT_BACKUP_COUNT, DEFAULT_BACKUP_FOLDER
-from .favorites import (get_theme_ui_colors, _unscale_px, _ui_scale,
-                        BTN_PAD)
+from .favorites import (get_theme_ui_colors, _theme_color, _theme_dict,
+                        _unscale_px, _ui_scale, BTN_PAD)
 
 _   = get_translation(__file__)  # i18n
 
-#: LCL cursor constant crHSplit is not in cudatext.py - not needed here
-#: width (unscaled px) of the glyph-only checkbox of a boolean option
-#: (the caption is a separate themed label - see dialog_config.check)
-CHECK_GLYPH_W = 20
+#: width (unscaled px) kept free at the right of the options area for
+#: the scrollbox's vertical scrollbar: the content panel is narrower
+#: than the scrollbox client by this much, so the appearing vertical
+#: scrollbar can never push a horizontal scrollbar out too
+SCROLLBAR_W = 20
+#: height (unscaled px) of the "Recent projects" editor: 5 text lines
+#: (a line is ~17 px at the default editor font) plus the frame
+RECENT_H = 92
+#: the DEFAULT client height (unscaled px) of the options dialog: a
+#: fixed modest size that fits every common screen (768 px tall
+#: included), so the dialog never opens eating the whole screen. The
+#: dialog is RESIZABLE, and the option area scrolls - smaller screens
+#: are additionally protected by _monitor_client_h
+DEF_CLIENT_H = 560
+#: side of the checkbox square of a boolean option (unscaled px) - the
+#: same size as the checkbox column of the Favorites window
+CHECK_SZ = 15
+#: the check mark of a checked boolean option: a text glyph (like the
+#: star glyphs of the Favorites window - no image files), painted in
+#: the theme's text color inside the drawn checkbox square
+CHECK_GLYPH = '\u2713'    # '✓'
 
 
 def _theme_props(colors, bg_key='edit_bg', font_key='edit_font'):
@@ -38,6 +55,41 @@ def get_themes_toolbar():
     return sorted(os.listdir(dir))
 
 
+def _blend(c1, c2, k):
+    """Linear blend of two 0xRRGGBB colors: k=0 -> c1, k=1 -> c2."""
+    r = int(((c1 >> 16) & 255) + (((c2 >> 16) & 255) - ((c1 >> 16) & 255)) * k)
+    g = int(((c1 >> 8) & 255) + (((c2 >> 8) & 255) - ((c1 >> 8) & 255)) * k)
+    b = int((c1 & 255) + ((c2 & 255) - (c1 & 255)) * k)
+    return (r << 16) | (g << 8) | b
+
+
+def _monitor_client_h(scale):
+    """Max unscaled CLIENT height a modal dialog may occupy: the
+    current monitor's pixel height, minus a Windows-taskbar-sized strip
+    (32-48 px) and the title bar (issue #6634 asked exactly for this).
+    This is only the SAFETY CLAMP for small screens - the dialog's
+    normal size is the fixed DEF_CLIENT_H, so a broken/odd monitor API
+    can never make the dialog open full-screen (it is simply ignored).
+    The layout is unscaled and DLG_SCALE multiplies it by 'scale', so
+    the monitor's real pixels are divided back by 'scale'. Returns None
+    when the monitor API is not usable - the caller then keeps the
+    default size."""
+    try:
+        rect = app_proc(PROC_COORD_MONITOR)
+        if not rect or len(rect) != 4:
+            return None
+        mon_h = int(rect[3]) - int(rect[1])
+        if not 400 <= mon_h <= 20000:
+            return None
+        # 48 px taskbar + ~36 px dialog title bar, both in REAL pixels
+        avail_px = mon_h - 48 - int(36 * scale)
+        if avail_px <= 200:
+            return None
+        return int(avail_px / scale)
+    except Exception:
+        return None
+
+
 def _val_bool(v):
     """Boolean value of a check control ('1'/'0', or a bool on some
     builds)."""
@@ -55,26 +107,34 @@ def _val_int(v):
 
 def dialog_config(op):
     """Project Manager options dialog, built with dlg_proc (not
-    dlg_custom): the settings are split into visually SEPARATED
-    sections, the long hints are split into short lines that fit the
-    window width, and the layout is compact. The dialog API has no
-    scrollable panel, so a compact grouped layout is the way to survive
-    small screens. The dialog follows the CudaText UI theme like the
-    built-in Preferences dialog: the form, the labels, the edit/memo/
-    combo backgrounds and fonts are colored from
-    app_proc(PROC_THEME_UI_DICT_GET), and the OK/Cancel buttons are
-    the flat themed button_ex controls with the same comfortable
-    vertical padding as the Favorites window buttons (the OS 'button'
-    cannot be themed by the API; button_ex has no "default button"
-    support, so Enter is handled by the form itself). The BOOLEAN
-    options are the standard OS-drawn checkboxes ('check' controls)
-    with an EMPTY caption - only the little square glyph is painted by
-    the operating system (the dialog API cannot theme it), and the
-    caption is a SEPARATE themed label glued to the right of the
-    glyph: on Windows the caption of a checkbox control is painted by
-    the OS theme and IGNORES Font.Color, so a caption on the control
-    itself stayed black on the dark form. Clicking the label toggles
-    the checkbox (on_click works for labels too).
+    dlg_custom). Every control follows the CudaText UI theme (like the
+    built-in Preferences dialog), because ONLY theme-aware dialog-API
+    control types are used:
+    - form, labels, the scrollbox and its content panel: colored from
+      app_proc(PROC_THEME_UI_DICT_GET);
+    - one-line edits and the two filter-like fields: 'editor_edit'
+      (ATSynEdit-based; the engine themes it incl. its border - the
+      OS 'edit' border was too light on dark themes, issue #6633);
+    - multi-line "Recent projects": 'editor' (a real mini-editor, 5
+      lines; the OS 'memo' painted with OS colors, issue #6634);
+    - boolean options: a drawn checkbox - a 'colorpanel' square with
+      its own 1px border + the check mark as a text glyph, the same
+      style as the checkbox column of the Favorites window, without
+      any image files (the OS 'check' paints its glyph with OS
+      colors, issue #6634);
+    - list options: 'editor_combo' dropdowns (the OS 'combo_ro'
+      painted with OS colors, issue #6634);
+    - OK/Cancel: the flat themed 'button_ex' buttons.
+    The option area is a 'scrollbox' (issue #6634): the dialog opens at
+    a fixed default size (DEF_CLIENT_H) that fits every common screen,
+    it is RESIZABLE (DBORDER_SIZE + the on_resize handler keeps the
+    OK/Cancel buttons pinned to the dialog bottom and the scrollbox
+    filling the rest), and whatever does not fit scrolls - the buttons
+    stay fully visible at any scroll position and any window size. On
+    small screens the height is additionally clamped by
+    _monitor_client_h. Enter is handled by the form itself (button_ex
+    has no "default button" support); Esc cancels the modal form
+    (engine).
     Returns True when OK was pressed."""
 
     themes = get_themes_filetype()
@@ -83,9 +143,18 @@ def dialog_config(op):
     except ValueError:
         theme_index = -1
 
-    themes_tb = get_themes_toolbar()
+    # the toolbar icon sets: 'auto' comes FIRST (the default: the
+    # default icons colored for the current UI theme - a dark theme
+    # gets the white set, a light one the black set), then every
+    # installed folder as a FIXED choice, used as-is whatever the
+    # theme (feather_*, custom folders, and the two default sets
+    # themselves - only 'auto' follows the theme). The dropdown shows
+    # friendlier labels for 'auto', so the displayed list and the
+    # value list are separate
+    themes_tb_val = ['auto'] + get_themes_toolbar()
+    themes_tb_lbl = [_('auto (default icons, by UI theme)')] + themes_tb_val[1:]
     try:
-        theme_index_tb = themes_tb.index(op.get('toolbar_theme', 'default_16x16'))
+        theme_index_tb = themes_tb_val.index(op.get('toolbar_theme', 'auto'))
     except ValueError:
         theme_index_tb = -1
 
@@ -120,17 +189,33 @@ def dialog_config(op):
     # DLG_SCALE scales it once at the end (see the favorites module's
     # "DPI NOTE")
     BH = _unscale_px(app_proc(PROC_GET_GUI_HEIGHT, 'button'), scale, 30)
+    EH = _unscale_px(app_proc(PROC_GET_GUI_HEIGHT, 'edit'), scale, 28)
     colors = get_theme_ui_colors()
 
     state = {'ok': False}
-    # control names read back when OK is pressed (the boolean options
-    # too: a 'check' control keeps its live value in 'val')
-    READ_NAMES = ('no_files', 'no_dirs', 'no_hidden', 'recent',
-                  'toolbar', 'goto_open', 'preview', 'd_click', 'always_sync',
-                  'icon_theme', 'toolbar_theme', 'sort_order',
-                  'backup_enabled',
-                  'backup_folder', 'backup_count',
-                  'projects_dir')
+    # live values of the editor-based controls, filled at creation and
+    # read by on_ok (editor controls are not served by the dialog
+    # 'val' prop - their text lives in the Editor objects)
+    eds = {}      # name -> Editor (the 5 edit rows + 'recent')
+    combos = {}   # name -> (Editor, items) of the dropdown rows
+    checks = {}   # name -> bool of the boolean options
+    # control index -> option name, for BOTH controls of a boolean
+    # option (the drawn checkbox square AND its caption label - a
+    # click on either toggles the option)
+    check_names = {}
+    # colors of the drawn checkbox, from the same theme keys the
+    # Favorites window uses for its checkbox column (the square's
+    # border is ButtonBorderPassive there; the check mark is the row
+    # text color - here the label text color of the dialog). The
+    # border is blended 40% toward the text color: plain
+    # ButtonBorderPassive is nearly invisible on grey themes, and the
+    # blend gives it a clearly visible step toward the text on every
+    # theme (dark text darkens it on light themes, light text
+    # brightens it on dark ones)
+    th_dict = _theme_dict()
+    check_border = _theme_color(th_dict, 'ButtonBorderPassive', 0x808080)
+    if colors['label_font'] is not None:
+        check_border = _blend(check_border, colors['label_font'], 0.4)
 
     def ctl(kind, name, prop):
         n = dlg_proc(h, DLG_CTL_ADD, prop=kind)
@@ -141,18 +226,30 @@ def dialog_config(op):
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop=prop)
         return n
 
-    def get_val(name):
+    def editor_of(index):
+        """Editor object of the control added at index (never raises;
+        None keeps the option out of 'eds' and its value unchanged)."""
         try:
-            props = dlg_proc(h, DLG_CTL_PROP_GET, name=name) or {}
-            return props.get('val', '')
+            return Editor(dlg_proc(h, DLG_CTL_HANDLE, index=index) or 0)
         except Exception:
-            return ''
+            return None
 
     def on_ok(id_dlg, id_ctl, data='', info=''):
         # read the values while the dialog is definitely alive
         state['ok'] = True
-        for nm in READ_NAMES:
-            state[nm] = get_val(nm)
+        for nm, ed in eds.items():
+            try:
+                state[nm] = ed.get_text_all()
+            except Exception:
+                state[nm] = ''
+        for nm in checks:
+            state[nm] = '1' if checks.get(nm) else '0'
+        for nm, (ed, items) in combos.items():
+            try:
+                t = ed.get_text_all()
+            except Exception:
+                t = ''
+            state[nm] = str(items.index(t)) if t in items else '-1'
         dlg_proc(h, DLG_HIDE)
 
     def on_cancel(id_dlg, id_ctl, data='', info=''):
@@ -167,11 +264,27 @@ def dialog_config(op):
             return False
         return None
 
+    def on_check_click(id_dlg, id_ctl, data='', info=''):
+        """The checkbox square (either of its two panels) or its caption
+        label was clicked: flip the option and show/hide the check mark
+        glyph in the inner square panel."""
+        nm = check_names.get(id_ctl)
+        if nm is None:
+            return
+        checks[nm] = not checks.get(nm, False)
+        try:
+            dlg_proc(h, DLG_CTL_PROP_SET, name='chki_' + nm,
+                     prop={'cap': CHECK_GLYPH if checks[nm] else ''})
+        except Exception:
+            pass
+
     fprop = {
         'cap': _('Project Manager options'),
         'w': W,
         'h': 120,               # the real height is set after the layout
-        'border': DBORDER_DIALOG,
+        # resizable window (issue #6634): the user can scale it, and
+        # on_resize keeps the bottom buttons + the scrollbox in place
+        'border': DBORDER_SIZE,
         'keypreview': True,     # needed for on_key_down (Enter = OK)
         'on_key_down': on_form_key,
     }
@@ -180,33 +293,49 @@ def dialog_config(op):
     h = dlg_proc(0, DLG_CREATE)
     dlg_proc(h, DLG_PROP_SET, prop=fprop)
 
-    def toggle_check(name):
-        """Flip the checkbox of one boolean option (the click came on
-        its caption label)."""
-        try:
-            props = dlg_proc(h, DLG_CTL_PROP_GET, name=name) or {}
-            cur = str(props.get('val', '') or '')
-        except Exception:
-            return
-        new = '0' if cur in ('1', 'True', 'true') else '1'
-        try:
-            dlg_proc(h, DLG_CTL_PROP_SET, name=name, prop={'val': new})
-        except Exception:
-            pass
+    #--------- the scrollable options area (issue #6634)
+    # Every option control is parented DIRECTLY into this scrollbox
+    # (no intermediate panel): TScrollBox.AutoScroll then shows the
+    # scrollbar whenever the controls' bottom is below the client
+    # area. The controls are ~SCROLLBAR_W narrower than the box, so
+    # the appearing vertical scrollbar never creates a horizontal
+    # one. The OK/Cancel buttons are NOT in the scrollbox (added
+    # after it, on the form itself): they stay at the dialog bottom
+    # at any scroll position, and on_resize re-pins them when the
+    # user resizes the window.
+    # NOTE the scrollbox's own SCROLLBAR is painted by the OS (the
+    # dialog API offers no themed scrollbar for it) - everything else
+    # in the dialog is theme-drawn.
+    sp = {
+        'name': 'scr', 'x': 0, 'y': 0, 'w': W, 'h': 100,
+        'border': False,
+    }
+    if colors['form_bg'] is not None:
+        sp['color'] = colors['form_bg']
+    n = dlg_proc(h, DLG_CTL_ADD, prop='scrollbox')
+    dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop=sp)
+
+    # usable width inside the scrollbox = its width minus the
+    # scrollbar reserve; all layout helpers below position in it
+    PANEL_W = W - SCROLLBAR_W
 
     #--------- small layout helpers (absolute coords, DLG_SCALE after)
+    # Every helper parents its control directly to the scrollbox 'scr'
+    # ('p' is the FIRST prop: the x/y/w/h after it are relative to the
+    # scrollbox, which sits at 0,0 of the form - so the numbers are
+    # plain dialog coordinates).
 
     X0 = 12          # left margin
     LW = 175         # width of the label column
     EX = X0 + LW + 10
-    EW = W - EX - X0
+    EW = PANEL_W - EX - X0
 
     y = [10]         # mutable layout cursor
     n_lab = [0]
 
     def lab(cap, x, w, dy=16):
         n_lab[0] += 1
-        p = {'x': x, 'y': y[0], 'w': w, 'h': dy, 'cap': cap}
+        p = {'p': 'scr', 'x': x, 'y': y[0], 'w': w, 'h': dy, 'cap': cap}
         p.update(_theme_props(colors, bg_key='form_bg', font_key='label_font'))
         ctl('label', 'lab{}'.format(n_lab[0]), p)
         y[0] += dy
@@ -217,7 +346,8 @@ def dialog_config(op):
         y[0] += 2
         n_lab[0] += 1
         p = {
-            'x': X0, 'y': y[0], 'w': W - 2 * X0, 'h': 17,
+            'p': 'scr',
+            'x': X0, 'y': y[0], 'w': PANEL_W - 2 * X0, 'h': 17,
             'cap': cap + ':',
         }
         p.update(_theme_props(colors, bg_key='form_bg', font_key='label_font'))
@@ -225,88 +355,178 @@ def dialog_config(op):
         y[0] += 21
 
     def sep():
-        """Separator line between the option groups."""
+        """Separator line between the option groups: a 2px 'colorpanel'
+        EXACTLY as wide as the option rows (PANEL_W-2*X0), filled with
+        the checkbox border color. It was a label with a caption of 92
+        '─' characters before - that caption renders WIDER than the
+        scrollbox, which made TScrollBox show a horizontal scrollbar
+        even though every option control fits; a panel has no text, so
+        its width is always exact.
+        The y is SNAPPED up to a multiple of 8 design px: DPI scaling
+        (DLG_SCALE -> LCL AutoAdjustLayout) rounds every control's
+        scaled Top and Bottom independently with round-half-to-even,
+        so a 2px panel renders 2px or 3px thick depending on its y
+        phase - at 125% the four separators rendered 3,2,2,3 px.
+        Separators sharing one phase (mod 8: 8px at every 25% scale
+        step is an even integer, so the phase and the rounding parity
+        are fixed) always render equally thick."""
         y[0] += 4
-        n_lab[0] += 1
+        y[0] = ((y[0] + 7) // 8) * 8
         p = {
-            'x': X0, 'y': y[0], 'w': W - 2 * X0, 'h': 6,
-            'cap': '─' * 92,
+            'p': 'scr',
+            'x': X0, 'y': y[0], 'w': PANEL_W - 2 * X0, 'h': 2,
+            'ex0': 0,
+            'color': check_border,
         }
-        p.update(_theme_props(colors, bg_key='form_bg', font_key='label_font'))
-        ctl('label', 'lab{}'.format(n_lab[0]), p)
+        ctl('colorpanel', 'sep{}'.format(n_lab[0]), p)
         y[0] += 12
 
     def hint(cap):
         """Small hint line - SHORT on purpose: the old dlg_custom dialog
         had hints wider than the window, so their ends were eaten."""
         n_lab[0] += 1
-        p = {'x': X0 + 8, 'y': y[0], 'w': W - 2 * X0 - 8, 'h': 16, 'cap': cap}
+        p = {
+            'p': 'scr',
+            'x': X0 + 8, 'y': y[0], 'w': PANEL_W - 2 * X0 - 8, 'h': 16,
+            'cap': cap,
+        }
         p.update(_theme_props(colors, bg_key='form_bg', font_key='label_font'))
         ctl('label', 'lab{}'.format(n_lab[0]), p)
         y[0] += 16
 
     def check(name, cap, value):
-        """One boolean option = a themed LABEL with the caption + a
-        glyph-only OS-drawn CHECKBOX. The 'check' control carries an
-        EMPTY caption because on Windows the checkbox caption is
-        painted by the OS theme and ignores Font.Color - it stayed
-        BLACK on the dark themed form, unreadable (the little square
-        glyph itself is fine: that is exactly the OS-drawn look that
-        was asked for). The label follows the theme like every other
-        label, and its on_click TOGGLES the checkbox (on_click works
-        for labels too; the dialog API wires the click event of every
-        control), so the whole row behaves like one big checkbox.
-        The label is created BEFORE its checkbox on purpose: the
-        dialog engine auto-wires FocusControl of a label to the win
-        control created right after it - this way the label focuses
-        ITS OWN checkbox (with the wrong order it focused the next
-        row's one). The value lives in the control's 'val' ('1'/'0')
-        and is read back by on_ok like any other control."""
+        """One boolean option = a DRAWN checkbox, the same style as the
+        checkbox column of the Favorites window, and NO image files.
+        The square is a SANDWICH of two 'colorpanel' controls
+        (TATPanelColor):
+        - the OUTER 15x15 panel draws only the 1px border, in
+          ButtonBorderPassive blended 40% toward the theme's text
+          color (plain ButtonBorderPassive was nearly invisible on
+          grey themes);
+        - the INNER 13x13 panel (1px inset) carries the check mark as
+          the CHECK_GLYPH text-glyph caption, in the theme's label
+          color.
+        Two panels are needed because of a TATPanelColor paint detail:
+        it draws its caption with Canvas.TextOut, whose BACKGROUND
+        (the panel's own fill brush, as large as the text extent) is
+        not clipped - on a single 15px panel the 'check' text extent
+        spans the whole inner area and its background overpainted the
+        1px border ring, so a CHECKED box lost its border. The inner
+        panel is clipped to its own client area, 1px inside the ring,
+        so the border can never be overpainted again.
+        The caption is a plain themed label to the right. A click on
+        the square (either panel) OR on the caption toggles the option
+        (the live state lives in 'checks'; the inner panel's caption
+        is swapped between the glyph and ''). The OS 'check' control
+        was not usable: its glyph is painted with OS colors and
+        ignored the theme (issue #6634). '&' accelerators are stripped
+        - the label is a plain label, no focus wiring."""
         cap = cap.replace('&&', '\x01').replace('&', '').replace('\x01', '&')
+        # the squares first, the caption label after them (the engine
+        # wires a label created BEFORE a TWinControl as its FocusControl
+        # - creating the label second avoids that bogus wiring)
+        for nm_suffix, dx, dy, size, cap_txt in (
+                ('chk_', 0, 0, CHECK_SZ, ''),
+                ('chki_', 1, 1, CHECK_SZ - 2,
+                 CHECK_GLYPH if value else '')):
+            box = {
+                'p': 'scr',
+                'x': X0 + dx, 'y': y[0] + 5 + dy,
+                'w': size, 'h': size,
+                # 'act' is REQUIRED: the colorpanel reports its click
+                # through on_change, and DoOnChange drops the event
+                # for controls not marked 'act' (buttons get it by
+                # default, colorpanels don't)
+                'act': True,
+                'on_change': on_check_click,
+            }
+            if nm_suffix == 'chk_':
+                # the outer border ring: ex0 = width, ex3 = color
+                box['ex0'] = 1
+                box['ex3'] = check_border
+            else:
+                # the inner glyph panel: no border, the caption glyph
+                box['ex0'] = 0
+                box['cap'] = cap_txt
+            if colors['form_bg'] is not None:
+                box['color'] = colors['form_bg']
+            if colors['label_font'] is not None:
+                box['font_color'] = colors['label_font']
+            n = ctl('colorpanel', nm_suffix + name, box)
+            if n is not None:
+                check_names[n] = name
+        checks[name] = bool(value)
         n_lab[0] += 1
         lp = {
-            'x': X0 + CHECK_GLYPH_W + 4, 'y': y[0] + 3,
-            'w': W - 2 * X0 - CHECK_GLYPH_W - 4, 'h': 16,
+            'p': 'scr',
+            'x': X0 + CHECK_SZ + 6, 'y': y[0] + 4,
+            'w': PANEL_W - 2 * X0 - CHECK_SZ - 6, 'h': 16,
             'cap': cap,
-            'on_click': (lambda id_dlg, id_ctl, data='', info='',
-                         _name=name: toggle_check(_name)),
+            'on_click': on_check_click,
         }
         lp.update(_theme_props(colors, bg_key='form_bg', font_key='label_font'))
-        ctl('label', 'lab{}'.format(n_lab[0]), lp)
-        p = {
-            'x': X0, 'y': y[0], 'w': CHECK_GLYPH_W, 'h': 22,
-            'cap': '',
-            'val': '1' if value else '0',
-        }
-        p.update(_theme_props(colors, bg_key='form_bg', font_key='label_font'))
-        ctl('check', name, p)
+        n = ctl('label', 'chklab_' + name, lp)
+        if n is not None and name in checks:
+            check_names[n] = name
         y[0] += 26
 
     def row_edit(lab_cap, name, val, edit_w=None):
+        """Label + one-line 'editor_edit' (ATSynEdit-based): the engine
+        themes it entirely, border included - the OS 'edit' control had
+        an OS-drawn border, too light on dark themes (issue #6633).
+        The text is set/read through the Editor object: the dialog
+        'val' prop does not serve editor controls."""
         n_lab[0] += 1
-        lp = {'x': X0, 'y': y[0] + 3, 'w': LW, 'h': 16, 'cap': lab_cap}
+        lp = {
+            'p': 'scr',
+            'x': X0, 'y': y[0] + 3, 'w': LW, 'h': 16, 'cap': lab_cap,
+        }
         lp.update(_theme_props(colors, bg_key='form_bg', font_key='label_font'))
         ctl('label', 'lab{}'.format(n_lab[0]), lp)
-        ep = {
-            'x': EX, 'y': y[0], 'w': edit_w or EW, 'h': 23,
-            'val': val,
-        }
-        ep.update(_theme_props(colors))
-        ctl('edit', name, ep)
+        n = ctl('editor_edit', name, {
+            'p': 'scr',
+            'x': EX, 'y': y[0], 'w': edit_w or EW, 'h': EH,
+        })
+        if n is not None:
+            ed = editor_of(n)
+            if ed is not None:
+                eds[name] = ed
+                try:
+                    ed.set_text_all(str(val))
+                except Exception:
+                    pass
         y[0] += 28
 
     def row_combo(lab_cap, name, items, index):
+        """Label + 'editor_combo' (TATComboEdit) - the themed dropdown
+        the built-in Preferences dialog uses for its list-valued
+        options; the OS 'combo_ro' painted its list with OS colors
+        (issue #6634). Made read-only AFTER the initial text is set
+        (a read-only editor refuses programmatic writes too), so the
+        user can only pick from the list. The text is read back through
+        the Editor object and mapped to an index."""
         n_lab[0] += 1
-        lp = {'x': X0, 'y': y[0] + 3, 'w': LW, 'h': 16, 'cap': lab_cap}
+        lp = {
+            'p': 'scr',
+            'x': X0, 'y': y[0] + 3, 'w': LW, 'h': 16, 'cap': lab_cap,
+        }
         lp.update(_theme_props(colors, bg_key='form_bg', font_key='label_font'))
         ctl('label', 'lab{}'.format(n_lab[0]), lp)
-        cp = {
-            'x': EX, 'y': y[0], 'w': 300, 'h': 23,
-            'items': '\t'.join(items),
-            'val': str(index),
-        }
-        cp.update(_theme_props(colors))
-        ctl('combo_ro', name, cp)
+        n = ctl('editor_combo', name, {
+            'p': 'scr',
+            'x': EX, 'y': y[0], 'w': 300, 'h': EH,
+        })
+        if n is not None:
+            ed = editor_of(n)
+            if ed is not None:
+                try:
+                    ed.set_prop(PROP_COMBO_ITEMS, '\n'.join(items))
+                    if 0 <= index < len(items):
+                        ed.set_text_all(items[index])
+                    ed.set_prop(PROP_RO, True)
+                    combos[name] = (ed, items)
+                except Exception:
+                    pass
         y[0] += 28
 
     #--------- the layout
@@ -315,19 +535,24 @@ def dialog_config(op):
     row_edit(_('Ignore &files:'), 'no_files', op.get('no_files', ''))
     row_edit(_('Ignore fold&ers:'), 'no_dirs', op.get('no_dirs', '.git;.svn'))
     check('no_hidden', _('Ignore all &hidden files/folders'), op.get('no_hidden', True))
-    lab(_('&Recent projects:'), X0, W - 2 * X0, dy=17)
-    # NOTE: the memo 'val' of the dialog API separates the lines with
-    # the TAB character (a real tab inside a line is escaped as chr(3))
-    # - with '\n' all projects were merged into a single line. The box
-    # is ~4 lines tall (a line is ~17 px).
-    mp = {
-        'x': X0, 'y': y[0], 'w': W - 2 * X0, 'h': 80,
-        'val': '\t'.join(p.replace('\t', chr(3))
-                         for p in op.get('recent_projects', [])),
-    }
-    mp.update(_theme_props(colors))
-    ctl('memo', 'recent', mp)
-    y[0] += 85
+    lab(_('&Recent projects:'), X0, PANEL_W - 2 * X0, dy=17)
+    # a real mini-editor: 5 visible lines, one project per line, plain
+    # '\n' separation (the old OS 'memo' needed the dialog API's TAB
+    # line-separation plus the chr(3) tab-escaping - both gone with it)
+    n = ctl('editor', 'recent', {
+        'p': 'scr',
+        'x': X0, 'y': y[0], 'w': PANEL_W - 2 * X0, 'h': RECENT_H,
+    })
+    if n is not None:
+        ed = editor_of(n)
+        if ed is not None:
+            eds['recent'] = ed
+            try:
+                ed.set_prop(PROP_GUTTER_ALL, False)
+                ed.set_text_all('\n'.join(op.get('recent_projects', []) or []))
+            except Exception:
+                pass
+    y[0] += RECENT_H + 5
 
     sep()
 
@@ -337,9 +562,12 @@ def dialog_config(op):
     check('preview', _('&Use "preview tab" on item clicking'), op.get('preview', True))
     check('d_click', _('Open files by &double-click'), op.get('d_click', False))
     check('always_sync', _('Automatically show current file in project tree'), op.get('always_sync', False))
-    row_combo(_('File type icons (*):'), 'icon_theme', themes, theme_index)
-    row_combo(_('Toolbar icons (*):'), 'toolbar_theme', themes_tb, theme_index_tb)
-    row_combo(_('Sorting order (*):'), 'sort_order', items_sort_str, items_sort_val)
+    row_combo(_('Sorting order:'), 'sort_order', items_sort_str, items_sort_val)
+    row_combo(_('File type icons:'), 'icon_theme', themes, theme_index)
+    row_combo(_('Toolbar icons:'), 'toolbar_theme', themes_tb_lbl, theme_index_tb)
+    # the add-ons hint sits right below the two icon dropdowns it
+    # talks about (it used to be at the very bottom of the dialog)
+    hint(_('For more icons, get add-ons of kind "filetypeicons", "projtoolbaricons"'))
 
     sep()
 
@@ -359,15 +587,12 @@ def dialog_config(op):
     hint(_('For new projects: empty = last used folder;'))
     hint('$settings = ' + _('CudaText settings folder, e.g. $settings/projects'))
 
-    sep()
-
-    y[0] += 3
-    hint(_('For more icons, get add-ons of kind "filetypeicons", "projtoolbaricons"'))
-    hint(_('(*) - requires CudaText restart'))
-
     #--------- buttons (bottom-right) and the final height
 
-    y[0] += 6
+    # the full content height is known only now: give the content panel
+    # its real height, clamp the dialog height to the monitor, and give
+    # the scrollbox whatever is left
+    content_h = y[0] + 2
     # button_ex = the flat themed CudaText button (follows the UI
     # theme); the OS 'button' cannot be themed via the API. button_ex
     # draws its caption itself, so no '&' accelerators. Enter is
@@ -376,20 +601,68 @@ def dialog_config(op):
     # of the Favorites window (the raw GUI button height hugs the
     # caption too tightly - the buttons looked like thin slabs).
     BTN_H = BH + BTN_PAD
+    BTN_ROW = BTN_H + 18      # the buttons + 8 px above + 10 px below
+    needed_h = content_h + 8 + BTN_ROW
+
+    # the fixed default client height (fits every common screen -
+    # never a full-screen dialog), even lower only when the content
+    # is shorter or on a small screen (the _monitor_client_h safety
+    # clamp): what does not fit scrolls
+    H = min(needed_h, DEF_CLIENT_H)
+    max_h = _monitor_client_h(scale)
+    if max_h is not None:
+        H = min(H, max_h)
+    H = max(H, 300)           # never a degenerate stub
+    scr_h = H - BTN_ROW
+
+    y_btn = H - 10 - BTN_H
     ctl('button_ex', 'btn_ok', {
-        'x': W - X0 - 90 - 6 - 90, 'y': y[0], 'w': 90, 'h': BTN_H,
+        'x': W - X0 - 90 - 6 - 90, 'y': y_btn, 'w': 90, 'h': BTN_H,
         'cap': _('OK'),
         'on_change': on_ok,
     })
     ctl('button_ex', 'btn_cancel', {
-        'x': W - X0 - 90, 'y': y[0], 'w': 90, 'h': BTN_H,
+        'x': W - X0 - 90, 'y': y_btn, 'w': 90, 'h': BTN_H,
         'cap': _('Cancel'),
         'on_change': on_cancel,
     })
-    H = y[0] + BTN_H + 12
 
-    dlg_proc(h, DLG_PROP_SET, prop={'h': H})
+    def on_form_resize(id_dlg, id_ctl, data='', info=''):
+        """The user resized the (resizable) window: keep the option
+        scrollbox filling everything above the bottom button row and
+        the OK/Cancel buttons pinned to the dialog bottom - the
+        scrollbox itself shows/hides its scrollbar automatically
+        (TScrollBox.AutoScroll) as its client grows or shrinks. All
+        sizes here are the LIVE SCALED pixels of the form
+        (DLG_PROP_GET returns the client size), so the unscaled
+        layout constants are multiplied by 'scale'."""
+        try:
+            prop = dlg_proc(id_dlg, DLG_PROP_GET)
+            new_w = int(prop.get('w') or 0)
+            new_h = int(prop.get('h') or 0)
+            if new_w <= 0 or new_h <= 0:
+                return
+            bottom = int(BTN_ROW * scale)
+            y_b = new_h - max(int(10 * scale), 8) - int(BTN_H * scale)
+            dlg_proc(id_dlg, DLG_CTL_PROP_SET, name='scr',
+                     prop={'w': new_w,
+                           'h': max(60, new_h - bottom)})
+            dlg_proc(id_dlg, DLG_CTL_PROP_SET, name='btn_ok',
+                     prop={'y': y_b})
+            dlg_proc(id_dlg, DLG_CTL_PROP_SET, name='btn_cancel',
+                     prop={'y': y_b})
+        except Exception:
+            pass
+
+    dlg_proc(h, DLG_PROP_SET, prop={'h': H, 'on_resize': on_form_resize})
+    dlg_proc(h, DLG_CTL_PROP_SET, name='scr', prop={'h': scr_h})
     dlg_proc(h, DLG_SCALE)
+    # the resize constraints are raw pixels (not scaled by DLG_SCALE),
+    # so set them AFTER the scaling with the scaled numbers
+    dlg_proc(h, DLG_PROP_SET, prop={
+        'w_min': int((W - 80) * scale),
+        'h_min': int(320 * scale),
+    })
     dlg_proc(h, DLG_SHOW_MODAL)
 
     ok = state.pop('ok', False)
@@ -398,14 +671,11 @@ def dialog_config(op):
         op['no_dirs'] = str(state.get('no_dirs', '')).strip()
         op['no_hidden'] = _val_bool(state.get('no_hidden'))
 
-        # the memo value separates the lines with TAB (see the comment
-        # at the control); a tab inside a line comes back as chr(3).
-        # Entries merged into one tab-joined line by the old (buggy)
-        # builds are healed back into separate lines here.
-        raw_recent = str(state.get('recent', '') or '')
-        op['recent_projects'] = [s.replace(chr(3), '\t').strip()
-                                 for s in raw_recent.split('\t')
-                                 if s.strip()]
+        # the "Recent projects" editor keeps one project per line -
+        # plain '\n' lines now (no TAB/chr(3) escaping anymore)
+        op['recent_projects'] = [
+            s.strip() for s in str(state.get('recent', '') or '').splitlines()
+            if s.strip()]
 
         op['toolbar'] = _val_bool(state.get('toolbar'))
         op['goto_open'] = _val_bool(state.get('goto_open'))
@@ -418,8 +688,8 @@ def dialog_config(op):
             op['icon_theme'] = themes[index]
 
         index = _val_int(state.get('toolbar_theme'))
-        if 0 <= index < len(themes_tb):
-            op['toolbar_theme'] = themes_tb[index]
+        if 0 <= index < len(themes_tb_val):
+            op['toolbar_theme'] = themes_tb_val[index]
 
         index = _val_int(state.get('sort_order'))
         if 0 <= index < len(items_sort_id):
@@ -438,12 +708,15 @@ def dialog_config(op):
 
 def dialog_proj_prop(prop):
     """Project properties dialog (variables + main file). Built with
-    dlg_proc (the old dlg_custom version could not follow the UI
-    theme): the form, the labels, the memo and the read-only edit are
-    colored from the theme dict, and the buttons are the flat themed
-    button_ex controls with the same vertical padding as the other
-    dialogs (Enter is handled by the form - button_ex has no
-    "default button" support; Esc cancels the modal form - engine).
+    dlg_proc with theme-aware control types only: the form and labels
+    are colored from the theme dict, the variables box is a themed
+    'editor' (a real mini-editor - the OS 'memo' painted with OS
+    colors), the read-only main-file field is a themed 'editor_edit'
+    (the OS 'edit' border was too light on dark themes, issue #6633),
+    and the buttons are the flat themed button_ex controls with the
+    same vertical padding as the other dialogs (Enter is handled by
+    the form - button_ex has no "default button" support; Esc cancels
+    the modal form - engine).
     Returns True when OK was pressed."""
 
     if isinstance(prop.get('vars'), list):
@@ -453,10 +726,13 @@ def dialog_proj_prop(prop):
     main_file = str(prop.get('mainfile', ''))
 
     colors = get_theme_ui_colors()
-    # unscale the DPI-scaled GUI height (see the favorites module's
+    scale = _ui_scale()
+    # unscale the DPI-scaled GUI heights (see the favorites module's
     # "DPI NOTE"): the layout is unscaled, DLG_SCALE scales it once
     BH = _unscale_px(app_proc(PROC_GET_GUI_HEIGHT, 'button'),
-                     _ui_scale(), 30)
+                     scale, 30)
+    EH = _unscale_px(app_proc(PROC_GET_GUI_HEIGHT, 'edit'),
+                     scale, 28)
     # the same comfortable vertical padding as in the other dialogs
     BTN_H = BH + BTN_PAD
 
@@ -465,6 +741,11 @@ def dialog_proj_prop(prop):
 
     def on_ok(id_dlg, id_ctl, data='', info=''):
         state['ok'] = True
+        # read the memo text while the dialog is definitely alive
+        try:
+            state['vars'] = ed_vars.get_text_all()
+        except Exception:
+            state['vars'] = ''
         dlg_proc(h, DLG_HIDE)
 
     def on_cancel(id_dlg, id_ctl, data='', info=''):
@@ -506,26 +787,37 @@ def dialog_proj_prop(prop):
 
     label('lab_vars', _('&Variables (in form Name=Value)'), 6, 6, W - 12)
 
-    # the memo 'val' separates the lines with TAB; a real tab inside a
-    # line is escaped as chr(3) (dialog API rule, same as the options
-    # dialog's "Recent projects" box)
-    mp = {
+    # a real mini-editor: one variable per line, plain '\n' separation
+    # (the old OS 'memo' needed the dialog API's TAB line-separation
+    # plus the chr(3) tab-escaping - both gone with it)
+    ed_vars = None
+    n = ctl('editor', 'vars_memo', {
         'x': 6, 'y': 26, 'w': W - 12, 'h': 154,
-        'val': '\t'.join(v.replace('\t', chr(3)) for v in list_vars),
-    }
-    mp.update(_theme_props(colors))
-    ctl('memo', 'vars_memo', mp)
+    })
+    if n is not None:
+        try:
+            ed_vars = Editor(dlg_proc(h, DLG_CTL_HANDLE, index=n) or 0)
+            ed_vars.set_prop(PROP_GUTTER_ALL, False)
+            ed_vars.set_text_all('\n'.join(list_vars))
+        except Exception:
+            ed_vars = None
 
     label('lab_main', _('&Main file (read-only, change in context menu)'),
           6, 190, W - 12)
 
-    ep = {
-        'x': 6, 'y': 210, 'w': W - 12, 'h': 23,
-        'val': main_file,
-        'ex0': True,          # read-only (dialog API prop of edit/memo)
-    }
-    ep.update(_theme_props(colors))
-    ctl('edit', 'main_file', ep)
+    # themed one-line edit, read-only (PROP_RO - the OS 'edit' control
+    # was not theme-aware, issue #6633); read-only is set AFTER the
+    # text, a read-only editor refuses programmatic writes too
+    n = ctl('editor_edit', 'main_file', {
+        'x': 6, 'y': 210, 'w': W - 12, 'h': EH,
+    })
+    if n is not None:
+        try:
+            ed = Editor(dlg_proc(h, DLG_CTL_HANDLE, index=n) or 0)
+            ed.set_text_all(main_file)
+            ed.set_prop(PROP_RO, True)
+        except Exception:
+            pass
 
     # flat themed buttons, bottom-right (button_ex draws its caption
     # itself, so no '&' accelerators)
@@ -545,13 +837,9 @@ def dialog_proj_prop(prop):
 
     ok = state.get('ok', False)
     if ok:
-        try:
-            props_memo = dlg_proc(h, DLG_CTL_PROP_GET, name='vars_memo') or {}
-            raw = str(props_memo.get('val', '') or '')
-        except Exception:
-            raw = ''
-        prop['vars'] = [item.strip().replace(chr(3), '\t')
-                        for item in raw.split('\t') if '=' in item]
+        raw = str(state.get('vars', '') or '')
+        prop['vars'] = [item.strip()
+                        for item in raw.splitlines() if '=' in item]
 
     dlg_proc(h, DLG_FREE)
     return True if ok else None

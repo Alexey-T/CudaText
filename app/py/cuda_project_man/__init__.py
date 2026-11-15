@@ -44,6 +44,55 @@ try:
 except NameError:
     APPSTATE_THEME_UI = 21
 
+# the two DEFAULT toolbar icon sets (app/data/projtoolbaricons): the same
+# artwork as black and as white. When one of them is configured, the
+# plugin auto-picks the variant the current UI theme needs (issue #6632):
+# a 'black' theme gets the white icons, a 'white'/'grey' theme the black
+# ones. Any other set (feather_*, a custom folder) is the user's own
+# choice and is never re-picked.
+ICONS_DEFAULT = 'default_16x16'
+ICONS_DEFAULT_WHITE = 'default_white_16x16'
+
+#: space between the toolbar's icon buttons (unscaled px, multiplied
+#: by the UI scale at runtime): every icon button's width is set to
+#: icon size + 2x this value, REPLACING the theme's default gap
+#: (ATFlatControls' GapForAutoSize = 8 px per button, which made the
+#: buttons too wide for the panel's factory width and wrapped them
+#: to a second line). 2 = two px gap at each side of every icon (the
+#: 7 buttons total ~140 px, which the factory panel width - wide
+#: enough for the old 8 buttons at gap 1, ~144 px - still fits in
+#: one line); 0 = the icons touch each other; raise/lower it for
+#: more/less air. See
+#: Command.toolbar_apply_icon_spacing.
+TOOLBAR_ICON_SPACING = 2
+
+
+def get_theme_category():
+    """Color category of the current UI theme: 'black' (a dark theme)
+    or 'grey' (a light one, what theme authors may also call 'white'),
+    estimated from the LUMINOSITY of the EDITOR BACKGROUND COLOR - the
+    editor is the largest colored surface of the UI, and dark/light
+    themes differ in it clearly (the preinstalled themes are far from
+    any threshold: their editor backgrounds measure 13-47 vs 224-255
+    on the 0-255 luminosity scale). This is how the maintainer wants
+    plugins to detect the category (PR #6636: "plugins should detect
+    the category by reading and analysing the theme's colors. no new
+    keys in themes") - an earlier round used a 'category' JSON key in
+    the theme files, which was reverted: the key made every theme
+    add-on expect an update, and CudaText's own theme save-cycle
+    dropped it anyway. On any error '' (unknown)."""
+    try:
+        d = app_proc(PROC_THEME_UI_DICT_GET, '')
+        # the int color is TColor, $00BBGGRR
+        c = int(d['EdTextBg']['color']) & 0xFFFFFF
+        r, g, b = c & 0xFF, (c >> 8) & 0xFF, (c >> 16) & 0xFF
+        if 0.299 * r + 0.587 * g + 0.114 * b < 128:
+            return 'black'
+        return 'grey'
+    except Exception:
+        return ''
+
+
 ctypes = None
 if IS_WIN:
     try:
@@ -742,6 +791,7 @@ def _open_folder_in_fileman(path):
 
 
 def _toolbar_add_btn(h_bar, hint, icon=-1, command=''):
+    """Add a button to toolbar 'h_bar' and return its handle."""
     toolbar_proc(h_bar, TOOLBAR_ADD_ITEM)
     cnt = toolbar_proc(h_bar, TOOLBAR_GET_COUNT)
     h_btn = toolbar_proc(h_bar, TOOLBAR_GET_BUTTON_HANDLE, index=cnt-1)
@@ -750,8 +800,10 @@ def _toolbar_add_btn(h_bar, hint, icon=-1, command=''):
     else:
         button_proc(h_btn, BTN_SET_KIND, BTNKIND_ICON_ONLY)
         button_proc(h_btn, BTN_SET_HINT, hint)
-        button_proc(h_btn, BTN_SET_IMAGEINDEX, icon)
+        if icon is not None and icon >= 0:
+            button_proc(h_btn, BTN_SET_IMAGEINDEX, icon)
         button_proc(h_btn, BTN_SET_DATA1, command)
+    return h_btn
 
 
 def _time_am_pm():
@@ -927,7 +979,7 @@ class Command:
         "on_start": False,
         "on_start_activate": False,
         "icon_theme": "vscode_16x16",
-        "toolbar_theme": "default_16x16",
+        "toolbar_theme": "auto",
         "backup_enabled": True,
         "backup_folder": DEFAULT_BACKUP_FOLDER,
         "backup_count": DEFAULT_BACKUP_COUNT,
@@ -940,14 +992,25 @@ class Command:
     tree = None
     tree_index = None
     h_dlg = None
+    h_bar = None
+    toolbar_imglist = None
     h_menu = None
     h_menu_cfg = None
+    h_menu_pfile = None
+    #: (button handle, icon file name) of the toolbar's icon buttons, in
+    #: button order; filled in init_form_main, re-filled by
+    #: toolbar_icons_load() (also on a UI theme change, when a default
+    #: icon set re-picks its black/white variant)
+    _toolbar_icon_btns = None
+    #: name of the icon set currently loaded into the toolbar imagelist
+    _toolbar_icons_name = ''
 
     #--- tree filter (the field above the tree) and type-ahead state
     #: current filter text ('' = no filtering)
     tree_filter = ''
-    #: control index of the filter edit (set in init_form_main)
-    filter_ctl_index = -1
+    #: Editor object of the filter field ('editor_edit' control, set
+    #: in init_form_main); None before the panel is built
+    filter_ed = None
     #: full (shown) width of the filter's (x) button, set in
     #: init_form_main; the hidden state collapses the button to w=0
     #: (see _filter_cancel_btn_update)
@@ -1108,14 +1171,31 @@ class Command:
                     self.options["recent_projects"] = [expand_macros('', fn) for fn in healed]
             except Exception:
                 pass
+        self.migrate_loaded_options()
 
         self.new_project() # reset to the "no project" state
+
+    def migrate_loaded_options(self):
+        """One-time migrations of values loaded from an OLDER plugin's
+        options file (runs after every load; each migration is guarded
+        by its own flag option so it never touches a value the user
+        chose under the NEW semantics).
+
+        'toolbar_theme': 'default_16x16' used to be THE default value
+        and meant 'the default icons, auto-colored for the UI theme'.
+        Since the 'auto' value exists, a fixed 'default_16x16' is a
+        deliberate choice of its own - so the stored old default is
+        moved to 'auto' once (behavior-preserving: it did exactly
+        that), and never touched again afterwards."""
+        if not self.options.get('_toolbar_theme_migrated'):
+            self.options['_toolbar_theme_migrated'] = True
+            if self.options.get('toolbar_theme') == 'default_16x16':
+                self.options['toolbar_theme'] = 'auto'
 
 
     def init_form_main(self):
 
         show_toolbar = self.options.get("toolbar", True)
-        toolbar_theme = self.options.get("toolbar_theme", "default_16x16")
 
         self.h_dlg = dlg_proc(0, DLG_CREATE)
 
@@ -1137,61 +1217,73 @@ class Command:
 
         self.h_bar = dlg_proc(self.h_dlg, DLG_CTL_HANDLE, index=n)
         self.toolbar_imglist = toolbar_proc(self.h_bar, TOOLBAR_GET_IMAGELIST)
-        self.set_imagelist_size(toolbar_theme, self.toolbar_imglist)
+        #: (button handle, icon file name, command) of the toolbar's
+        #: icon buttons, in button order; toolbar_icons_load() re-fills
+        #: the imagelist from this list (at panel init, and again when
+        #: the UI theme changes while a default icon set is configured
+        #: - see toolbar_icons_effective)
+        self._toolbar_icon_btns = []
+        #: name of the icon set currently loaded into the imagelist
+        self._toolbar_icons_name = ''
 
+        # (hint, plugin command, icon file) of the toolbar's icon buttons
+        toolbar_buttons = [
+            (_('Recent projects'), 'cuda_project_man.menu_recents', 'recents.png'),
+            # opens the 'Project file' popup menu (the same items as
+            # the tree context menu's 'Project file' submenu) - the
+            # button used to run "Open project..." directly; the
+            # separate "Save project" button is gone, both commands
+            # live in this menu now
+            (_('Project file'), 'cuda_project_man.menu_project_file', 'open.png'),
+            # '-' separator and 'Remove node' (del.png) buttons were here
+            (_('Add folder'), 'cuda_project_man.action_add_folder', 'add-dir.png'),
+            (_('Add file'), 'cuda_project_man.action_add_file', 'add-file.png'),
+            (_('Project sessions'), 'cuda_project_man.menu_cfg', 'sessions.png'),
+            (_('Show current file in project tree'), 'cuda_project_man.sync_to_ed', 'locate.png'),
+            (_('Favorites (bookmarks)'), 'cuda_project_man.favorites_show', 'star.png'),
+        ]
+
+        # the effective icon set for the current UI theme (a default set
+        # auto-switches to its black/white variant, a custom set is kept)
+        toolbar_theme = self.toolbar_icons_effective()
         dirname = os.path.join(app_path(APP_DIR_DATA), 'projtoolbaricons', toolbar_theme)
-        icon_recents = imagelist_proc(self.toolbar_imglist, IMAGELIST_ADD, value = os.path.join(dirname, 'recents.png'))
-        icon_open = imagelist_proc(self.toolbar_imglist, IMAGELIST_ADD, value = os.path.join(dirname, 'open.png'))
-        icon_save = imagelist_proc(self.toolbar_imglist, IMAGELIST_ADD, value = os.path.join(dirname, 'save.png'))
-        icon_add_file = imagelist_proc(self.toolbar_imglist, IMAGELIST_ADD, value = os.path.join(dirname, 'add-file.png'))
-        icon_add_dir = imagelist_proc(self.toolbar_imglist, IMAGELIST_ADD, value = os.path.join(dirname, 'add-dir.png'))
-        # icon_del = imagelist_proc(self.toolbar_imglist, IMAGELIST_ADD, value = os.path.join(dirname, 'del.png'))
-        icon_cfg = imagelist_proc(self.toolbar_imglist, IMAGELIST_ADD, value = os.path.join(dirname, 'cfg.png'))
-        icon_sync = imagelist_proc(self.toolbar_imglist, IMAGELIST_ADD, value = os.path.join(dirname, 'sync.png'))
+        self.set_imagelist_size(toolbar_theme, self.toolbar_imglist)
+        for hint, command, fn_icon in toolbar_buttons:
+            icon = imagelist_proc(self.toolbar_imglist, IMAGELIST_ADD, value = os.path.join(dirname, fn_icon))
+            self._toolbar_icon_btns.append((
+                _toolbar_add_btn(self.h_bar, hint=hint, icon=icon, command=command),
+                fn_icon, command))
+        self._toolbar_icons_name = toolbar_theme
 
         toolbar_proc(self.h_bar, TOOLBAR_THEME)
-        _toolbar_add_btn(self.h_bar, hint=_('Recent projects'), icon=icon_recents, command='cuda_project_man.menu_recents' )
-        _toolbar_add_btn(self.h_bar, hint=_('Open project'), icon=icon_open, command='cuda_project_man.action_open_project' )
-        # _toolbar_add_btn(self.h_bar, hint=_('Save project'), icon=icon_save, command='cuda_project_man.action_save_project' )
-        # _toolbar_add_btn(self.h_bar, hint='-' )
-        _toolbar_add_btn(self.h_bar, hint=_('Add folder'), icon=icon_add_dir, command='cuda_project_man.action_add_folder' )
-        _toolbar_add_btn(self.h_bar, hint=_('Add file'), icon=icon_add_file, command='cuda_project_man.action_add_file' )
-        # _toolbar_add_btn(self.h_bar, hint=_('Remove node'), icon=icon_del, command='cuda_project_man.action_remove_node' )
-        # _toolbar_add_btn(self.h_bar, hint='-' )
-        _toolbar_add_btn(self.h_bar, hint=_('Project sessions'), icon=icon_cfg, command='cuda_project_man.menu_cfg')
-        _toolbar_add_btn(self.h_bar, hint=_('Show current file in project tree'), icon=icon_sync, command='cuda_project_man.sync_to_ed' )
+        # buttons were created by the loop above
 
-        btn_count = toolbar_proc(self.h_bar, TOOLBAR_GET_COUNT)
-        self.h_btn_sync = toolbar_proc(self.h_bar, TOOLBAR_GET_BUTTON_HANDLE, index=btn_count-1)
+        # the "Show current file in project tree" button is NOT the last
+        # one (the Favorites button follows it), so its handle is found
+        # by the button's command, not by the list position
+        self.h_btn_sync = next(
+            (h for h, _fn, cmd in self._toolbar_icon_btns
+             if cmd == 'cuda_project_man.sync_to_ed'),
+            self._toolbar_icon_btns[0][0])
         button_proc(self.h_btn_sync, BTN_SET_VISIBLE, not self.options.get('always_sync', False))
-
-        # Favorites (bookmarks) button - a TEXT button showing the ☆
-        # UTF-8 font icon itself (no image files); opens the Favorites
-        # window. Added after h_btn_sync is captured so its handle stays
-        # valid (it assumes it is the last button)
-        try:
-            # _toolbar_add_btn(self.h_bar, hint='-')
-            toolbar_proc(self.h_bar, TOOLBAR_ADD_ITEM)
-            cnt = toolbar_proc(self.h_bar, TOOLBAR_GET_COUNT)
-            h_btn_fav = toolbar_proc(self.h_bar, TOOLBAR_GET_BUTTON_HANDLE, index=cnt-1)
-            button_proc(h_btn_fav, BTN_SET_KIND, BTNKIND_TEXT_ONLY)
-            button_proc(h_btn_fav, BTN_SET_TEXT, '☆')
-            button_proc(h_btn_fav, BTN_SET_HINT, _('Favorites (bookmarks)'))
-            button_proc(h_btn_fav, BTN_SET_DATA1, 'cuda_project_man.favorites_show')
-        except Exception as e:
-            print('Project Manager: cannot add Favorites toolbar button:', e)
 
         toolbar_proc(self.h_bar, TOOLBAR_SET_WRAP, index=True)
         toolbar_proc(self.h_bar, TOOLBAR_UPDATE)
+        # widen the icon buttons for the spacing (MUST run after the
+        # last TOOLBAR_UPDATE - see toolbar_apply_icon_spacing)
+        self.toolbar_apply_icon_spacing()
 
         #---- filter field above the tree ----
         # typing here shows only the nodes/files/folders whose name
         # matches (folders keep the path to the matches); Esc clears it
-        # NOTE 'act': True is REQUIRED: the dialog engine fires the
-        # on_change event of an edit only for controls marked 'act'
-        # (DoOnChange -> "if not Props.FActive then exit"), and 'edit'
-        # controls don't get it by default (buttons do) - without it
-        # typing in the field did nothing at all
+        # 'editor_edit' = the ATSynEdit-based one-line edit: the engine
+        # themes it entirely (OptThemed + EditorApplyTheme), so its
+        # text/border colors follow the UI theme on dark themes too -
+        # the OS 'edit' control had an OS-drawn border that was too
+        # light on dark themes (issue #6633). Editors are 'act':True by
+        # the engine itself (issue #3361), so on_change fires without
+        # any prop. The text is read/written through the Editor object
+        # (the dialog 'val' prop does not serve editor controls).
         EH = app_proc(PROC_GET_GUI_HEIGHT, 'edit') or 28
         #---- cancel (x) button at the right of the filter field ----
         # Created BEFORE the edit: the edit's right edge is anchored to
@@ -1241,8 +1333,7 @@ class Command:
             'hint': _('Cancel the running search\r(or clear the filter when no search is running)'),
             'on_change': self.panel_filter_cancel_click,
         })
-        n = dlg_proc(self.h_dlg, DLG_CTL_ADD, prop='edit')
-        self.filter_ctl_index = n
+        n = dlg_proc(self.h_dlg, DLG_CTL_ADD, prop='editor_edit')
         dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, index=n, prop={
             'name': 'f_filter',
             'a_t': ('bar', ']'),
@@ -1257,6 +1348,13 @@ class Command:
             'hint': _('Show only the files/folders whose name matches.\rEsc clears the filter'),
             'on_change': self.panel_filter_on_change,
         })
+        # Editor object of the filter field: its text cannot be read
+        # with the dialog 'val' prop (editor controls are outside it)
+        try:
+            self.filter_ed = Editor(
+                dlg_proc(self.h_dlg, DLG_CTL_HANDLE, index=n) or 0)
+        except Exception:
+            self.filter_ed = None
         # 'f_filter' exists now: glue the cancel button's top and bottom
         # edges to the edit's ones (0 spacing) - the button always keeps
         # the same height as the filter field, at any DPI / GUI height
@@ -1316,16 +1414,7 @@ class Command:
         tree_proc(self.tree, TREE_ITEM_DELETE, 0)
 
         self.icon_init()
-        self.ICON_ALL = self.icon_get('_')
-        self.ICON_DIR = self.icon_get('_dir')
-        self.ICON_PROJ = self.icon_get('_proj')
-        self.ICON_BAD = self.icon_get('_bad')
-        self.ICON_ZIP = self.icon_get('_zip')
-        self.ICON_BIN = self.icon_get('_bin')
-        self.ICON_IMG = self.icon_get('_img')
-        self.ICON_TEXT = self.icon_get('_text')
-        self.ICON_AUDIO = self.icon_get('_audio')
-        self.ICON_VIDEO = self.icon_get('_video')
+        self._tree_icon_constants()
 
         # color the form and the filter field with the current UI theme
         # (the tree and the toolbar are themed by the engine itself)
@@ -1346,12 +1435,9 @@ class Command:
             if colors['form_bg'] is not None:
                 dlg_proc(self.h_dlg, DLG_PROP_SET, prop={
                     'color': colors['form_bg']})
-            if colors['edit_bg'] is not None:
-                dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, name='f_filter',
-                         prop={'color': colors['edit_bg']})
-            if colors['edit_font'] is not None:
-                dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, name='f_filter',
-                         prop={'font_color': colors['edit_font']})
+            # NOTE the filter field ('editor_edit') is NOT recolored
+            # here: the engine themes editor controls entirely by
+            # itself, they follow every UI theme change on their own
             lbl = {}
             if colors['form_bg'] is not None:
                 lbl['color'] = colors['form_bg']
@@ -2137,6 +2223,11 @@ class Command:
         if node_type == NODE_DIR:
             menu_dir = self.add_context_menu_node(menu_all, "0", _("Selected folder"))
 
+        # the "Project file" items are filled by the single shared
+        # source (the toolbar's [Project file] button uses it too);
+        # the loop below skips them
+        self.fill_project_file_menu(menu_proj)
+
         for item in self.menuitems:
             item_caption = item[0]
             item_parent = item[1]
@@ -2144,6 +2235,8 @@ class Command:
             item_action = item[3]
             item_hotkey = item[4]
             if node_type not in item_types:
+                continue
+            if item_parent == "proj":
                 continue
 
             # no disk deletion for top-level nodes - see the comment
@@ -2153,9 +2246,7 @@ class Command:
                     "cuda_project_man.action_delete_directory"):
                 continue
 
-            if item_parent == "proj":
-                menu_use = menu_proj
-            elif item_parent == "nodes":
+            if item_parent == "nodes":
                 menu_use = menu_nodes
             elif item_parent == "file":
                 menu_use = menu_file
@@ -2164,7 +2255,7 @@ class Command:
             else:
                 menu_use = menu_all
 
-            if item_action in ("collect_recent_projects", "sessions_submenu", "favorites_submenu"):
+            if item_action in ("sessions_submenu", "favorites_submenu"):
                 action = ""
             else:
                 action = item_action
@@ -2174,13 +2265,7 @@ class Command:
             if item_hotkey:
                 menu_proc(menu_added, MENU_SET_HOTKEY, item_hotkey)
 
-            if item_action == "collect_recent_projects":
-                for path in self.options["recent_projects"]:
-                    if os.sep in path:
-                        action = str.format("module=cuda_project_man;cmd=action_open_project;info={};", path)
-                        self.add_context_menu_node(menu_added, action, nice_filename(path))
-
-            elif item_action == "sessions_submenu":
+            if item_action == "sessions_submenu":
                 self.fill_sessions_menu(menu_added)
             elif item_action == "favorites_submenu":
                 self.fill_favorites_menu(menu_added)
@@ -2957,6 +3042,24 @@ class Command:
 
     #------------- tree filter (the field above the tree)
 
+    def _filter_text(self):
+        """Current text of the tree filter field, '' on any error. The
+        field is an 'editor_edit' control: its text lives in the Editor
+        object, the dialog 'val' prop does not serve editor controls."""
+        try:
+            return self.filter_ed.get_text_all() if self.filter_ed else ''
+        except Exception:
+            return ''
+
+    def _filter_set_text(self, text):
+        """Programmatically replace the tree filter field's text (used
+        to clear it); never raises."""
+        try:
+            if self.filter_ed:
+                self.filter_ed.set_text_all(text)
+        except Exception:
+            pass
+
     def panel_filter_on_change(self, id_dlg, id_ctl, data='', info=''):
         """The filter field above the tree changed. The (slow) filtered
         fill does NOT run per keystroke: a one-shot timer applies the
@@ -2967,11 +3070,7 @@ class Command:
         the search is doing."""
         if not self.tree:
             return
-        try:
-            props = dlg_proc(self.h_dlg, DLG_CTL_PROP_GET, name='f_filter') or {}
-            text = str(props.get('val', '') or '')
-        except Exception:
-            text = ''
+        text = self._filter_text()
         # the (x) button shows only with text / a running search
         self._filter_cancel_btn_update()
         if not text:
@@ -2996,10 +3095,8 @@ class Command:
         self._filter_pending = None
         if not self.tree:
             return
-        try:
-            props = dlg_proc(self.h_dlg, DLG_CTL_PROP_GET, name='f_filter') or {}
-            text = str(props.get('val', '') or '')
-        except Exception:
+        text = self._filter_text()
+        if not text:
             return
         if text == self.tree_filter:
             # the field was edited back to the same text: nothing to
@@ -3022,11 +3119,7 @@ class Command:
         change and whenever a scan starts or ends."""
         if not self.h_dlg:
             return
-        try:
-            props = dlg_proc(self.h_dlg, DLG_CTL_PROP_GET, name='f_filter') or {}
-            text = str(props.get('val', '') or '')
-        except Exception:
-            text = ''
+        text = self._filter_text()
         w = self._filter_worker
         searching = (w is not None) and (not w.done)
         try:
@@ -3149,11 +3242,7 @@ class Command:
         scan is dropped, the tree was never filtered, so there is
         nothing to restore - and the (x) button, which shows for ANY
         text, must always have an effect."""
-        try:
-            props = dlg_proc(self.h_dlg, DLG_CTL_PROP_GET, name='f_filter') or {}
-            text = str(props.get('val', '') or '')
-        except Exception:
-            text = ''
+        text = self._filter_text()
         # stop the debounce of a not-yet-applied filter text (harmless
         # when no timer is armed)
         timer_proc(TIMER_STOP, self._filter_timer_fire, 0)
@@ -3162,20 +3251,12 @@ class Command:
             # nothing applied: just empty the field (if it holds the
             # not-yet-applied text) and hide the (x) button
             if text:
-                try:
-                    dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, name='f_filter',
-                             prop={'val': ''})
-                except Exception:
-                    pass
+                self._filter_set_text('')
                 self._filter_cancel_btn_update()
             return
         self._filter_cancel_scan()
         self._filter_label_clear()
-        try:
-            dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, name='f_filter',
-                     prop={'val': ''})
-        except Exception:
-            pass
+        self._filter_set_text('')
         self.apply_tree_filter('')
 
     #------------- background scan (the _FilterWorker thread)
@@ -5121,6 +5202,40 @@ class Command:
 
         menu_proc(self.h_menu_cfg, MENU_SHOW)
 
+    def menu_project_file(self):
+        """Toolbar button "Project file" (the open.png icon): show the
+        project-file menu - the same items as the tree context menu's
+        "Project file" submenu (new/open/save/close project, recent
+        projects, properties). The button used to run "Open
+        project..." directly, and there was a separate "Save project"
+        button - both commands live in this menu now."""
+        if self.h_menu_pfile is None:
+            self.h_menu_pfile = menu_proc(0, MENU_CREATE)
+        menu_proc(self.h_menu_pfile, MENU_CLEAR)
+
+        self.fill_project_file_menu(self.h_menu_pfile)
+
+        menu_proc(self.h_menu_pfile, MENU_SHOW)
+
+    def fill_project_file_menu(self, menu):
+        """Fill the given menu with the "Project file" items of
+        self.menuitems - the single source of the project-file commands,
+        used both by the tree's context menu (its "Project file"
+        submenu) and by the toolbar's [Project file] button menu."""
+        for item_caption, item_parent, _item_types, item_action, item_hotkey in self.menuitems:
+            if item_parent != "proj":
+                continue
+            # the "Recent projects" item only carries its submenu
+            action = "" if item_action == "collect_recent_projects" else item_action
+            menu_added = self.add_context_menu_node(menu, action, item_caption)
+            if item_hotkey:
+                menu_proc(menu_added, MENU_SET_HOTKEY, item_hotkey)
+            if item_action == "collect_recent_projects":
+                for path in self.options["recent_projects"]:
+                    if os.sep in path:
+                        action = str.format("module=cuda_project_man;cmd=action_open_project;info={};", path)
+                        self.add_context_menu_node(menu_added, action, nice_filename(path))
+
     def fill_sessions_menu(self, menu):
         """Fill the given menu with the project-session commands: the list
         of the project's sessions plus save/delete/default/import items.
@@ -5392,6 +5507,9 @@ class Command:
     def config(self):
 
         from .projman_dlg import dialog_config
+        # dialog_config() MUTATES self.options in place on OK, so the
+        # "before" values must be captured here
+        old_icon_theme = self.options.get('icon_theme')
         if dialog_config(self.options):
             print(_('Project Manager: saving options'))
             self.save_options()
@@ -5401,6 +5519,20 @@ class Command:
                     'vis': self.options.get('toolbar', True)
                     })
                 button_proc(self.h_btn_sync, BTN_SET_VISIBLE, not self.options.get('always_sync', False))
+                # a changed toolbar icon set applies immediately too (no
+                # restart needed anymore)
+                self.toolbar_icons_refresh()
+
+            if self.tree:
+                if self.options.get('icon_theme') != old_icon_theme:
+                    # a changed file-type icon set refills the tree's
+                    # imagelist in place and rebuilds the tree
+                    self.tree_icons_reload()
+                else:
+                    # everything else the tree shows (sorting order,
+                    # the ignore masks, hidden files) applies right
+                    # now too - a refresh keeps the folds + selection
+                    self.action_refresh()
 
             # keep the on_start subscription in sync with the project
             # state (the hidden on_start option is not in the dialog; a
@@ -5938,6 +6070,101 @@ class Command:
             return msg_box(_('Project Manager: bad icons size: "%s"') % theme_name, MB_OK+MB_ICONERROR)
 
         imagelist_proc(imglist, IMAGELIST_SET_SIZE, (n, n))
+        #: the icon size of the current set - toolbar_apply_icon_spacing
+        #: needs it to compute the button widths
+        self._toolbar_icon_px = n
+
+    def toolbar_icons_effective(self):
+        """Icon set the toolbar actually uses. The 'toolbar_theme'
+        option is either 'auto' (the default: the default icons colored
+        for the current UI theme, issue #6632 - a 'black' theme gets the
+        white set default_white_16x16, a 'white'/'grey' theme or an
+        unknown category gets the black set default_16x16) or a FIXED
+        icon folder used as-is, whatever the UI theme: feather_* and
+        custom folders, and the two default sets too - only 'auto'
+        follows the UI theme."""
+        name = self.options.get('toolbar_theme', 'auto')
+        if name == 'auto':
+            if get_theme_category() == 'black':
+                return ICONS_DEFAULT_WHITE
+            return ICONS_DEFAULT
+        return name
+
+    def toolbar_icons_load(self, theme_name):
+        """(Re)load the toolbar icons from icon set 'theme_name' (a
+        folder of app/data/projtoolbaricons): clear the toolbar's
+        imagelist, add every button's png again and point the buttons to
+        their images. Used at panel init, and when the UI theme changes
+        while a default set is configured (it re-colors itself for the
+        new theme) or the option was changed in the options dialog."""
+        dirname = os.path.join(app_path(APP_DIR_DATA), 'projtoolbaricons', theme_name)
+        imagelist_proc(self.toolbar_imglist, IMAGELIST_DELETE_ALL)
+        self.set_imagelist_size(theme_name, self.toolbar_imglist)
+        for h_btn, fn_icon, _cmd in self._toolbar_icon_btns:
+            fn = os.path.join(dirname, fn_icon)
+            if not os.path.isfile(fn):
+                # a 3rd-party icon set may lack a NEWER icon file (a
+                # set saved before sessions.png/star.png existed):
+                # fall back to the default set's copy of that icon, so
+                # the button never ends up blank
+                fn = os.path.join(app_path(APP_DIR_DATA),
+                                  'projtoolbaricons', ICONS_DEFAULT, fn_icon)
+            n = imagelist_proc(self.toolbar_imglist, IMAGELIST_ADD,
+                               value=fn)
+            if n is not None:
+                button_proc(h_btn, BTN_SET_IMAGEINDEX, n)
+        self._toolbar_icons_name = theme_name
+        toolbar_proc(self.h_bar, TOOLBAR_UPDATE)
+        # TOOLBAR_UPDATE just reset the button widths - re-apply the
+        # spacing on top of them
+        self.toolbar_apply_icon_spacing()
+
+    def toolbar_apply_icon_spacing(self):
+        """Set every toolbar icon button's width to
+        icon size + 2xTOOLBAR_ICON_SPACING (scaled) - this REPLACES
+        the toolbar's own default width (icon size + the theme's
+        GapForAutoSize = 8 px per button): smaller values TIGHTEN the
+        buttons (the factory panel width fits all 7 icons in one line
+        again), larger ones give them more air. An icon-only button
+        CENTERS its icon (ATFlatControls paints it at
+        (width-icon)/2), so the width shows as an even gap on both
+        sides of every icon; the width never goes below the icon
+        size, so the icons are never clipped.
+
+        MUST run AFTER every toolbar_proc(TOOLBAR_UPDATE) (and after
+        TOOLBAR_SET_WRAP, which also relayouts): the toolbar's
+        UpdateControls recomputes every icon-only button's width from
+        the image size + the theme gap, discarding any width set
+        before. Nothing else touches the widths - a later toolbar
+        resize only re-anchors the buttons, keeping their sizes."""
+        if not self.h_bar or not self._toolbar_icon_btns:
+            return
+        try:
+            scale = _favorites._ui_scale()
+        except Exception:
+            scale = 1
+        icon = int(getattr(self, '_toolbar_icon_px', 16) * scale) or 16
+        try:
+            gap = max(0, int(round(TOOLBAR_ICON_SPACING * scale)))
+        except Exception:
+            gap = 0
+        w = icon + 2 * gap
+        for h_btn, _fn_icon, _cmd in self._toolbar_icon_btns:
+            try:
+                button_proc(h_btn, BTN_SET_WIDTH, w)
+            except Exception:
+                pass
+
+    def toolbar_icons_refresh(self):
+        """Make the toolbar icons match the current UI theme and options:
+        reload the icon set when the effective one differs from the
+        loaded one (only a default set can differ - custom sets do not
+        depend on the theme)."""
+        if not self.h_bar:
+            return
+        theme_name = self.toolbar_icons_effective()
+        if theme_name != self._toolbar_icons_name:
+            self.toolbar_icons_load(theme_name)
 
     def icon_init(self):
 
@@ -5951,6 +6178,43 @@ class Command:
         self.icon_json = os.path.join(self.icon_dir, 'icons.json')
         self.icon_json_dict = json.loads(open(self.icon_json, encoding='utf8').read())
         self.icon_indexes = {}
+
+    def _tree_icon_constants(self):
+        """Fetch the special tree icons' image indexes (the project
+        root, a folder, the error marker, the generic file types) into
+        self.ICON_* attributes. Runs at panel init AND from
+        tree_icons_reload() - the indexes change with every imagelist
+        refill (IMAGELIST_DELETE_ALL restarts them at 0)."""
+        self.ICON_ALL = self.icon_get('_')
+        self.ICON_DIR = self.icon_get('_dir')
+        self.ICON_PROJ = self.icon_get('_proj')
+        self.ICON_BAD = self.icon_get('_bad')
+        self.ICON_ZIP = self.icon_get('_zip')
+        self.ICON_BIN = self.icon_get('_bin')
+        self.ICON_IMG = self.icon_get('_img')
+        self.ICON_TEXT = self.icon_get('_text')
+        self.ICON_AUDIO = self.icon_get('_audio')
+        self.ICON_VIDEO = self.icon_get('_video')
+
+    def tree_icons_reload(self):
+        """File-type icon theme changed in the options: refill the
+        tree's imagelist IN PLACE - clear it (IMAGELIST_DELETE_ALL),
+        re-read the new set (icon_init re-reads the option, the icons
+        .json and resets the ext->index cache), re-fetch the special
+        icons' indexes - and rebuild the tree, which re-assigns every
+        node's icon. No CudaText restart needed anymore (the option
+        used to be marked "(*)" for that)."""
+        if not self.tree:
+            return
+        try:
+            imagelist_proc(self.tree_imglist, IMAGELIST_DELETE_ALL)
+            self.icon_init()
+            self._tree_icon_constants()
+            # action_refresh (not _int): it keeps the tree's folds and
+            # selection and handles an active tree filter
+            self.action_refresh()
+        except Exception as e:
+            print(_('Project Manager: cannot reload file type icons:'), e)
 
 
     def icon_get(self, key):
@@ -6843,6 +7107,10 @@ class Command:
             # are re-colored here
             if self.tree:
                 self.apply_panel_theme()
+            # a default toolbar icon set follows the new theme: a black
+            # theme needs the white icons, a white/grey theme the black
+            # ones (a custom set is kept as configured, issue #6632)
+            self.toolbar_icons_refresh()
             try:
                 _favorites.apply_theme_all()
             except Exception:

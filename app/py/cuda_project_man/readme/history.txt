@@ -1,3 +1,44 @@
+2026.11.15 (@badrelmers)
+- FIX (issue #6632): new "auto" value of the "Toolbar icons" option
+  (the new default): the default icons follow the UI theme - the
+  white set for dark themes, the black set for light ones, also live
+  when the theme changes while CudaText runs; every other value is
+  used exactly as configured.
+- FIX (issue #6633): the edit fields (the tree filter, the Favorites
+  filter, the edit rows of the options and Project properties
+  dialogs) had a too-light border on dark themes; they follow the UI
+  theme now.
+- FIX (issue #6634): the options dialog never grows past the screen
+  anymore. It opens at a fixed default size, can be resized, scrolls
+  its options, and the OK/Cancel buttons always stay visible at the
+  bottom. Every control of the dialog follows the UI theme now; the
+  "Recent projects" box takes one project per line.
+- The [Favorites] toolbar button is a normal icon button now (an
+  outline star), like every other button - it used to be a text
+  button with a font-dependent star glyph. The [Project sessions]
+  button has a "stacked sheets" icon now (it used to be a gear, which
+  reads as "settings"), in the colors of its icon set.
+- NEW: the space between the toolbar icons can be changed with the
+  TOOLBAR_ICON_SPACING constant in the plugin's __init__.py.
+- FIX: a checked checkbox of the options dialog lost its border (the
+  check mark's text background painted over it), and the options area
+  showed a horizontal scrollbar (a separator line was wider than the
+  window) - both fixed.
+- FIX: the options dialog separators could render with different
+  thickness at fractional UI scales (e.g. 125%); they share one
+  layout phase now and are always equally thick.
+- The "Toolbar icons" option has a new value "auto" (the new default):
+  it follows the UI theme and switches the default black/white icon
+  sets; the two "default" sets are fixed choices now, like the feather
+  sets. Stored old defaults are migrated to "auto" once.
+- The [Open project] toolbar button shows the "Project file" menu now
+  (the same items as the tree's context menu); the separate [Save
+  project] button is gone - all project commands live in that menu.
+- The "Show current file in project tree" toolbar button has a
+  crosshair ("locate") icon now; the old arrow icon was confusing.
+- The file-type icons and the sorting order options apply immediately
+  now, no CudaText restart needed anymore.
+
 2026.11.14 (@badrelmers)
 - SAFETY: no command deletes anything permanently on Windows, macOS
   or Linux. Every delete now moves the file/folder to the OS trash (the
