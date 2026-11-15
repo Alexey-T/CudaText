@@ -36,6 +36,7 @@ Type
     FCalculatedWidth: integer;
     FDefLineHeight: integer;
     FIsSelecting: Boolean;
+    FLastCalcClientHeight : integer;
     FLastCalcClientWidth : integer;
     FLastClientWidth : integer;
     FLastHorzScrollInfo: TScrollInfo;
@@ -84,6 +85,7 @@ Type
     procedure ScrollView(DeltaX, DeltaY: Integer);
     procedure SetShowScrollBar(Which: Integer; AShow: Boolean);
     procedure UpdateScrollBars; virtual;
+    function DoMouseWheel(Shift: TShiftState; WheelDelta: Integer; MousePos: TPoint): Boolean; override;
     procedure WMHScroll(var Msg: TLMScroll); message LM_HSCROLL;
     procedure WMVScroll(var Msg: TLMScroll); message LM_VSCROLL;
     property Document : TMarkDownDocument Read GetDocument;
@@ -104,6 +106,7 @@ Type
     property FontQuoteColor: TColor index 2 read GetColor write SetRenderColor;
     property HyperLinkColor: TColor index 3 read GetColor write SetRenderColor;
     property BGCodeColor: TColor index 4 read GetColor write SetRenderColor;
+    property TableLinesColor: TColor index 5 read GetColor write SetRenderColor;
     property BulletChar1 : string index 2 read GetString write SetString;
     property BulletChar2 : string index 3 read GetString write SetString;
     property BulletChar3 : string index 4 read GetString write SetString;
@@ -144,6 +147,7 @@ Type
     property Enabled;
     property Font;
     property MarkDown;
+    property TableLinesColor;
     property ParentBackground;
     property ParentBidiMode;
     property ParentColor;
@@ -214,6 +218,7 @@ begin
     2 : Result:=FRenderer.FontQuoteColor;
     3 : Result:=FRenderer.FontHyperLinkColor;
     4 : Result:=FRenderer.BGCodeColor;
+    5 : Result:=FRenderer.TableLinesColor;
   end;
 end;
 
@@ -249,6 +254,7 @@ begin
     2 : FRenderer.FontQuoteColor:=aValue;
     3 : FRenderer.FontHyperLinkColor:=aValue;
     4 : FRenderer.BGCodeColor:=aValue;
+    5 : FRenderer.TableLinesColor:=aValue;
   end;
 end;
 
@@ -295,6 +301,8 @@ begin
   if AValue=FScrolledLeft then exit;
   FScrolledLeft:=AValue;
   ScrollView(OldScrolledLeft-FScrolledLeft, 0);
+  // same as vertical: keep scrollbar in sync
+  UpdateScrollBars;
 end;
 
 procedure TCustomMarkDownControl.SetScrolledTop(AValue: integer);
@@ -308,12 +316,24 @@ begin
   if AValue=FScrolledTop then exit;
   FScrolledTop:=AValue;
   ScrollView(0, OldScrolledTop-FScrolledTop);
+  // scrollbar thumb must follow programmatic scroll too
+  // (found by AI: scrollbar stayed at the old position when ScrolledTop
+  // was set in code, e.g. after loading a shorter document)
+  UpdateScrollBars;
 end;
 
 procedure TCustomMarkDownControl.DoMarkdownChanged(Sender: TObject);
 begin
   if not (csLoading in ComponentState) then
+  begin
+    // new document: scroll to the begin and repaint
+    // (fixes Lazarus work item 42722: after LoadFromFile the control
+    // kept the old scroll position and was not repainted)
+    ScrolledTop:= 0;
+    ScrolledLeft:= 0;
     ParseMarkDown;
+    Invalidate;
+  end;
 end;
 
 function TCustomMarkDownControl.GetMaxScrollLeft: integer;
@@ -345,6 +365,10 @@ begin
   BorderStyle := bsSingle;
   BorderWidth := 0;
   AutoSize := True;
+  // the canvas renderer must not paint with its default (white-ish)
+  // background before the first Paint() syncs it with Color
+  // (fixes Lazarus work item 42722: white areas at first paint)
+  FRenderer.BGColor:= Color;
 end;
 
 procedure TCustomMarkDownControl.CalculatePreferredSize(
@@ -380,6 +404,7 @@ begin
 
   FLastClientWidth:=ClientWidth;
   FLastCalcClientWidth:=FLastClientWidth;
+  FLastCalcClientHeight:=ClientHeight;
   if not HasVertSB then
     dec(FLastCalcClientWidth,GetSystemMetrics(SM_CXVSCROLL));
   if FLastCalcClientWidth<0 then FLastCalcClientWidth:=0;
@@ -410,6 +435,7 @@ procedure TCustomMarkDownControl.CreateWnd;
 begin
   FSBHorzShowing:=-1;
   FSBVertShowing:=-1;
+  FLastCalcClientHeight:=-1;
   inherited CreateWnd;
 end;
 
@@ -511,7 +537,22 @@ procedure TCustomMarkDownControl.Resize;
 begin
   inherited Resize;
   if ClientWidth<>FLastClientWidth then
-    CalcLayout;
+    CalcLayout
+  else
+    begin
+    // height changed with the same wrap width: the content layout is
+    // still valid, but the scrollbar range (nPage/nMax) was computed
+    // with the old ClientHeight and must be refreshed
+    // (fixes Lazarus work item 42737: vert-scrollbar Max stayed too
+    // small after loading a bigger document, until the user dragged it)
+    if ClientHeight<>FLastCalcClientHeight then
+      begin
+      FLastCalcClientHeight:=ClientHeight;
+      FScrollbarsNeedUpdate:=true;
+      UpdateScrollBars;
+      Invalidate;
+      end;
+    end;
 end;
 
 procedure TCustomMarkDownControl.ScrollView(DeltaX, DeltaY: Integer);
@@ -520,6 +561,12 @@ var
   ScrollFlags: Integer;
 begin
   if (DeltaX=0) and (DeltaY=0) then
+    Exit;
+
+  // handleless (e.g. created from code before parenting): ScrollWindowEx
+  // needs a real window handle, otherwise LCL raises
+  // "Control has no parent window" (part of the work item 42736 fix)
+  if not HandleAllocated then
     Exit;
 
   FScrollbarsNeedUpdate:=true;
@@ -665,6 +712,21 @@ begin
 
     SB_ENDSCROLL: ;// Ends scrolling
   end;
+end;
+
+function TCustomMarkDownControl.DoMouseWheel(Shift: TShiftState; WheelDelta: Integer; MousePos: TPoint): Boolean;
+begin
+  // scroll by whole lines, like other Lazarus controls:
+  // Mouse.WheelScrollLines is the OS-configured value read by the LCL
+  // (fixes Lazarus work item 42733: wheel scrolled only a few pixels)
+  Result:= True;
+  if WheelDelta=0 then Exit;
+  if ssShift in Shift then
+    ScrolledLeft:= ScrolledLeft - WheelDelta * Mouse.WheelScrollLines * FDefLineHeight div 120
+  else
+    ScrolledTop:= ScrolledTop - WheelDelta * Mouse.WheelScrollLines * FDefLineHeight div 120;
+  UpdateScrollBars;
+  Invalidate;
 end;
 
 procedure TCustomMarkDownControl.WMVScroll(var Msg: TLMScroll);

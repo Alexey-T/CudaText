@@ -824,7 +824,10 @@ begin
   if not CharInSet(LMarker[1], ['.', ')']) then
     Exit;
   Delete(lLine,1,lValueLen+1);
-  if not CharInSet(lLine[1],[' ',#9]) then
+  // upstream fcl-md fix: "1." alone on the line (nothing after the marker)
+  // must not be an ordered-list item, and lLine[1] below would index an
+  // empty string
+  if (lLine='') or not CharInSet(lLine[1],[' ',#9]) then
     Exit;
   if isWhitespace(lLine) then
     Exit;

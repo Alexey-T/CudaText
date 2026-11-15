@@ -196,6 +196,7 @@ type
 
     // Selection support
     FSelectionColor: TColor;
+    FTableLinesColor: TColor;
     FHTMLEntities : TFPStringHashTable;
   Protected
     // Selection methods
@@ -207,6 +208,7 @@ type
     procedure Clear;
     procedure BeginLayout;
     procedure EndLayout;
+    procedure CenterTextItemsVerticallyInRows;
     function GetBulletChar(AIndex: Integer): string;
     procedure NewLine(const aCanvas: TCanvas);
     procedure ParagraphBreak(const aCanvas: TCanvas);
@@ -306,6 +308,9 @@ type
     Property ImageMargin : integer read FImageMargin Write FImageMargin;
     Property OnGetImage : TMarkdownImageEvent Read FOnGetImage Write FOnGetImage;
     property SelectionColor: TColor read FSelectionColor write FSelectionColor;
+    // Color of table cell borders and horizontal rules. Default clBlack.
+    // (Lazarus work item 42732: hardcoded black lines are unreadable on dark themes)
+    property TableLinesColor: TColor read FTableLinesColor write FTableLinesColor;
   end;
 
   { TCanvasMarkDownBlockRenderer }
@@ -599,6 +604,7 @@ begin
   fBGColor:=clWindow;
   fFontColor:=clWindowText;
   fFontQuoteColor:=clWindowFrame;
+  FTableLinesColor:=clBlack;
 
   fBaseFontSize:=10;
   FLayout.BaselineShiftCurrent:=0;
@@ -750,7 +756,7 @@ end;
 function TMarkDownCanvasRenderer.HitTestText(const aX, aY: LongInt): TSelectionPoint;
 var
   I: Integer;
-  Item: TLayoutItem;
+  Item, BestItem: TLayoutItem;
   RelativeX: LongInt;
   CharIndex: Integer;
   CharWidth: LongInt;
@@ -759,36 +765,52 @@ var
 begin
   Result.LayoutItemIndex:=-1;
   Result.CharOffset:=0;
+  BestItem:=nil;
 
   for I:=0 to FLists.Items.Count - 1 do
     begin
     Item:=FLists.Items[I];
-    if (Item.Kind=likText) and
-       (aX>=Item.X) and (aX<=Item.X+Item.Width) and
-       (aY>=Item.Y) and (aY<=Item.Y+Item.Height) then
+    if (Item.Kind<>likText) or
+       (aY<Item.Y) or (aY>Item.Y+Item.Height) then
+      Continue;
+    // the text of the row starts at this item?
+    if aX<Item.X then
+      Continue;
+    // item hit exactly, or the first item of the row extending the
+    // click to the whole row line (fixes Lazarus work item 42734:
+    // clicking after the text end must give the row end, not -1)
+    if (aX<=Item.X+Item.Width) or (BestItem=nil) then
       begin
+      BestItem:=Item;
       Result.LayoutItemIndex:=I;
-      RelativeX:=aX - Item.X;
-
-      // Find character position
-      ApplyFont(fCanvas, Item.FontSize, Item.FontStyle, Item.Context);
-      CurrentX:=0;
-      CharIndex:=0;
-
-      while CharIndex<UTF8Length(Item.Text) do
-        begin
-        TestChar:=UTF8Copy(Item.Text, CharIndex + 1, 1);
-        CharWidth:=fCanvas.TextWidth(TestChar);
-        if RelativeX <= CurrentX + (CharWidth div 2) then
-          Break;
-        CurrentX:=CurrentX + CharWidth;
-        Inc(CharIndex);
-        end;
-
-      Result.CharOffset:=CharIndex;
-      Exit;
       end;
+    if (aX<=Item.X+Item.Width) then
+      Break;
     end;
+
+  if BestItem=nil then
+    Exit;
+
+  // Find character position
+  Result.CharOffset:=UTF8Length(BestItem.Text);
+  ApplyFont(fCanvas, BestItem.FontSize, BestItem.FontStyle, BestItem.Context);
+  RelativeX:=aX - BestItem.X;
+  if RelativeX>=BestItem.Width then
+    Exit; // after the text end: keep the end-of-item offset
+  CurrentX:=0;
+  CharIndex:=0;
+
+  while CharIndex<UTF8Length(BestItem.Text) do
+    begin
+    TestChar:=UTF8Copy(BestItem.Text, CharIndex + 1, 1);
+    CharWidth:=fCanvas.TextWidth(TestChar);
+    if RelativeX <= CurrentX + (CharWidth div 2) then
+      Break;
+    CurrentX:=CurrentX + CharWidth;
+    Inc(CharIndex);
+    end;
+
+  Result.CharOffset:=CharIndex;
 end;
 
 procedure TMarkDownCanvasRenderer.SetSelection(const aStart, aEnd: TSelectionPoint);
@@ -875,6 +897,51 @@ end;
 procedure TMarkDownCanvasRenderer.EndLayout;
 begin
   // Reserved for future batching hooks
+end;
+
+procedure TMarkDownCanvasRenderer.CenterTextItemsVerticallyInRows;
+var
+  I: Integer;
+  Item: TLayoutItem;
+  RowY, RowMaxH: LongInt;
+begin
+  // Text items of one visual row keep the row's top Y and their own font
+  // height. Shorter items (e.g. mono/backtick runs next to taller
+  // proportional text) were painted from the row top, i.e. a few pixels
+  // too high (Lazarus work item 42738). Shift each text item down inside
+  // its row so all text bands of the row are vertically centered.
+  // Two passes over the item list (items are created row by row):
+  // 1) find the max text height per row (row = shared top Y),
+  // 2) center every text item of the row within that height.
+  if FLists.Items.Count=0 then
+    exit;
+  RowY:=MaxInt;
+  RowMaxH:=0;
+  // pass 1: remember the row's maximal text height in DeltaY
+  for I:=0 to FLists.Items.Count-1 do
+    begin
+    Item:=FLists.Items[I];
+    if (Item.Kind<>likText) or (Item.Height<=0) then
+      continue;
+    if Item.Y<>RowY then
+      begin
+      RowY:=Item.Y;
+      RowMaxH:=Item.Height;
+      end
+    else if Item.Height>RowMaxH then
+      RowMaxH:=Item.Height;
+    Item.DeltaY:=RowMaxH;
+    end;
+  // pass 2: shift shorter items down by half the difference
+  for I:=0 to FLists.Items.Count-1 do
+    begin
+    Item:=FLists.Items[I];
+    if (Item.Kind<>likText) or (Item.Height<=0) then
+      continue;
+    if Item.Height<Item.DeltaY then
+      Item.Y:=Item.Y + (Item.DeltaY-Item.Height) div 2;
+    Item.DeltaY:=0;
+    end;
 end;
 
 function TMarkDownCanvasRenderer.GetBulletChar(AIndex: Integer): string;
@@ -1128,7 +1195,11 @@ var
           FlushTextRun(aCanvas, CharBuffer, aFontSize, aFontStyle, aLinkHref, aContext, aDryRun);
           CharBuffer:='';
           end;
-        NewLine(aCanvas);
+        // same first-line guard as in AddWordToLine: do not advance to a
+        // new line when the current line is still empty (Lazarus work
+        // item 42723: first row of a cell was pushed one line down)
+        if (FLayout.LineX>0) or (length(CharBuffer)>0) then
+          NewLine(aCanvas);
         CharBuffer:=CurrentChar;
         end;
       Inc(CharPos, CharLen);
@@ -1166,7 +1237,13 @@ var
       begin
       // aWord doesn't fit, flush current line and try on new line
       FlushCurrentLine;
-      NewLine(aCanvas);
+      // do not advance to a new line when the current line is still
+      // empty (the very first word of a paragraph/cell): NewLine would
+      // push the first text row one full line below the top of the
+      // cell (Lazarus work item 42723: table cell text was distorted
+      // and did not stay in its cell)
+      if (FLayout.LineX>0) or (length(LineBuffer)>0) then
+        NewLine(aCanvas);
       NeedSpace:=False;
       // Check if aWord fits on new line
       lWidth:=MeasureTextWidth(aCanvas, aWord, aFontSize, aFontStyle, aContext);
@@ -1295,6 +1372,10 @@ begin
   aContentWidth:=fCalculatedWidth;
   aContentHeight:=fCalculatedHeight;
 
+  // vertically center shorter text runs inside their row
+  // (fixes Lazarus work item 42738: backtick/mono text painted too high)
+  CenterTextItemsVerticallyInRows;
+
   EndLayout;
 end;
 
@@ -1329,7 +1410,7 @@ begin
      begin
      aCanvas.Pen.Style:=psSolid;
      if aItem.Kind=TLayoutItemKind.likRect then
-       aCanvas.Pen.Color:=clBlack
+       aCanvas.Pen.Color:=TableLinesColor
      else
        aCanvas.Pen.Color:=aItem.GetColor(ckBackground,BGColor);
      aCanvas.Pen.Width:=1;
@@ -1338,7 +1419,7 @@ begin
      end;
    TLayoutItemKind.likLine:
      begin
-     aCanvas.Pen.Color:=clBlack;
+     aCanvas.Pen.Color:=TableLinesColor;
      aCanvas.Pen.Width:=1;
      With aItem do
        aCanvas.Line(lX,lY,lX+DeltaX,lY+DeltaY);
@@ -1930,9 +2011,16 @@ function TCanvasMarkDownTableBlockRenderer.GetTotalHeight: Integer;
 var
   I : Integer;
 begin
+  // total height must include the grid lines drawn between the rows:
+  // the row loop advances FStartY by RowHeights[i]+GridSize per row, so
+  // the last row's text ended GridSize*(rows-1) below the table border
+  // (fixes Lazarus work item 42723: last table row had too small height,
+  // its text did not fit inside the table)
   Result:=0;
   For I:=0 to Length(FRowHeights)-1 do
     Result:=Result+FRowHeights[i];
+  if Length(FRowHeights)>1 then
+    Result:=Result+(Length(FRowHeights)-1)*FGridSize;
 end;
 
 procedure TCanvasMarkDownTableBlockRenderer.CalcRowHeights(aTable: TMarkDownTableBlock; const aFontSize: LongInt; const aFontStyle: TFontStyles; const aContext : TFontContext);
@@ -2087,10 +2175,22 @@ begin
      end;
   if aAvailable<=TotalMin then
     begin
-    // Less room than minimum - we allocate the minimum.
-    For I:=0 to TotalColumns-1 do
-      With FColLayout[i] do
-        Width:=Min;
+    // Less room than minimum: shrink the columns proportionally so the
+    // table still fits into the available width (fixes Lazarus work item
+    // 42723: cells of the last columns were drawn outside the table
+    // border / outside the control). Columns stay above a hard floor.
+    if TotalMin>0 then
+      begin
+      For I:=0 to TotalColumns-1 do
+        With FColLayout[i] do
+          Width:=Max(DIP(8),(Min*aAvailable) div TotalMin);
+      end
+    else
+      begin
+      For I:=0 to TotalColumns-1 do
+        With FColLayout[i] do
+          Width:=Min;
+      end;
     end
   else if aAvailable>=TotalPref then
     begin
