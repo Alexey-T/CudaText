@@ -287,10 +287,13 @@ The toolbar (top of the panel) has these buttons, left to right:
   ---
   [Project sessions] - shows the sessions menu
   [Show current file in project tree]
+  [Favorites]        - opens the Favorites window (star.png icon)
 
 The "Show current file" button is hidden if "Automatically show current
 file in project tree" is enabled in options (it then happens on every
-tab switch). The last button, [Favorites], opens the Favorites window.
+tab switch). The [Favorites] button uses the star.png icon of the
+configured icon set, like every other button (it used to be a text
+button with a UTF-8 star glyph painted by the font).
 
 While a DEFAULT icon set (default_16x16 / default_white_16x16) is
 configured, the toolbar icons follow the UI theme: dark ("black")
@@ -463,6 +466,12 @@ OPTIONS
 Open via the menu: Project Manager > Project Manager options..., the
 panel context menu (at the bottom), or CudaText's Settings menu.
 
+The dialog follows the UI theme on every control (the same theme-aware
+dialog-API control types the built-in Preferences dialog uses), and it
+never grows past the screen: its height is clamped to the current
+monitor minus the taskbar, and whatever does not fit scrolls - the
+OK/Cancel buttons stay at the bottom, always visible.
+
   Ignore files:           Semicolon-separated mask of filenames to hide
                           in the tree (e.g., "*.tmp;*.bak").
 
@@ -472,7 +481,8 @@ panel context menu (at the bottom), or CudaText's Settings menu.
   Ignore all hidden
   files/folders:          Hides files/folders with the hidden attribute.
 
-  Recent projects:        Editable list of recently opened projects.
+  Recent projects:        Editable list of recently opened projects -
+                          a 5-line box, one project per line.
 
   Show toolbar:           Shows/hides the panel toolbar.
 

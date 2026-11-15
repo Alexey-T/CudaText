@@ -1,4 +1,39 @@
 2026.11.15
+- FIX (issue #6633): the 'edit' fields had an OS-drawn border, too
+  light on dark themes. All of them - the tree filter field, the
+  Favorites filter field, the edit rows of the options dialog and of
+  the Project properties dialog - are the themed 'editor_edit' control
+  now (the ATSynEdit-based one-line edit the engine colors entirely
+  from the UI theme, border included; the same control the built-in
+  Preferences dialog uses). The fields' text is read/written through
+  the Editor handle, because the dialog 'val' prop does not serve
+  editor controls.
+- FIX (issue #6634): the options dialog is never taller than the
+  screen anymore. Its height is clamped to the current monitor minus a
+  taskbar-sized strip (app_proc(PROC_COORD_MONITOR), 48 px + the title
+  bar); whatever does not fit scrolls - all options live on a content
+  panel inside a 'scrollbox', while the OK/Cancel buttons stay outside
+  it, pinned to the dialog bottom and always fully visible. On a
+  screen with room to spare no scrollbar appears at all.
+- FIX (issue #6634): every control of the options dialog and of the
+  Project properties dialog follows the UI theme now. The OS-drawn
+  controls that ignored theme colors are replaced by their theme-aware
+  counterparts (the very control types the built-in Preferences dialog
+  uses): the "Recent projects" box is a real 5-line 'editor' (was the
+  OS 'memo'; one project per plain line now - the dialog API's TAB
+  line-separation and chr(3) tab-escaping are gone), the boolean
+  options are flat 'button_ex' rows with the checkbox glyph pngs from
+  the new icons/ subfolder (was the OS 'check'), and the three
+  dropdowns are read-only 'editor_combo' controls (was the OS
+  'combo_ro'). The only OS-painted part left is the scrollbox's own
+  scrollbar - the dialog API has no themed one.
+- FIX: the toolbar Favorites (bookmarks) button is a normal icon
+  button with the new star.png of the configured icon set (added to
+  all four bundled sets, drawn in each set's color) - it was a text
+  button showing the UTF-8 star glyph of the font, which could render
+  thin/missing with some fonts and never followed the icon set. It
+  also participates in the theme-based black/white icon auto-switch
+  now, like every other button.
 - FIX (issue #6632, idea by @badrelmers): the toolbar icons follow the
   UI theme now, so they stay visible in dark themes too. While a
   DEFAULT icon set is configured (default_16x16 or

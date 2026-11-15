@@ -991,8 +991,9 @@ class Command:
     #--- tree filter (the field above the tree) and type-ahead state
     #: current filter text ('' = no filtering)
     tree_filter = ''
-    #: control index of the filter edit (set in init_form_main)
-    filter_ctl_index = -1
+    #: Editor object of the filter field ('editor_edit' control, set
+    #: in init_form_main); None before the panel is built
+    filter_ed = None
     #: full (shown) width of the filter's (x) button, set in
     #: init_form_main; the hidden state collapses the button to w=0
     #: (see _filter_cancel_btn_update)
@@ -1181,11 +1182,11 @@ class Command:
 
         self.h_bar = dlg_proc(self.h_dlg, DLG_CTL_HANDLE, index=n)
         self.toolbar_imglist = toolbar_proc(self.h_bar, TOOLBAR_GET_IMAGELIST)
-        #: (button handle, icon file name) of the toolbar's icon buttons,
-        #: in button order; toolbar_icons_load() re-fills the imagelist
-        #: from this list (at panel init, and again when the UI theme
-        #: changes while a default icon set is configured - see
-        #: toolbar_icons_effective)
+        #: (button handle, icon file name, command) of the toolbar's
+        #: icon buttons, in button order; toolbar_icons_load() re-fills
+        #: the imagelist from this list (at panel init, and again when
+        #: the UI theme changes while a default icon set is configured
+        #: - see toolbar_icons_effective)
         self._toolbar_icon_btns = []
         #: name of the icon set currently loaded into the imagelist
         self._toolbar_icons_name = ''
@@ -1200,6 +1201,7 @@ class Command:
             (_('Add file'), 'cuda_project_man.action_add_file', 'add-file.png'),
             (_('Project sessions'), 'cuda_project_man.menu_cfg', 'cfg.png'),
             (_('Show current file in project tree'), 'cuda_project_man.sync_to_ed', 'sync.png'),
+            (_('Favorites (bookmarks)'), 'cuda_project_man.favorites_show', 'star.png'),
         ]
 
         # the effective icon set for the current UI theme (a default set
@@ -1211,33 +1213,20 @@ class Command:
             icon = imagelist_proc(self.toolbar_imglist, IMAGELIST_ADD, value = os.path.join(dirname, fn_icon))
             self._toolbar_icon_btns.append((
                 _toolbar_add_btn(self.h_bar, hint=hint, icon=icon, command=command),
-                fn_icon))
+                fn_icon, command))
         self._toolbar_icons_name = toolbar_theme
 
         toolbar_proc(self.h_bar, TOOLBAR_THEME)
         # buttons were created by the loop above
 
-        # the last icon button is "Show current file in project tree";
-        # the Favorites button added below is a TEXT button, so the
-        # captured handle stays valid
-        self.h_btn_sync = self._toolbar_icon_btns[-1][0]
+        # the "Show current file in project tree" button is NOT the last
+        # one (the Favorites button follows it), so its handle is found
+        # by the button's command, not by the list position
+        self.h_btn_sync = next(
+            (h for h, _fn, cmd in self._toolbar_icon_btns
+             if cmd == 'cuda_project_man.sync_to_ed'),
+            self._toolbar_icon_btns[0][0])
         button_proc(self.h_btn_sync, BTN_SET_VISIBLE, not self.options.get('always_sync', False))
-
-        # Favorites (bookmarks) button - a TEXT button showing the ☆
-        # UTF-8 font icon itself (no image files); opens the Favorites
-        # window. Added after h_btn_sync is captured so its handle stays
-        # valid (it assumes it is the last button)
-        try:
-            # _toolbar_add_btn(self.h_bar, hint='-')
-            toolbar_proc(self.h_bar, TOOLBAR_ADD_ITEM)
-            cnt = toolbar_proc(self.h_bar, TOOLBAR_GET_COUNT)
-            h_btn_fav = toolbar_proc(self.h_bar, TOOLBAR_GET_BUTTON_HANDLE, index=cnt-1)
-            button_proc(h_btn_fav, BTN_SET_KIND, BTNKIND_TEXT_ONLY)
-            button_proc(h_btn_fav, BTN_SET_TEXT, '☆')
-            button_proc(h_btn_fav, BTN_SET_HINT, _('Favorites (bookmarks)'))
-            button_proc(h_btn_fav, BTN_SET_DATA1, 'cuda_project_man.favorites_show')
-        except Exception as e:
-            print('Project Manager: cannot add Favorites toolbar button:', e)
 
         toolbar_proc(self.h_bar, TOOLBAR_SET_WRAP, index=True)
         toolbar_proc(self.h_bar, TOOLBAR_UPDATE)
@@ -1245,11 +1234,14 @@ class Command:
         #---- filter field above the tree ----
         # typing here shows only the nodes/files/folders whose name
         # matches (folders keep the path to the matches); Esc clears it
-        # NOTE 'act': True is REQUIRED: the dialog engine fires the
-        # on_change event of an edit only for controls marked 'act'
-        # (DoOnChange -> "if not Props.FActive then exit"), and 'edit'
-        # controls don't get it by default (buttons do) - without it
-        # typing in the field did nothing at all
+        # 'editor_edit' = the ATSynEdit-based one-line edit: the engine
+        # themes it entirely (OptThemed + EditorApplyTheme), so its
+        # text/border colors follow the UI theme on dark themes too -
+        # the OS 'edit' control had an OS-drawn border that was too
+        # light on dark themes (issue #6633). Editors are 'act':True by
+        # the engine itself (issue #3361), so on_change fires without
+        # any prop. The text is read/written through the Editor object
+        # (the dialog 'val' prop does not serve editor controls).
         EH = app_proc(PROC_GET_GUI_HEIGHT, 'edit') or 28
         #---- cancel (x) button at the right of the filter field ----
         # Created BEFORE the edit: the edit's right edge is anchored to
@@ -1299,8 +1291,7 @@ class Command:
             'hint': _('Cancel the running search\r(or clear the filter when no search is running)'),
             'on_change': self.panel_filter_cancel_click,
         })
-        n = dlg_proc(self.h_dlg, DLG_CTL_ADD, prop='edit')
-        self.filter_ctl_index = n
+        n = dlg_proc(self.h_dlg, DLG_CTL_ADD, prop='editor_edit')
         dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, index=n, prop={
             'name': 'f_filter',
             'a_t': ('bar', ']'),
@@ -1315,6 +1306,13 @@ class Command:
             'hint': _('Show only the files/folders whose name matches.\rEsc clears the filter'),
             'on_change': self.panel_filter_on_change,
         })
+        # Editor object of the filter field: its text cannot be read
+        # with the dialog 'val' prop (editor controls are outside it)
+        try:
+            self.filter_ed = Editor(
+                dlg_proc(self.h_dlg, DLG_CTL_HANDLE, index=n) or 0)
+        except Exception:
+            self.filter_ed = None
         # 'f_filter' exists now: glue the cancel button's top and bottom
         # edges to the edit's ones (0 spacing) - the button always keeps
         # the same height as the filter field, at any DPI / GUI height
@@ -1404,12 +1402,9 @@ class Command:
             if colors['form_bg'] is not None:
                 dlg_proc(self.h_dlg, DLG_PROP_SET, prop={
                     'color': colors['form_bg']})
-            if colors['edit_bg'] is not None:
-                dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, name='f_filter',
-                         prop={'color': colors['edit_bg']})
-            if colors['edit_font'] is not None:
-                dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, name='f_filter',
-                         prop={'font_color': colors['edit_font']})
+            # NOTE the filter field ('editor_edit') is NOT recolored
+            # here: the engine themes editor controls entirely by
+            # itself, they follow every UI theme change on their own
             lbl = {}
             if colors['form_bg'] is not None:
                 lbl['color'] = colors['form_bg']
@@ -3015,6 +3010,24 @@ class Command:
 
     #------------- tree filter (the field above the tree)
 
+    def _filter_text(self):
+        """Current text of the tree filter field, '' on any error. The
+        field is an 'editor_edit' control: its text lives in the Editor
+        object, the dialog 'val' prop does not serve editor controls."""
+        try:
+            return self.filter_ed.get_text_all() if self.filter_ed else ''
+        except Exception:
+            return ''
+
+    def _filter_set_text(self, text):
+        """Programmatically replace the tree filter field's text (used
+        to clear it); never raises."""
+        try:
+            if self.filter_ed:
+                self.filter_ed.set_text_all(text)
+        except Exception:
+            pass
+
     def panel_filter_on_change(self, id_dlg, id_ctl, data='', info=''):
         """The filter field above the tree changed. The (slow) filtered
         fill does NOT run per keystroke: a one-shot timer applies the
@@ -3025,11 +3038,7 @@ class Command:
         the search is doing."""
         if not self.tree:
             return
-        try:
-            props = dlg_proc(self.h_dlg, DLG_CTL_PROP_GET, name='f_filter') or {}
-            text = str(props.get('val', '') or '')
-        except Exception:
-            text = ''
+        text = self._filter_text()
         # the (x) button shows only with text / a running search
         self._filter_cancel_btn_update()
         if not text:
@@ -3054,10 +3063,8 @@ class Command:
         self._filter_pending = None
         if not self.tree:
             return
-        try:
-            props = dlg_proc(self.h_dlg, DLG_CTL_PROP_GET, name='f_filter') or {}
-            text = str(props.get('val', '') or '')
-        except Exception:
+        text = self._filter_text()
+        if not text:
             return
         if text == self.tree_filter:
             # the field was edited back to the same text: nothing to
@@ -3080,11 +3087,7 @@ class Command:
         change and whenever a scan starts or ends."""
         if not self.h_dlg:
             return
-        try:
-            props = dlg_proc(self.h_dlg, DLG_CTL_PROP_GET, name='f_filter') or {}
-            text = str(props.get('val', '') or '')
-        except Exception:
-            text = ''
+        text = self._filter_text()
         w = self._filter_worker
         searching = (w is not None) and (not w.done)
         try:
@@ -3207,11 +3210,7 @@ class Command:
         scan is dropped, the tree was never filtered, so there is
         nothing to restore - and the (x) button, which shows for ANY
         text, must always have an effect."""
-        try:
-            props = dlg_proc(self.h_dlg, DLG_CTL_PROP_GET, name='f_filter') or {}
-            text = str(props.get('val', '') or '')
-        except Exception:
-            text = ''
+        text = self._filter_text()
         # stop the debounce of a not-yet-applied filter text (harmless
         # when no timer is armed)
         timer_proc(TIMER_STOP, self._filter_timer_fire, 0)
@@ -3220,20 +3219,12 @@ class Command:
             # nothing applied: just empty the field (if it holds the
             # not-yet-applied text) and hide the (x) button
             if text:
-                try:
-                    dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, name='f_filter',
-                             prop={'val': ''})
-                except Exception:
-                    pass
+                self._filter_set_text('')
                 self._filter_cancel_btn_update()
             return
         self._filter_cancel_scan()
         self._filter_label_clear()
-        try:
-            dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, name='f_filter',
-                     prop={'val': ''})
-        except Exception:
-            pass
+        self._filter_set_text('')
         self.apply_tree_filter('')
 
     #------------- background scan (the _FilterWorker thread)
@@ -6026,7 +6017,7 @@ class Command:
         dirname = os.path.join(app_path(APP_DIR_DATA), 'projtoolbaricons', theme_name)
         imagelist_proc(self.toolbar_imglist, IMAGELIST_DELETE_ALL)
         self.set_imagelist_size(theme_name, self.toolbar_imglist)
-        for h_btn, fn_icon in self._toolbar_icon_btns:
+        for h_btn, fn_icon, _cmd in self._toolbar_icon_btns:
             n = imagelist_proc(self.toolbar_imglist, IMAGELIST_ADD,
                                value=os.path.join(dirname, fn_icon))
             if n is not None:

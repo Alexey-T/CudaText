@@ -735,6 +735,9 @@ class FavoritesForm:
         self.sort_col = self._ui_get('sort_col', DEFAULT_SORT)
         self.sort_desc = bool(self._ui_get('sort_desc', False))
         self.filter = ''
+        #: Editor object of the filter field ('editor_edit' control;
+        #: None before the window is built)
+        self._filter_ed = None
         self.view = []          # [(data_index, item)] for the active tab
         self.rows = []          # what is shown: dicts with cached dead
         self.selected_data = -1 # data index to re-select after refill
@@ -948,10 +951,17 @@ class FavoritesForm:
             'sp_r': BTN_X,
         }
 
-        self._ctl('edit', 'f_filter', {
+        # 'editor_edit' = the ATSynEdit-based one-line edit: the engine
+        # themes it entirely (OptThemed + EditorApplyTheme), so it
+        # follows the UI theme on dark themes too - the OS 'edit' had
+        # an OS-drawn border, too light on dark themes (issue #6633).
+        # Editors are 'act':True by the engine (issue #3361), so the
+        # on_change event fires without the prop. The text is read and
+        # written through the Editor object ('val' does not serve
+        # editor controls).
+        n = self._ctl('editor_edit', 'f_filter', {
             'x': BTN_X, 'y': 8, 'w': bx - 2 * BTN_X, 'h': EH,
             'tab_order': 0,
-            'act': True,
             'texthint': _('Filter by name or path...'),
             'hint': _('Quickly filter the favorites list.\rEsc clears the filter'),
             'a_l': ('', '['),
@@ -959,6 +969,11 @@ class FavoritesForm:
             **MAIN_RIGHT,
             'on_change': self.on_filter_change,
         })
+        try:
+            self._filter_ed = Editor(
+                dlg_proc(self.h, DLG_CTL_HANDLE, index=n) or 0)
+        except Exception:
+            self._filter_ed = None
 
         # the status label must be created BEFORE the list: the list's
         # bottom anchor references it by name.
@@ -1134,12 +1149,9 @@ class FavoritesForm:
             if colors['form_bg'] is not None:
                 dlg_proc(self.h, DLG_PROP_SET, prop={
                     'color': colors['form_bg']})
-            if colors['edit_bg'] is not None:
-                dlg_proc(self.h, DLG_CTL_PROP_SET, name='f_filter',
-                         prop={'color': colors['edit_bg']})
-            if colors['edit_font'] is not None:
-                dlg_proc(self.h, DLG_CTL_PROP_SET, name='f_filter',
-                         prop={'font_color': colors['edit_font']})
+            # NOTE the filter field ('editor_edit') is NOT recolored
+            # here: the engine themes editor controls entirely, they
+            # follow every UI theme change on their own
             if colors['label_font'] is not None:
                 dlg_proc(self.h, DLG_CTL_PROP_SET, name='lbl_status',
                          prop={'font_color': colors['label_font']})
@@ -1716,9 +1728,11 @@ class FavoritesForm:
     #------------- events: filter, tabs, selection
 
     def on_filter_change(self, id_dlg, id_ctl, data='', info=''):
+        # the filter field is an 'editor_edit': read via the Editor
+        # object, the dialog 'val' prop does not serve editor controls
         try:
-            props = dlg_proc(self.h, DLG_CTL_PROP_GET, name='f_filter') or {}
-            self.filter = str(props.get('val', '') or '')
+            self.filter = (self._filter_ed.get_text_all()
+                           if self._filter_ed else '')
         except Exception:
             self.filter = ''
         self.fill_list(keep_selection=False)
@@ -2121,12 +2135,15 @@ class FavoritesForm:
                     # first Esc clears the filter, the next one closes
                     # the form (the built-in Esc handling closes it when
                     # this handler does not block the key).
-                    # NOTE: setting 'val' programmatically does NOT fire
-                    # the edit's on_change event, so the list must be
-                    # refilled here too - otherwise it kept showing the
-                    # old filtered rows
+                    # NOTE for the old OS 'edit' control, setting the
+                    # text programmatically did NOT fire on_change, so
+                    # the list was refilled here; the 'editor_edit'
+                    # control DOES fire on_change on set_text_all, so
+                    # on_filter_change refills it - the manual refill
+                    # below stays as a harmless safety net
                     try:
-                        dlg_proc(self.h, DLG_CTL_PROP_SET, name='f_filter', prop={'val': ''})
+                        if self._filter_ed:
+                            self._filter_ed.set_text_all('')
                     except Exception:
                         pass
                     self.filter = ''
