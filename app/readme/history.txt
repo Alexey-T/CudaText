@@ -11,8 +11,8 @@
     + add: added a search filter for project and its folders/files, the search runs in bakground so no CudaText hang with very huge folders
     + add: safety: no command deletes anything permanently anymore, plugin uses OS's Trash / Recycle Bin
     + add: Options dialog redesigned to support themes colors
-- fix: Gtk3 version: on X11 had incorrect caret blinking (thanks @SmallJoker, fixed by Z.ai)
-- fix: Gtk3 version: 2nd app instance could not focus the 1st instance (thanks @pablorq, fixed by Z.ai)
++ add: Gtk3 version: 2nd app instance could not focus the 1st instance, Gtk3 apps must use special 'startup id' for this (thanks @pablorq, patch by Z.ai)
+- fix: Gtk3 version: on X11 app had incorrect caret blinking (thanks @SmallJoker, fixed by Z.ai)
 
 1.239.1 (2026/11)
 
