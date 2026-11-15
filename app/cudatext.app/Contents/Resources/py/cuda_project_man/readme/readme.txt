@@ -504,7 +504,8 @@ the bottom.
                           on every tab change. When enabled, the
                           "Show current file" toolbar button is hidden.
 
-  File type icons (*):    Icon theme for file types in the tree.
+  File type icons:        Icon theme for file types in the tree
+                          (applies immediately, no restart).
 
   Toolbar icons:          Icon theme for the toolbar buttons. The two
                           "default" sets (default_16x16 and
@@ -516,8 +517,9 @@ the bottom.
                           changes while CudaText runs. Any other set is
                           used exactly as configured.
 
-  Sorting order (*):      How to sort items in the tree: by name,
-                          extension, size, date, etc.
+  Sorting order:          How to sort items in the tree: by name,
+                          extension, size, date, etc. (applies
+                          immediately, no restart).
 
   Backup project file
   when its sessions
@@ -547,7 +549,6 @@ the bottom.
                           (default) = the dialog starts in the last
                           used folder.
 
-  (*) - requires CudaText restart
 
 
 ------------------------------------------------------------------------------

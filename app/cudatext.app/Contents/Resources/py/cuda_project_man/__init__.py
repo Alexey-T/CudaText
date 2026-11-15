@@ -1210,7 +1210,7 @@ class Command:
             # '-' separator and 'Remove node' (del.png) buttons were here
             (_('Add folder'), 'cuda_project_man.action_add_folder', 'add-dir.png'),
             (_('Add file'), 'cuda_project_man.action_add_file', 'add-file.png'),
-            (_('Project sessions'), 'cuda_project_man.menu_cfg', 'cfg.png'),
+            (_('Project sessions'), 'cuda_project_man.menu_cfg', 'sessions.png'),
             (_('Show current file in project tree'), 'cuda_project_man.sync_to_ed', 'sync.png'),
             (_('Favorites (bookmarks)'), 'cuda_project_man.favorites_show', 'star.png'),
         ]
@@ -1386,16 +1386,7 @@ class Command:
         tree_proc(self.tree, TREE_ITEM_DELETE, 0)
 
         self.icon_init()
-        self.ICON_ALL = self.icon_get('_')
-        self.ICON_DIR = self.icon_get('_dir')
-        self.ICON_PROJ = self.icon_get('_proj')
-        self.ICON_BAD = self.icon_get('_bad')
-        self.ICON_ZIP = self.icon_get('_zip')
-        self.ICON_BIN = self.icon_get('_bin')
-        self.ICON_IMG = self.icon_get('_img')
-        self.ICON_TEXT = self.icon_get('_text')
-        self.ICON_AUDIO = self.icon_get('_audio')
-        self.ICON_VIDEO = self.icon_get('_video')
+        self._tree_icon_constants()
 
         # color the form and the filter field with the current UI theme
         # (the tree and the toolbar are themed by the engine itself)
@@ -5455,6 +5446,9 @@ class Command:
     def config(self):
 
         from .projman_dlg import dialog_config
+        # dialog_config() MUTATES self.options in place on OK, so the
+        # "before" values must be captured here
+        old_icon_theme = self.options.get('icon_theme')
         if dialog_config(self.options):
             print(_('Project Manager: saving options'))
             self.save_options()
@@ -5467,6 +5461,17 @@ class Command:
                 # a changed toolbar icon set applies immediately too (no
                 # restart needed anymore)
                 self.toolbar_icons_refresh()
+
+            if self.tree:
+                if self.options.get('icon_theme') != old_icon_theme:
+                    # a changed file-type icon set refills the tree's
+                    # imagelist in place and rebuilds the tree
+                    self.tree_icons_reload()
+                else:
+                    # everything else the tree shows (sorting order,
+                    # the ignore masks, hidden files) applies right
+                    # now too - a refresh keeps the folds + selection
+                    self.action_refresh()
 
             # keep the on_start subscription in sync with the project
             # state (the hidden on_start option is not in the dialog; a
@@ -6035,8 +6040,16 @@ class Command:
         imagelist_proc(self.toolbar_imglist, IMAGELIST_DELETE_ALL)
         self.set_imagelist_size(theme_name, self.toolbar_imglist)
         for h_btn, fn_icon, _cmd in self._toolbar_icon_btns:
+            fn = os.path.join(dirname, fn_icon)
+            if not os.path.isfile(fn):
+                # a 3rd-party icon set may lack a NEWER icon file (a
+                # set saved before sessions.png/star.png existed):
+                # fall back to the default set's copy of that icon, so
+                # the button never ends up blank
+                fn = os.path.join(app_path(APP_DIR_DATA),
+                                  'projtoolbaricons', ICONS_DEFAULT, fn_icon)
             n = imagelist_proc(self.toolbar_imglist, IMAGELIST_ADD,
-                               value=os.path.join(dirname, fn_icon))
+                               value=fn)
             if n is not None:
                 button_proc(h_btn, BTN_SET_IMAGEINDEX, n)
         self._toolbar_icons_name = theme_name
@@ -6104,6 +6117,43 @@ class Command:
         self.icon_json = os.path.join(self.icon_dir, 'icons.json')
         self.icon_json_dict = json.loads(open(self.icon_json, encoding='utf8').read())
         self.icon_indexes = {}
+
+    def _tree_icon_constants(self):
+        """Fetch the special tree icons' image indexes (the project
+        root, a folder, the error marker, the generic file types) into
+        self.ICON_* attributes. Runs at panel init AND from
+        tree_icons_reload() - the indexes change with every imagelist
+        refill (IMAGELIST_DELETE_ALL restarts them at 0)."""
+        self.ICON_ALL = self.icon_get('_')
+        self.ICON_DIR = self.icon_get('_dir')
+        self.ICON_PROJ = self.icon_get('_proj')
+        self.ICON_BAD = self.icon_get('_bad')
+        self.ICON_ZIP = self.icon_get('_zip')
+        self.ICON_BIN = self.icon_get('_bin')
+        self.ICON_IMG = self.icon_get('_img')
+        self.ICON_TEXT = self.icon_get('_text')
+        self.ICON_AUDIO = self.icon_get('_audio')
+        self.ICON_VIDEO = self.icon_get('_video')
+
+    def tree_icons_reload(self):
+        """File-type icon theme changed in the options: refill the
+        tree's imagelist IN PLACE - clear it (IMAGELIST_DELETE_ALL),
+        re-read the new set (icon_init re-reads the option, the icons
+        .json and resets the ext->index cache), re-fetch the special
+        icons' indexes - and rebuild the tree, which re-assigns every
+        node's icon. No CudaText restart needed anymore (the option
+        used to be marked "(*)" for that)."""
+        if not self.tree:
+            return
+        try:
+            imagelist_proc(self.tree_imglist, IMAGELIST_DELETE_ALL)
+            self.icon_init()
+            self._tree_icon_constants()
+            # action_refresh (not _int): it keeps the tree's folds and
+            # selection and handles an active tree filter
+            self.action_refresh()
+        except Exception as e:
+            print(_('Project Manager: cannot reload file type icons:'), e)
 
 
     def icon_get(self, key):

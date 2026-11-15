@@ -909,12 +909,39 @@ result.
   (monitor minus taskbar minus title bar, all sanity-checked). A
   broken monitor API is simply ignored - the dialog then keeps the
   default size, never the full content height.
-- The boolean options are drawn checkboxes without image files: a
-  `colorpanel` square (1 px border in ButtonBorderPassive blended 40%
-  toward the theme's text color - plain ButtonBorderPassive is nearly
-  invisible on grey themes) with the check mark as a text-glyph
-  caption in the text color, plus a clickable caption label; a click
-  on either toggles the option.
+- The boolean options are drawn checkboxes without image files, one
+  SANDWICH of two `colorpanel` controls per square: the OUTER panel
+  draws only the 1 px border (ButtonBorderPassive blended 40% toward
+  the theme's text color - plain ButtonBorderPassive is nearly
+  invisible on grey themes), the INNER panel (1 px inset) carries the
+  '✓' glyph caption in the text color. Two panels are needed because
+  TATPanelColor paints a caption with Canvas.TextOut, whose text
+  BACKGROUND (the panel's fill brush, as large as the text extent) is
+  not clipped - on a single 15 px panel the glyph extent overpainted
+  the border ring, so a CHECKED box lost its border; the inner panel
+  is clipped 1 px inside the ring. A click on either panel or on the
+  caption label toggles the option.
+- The group separator lines are 2 px `colorpanel` fills EXACTLY as
+  wide as the option rows. They were labels with a 92-character '─'
+  caption before - that text renders wider than the scrollbox, which
+  made TScrollBox show a horizontal scrollbar although every option
+  control fits.
+- The file-type icon theme applies without a restart:
+  `tree_icons_reload()` clears the tree's imagelist, re-runs
+  `icon_init()` (which re-reads the option, the set's icons.json and
+  resets the ext->index cache), re-fetches the ICON_* indexes
+  (`_tree_icon_constants()` - the indexes change on every refill) and
+  rebuilds the tree via `action_refresh()` (not `_int`: it keeps the
+  folds and the selection and handles an active tree filter). The
+  other tree-affecting options (sorting order, ignore masks, hidden
+  files) apply through a plain `action_refresh()` - `config()`
+  dispatches on whether the icon theme changed.
+- The "Project sessions" toolbar button uses `sessions.png` (the
+  feather-"layers" geometry: three stacked sheets, one per saved
+  state - the old gear read as "settings"). A 3rd-party icon set
+  without a newer file (sessions.png, star.png) falls back to the
+  default set's copy in `toolbar_icons_load()`, so no button ever
+  ends up blank.
 - Toolbar icon spacing: `TOOLBAR_ICON_SPACING` (unscaled px) sets
   every icon button's width to icon size + 2x its value via
   `button_proc(BTN_SET_WIDTH)` - REPLACING ATFlatControls' own

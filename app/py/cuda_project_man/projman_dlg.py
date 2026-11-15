@@ -256,14 +256,15 @@ def dialog_config(op):
         return None
 
     def on_check_click(id_dlg, id_ctl, data='', info=''):
-        """The checkbox square or its caption label was clicked: flip
-        the option and show/hide the check mark glyph in the square."""
+        """The checkbox square (either of its two panels) or its caption
+        label was clicked: flip the option and show/hide the check mark
+        glyph in the inner square panel."""
         nm = check_names.get(id_ctl)
         if nm is None:
             return
         checks[nm] = not checks.get(nm, False)
         try:
-            dlg_proc(h, DLG_CTL_PROP_SET, name='chk_' + nm,
+            dlg_proc(h, DLG_CTL_PROP_SET, name='chki_' + nm,
                      prop={'cap': CHECK_GLYPH if checks[nm] else ''})
         except Exception:
             pass
@@ -345,16 +346,21 @@ def dialog_config(op):
         y[0] += 21
 
     def sep():
-        """Separator line between the option groups."""
+        """Separator line between the option groups: a 2px 'colorpanel'
+        EXACTLY as wide as the option rows (PANEL_W-2*X0), filled with
+        the checkbox border color. It was a label with a caption of 92
+        '─' characters before - that caption renders WIDER than the
+        scrollbox, which made TScrollBox show a horizontal scrollbar
+        even though every option control fits; a panel has no text, so
+        its width is always exact."""
         y[0] += 4
-        n_lab[0] += 1
         p = {
             'p': 'scr',
-            'x': X0, 'y': y[0], 'w': PANEL_W - 2 * X0, 'h': 6,
-            'cap': '─' * 92,
+            'x': X0, 'y': y[0], 'w': PANEL_W - 2 * X0, 'h': 2,
+            'ex0': 0,
+            'color': check_border,
         }
-        p.update(_theme_props(colors, bg_key='form_bg', font_key='label_font'))
-        ctl('label', 'lab{}'.format(n_lab[0]), p)
+        ctl('colorpanel', 'sep{}'.format(n_lab[0]), p)
         y[0] += 12
 
     def hint(cap):
@@ -372,48 +378,66 @@ def dialog_config(op):
 
     def check(name, cap, value):
         """One boolean option = a DRAWN checkbox, the same style as the
-        checkbox column of the Favorites window, and NO image files:
-        - the square is a 'colorpanel' (TATPanelColor) painting its own
-          1px border in ButtonBorderPassive blended 40% toward the
-          theme's text color (plain ButtonBorderPassive was nearly
-          invisible on grey themes) on the form background;
-        - the check mark is the CHECK_GLYPH text glyph as the panel's
-          centered caption, in the theme's label color (the Favorites
-          window paints its check strokes in the row text color - same
-          look; like the star glyphs there, a glyph, not an image);
-        - the caption is a plain themed label to the right.
-        A click on the square OR on the caption toggles the option (the
-        live state lives in 'checks'; the square's caption is swapped
-        between the glyph and ''). The OS 'check' control was not
-        usable: its glyph is painted with OS colors and ignored the
-        theme (issue #6634). '&' accelerators are stripped - the label
-        is a plain label, no focus wiring."""
+        checkbox column of the Favorites window, and NO image files.
+        The square is a SANDWICH of two 'colorpanel' controls
+        (TATPanelColor):
+        - the OUTER 15x15 panel draws only the 1px border, in
+          ButtonBorderPassive blended 40% toward the theme's text
+          color (plain ButtonBorderPassive was nearly invisible on
+          grey themes);
+        - the INNER 13x13 panel (1px inset) carries the check mark as
+          the CHECK_GLYPH text-glyph caption, in the theme's label
+          color.
+        Two panels are needed because of a TATPanelColor paint detail:
+        it draws its caption with Canvas.TextOut, whose BACKGROUND
+        (the panel's own fill brush, as large as the text extent) is
+        not clipped - on a single 15px panel the 'check' text extent
+        spans the whole inner area and its background overpainted the
+        1px border ring, so a CHECKED box lost its border. The inner
+        panel is clipped to its own client area, 1px inside the ring,
+        so the border can never be overpainted again.
+        The caption is a plain themed label to the right. A click on
+        the square (either panel) OR on the caption toggles the option
+        (the live state lives in 'checks'; the inner panel's caption
+        is swapped between the glyph and ''). The OS 'check' control
+        was not usable: its glyph is painted with OS colors and
+        ignored the theme (issue #6634). '&' accelerators are stripped
+        - the label is a plain label, no focus wiring."""
         cap = cap.replace('&&', '\x01').replace('&', '').replace('\x01', '&')
-        # the square first, the caption label after it (the engine
+        # the squares first, the caption label after them (the engine
         # wires a label created BEFORE a TWinControl as its FocusControl
         # - creating the label second avoids that bogus wiring)
-        box = {
-            'p': 'scr',
-            'x': X0, 'y': y[0] + 5, 'w': CHECK_SZ, 'h': CHECK_SZ,
-            # 'act' is REQUIRED: the colorpanel reports its click
-            # through on_change, and DoOnChange drops the event for
-            # controls not marked 'act' (buttons get it by default,
-            # colorpanels don't)
-            'act': True,
-            'cap': CHECK_GLYPH if value else '',
-            # the visible 1px border: ex0 = width, ex3 = color
-            'ex0': 1,
-            'ex3': check_border,
-            'on_change': on_check_click,
-        }
-        if colors['form_bg'] is not None:
-            box['color'] = colors['form_bg']
-        if colors['label_font'] is not None:
-            box['font_color'] = colors['label_font']
-        n = ctl('colorpanel', 'chk_' + name, box)
-        if n is not None:
-            checks[name] = bool(value)
-            check_names[n] = name
+        for nm_suffix, dx, dy, size, cap_txt in (
+                ('chk_', 0, 0, CHECK_SZ, ''),
+                ('chki_', 1, 1, CHECK_SZ - 2,
+                 CHECK_GLYPH if value else '')):
+            box = {
+                'p': 'scr',
+                'x': X0 + dx, 'y': y[0] + 5 + dy,
+                'w': size, 'h': size,
+                # 'act' is REQUIRED: the colorpanel reports its click
+                # through on_change, and DoOnChange drops the event
+                # for controls not marked 'act' (buttons get it by
+                # default, colorpanels don't)
+                'act': True,
+                'on_change': on_check_click,
+            }
+            if nm_suffix == 'chk_':
+                # the outer border ring: ex0 = width, ex3 = color
+                box['ex0'] = 1
+                box['ex3'] = check_border
+            else:
+                # the inner glyph panel: no border, the caption glyph
+                box['ex0'] = 0
+                box['cap'] = cap_txt
+            if colors['form_bg'] is not None:
+                box['color'] = colors['form_bg']
+            if colors['label_font'] is not None:
+                box['font_color'] = colors['label_font']
+            n = ctl('colorpanel', nm_suffix + name, box)
+            if n is not None:
+                check_names[n] = name
+        checks[name] = bool(value)
         n_lab[0] += 1
         lp = {
             'p': 'scr',
@@ -520,9 +544,9 @@ def dialog_config(op):
     check('preview', _('&Use "preview tab" on item clicking'), op.get('preview', True))
     check('d_click', _('Open files by &double-click'), op.get('d_click', False))
     check('always_sync', _('Automatically show current file in project tree'), op.get('always_sync', False))
-    row_combo(_('File type icons (*):'), 'icon_theme', themes, theme_index)
+    row_combo(_('File type icons:'), 'icon_theme', themes, theme_index)
     row_combo(_('Toolbar icons:'), 'toolbar_theme', themes_tb, theme_index_tb)
-    row_combo(_('Sorting order (*):'), 'sort_order', items_sort_str, items_sort_val)
+    row_combo(_('Sorting order:'), 'sort_order', items_sort_str, items_sort_val)
 
     sep()
 
@@ -547,7 +571,6 @@ def dialog_config(op):
     y[0] += 3
     hint(_('For more icons, get add-ons of kind "filetypeicons", "projtoolbaricons"'))
     hint(_('The two "default" toolbar sets auto-switch black/white icons for the UI theme'))
-    hint(_('(*) - requires CudaText restart'))
 
     #--------- buttons (bottom-right) and the final height
 

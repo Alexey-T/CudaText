@@ -17,9 +17,16 @@
 - The [Favorites] toolbar button is a normal icon button now (an
   outline star), like every other button - it used to be a text
   button with a font-dependent star glyph. The [Project sessions]
-  icon uses the colors of its icon set now.
+  button has a "stacked sheets" icon now (it used to be a gear, which
+  reads as "settings"), in the colors of its icon set.
 - NEW: the space between the toolbar icons can be changed with the
   TOOLBAR_ICON_SPACING constant in the plugin's __init__.py.
+- FIX: a checked checkbox of the options dialog lost its border (the
+  check mark's text background painted over it), and the options area
+  showed a horizontal scrollbar (a separator line was wider than the
+  window) - both fixed.
+- The file-type icons and the sorting order options apply immediately
+  now, no CudaText restart needed anymore.
 
 2026.11.14 (@badrelmers)
 - SAFETY: no command deletes anything permanently on Windows, macOS
