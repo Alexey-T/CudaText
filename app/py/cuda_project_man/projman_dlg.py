@@ -4,8 +4,8 @@ from cudatext_keys import *
 from cudax_lib import get_translation
 from .projman_glob import *
 from .projman_backup import DEFAULT_BACKUP_COUNT, DEFAULT_BACKUP_FOLDER
-from .favorites import (get_theme_ui_colors, _unscale_px, _ui_scale,
-                        BTN_PAD)
+from .favorites import (get_theme_ui_colors, _theme_color, _theme_dict,
+                        _unscale_px, _ui_scale, BTN_PAD)
 
 _   = get_translation(__file__)  # i18n
 
@@ -17,14 +17,13 @@ SCROLLBAR_W = 20
 #: height (unscaled px) of the "Recent projects" editor: 5 text lines
 #: (a line is ~17 px at the default editor font) plus the frame
 RECENT_H = 92
-#: height (unscaled px) of one checkbox-button row of a boolean option
-CHECK_H = 22
-#: checkbox glyph pngs of the plugin's icons/ folder - the same images
-#: the built-in Preferences dialog uses for its boolean options: they
-#: are drawn in a semi-transparent neutral grey, so they are readable
-#: on light and dark themes alike
-CB_ICON_CHECKED = 'cb_checked.png'
-CB_ICON_UNCHECKED = 'cb_unckecked.png'
+#: side of the checkbox square of a boolean option (unscaled px) - the
+#: same size as the checkbox column of the Favorites window
+CHECK_SZ = 15
+#: the check mark of a checked boolean option: a text glyph (like the
+#: star glyphs of the Favorites window - no image files), painted in
+#: the theme's text color inside the drawn checkbox square
+CHECK_GLYPH = '\u2713'    # '✓'
 
 
 def _theme_props(colors, bg_key='edit_bg', font_key='edit_font'):
@@ -50,29 +49,12 @@ def get_themes_toolbar():
     return sorted(os.listdir(dir))
 
 
-def _checkbox_imagelist():
-    """Imagelist [checked, unchecked] with the checkbox glyph pngs of
-    the plugin's icons/ folder, plus the two image indexes. Returns
-    (0, [-1, -1]) if the images cannot be loaded (the buttons then
-    show their caption only - degraded but functional)."""
-    h_iml = imagelist_proc(0, IMAGELIST_CREATE)
-    dirname = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'icons')
-    res = []
-    for fn in (CB_ICON_CHECKED, CB_ICON_UNCHECKED):
-        try:
-            n = imagelist_proc(h_iml, IMAGELIST_ADD,
-                               value=os.path.join(dirname, fn))
-        except Exception:
-            n = None
-        res.append(n if n is not None else -1)
-    return h_iml, res
-
-
 def _monitor_client_h(scale):
-    """Max unscaled CLIENT height a modal dialog may occupy: the
-    current monitor's pixel height, minus a Windows-taskbar-sized strip
-    (32-48 px) and the title bar (issue #6634 asked exactly for this:
-    the dialog must fit after the taskbar is subtracted). The layout is
+    """Max unscaled CLIENT height a modal dialog may occupy: 70% of the
+    current monitor's pixel height (the user-requested cap - a dialog
+    that eats the whole screen is annoying), minus the title bar; the
+    value also never exceeds the monitor minus a taskbar-sized strip
+    (issue #6634 asked to subtract the taskbar). The layout is
     unscaled and DLG_SCALE multiplies it by 'scale', so the monitor's
     real pixels are divided back by 'scale'. Returns None when the
     monitor API is not usable - the caller then keeps the full content
@@ -84,8 +66,10 @@ def _monitor_client_h(scale):
         mon_h = int(rect[3]) - int(rect[1])
         if mon_h <= 0:
             return None
-        # 48 px taskbar + ~36 px dialog title bar, both in REAL pixels
-        avail_px = mon_h - 48 - int(36 * scale)
+        # 70% of the monitor, capped at monitor-minus-taskbar, both in
+        # REAL pixels; then subtract the ~36 px dialog title bar
+        win_px = min(mon_h * 70 // 100, mon_h - 48)
+        avail_px = win_px - int(36 * scale)
         if avail_px <= 200:
             return None
         return int(avail_px / scale)
@@ -120,18 +104,21 @@ def dialog_config(op):
       OS 'edit' border was too light on dark themes, issue #6633);
     - multi-line "Recent projects": 'editor' (a real mini-editor, 5
       lines; the OS 'memo' painted with OS colors, issue #6634);
-    - boolean options: flat 'button_ex' rows with a checkbox glyph
-      image + caption (the OS 'check' paints its glyph with OS
+    - boolean options: a drawn checkbox - a 'colorpanel' square with
+      its own 1px border + the check mark as a text glyph, the same
+      style as the checkbox column of the Favorites window, without
+      any image files (the OS 'check' paints its glyph with OS
       colors, issue #6634);
     - list options: 'editor_combo' dropdowns (the OS 'combo_ro'
       painted with OS colors, issue #6634);
     - OK/Cancel: the flat themed 'button_ex' buttons.
     The option area is a 'scrollbox' (issue #6634): the dialog height
-    is clamped to the current monitor minus the taskbar, and whatever
-    does not fit scrolls; the OK/Cancel buttons live OUTSIDE the
-    scrollbox at the dialog bottom, so they are always fully visible
-    at any scroll position. When everything fits (a big screen), no
-    scrollbar is shown and the dialog looks like a plain fixed form.
+    is capped at 70% of the current monitor (and never beyond the
+    monitor minus the taskbar), and whatever does not fit scrolls; the
+    OK/Cancel buttons live OUTSIDE the scrollbox at the dialog bottom,
+    so they are always fully visible at any scroll position. When
+    everything fits (a tall screen), no scrollbar is shown and the
+    dialog looks like a plain fixed form.
     Enter is handled by the form itself (button_ex has no "default
     button" support); Esc cancels the modal form (engine).
     Returns True when OK was pressed."""
@@ -189,10 +176,16 @@ def dialog_config(op):
     eds = {}      # name -> Editor (the 5 edit rows + 'recent')
     combos = {}   # name -> (Editor, items) of the dropdown rows
     checks = {}   # name -> bool of the boolean options
-    check_names = {}    # control index -> option name (click handler)
-    check_handles = {}  # option name -> button handle
-    h_iml_cb, iml_cb = _checkbox_imagelist()
-    iml_checked, iml_unchecked = (iml_cb + [-1, -1])[:2]
+    # control index -> option name, for BOTH controls of a boolean
+    # option (the drawn checkbox square AND its caption label - a
+    # click on either toggles the option)
+    check_names = {}
+    # colors of the drawn checkbox, from the same theme keys the
+    # Favorites window uses for its checkbox column (the square's
+    # border is ButtonBorderPassive there; the check mark is the row
+    # text color - here the label text color of the dialog)
+    th_dict = _theme_dict()
+    check_border = _theme_color(th_dict, 'ButtonBorderPassive', 0x808080)
 
     def ctl(kind, name, prop):
         n = dlg_proc(h, DLG_CTL_ADD, prop=kind)
@@ -242,19 +235,17 @@ def dialog_config(op):
         return None
 
     def on_check_click(id_dlg, id_ctl, data='', info=''):
-        """A checkbox-button was clicked: flip its state and swap its
-        glyph (the checkmark IS the image, the caption never changes)."""
+        """The checkbox square or its caption label was clicked: flip
+        the option and show/hide the check mark glyph in the square."""
         nm = check_names.get(id_ctl)
         if nm is None:
             return
         checks[nm] = not checks.get(nm, False)
-        h_btn = check_handles.get(nm)
-        if h_btn:
-            try:
-                button_proc(h_btn, BTN_SET_IMAGEINDEX,
-                            iml_checked if checks[nm] else iml_unchecked)
-            except Exception:
-                pass
+        try:
+            dlg_proc(h, DLG_CTL_PROP_SET, name='chk_' + nm,
+                     prop={'cap': CHECK_GLYPH if checks[nm] else ''})
+        except Exception:
+            pass
 
     fprop = {
         'cap': _('Project Manager options'),
@@ -366,37 +357,61 @@ def dialog_config(op):
         y[0] += 16
 
     def check(name, cap, value):
-        """One boolean option = ONE flat themed button ('button_ex')
-        showing the checkbox glyph image + the caption - the very
-        pattern the built-in Preferences dialog uses for its boolean
-        options. The OS 'check' control was not usable: its glyph is
-        painted with OS colors and ignored the theme (issue #6634);
-        button_ex is painted by CudaText from the UI theme, and its
-        click toggles the option: the live state lives in 'checks' and
-        is shown by the swapped glyph image. The whole row is one big
-        clickable checkbox. button_ex draws its caption itself, so the
-        '&' accelerators are stripped from the caption."""
+        """One boolean option = a DRAWN checkbox, the same style as the
+        checkbox column of the Favorites window, and NO image files:
+        - the square is a 'colorpanel' (TATPanelColor) painting its own
+          1px border in ButtonBorderPassive (the very theme key the
+          Favorites window uses for its checkbox squares) on the form
+          background;
+        - the check mark is the CHECK_GLYPH text glyph as the panel's
+          centered caption, in the theme's label color (the Favorites
+          window paints its check strokes in the row text color - same
+          look; like the star glyphs there, a glyph, not an image);
+        - the caption is a plain themed label to the right.
+        A click on the square OR on the caption toggles the option (the
+        live state lives in 'checks'; the square's caption is swapped
+        between the glyph and ''). The OS 'check' control was not
+        usable: its glyph is painted with OS colors and ignored the
+        theme (issue #6634). '&' accelerators are stripped - the label
+        is a plain label, no focus wiring."""
         cap = cap.replace('&&', '\x01').replace('&', '').replace('\x01', '&')
-        n = ctl('button_ex', name, {
+        # the square first, the caption label after it (the engine
+        # wires a label created BEFORE a TWinControl as its FocusControl
+        # - creating the label second avoids that bogus wiring)
+        box = {
             'p': 'content',
-            'x': X0, 'y': y[0] + 2, 'w': PANEL_W - 2 * X0, 'h': CHECK_H,
-            'cap': cap,
+            'x': X0, 'y': y[0] + 5, 'w': CHECK_SZ, 'h': CHECK_SZ,
+            # 'act' is REQUIRED: the colorpanel reports its click
+            # through on_change, and DoOnChange drops the event for
+            # controls not marked 'act' (buttons get it by default,
+            # colorpanels don't)
+            'act': True,
+            'cap': CHECK_GLYPH if value else '',
+            # the visible 1px border: ex0 = width, ex3 = color
+            'ex0': 1,
+            'ex3': check_border,
             'on_change': on_check_click,
-        })
+        }
+        if colors['form_bg'] is not None:
+            box['color'] = colors['form_bg']
+        if colors['label_font'] is not None:
+            box['font_color'] = colors['label_font']
+        n = ctl('colorpanel', 'chk_' + name, box)
         if n is not None:
             checks[name] = bool(value)
             check_names[n] = name
-            try:
-                h_btn = dlg_proc(h, DLG_CTL_HANDLE, index=n) or 0
-                check_handles[name] = h_btn
-                button_proc(h_btn, BTN_SET_KIND, BTNKIND_TEXT_ICON_HORZ)
-                button_proc(h_btn, BTN_SET_FLAT, True)
-                if h_iml_cb:
-                    button_proc(h_btn, BTN_SET_IMAGELIST, h_iml_cb)
-                button_proc(h_btn, BTN_SET_IMAGEINDEX,
-                            iml_checked if value else iml_unchecked)
-            except Exception:
-                pass
+        n_lab[0] += 1
+        lp = {
+            'p': 'content',
+            'x': X0 + CHECK_SZ + 6, 'y': y[0] + 4,
+            'w': PANEL_W - 2 * X0 - CHECK_SZ - 6, 'h': 16,
+            'cap': cap,
+            'on_click': on_check_click,
+        }
+        lp.update(_theme_props(colors, bg_key='form_bg', font_key='label_font'))
+        n = ctl('label', 'chklab_' + name, lp)
+        if n is not None and name in checks:
+            check_names[n] = name
         y[0] += 26
 
     def row_edit(lab_cap, name, val, edit_w=None):
@@ -537,9 +552,10 @@ def dialog_config(op):
     BTN_ROW = BTN_H + 18      # the buttons + 8 px above + 10 px below
     needed_h = content_h + 8 + BTN_ROW
 
-    # never taller than the current monitor allows (minus the taskbar,
-    # minus the title bar - issue #6634): what does not fit scrolls;
-    # on a screen with room to spare no scrollbar appears at all
+    # never taller than 70% of the current monitor (and never beyond
+    # monitor minus the taskbar, minus the title bar - issue #6634):
+    # what does not fit scrolls; on a tall screen with room to spare
+    # no scrollbar appears at all
     H = needed_h
     max_h = _monitor_client_h(scale)
     if max_h is not None:

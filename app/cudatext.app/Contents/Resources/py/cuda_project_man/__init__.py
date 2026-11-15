@@ -53,6 +53,13 @@ except NameError:
 ICONS_DEFAULT = 'default_16x16'
 ICONS_DEFAULT_WHITE = 'default_white_16x16'
 
+#: extra space between the toolbar's icon buttons (unscaled px,
+#: multiplied by the UI scale at runtime): every button is widened by
+#: 2x this value - an icon-only button centers its icon, so the extra
+#: width becomes an even gap on both sides of every icon. 0 = the
+#: default tight packing. See Command.toolbar_apply_icon_spacing.
+TOOLBAR_ICON_SPACING = 2
+
 
 def get_theme_category():
     """Color category of the current UI theme: 'black', 'white' or
@@ -1230,6 +1237,9 @@ class Command:
 
         toolbar_proc(self.h_bar, TOOLBAR_SET_WRAP, index=True)
         toolbar_proc(self.h_bar, TOOLBAR_UPDATE)
+        # widen the icon buttons for the spacing (MUST run after the
+        # last TOOLBAR_UPDATE - see toolbar_apply_icon_spacing)
+        self.toolbar_apply_icon_spacing()
 
         #---- filter field above the tree ----
         # typing here shows only the nodes/files/folders whose name
@@ -6024,6 +6034,37 @@ class Command:
                 button_proc(h_btn, BTN_SET_IMAGEINDEX, n)
         self._toolbar_icons_name = theme_name
         toolbar_proc(self.h_bar, TOOLBAR_UPDATE)
+        # TOOLBAR_UPDATE just reset the button widths - re-apply the
+        # spacing on top of them
+        self.toolbar_apply_icon_spacing()
+
+    def toolbar_apply_icon_spacing(self):
+        """Widen every toolbar icon button by 2xTOOLBAR_ICON_SPACING
+        (scaled): an icon-only button CENTERS its icon (ATFlatControls
+        paints it at (width-icon)/2), so the added width shows as an
+        even gap on both sides of every icon = space between icons.
+
+        MUST run AFTER every toolbar_proc(TOOLBAR_UPDATE) (and after
+        TOOLBAR_SET_WRAP, which also relayouts): the toolbar's
+        UpdateControls recomputes every icon-only button's width from
+        the image size + the theme gap, discarding any width set
+        before. Nothing else touches the widths - a later toolbar
+        resize only re-anchors the buttons, keeping their sizes."""
+        if not self.h_bar:
+            return
+        try:
+            add = int(round(TOOLBAR_ICON_SPACING * _favorites._ui_scale()))
+        except Exception:
+            add = TOOLBAR_ICON_SPACING
+        if add <= 0:
+            return
+        for h_btn, _fn_icon, _cmd in self._toolbar_icon_btns:
+            try:
+                w = button_proc(h_btn, BTN_GET_WIDTH)
+                if w:
+                    button_proc(h_btn, BTN_SET_WIDTH, int(w) + 2 * add)
+            except Exception:
+                pass
 
     def toolbar_icons_refresh(self):
         """Make the toolbar icons match the current UI theme and options:

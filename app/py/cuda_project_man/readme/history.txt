@@ -1,4 +1,39 @@
 2026.11.15
+- The Favorites toolbar button's star.png is an OUTLINE star now
+  (transparent inside, ~1px border): the geometry of the feather
+  "star" icon scaled to 16 px, but drawn with the thin stroke of the
+  bundled icons (the svg's stroke-width 2 at 24 px = ~1.33 px at
+  16 px was too bold and too high-contrast) - the first version of
+  the icon was a filled star.
+- FIX: the "Project sessions" toolbar icon (cfg.png) did not use the
+  icon set's color - the default sets' gear was painted at <= 65%
+  opacity (faded grey), the feather sets' was a bold two-tone blob.
+  It is drawn from scratch now: the same thin-line cog in every set,
+  full opacity, in the color of the set's other icons (#555753 in
+  the black sets, #EEEEEE in the white sets - the majority ink
+  there).
+- The options dialog height is capped at 70% of the current monitor
+  now (it used to grow up to the monitor height minus the taskbar,
+  which still looked like a nearly full-screen dialog); whatever
+  does not fit keeps scrolling, the OK/Cancel buttons stay pinned
+  at the dialog bottom.
+- The boolean options of the options dialog are DRAWN checkboxes
+  without any image files (the first version used checkbox glyph
+  pngs): a 'colorpanel' square with its own 1px border in
+  ButtonBorderPassive + the check mark as a text glyph in the
+  theme's text color - the same style as the checkbox column of
+  the Favorites window. A click on the square OR on its caption
+  label toggles the option; the plugin's icons/ image folder is
+  gone again.
+- NEW: the TOOLBAR_ICON_SPACING global (cuda_project_man's
+  __init__.py) sets the space between the toolbar's icon buttons
+  (unscaled px, scaled for the screen DPI at runtime; 0 = the
+  default tight packing). Every icon button is widened by 2x the
+  value - an icon-only button centers its icon, so the extra width
+  shows as an even gap on both sides of every icon. The toolbar's
+  UpdateControls recomputes icon-button widths, so the plugin
+  re-applies the spacing after every toolbar update (panel init and
+  every icon-set reload).
 - FIX (issue #6633): the 'edit' fields had an OS-drawn border, too
   light on dark themes. All of them - the tree filter field, the
   Favorites filter field, the edit rows of the options dialog and of

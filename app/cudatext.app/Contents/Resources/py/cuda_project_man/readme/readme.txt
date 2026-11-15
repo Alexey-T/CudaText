@@ -293,7 +293,14 @@ The "Show current file" button is hidden if "Automatically show current
 file in project tree" is enabled in options (it then happens on every
 tab switch). The [Favorites] button uses the star.png icon of the
 configured icon set, like every other button (it used to be a text
-button with a UTF-8 star glyph painted by the font).
+button with a UTF-8 star glyph painted by the font); the star is an
+outline icon (transparent inside) with the thin border of the other
+icons.
+
+The space between the toolbar icons is set by the
+TOOLBAR_ICON_SPACING global variable of the plugin's __init__.py
+(unscaled pixels, scaled for the screen DPI at runtime; 0 = the
+default tight packing).
 
 While a DEFAULT icon set (default_16x16 / default_white_16x16) is
 configured, the toolbar icons follow the UI theme: dark ("black")
@@ -467,10 +474,13 @@ Open via the menu: Project Manager > Project Manager options..., the
 panel context menu (at the bottom), or CudaText's Settings menu.
 
 The dialog follows the UI theme on every control (the same theme-aware
-dialog-API control types the built-in Preferences dialog uses), and it
-never grows past the screen: its height is clamped to the current
-monitor minus the taskbar, and whatever does not fit scrolls - the
-OK/Cancel buttons stay at the bottom, always visible.
+dialog-API control types the built-in Preferences dialog uses; the
+boolean options are drawn checkboxes - a square with the theme border
+color plus a check-mark glyph in the theme text color, the same style
+as the checkbox column of the Favorites window, no image files), and
+it never occupies more than 70% of the screen height: whatever does
+not fit scrolls - the OK/Cancel buttons stay at the bottom, always
+visible.
 
   Ignore files:           Semicolon-separated mask of filenames to hide
                           in the tree (e.g., "*.tmp;*.bak").
