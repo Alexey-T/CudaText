@@ -125,7 +125,9 @@ begin
       if Assigned(FOnOtherInstance) then
       begin
         IPCClient.Active := True;
-        IPCClient.SendStringMessage(ParamCount, GetFormattedParams(AParams));
+        //MsgType must be the count of sent params, not ParamCount:
+        //caller can add extra items to AParams (e.g. startup-notification id, issue #6618)
+        IPCClient.SendStringMessage(Length(AParams), GetFormattedParams(AParams));
       end;
       Application.ShowMainForm := False;
       Application.Terminate;

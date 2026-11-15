@@ -334,12 +334,31 @@ end;
 
 procedure TfmMain.HandleOtherInstance(Sender: TObject;
   AParamCount: Integer; const AParameters: array of String);
+const
+  cStartupIdPrefix = '-startup-id=';
+var
+  Params: TAppStringArray;
+  SToken: string;
+  i: integer;
 begin
   if not IsAllowedToOpenFileNow then exit;
 
+  //for issue #6618: find startup-notification id passed from the 2nd instance,
+  //remove it from params, apply to focus the window below
+  SToken:= '';
+  Params:= nil;
+  for i:= 0 to Length(AParameters)-1 do
+    if SBeginsWith(AParameters[i], cStartupIdPrefix) then
+      SToken:= Copy(AParameters[i], Length(cStartupIdPrefix)+1, MaxInt)
+    else
+    begin
+      SetLength(Params, Length(Params)+1);
+      Params[High(Params)]:= AParameters[i];
+    end;
+
   DoLoadCommandParams(
-    AParameters,
-    GetFileOpenOptionsString(AppCountCommandlineFilenames(AParameters))
+    Params,
+    GetFileOpenOptionsString(AppCountCommandlineFilenames(Params))
     );
 
   if WindowState=wsMinimized then
@@ -352,6 +371,7 @@ begin
   // Those two calls below conflicts with Windows SwitchToThisWindow API call
   // so they are left for other platforms
   {$else}
+  DoAppSetStartupId(SToken, Handle);
   Application.BringToFront;
   DoFocusWindow(Handle);
   {$ifend}

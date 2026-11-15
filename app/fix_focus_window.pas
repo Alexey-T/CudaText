@@ -138,6 +138,7 @@ procedure debug(const text: String);
 
 {$ifndef windows}
 procedure DoFocusWindow(h: HWND);
+procedure DoAppSetStartupId(const AId: string; h: HWND);
 {$ifend}
 
 implementation
@@ -504,6 +505,37 @@ finalization
      FreeLibrary(hLib);
 
 {$else}
+
+{$if defined(LCLGtk3)}
+//used by DoAppSetStartupId, issue #6618
+uses
+  LazGtk3, LazGdk3, LazGLib2, LazGObject2,
+  gtk3widgets, gtk3procs;
+{$endif}
+
+{$if defined(LCLGtk3)}
+procedure DoAppSetStartupId(const AId: string; h: HWND);
+//Fix for issue #6618: GTK3 needs the startup-notification id to focus a window;
+//without it, the window manager may only flash the taskbar instead of focusing.
+//Id is received by 2nd instance from DESKTOP_STARTUP_ID/XDG_ACTIVATION_TOKEN env vars,
+//passed to 1st instance via UniqueInstance IPC, and applied here before focusing.
+//Same approach is used by Geany (socket.c: "desktop_startup_id" IPC command).
+var
+  Widget: PGtkWidget;
+begin
+  if AId='' then exit;
+  if h=0 then exit;
+  Widget:= TGtk3Widget(h).Widget;
+  if not Gtk3IsGtkWindow(PGObject(Widget)) then exit;
+  gtk_window_set_startup_id(PGtkWindow(Widget), Pgchar(AId));
+end;
+{$else}
+procedure DoAppSetStartupId(const AId: string; h: HWND);
+//stub for non-GTK3 widgetsets, token is not used there
+begin
+end;
+{$ifend}
+
 procedure DoFocusWindow(h: HWND);
 begin
   LCLIntf.SetForegroundWindow(h);

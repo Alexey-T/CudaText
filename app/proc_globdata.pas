@@ -54,6 +54,7 @@ uses
   proc_cmd,
   proc_msg,
   proc_str,
+  proc_inittick, //for AppStartupId, issue #6618
   AppUniqueInstance,
   ec_LexerList,
   ec_SyntAnal;
@@ -4170,6 +4171,15 @@ begin
       S:= WorkDir+DirectorySeparator+S;
 
     AParams[i-1]:= S;
+  end;
+
+  //pass startup-notification id to the 1st instance, to fix focusing (issue #6618);
+  //it's added as one more array item, and consumed/removed by TfmMain.HandleOtherInstance
+  //before DoLoadCommandParams, so it's not treated as filename (it begins with '-')
+  if AppStartupId<>'' then
+  begin
+    SetLength(AParams, Length(AParams)+1);
+    AParams[High(AParams)]:= '-startup-id='+AppStartupId;
   end;
 end;
 
