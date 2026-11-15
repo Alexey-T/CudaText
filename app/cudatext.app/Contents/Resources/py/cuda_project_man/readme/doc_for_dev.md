@@ -939,9 +939,41 @@ result.
 - The "Project sessions" toolbar button uses `sessions.png` (the
   feather-"layers" geometry: three stacked sheets, one per saved
   state - the old gear read as "settings"). A 3rd-party icon set
-  without a newer file (sessions.png, star.png) falls back to the
-  default set's copy in `toolbar_icons_load()`, so no button ever
-  ends up blank.
+  without a newer file (sessions.png, star.png, locate.png) falls
+  back to the default set's copy in `toolbar_icons_load()`, so no
+  button ever ends up blank.
+- The `toolbar_theme` option value `auto` (the default) is resolved
+  to `default_16x16` / `default_white_16x16` by the UI theme's color
+  category in `toolbar_icons_effective()`; every other value -
+  including the two default sets themselves - is used as a FIXED set
+  (only `auto` follows the theme; before this round both default sets
+  auto-switched). The options dialog lists `auto` first with a
+  friendlier label (display list and value list are separate, like
+  the sorting combo). `migrate_loaded_options()` one-time-moves the
+  stored OLD default `default_16x16` to `auto` (flagged by the
+  `_toolbar_theme_migrated` option key): under the old semantics that
+  value meant exactly "auto", so the migration is
+  behavior-preserving, and a `default_16x16` chosen under the NEW
+  semantics is never touched again.
+- The toolbar is 7 icon buttons now: [Recent projects] [Project file]
+  [Add folder] [Add file] [Project sessions] [Show current file in
+  project tree] [Favorites]. The [Project file] button (the old
+  [Open project] icon, open.png) shows a popup menu filled by
+  `fill_project_file_menu()` - the single source of the "Project
+  file" items, used by the tree's context menu submenu too (the
+  separate [Save project] button is gone; its command lives in that
+  menu). The sync button uses `locate.png`, a crosshair - the
+  standard "locate the current thing" metaphor (the old sync.png was
+  a "send/share" arrow).
+- The group separator colorpanels have their y SNAPPED up to a
+  multiple of 8 layout px: DPI scaling (DLG_SCALE -> LCL
+  AutoAdjustLayout) rounds every control's scaled Top and Bottom
+  independently with round-half-to-even, so a 2px panel renders 2px
+  or 3px thick depending on its y phase - at 125% the four
+  separators rendered 3,2,2,3 px (measured in the user's screenshot).
+  Separators sharing one phase (mod 8: 8px at every 25% scale step
+  stays an even integer, fixing phase AND rounding parity) always
+  render equally thick at any scale CudaText offers.
 - Toolbar icon spacing: `TOOLBAR_ICON_SPACING` (unscaled px) sets
   every icon button's width to icon size + 2x its value via
   `button_proc(BTN_SET_WIDTH)` - REPLACING ATFlatControls' own

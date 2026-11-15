@@ -279,8 +279,9 @@ TOOLBAR
 The toolbar (top of the panel) has these buttons, left to right:
 
   [Recent projects]  - shows the recent projects menu
-  [Open project]     - opens an existing project
-  [Save project]     - saves the current project in place
+  [Project file]     - shows the "Project file" menu: new/open/save/
+                      close project, recent projects, properties (the
+                      same items as the tree's context menu)
   ---
   [Add folder]       - adds a folder to the project
   [Add file]         - adds a file to the project
@@ -507,15 +508,17 @@ the bottom.
   File type icons:        Icon theme for file types in the tree
                           (applies immediately, no restart).
 
-  Toolbar icons:          Icon theme for the toolbar buttons. The two
-                          "default" sets (default_16x16 and
-                          default_white_16x16) are the same artwork in
-                          black and in white: the plugin automatically
-                          uses the white icons for a "black" (dark) UI
-                          theme and the black icons for a "white" or
-                          "grey" theme, also switching when the theme
-                          changes while CudaText runs. Any other set is
-                          used exactly as configured.
+  Toolbar icons:          Icon theme for the toolbar buttons.
+                          "auto" (the default) uses the default icons
+                          and automatically switches between the black
+                          set (default_16x16) for a "white"/"grey" UI
+                          theme and the white set
+                          (default_white_16x16) for a "black" (dark)
+                          theme, also when the theme changes while
+                          CudaText runs. Every other choice - the two
+                          "default" sets included - is a fixed set,
+                          used exactly as configured whatever the
+                          theme is.
 
   Sorting order:          How to sort items in the tree: by name,
                           extension, size, date, etc. (applies

@@ -143,9 +143,18 @@ def dialog_config(op):
     except ValueError:
         theme_index = -1
 
-    themes_tb = get_themes_toolbar()
+    # the toolbar icon sets: 'auto' comes FIRST (the default: the
+    # default icons colored for the current UI theme - a dark theme
+    # gets the white set, a light one the black set), then every
+    # installed folder as a FIXED choice, used as-is whatever the
+    # theme (feather_*, custom folders, and the two default sets
+    # themselves - only 'auto' follows the theme). The dropdown shows
+    # friendlier labels for 'auto', so the displayed list and the
+    # value list are separate
+    themes_tb_val = ['auto'] + get_themes_toolbar()
+    themes_tb_lbl = [_('auto (default icons, by UI theme)')] + themes_tb_val[1:]
     try:
-        theme_index_tb = themes_tb.index(op.get('toolbar_theme', 'default_16x16'))
+        theme_index_tb = themes_tb_val.index(op.get('toolbar_theme', 'auto'))
     except ValueError:
         theme_index_tb = -1
 
@@ -352,8 +361,17 @@ def dialog_config(op):
         '─' characters before - that caption renders WIDER than the
         scrollbox, which made TScrollBox show a horizontal scrollbar
         even though every option control fits; a panel has no text, so
-        its width is always exact."""
+        its width is always exact.
+        The y is SNAPPED up to a multiple of 8 design px: DPI scaling
+        (DLG_SCALE -> LCL AutoAdjustLayout) rounds every control's
+        scaled Top and Bottom independently with round-half-to-even,
+        so a 2px panel renders 2px or 3px thick depending on its y
+        phase - at 125% the four separators rendered 3,2,2,3 px.
+        Separators sharing one phase (mod 8: 8px at every 25% scale
+        step is an even integer, so the phase and the rounding parity
+        are fixed) always render equally thick."""
         y[0] += 4
+        y[0] = ((y[0] + 7) // 8) * 8
         p = {
             'p': 'scr',
             'x': X0, 'y': y[0], 'w': PANEL_W - 2 * X0, 'h': 2,
@@ -545,7 +563,10 @@ def dialog_config(op):
     check('d_click', _('Open files by &double-click'), op.get('d_click', False))
     check('always_sync', _('Automatically show current file in project tree'), op.get('always_sync', False))
     row_combo(_('File type icons:'), 'icon_theme', themes, theme_index)
-    row_combo(_('Toolbar icons:'), 'toolbar_theme', themes_tb, theme_index_tb)
+    row_combo(_('Toolbar icons:'), 'toolbar_theme', themes_tb_lbl, theme_index_tb)
+    # the add-ons hint sits right below the two icon dropdowns it
+    # talks about (it used to be at the very bottom of the dialog)
+    hint(_('For more icons, get add-ons of kind "filetypeicons", "projtoolbaricons"'))
     row_combo(_('Sorting order:'), 'sort_order', items_sort_str, items_sort_val)
 
     sep()
@@ -565,12 +586,6 @@ def dialog_config(op):
     row_edit(_('Default projects &folder:'), 'projects_dir', op.get('projects_dir', ''))
     hint(_('For new projects: empty = last used folder;'))
     hint('$settings = ' + _('CudaText settings folder, e.g. $settings/projects'))
-
-    sep()
-
-    y[0] += 3
-    hint(_('For more icons, get add-ons of kind "filetypeicons", "projtoolbaricons"'))
-    hint(_('The two "default" toolbar sets auto-switch black/white icons for the UI theme'))
 
     #--------- buttons (bottom-right) and the final height
 
@@ -673,8 +688,8 @@ def dialog_config(op):
             op['icon_theme'] = themes[index]
 
         index = _val_int(state.get('toolbar_theme'))
-        if 0 <= index < len(themes_tb):
-            op['toolbar_theme'] = themes_tb[index]
+        if 0 <= index < len(themes_tb_val):
+            op['toolbar_theme'] = themes_tb_val[index]
 
         index = _val_int(state.get('sort_order'))
         if 0 <= index < len(items_sort_id):

@@ -974,7 +974,7 @@ class Command:
         "on_start": False,
         "on_start_activate": False,
         "icon_theme": "vscode_16x16",
-        "toolbar_theme": "default_16x16",
+        "toolbar_theme": "auto",
         "backup_enabled": True,
         "backup_folder": DEFAULT_BACKUP_FOLDER,
         "backup_count": DEFAULT_BACKUP_COUNT,
@@ -991,6 +991,7 @@ class Command:
     toolbar_imglist = None
     h_menu = None
     h_menu_cfg = None
+    h_menu_pfile = None
     #: (button handle, icon file name) of the toolbar's icon buttons, in
     #: button order; filled in init_form_main, re-filled by
     #: toolbar_icons_load() (also on a UI theme change, when a default
@@ -1165,8 +1166,26 @@ class Command:
                     self.options["recent_projects"] = [expand_macros('', fn) for fn in healed]
             except Exception:
                 pass
+        self.migrate_loaded_options()
 
         self.new_project() # reset to the "no project" state
+
+    def migrate_loaded_options(self):
+        """One-time migrations of values loaded from an OLDER plugin's
+        options file (runs after every load; each migration is guarded
+        by its own flag option so it never touches a value the user
+        chose under the NEW semantics).
+
+        'toolbar_theme': 'default_16x16' used to be THE default value
+        and meant 'the default icons, auto-colored for the UI theme'.
+        Since the 'auto' value exists, a fixed 'default_16x16' is a
+        deliberate choice of its own - so the stored old default is
+        moved to 'auto' once (behavior-preserving: it did exactly
+        that), and never touched again afterwards."""
+        if not self.options.get('_toolbar_theme_migrated'):
+            self.options['_toolbar_theme_migrated'] = True
+            if self.options.get('toolbar_theme') == 'default_16x16':
+                self.options['toolbar_theme'] = 'auto'
 
 
     def init_form_main(self):
@@ -1205,13 +1224,17 @@ class Command:
         # (hint, plugin command, icon file) of the toolbar's icon buttons
         toolbar_buttons = [
             (_('Recent projects'), 'cuda_project_man.menu_recents', 'recents.png'),
-            (_('Open project'), 'cuda_project_man.action_open_project', 'open.png'),
-            (_('Save project'), 'cuda_project_man.action_save_project', 'save.png'),
+            # opens the 'Project file' popup menu (the same items as
+            # the tree context menu's 'Project file' submenu) - the
+            # button used to run "Open project..." directly; the
+            # separate "Save project" button is gone, both commands
+            # live in this menu now
+            (_('Project file'), 'cuda_project_man.menu_project_file', 'open.png'),
             # '-' separator and 'Remove node' (del.png) buttons were here
             (_('Add folder'), 'cuda_project_man.action_add_folder', 'add-dir.png'),
             (_('Add file'), 'cuda_project_man.action_add_file', 'add-file.png'),
             (_('Project sessions'), 'cuda_project_man.menu_cfg', 'sessions.png'),
-            (_('Show current file in project tree'), 'cuda_project_man.sync_to_ed', 'sync.png'),
+            (_('Show current file in project tree'), 'cuda_project_man.sync_to_ed', 'locate.png'),
             (_('Favorites (bookmarks)'), 'cuda_project_man.favorites_show', 'star.png'),
         ]
 
@@ -2195,6 +2218,11 @@ class Command:
         if node_type == NODE_DIR:
             menu_dir = self.add_context_menu_node(menu_all, "0", _("Selected folder"))
 
+        # the "Project file" items are filled by the single shared
+        # source (the toolbar's [Project file] button uses it too);
+        # the loop below skips them
+        self.fill_project_file_menu(menu_proj)
+
         for item in self.menuitems:
             item_caption = item[0]
             item_parent = item[1]
@@ -2202,6 +2230,8 @@ class Command:
             item_action = item[3]
             item_hotkey = item[4]
             if node_type not in item_types:
+                continue
+            if item_parent == "proj":
                 continue
 
             # no disk deletion for top-level nodes - see the comment
@@ -2211,9 +2241,7 @@ class Command:
                     "cuda_project_man.action_delete_directory"):
                 continue
 
-            if item_parent == "proj":
-                menu_use = menu_proj
-            elif item_parent == "nodes":
+            if item_parent == "nodes":
                 menu_use = menu_nodes
             elif item_parent == "file":
                 menu_use = menu_file
@@ -2222,7 +2250,7 @@ class Command:
             else:
                 menu_use = menu_all
 
-            if item_action in ("collect_recent_projects", "sessions_submenu", "favorites_submenu"):
+            if item_action in ("sessions_submenu", "favorites_submenu"):
                 action = ""
             else:
                 action = item_action
@@ -2232,13 +2260,7 @@ class Command:
             if item_hotkey:
                 menu_proc(menu_added, MENU_SET_HOTKEY, item_hotkey)
 
-            if item_action == "collect_recent_projects":
-                for path in self.options["recent_projects"]:
-                    if os.sep in path:
-                        action = str.format("module=cuda_project_man;cmd=action_open_project;info={};", path)
-                        self.add_context_menu_node(menu_added, action, nice_filename(path))
-
-            elif item_action == "sessions_submenu":
+            if item_action == "sessions_submenu":
                 self.fill_sessions_menu(menu_added)
             elif item_action == "favorites_submenu":
                 self.fill_favorites_menu(menu_added)
@@ -5175,6 +5197,40 @@ class Command:
 
         menu_proc(self.h_menu_cfg, MENU_SHOW)
 
+    def menu_project_file(self):
+        """Toolbar button "Project file" (the open.png icon): show the
+        project-file menu - the same items as the tree context menu's
+        "Project file" submenu (new/open/save/close project, recent
+        projects, properties). The button used to run "Open
+        project..." directly, and there was a separate "Save project"
+        button - both commands live in this menu now."""
+        if self.h_menu_pfile is None:
+            self.h_menu_pfile = menu_proc(0, MENU_CREATE)
+        menu_proc(self.h_menu_pfile, MENU_CLEAR)
+
+        self.fill_project_file_menu(self.h_menu_pfile)
+
+        menu_proc(self.h_menu_pfile, MENU_SHOW)
+
+    def fill_project_file_menu(self, menu):
+        """Fill the given menu with the "Project file" items of
+        self.menuitems - the single source of the project-file commands,
+        used both by the tree's context menu (its "Project file"
+        submenu) and by the toolbar's [Project file] button menu."""
+        for item_caption, item_parent, _item_types, item_action, item_hotkey in self.menuitems:
+            if item_parent != "proj":
+                continue
+            # the "Recent projects" item only carries its submenu
+            action = "" if item_action == "collect_recent_projects" else item_action
+            menu_added = self.add_context_menu_node(menu, action, item_caption)
+            if item_hotkey:
+                menu_proc(menu_added, MENU_SET_HOTKEY, item_hotkey)
+            if item_action == "collect_recent_projects":
+                for path in self.options["recent_projects"]:
+                    if os.sep in path:
+                        action = str.format("module=cuda_project_man;cmd=action_open_project;info={};", path)
+                        self.add_context_menu_node(menu_added, action, nice_filename(path))
+
     def fill_sessions_menu(self, menu):
         """Fill the given menu with the project-session commands: the list
         of the project's sessions plus save/delete/default/import items.
@@ -6014,16 +6070,16 @@ class Command:
         self._toolbar_icon_px = n
 
     def toolbar_icons_effective(self):
-        """Icon set the toolbar actually uses: the configured set
-        ('toolbar_theme' option), except that BOTH default sets (the same
-        artwork as black and as white) mean 'the default icons, colored
-        for the current UI theme' (issue #6632): a 'black' theme gets the
-        white icons (default_white_16x16), a 'white' or 'grey' theme (and
-        an unknown category) gets the black ones (default_16x16). Any
-        other set (feather_*, a custom folder) is the user's deliberate
-        choice and is kept as configured."""
-        name = self.options.get('toolbar_theme', ICONS_DEFAULT)
-        if name in (ICONS_DEFAULT, ICONS_DEFAULT_WHITE):
+        """Icon set the toolbar actually uses. The 'toolbar_theme'
+        option is either 'auto' (the default: the default icons colored
+        for the current UI theme, issue #6632 - a 'black' theme gets the
+        white set default_white_16x16, a 'white'/'grey' theme or an
+        unknown category gets the black set default_16x16) or a FIXED
+        icon folder used as-is, whatever the UI theme: feather_* and
+        custom folders, and the two default sets too - only 'auto'
+        follows the UI theme."""
+        name = self.options.get('toolbar_theme', 'auto')
+        if name == 'auto':
             if get_theme_category() == 'black':
                 return ICONS_DEFAULT_WHITE
             return ICONS_DEFAULT
