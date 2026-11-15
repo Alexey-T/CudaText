@@ -126,6 +126,9 @@ Type
     Property Footnotes : Boolean Read FFootnotes Write FFootnotes;
     // Document with the link reference definitions. Nil disables reference links.
     Property LinkReferences : TMarkdownDocument Read FLinkReferences Write FLinkReferences;
+    // True when an active [ or ![ delimiter is open, so the text may be link text
+    // (upstream fcl-md fix: autolinks inside link text must not nest)
+    function HasOpenBracket : Boolean;
   end;
   TInlineTextProcessorClass = class of TInlineTextProcessor;
 
@@ -710,6 +713,7 @@ procedure TInlineTextProcessor.ApplyLink(aDelim: TMarkdownDelimiter; const aURL,
 
 var
   lDelim : TMarkdownDelimiter;
+  lChild : TMarkdownTextNode;
 
 begin
   HandleEmphasis(aDelim);
@@ -727,6 +731,12 @@ begin
     aDelim.Node.attrs.Add('href',aURL);
     aDelim.Node.active:=false;
     Nodes.MoveToChildren(aDelim.Node);
+    // upstream fcl-md fix: autolinks in the link text become plain text,
+    // links do not nest
+    if aDelim.Node.HasChildren then
+      for lChild in aDelim.Node.Children do
+        if lChild.Kind in [nkURI,nkEmail] then
+          lChild.Kind:=nkText;
     for lDelim in FStack do
       if lDelim = aDelim then
         break
@@ -1059,6 +1069,19 @@ begin
 end;
 
 
+// upstream fcl-md fix: autolinks inside link text must not nest
+function TInlineTextProcessor.HasOpenBracket : Boolean;
+
+var
+  lDelim : TMarkdownDelimiter;
+
+begin
+  Result:=False;
+  for lDelim in FStack do
+    if lDelim.Active and ((lDelim.Delimiter='[') or (lDelim.Delimiter='![')) then
+      Exit(True);
+end;
+
 procedure TInlineTextProcessor.HandleGFMLinkEmail(aLength : integer);
 
 var
@@ -1079,6 +1102,7 @@ Const
 
 var
   lRewind : boolean;
+  lInBracket : boolean;
   lRemove : Integer;
   lLink,lUrl,lText : TMarkdownString;
   lNode : TMarkdownTextNode;
@@ -1086,6 +1110,7 @@ var
 begin
   Scanner.BookMark;
   lRewind:=True;
+  lInBracket:=HasOpenBracket;
   try
     lLink:=Scanner.NextChars(aStartChars);
     while CharInSet(Scanner.Peek,UrlChars) do
@@ -1093,7 +1118,8 @@ begin
     if not lLink.Contains('.') then
       Exit;
     lRewind:=False;
-    while not (Scanner.EOF or CharInSet(Scanner.Peek,URLDelims)) do
+    // upstream fcl-md fix: when inside link text, ']' ends the URL too
+    while not (Scanner.EOF or CharInSet(Scanner.Peek,URLDelims) or (lInBracket and (Scanner.Peek=']'))) do
       lLink:=lLink+Scanner.NextChar;
     case lLink[lLink.Length] of
       '?','!','.',',',':','*','_','~':
@@ -1115,7 +1141,9 @@ begin
       lUrl:=Copy(lLink,1,Length(lLink)-lRemove);
       lNode:=Nodes.addTextNode(Scanner.location,nkURI,aProtocol+lUrl);
       lNode.attrs.Add('href',aProtocol+urlEscape(lUrl));
-      lText:=Copy(lLink,Length(lLink)-lRemove,lRemove);
+      // upstream fcl-md fix: was Copy(lLink,Length(lLink)-lRemove,lRemove),
+      // which dropped one character too many from the trailing text
+      lText:=Copy(lLink,Length(lLink)-lRemove+1,lRemove);
       Nodes.addTextNode(Scanner.location,nkText,lText);
       end;
   finally
