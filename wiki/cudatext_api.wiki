@@ -483,6 +483,7 @@ Notes:
 * Theme names are short strings, lowercase, e.g. "cobalt", "sub". Empty string means built-in theme.
 * Setting default theme (empty str) resets both UI + syntax themes.
 * To enumerate themes, you need to list themes folder.
+* Theme files (.cuda-theme-ui and .cuda-theme-syntax) support optional key "category": one of "black", "white", "grey" - the theme's color category, so plugins can choose dark/light icons and colors.
 
 Actions:
 
@@ -491,8 +492,8 @@ Actions:
 * PROC_THEME_SYNTAX_GET: Returns name of syntax-theme.
 * PROC_THEME_SYNTAX_SET: Sets name of syntax-theme.
 
-* PROC_THEME_UI_DICT_GET: Returns contents of current UI-theme, as dict.
-* PROC_THEME_SYNTAX_DICT_GET: Returns contents of current syntax-theme, as dict. For description of keys of result, see LEXER_GET_STYLES.
+* PROC_THEME_UI_DICT_GET: Returns contents of current UI-theme, as dict. Items are color names ("EdTextFont", "EdTextBg", "TabBg", ...) with values dict { "desc": str, "color": int }. Additional item "category": str, value of optional key "category" of UI-theme file (.cuda-theme-ui), one of "black", "white", "grey" ('' if theme file doesn't define it); it lets plugins choose dark/light icons and colors.
+* PROC_THEME_SYNTAX_DICT_GET: Returns contents of current syntax-theme, as dict. For description of keys of result, see LEXER_GET_STYLES. Additional item "category": str, value of optional key "category" of syntax-theme file (.cuda-theme-syntax), one of "black", "white", "grey" ('' if theme file doesn't define it).
 
 ====app_proc - Sessions====
 
@@ -5577,5 +5578,6 @@ It provides:
 
 1.0.487 (app 1.240.0)
 * add: dlg_proc: control type "md_view"
+* change: app_proc: PROC_THEME_UI_DICT_GET, PROC_THEME_SYNTAX_DICT_GET: results have additional item "category" - string value of optional key "category" of theme files (.cuda-theme-ui / .cuda-theme-syntax), one of "black"/"white"/"grey" ('' if not defined)
 
 [[Category:CudaText]]

@@ -216,6 +216,9 @@ begin
           ColorItem.color
           ));
     end;
+    //not a color: theme category 'black'/'white'/'grey' ('' if not defined),
+    //so plugins can pick dark/light icons and colors (issue #6632)
+    PyDict_SetItemString(Result, 'category', PyUnicodeFromString(AppTheme.Category));
   end;
 end;
 
@@ -402,6 +405,9 @@ begin
           PChar(Lexer_FontStylesToString(St.Font.Style))
           ));
     end;
+    //not a style: theme category 'black'/'white'/'grey' ('' if not defined),
+    //so plugins can pick dark/light icons and colors (issue #6632)
+    PyDict_SetItemString(Result, 'category', PyUnicodeFromString(AppTheme.CategorySyntax));
   end;
 end;
 

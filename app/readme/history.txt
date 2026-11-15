@@ -11,6 +11,7 @@
    + add: added a search filter for project and its folders/files, the search run in bakground so no cudatext hang with very huge folders
    + add: Options dialog redesigned to support themes colors, all GUI now works correctly with any theme
    + add: safety: no command deletes anything permanently anymore, on any OS
++ add: UI-themes and syntax-themes have new optional JSON key "category" (values "black", "white", "grey"; all preinstalled themes define it); APIs app_proc(PROC_THEME_UI_DICT_GET) and app_proc(PROC_THEME_SYNTAX_DICT_GET) return it as dict item "category", so plugins can choose dark/light icons and colors
 - fix: Gtk3 version on X11 had incorrect caret blinking (thanks @SmallJoker, fixed by Z.ai)
 
 1.239.1 (2026/11)

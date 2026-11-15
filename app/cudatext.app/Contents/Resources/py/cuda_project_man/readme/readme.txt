@@ -292,6 +292,13 @@ The "Show current file" button is hidden if "Automatically show current
 file in project tree" is enabled in options (it then happens on every
 tab switch). The last button, [Favorites], opens the Favorites window.
 
+While a DEFAULT icon set (default_16x16 / default_white_16x16) is
+configured, the toolbar icons follow the UI theme: dark ("black")
+themes get the white icons, light ("white" and "grey") themes the
+black ones - the switch also happens when the theme changes while
+CudaText runs. An icon set picked in the options (e.g. feather_*) is
+kept as configured.
+
 
 ------------------------------------------------------------------------------
 FILTERING AND TYPE-AHEAD IN THE TREE
@@ -491,7 +498,15 @@ panel context menu (at the bottom), or CudaText's Settings menu.
 
   File type icons (*):    Icon theme for file types in the tree.
 
-  Toolbar icons (*):      Icon theme for the toolbar buttons.
+  Toolbar icons:          Icon theme for the toolbar buttons. The two
+                          "default" sets (default_16x16 and
+                          default_white_16x16) are the same artwork in
+                          black and in white: the plugin automatically
+                          uses the white icons for a "black" (dark) UI
+                          theme and the black icons for a "white" or
+                          "grey" theme, also switching when the theme
+                          changes while CudaText runs. Any other set is
+                          used exactly as configured.
 
   Sorting order (*):      How to sort items in the tree: by name,
                           extension, size, date, etc.

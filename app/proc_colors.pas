@@ -208,6 +208,11 @@ type
   TAppTheme = record
     Colors: array[TAppThemeColor] of TAppThemeColorRec;
     Styles: array[TAppThemeStyle] of TecSyntaxFormat;
+    //category of UI-theme (one of 'black'/'white'/'grey'), read from JSON key
+    //'category' of .cuda-theme-ui file; '' means theme file doesn't define it
+    Category: string;
+    //the same for syntax-theme, from .cuda-theme-syntax file
+    CategorySyntax: string;
     //trailing styles (bold, italic, bold+italic, etc) must be synced with 'Id' style
     procedure UpdateBoldAndItalicColors;
   end;
@@ -299,6 +304,8 @@ begin
     begin
       for iColor:= Low(iColor) to High(iColor) do
         ReadColorValue(D.Colors[iColor].color, D.Colors[iColor].name);
+      //optional key 'category' is not a color, missing key gives ''
+      D.Category:= cfg.GetValue('category', '');
     end
     else
     begin
@@ -310,6 +317,8 @@ begin
             [ExtractFileName(AFileName), 'Lex_'+st.DisplayName]));
       end;
       D.UpdateBoldAndItalicColors;
+      //optional key 'category' is not a style, missing key gives ''
+      D.CategorySyntax:= cfg.GetValue('category', '');
     end;
   finally
     cfg.Free;
@@ -338,6 +347,8 @@ const
   nColorListSelBack = $d0d0d0;
   nColorListSelBack2 = $f4f4f4;
 begin
+  //built-in default colors are light-grey ($e4e4e4 background)
+  D.Category:= 'grey';
   SetColor(TAppThemeColor.EdTextFont, nColorText, 'EdTextFont', 'editor, font');
   SetColor(TAppThemeColor.EdTextBg, nColorBack, 'EdTextBg', 'editor, BG');
   SetColor(TAppThemeColor.EdSelFont, nColorText, 'EdSelFont', 'editor, selection, font');
@@ -485,6 +496,9 @@ procedure AppThemeInit_Syntax(var D: TAppTheme);
   end;
   //
 begin
+  //built-in default styles (black fonts, no bgs) are for the light-grey
+  //default editor background
+  D.CategorySyntax:= 'grey';
   SetStyle(TAppThemeStyle.Id, 'Id', clBlack, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
   SetStyle(TAppThemeStyle.Id1, 'Id1', clNavy, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
   SetStyle(TAppThemeStyle.Id2, 'Id2', clPurple, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
@@ -577,6 +591,9 @@ begin
     begin
       for iColor:= Low(iColor) to High(iColor) do
         cfg.SetValue(D.Colors[iColor].name, TATHtmlColorParserA.ColorToHtmlString(D.Colors[iColor].color));
+      //keep the category of the loaded theme in the re-saved file
+      if D.Category<>'' then
+        cfg.SetValue('category', D.Category);
     end
     else
     begin
@@ -585,6 +602,9 @@ begin
         st:= d.Styles[iStyle];
         Lexer_SaveStyleToFile_JsonTheme(st, cfg, 'Lex_'+st.DisplayName);
       end;
+      //keep the category of the loaded theme in the re-saved file
+      if D.CategorySyntax<>'' then
+        cfg.SetValue('category', D.CategorySyntax);
     end;
   finally
     cfg.Free;

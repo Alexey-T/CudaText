@@ -1,3 +1,21 @@
+2026.11.15
+- FIX (issue #6632, idea by @badrelmers): the toolbar icons follow the
+  UI theme now, so they stay visible in dark themes too. While a
+  DEFAULT icon set is configured (default_16x16 or
+  default_white_16x16 - the same artwork as black and as white), the
+  plugin picks the variant the current theme needs: 'black' themes get
+  the white icons, 'white'/'grey' themes the black ones. The theme
+  category comes from the new 'category' string of
+  app_proc(PROC_THEME_UI_DICT_GET) - preinstalled themes define it in
+  their .cuda-theme-ui file; a custom theme without the key is
+  estimated from the luminosity of the editor background color (the
+  fallback differ2 had to hardcode theme names for). The switch runs
+  at panel init and when the UI theme changes while CudaText runs
+  (on_state, APPSTATE_THEME_UI). A non-default set (feather_*, a
+  custom folder) is the user's deliberate choice and is never
+  re-picked. The "Toolbar icons" option applies immediately now (no
+  restart needed anymore).
+
 2026.11.14 (@badrelmers)
 - SAFETY: no command deletes anything permanently on Windows, macOS
   or Linux. Every delete now moves the file/folder to the OS trash (the

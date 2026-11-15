@@ -583,11 +583,25 @@ successful save).
 - The side panel is built ONCE per CudaText run, on the first
   `init_panel()` call (`init_form_main`: dialog, toolbar, tree, both
   icon imagelists, `icon_init`). CudaText has no API to recreate a
-  docked plugin panel in place, so the icon-theme options can only
-  take effect on a panel that does not exist yet — that is why the
-  options dialog marks them with "(*)": new file-type/toolbar icon
-  themes need a CudaText restart. (Changed before the panel is first
-  shown, they apply without a restart.)
+  docked plugin panel in place, so the file-type icon theme option can
+  only take effect on a panel that does not exist yet — that is why
+  the options dialog marks it with "(*)": a new file-type icon theme
+  needs a CudaText restart. (Changed before the panel is first shown,
+  it applies without a restart.)
+- The TOOLBAR icons are different: `toolbar_icons_load()` can refill
+  the toolbar's imagelist in place (it clears it with
+  `IMAGELIST_DELETE_ALL`, re-adds the pngs and re-points the buttons
+  with `BTN_SET_IMAGEINDEX`), so the "Toolbar icons" option applies
+  immediately. It runs at panel init, after the options dialog, and
+  from `toolbar_icons_refresh()` on every UI theme change
+  (on_state/APPSTATE_THEME_UI): while a DEFAULT icon set is
+  configured (`default_16x16` / `default_white_16x16`), the set is
+  re-picked for the theme (a "black" theme gets the white icons, a
+  "white"/"grey" theme the black ones; `toolbar_icons_effective()` /
+  `get_theme_category()`, the latter reads the theme's "category" from
+  `PROC_THEME_UI_DICT_GET`, with a luminosity fallback for custom
+  themes without that key). A non-default set never depends on the
+  theme.
 
 ---
 ## 13. Drag & drop

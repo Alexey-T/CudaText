@@ -44,6 +44,39 @@ try:
 except NameError:
     APPSTATE_THEME_UI = 21
 
+# the two DEFAULT toolbar icon sets (app/data/projtoolbaricons): the same
+# artwork as black and as white. When one of them is configured, the
+# plugin auto-picks the variant the current UI theme needs (issue #6632):
+# a 'black' theme gets the white icons, a 'white'/'grey' theme the black
+# ones. Any other set (feather_*, a custom folder) is the user's own
+# choice and is never re-picked.
+ICONS_DEFAULT = 'default_16x16'
+ICONS_DEFAULT_WHITE = 'default_white_16x16'
+
+
+def get_theme_category():
+    """Color category of the current UI theme: 'black', 'white' or
+    'grey' -- the 'category' string of app_proc(PROC_THEME_UI_DICT_GET)
+    (preinstalled themes define it in their .cuda-theme-ui file). A
+    custom theme without the key is estimated from the luminosity of
+    the editor background color (the fallback differ2 had to hardcode
+    before this API existed); on any error '' (unknown)."""
+    try:
+        d = app_proc(PROC_THEME_UI_DICT_GET, '')
+        v = d.get('category')
+        if v in ('black', 'white', 'grey'):
+            return v
+        # no category in the theme: estimate it by the editor background
+        # (the int color is TColor, $00BBGGRR)
+        c = int(d['EdTextBg']['color']) & 0xFFFFFF
+        r, g, b = c & 0xFF, (c >> 8) & 0xFF, (c >> 16) & 0xFF
+        if 0.299 * r + 0.587 * g + 0.114 * b < 128:
+            return 'black'
+        return 'grey'
+    except Exception:
+        return ''
+
+
 ctypes = None
 if IS_WIN:
     try:
@@ -742,6 +775,7 @@ def _open_folder_in_fileman(path):
 
 
 def _toolbar_add_btn(h_bar, hint, icon=-1, command=''):
+    """Add a button to toolbar 'h_bar' and return its handle."""
     toolbar_proc(h_bar, TOOLBAR_ADD_ITEM)
     cnt = toolbar_proc(h_bar, TOOLBAR_GET_COUNT)
     h_btn = toolbar_proc(h_bar, TOOLBAR_GET_BUTTON_HANDLE, index=cnt-1)
@@ -750,8 +784,10 @@ def _toolbar_add_btn(h_bar, hint, icon=-1, command=''):
     else:
         button_proc(h_btn, BTN_SET_KIND, BTNKIND_ICON_ONLY)
         button_proc(h_btn, BTN_SET_HINT, hint)
-        button_proc(h_btn, BTN_SET_IMAGEINDEX, icon)
+        if icon is not None and icon >= 0:
+            button_proc(h_btn, BTN_SET_IMAGEINDEX, icon)
         button_proc(h_btn, BTN_SET_DATA1, command)
+    return h_btn
 
 
 def _time_am_pm():
@@ -940,8 +976,17 @@ class Command:
     tree = None
     tree_index = None
     h_dlg = None
+    h_bar = None
+    toolbar_imglist = None
     h_menu = None
     h_menu_cfg = None
+    #: (button handle, icon file name) of the toolbar's icon buttons, in
+    #: button order; filled in init_form_main, re-filled by
+    #: toolbar_icons_load() (also on a UI theme change, when a default
+    #: icon set re-picks its black/white variant)
+    _toolbar_icon_btns = None
+    #: name of the icon set currently loaded into the toolbar imagelist
+    _toolbar_icons_name = ''
 
     #--- tree filter (the field above the tree) and type-ahead state
     #: current filter text ('' = no filtering)
@@ -1115,7 +1160,6 @@ class Command:
     def init_form_main(self):
 
         show_toolbar = self.options.get("toolbar", True)
-        toolbar_theme = self.options.get("toolbar_theme", "default_16x16")
 
         self.h_dlg = dlg_proc(0, DLG_CREATE)
 
@@ -1137,32 +1181,46 @@ class Command:
 
         self.h_bar = dlg_proc(self.h_dlg, DLG_CTL_HANDLE, index=n)
         self.toolbar_imglist = toolbar_proc(self.h_bar, TOOLBAR_GET_IMAGELIST)
-        self.set_imagelist_size(toolbar_theme, self.toolbar_imglist)
+        #: (button handle, icon file name) of the toolbar's icon buttons,
+        #: in button order; toolbar_icons_load() re-fills the imagelist
+        #: from this list (at panel init, and again when the UI theme
+        #: changes while a default icon set is configured - see
+        #: toolbar_icons_effective)
+        self._toolbar_icon_btns = []
+        #: name of the icon set currently loaded into the imagelist
+        self._toolbar_icons_name = ''
 
+        # (hint, plugin command, icon file) of the toolbar's icon buttons
+        toolbar_buttons = [
+            (_('Recent projects'), 'cuda_project_man.menu_recents', 'recents.png'),
+            (_('Open project'), 'cuda_project_man.action_open_project', 'open.png'),
+            (_('Save project'), 'cuda_project_man.action_save_project', 'save.png'),
+            # '-' separator and 'Remove node' (del.png) buttons were here
+            (_('Add folder'), 'cuda_project_man.action_add_folder', 'add-dir.png'),
+            (_('Add file'), 'cuda_project_man.action_add_file', 'add-file.png'),
+            (_('Project sessions'), 'cuda_project_man.menu_cfg', 'cfg.png'),
+            (_('Show current file in project tree'), 'cuda_project_man.sync_to_ed', 'sync.png'),
+        ]
+
+        # the effective icon set for the current UI theme (a default set
+        # auto-switches to its black/white variant, a custom set is kept)
+        toolbar_theme = self.toolbar_icons_effective()
         dirname = os.path.join(app_path(APP_DIR_DATA), 'projtoolbaricons', toolbar_theme)
-        icon_recents = imagelist_proc(self.toolbar_imglist, IMAGELIST_ADD, value = os.path.join(dirname, 'recents.png'))
-        icon_open = imagelist_proc(self.toolbar_imglist, IMAGELIST_ADD, value = os.path.join(dirname, 'open.png'))
-        icon_save = imagelist_proc(self.toolbar_imglist, IMAGELIST_ADD, value = os.path.join(dirname, 'save.png'))
-        icon_add_file = imagelist_proc(self.toolbar_imglist, IMAGELIST_ADD, value = os.path.join(dirname, 'add-file.png'))
-        icon_add_dir = imagelist_proc(self.toolbar_imglist, IMAGELIST_ADD, value = os.path.join(dirname, 'add-dir.png'))
-        # icon_del = imagelist_proc(self.toolbar_imglist, IMAGELIST_ADD, value = os.path.join(dirname, 'del.png'))
-        icon_cfg = imagelist_proc(self.toolbar_imglist, IMAGELIST_ADD, value = os.path.join(dirname, 'cfg.png'))
-        icon_sync = imagelist_proc(self.toolbar_imglist, IMAGELIST_ADD, value = os.path.join(dirname, 'sync.png'))
+        self.set_imagelist_size(toolbar_theme, self.toolbar_imglist)
+        for hint, command, fn_icon in toolbar_buttons:
+            icon = imagelist_proc(self.toolbar_imglist, IMAGELIST_ADD, value = os.path.join(dirname, fn_icon))
+            self._toolbar_icon_btns.append((
+                _toolbar_add_btn(self.h_bar, hint=hint, icon=icon, command=command),
+                fn_icon))
+        self._toolbar_icons_name = toolbar_theme
 
         toolbar_proc(self.h_bar, TOOLBAR_THEME)
-        _toolbar_add_btn(self.h_bar, hint=_('Recent projects'), icon=icon_recents, command='cuda_project_man.menu_recents' )
-        _toolbar_add_btn(self.h_bar, hint=_('Open project'), icon=icon_open, command='cuda_project_man.action_open_project' )
-        _toolbar_add_btn(self.h_bar, hint=_('Save project'), icon=icon_save, command='cuda_project_man.action_save_project' )
-        _toolbar_add_btn(self.h_bar, hint='-' )
-        _toolbar_add_btn(self.h_bar, hint=_('Add folder'), icon=icon_add_dir, command='cuda_project_man.action_add_folder' )
-        _toolbar_add_btn(self.h_bar, hint=_('Add file'), icon=icon_add_file, command='cuda_project_man.action_add_file' )
-        # _toolbar_add_btn(self.h_bar, hint=_('Remove node'), icon=icon_del, command='cuda_project_man.action_remove_node' )
-        _toolbar_add_btn(self.h_bar, hint='-' )
-        _toolbar_add_btn(self.h_bar, hint=_('Project sessions'), icon=icon_cfg, command='cuda_project_man.menu_cfg')
-        _toolbar_add_btn(self.h_bar, hint=_('Show current file in project tree'), icon=icon_sync, command='cuda_project_man.sync_to_ed' )
+        # buttons were created by the loop above
 
-        btn_count = toolbar_proc(self.h_bar, TOOLBAR_GET_COUNT)
-        self.h_btn_sync = toolbar_proc(self.h_bar, TOOLBAR_GET_BUTTON_HANDLE, index=btn_count-1)
+        # the last icon button is "Show current file in project tree";
+        # the Favorites button added below is a TEXT button, so the
+        # captured handle stays valid
+        self.h_btn_sync = self._toolbar_icon_btns[-1][0]
         button_proc(self.h_btn_sync, BTN_SET_VISIBLE, not self.options.get('always_sync', False))
 
         # Favorites (bookmarks) button - a TEXT button showing the ☆
@@ -1170,7 +1228,7 @@ class Command:
         # window. Added after h_btn_sync is captured so its handle stays
         # valid (it assumes it is the last button)
         try:
-            _toolbar_add_btn(self.h_bar, hint='-')
+            # _toolbar_add_btn(self.h_bar, hint='-')
             toolbar_proc(self.h_bar, TOOLBAR_ADD_ITEM)
             cnt = toolbar_proc(self.h_bar, TOOLBAR_GET_COUNT)
             h_btn_fav = toolbar_proc(self.h_bar, TOOLBAR_GET_BUTTON_HANDLE, index=cnt-1)
@@ -5401,6 +5459,9 @@ class Command:
                     'vis': self.options.get('toolbar', True)
                     })
                 button_proc(self.h_btn_sync, BTN_SET_VISIBLE, not self.options.get('always_sync', False))
+                # a changed toolbar icon set applies immediately too (no
+                # restart needed anymore)
+                self.toolbar_icons_refresh()
 
             # keep the on_start subscription in sync with the project
             # state (the hidden on_start option is not in the dialog; a
@@ -5938,6 +5999,51 @@ class Command:
             return msg_box(_('Project Manager: bad icons size: "%s"') % theme_name, MB_OK+MB_ICONERROR)
 
         imagelist_proc(imglist, IMAGELIST_SET_SIZE, (n, n))
+
+    def toolbar_icons_effective(self):
+        """Icon set the toolbar actually uses: the configured set
+        ('toolbar_theme' option), except that BOTH default sets (the same
+        artwork as black and as white) mean 'the default icons, colored
+        for the current UI theme' (issue #6632): a 'black' theme gets the
+        white icons (default_white_16x16), a 'white' or 'grey' theme (and
+        an unknown category) gets the black ones (default_16x16). Any
+        other set (feather_*, a custom folder) is the user's deliberate
+        choice and is kept as configured."""
+        name = self.options.get('toolbar_theme', ICONS_DEFAULT)
+        if name in (ICONS_DEFAULT, ICONS_DEFAULT_WHITE):
+            if get_theme_category() == 'black':
+                return ICONS_DEFAULT_WHITE
+            return ICONS_DEFAULT
+        return name
+
+    def toolbar_icons_load(self, theme_name):
+        """(Re)load the toolbar icons from icon set 'theme_name' (a
+        folder of app/data/projtoolbaricons): clear the toolbar's
+        imagelist, add every button's png again and point the buttons to
+        their images. Used at panel init, and when the UI theme changes
+        while a default set is configured (it re-colors itself for the
+        new theme) or the option was changed in the options dialog."""
+        dirname = os.path.join(app_path(APP_DIR_DATA), 'projtoolbaricons', theme_name)
+        imagelist_proc(self.toolbar_imglist, IMAGELIST_DELETE_ALL)
+        self.set_imagelist_size(theme_name, self.toolbar_imglist)
+        for h_btn, fn_icon in self._toolbar_icon_btns:
+            n = imagelist_proc(self.toolbar_imglist, IMAGELIST_ADD,
+                               value=os.path.join(dirname, fn_icon))
+            if n is not None:
+                button_proc(h_btn, BTN_SET_IMAGEINDEX, n)
+        self._toolbar_icons_name = theme_name
+        toolbar_proc(self.h_bar, TOOLBAR_UPDATE)
+
+    def toolbar_icons_refresh(self):
+        """Make the toolbar icons match the current UI theme and options:
+        reload the icon set when the effective one differs from the
+        loaded one (only a default set can differ - custom sets do not
+        depend on the theme)."""
+        if not self.h_bar:
+            return
+        theme_name = self.toolbar_icons_effective()
+        if theme_name != self._toolbar_icons_name:
+            self.toolbar_icons_load(theme_name)
 
     def icon_init(self):
 
@@ -6843,6 +6949,10 @@ class Command:
             # are re-colored here
             if self.tree:
                 self.apply_panel_theme()
+            # a default toolbar icon set follows the new theme: a black
+            # theme needs the white icons, a white/grey theme the black
+            # ones (a custom set is kept as configured, issue #6632)
+            self.toolbar_icons_refresh()
             try:
                 _favorites.apply_theme_all()
             except Exception:

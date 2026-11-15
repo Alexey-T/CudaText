@@ -338,7 +338,7 @@ def dialog_config(op):
     check('d_click', _('Open files by &double-click'), op.get('d_click', False))
     check('always_sync', _('Automatically show current file in project tree'), op.get('always_sync', False))
     row_combo(_('File type icons (*):'), 'icon_theme', themes, theme_index)
-    row_combo(_('Toolbar icons (*):'), 'toolbar_theme', themes_tb, theme_index_tb)
+    row_combo(_('Toolbar icons:'), 'toolbar_theme', themes_tb, theme_index_tb)
     row_combo(_('Sorting order (*):'), 'sort_order', items_sort_str, items_sort_val)
 
     sep()
@@ -363,6 +363,7 @@ def dialog_config(op):
 
     y[0] += 3
     hint(_('For more icons, get add-ons of kind "filetypeicons", "projtoolbaricons"'))
+    hint(_('The two "default" toolbar sets auto-switch black/white icons for the UI theme'))
     hint(_('(*) - requires CudaText restart'))
 
     #--------- buttons (bottom-right) and the final height
