@@ -178,8 +178,6 @@ procedure TAppTreeContainer.UpdateScrollbars;
 var
   Info: TScrollInfo;
   bShow: boolean;
-  NewMax, NewPageSize, NewPos: Int64;
-  NewIndCorner: integer;
 begin
   if Tree=nil then exit;
 
@@ -187,19 +185,11 @@ begin
   begin
     if Assigned(FScrollbarVert) then
     begin
-      NewPageSize:= Tree.Height;
-      NewMax:= Tree.GetMaxScrollTop+FScrollbarVert.PageSize;
-      NewPos:= Tree.ScrolledTop;
-
-      if (FScrollbarVert.PageSize<>NewPageSize) or
-        (FScrollbarVert.Max<>NewMax) or
-        (FScrollbarVert.Position<>NewPos) then
-      begin
-        FScrollbarVert.PageSize:= NewPageSize;
-        FScrollbarVert.Max:= NewMax;
-        FScrollbarVert.Position:= NewPos;
-        FScrollbarVert.Update;
-      end;
+      FScrollbarVert.Min:= 0;
+      FScrollbarVert.PageSize:= Tree.Height;
+      FScrollbarVert.Max:= Tree.GetMaxScrollTop+FScrollbarVert.PageSize;
+      FScrollbarVert.Position:= Tree.ScrolledTop;
+      FScrollbarVert.Update;
 
       case ScrollStyleVert of
         TAppTreeScrollStyle.Hide:
@@ -214,22 +204,15 @@ begin
 
     if Assigned(FScrollbarHorz) then
     begin
-      NewPageSize:= Max(1, Tree.ClientWidth);
-      NewMax:= Max(1, Tree.GetMaxScrollLeft+FScrollbarHorz.PageSize);
-      NewPos:= Max(0, Tree.ScrolledLeft);
-      NewIndCorner:= IfThen(Assigned(FScrollbarVert) and FScrollbarVert.Visible, 100, 0);
-
-      if (FScrollbarHorz.PageSize<>NewPageSize) or
-        (FScrollbarHorz.Max<>NewMax) or
-        (FScrollbarHorz.Position<>NewPos) or
-        (FScrollbarHorz.IndentCorner<>NewIndCorner) then
-      begin
-        FScrollbarHorz.PageSize:= NewPageSize;
-        FScrollbarHorz.Max:= NewMax;
-        FScrollbarHorz.Position:= NewPos;
-        FScrollbarHorz.IndentCorner:= NewIndCorner;
-        FScrollbarHorz.Update;
-      end;
+      FScrollbarHorz.Min:= 0;
+      FScrollbarHorz.PageSize:= Max(1, Tree.ClientWidth);
+      FScrollbarHorz.Max:= Max(1, Tree.GetMaxScrollLeft+FScrollbarHorz.PageSize);
+      FScrollbarHorz.Position:= Max(0, Tree.ScrolledLeft);
+      if Assigned(FScrollbarVert) and FScrollbarVert.Visible then
+        FScrollbarHorz.IndentCorner:= 100
+      else
+        FScrollbarHorz.IndentCorner:= 0;
+      FScrollbarHorz.Update;
 
       case ScrollStyleHorz of
         TAppTreeScrollStyle.Hide:
