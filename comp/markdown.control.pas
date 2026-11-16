@@ -451,8 +451,12 @@ begin
   inherited Click;
   if assigned(FOnOpenURL) then
     begin
+    // client->document mapping, as in MouseDown: link rectangles are
+    // stored in document coordinates too, so after scrolling a click
+    // would otherwise open the link that was at that client position
+    // before the scroll
     P:=ScreenToControl(Mouse.CursorPos);
-    if FRenderer.HitTestLink(P.X,P.Y,URL) then
+    if FRenderer.HitTestLink(P.X+ScrolledLeft, P.Y+ScrolledTop, URL) then
       FOnOpenURL(Self,URL);
     end;
 end;
@@ -503,8 +507,13 @@ begin
 
   if Button = mbLeft then
   begin
-    // Start text selection
-    FSelectionStart := FRenderer.HitTestText(X, Y);
+    // Start text selection.
+    // X,Y are CLIENT coordinates; layout items live in DOCUMENT
+    // coordinates (Paint draws them at -ScrolledLeft,-ScrolledTop).
+    // Map the point before hit-testing, otherwise after scrolling the
+    // hit lands on the row that was at that client position BEFORE
+    // the scroll: selecting the visible "444" selected "ggg" etc.
+    FSelectionStart := FRenderer.HitTestText(X+ScrolledLeft, Y+ScrolledTop);
     if FSelectionStart.LayoutItemIndex <> -1 then
     begin
       FIsSelecting := True;
@@ -539,7 +548,9 @@ begin
 
   if FIsSelecting and (ssLeft in Shift) then
   begin
-    CurrentPoint := FRenderer.HitTestText(X, Y);
+    // same client->document mapping as in MouseDown: hit-testing
+    // must use document coordinates (see comment there)
+    CurrentPoint := FRenderer.HitTestText(X+ScrolledLeft, Y+ScrolledTop);
     if CurrentPoint.LayoutItemIndex <> -1 then
     begin
       NormalizeSelection(FSelectionStart, CurrentPoint, P1, P2);
