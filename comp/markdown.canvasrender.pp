@@ -282,6 +282,12 @@ type
     procedure ClearSelection;
     function GetSelectedText: String;
     function HitTestText(const aX, aY: LongInt): TSelectionPoint;
+    // select the word (double click) / the whole paragraph (triple
+    // click) around an already hit-tested point (the caller passes
+    // the result of HitTestText); word boundaries follow Unicode
+    // letters/digits/underscore (fixes CudaText issue 6642)
+    function SelectWordAtPoint(const aHit: TSelectionPoint): Boolean;
+    function SelectParagraphAtPoint(const aHit: TSelectionPoint): Boolean;
 
     // Properties
     property CalculatedWidth: LongInt read FCalculatedWidth;
@@ -857,6 +863,138 @@ end;
 procedure TMarkDownCanvasRenderer.SetSelection(const aStart, aEnd: TSelectionPoint);
 begin
   ApplySelection(aStart, aEnd);
+end;
+
+{ SelectWordAtPoint / SelectParagraphAtPoint: word- and paragraph-level
+  selection for double/triple clicks (CudaText issue 6642). They reuse
+  the plain ApplySelection machinery: only the two TSelectionPoints
+  differ.
+
+  A word is a run of Unicode letters/digits/underscore around the hit
+  position; the run may cross several items of the same visual row.
+  A paragraph is the run of text items between two "blank" vertical
+  gaps: consecutive paragraph rows are one row-height apart, a
+  paragraph gap shows a bigger Y step. }
+
+function LocalSelectionPoint(const aIndex, aOffset: Integer): TSelectionPoint;
+begin
+  Result.LayoutItemIndex:=aIndex;
+  Result.CharOffset:=aOffset;
+end;
+
+function IsWordCharUtf8(const aChar: utf8string): Boolean;
+begin
+  // letters/digits/underscore/marks: anything but space and punctuation
+  if aChar='' then
+    exit(False);
+  Result:= not (aChar[1] in [#0..#32, '!', '"', '#', '$', '%', '&', '''',
+    '(', ')', '*', '+', ',', '-', '.', '/', ':', ';', '<', '=', '>', '?',
+    '@', '[', '\', ']', '^', '`', '{', '|', '}', '~', #127..#255])
+    or (Length(aChar)>1); // multibyte = non-ASCII letter/mark usually
+end;
+
+function TMarkDownCanvasRenderer.SelectWordAtPoint(const aHit: TSelectionPoint): Boolean;
+var
+  Item: TLayoutItem;
+  WordStart, WordEnd: TSelectionPoint;
+  P1, P2: TSelectionPoint;
+begin
+  Result:=False;
+  if aHit.LayoutItemIndex=-1 then
+    exit;
+  Item:=FLists.Items[aHit.LayoutItemIndex];
+
+  // walk back from the hit position to the word start
+  P1:=aHit;
+  while (P1.CharOffset>0) do
+  begin
+    if not IsWordCharUtf8(UTF8Copy(FLists.Items[P1.LayoutItemIndex].Text, P1.CharOffset, 1)) then
+      Break;
+    Dec(P1.CharOffset);
+  end;
+
+  // walk forward from the hit position to the word end
+  P2:=aHit;
+  Item:=FLists.Items[P2.LayoutItemIndex];
+  while P2.CharOffset<UTF8Length(Item.Text) do
+  begin
+    if not IsWordCharUtf8(UTF8Copy(Item.Text, P2.CharOffset+1, 1)) then
+      Break;
+    Inc(P2.CharOffset);
+  end;
+  // the word may continue in the next item of the same visual row
+  if (P2.LayoutItemIndex+1<FLists.Items.Count) then
+    begin
+      Item:=FLists.Items[P2.LayoutItemIndex+1];
+      if (Item.Kind=likText) and (Abs(Item.Y - FLists.Items[P2.LayoutItemIndex].Y) < Item.Height)
+        and IsWordCharUtf8(UTF8Copy(Item.Text, 1, 1)) then
+      begin
+        P2.LayoutItemIndex:=P2.LayoutItemIndex+1;
+        P2.CharOffset:=0;
+        while P2.CharOffset<UTF8Length(Item.Text) do
+        begin
+          if not IsWordCharUtf8(UTF8Copy(Item.Text, P2.CharOffset+1, 1)) then
+            Break;
+          Inc(P2.CharOffset);
+        end;
+      end;
+    end;
+
+  if (P1.LayoutItemIndex=P2.LayoutItemIndex) and (P1.CharOffset=P2.CharOffset) then
+    exit(False); // empty selection: hit a separator
+
+  // normalize order
+  if (P1.LayoutItemIndex>P2.LayoutItemIndex)
+     or ((P1.LayoutItemIndex=P2.LayoutItemIndex) and (P1.CharOffset>P2.CharOffset)) then
+  begin
+    WordStart:=P2;
+    WordEnd:=P1;
+  end
+  else
+  begin
+    WordStart:=P1;
+    WordEnd:=P2;
+  end;
+  ApplySelection(WordStart, WordEnd);
+  Result:=True;
+end;
+
+function TMarkDownCanvasRenderer.SelectParagraphAtPoint(const aHit: TSelectionPoint): Boolean;
+var
+  Item: TLayoutItem;
+  FirstIdx, LastIdx: Integer;
+begin
+  Result:=False;
+  if aHit.LayoutItemIndex=-1 then
+    exit;
+  Item:=FLists.Items[aHit.LayoutItemIndex];
+
+  // extend from the hit item while items are "dense" vertically:
+  // consecutive text items of the same paragraph are one row apart;
+  // a paragraph gap shows as a bigger Y step
+  FirstIdx:=aHit.LayoutItemIndex;
+  while FirstIdx>0 do
+  begin
+    Item:=FLists.Items[FirstIdx-1];
+    if (Item.Kind=likText) and (FLists.Items[FirstIdx].Y - Item.Y <= Item.Height + DIP(2)) then
+      Dec(FirstIdx)
+    else
+      Break;
+  end;
+  LastIdx:=aHit.LayoutItemIndex;
+  while LastIdx+1<FLists.Items.Count do
+  begin
+    Item:=FLists.Items[LastIdx+1];
+    if (Item.Kind=likText) and (Item.Y - FLists.Items[LastIdx].Y <= FLists.Items[LastIdx].Height + DIP(2)) then
+      Inc(LastIdx)
+    else
+      Break;
+  end;
+
+  ApplySelection(
+    LocalSelectionPoint(FirstIdx, 0),
+    LocalSelectionPoint(LastIdx, MaxInt));
+  Result:=True;
 end;
 
 procedure TMarkDownCanvasRenderer.ClearSelection;

@@ -51,6 +51,8 @@ Type
     FScrolledLeft: integer; // horizontal scrolled pixels (hidden pixels at left)
     FScrolledTop: integer;  // vertical scrolled pixels (hidden pixels at top)
     FSelectionStart: TSelectionPoint;
+    FLastClickCount: integer; // 1=single, 2=double, 3+=triple (reset on move/time)
+    FLastClickTime: TDateTime;
     function GetColor(AIndex: Integer): TColor;
     function GetDocument: TMarkDownDocument;
     function GetInteger(AIndex: Integer): Integer;
@@ -596,6 +598,27 @@ begin
     begin
       FIsSelecting := True;
       FRenderer.ClearSelection;
+      // click counting for double/triple selection
+      // (fixes CudaText issue 6642: double click must select the word,
+      // triple click the whole paragraph)
+      if (Now - FLastClickTime) * 86400.0 > GetDoubleClickTime / 1000.0 then
+        FLastClickCount:= 0;
+      FLastClickTime:= Now;
+      if FLastClickCount >= 3 then
+        FLastClickCount:= 0; // 4th click restarts the sequence
+      Inc(FLastClickCount);
+      case FLastClickCount of
+        2: // double click: select the word under the cursor
+          begin
+          FRenderer.SelectWordAtPoint(FSelectionStart);
+          FIsSelecting:= False;
+          end;
+        3: // triple click: select the whole paragraph (line group)
+          begin
+          FRenderer.SelectParagraphAtPoint(FSelectionStart);
+          FIsSelecting:= False;
+          end;
+      end;
       Invalidate;
     end;
   end;
