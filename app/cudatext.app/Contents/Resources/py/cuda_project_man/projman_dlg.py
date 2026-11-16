@@ -196,10 +196,12 @@ def dialog_config(op):
     EH = _unscale_px(app_proc(PROC_GET_GUI_HEIGHT, 'edit'), scale, 28)
     # the two font-size overrides: 'edit_font_size' - every field
     # where the user types, the edit rows GROW with it (the panel's
-    # filter status line follows it too - Command.apply_panel_fonts);
-    # 'ui_font_size' - the three dropdown rows (the buttons keep the
-    # engine's themed font: button_ex cannot take a per-control font
-    # size at all)
+    # filter status line follows it too - Command.apply_panel_fonts),
+    # and the three dropdown rows as well (an editor_combo is a
+    # TATSynEdit subclass - a typing field whose engine default is
+    # the editor font, not the UI one). 'ui_font_size' owns nothing
+    # in this dialog (the buttons keep the engine's themed font:
+    # button_ex cannot take a per-control font size at all)
     # (design px - see utils.font_row_h); None = the engine defaults -
     # which for the editor controls is NOT the GUI 'edit' height: the
     # engine creates them with the USER'S EDITOR FONT, and multiline
@@ -208,14 +210,15 @@ def dialog_config(op):
     # the rows/boxes to the real metrics - the text is never eaten
     # and the recent box never loses its 5 lines
     edit_fs = option_font_size(op.get('edit_font_size'))
-    ui_fs = option_font_size(op.get('ui_font_size'))
     cell_h, pitch_h = editor_default_metrics()
     cell_row = int(cell_h / scale) + 8 if cell_h else None
-    # the dropdown rows: 'ui_font_size' when set, else the real editor
+    # the dropdown rows follow 'edit_font_size' (an editor_combo is a
+    # typing field): the override when set, else the real editor
     # metrics (an editor_combo renders the default at the editor font
-    # too)
-    if ui_fs:
-        CH = font_row_h(EH, ui_fs)
+    # too) - with the override set the dropdown rows are exactly as
+    # tall as the edit rows below
+    if edit_fs:
+        CH = font_row_h(EH, edit_fs)
     else:
         CH = cell_row or EH
     recent_line = None
@@ -565,10 +568,10 @@ def dialog_config(op):
             'p': 'scr',
             'x': EX, 'y': y[0], 'w': 300, 'h': CH,
         }
-        if ui_fs:
+        if edit_fs:
             # editor_combo is a TATSynEdit subclass: the ctl font
             # prop works on it (it paints with its own font)
-            p['font_size'] = ui_fs
+            p['font_size'] = edit_fs
         n = ctl('editor_combo', name, p)
         if n is not None:
             ed = editor_of(n)
@@ -582,7 +585,7 @@ def dialog_config(op):
                 except Exception:
                     log_error('Project Manager: cannot fill '
                               'an options combo')
-        # the row pitch grows with 'ui_font_size' (28 = the default
+        # the row pitch grows with 'edit_font_size' (28 = the default
         # unscaled edit height)
         y[0] += max(28, CH)
 

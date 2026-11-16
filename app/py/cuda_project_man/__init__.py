@@ -1004,9 +1004,9 @@ class Command:
         # tree/list of the panel and the Favorites window;
         # 'edit_font_size' - every field where the user types (the
         # two filter fields, the edit rows of the options and
-        # Project-properties dialogs) plus the filter status line,
-        # which shows at the filter field's font. See
-        # utils.option_font_size.
+        # Project-properties dialogs, the options dropdowns) plus
+        # the filter status line, which shows at the filter field's
+        # font. See utils.option_font_size.
         "ui_font_size": "",
         "edit_font_size": "",
     }
