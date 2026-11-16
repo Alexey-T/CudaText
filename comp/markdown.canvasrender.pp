@@ -239,6 +239,8 @@ type
     procedure LayoutTextWrapped(const aCanvas: TCanvas; const aText: utf8string; const aFontSize: LongInt;
       const aFontStyle: TFontStyles; const aLinkHref: utf8string; const aContext : TFontContext;
       const aPreserveWhitespace, aDryRun: boolean); virtual;
+    procedure LayoutFencedCodeLine(const aCanvas: TCanvas; const aText: utf8string; const aFontSize: LongInt;
+      const aFontStyle: TFontStyles; const aContext : TFontContext);
     function LayoutImage(aImageURL: UTF8String): Boolean; virtual;
     procedure RenderTextNode(aTextNode: TMarkDownTextNode; aFontSize: LongInt; aFontStyle: TFontStyles; const aContext : TFontContext);
 
@@ -884,8 +886,19 @@ begin
         ItemText:='';
       if Result<>'' then
         begin
-        // Add spacing between items
-        if (I>0) and (PrevItem.Y<>Item.Y) then
+        // Add spacing between items.
+        // Wrapped FENCED CODE rows are pieces of ONE source line
+        // (soft wraps, LayoutFencedCodeLine): they must be joined with
+        // NO separator at all, or a copy of a single long code line
+        // would get spaces/newlines injected at every wrap point.
+        // Different Y rows of normal text are separate source lines
+        // (LineEnding); same-row items are separate words (' ').
+        if (fcFencedCode in PrevItem.Context) and (fcFencedCode in Item.Context) then
+          begin
+          if PrevItem.Y<>Item.Y then
+            ; // soft wrap of one code source line: no separator
+          end
+        else if (I>0) and (PrevItem.Y<>Item.Y) then
           Result:=Result + LineEnding
         else
           Result:=Result + ' ';
@@ -1390,6 +1403,64 @@ begin
   FLayout.NeedSpaceBeforeNextText:=(lLength>0) and (lText[lLength] in WhiteSpace);
 end;
 
+procedure TMarkDownCanvasRenderer.LayoutFencedCodeLine(const aCanvas: TCanvas; const aText: utf8string;
+  const aFontSize: LongInt; const aFontStyle: TFontStyles; const aContext : TFontContext);
+var
+  CharPos, CharLen, TextLen: LongInt;
+  CharBuffer, CurrentChar: utf8string;
+  CharWidth: LongInt;
+begin
+  // Wrap ONE source line of a fenced code block at character
+  // boundaries so it fits FLayout.MaxWidth. Code has no word
+  // boundaries worth respecting (long paths, statements, strings),
+  // so unlike LayoutTextWrapped we do NOT collapse whitespace and do
+  // NOT break at spaces: every character is preserved on a wrapped
+  // line exactly as in the source. The old code flushed the whole
+  // line as a single item that could be far wider than the visible
+  // window: the tail was invisible (fCalculatedWidth grew to the
+  // line width and the text stuck out of the code background band).
+  TextLen:=length(aText);
+  if TextLen=0 then
+    exit;
+  CharPos:=1;
+  CharBuffer:='';
+  while CharPos<=TextLen do
+    begin
+    if Byte(aText[CharPos])<$80 then
+      CharLen:=1
+    else if (Byte(aText[CharPos]) and $e0)=$c0 then
+      CharLen:=2
+    else if (Byte(aText[CharPos]) and $f0)=$e0 then
+      CharLen:=3
+    else
+      CharLen:=4;
+    if CharPos+CharLen>TextLen+1 then
+      CharLen:=1; // truncated sequence at line end: take it byte-wise
+    CurrentChar:=copy(aText, CharPos, CharLen);
+    CharWidth:=MeasureTextWidth(aCanvas, CharBuffer+CurrentChar, aFontSize, aFontStyle, aContext);
+    if (FLayout.CurrentIndent+FLayout.LineX+CharWidth)<=FLayout.MaxWidth then
+      CharBuffer:=CharBuffer+CurrentChar
+    else
+      begin
+      if length(CharBuffer)>0 then
+        begin
+        FlushTextRun(aCanvas, CharBuffer, aFontSize, aFontStyle, '', aContext, False);
+        CharBuffer:='';
+        end;
+      // advance to a new line only when the current one carries
+      // something: an empty line must stay empty (blank code line)
+      if FLayout.LineX>0 then
+        NewLine(aCanvas);
+      CharBuffer:=CurrentChar;
+      end;
+    Inc(CharPos, CharLen);
+    end;
+  // flush the remainder of the line (caller does the final NewLine
+  // so the code background band covers all wrapped rows)
+  if length(CharBuffer)>0 then
+    FlushTextRun(aCanvas, CharBuffer, aFontSize, aFontStyle, '', aContext, False);
+end;
+
 procedure TMarkDownCanvasRenderer.CalculateLayout(const aCanvas: TCanvas; const aMaxWidth: LongInt;
   out aContentWidth: LongInt; out aContentHeight: LongInt);
 begin
@@ -1685,10 +1756,15 @@ begin
       begin
       if fcFencedCode in lContext then
         begin
+        // fenced code line: wrap it to FLayout.MaxWidth like the rest
+        // of the document (fancy ``` blocks used to lay the whole
+        // source line out as ONE item: a line longer than the window
+        // was simply wider than the visible area, its tail invisible
+        // and it dragged the horizontal scroll range out)
         lItem:=FLists.Items.NewItem(likBackground,FLayout.LineX,FLayout.LineY);
         lItem.BGColor:=GetTextBGColor([fcFencedCode]);
         lItem.Width:=FLayout.MaxWidth-LItem.X;
-        FlushTextRun(fCanvas, lText, aFontSize, fontStyle, '', lContext, False);
+        LayoutFencedCodeLine(fCanvas, lText, aFontSize, fontStyle, lContext);
         NewLine(fCanvas);
         lItem.Height:=FLayout.LineY-lItem.Y;
         end
