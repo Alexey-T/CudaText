@@ -1791,7 +1791,7 @@ begin
 
   dir:= (Sender as TMarkDownCanvasRenderer).FileDir;
   if dir<>'' then
-    fn:= dir+DirectorySeparator+aURL;
+    fn:= dir+DirectorySeparator+fn;
 
   if FileExists(fn) then
   begin
