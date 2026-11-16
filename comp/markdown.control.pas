@@ -101,6 +101,7 @@ Type
     procedure CopySelectionToClipBoard;
     property MarkDown : TStrings Read FMarkDown Write SetMarkDown;
     property BaseFontSize: Integer index 0 read GetInteger Write SetInteger;
+    property FileDir: string index 100 read GetString write SetString;
     property FontName: string index 0 read GetString write SetString;
     property MonoFontName: string index 1 read GetString write SetString;
     property FontColor: TColor index 0 read GetColor write SetRenderColor;
@@ -245,6 +246,7 @@ begin
   Case aIndex of
     0 : Result:=FRenderer.FontName;
     1 : Result:=FRenderer.MonoFontName;
+    100 : Result:= FRenderer.FileDir;
   end;
 end;
 
@@ -281,6 +283,7 @@ begin
   Case aIndex of
     0 : FRenderer.FontName:=aValue;
     1 : FRenderer.MonoFontName:=aValue;
+    100 : FRenderer.FileDir:=aValue;
   end;
 end;
 

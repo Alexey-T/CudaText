@@ -182,6 +182,7 @@ type
     FMonoFontName: utf8string;
     FBaseFontSize: LongInt;
     FTargetDPI: LongInt;
+    FFileDir: string;
 
     // Colors
     FBGCodeColor: TColor;
@@ -317,6 +318,7 @@ type
     property TargetDPI: LongInt read FTargetDPI write FTargetDPI;
     property FontName: utf8string read FFontName write FFontName;
     property MonoFontName: utf8string read FMonoFontName write FMonoFontName;
+    property FileDir: string read FFileDir write FFileDir;
 
     property FontHyperLinkColor: TColor read FHyperLinkColor write FHyperLinkColor;
     property BGCodeColor: TColor read FBGCodeColor write FBGCodeColor;

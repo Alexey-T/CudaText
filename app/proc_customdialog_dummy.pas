@@ -1780,19 +1780,18 @@ end;
 procedure TFormDummy.DoOnMarkdownGetImage(Sender: TObject; const aURL: string;
   var aImage: TPicture);
 var
-  fn: string;
+  fn, dir: string;
 begin
   //URLs not supported
   if Pos('://', aURL)>0 then exit;
 
   fn:= aURL;
-  if Pos(DirectorySeparator, fn)=0 then
-  begin
-    if (DirectorySeparator<>'/') and (Pos('/', fn)>0) then
-      fn:= StringReplace(fn, '/', DirectorySeparator, [rfReplaceAll])
-    else
-      fn:= ExtractFilePath((Sender as TMarkDownCanvasRenderer).Document.FileName)+aURL;
-  end;
+  if (DirectorySeparator<>'/') and (Pos('/', fn)>0) then
+    fn:= StringReplace(fn, '/', DirectorySeparator, [rfReplaceAll]);
+
+  dir:= (Sender as TMarkDownCanvasRenderer).FileDir;
+  if dir<>'' then
+    fn:= dir+DirectorySeparator+aURL;
 
   if FileExists(fn) then
   begin

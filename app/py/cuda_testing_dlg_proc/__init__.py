@@ -1230,10 +1230,18 @@ end
             })
 
     def callback_md_loadfile(self, id_dlg, id_ctl, data='', info=''):
-        fn = dlg_file(True, '', '', 'Markdown|*.md', 'Open file')
-        if not fn: return
+        fn_dir = os.path.dirname(__file__)
+        fn = dlg_file(True, '', fn_dir, 'Markdown|*.md', 'Open file')
+        if fn:
+            self._load_markdown(fn, id_dlg)
+        
+    def _load_markdown(self, fn, id_dlg):
         text = open(fn, encoding='utf8').read()
-        dlg_proc(id_dlg, DLG_CTL_PROP_SET, name='markdown1', prop={'val': text})
+        filedir = os.path.dirname(fn)
+        dlg_proc(id_dlg, DLG_CTL_PROP_SET, name='markdown1', prop={
+                'texthint': filedir,
+                'val': text,
+                })
 
     def test_sidepanel(self):
         print('test_sidepanel')
@@ -1433,20 +1441,16 @@ end
             'border': DBORDER_SIZE,
             })
 
-        fn_md = os.path.join(os.path.dirname(__file__), 'markdown+html.md')
-        if os.path.isfile(fn_md):
-            text_md = open(fn_md, encoding='utf8').read()
-        else:
-            text_md = '\n\n# Error\nFile "markdown+html.md" was not found in "py/cuda_testing_dlg_proc" folder'
-
         n=dlg_proc(h, DLG_CTL_ADD, 'md_view')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
             'name': 'markdown1',
             'align': ALIGN_CLIENT,
             'border': False,
             'color': 0xC0F0C0,
-            'val': text_md
             })
+        
+        fn_md = os.path.join(os.path.dirname(__file__), 'testing_doc1', 'markdown+html.md')
+        self._load_markdown(fn_md, h)
 
         n=dlg_proc(h, DLG_CTL_ADD, 'panel')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
