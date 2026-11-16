@@ -129,6 +129,15 @@
   label gets no editor font from the engine) - and its row grows
   with the font like the field's (base height 17, the tree anchored
   below reflows). 'ui_font_size' keeps the tree and the x button.
+- The three dropdowns of the options dialog ("Sorting order",
+  "File type icons", "Toolbar icons") followed 'ui_font_size' - the
+  user expects them to follow 'edit_font_size', and they are typing
+  fields anyway: an editor_combo is a TATSynEdit subclass whose
+  engine default is the EDITOR font, not the UI one. The dropdown
+  rows now take the 'edit_font_size' override (font + row height,
+  exactly like the edit rows); 'ui_font_size' owns nothing in the
+  options dialog anymore (it keeps the panel tree/list/buttons and
+  the Favorites window).
 
 2026.11.15 (@badrelmers)
 - FIX (issue #6632): new "auto" value of the "Toolbar icons" option

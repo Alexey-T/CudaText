@@ -629,8 +629,10 @@ successful save).
   build time.
   The options-dialog dropdowns are 'editor_combo' controls
   (TATComboEdit - a TATSynEdit subclass): the dialog 'font_size' prop
-  works on them directly, so they follow 'ui_font_size' and their
-  rows grow with it. The buttons CANNOT follow the option:
+  works on them directly, so they follow 'edit_font_size' and their
+  rows grow with it (a dropdown is a typing field - its engine
+  default is the editor font, not the UI one; 'ui_font_size' owns
+  nothing in this dialog). The buttons CANNOT follow the option:
   'button_ex' (TATButton) paints its caption from the global
   ATFlatTheme on every repaint (atbuttons.pas PaintTo), and
   button_proc() has no font action - no API exists to change one
