@@ -631,6 +631,19 @@ successful save).
   button_proc() has no font action - no API exists to change one
   button's font size.
 
+  The DEFAULT of a dialog editor control is NOT the GUI 'edit'
+  height: the engine creates editor_edit/editor_combo/'editor' with
+  the USER'S EDITOR FONT (proc_customdialog.pas
+  DoControl_ApplyEditorProps: Font.Name/Size := EditorOps.OpFontName/
+  OpFontSize), and multiline 'editor' boxes additionally get the
+  editor LINE SPACING (proc_editor.pas EditorApplyOps: OptSpacingTop/
+  Bottom). With a font option unset, the layouts therefore grow
+  their rows/boxes to the REAL metrics, measured from the main editor
+  (utils.editor_default_metrics: the char cell via PROP_CELL_SIZE,
+  the line pitch via CONVERT_CARET_TO_PIXELS of two lines - skipped
+  while word-wrap is on, a wrapped first line would inflate it;
+  (None, None) = unmeasurable, the base heights stay).
+
 ## 13. Drag & drop
 
 Three directions exist; each uses a different mechanism. (A fourth one,

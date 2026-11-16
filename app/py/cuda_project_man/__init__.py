@@ -16,7 +16,8 @@ from .projman_glob import *
 from .projman_backup import ProjectFileBackups, DEFAULT_BACKUP_COUNT, DEFAULT_BACKUP_FOLDER
 from .projman_trash import (send_to_trash, trash_label,
                              trash_supported, delete_permanently)
-from .utils import font_row_h, log_error, option_font_size
+from .utils import (editor_default_metrics, font_row_h, log_error,
+                    option_font_size)
 
 from cudatext import *
 from cudatext_keys import *
@@ -1326,8 +1327,16 @@ class Command:
         # the versions before these options existed
         edit_fs = option_font_size(self.options.get('edit_font_size'))
         ui_fs = option_font_size(self.options.get('ui_font_size'))
-        EH = font_row_h(EH, edit_fs,
-                        app_proc(PROC_GET_SYSTEM_PPI, '') or 96)
+        if edit_fs:
+            EH = font_row_h(EH, edit_fs,
+                            app_proc(PROC_GET_SYSTEM_PPI, '') or 96)
+        else:
+            # unset: the field still renders at the USER'S EDITOR FONT
+            # (see utils.editor_default_metrics) - grow the row to the
+            # real metrics (runtime px here, like the whole panel)
+            cell_h, _pitch = editor_default_metrics()
+            if cell_h:
+                EH = max(EH, cell_h + 8)
         #---- cancel (x) button at the right of the filter field ----
         # Created BEFORE the edit: the edit's right edge is anchored to
         # this button's left edge. Clicking it cancels a RUNNING search
@@ -3869,6 +3878,13 @@ class Command:
             h = font_row_h(app_proc(PROC_GET_GUI_HEIGHT, 'edit') or 28,
                            edit_fs,
                            app_proc(PROC_GET_SYSTEM_PPI, '') or 96)
+            if not edit_fs:
+                # the field renders the default at the USER'S EDITOR
+                # FONT (see utils.editor_default_metrics): grow the row
+                # to the real metrics too (runtime px, like the panel)
+                cell_h, _pitch = editor_default_metrics()
+                if cell_h:
+                    h = max(h, cell_h + 8)
             prop = {'h': h}
             if edit_fs:
                 prop['font_size'] = edit_fs

@@ -52,3 +52,45 @@ def font_row_h(base_h, size, ppi=96):
     if not size:
         return base_h
     return max(base_h, int(size * ppi / 72.0 * 1.3) + 8)
+
+
+def editor_default_metrics():
+    """(cell_h, line_pitch) - the REAL rendered sizes, in RUNTIME
+    pixels, of a dialog EDITOR control whose font the plugin does NOT
+    override. The engine creates every editor control with the USER'S
+    EDITOR FONT (proc_customdialog.pas DoControl_ApplyEditorProps:
+    Font.Name/Size := EditorOps.OpFontName/OpFontSize), and multiline
+    'editor' controls additionally get the user's editor LINE SPACING
+    (proc_editor.pas EditorApplyOps: OptSpacingTop/Bottom) - often
+    much taller than the GUI 'edit' height (app_proc(
+    PROC_GET_GUI_HEIGHT, 'edit')) the layouts otherwise base their
+    row heights on: with a big editor font the text touches the box
+    edges or gets eaten, and a 5-line box shrinks to 1-2 visible
+    lines.
+
+    Measured on the MAIN editor, which renders with the same options:
+    the char cell via PROP_CELL_SIZE, the full line pitch (font +
+    spacing) via CONVERT_CARET_TO_PIXELS of two lines (skipped when
+    word-wrap is on - a wrapped first line would inflate the pitch,
+    and then the cell is used as the pitch). Returns (None, None)
+    when nothing can be measured (no editor open, API unavailable -
+    the stub of the test suites); callers then keep their base
+    heights."""
+    try:
+        from cudatext import (ed, PROP_CELL_SIZE, PROP_WRAP,
+                              CONVERT_CARET_TO_PIXELS)
+        cell = ed.get_prop(PROP_CELL_SIZE)
+        if not cell or int(cell[1]) <= 0:
+            return None, None
+        cell_h = int(cell[1])
+        pitch_h = cell_h
+        if not ed.get_prop(PROP_WRAP):
+            p0 = ed.convert(CONVERT_CARET_TO_PIXELS, 0, 0)
+            p1 = ed.convert(CONVERT_CARET_TO_PIXELS, 0, 1)
+            if p0 and p1:
+                pitch_h = max(cell_h, int(p1[1]) - int(p0[1]))
+        return cell_h, pitch_h
+    except Exception:
+        # intentional silence: no measurable editor font - the callers
+        # keep their base heights (documented above)
+        return None, None

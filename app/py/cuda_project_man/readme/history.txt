@@ -18,6 +18,20 @@
   button_ex cannot take a per-control font size at all (TATButton
   paints its caption from the global ATFlatTheme on every repaint,
   and button_proc() has no font action).
+- Follow-up: with "Edit font size" NOT set, the config dialog's edit
+  fields and the "Recent projects" box were sized for the default GUI
+  edit height - but the engine creates dialog EDITOR controls with
+  the USER'S EDITOR FONT, and multiline editor boxes also get the
+  editor line spacing (DoControl_ApplyEditorProps + EditorApplyOps in
+  the engine). With a big editor font the text touched the box edges
+  or was eaten, and the 5-line recent box showed ~1 line. The plugin
+  now measures the real char cell and line pitch from the main editor
+  (utils.editor_default_metrics) and grows the edit rows, the dropdown
+  rows (with "UI font size" unset they render at the editor font
+  too), the recent box (always 5 real lines) and the Project
+  properties rows/vars box to those metrics; the favorites and panel
+  filter fields grow the same way. With the options set, nothing
+  changes.
 
 2026.11.15 (@badrelmers)
 - FIX (issue #6632): new "auto" value of the "Toolbar icons" option

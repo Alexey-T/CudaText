@@ -108,7 +108,8 @@ import json
 from cudatext import *
 from cudatext_keys import *
 from cudax_lib import get_translation
-from .utils import font_row_h, log_error, option_font_size
+from .utils import (editor_default_metrics, font_row_h, log_error,
+                    option_font_size)
 
 _ = get_translation(__file__)  # i18n
 
@@ -848,7 +849,15 @@ class FavoritesForm:
         ui_fs, edit_fs = self.font_opts
         self._ui_fs = ui_fs or 0
         BH = font_row_h(BH, ui_fs)
-        EH = font_row_h(EH, edit_fs)
+        if edit_fs:
+            EH = font_row_h(EH, edit_fs)
+        else:
+            # unset: the filter field still renders at the USER'S
+            # EDITOR FONT (see utils.editor_default_metrics) - grow
+            # the row to the real metrics, the text is never eaten
+            cell_h, _pitch = editor_default_metrics()
+            if cell_h:
+                EH = max(EH, int(cell_h / scale) + 8)
         # the buttons and tabs get extra vertical padding: the raw GUI
         # button height hugs the caption text too tightly (the text
         # almost touched the button's border)

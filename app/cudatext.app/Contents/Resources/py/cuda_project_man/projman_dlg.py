@@ -4,7 +4,8 @@ from cudatext_keys import *
 from cudax_lib import get_translation
 from .projman_glob import *
 from .projman_backup import DEFAULT_BACKUP_COUNT, DEFAULT_BACKUP_FOLDER
-from .utils import font_row_h, log_error, option_font_size
+from .utils import (editor_default_metrics, font_row_h, log_error,
+                    option_font_size)
 from .favorites import (get_theme_ui_colors, _theme_color, _theme_dict,
                         _unscale_px, _ui_scale, BTN_PAD)
 
@@ -197,11 +198,32 @@ def dialog_config(op):
     # where the user types, the edit rows GROW with it; 'ui_font_size'
     # - the three dropdown rows (the buttons keep the engine's themed
     # font: button_ex cannot take a per-control font size at all)
-    # (design px - see utils.font_row_h); None = the engine defaults
+    # (design px - see utils.font_row_h); None = the engine defaults -
+    # which for the editor controls is NOT the GUI 'edit' height: the
+    # engine creates them with the USER'S EDITOR FONT, and multiline
+    # 'editor' boxes additionally get the editor LINE SPACING (see
+    # utils.editor_default_metrics), so an unset option still grows
+    # the rows/boxes to the real metrics - the text is never eaten
+    # and the recent box never loses its 5 lines
     edit_fs = option_font_size(op.get('edit_font_size'))
     ui_fs = option_font_size(op.get('ui_font_size'))
-    CH = font_row_h(EH, ui_fs)   # the dropdown rows (from the base EH)
-    EH = font_row_h(EH, edit_fs)
+    cell_h, pitch_h = editor_default_metrics()
+    cell_row = int(cell_h / scale) + 8 if cell_h else None
+    # the dropdown rows: 'ui_font_size' when set, else the real editor
+    # metrics (an editor_combo renders the default at the editor font
+    # too)
+    if ui_fs:
+        CH = font_row_h(EH, ui_fs)
+    else:
+        CH = cell_row or EH
+    recent_line = None
+    if edit_fs:
+        EH = font_row_h(EH, edit_fs)
+    else:
+        if cell_row:
+            EH = max(EH, cell_row)
+            # the recent box: the full line pitch (font + spacing)
+            recent_line = max(17, int(pitch_h / scale))
     colors = get_theme_ui_colors()
 
     state = {'ok': False}
@@ -572,9 +594,14 @@ def dialog_config(op):
     # a real mini-editor: 5 visible lines, one project per line, plain
     # '\n' separation (the old OS 'memo' needed the dialog API's TAB
     # line-separation plus the chr(3) tab-escaping - both gone with it)
-    # with 'edit_font_size' the 5 visible lines grow line by line
-    # (RECENT_H is ~5 lines of the default edit height + padding)
-    recent_h = RECENT_H + 5 * (EH - 28)
+    # the 5 lines always fit the box: with 'edit_font_size' they
+    # grow line by line with the row height (RECENT_H = 5 default
+    # ~17 px lines + the frame), with the option unset they grow with
+    # the REAL line pitch of the user's editor font + line spacing
+    if recent_line:
+        recent_h = RECENT_H + 5 * (recent_line - 17)
+    else:
+        recent_h = RECENT_H + 5 * (EH - 28)
     p = {
         'p': 'scr',
         'x': X0, 'y': y[0], 'w': PANEL_W - 2 * X0, 'h': recent_h,
@@ -793,19 +820,36 @@ def dialog_proj_prop(prop, edit_font_size=None):
     # 'edit_font_size' override (passed by the caller from the plugin
     # options): the two editors take the size and GROW - the vars
     # editor line by line, and everything below it (the main-file
-    # row, the buttons, the form height) follows
+    # row, the buttons, the form height) follows. With the option
+    # unset the editors still render at the USER'S EDITOR FONT (+
+    # the editor line spacing, for the vars box - see
+    # utils.editor_default_metrics), so the rows grow to the real
+    # metrics as well
     edit_fs = option_font_size(edit_font_size)
-    EH = font_row_h(EH, edit_fs)
+    vars_line = None
+    if edit_fs:
+        EH = font_row_h(EH, edit_fs)
+    else:
+        cell_h, pitch_h = editor_default_metrics()
+        if cell_h:
+            EH = max(EH, int(cell_h / scale) + 8)
+            vars_line = max(17, int(pitch_h / scale))
     # the same comfortable vertical padding as in the other dialogs
     BTN_H = BH + BTN_PAD
 
     W = 508
     # the vars editor is 154 design px (5 lines) at the default edit
     # height; with the override it grows line by line, the main-file
-    # row moves down with it and the form height follows both
-    VARS_H = 154 + 5 * (EH - 28)
+    # row moves down with it and the form height follows both (with
+    # the option unset the vars box grows with the REAL line pitch,
+    # the main-file row and the bottom with the row height)
+    if vars_line:
+        VARS_H = 154 + 5 * (vars_line - 17)
+        H = 330 + 5 * (vars_line - 17) + (EH - 28)
+    else:
+        VARS_H = 154 + 5 * (EH - 28)
+        H = 330 + 6 * (EH - 28)
     y_main = 26 + VARS_H + 10
-    H = 330 + 6 * (EH - 28)
     state = {'ok': False}
 
     def on_ok(id_dlg, id_ctl, data='', info=''):
