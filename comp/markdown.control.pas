@@ -492,6 +492,74 @@ begin
     CopySelectionToClipBoard;
     end
   else
+  if not (ssAlt in Shift) then
+    begin
+    // keyboard scrolling, mirroring WMVScroll/WMHScroll codes
+    // (fixes CudaText issue 6643: PageUp/PageDown keys had no effect)
+    case Key of
+      VK_NEXT: // PageDown
+        if ssShift in Shift then
+          begin
+          Key:=0;
+          ScrolledLeft:=ScrolledLeft + ClientWidth - FDefLineHeight;
+          end
+        else
+          begin
+          Key:=0;
+          ScrolledTop:=ScrolledTop + ClientHeight - FDefLineHeight;
+          end;
+      VK_PRIOR: // PageUp
+        if ssShift in Shift then
+          begin
+          Key:=0;
+          ScrolledLeft:=ScrolledLeft - ClientWidth + FDefLineHeight;
+          end
+        else
+          begin
+          Key:=0;
+          ScrolledTop:=ScrolledTop - ClientHeight + FDefLineHeight;
+          end;
+      VK_DOWN:
+        begin
+        Key:=0;
+        ScrolledTop:=ScrolledTop + FDefLineHeight;
+        end;
+      VK_UP:
+        begin
+        Key:=0;
+        ScrolledTop:=ScrolledTop - FDefLineHeight;
+        end;
+      VK_RIGHT:
+        begin
+        Key:=0;
+        ScrolledLeft:=ScrolledLeft + FDefLineHeight div 2;
+        end;
+      VK_LEFT:
+        begin
+        Key:=0;
+        ScrolledLeft:=ScrolledLeft - FDefLineHeight div 2;
+        end;
+      VK_HOME:
+        begin
+        Key:=0;
+        if ssCtrl in Shift then
+          ScrolledTop:=0
+        else
+          ScrolledLeft:=0;
+        end;
+      VK_END:
+        begin
+        Key:=0;
+        if ssCtrl in Shift then
+          ScrolledTop:=GetMaxScrollTop
+        else
+          ScrolledLeft:=GetMaxScrollLeft;
+        end;
+    else
+      inherited KeyDown(Key, Shift);
+    end;
+    end
+  else
     inherited KeyDown(Key, Shift);
 end;
 
