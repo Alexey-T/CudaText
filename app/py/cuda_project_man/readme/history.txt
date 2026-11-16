@@ -40,12 +40,17 @@
   now, no CudaText restart needed anymore.
 - FIX: internal errors are never silently swallowed anymore: unexpected
   exceptions get a full traceback in the console (plus a status-bar
-  hint) via the new projman_log.log_error(), overly-broad exception
+  hint) via the new utils.log_error(), overly-broad exception
   handlers were narrowed to the error types that can really occur, and
   the few intentionally silent places are marked with
   "# intentional silence" comments. A corrupt favorites.json is not
   overwritten with an empty list anymore: it is renamed to ".corrupt"
   (or the plugin stays read-only when even that fails).
+- FIX: typing in the Project panel crashed on every keystroke with
+  "AttributeError: 'Command' object has no attribute
+  'filter_ctl_index'" - the filter field's control index was never
+  stored. It is assigned when the field is created now, with a -1
+  default for the time before the panel is built.
 
 2026.11.14 (@badrelmers)
 - SAFETY: no command deletes anything permanently on Windows, macOS

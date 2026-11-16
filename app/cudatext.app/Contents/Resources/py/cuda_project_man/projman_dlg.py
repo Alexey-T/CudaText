@@ -4,7 +4,7 @@ from cudatext_keys import *
 from cudax_lib import get_translation
 from .projman_glob import *
 from .projman_backup import DEFAULT_BACKUP_COUNT, DEFAULT_BACKUP_FOLDER
-from .projman_log import log_error
+from .utils import log_error
 from .favorites import (get_theme_ui_colors, _theme_color, _theme_dict,
                         _unscale_px, _ui_scale, BTN_PAD)
 

@@ -16,7 +16,7 @@ from .projman_glob import *
 from .projman_backup import ProjectFileBackups, DEFAULT_BACKUP_COUNT, DEFAULT_BACKUP_FOLDER
 from .projman_trash import (send_to_trash, trash_label,
                              trash_supported, delete_permanently)
-from .projman_log import log_error
+from .utils import log_error
 
 from cudatext import *
 from cudatext_keys import *
@@ -1024,6 +1024,10 @@ class Command:
     #: Editor object of the filter field ('editor_edit' control, set
     #: in init_form_main); None before the panel is built
     filter_ed = None
+    #: index of the filter field's control (set in init_form_main;
+    #: -1 before the panel is built, so key handling before that
+    #: treats every keystroke as a tree keystroke)
+    filter_ctl_index = -1
     #: full (shown) width of the filter's (x) button, set in
     #: init_form_main; the hidden state collapses the button to w=0
     #: (see _filter_cancel_btn_update)
@@ -1355,6 +1359,9 @@ class Command:
             'on_change': self.panel_filter_cancel_click,
         })
         n = dlg_proc(self.h_dlg, DLG_CTL_ADD, prop='editor_edit')
+        # stored for _filter_edit_focused(): the form's 'focused' prop
+        # is a control index, like this n
+        self.filter_ctl_index = n
         dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, index=n, prop={
             'name': 'f_filter',
             'a_t': ('bar', ']'),

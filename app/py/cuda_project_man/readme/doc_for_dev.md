@@ -1000,7 +1000,7 @@ the rules on every run):
   ValueError, TypeError, ImportError, ...) and falls back on purpose -
   the type documents what is expected (an unreadable folder during a
   scan, a drag payload without coordinates, ...).
-- REPORT: it calls `log_error()` from projman_log.py - full traceback
+- REPORT: it calls `log_error()` from utils.py - full traceback
   to the console, one-line hint to the status bar - where raising
   would be worse than the bug itself (paint callbacks, the background
   filter thread, per-keystroke refreshes).

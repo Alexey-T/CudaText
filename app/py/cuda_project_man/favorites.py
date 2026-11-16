@@ -108,7 +108,7 @@ import json
 from cudatext import *
 from cudatext_keys import *
 from cudax_lib import get_translation
-from .projman_log import log_error
+from .utils import log_error
 
 _ = get_translation(__file__)  # i18n
 
