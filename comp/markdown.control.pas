@@ -399,8 +399,19 @@ begin
     exit;
     end;
 
-  // compute layout as if there is a vertical scrollbar, to get a stable layout
-  HasVertSB:=FSBHorzShowing=ord(true);
+  // Reserve the vertical scrollbar strip when the bar is already shown
+  // or WILL be needed (document taller than the client area), so the
+  // first layout already uses the wrap width the control has with its
+  // scrollbar visible.
+  // The old code read the HORZ flag (`FSBHorzShowing`) here: the strip
+  // was never reserved on the first layout of a tall document, the
+  // scrollbar then appeared, WM_SIZE shrank ClientWidth, Resize
+  // re-layouted at the smaller width, the content became taller and
+  // the scrollbar range GREW after the first drag -- the user had to
+  // drag a second time to reach the document end
+  // (Lazarus work item 42737: initial scrolling cannot reach the end).
+  HasVertSB:=(FSBVertShowing=ord(true)) or
+             (FCalculatedHeight+2*BorderWidth > ClientHeight);
 
   FLastClientWidth:=ClientWidth;
   FLastCalcClientWidth:=FLastClientWidth;
@@ -410,6 +421,21 @@ begin
   if FLastCalcClientWidth<0 then FLastCalcClientWidth:=0;
 
   FRenderer.CalculateLayout(Canvas,FLastCalcClientWidth,FCalculatedWidth,FCalculatedHeight);
+
+  // Second pass: if the document turned out taller than the client
+  // area and the strip was NOT reserved above, redo the layout WITH
+  // the strip width, exactly as the control will be sized once
+  // UpdateScrollBars shows the bar. Without this the scrollbar range
+  // computed here is provisional, and the bar appearing (WM_SIZE,
+  // Resize, re-layout at the smaller width, taller content) would
+  // change the range after the user's first drag to the end (42737).
+  if (not HasVertSB) and
+     (FCalculatedHeight+2*BorderWidth > ClientHeight) then
+    begin
+    FLastCalcClientWidth:=FLastClientWidth-GetSystemMetrics(SM_CXVSCROLL);
+    if FLastCalcClientWidth<0 then FLastCalcClientWidth:=0;
+    FRenderer.CalculateLayout(Canvas,FLastCalcClientWidth,FCalculatedWidth,FCalculatedHeight);
+    end;
 
   FScrollbarsNeedUpdate:=true;
   UpdateScrollBars;
