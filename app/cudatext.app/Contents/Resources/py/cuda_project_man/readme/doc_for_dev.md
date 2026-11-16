@@ -607,6 +607,73 @@ successful save).
   depends on the theme.
 
 ---
+- The optional font-size options ('ui_font_size',
+  'edit_font_size', empty = the engine defaults, the pre-option
+  behavior): 'edit_font_size' covers every TYPING field - the panel
+  filter, the Favorites filter, the edit rows of the options dialog,
+  the recent/vars editors (dialog editor controls otherwise get the
+  EDITOR font, DoControl_ApplyEditorProps - oversized for people
+  editing at 15-16 px), and the one-line boxes grow with the font
+  (utils.font_row_h). 'ui_font_size' covers the panel tree and x
+  button and the Favorites buttons/tabs/list (row heights included).
+  The tree font is RE-applied in apply_panel_theme():
+  ApplyThemeToTreeview resets the treeview font on every theme pass.
+  The Favorites window is rebuilt by show_favorites() when the
+  options changed - the hidden form is reused only while they stay
+  the same, because every row height was computed from the fonts at
+  build time.
+  The options-dialog dropdowns are 'editor_combo' controls
+  (TATComboEdit - a TATSynEdit subclass): the dialog 'font_size' prop
+  works on them directly, so they follow 'ui_font_size' and their
+  rows grow with it. The buttons CANNOT follow the option:
+  'button_ex' (TATButton) paints its caption from the global
+  ATFlatTheme on every repaint (atbuttons.pas PaintTo), and
+  button_proc() has no font action - no API exists to change one
+  button's font size.
+
+  The DEFAULT of a dialog editor control is NOT the GUI 'edit'
+  height: the engine creates editor_edit/editor_combo/'editor' with
+  the USER'S EDITOR FONT (proc_customdialog.pas
+  DoControl_ApplyEditorProps: Font.Name/Size := EditorOps.OpFontName/
+  OpFontSize), and multiline 'editor' boxes additionally get the
+  editor LINE SPACING (proc_editor.pas EditorApplyOps: OptSpacingTop/
+  Bottom). With a font option unset, the layouts therefore grow
+  their rows/boxes to the REAL metrics, measured from the main editor
+  (utils.editor_default_metrics: the char cell via PROP_CELL_SIZE,
+  the line pitch via CONVERT_CARET_TO_PIXELS of two lines - skipped
+  while word-wrap is on, a wrapped first line would inflate it;
+  (None, None) = unmeasurable, the base heights stay).
+
+  The pixel measures need a RENDERED editor - which the side panel's
+  build at CudaText's startup cannot count on (no document yet, or
+  nothing painted): the helper then reads the font DIRECTLY - the
+  SIZE via ed.get_prop(PROP_FONT) (a plain property readable at any
+  time; the engine assigns the raw points to every editor control,
+  EditorApplyOps / DoControl_ApplyEditorProps) and the scale the
+  engine applies for rendering (the per-editor zoom PROP_SCALE_FONT,
+  0 = not zoomed, else the app's global font scale
+  PROC_CONFIG_SCALE_GET - the same arithmetic as the engine's own
+  listbox row, AppListboxItemHeight in proc_globdata.pas) - and
+  estimates the cell (utils.font_size_to_cell, ~1.25 line-height:
+  10 pt ~ 17 px at 96 ppi). The side panel is built even BEFORE the
+  session's editors exist (the sidebar is restored first), so at
+  build time even PROP_FONT has nothing to report: the panel instead
+  reads the filter field's OWN font (Command._filter_editor_cell -
+  the engine creates the field with the user's editor font at
+  DLG_CTL_ADD time, raw points, no rendering needed; scaled by the
+  app's global font scale via utils.app_font_scale() - parsed
+  defensively, since dialog controls have no per-editor zoom; the
+  field's own pixel cell PROP_CELL_SIZE is the fallback when
+  PROP_FONT is unreadable on the control), init_form_main ends with
+  apply_panel_fonts(), which grows the just-built row from it, and
+  init_panel re-grows the row after docking/activation (the engine
+  pass that resets the treeview font could re-apply stored props).
+  The startup measurement has a plausibility floor: an EMPTY
+  never-painted editor answers PROP_CELL_SIZE with garbage like
+  (4, 4) (observed on a real build), so cells below
+  utils.MIN_PLAUSIBLE_CELL (8 px) count as "not rendered" and fall
+  through to the font estimates.
+
 ## 13. Drag & drop
 
 Three directions exist; each uses a different mechanism. (A fourth one,
@@ -988,3 +1055,38 @@ result.
   (behind every `toolbar_proc(TOOLBAR_UPDATE)`) recomputes icon-only
   widths, so `toolbar_apply_icon_spacing()` must run after every
   toolbar update: at panel init and after every `toolbar_icons_load()`.
+
+## 17. Error handling policy
+
+An exception is never swallowed silently - a crash must be visible so
+it can be fixed. Every `except` handler in the plugin is one of these
+forms (the AST-based policy test scripts/test_projman_errors.py checks
+the rules on every run):
+
+- NARROW: it catches only the expected error type (OSError,
+  ValueError, TypeError, ImportError, ...) and falls back on purpose -
+  the type documents what is expected (an unreadable folder during a
+  scan, a drag payload without coordinates, ...).
+- REPORT: it calls `log_error()` from utils.py - full traceback
+  to the console, one-line hint to the status bar - where raising
+  would be worse than the bug itself (paint callbacks, the background
+  filter thread, per-keystroke refreshes).
+- ESCAPE: no handler at all (or a re-raise): CudaText catches uncaught
+  plugin errors and shows them in a box with the traceback - the most
+  visible option, used wherever nothing speaks against it.
+- SILENT ON PURPOSE: an `# intentional silence:` comment with the
+  reason sits on the handler (greppable). The intentional silences
+  are: old-CudaText API compat (the theme dict, UI scale, monitor
+  size, the 'ex3'/'cursor' props, editor_edit controls,
+  APPSTATE_THEME_UI), optional modules/plugins (ctypes, cudax_lib,
+  the send2trash probing, Find in Files), routine per-entry scanning
+  (permission errors are normal), best-effort cleanup (temp files,
+  .trashinfo), the documented hot-path contracts of the filter field,
+  and the dialog-closing races when the options are read back.
+
+The same principle protects user data in the Favorites: a CORRUPT
+favorites.json raises ValueError from `_read_json`, `load()` renames
+the file to `.corrupt` (and starts empty) - when even the rename
+fails, the core goes read-only and `save()` refuses, so an empty list
+is never written over the user's data. A merely MISSING file returns
+None and stays silent (a fresh install is not an error).

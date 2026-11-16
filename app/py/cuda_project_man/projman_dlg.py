@@ -4,6 +4,8 @@ from cudatext_keys import *
 from cudax_lib import get_translation
 from .projman_glob import *
 from .projman_backup import DEFAULT_BACKUP_COUNT, DEFAULT_BACKUP_FOLDER
+from .utils import (editor_default_metrics, font_row_h, log_error,
+                    option_font_size)
 from .favorites import (get_theme_ui_colors, _theme_color, _theme_dict,
                         _unscale_px, _ui_scale, BTN_PAD)
 
@@ -86,6 +88,8 @@ def _monitor_client_h(scale):
         if avail_px <= 200:
             return None
         return int(avail_px / scale)
+    # intentional silence: old CudaText builds / an unusable monitor
+    # API - the caller keeps the default dialog size
     except Exception:
         return None
 
@@ -190,6 +194,36 @@ def dialog_config(op):
     # "DPI NOTE")
     BH = _unscale_px(app_proc(PROC_GET_GUI_HEIGHT, 'button'), scale, 30)
     EH = _unscale_px(app_proc(PROC_GET_GUI_HEIGHT, 'edit'), scale, 28)
+    # the two font-size overrides: 'edit_font_size' - every field
+    # where the user types, the edit rows GROW with it; 'ui_font_size'
+    # - the three dropdown rows (the buttons keep the engine's themed
+    # font: button_ex cannot take a per-control font size at all)
+    # (design px - see utils.font_row_h); None = the engine defaults -
+    # which for the editor controls is NOT the GUI 'edit' height: the
+    # engine creates them with the USER'S EDITOR FONT, and multiline
+    # 'editor' boxes additionally get the editor LINE SPACING (see
+    # utils.editor_default_metrics), so an unset option still grows
+    # the rows/boxes to the real metrics - the text is never eaten
+    # and the recent box never loses its 5 lines
+    edit_fs = option_font_size(op.get('edit_font_size'))
+    ui_fs = option_font_size(op.get('ui_font_size'))
+    cell_h, pitch_h = editor_default_metrics()
+    cell_row = int(cell_h / scale) + 8 if cell_h else None
+    # the dropdown rows: 'ui_font_size' when set, else the real editor
+    # metrics (an editor_combo renders the default at the editor font
+    # too)
+    if ui_fs:
+        CH = font_row_h(EH, ui_fs)
+    else:
+        CH = cell_row or EH
+    recent_line = None
+    if edit_fs:
+        EH = font_row_h(EH, edit_fs)
+    else:
+        if cell_row:
+            EH = max(EH, cell_row)
+            # the recent box: the full line pitch (font + spacing)
+            recent_line = max(17, int(pitch_h / scale))
     colors = get_theme_ui_colors()
 
     state = {'ok': False}
@@ -231,6 +265,8 @@ def dialog_config(op):
         None keeps the option out of 'eds' and its value unchanged)."""
         try:
             return Editor(dlg_proc(h, DLG_CTL_HANDLE, index=index) or 0)
+        # intentional silence: the control was not created (an old
+        # CudaText build) - the option keeps its value
         except Exception:
             return None
 
@@ -240,6 +276,8 @@ def dialog_config(op):
         for nm, ed in eds.items():
             try:
                 state[nm] = ed.get_text_all()
+            # intentional silence: the dialog is already closing - keep
+            # '' for this field
             except Exception:
                 state[nm] = ''
         for nm in checks:
@@ -247,6 +285,8 @@ def dialog_config(op):
         for nm, (ed, items) in combos.items():
             try:
                 t = ed.get_text_all()
+            # intentional silence: the dialog is already closing - keep
+            # '' for this combo
             except Exception:
                 t = ''
             state[nm] = str(items.index(t)) if t in items else '-1'
@@ -276,7 +316,8 @@ def dialog_config(op):
             dlg_proc(h, DLG_CTL_PROP_SET, name='chki_' + nm,
                      prop={'cap': CHECK_GLYPH if checks[nm] else ''})
         except Exception:
-            pass
+            log_error('Project Manager: cannot update '
+                      'the options checkbox glyph')
 
     fprop = {
         'cap': _('Project Manager options'),
@@ -483,10 +524,13 @@ def dialog_config(op):
         }
         lp.update(_theme_props(colors, bg_key='form_bg', font_key='label_font'))
         ctl('label', 'lab{}'.format(n_lab[0]), lp)
-        n = ctl('editor_edit', name, {
+        p = {
             'p': 'scr',
             'x': EX, 'y': y[0], 'w': edit_w or EW, 'h': EH,
-        })
+        }
+        if edit_fs:
+            p['font_size'] = edit_fs
+        n = ctl('editor_edit', name, p)
         if n is not None:
             ed = editor_of(n)
             if ed is not None:
@@ -494,8 +538,11 @@ def dialog_config(op):
                 try:
                     ed.set_text_all(str(val))
                 except Exception:
-                    pass
-        y[0] += 28
+                    log_error('Project Manager: cannot set the initial '
+                              'value of an options field')
+        # the row pitch grows with 'edit_font_size' (28 = the default
+        # unscaled edit height)
+        y[0] += max(28, EH)
 
     def row_combo(lab_cap, name, items, index):
         """Label + 'editor_combo' (TATComboEdit) - the themed dropdown
@@ -512,10 +559,15 @@ def dialog_config(op):
         }
         lp.update(_theme_props(colors, bg_key='form_bg', font_key='label_font'))
         ctl('label', 'lab{}'.format(n_lab[0]), lp)
-        n = ctl('editor_combo', name, {
+        p = {
             'p': 'scr',
-            'x': EX, 'y': y[0], 'w': 300, 'h': EH,
-        })
+            'x': EX, 'y': y[0], 'w': 300, 'h': CH,
+        }
+        if ui_fs:
+            # editor_combo is a TATSynEdit subclass: the ctl font
+            # prop works on it (it paints with its own font)
+            p['font_size'] = ui_fs
+        n = ctl('editor_combo', name, p)
         if n is not None:
             ed = editor_of(n)
             if ed is not None:
@@ -526,8 +578,11 @@ def dialog_config(op):
                     ed.set_prop(PROP_RO, True)
                     combos[name] = (ed, items)
                 except Exception:
-                    pass
-        y[0] += 28
+                    log_error('Project Manager: cannot fill '
+                              'an options combo')
+        # the row pitch grows with 'ui_font_size' (28 = the default
+        # unscaled edit height)
+        y[0] += max(28, CH)
 
     #--------- the layout
 
@@ -539,10 +594,21 @@ def dialog_config(op):
     # a real mini-editor: 5 visible lines, one project per line, plain
     # '\n' separation (the old OS 'memo' needed the dialog API's TAB
     # line-separation plus the chr(3) tab-escaping - both gone with it)
-    n = ctl('editor', 'recent', {
+    # the 5 lines always fit the box: with 'edit_font_size' they
+    # grow line by line with the row height (RECENT_H = 5 default
+    # ~17 px lines + the frame), with the option unset they grow with
+    # the REAL line pitch of the user's editor font + line spacing
+    if recent_line:
+        recent_h = RECENT_H + 5 * (recent_line - 17)
+    else:
+        recent_h = RECENT_H + 5 * (EH - 28)
+    p = {
         'p': 'scr',
-        'x': X0, 'y': y[0], 'w': PANEL_W - 2 * X0, 'h': RECENT_H,
-    })
+        'x': X0, 'y': y[0], 'w': PANEL_W - 2 * X0, 'h': recent_h,
+    }
+    if edit_fs:
+        p['font_size'] = edit_fs
+    n = ctl('editor', 'recent', p)
     if n is not None:
         ed = editor_of(n)
         if ed is not None:
@@ -551,8 +617,9 @@ def dialog_config(op):
                 ed.set_prop(PROP_GUTTER_ALL, False)
                 ed.set_text_all('\n'.join(op.get('recent_projects', []) or []))
             except Exception:
-                pass
-    y[0] += RECENT_H + 5
+                log_error('Project Manager: cannot fill '
+                          'the recent-projects list')
+    y[0] += recent_h + 5
 
     sep()
 
@@ -586,6 +653,17 @@ def dialog_config(op):
     row_edit(_('Default projects &folder:'), 'projects_dir', op.get('projects_dir', ''))
     hint(_('For new projects: empty = last used folder;'))
     hint('$settings = ' + _('CudaText settings folder, e.g. $settings/projects'))
+
+    sep()
+
+    section(_('Fonts'))
+    row_edit(_('UI &font size:'), 'ui_font_size',
+             op.get('ui_font_size', ''), edit_w=90)
+    row_edit(_('&Edit font size:'), 'edit_font_size',
+             op.get('edit_font_size', ''), edit_w=90)
+    hint(_('Empty = the CudaText defaults (whole points, 5..40).'))
+    hint(_('UI font size: the buttons and the tree/list of the panel and the Favorites window.'))
+    hint(_('Edit font size: every field where you type - the filter fields and the edit rows of these dialogs.'))
 
     #--------- buttons (bottom-right) and the final height
 
@@ -652,7 +730,7 @@ def dialog_config(op):
             dlg_proc(id_dlg, DLG_CTL_PROP_SET, name='btn_cancel',
                      prop={'y': y_b})
         except Exception:
-            pass
+            log_error('Project Manager: cannot resize the options dialog')
 
     dlg_proc(h, DLG_PROP_SET, prop={'h': H, 'on_resize': on_form_resize})
     dlg_proc(h, DLG_CTL_PROP_SET, name='scr', prop={'h': scr_h})
@@ -702,11 +780,17 @@ def dialog_config(op):
 
         op['projects_dir'] = str(state.get('projects_dir', '')).strip()
 
+        # the font sizes: a valid whole number of points, or empty
+        # (= the engine defaults); anything else is stored as empty
+        for key in ('ui_font_size', 'edit_font_size'):
+            v = str(state.get(key, '')).strip()
+            op[key] = v if option_font_size(v) else ''
+
     dlg_proc(h, DLG_FREE)
     return True if ok else None
 
 
-def dialog_proj_prop(prop):
+def dialog_proj_prop(prop, edit_font_size=None):
     """Project properties dialog (variables + main file). Built with
     dlg_proc with theme-aware control types only: the form and labels
     are colored from the theme dict, the variables box is a themed
@@ -733,10 +817,39 @@ def dialog_proj_prop(prop):
                      scale, 30)
     EH = _unscale_px(app_proc(PROC_GET_GUI_HEIGHT, 'edit'),
                      scale, 28)
+    # 'edit_font_size' override (passed by the caller from the plugin
+    # options): the two editors take the size and GROW - the vars
+    # editor line by line, and everything below it (the main-file
+    # row, the buttons, the form height) follows. With the option
+    # unset the editors still render at the USER'S EDITOR FONT (+
+    # the editor line spacing, for the vars box - see
+    # utils.editor_default_metrics), so the rows grow to the real
+    # metrics as well
+    edit_fs = option_font_size(edit_font_size)
+    vars_line = None
+    if edit_fs:
+        EH = font_row_h(EH, edit_fs)
+    else:
+        cell_h, pitch_h = editor_default_metrics()
+        if cell_h:
+            EH = max(EH, int(cell_h / scale) + 8)
+            vars_line = max(17, int(pitch_h / scale))
     # the same comfortable vertical padding as in the other dialogs
     BTN_H = BH + BTN_PAD
 
-    W, H = 508, 330
+    W = 508
+    # the vars editor is 154 design px (5 lines) at the default edit
+    # height; with the override it grows line by line, the main-file
+    # row moves down with it and the form height follows both (with
+    # the option unset the vars box grows with the REAL line pitch,
+    # the main-file row and the bottom with the row height)
+    if vars_line:
+        VARS_H = 154 + 5 * (vars_line - 17)
+        H = 330 + 5 * (vars_line - 17) + (EH - 28)
+    else:
+        VARS_H = 154 + 5 * (EH - 28)
+        H = 330 + 6 * (EH - 28)
+    y_main = 26 + VARS_H + 10
     state = {'ok': False}
 
     def on_ok(id_dlg, id_ctl, data='', info=''):
@@ -744,6 +857,7 @@ def dialog_proj_prop(prop):
         # read the memo text while the dialog is definitely alive
         try:
             state['vars'] = ed_vars.get_text_all()
+        # intentional silence: the dialog is already closing - keep ''
         except Exception:
             state['vars'] = ''
         dlg_proc(h, DLG_HIDE)
@@ -791,33 +905,40 @@ def dialog_proj_prop(prop):
     # (the old OS 'memo' needed the dialog API's TAB line-separation
     # plus the chr(3) tab-escaping - both gone with it)
     ed_vars = None
-    n = ctl('editor', 'vars_memo', {
-        'x': 6, 'y': 26, 'w': W - 12, 'h': 154,
-    })
+    p = {
+        'x': 6, 'y': 26, 'w': W - 12, 'h': VARS_H,
+    }
+    if edit_fs:
+        p['font_size'] = edit_fs
+    n = ctl('editor', 'vars_memo', p)
     if n is not None:
         try:
             ed_vars = Editor(dlg_proc(h, DLG_CTL_HANDLE, index=n) or 0)
             ed_vars.set_prop(PROP_GUTTER_ALL, False)
             ed_vars.set_text_all('\n'.join(list_vars))
         except Exception:
+            log_error('Project Manager: cannot set up the vars editor')
             ed_vars = None
 
     label('lab_main', _('&Main file (read-only, change in context menu)'),
-          6, 190, W - 12)
+          6, y_main, W - 12)
 
     # themed one-line edit, read-only (PROP_RO - the OS 'edit' control
     # was not theme-aware, issue #6633); read-only is set AFTER the
     # text, a read-only editor refuses programmatic writes too
-    n = ctl('editor_edit', 'main_file', {
-        'x': 6, 'y': 210, 'w': W - 12, 'h': EH,
-    })
+    p = {
+        'x': 6, 'y': y_main + 20, 'w': W - 12, 'h': EH,
+    }
+    if edit_fs:
+        p['font_size'] = edit_fs
+    n = ctl('editor_edit', 'main_file', p)
     if n is not None:
         try:
             ed = Editor(dlg_proc(h, DLG_CTL_HANDLE, index=n) or 0)
             ed.set_text_all(main_file)
             ed.set_prop(PROP_RO, True)
         except Exception:
-            pass
+            log_error('Project Manager: cannot show the main file field')
 
     # flat themed buttons, bottom-right (button_ex draws its caption
     # itself, so no '&' accelerators)

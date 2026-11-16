@@ -51,7 +51,7 @@ else:
 try:
     from cudax_lib import get_translation
     _ = get_translation(__file__)  # i18n
-except Exception:
+except ImportError:
     _ = lambda s: s
 
 # The vendored Send2Trash library lives in the send2trash/ subfolder of
@@ -87,8 +87,10 @@ def _load_send2trash():
         try:
             module = importlib.import_module('.send2trash', pkg)
             return module.send2trash
+        # intentional silence: probing an import path - fall through
+        # to the private-host loader below
         except Exception:
-            pass  # fall through to the private-host loader below
+            pass
 
     host_name = '_cuda_project_man_s2t'
     try:
@@ -100,6 +102,8 @@ def _load_send2trash():
             sys.modules[host_name] = host
         module = importlib.import_module(host_name + '.send2trash')
         return module.send2trash
+    # intentional silence: the private-host import failed too - the
+    # caller gets None and raises a user-visible error on use
     except Exception:
         # drop any half-registered entries so a later retry starts clean
         for name in [n for n in list(sys.modules)
@@ -116,6 +120,8 @@ _send2trash = None
 if IS_WIN or IS_MAC or IS_LINUX:
     try:
         _send2trash = _load_send2trash()
+    # intentional silence: no usable backend found - send_to_trash()
+    # then raises a user-visible error on use
     except Exception:
         _send2trash = None
 

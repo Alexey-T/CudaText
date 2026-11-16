@@ -160,6 +160,9 @@ class ProjectFileBackups:
             try:
                 if os.path.isfile(newest) and _stat_key(fn_proj) == _stat_key(newest):
                     return None
+            # intentional silence: cannot compare with the newest
+            # backup - skip this one, a real backup problem warns via
+            # _warn_once anyway
             except OSError:
                 return None
 

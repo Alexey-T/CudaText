@@ -16,6 +16,9 @@ from .projman_glob import *
 from .projman_backup import ProjectFileBackups, DEFAULT_BACKUP_COUNT, DEFAULT_BACKUP_FOLDER
 from .projman_trash import (send_to_trash, trash_label,
                              trash_supported, delete_permanently)
+from .utils import (MIN_PLAUSIBLE_CELL, app_font_scale,
+                    editor_default_metrics, font_row_h,
+                    font_size_to_cell, log_error, option_font_size)
 
 from cudatext import *
 from cudatext_keys import *
@@ -27,9 +30,8 @@ _   = get_translation(__file__)  # i18n
 from . import favorites as _favorites
 try:
     _favorites.init_on_start()
-except Exception as _favorites_startup_error:
-    print('Project Manager: favorites startup failed:',
-          _favorites_startup_error)
+except Exception:
+    log_error('Project Manager: favorites startup failed')
 
 IS_WIN = os.name == 'nt'
 IS_MAC = sys.platform == 'darwin'
@@ -89,6 +91,8 @@ def get_theme_category():
         if 0.299 * r + 0.587 * g + 0.114 * b < 128:
             return 'black'
         return 'grey'
+    # intentional silence: old CudaText builds without the theme-dict
+    # API, or a theme without the key - 'unknown' is the right answer
     except Exception:
         return ''
 
@@ -221,6 +225,8 @@ def scan_dir_entries(fn, opts):
     (os.scandir is safe to call from several threads)."""
     try:
         entries = list(os.scandir(fn))
+    # intentional silence: unreadable folder (permissions, dropped
+    # network drive) - the caller skips it
     except OSError:
         return None
     res = []
@@ -230,6 +236,7 @@ def scan_dir_entries(fn, opts):
     for e in entries:
         try:
             is_dir = e.is_dir()
+        # intentional silence: the entry vanished / is unreadable
         except OSError:
             continue
         if is_dir and e.is_symlink():
@@ -245,6 +252,8 @@ def scan_dir_entries(fn, opts):
     if order != '':
         try:
             res = sorted(res, key=lambda p: _direntry_ordering(p, order))
+        # intentional silence: an entry vanished during the sort -
+        # keep the unsorted order
         except OSError:
             pass
     else:
@@ -394,6 +403,9 @@ class _FilterWorker(threading.Thread):
                 self.tree = cleaned
                 self.version += 1
         except Exception:
+            # a bug in the filter scan must not hang the panel: log it
+            # with the traceback and show an empty result
+            log_error('Project Manager: tree filter scan crashed')
             self.tree = {}
         finally:
             self.done = True
@@ -485,6 +497,8 @@ def make_project_backup(path):
     try:
         shutil.copy2(str(p), str(bak))
     except OSError:
+        log_error('Project Manager: cannot make the backup copy '
+                  + str(bak))
         return None
     return bak
 
@@ -522,6 +536,7 @@ def _write_text_file_atomic(path, text):
         if os.path.exists(tmp):
             try:
                 os.unlink(tmp)
+            # intentional silence: best-effort cleanup of the temp file
             except OSError:
                 pass
 
@@ -984,6 +999,14 @@ class Command:
         "backup_folder": DEFAULT_BACKUP_FOLDER,
         "backup_count": DEFAULT_BACKUP_COUNT,
         "projects_dir": "",
+        # optional font-size overrides (whole points, 5..40; empty =
+        # the engine defaults): 'ui_font_size' - the buttons and the
+        # tree/list of the panel and the Favorites window;
+        # 'edit_font_size' - every field where the user types (the
+        # two filter fields, the edit rows of the options and
+        # Project-properties dialogs). See utils.option_font_size.
+        "ui_font_size": "",
+        "edit_font_size": "",
     }
     # Default options used as the base when loading from disk: any key
     # missing from the loaded file is filled in from here, so settings
@@ -1011,6 +1034,10 @@ class Command:
     #: Editor object of the filter field ('editor_edit' control, set
     #: in init_form_main); None before the panel is built
     filter_ed = None
+    #: index of the filter field's control (set in init_form_main;
+    #: -1 before the panel is built, so key handling before that
+    #: treats every keystroke as a tree keystroke)
+    filter_ctl_index = -1
     #: full (shown) width of the filter's (x) button, set in
     #: init_form_main; the hidden state collapses the button to w=0
     #: (see _filter_cancel_btn_update)
@@ -1159,6 +1186,8 @@ class Command:
             try:
                 with self.options_filename.open(encoding='utf8') as fin:
                     loaded = json.load(fin)
+                if not isinstance(loaded, dict):
+                    raise ValueError('not a json object')
                 self.options.update(loaded)
                 if "recent_projects" in self.options:
                     # heal entries merged into one tab-joined line by the
@@ -1169,8 +1198,14 @@ class Command:
                     for fn in self.options["recent_projects"]:
                         healed.extend(p for p in str(fn).split("\t") if p.strip())
                     self.options["recent_projects"] = [expand_macros('', fn) for fn in healed]
-            except Exception:
+            except FileNotFoundError:
+                # intentional silence: no options file yet (first run)
                 pass
+            except (OSError, ValueError):
+                # unreadable or corrupt options file: keep the defaults,
+                # but say so instead of silently ignoring them
+                log_error('Project Manager: cannot load the options from '
+                          + str(self.options_filename))
         self.migrate_loaded_options()
 
         self.new_project() # reset to the "no project" state
@@ -1285,6 +1320,24 @@ class Command:
         # any prop. The text is read/written through the Editor object
         # (the dialog 'val' prop does not serve editor controls).
         EH = app_proc(PROC_GET_GUI_HEIGHT, 'edit') or 28
+        # the two optional font-size overrides: 'edit_font_size' for
+        # the filter field (its row GROWS with the font - lbl_fstat is
+        # anchored below the field, the tree below lbl_fstat, so the
+        # whole panel follows), 'ui_font_size' for the tree and the x
+        # button. None = the engine default fonts, the behavior of
+        # the versions before these options existed
+        edit_fs = option_font_size(self.options.get('edit_font_size'))
+        ui_fs = option_font_size(self.options.get('ui_font_size'))
+        if edit_fs:
+            EH = font_row_h(EH, edit_fs,
+                            app_proc(PROC_GET_SYSTEM_PPI, '') or 96)
+        else:
+            # unset: the field still renders at the USER'S EDITOR FONT
+            # (see utils.editor_default_metrics) - grow the row to the
+            # real metrics (runtime px here, like the whole panel)
+            cell_h, _pitch = editor_default_metrics()
+            if cell_h:
+                EH = max(EH, cell_h + 8)
         #---- cancel (x) button at the right of the filter field ----
         # Created BEFORE the edit: the edit's right edge is anchored to
         # this button's left edge. Clicking it cancels a RUNNING search
@@ -1333,7 +1386,13 @@ class Command:
             'hint': _('Cancel the running search\r(or clear the filter when no search is running)'),
             'on_change': self.panel_filter_cancel_click,
         })
+        if ui_fs:
+            dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, name='btn_fcancel',
+                     prop={'font_size': ui_fs})
         n = dlg_proc(self.h_dlg, DLG_CTL_ADD, prop='editor_edit')
+        # stored for _filter_edit_focused(): the form's 'focused' prop
+        # is a control index, like this n
+        self.filter_ctl_index = n
         dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, index=n, prop={
             'name': 'f_filter',
             'a_t': ('bar', ']'),
@@ -1353,8 +1412,17 @@ class Command:
         try:
             self.filter_ed = Editor(
                 dlg_proc(self.h_dlg, DLG_CTL_HANDLE, index=n) or 0)
+        # intentional silence: the control was not created (an old
+        # CudaText build) - the filter field is optional
         except Exception:
             self.filter_ed = None
+        # 'edit_font_size' override: the engine default of dialog
+        # editor controls is the EDITOR font (EditorOps.OpFontSize) -
+        # oversized in the small one-line box for people who edit at
+        # 15-16 px, which is exactly the case the option solves
+        if edit_fs:
+            dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, name='f_filter',
+                     prop={'font_size': edit_fs})
         # 'f_filter' exists now: glue the cancel button's top and bottom
         # edges to the edit's ones (0 spacing) - the button always keeps
         # the same height as the filter field, at any DPI / GUI height
@@ -1412,6 +1480,13 @@ class Command:
         self.tree_imglist = tree_proc(self.tree, TREE_GET_IMAGELIST)
         tree_proc(self.tree, TREE_PROP_SHOW_ROOT, text='0')
         tree_proc(self.tree, TREE_ITEM_DELETE, 0)
+        # 'ui_font_size' for the tree; the item heights follow the
+        # font. Must ALSO be re-applied by apply_panel_theme(): the
+        # engine's theming pass RESETS the treeview font
+        # (ApplyThemeToTreeview in proc_miscutils.pas)
+        if ui_fs:
+            dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, name='tree',
+                     prop={'font_size': ui_fs})
 
         self.icon_init()
         self._tree_icon_constants()
@@ -1419,6 +1494,15 @@ class Command:
         # color the form and the filter field with the current UI theme
         # (the tree and the toolbar are themed by the engine itself)
         self.apply_panel_theme()
+
+        # the panel is often built BEFORE CudaText loads the session
+        # (the sidebar is restored first): no current editor yet, so
+        # utils.editor_default_metrics has nothing to measure and the
+        # row above was sized for the base GUI height. The field
+        # itself was just created with the user's editor font -
+        # re-apply the font options now, its own font grows the row
+        if not edit_fs:
+            self.apply_panel_fonts()
 
     def apply_panel_theme(self):
         """Re-color the panel background, the filter field and the
@@ -1447,7 +1531,22 @@ class Command:
                 dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, name='lbl_fstat',
                          prop=lbl)
         except Exception:
-            pass
+            log_error('Project Manager: cannot apply the UI theme '
+                      'to the panel dialog')
+        # re-apply the font overrides AFTER the engine's theming pass
+        # (it resets the treeview font, which would wipe the tree's
+        # set font on every theme change)
+        try:
+            ui_fs = option_font_size(self.options.get('ui_font_size'))
+            if ui_fs:
+                dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, name='tree',
+                         prop={'font_size': ui_fs})
+                dlg_proc(self.h_dlg, DLG_CTL_PROP_SET,
+                         name='btn_fcancel',
+                         prop={'font_size': ui_fs})
+        except Exception:
+            log_error('Project Manager: cannot re-apply '
+                      'the panel fonts')
 
 
     def init_panel(self, and_activate=True):
@@ -1464,6 +1563,13 @@ class Command:
 
         if and_activate:
             self.do_show()
+
+        # the docking/show pass above can re-apply stored control
+        # props (the same pass that resets the treeview font): grow
+        # the filter row once more, so it survives the docking when
+        # 'edit_font_size' is unset (idempotent, no timers)
+        if not option_font_size(self.options.get('edit_font_size')):
+            self.apply_panel_fonts()
 
         self.action_refresh()
         self.generate_context_menu()
@@ -2997,7 +3103,6 @@ class Command:
             except Exception:
                 tree_proc(self.tree, TREE_ITEM_SET_ICON, parent, image_index=self.ICON_BAD)
                 raise # good to see the error
-                return
 
         for path in nodes:
             # DirEntry or Path?
@@ -3048,6 +3153,8 @@ class Command:
         object, the dialog 'val' prop does not serve editor controls."""
         try:
             return self.filter_ed.get_text_all() if self.filter_ed else ''
+        # intentional silence: documented '' contract - the editor
+        # object is dead only while the dialog is closing
         except Exception:
             return ''
 
@@ -3057,6 +3164,8 @@ class Command:
         try:
             if self.filter_ed:
                 self.filter_ed.set_text_all(text)
+        # intentional silence: documented never-raises contract (used
+        # while the dialog closes)
         except Exception:
             pass
 
@@ -3130,7 +3239,8 @@ class Command:
                 dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, name='btn_fcancel',
                          prop={'w': 0, 'vis': False})
         except Exception:
-            pass
+            log_error('Project Manager: cannot update '
+                      'the filter cancel button')
 
     def apply_tree_filter(self, text):
         """Show only the matching nodes in the tree: starts the
@@ -3326,11 +3436,11 @@ class Command:
                      if text.lower() in sname.lower()]
         try:
             w.start()
-        except Exception as ex:
+        except Exception:
             # cannot start a thread (very exotic): fall back to the
             # name-only view rather than break the panel (expands then
             # use the single-level fallback filter)
-            print('Project Manager: cannot start the filter thread: ' + str(ex))
+            log_error('Project Manager: cannot start the filter thread')
             self._filter_worker = None
             self._filter_index = {}
             self._fill_tree_filtered_top(inst_rows)
@@ -3468,6 +3578,7 @@ class Command:
             try:
                 if flt in e.name.lower():
                     rows.append((e.name, e.path, e.is_dir()))
+            # intentional silence: the entry vanished - skip it
             except OSError:
                 pass
         self._filter_fallback[path] = rows
@@ -3631,7 +3742,8 @@ class Command:
             dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, name='lbl_fstat',
                      prop={'cap': cap})
         except Exception:
-            pass
+            log_error('Project Manager: cannot update '
+                      'the filter status label')
 
     def _node_icon(self, spath, sname, is_dir):
         """Icon index of one tree node (shared by the normal and the
@@ -3760,6 +3872,112 @@ class Command:
 
     #------------- type-ahead (incremental search in the tree)
 
+    def apply_panel_fonts(self):
+        """(re)apply the two font-size options to the BUILT panel:
+        'edit_font_size' to the filter field (the row grows with the
+        font - lbl_fstat is anchored below the field and the tree
+        below lbl_fstat, so the whole panel reflows), 'ui_font_size'
+        to the tree and the x button. Called after the options dialog
+        OK, so a change applies without a restart.
+
+        A cleared 'edit_font_size' restores the engine default
+        exactly: the font of the current editor (the engine assigns
+        EditorOps.OpFontSize to dialog editor controls, and
+        ed.get_prop(PROP_FONT) reports that same value). For the tree
+        and the x button a cleared option cannot restore the previous
+        font - CudaText has no API to read the UI font of a themed
+        treeview - so their font stays as it was until the next
+        start."""
+        if not self.h_dlg:
+            return
+        try:
+            edit_fs = option_font_size(self.options.get('edit_font_size'))
+            h = font_row_h(app_proc(PROC_GET_GUI_HEIGHT, 'edit') or 28,
+                           edit_fs,
+                           app_proc(PROC_GET_SYSTEM_PPI, '') or 96)
+            if not edit_fs:
+                # the field renders the default at the USER'S EDITOR
+                # FONT (see utils.editor_default_metrics): grow the row
+                # to the real metrics too (runtime px, like the panel)
+                cell_h, _pitch = editor_default_metrics()
+                if not cell_h:
+                    # no measurable main editor (the panel is BUILT
+                    # before the session's editors exist): the filter
+                    # field itself is an editor control the engine
+                    # just created with the user's editor font - its
+                    # reported SIZE drives the same growth
+                    cell_h = self._filter_editor_cell()
+                if cell_h:
+                    h = max(h, cell_h + 8)
+            prop = {'h': h}
+            if edit_fs:
+                prop['font_size'] = edit_fs
+            else:
+                # cleared: back to the engine default = the current
+                # editor's font; unreadable -> only the height resets
+                try:
+                    prop['font_size'] = int(ed.get_prop(PROP_FONT)[1])
+                except Exception:
+                    # intentional silence: no readable editor font -
+                    # keep the field's current font
+                    pass
+            dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, name='f_filter',
+                     prop=prop)
+            # the x button keeps the field's height via its anchors;
+            # its cached WIDTH is the same value (a square button)
+            self._filter_cancel_w = h
+            self._filter_cancel_btn_update()
+            ui_fs = option_font_size(self.options.get('ui_font_size'))
+            if ui_fs:
+                dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, name='tree',
+                         prop={'font_size': ui_fs})
+                dlg_proc(self.h_dlg, DLG_CTL_PROP_SET,
+                         name='btn_fcancel',
+                         prop={'font_size': ui_fs})
+        except Exception:
+            log_error('Project Manager: cannot apply '
+                      'the panel font options')
+
+    def _filter_editor_cell(self):
+        """Estimated char cell (runtime px) of the filter field's OWN
+        font - the source for the panel BUILD, which runs before
+        CudaText loads the session (no current editor yet, nothing
+        for utils.editor_default_metrics to measure): the engine
+        creates the field with the user's editor font (raw points, a
+        plain property readable at any time) and renders it scaled by
+        the app's GLOBAL font scale (dialog controls have no
+        per-editor zoom). When the font property is unreadable on
+        the control, the field's own pixel cell (PROP_CELL_SIZE) is
+        the fallback. None when nothing about the field's font can
+        be read - a pixel cell below utils.MIN_PLAUSIBLE_CELL
+        (garbage from a not-yet-rendered control) counts as
+        unreadable."""
+        if self.filter_ed is None:
+            return None
+        try:
+            fs = int(self.filter_ed.get_prop(PROP_FONT)[1])
+        except Exception:
+            # intentional silence, with a fallback: PROP_FONT
+            # unreadable on the control - its own PIXEL cell (the
+            # rendered size of its font) is the next best source
+            try:
+                cell = self.filter_ed.get_prop(PROP_CELL_SIZE)
+                # a garbage cell from a not-yet-rendered control
+                # (see MIN_PLAUSIBLE_CELL) is no source at all
+                if cell and int(cell[1]) >= MIN_PLAUSIBLE_CELL:
+                    return int(cell[1])
+            except Exception:
+                # intentional silence: no readable cell either
+                pass
+            return None
+        try:
+            scale = app_font_scale()
+            ppi = int(app_proc(PROC_GET_SYSTEM_PPI, '')) or 96
+            return font_size_to_cell(fs * scale / 100.0, ppi)
+        except Exception:
+            # intentional silence: no readable scale/DPI - 100%, 96
+            return font_size_to_cell(fs, 96)
+
     def _filter_edit_focused(self):
         """True while the user types in the panel's filter field (those
         keystrokes belong to the filter, not to the type-ahead)."""
@@ -3769,6 +3987,7 @@ class Command:
             props = dlg_proc(self.h_dlg, DLG_PROP_GET) or {}
             return int(props.get('focused', -1)) == self.filter_ctl_index
         except Exception:
+            log_error('Project Manager: cannot test the filter focus')
             return False
 
     def _typeahead_scope(self):
@@ -4007,7 +4226,8 @@ class Command:
                 data = json.load(f)
             self.project = normalize_project_data(data)
         except (OSError, ValueError):
-            pass
+            log_error('Project Manager: cannot re-read the project file '
+                      + path_str)
         self.project['last_session'] = 'session1'
 
         self.update_global_data()
@@ -4182,6 +4402,8 @@ class Command:
                     data['last_session'] = name
                     data.pop('def_session', None)
                     write_json_file(fn_proj, data)
+            # intentional silence: unreadable project file here - the
+            # next full project save writes the key anyway
             except (OSError, ValueError):
                 pass
         self.project['last_session'] = name
@@ -4249,6 +4471,8 @@ class Command:
         try:
             _write_text_file_atomic(fn, new_text)
         except OSError:
+            log_error('Project Manager: cannot update "last_session" in '
+                      + fn)
             return False
         return True
 
@@ -4264,6 +4488,8 @@ class Command:
         try:
             with open(path, 'r', encoding='utf8') as f:
                 data = json.load(f)
+        # intentional silence: no session file yet - an empty dict is
+        # the correct value
         except (OSError, ValueError):
             return {}
         res = {}
@@ -4523,6 +4749,8 @@ class Command:
                 try:
                     with open(path, 'r', encoding='utf8') as f:
                         self.project['sessions'] = json.load(f).get('sessions', {})
+                # intentional silence: the session write failed - the
+                # in-memory project keeps the old session list
                 except (OSError, ValueError):
                     pass
         elif not self.project.get('sessions'):
@@ -5515,6 +5743,10 @@ class Command:
             self.save_options()
 
             if self.h_dlg:
+                # the two font-size options apply immediately; the
+                # filter row grows/shrinks and everything below it
+                # follows via the anchors
+                self.apply_panel_fonts()
                 dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, name='bar', prop={
                     'vis': self.options.get('toolbar', True)
                     })
@@ -5585,7 +5817,9 @@ class Command:
             return
 
         from .projman_dlg import dialog_proj_prop
-        if dialog_proj_prop(self.project):
+        if dialog_proj_prop(
+                self.project,
+                option_font_size(self.options.get('edit_font_size'))):
             self.update_global_data()
             if self.project_file_path:
                 self.action_save_project_as(self.project_file_path)
@@ -5622,7 +5856,9 @@ class Command:
                 with open(history_path, encoding='utf8') as f:
                     hist = json.load(f)
                 sess_ptr = hist.get('session' + OS_SUFFIX, '')
-            except Exception:
+            # intentional silence: CudaText's own history file - missing
+            # on a fresh install, its format is not ours to validate
+            except (OSError, ValueError):
                 pass
 
             if sess_ptr and '|' in sess_ptr:
@@ -6139,21 +6375,18 @@ class Command:
         resize only re-anchors the buttons, keeping their sizes."""
         if not self.h_bar or not self._toolbar_icon_btns:
             return
-        try:
-            scale = _favorites._ui_scale()
-        except Exception:
-            scale = 1
+        # _ui_scale() never raises (it falls back to 1.0 internally)
+        # and the int() calls on our own constants cannot fail
+        scale = _favorites._ui_scale()
         icon = int(getattr(self, '_toolbar_icon_px', 16) * scale) or 16
-        try:
-            gap = max(0, int(round(TOOLBAR_ICON_SPACING * scale)))
-        except Exception:
-            gap = 0
+        gap = max(0, int(round(TOOLBAR_ICON_SPACING * scale)))
         w = icon + 2 * gap
         for h_btn, _fn_icon, _cmd in self._toolbar_icon_btns:
             try:
                 button_proc(h_btn, BTN_SET_WIDTH, w)
             except Exception:
-                pass
+                log_error('Project Manager: cannot set '
+                          'the toolbar icon width')
 
     def toolbar_icons_refresh(self):
         """Make the toolbar icons match the current UI theme and options:
@@ -6213,8 +6446,8 @@ class Command:
             # action_refresh (not _int): it keeps the tree's folds and
             # selection and handles an active tree filter
             self.action_refresh()
-        except Exception as e:
-            print(_('Project Manager: cannot reload file type icons:'), e)
+        except Exception:
+            log_error('Project Manager: cannot reload the file type icons')
 
 
     def icon_get(self, key):
@@ -6409,8 +6642,10 @@ class Command:
                         dirs.append(found.path)
                     elif found.is_file() and not self.is_filename_ignored(found.path, False):
                         files.append(found.path)
-            except (OSError, FileNotFoundError):
-                pass # Permissions issue. Not much we can do
+            # intentional silence: permission problem on that folder -
+            # not much a scan can do about it
+            except OSError:
+                pass
         return files
 
     def open_all(self):
@@ -7114,7 +7349,8 @@ class Command:
             try:
                 _favorites.apply_theme_all()
             except Exception:
-                pass
+                log_error('Project Manager: cannot re-theme '
+                          'the Favorites windows')
             return
 
         if state == APPSTATE_SESSION_SAVE_AFTER:
