@@ -1004,7 +1004,9 @@ class Command:
         # tree/list of the panel and the Favorites window;
         # 'edit_font_size' - every field where the user types (the
         # two filter fields, the edit rows of the options and
-        # Project-properties dialogs). See utils.option_font_size.
+        # Project-properties dialogs) plus the filter status line,
+        # which shows at the filter field's font. See
+        # utils.option_font_size.
         "ui_font_size": "",
         "edit_font_size": "",
     }
@@ -1321,11 +1323,12 @@ class Command:
         # (the dialog 'val' prop does not serve editor controls).
         EH = app_proc(PROC_GET_GUI_HEIGHT, 'edit') or 28
         # the two optional font-size overrides: 'edit_font_size' for
-        # the filter field (its row GROWS with the font - lbl_fstat is
-        # anchored below the field, the tree below lbl_fstat, so the
-        # whole panel follows), 'ui_font_size' for the tree and the x
-        # button. None = the engine default fonts, the behavior of
-        # the versions before these options existed
+        # the filter field AND its status line (their rows GROW with
+        # the font - lbl_fstat is anchored below the field, the tree
+        # below lbl_fstat, so the whole panel follows), 'ui_font_size'
+        # for the tree and the x button. None = the engine default
+        # fonts, the behavior of the versions before these options
+        # existed
         edit_fs = option_font_size(self.options.get('edit_font_size'))
         ui_fs = option_font_size(self.options.get('ui_font_size'))
         if edit_fs:
@@ -1444,7 +1447,7 @@ class Command:
         # while the scan runs, "finished, N match(es) found" when it
         # ended. Empty caption = no filtering.
         n = dlg_proc(self.h_dlg, DLG_CTL_ADD, prop='label')
-        dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, index=n, prop={
+        lbl_prop = {
             'name': 'lbl_fstat',
             'a_t': ('f_filter', ']'),
             'sp_t': 2,
@@ -1457,7 +1460,20 @@ class Command:
             'w': 400,
             'h': 17,
             'cap': '',
-        })
+        }
+        # the status line is in the EDIT font domain (not
+        # 'ui_font_size'): with the override set it starts at that
+        # size right away; the unset case is grown by the
+        # apply_panel_fonts pass at the end of the build (the
+        # field's engine default is readable only after the field
+        # exists)
+        if edit_fs:
+            lbl_prop['font_size'] = edit_fs
+            lbl_prop['h'] = font_row_h(17, edit_fs,
+                                       app_proc(
+                                           PROC_GET_SYSTEM_PPI,
+                                           '') or 96)
+        dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, index=n, prop=lbl_prop)
 
         n = dlg_proc(self.h_dlg, DLG_CTL_ADD, prop='treeview')
         self.tree_index = n
@@ -3874,18 +3890,23 @@ class Command:
 
     def apply_panel_fonts(self):
         """(re)apply the two font-size options to the BUILT panel:
-        'edit_font_size' to the filter field (the row grows with the
-        font - lbl_fstat is anchored below the field and the tree
-        below lbl_fstat, so the whole panel reflows), 'ui_font_size'
-        to the tree and the x button. Called after the options dialog
-        OK, so a change applies without a restart.
+        'edit_font_size' to the filter field AND its status line
+        lbl_fstat (the rows grow with the font - lbl_fstat is
+        anchored below the field and the tree below lbl_fstat, so
+        the whole panel reflows), 'ui_font_size' to the tree and the
+        x button. Called after the options dialog OK, so a change
+        applies without a restart.
 
         A cleared 'edit_font_size' restores the engine default
         exactly: the font of the current editor (the engine assigns
         EditorOps.OpFontSize to dialog editor controls, and
-        ed.get_prop(PROP_FONT) reports that same value). For the tree
-        and the x button a cleared option cannot restore the previous
-        font - CudaText has no API to read the UI font of a themed
+        ed.get_prop(PROP_FONT) reports that same value). The status
+        line follows the FIELD: the override when set, else the
+        field's own engine default read from the control itself (a
+        label gets no editor font from the engine, and the empty
+        startup editor may be unreadable). For the tree and the x
+        button a cleared option cannot restore the previous font -
+        CudaText has no API to read the UI font of a themed
         treeview - so their font stays as it was until the next
         start."""
         if not self.h_dlg:
@@ -3923,6 +3944,29 @@ class Command:
                     pass
             dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, name='f_filter',
                      prop=prop)
+            # the status line under the field is in the EDIT font
+            # domain too (not 'ui_font_size'): it shows at the font
+            # the FIELD renders - the override when set, else the
+            # field's own engine default, read from the control
+            # itself (a label gets no editor font from the engine,
+            # and the empty startup editor may be unreadable)
+            lbl_fs = edit_fs
+            if not lbl_fs:
+                try:
+                    lbl_fs = int(self.filter_ed.get_prop(PROP_FONT)[1])
+                except Exception:
+                    # intentional silence: no readable field font -
+                    # the label keeps its current font and height
+                    lbl_fs = None
+            if lbl_fs:
+                # 17 = the label's base height (its creation h)
+                dlg_proc(self.h_dlg, DLG_CTL_PROP_SET,
+                         name='lbl_fstat',
+                         prop={'font_size': lbl_fs,
+                               'h': font_row_h(
+                                   17, lbl_fs,
+                                   app_proc(PROC_GET_SYSTEM_PPI,
+                                            '') or 96)})
             # the x button keeps the field's height via its anchors;
             # its cached WIDTH is the same value (a square button)
             self._filter_cancel_w = h

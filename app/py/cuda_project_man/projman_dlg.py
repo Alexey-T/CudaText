@@ -195,9 +195,11 @@ def dialog_config(op):
     BH = _unscale_px(app_proc(PROC_GET_GUI_HEIGHT, 'button'), scale, 30)
     EH = _unscale_px(app_proc(PROC_GET_GUI_HEIGHT, 'edit'), scale, 28)
     # the two font-size overrides: 'edit_font_size' - every field
-    # where the user types, the edit rows GROW with it; 'ui_font_size'
-    # - the three dropdown rows (the buttons keep the engine's themed
-    # font: button_ex cannot take a per-control font size at all)
+    # where the user types, the edit rows GROW with it (the panel's
+    # filter status line follows it too - Command.apply_panel_fonts);
+    # 'ui_font_size' - the three dropdown rows (the buttons keep the
+    # engine's themed font: button_ex cannot take a per-control font
+    # size at all)
     # (design px - see utils.font_row_h); None = the engine defaults -
     # which for the editor controls is NOT the GUI 'edit' height: the
     # engine creates them with the USER'S EDITOR FONT, and multiline
