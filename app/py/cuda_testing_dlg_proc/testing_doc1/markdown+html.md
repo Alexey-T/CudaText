@@ -1,5 +1,5 @@
 
-# Supported Markdown
+# **Supported Markdown**
 
 # h1
 ## h2
@@ -77,12 +77,15 @@ becomes one line
 ### ___ Escaping/Ignoring Markdown formatting ___
 Let's rename \*our-new-project\* to \*our-old-project\*.
 
+  
+### ___ Local Images ___
 
+![local image](pic/nature1.jpg)
 
 
 _______________________________________________________________________________________________________________
 
-# Not Supported in our Markdown YET
+# **Not Supported in our Markdown YET**
 
 ~~Strikethrough~~
 
@@ -109,12 +112,9 @@ superscript <sup>superscript</sup>
 @octocat :+1: :smile: :shipit:
   
   
-### ___ Images ___
-does not download from internet
+### ___ Internet Images ___
 
 ![internet image](https://github.githubassets.com/favicons/favicon.png)
-
-![local image](pic/nature1.jpg)
 
 
 ### ___ Alerts ___
