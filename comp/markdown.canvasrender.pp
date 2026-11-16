@@ -2625,11 +2625,24 @@ end;
 { TCanvasMarkDownThematicBreakBlockRenderer }
 
 procedure TCanvasMarkDownThematicBreakBlockRenderer.DoRender(aBlock: TMarkDownBlock);
+var
+  Itm: TLayoutItem;
 begin
   if not assigned(aBlock) then exit;
 
-  // Render horizontal line
-  LayoutText('────────────────────────────────────────', CanvasRenderer.fBaseFontSize, [], '', []);
+  // Render horizontal line: a real likLine item across the FULL
+  // available row width, not a text of box-drawing chars
+  // (fixes CudaText issue 6645: the fixed 40-char line was shorter
+  // than wide windows and never grew with the layout width)
+  MaybeStartParagraph;
+  Itm:=CreateLayoutItem(likLine,
+    CanvasRenderer.FLayout.CurrentIndent,
+    CanvasRenderer.FLayout.LineY + CanvasRenderer.FLayout.LineHeight div 2);
+  Itm.DeltaX:=Max(1, CanvasRenderer.FLayout.MaxWidth - CanvasRenderer.FLayout.CurrentIndent);
+  Itm.DeltaY:=0;
+  Itm.Width:=Itm.DeltaX;
+  Itm.Height:=DIP(2);
+  NewLine;
   ParagraphBreak;
 end;
 
