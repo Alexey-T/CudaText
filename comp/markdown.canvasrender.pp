@@ -196,6 +196,13 @@ type
 
     // Selection support
     FSelectionColor: TColor;
+    // tracked endpoints of the last ApplySelection call: anchor =
+    // where the selection started, extent = where it ends (both -1
+    // when none); ExtendSelectionTo needs them to know where the
+    // current selection IS without scanning every item
+    FSelectionAnchor: TSelectionPoint;
+    FSelectionExtent: TSelectionPoint;
+
     FTableLinesColor: TColor;
     FHTMLEntities : TFPStringHashTable;
   Protected
@@ -288,6 +295,20 @@ type
     // letters/digits/underscore (fixes CudaText issue 6642)
     function SelectWordAtPoint(const aHit: TSelectionPoint): Boolean;
     function SelectParagraphAtPoint(const aHit: TSelectionPoint): Boolean;
+    // extend the CURRENT selection to aNew (Shift+Click), or start a
+    // selection at aNew when none exists (the click becomes the
+    // anchor, the NEXT shift-click will extend from there). Keeps
+    // the anchor intact and swaps the endpoints when extending
+    // backwards when the new point is left of the anchor
+    // (fixes: Shift+Click cleared the selection and
+    // selected nothing)
+
+    function ExtendSelectionTo(const aNew: TSelectionPoint): Boolean;
+    // current selection endpoints (LayoutItemIndex of -1: no selection)
+    procedure SetSelectionAnchor(const aValue: TSelectionPoint);
+    procedure SetSelectionExtent(const aValue: TSelectionPoint);
+    property SelectionAnchor: TSelectionPoint read FSelectionAnchor write SetSelectionAnchor;
+    property SelectionExtent: TSelectionPoint read FSelectionExtent write SetSelectionExtent;
 
     // Properties
     property CalculatedWidth: LongInt read FCalculatedWidth;
@@ -619,6 +640,11 @@ begin
 
   // Initialize selection
   FSelectionColor:=clHighlight;
+  FSelectionAnchor.LayoutItemIndex:=-1;
+  FSelectionAnchor.CharOffset:=0;
+  FSelectionExtent.LayoutItemIndex:=-1;
+  FSelectionExtent.CharOffset:=0;
+
 end;
 
 destructor TMarkDownCanvasRenderer.Destroy;
@@ -676,6 +702,19 @@ var
   StartPoint, EndPoint: TSelectionPoint;
 begin
   ClearAllSelections;
+  // track the endpoints for ExtendSelectionTo; aStartPoint/aEndPoint
+  // may be in either order (callers normalize, but be safe: keep the
+  // DOCUMENT-ORDER pair, anchor = first, extent = last)
+  if (aStartPoint.LayoutItemIndex<=aEndPoint.LayoutItemIndex) then
+    begin
+    FSelectionAnchor:=aStartPoint;
+    FSelectionExtent:=aEndPoint;
+    end
+  else
+    begin
+    FSelectionAnchor:=aEndPoint;
+    FSelectionExtent:=aStartPoint;
+    end;
   StartIdx:=aStartPoint.LayoutItemIndex;
   EndIdx:=aEndPoint.LayoutItemIndex;
   if (StartIdx = -1) or (EndIdx = -1) then
@@ -997,9 +1036,63 @@ begin
   Result:=True;
 end;
 
+procedure TMarkDownCanvasRenderer.SetSelectionAnchor(const aValue: TSelectionPoint);
+begin
+  FSelectionAnchor:=aValue;
+end;
+
+procedure TMarkDownCanvasRenderer.SetSelectionExtent(const aValue: TSelectionPoint);
+begin
+  FSelectionExtent:=aValue;
+end;
+
+{ ExtendSelectionTo: Shift+Click semantics. The ANCHOR (where the
+  selection started) never moves; the extent jumps to the new point.
+  When the new point is BEFORE the anchor, the pair is swapped so
+  ApplySelection still receives document order. With no selection
+  yet, the click becomes a one-char selection anchor the next
+  shift-click will extend from. A miss (LayoutItemIndex=-1) keeps the
+  current selection untouched. }
+
+function TMarkDownCanvasRenderer.ExtendSelectionTo(const aNew: TSelectionPoint): Boolean;
+var
+  P1, P2: TSelectionPoint;
+begin
+  Result:=False;
+  if aNew.LayoutItemIndex<0 then
+    exit(False); // miss: keep the current selection intact
+
+  if FSelectionAnchor.LayoutItemIndex=-1 then
+    begin
+    // no selection yet: this click becomes the anchor; select the
+    // clicked char so something is visibly selected, like editors do
+    FSelectionAnchor:=aNew;
+    FSelectionExtent:=aNew;
+    exit(True);
+    end;
+
+  // extend: anchor stays, extent moves
+  if (aNew.LayoutItemIndex<FSelectionAnchor.LayoutItemIndex)
+     or ((aNew.LayoutItemIndex=FSelectionAnchor.LayoutItemIndex)
+         and (aNew.CharOffset<FSelectionAnchor.CharOffset)) then
+    begin
+    P1:=aNew;
+    P2:=FSelectionAnchor;
+    end
+  else
+    begin
+    P1:=FSelectionAnchor;
+    P2:=aNew;
+    end;
+  ApplySelection(P1, P2);
+  Result:=True;
+end;
+
 procedure TMarkDownCanvasRenderer.ClearSelection;
 begin
   ClearAllSelections;
+  FSelectionAnchor.LayoutItemIndex:=-1;
+  FSelectionExtent.LayoutItemIndex:=-1;
 end;
 
 function TMarkDownCanvasRenderer.GetSelectedText: String;

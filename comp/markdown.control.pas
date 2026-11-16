@@ -596,6 +596,19 @@ begin
     FSelectionStart := FRenderer.HitTestText(X+ScrolledLeft, Y+ScrolledTop);
     if FSelectionStart.LayoutItemIndex <> -1 then
     begin
+      // Shift+Click EXTENDS the selection to the clicked point; the
+      // anchor stays. No selection yet: the click becomes the anchor
+      // (fixes: shift+click cleared the selection and selected
+      // nothing). Without Shift the plain-click path below runs as
+      // before.
+      if (ssShift in Shift) then
+        begin
+        FRenderer.ExtendSelectionTo(FSelectionStart);
+        FIsSelecting:= False;
+        Invalidate;
+        Exit;
+        end;
+
       FIsSelecting := True;
       FRenderer.ClearSelection;
       // click counting for double/triple selection
