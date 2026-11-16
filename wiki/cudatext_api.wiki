@@ -981,7 +981,9 @@ Shows dialog with controls of many types. This is legacy API, it is recommended 
 * "pages": PageControl: set of tabs, with pages attached to them (only one of pages is visible).
 * "splitter": divider bar (vertical or horizontal), which can be dragged by mouse, to change width/height of nearest control. It finds linked control, ie control with the same "parent" and "align", which position (coordinates) are nearest to the splitter. On mouse drag, splitter resizes this linked control. It's recommended to place another control with "align": ALIGN_CLIENT, so splitter will resize two controls at once. A panel may contain several splitters (mixed with other controls between them).
 * "scrollbox": like panel, but has two auto-shown scrollbars to scroll the area containing children controls (ie controls which parent is this scrollbox).
-* "md_view": panel which renders Markdown document. Supports "ex0" (bool): enable syntax highlighting of fenced code blocks, using lexers of app. Supports "texthint": folder if Markdown document, must be set to allow loading pictures with relative filenames.
+* "md_view": panel which renders Markdown document. special properties:
+** "texthint" (str): folder of Markdown document, must be set if you need to show picture-files with relative filenames.
+** "ex0" (bool): enable syntax highlighting of fenced code blocks, using lexers of app.
 
 Details:
 
