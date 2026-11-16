@@ -51,6 +51,8 @@ Type
     FScrolledLeft: integer; // horizontal scrolled pixels (hidden pixels at left)
     FScrolledTop: integer;  // vertical scrolled pixels (hidden pixels at top)
     FSelectionStart: TSelectionPoint;
+    FLastClickCount: integer; // 1=single, 2=double, 3+=triple (reset on move/time)
+    FLastClickTime: TDateTime;
     function GetColor(AIndex: Integer): TColor;
     function GetDocument: TMarkDownDocument;
     function GetInteger(AIndex: Integer): Integer;
@@ -399,8 +401,19 @@ begin
     exit;
     end;
 
-  // compute layout as if there is a vertical scrollbar, to get a stable layout
-  HasVertSB:=FSBHorzShowing=ord(true);
+  // Reserve the vertical scrollbar strip when the bar is already shown
+  // or WILL be needed (document taller than the client area), so the
+  // first layout already uses the wrap width the control has with its
+  // scrollbar visible.
+  // The old code read the HORZ flag (`FSBHorzShowing`) here: the strip
+  // was never reserved on the first layout of a tall document, the
+  // scrollbar then appeared, WM_SIZE shrank ClientWidth, Resize
+  // re-layouted at the smaller width, the content became taller and
+  // the scrollbar range GREW after the first drag -- the user had to
+  // drag a second time to reach the document end
+  // (Lazarus work item 42737: initial scrolling cannot reach the end).
+  HasVertSB:=(FSBVertShowing=ord(true)) or
+             (FCalculatedHeight+2*BorderWidth > ClientHeight);
 
   FLastClientWidth:=ClientWidth;
   FLastCalcClientWidth:=FLastClientWidth;
@@ -410,6 +423,21 @@ begin
   if FLastCalcClientWidth<0 then FLastCalcClientWidth:=0;
 
   FRenderer.CalculateLayout(Canvas,FLastCalcClientWidth,FCalculatedWidth,FCalculatedHeight);
+
+  // Second pass: if the document turned out taller than the client
+  // area and the strip was NOT reserved above, redo the layout WITH
+  // the strip width, exactly as the control will be sized once
+  // UpdateScrollBars shows the bar. Without this the scrollbar range
+  // computed here is provisional, and the bar appearing (WM_SIZE,
+  // Resize, re-layout at the smaller width, taller content) would
+  // change the range after the user's first drag to the end (42737).
+  if (not HasVertSB) and
+     (FCalculatedHeight+2*BorderWidth > ClientHeight) then
+    begin
+    FLastCalcClientWidth:=FLastClientWidth-GetSystemMetrics(SM_CXVSCROLL);
+    if FLastCalcClientWidth<0 then FLastCalcClientWidth:=0;
+    FRenderer.CalculateLayout(Canvas,FLastCalcClientWidth,FCalculatedWidth,FCalculatedHeight);
+    end;
 
   FScrollbarsNeedUpdate:=true;
   UpdateScrollBars;
@@ -425,8 +453,12 @@ begin
   inherited Click;
   if assigned(FOnOpenURL) then
     begin
+    // client->document mapping, as in MouseDown: link rectangles are
+    // stored in document coordinates too, so after scrolling a click
+    // would otherwise open the link that was at that client position
+    // before the scroll
     P:=ScreenToControl(Mouse.CursorPos);
-    if FRenderer.HitTestLink(P.X,P.Y,URL) then
+    if FRenderer.HitTestLink(P.X+ScrolledLeft, P.Y+ScrolledTop, URL) then
       FOnOpenURL(Self,URL);
     end;
 end;
@@ -462,6 +494,74 @@ begin
     CopySelectionToClipBoard;
     end
   else
+  if not (ssAlt in Shift) then
+    begin
+    // keyboard scrolling, mirroring WMVScroll/WMHScroll codes
+    // (fixes CudaText issue 6643: PageUp/PageDown keys had no effect)
+    case Key of
+      VK_NEXT: // PageDown
+        if ssShift in Shift then
+          begin
+          Key:=0;
+          ScrolledLeft:=ScrolledLeft + ClientWidth - FDefLineHeight;
+          end
+        else
+          begin
+          Key:=0;
+          ScrolledTop:=ScrolledTop + ClientHeight - FDefLineHeight;
+          end;
+      VK_PRIOR: // PageUp
+        if ssShift in Shift then
+          begin
+          Key:=0;
+          ScrolledLeft:=ScrolledLeft - ClientWidth + FDefLineHeight;
+          end
+        else
+          begin
+          Key:=0;
+          ScrolledTop:=ScrolledTop - ClientHeight + FDefLineHeight;
+          end;
+      VK_DOWN:
+        begin
+        Key:=0;
+        ScrolledTop:=ScrolledTop + FDefLineHeight;
+        end;
+      VK_UP:
+        begin
+        Key:=0;
+        ScrolledTop:=ScrolledTop - FDefLineHeight;
+        end;
+      VK_RIGHT:
+        begin
+        Key:=0;
+        ScrolledLeft:=ScrolledLeft + FDefLineHeight div 2;
+        end;
+      VK_LEFT:
+        begin
+        Key:=0;
+        ScrolledLeft:=ScrolledLeft - FDefLineHeight div 2;
+        end;
+      VK_HOME:
+        begin
+        Key:=0;
+        if ssCtrl in Shift then
+          ScrolledTop:=0
+        else
+          ScrolledLeft:=0;
+        end;
+      VK_END:
+        begin
+        Key:=0;
+        if ssCtrl in Shift then
+          ScrolledTop:=GetMaxScrollTop
+        else
+          ScrolledLeft:=GetMaxScrollLeft;
+        end;
+    else
+      inherited KeyDown(Key, Shift);
+    end;
+    end
+  else
     inherited KeyDown(Key, Shift);
 end;
 
@@ -475,14 +575,63 @@ procedure TCustomMarkDownControl.MouseDown(Button: TMouseButton; Shift: TShiftSt
 begin
   inherited MouseDown(Button, Shift, X, Y);
 
+  // The control takes keyboard input (Ctrl+C copy etc) but Win32 does
+  // not focus a user-drawn child window on click by itself: after the
+  // user clicks ANY other control (e.g. a "load file..." button that
+  // opens a dialog), KeyDown/Ctrl+C stopped reaching the control and
+  // nothing was copied, although the selection itself worked.
+  // Take focus on click like the reference editors do (SynEdit calls
+  // SetFocus in MouseDown for the same reason).
+  if CanFocus and not Focused then
+    SetFocus;
+
   if Button = mbLeft then
   begin
-    // Start text selection
-    FSelectionStart := FRenderer.HitTestText(X, Y);
+    // Start text selection.
+    // X,Y are CLIENT coordinates; layout items live in DOCUMENT
+    // coordinates (Paint draws them at -ScrolledLeft,-ScrolledTop).
+    // Map the point before hit-testing, otherwise after scrolling the
+    // hit lands on the row that was at that client position BEFORE
+    // the scroll: selecting the visible "444" selected "ggg" etc.
+    FSelectionStart := FRenderer.HitTestText(X+ScrolledLeft, Y+ScrolledTop);
     if FSelectionStart.LayoutItemIndex <> -1 then
     begin
+      // Shift+Click EXTENDS the selection to the clicked point; the
+      // anchor stays. No selection yet: the click becomes the anchor
+      // (fixes: shift+click cleared the selection and selected
+      // nothing). Without Shift the plain-click path below runs as
+      // before.
+      if (ssShift in Shift) then
+        begin
+        FRenderer.ExtendSelectionTo(FSelectionStart);
+        FIsSelecting:= False;
+        Invalidate;
+        Exit;
+        end;
+
       FIsSelecting := True;
       FRenderer.ClearSelection;
+      // click counting for double/triple selection
+      // (fixes CudaText issue 6642: double click must select the word,
+      // triple click the whole paragraph)
+      if (Now - FLastClickTime) * 86400.0 > GetDoubleClickTime / 1000.0 then
+        FLastClickCount:= 0;
+      FLastClickTime:= Now;
+      if FLastClickCount >= 3 then
+        FLastClickCount:= 0; // 4th click restarts the sequence
+      Inc(FLastClickCount);
+      case FLastClickCount of
+        2: // double click: select the word under the cursor
+          begin
+          FRenderer.SelectWordAtPoint(FSelectionStart);
+          FIsSelecting:= False;
+          end;
+        3: // triple click: select the whole paragraph (line group)
+          begin
+          FRenderer.SelectParagraphAtPoint(FSelectionStart);
+          FIsSelecting:= False;
+          end;
+      end;
       Invalidate;
     end;
   end;
@@ -513,7 +662,9 @@ begin
 
   if FIsSelecting and (ssLeft in Shift) then
   begin
-    CurrentPoint := FRenderer.HitTestText(X, Y);
+    // same client->document mapping as in MouseDown: hit-testing
+    // must use document coordinates (see comment there)
+    CurrentPoint := FRenderer.HitTestText(X+ScrolledLeft, Y+ScrolledTop);
     if CurrentPoint.LayoutItemIndex <> -1 then
     begin
       NormalizeSelection(FSelectionStart, CurrentPoint, P1, P2);

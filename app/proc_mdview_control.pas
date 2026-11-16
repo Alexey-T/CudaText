@@ -90,6 +90,18 @@ type
 function MdView_DebugPaintedRunCount: integer;
 function MdView_DebugPaintedRun(AIndex: integer): TCudaMdPaintedRun;
 
+type
+  TCudaMdChunk = record
+    Text: utf8string;
+    Color: TColor;
+    Styles: TFontStyles;
+    WrapAfter: boolean; // paint this chunk, then advance to a new row
+  end;
+  TCudaMdChunkArray = array of TCudaMdChunk;
+
+function MdView_ChunkSegments(const aSegs: TCudaMdSegmentList;
+  aRenderer: TMarkDownCanvasRenderer; aCanvas: TCanvas): TCudaMdChunkArray;
+
 implementation
 
 uses
@@ -176,6 +188,114 @@ begin
       Start:= i+1;
     end;
   Result:= '';
+end;
+
+{ Width-aware chunking of code lines: the highlighted renderer must wrap
+  a source line that is wider than the layout width (the "fancy code
+  blocks do not wrap" bug): FlushTextRun alone lays the whole run out and
+  never checks MaxWidth, so a long line became one item wider than the
+  window - its tail was clipped/invisible. This mirrors the wrapping the
+  upstream renderer now does for fenced code (LayoutFencedCodeLine), but
+  per SEGMENT, keeping each token its lexer color across the wrap.
+  The returned chunk list is ONE ROW's worth of pieces: when a chunk
+  would not fit the remaining row width, the current row is closed and
+  the caller must NewLine before painting the rest (chunks are returned
+  in order; each chunk fits the FULL row width, UTF-8 sequences are
+  never split, color/style stay attached to their characters). }
+
+function MdView_NextUTF8LenAt(const S: utf8string; P: integer): integer;
+begin
+  if P>Length(S) then
+    exit(0);
+  if Byte(S[P])<$80 then
+    Result:= 1
+  else if (Byte(S[P]) and $e0)=$c0 then
+    Result:= 2
+  else if (Byte(S[P]) and $f0)=$e0 then
+    Result:= 3
+  else
+    Result:= 4;
+  if P+Result>Length(S)+1 then
+    Result:= 1; // truncated sequence: take it byte-wise
+end;
+
+function MdView_ChunkSegments(const aSegs: TCudaMdSegmentList;
+  aRenderer: TMarkDownCanvasRenderer; aCanvas: TCanvas): TCudaMdChunkArray;
+var
+  Vis: TMarkDownCanvasRendererAccess absolute aRenderer;
+  Chunk: utf8string;
+  ChunkColor: TColor;
+  ChunkStyles: TFontStyles;
+  ChunkW, W, Room: integer;
+  i, P, L, N: integer;
+begin
+  Result:= nil;
+  Chunk:= '';
+  ChunkColor:= clNone;
+  ChunkStyles:= [];
+  ChunkW:= 0;
+  Room:= Vis.Layout.MaxWidth - (Vis.Layout.CurrentIndent + Vis.Layout.LineX);
+  for i:= 0 to Length(aSegs)-1 do
+  begin
+    P:= 1;
+    while P<=Length(aSegs[i].Text) do
+    begin
+      L:= MdView_NextUTF8LenAt(aSegs[i].Text, P);
+      if L<=0 then
+        L:= 1;
+      W:= Vis.MeasureTextWidth(aCanvas, Copy(aSegs[i].Text, P, L),
+        aRenderer.BaseFontSize, aSegs[i].Styles, [fcMono, fcFencedCode]);
+      if (W>Room) and (Chunk<>'') then
+      begin
+        // this character does not fit the row anymore: close the row.
+        // The caller paints the chunk, calls NewLine, then continues
+        // with this character on the next row.
+        N:= Length(Result);
+        SetLength(Result, N+1);
+        Result[N].Text:= Chunk;
+        Result[N].Color:= ChunkColor;
+        Result[N].Styles:= ChunkStyles;
+        Result[N].WrapAfter:= True;
+        Chunk:= '';
+        ChunkW:= 0;
+        // a fresh row starts at LineX=0 after the caller's NewLine
+        Room:= Vis.Layout.MaxWidth - Vis.Layout.CurrentIndent;
+      end
+      else if (W>Room) and (Chunk='') then
+      begin
+        // degenerate: one character wider than a whole empty row (a
+        // pathological font, never in practice); paint it anyway
+        Room:= W;
+      end;
+      if (Chunk<>'') and ((ChunkColor<>aSegs[i].Color) or (ChunkStyles<>aSegs[i].Styles)) then
+      begin
+        // style change: close the chunk (same row, no wrap)
+        N:= Length(Result);
+        SetLength(Result, N+1);
+        Result[N].Text:= Chunk;
+        Result[N].Color:= ChunkColor;
+        Result[N].Styles:= ChunkStyles;
+        Result[N].WrapAfter:= False;
+        Chunk:= '';
+        ChunkW:= 0;
+      end;
+      ChunkColor:= aSegs[i].Color;
+      ChunkStyles:= aSegs[i].Styles;
+      Chunk:= Chunk + Copy(aSegs[i].Text, P, L);
+      ChunkW:= ChunkW + W;
+      Dec(Room, W);
+      Inc(P, L);
+    end;
+  end;
+  if Chunk<>'' then
+  begin
+    N:= Length(Result);
+    SetLength(Result, N+1);
+    Result[N].Text:= Chunk;
+    Result[N].Color:= ChunkColor;
+    Result[N].Styles:= ChunkStyles;
+    Result[N].WrapAfter:= False;
+  end;
 end;
 
 type
@@ -550,6 +670,7 @@ var
   lCode: TMarkdownCodeBlock absolute aBlock;
   lCodeU8: utf8string;
   lSegments: TCudaMdLineSegments;
+  lChunks: array of TCudaMdChunk;
   lSavedFontColor: TColor;
   lLine: utf8string;
   lItem: TLayoutItem;
@@ -576,20 +697,16 @@ begin
 
   lSegments:= MdView_HighlightCodeBlock(lCode.Lang, lCodeU8);
 
-  // paint lines exactly like upstream's fenced-code branch (RenderTextNode
-  // -> FlushTextRun): byte-for-byte runs, no word-wrap engine. LayoutText
-  // routes into LayoutTextWrapped, the prose engine which TrimRight's each
-  // run and collapses repeated spaces - fine for paragraphs, wrong for
-  // code, where leading spaces are the content. Gap segments (clNone) keep
-  // the default code color; each styled token paints in its lexer color.
-  // Per row also the background rect is created, like upstream does, so
-  // the code block keeps its shaded background and rows stay visually
-  // separated. Segments never contain #10: a token must not paint a
-  // newline inside one FlushTextRun run.
-  // Per row also the background rect is created, like upstream does, so
-  // the code block keeps its shaded background and rows stay visually
-  // separated. Segments never contain #10: a token must not paint a
-  // newline inside one FlushTextRun run.
+  // paint lines like upstream's fenced-code branch (RenderTextNode ->
+  // FlushTextRun) BUT width-aware: a source line wider than the layout
+  // is WRAPPED at character boundaries (bug "fancy code blocks do not
+  // wrap: line bigger than the window, tail invisible"), keeping each
+  // lexer token its color across the wrap. Gap segments (clNone) keep
+  // the default code color. Per ROW also the background rect is
+  // created, like upstream does, so the code block keeps its shaded
+  // background and rows stay visually separated. Segments never
+  // contain #10: a token must not paint a newline inside one
+  // FlushTextRun run.
   lSavedFontColor:= CanvasRenderer.FontCodeColor;
   SetLength(GLastPaintedRuns, 0);
 
@@ -600,7 +717,8 @@ begin
     if (Length(lSegments)<=i) or (Length(lSegments[i])=0) then
     begin
       // line beyond the tokenized range, or line without tokens: default
-      // code color, still byte-faithful
+      // code color, still byte-faithful, WRAPPED like upstream's fenced
+      // path (LayoutFencedCodeLine) so long lines stay visible
       lItem:= TMarkDownCanvasRendererAccess(CanvasRenderer).CreateLayoutItem(
         likBackground,
         TMarkDownCanvasRendererAccess(CanvasRenderer).Layout.LineX,
@@ -610,15 +728,16 @@ begin
       if lLine<>'' then
       begin
         MdView_DebugCaptureRun(i, lLine, CanvasRenderer);
-        TMarkDownCanvasRendererAccess(CanvasRenderer).FlushTextRun(Canvas,
-          lLine, CanvasRenderer.BaseFontSize, [], '', [fcMono, fcFencedCode], False);
+        TMarkDownCanvasRendererAccess(CanvasRenderer).LayoutFencedCodeLine(Canvas,
+          lLine, CanvasRenderer.BaseFontSize, [], [fcMono, fcFencedCode]);
       end;
       NewLine;
       lItem.Height:= TMarkDownCanvasRendererAccess(CanvasRenderer).Layout.LineY - lItem.Y;
       continue;
     end;
 
-    // background rect for this row, like upstream's fenced branch
+    // background rect for the FIRST row of this line: covers every
+    // wrapped row, because Height is finalized after all rows below
     lItem:= TMarkDownCanvasRendererAccess(CanvasRenderer).CreateLayoutItem(
       likBackground,
       TMarkDownCanvasRendererAccess(CanvasRenderer).Layout.LineX,
@@ -626,17 +745,22 @@ begin
     lItem.BGColor:= TMarkDownCanvasRendererAccess(CanvasRenderer).GetTextBGColor([fcFencedCode]);
     lItem.Width:= TMarkDownCanvasRendererAccess(CanvasRenderer).Layout.MaxWidth - lItem.X;
 
-    for j:= 0 to Length(lSegments[i])-1 do
+    // paint the line's segments as width-aware chunks: a WrapAfter
+    // chunk closes the current row; the rest continues on the next row
+    lChunks:= MdView_ChunkSegments(lSegments[i], CanvasRenderer, Canvas);
+    for j:= 0 to Length(lChunks)-1 do
     begin
-      if lSegments[i][j].Color=clNone then
+      if lChunks[j].Color=clNone then
         CanvasRenderer.FontCodeColor:= lSavedFontColor
       else
-        CanvasRenderer.FontCodeColor:= lSegments[i][j].Color;
-      MdView_DebugCaptureRun(i, lSegments[i][j].Text, CanvasRenderer);
+        CanvasRenderer.FontCodeColor:= lChunks[j].Color;
+      MdView_DebugCaptureRun(i, lChunks[j].Text, CanvasRenderer);
       TMarkDownCanvasRendererAccess(CanvasRenderer).FlushTextRun(Canvas,
-        lSegments[i][j].Text,
-        CanvasRenderer.BaseFontSize, lSegments[i][j].Styles, '',
+        lChunks[j].Text,
+        CanvasRenderer.BaseFontSize, lChunks[j].Styles, '',
         [fcMono, fcFencedCode], False);
+      if lChunks[j].WrapAfter then
+        NewLine;
     end;
 
     NewLine;

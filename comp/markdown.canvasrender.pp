@@ -196,6 +196,13 @@ type
 
     // Selection support
     FSelectionColor: TColor;
+    // tracked endpoints of the last ApplySelection call: anchor =
+    // where the selection started, extent = where it ends (both -1
+    // when none); ExtendSelectionTo needs them to know where the
+    // current selection IS without scanning every item
+    FSelectionAnchor: TSelectionPoint;
+    FSelectionExtent: TSelectionPoint;
+
     FTableLinesColor: TColor;
     FHTMLEntities : TFPStringHashTable;
   Protected
@@ -239,6 +246,8 @@ type
     procedure LayoutTextWrapped(const aCanvas: TCanvas; const aText: utf8string; const aFontSize: LongInt;
       const aFontStyle: TFontStyles; const aLinkHref: utf8string; const aContext : TFontContext;
       const aPreserveWhitespace, aDryRun: boolean); virtual;
+    procedure LayoutFencedCodeLine(const aCanvas: TCanvas; const aText: utf8string; const aFontSize: LongInt;
+      const aFontStyle: TFontStyles; const aContext : TFontContext);
     function LayoutImage(aImageURL: UTF8String): Boolean; virtual;
     procedure RenderTextNode(aTextNode: TMarkDownTextNode; aFontSize: LongInt; aFontStyle: TFontStyles; const aContext : TFontContext);
 
@@ -280,6 +289,26 @@ type
     procedure ClearSelection;
     function GetSelectedText: String;
     function HitTestText(const aX, aY: LongInt): TSelectionPoint;
+    // select the word (double click) / the whole paragraph (triple
+    // click) around an already hit-tested point (the caller passes
+    // the result of HitTestText); word boundaries follow Unicode
+    // letters/digits/underscore (fixes CudaText issue 6642)
+    function SelectWordAtPoint(const aHit: TSelectionPoint): Boolean;
+    function SelectParagraphAtPoint(const aHit: TSelectionPoint): Boolean;
+    // extend the CURRENT selection to aNew (Shift+Click), or start a
+    // selection at aNew when none exists (the click becomes the
+    // anchor, the NEXT shift-click will extend from there). Keeps
+    // the anchor intact and swaps the endpoints when extending
+    // backwards when the new point is left of the anchor
+    // (fixes: Shift+Click cleared the selection and
+    // selected nothing)
+
+    function ExtendSelectionTo(const aNew: TSelectionPoint): Boolean;
+    // current selection endpoints (LayoutItemIndex of -1: no selection)
+    procedure SetSelectionAnchor(const aValue: TSelectionPoint);
+    procedure SetSelectionExtent(const aValue: TSelectionPoint);
+    property SelectionAnchor: TSelectionPoint read FSelectionAnchor write SetSelectionAnchor;
+    property SelectionExtent: TSelectionPoint read FSelectionExtent write SetSelectionExtent;
 
     // Properties
     property CalculatedWidth: LongInt read FCalculatedWidth;
@@ -611,6 +640,11 @@ begin
 
   // Initialize selection
   FSelectionColor:=clHighlight;
+  FSelectionAnchor.LayoutItemIndex:=-1;
+  FSelectionAnchor.CharOffset:=0;
+  FSelectionExtent.LayoutItemIndex:=-1;
+  FSelectionExtent.CharOffset:=0;
+
 end;
 
 destructor TMarkDownCanvasRenderer.Destroy;
@@ -665,19 +699,50 @@ var
   I: Integer;
   Item: TLayoutItem;
   StartIdx, EndIdx: Integer;
+  StartPoint, EndPoint: TSelectionPoint;
 begin
   ClearAllSelections;
+  // track the endpoints for ExtendSelectionTo; aStartPoint/aEndPoint
+  // may be in either order (callers normalize, but be safe: keep the
+  // DOCUMENT-ORDER pair, anchor = first, extent = last)
+  if (aStartPoint.LayoutItemIndex<=aEndPoint.LayoutItemIndex) then
+    begin
+    FSelectionAnchor:=aStartPoint;
+    FSelectionExtent:=aEndPoint;
+    end
+  else
+    begin
+    FSelectionAnchor:=aEndPoint;
+    FSelectionExtent:=aStartPoint;
+    end;
   StartIdx:=aStartPoint.LayoutItemIndex;
   EndIdx:=aEndPoint.LayoutItemIndex;
   if (StartIdx = -1) or (EndIdx = -1) then
     Exit;
 
-  // Ensure proper order
+  // Normalize the two points into document order (Start first).
+  // The old code only swapped the ITEM indexes; when both points fall
+  // into the SAME item of a RIGHT-TO-LEFT drag, the start char offset
+  // is LARGER than the end offset and was stored reversed:
+  // SelectionStartChar > SelectionEndChar, so GetSelectedText did
+  // UTF8Copy(Text, Start+1, End-Start) with a NEGATIVE count and
+  // copied garbage (selecting "Ma" of "Markdown" RTL copied "rkdown",
+  // selecting "Supported" RTL copied "Markdown" etc). The same
+  // reversal corrupted the drawn selection x-coordinates.
+  StartPoint:=aStartPoint;
+  EndPoint:=aEndPoint;
   if StartIdx>EndIdx then
     begin
-    I:=StartIdx;
+    StartPoint:=aEndPoint;
+    EndPoint:=aStartPoint;
     StartIdx:=EndIdx;
-    EndIdx:=I;
+    EndIdx:=aStartPoint.LayoutItemIndex;
+    end
+  else if (StartIdx=EndIdx) and (StartPoint.CharOffset>EndPoint.CharOffset) then
+    begin
+    // same item, reversed drag: swap the offsets, keep the item index
+    StartPoint:=aEndPoint;
+    EndPoint:=aStartPoint;
     end;
 
   for I:=StartIdx to EndIdx do
@@ -691,26 +756,26 @@ begin
     if (I = StartIdx) and (I = EndIdx) then
       begin
       // Single item selection
-      Item.SelectionStartChar:=aStartPoint.CharOffset;
-      Item.SelectionEndChar:=aEndPoint.CharOffset;
-      Item.SelectionStart:=CalculateCharXPosition(Item, aStartPoint.CharOffset);
-      Item.SelectionEnd:=CalculateCharXPosition(Item, aEndPoint.CharOffset);
+      Item.SelectionStartChar:=StartPoint.CharOffset;
+      Item.SelectionEndChar:=EndPoint.CharOffset;
+      Item.SelectionStart:=CalculateCharXPosition(Item, StartPoint.CharOffset);
+      Item.SelectionEnd:=CalculateCharXPosition(Item, EndPoint.CharOffset);
       end
     else if I = StartIdx then
       begin
       // Start item
-      Item.SelectionStartChar:=aStartPoint.CharOffset;
+      Item.SelectionStartChar:=StartPoint.CharOffset;
       Item.SelectionEndChar:=UTF8Length(Item.Text);
-      Item.SelectionStart:=CalculateCharXPosition(Item, aStartPoint.CharOffset);
+      Item.SelectionStart:=CalculateCharXPosition(Item, StartPoint.CharOffset);
       Item.SelectionEnd:=Item.Width;
       end
     else if I = EndIdx then
       begin
       // End item
       Item.SelectionStartChar:=0;
-      Item.SelectionEndChar:=aEndPoint.CharOffset;
+      Item.SelectionEndChar:=EndPoint.CharOffset;
       Item.SelectionStart:=0;
-      Item.SelectionEnd:=CalculateCharXPosition(Item, aEndPoint.CharOffset);
+      Item.SelectionEnd:=CalculateCharXPosition(Item, EndPoint.CharOffset);
       end
     else
       begin
@@ -729,6 +794,7 @@ var
   OldBrushColor: TColor;
   OldBrushStyle: TBrushStyle;
   OldPenStyle: TPenStyle;
+  I: Integer;
 begin
   if not aItem.IsSelected then
     Exit;
@@ -745,6 +811,16 @@ begin
   SelectionRect.Top:=aItem.Y + aTopPosition;
   SelectionRect.Right:=aItem.X + aLeftPosition + aItem.SelectionEnd;
   SelectionRect.Bottom:=aItem.Y + aTopPosition + aItem.Height;
+
+  // right-to-left drags used to store Start/End reversed on single
+  // items (see ApplySelection): normalize before filling, otherwise
+  // FillRect got an empty/inverted rect and nothing was painted
+  if SelectionRect.Right<SelectionRect.Left then
+    begin
+    I:=SelectionRect.Left;
+    SelectionRect.Left:=SelectionRect.Right;
+    SelectionRect.Right:=I;
+    end;
 
   aCanvas.FillRect(SelectionRect);
 
@@ -776,16 +852,26 @@ begin
     // the text of the row starts at this item?
     if aX<Item.X then
       Continue;
-    // item hit exactly, or the first item of the row extending the
-    // click to the whole row line (fixes Lazarus work item 42734:
-    // clicking after the text end must give the row end, not -1)
-    if (aX<=Item.X+Item.Width) or (BestItem=nil) then
+    // item hit exactly, or the click/drag is beyond the text end of the
+    // row: the whole row line is the target (fixes Lazarus work items
+    // 42734: clicking after the text end must give the row end, not -1,
+    // and selecting past the end must keep the LAST word selected).
+    // When the position is past the item's right edge we do NOT stop
+    // scanning: later items of the SAME row may follow (a row with two
+    // words is two items). Keep updating the fallback so the LAST item
+    // of the row wins; freezing on the first one deselected the last
+    // word of the row while dragging past the line end.
+    if (aX<=Item.X+Item.Width) then
+      begin
+      BestItem:=Item;
+      Result.LayoutItemIndex:=I;
+      Break;
+      end
+    else
       begin
       BestItem:=Item;
       Result.LayoutItemIndex:=I;
       end;
-    if (aX<=Item.X+Item.Width) then
-      Break;
     end;
 
   if BestItem=nil then
@@ -818,9 +904,195 @@ begin
   ApplySelection(aStart, aEnd);
 end;
 
+{ SelectWordAtPoint / SelectParagraphAtPoint: word- and paragraph-level
+  selection for double/triple clicks (CudaText issue 6642). They reuse
+  the plain ApplySelection machinery: only the two TSelectionPoints
+  differ.
+
+  A word is a run of Unicode letters/digits/underscore around the hit
+  position; the run may cross several items of the same visual row.
+  A paragraph is the run of text items between two "blank" vertical
+  gaps: consecutive paragraph rows are one row-height apart, a
+  paragraph gap shows a bigger Y step. }
+
+function LocalSelectionPoint(const aIndex, aOffset: Integer): TSelectionPoint;
+begin
+  Result.LayoutItemIndex:=aIndex;
+  Result.CharOffset:=aOffset;
+end;
+
+function IsWordCharUtf8(const aChar: utf8string): Boolean;
+begin
+  // letters/digits/underscore/marks: anything but space and punctuation
+  if aChar='' then
+    exit(False);
+  Result:= not (aChar[1] in [#0..#32, '!', '"', '#', '$', '%', '&', '''',
+    '(', ')', '*', '+', ',', '-', '.', '/', ':', ';', '<', '=', '>', '?',
+    '@', '[', '\', ']', '^', '`', '{', '|', '}', '~', #127..#255])
+    or (Length(aChar)>1); // multibyte = non-ASCII letter/mark usually
+end;
+
+function TMarkDownCanvasRenderer.SelectWordAtPoint(const aHit: TSelectionPoint): Boolean;
+var
+  Item: TLayoutItem;
+  WordStart, WordEnd: TSelectionPoint;
+  P1, P2: TSelectionPoint;
+begin
+  Result:=False;
+  if aHit.LayoutItemIndex=-1 then
+    exit;
+  Item:=FLists.Items[aHit.LayoutItemIndex];
+
+  // walk back from the hit position to the word start
+  P1:=aHit;
+  while (P1.CharOffset>0) do
+  begin
+    if not IsWordCharUtf8(UTF8Copy(FLists.Items[P1.LayoutItemIndex].Text, P1.CharOffset, 1)) then
+      Break;
+    Dec(P1.CharOffset);
+  end;
+
+  // walk forward from the hit position to the word end
+  P2:=aHit;
+  Item:=FLists.Items[P2.LayoutItemIndex];
+  while P2.CharOffset<UTF8Length(Item.Text) do
+  begin
+    if not IsWordCharUtf8(UTF8Copy(Item.Text, P2.CharOffset+1, 1)) then
+      Break;
+    Inc(P2.CharOffset);
+  end;
+  // the word may continue in the next item of the same visual row
+  if (P2.LayoutItemIndex+1<FLists.Items.Count) then
+    begin
+      Item:=FLists.Items[P2.LayoutItemIndex+1];
+      if (Item.Kind=likText) and (Abs(Item.Y - FLists.Items[P2.LayoutItemIndex].Y) < Item.Height)
+        and IsWordCharUtf8(UTF8Copy(Item.Text, 1, 1)) then
+      begin
+        P2.LayoutItemIndex:=P2.LayoutItemIndex+1;
+        P2.CharOffset:=0;
+        while P2.CharOffset<UTF8Length(Item.Text) do
+        begin
+          if not IsWordCharUtf8(UTF8Copy(Item.Text, P2.CharOffset+1, 1)) then
+            Break;
+          Inc(P2.CharOffset);
+        end;
+      end;
+    end;
+
+  if (P1.LayoutItemIndex=P2.LayoutItemIndex) and (P1.CharOffset=P2.CharOffset) then
+    exit(False); // empty selection: hit a separator
+
+  // normalize order
+  if (P1.LayoutItemIndex>P2.LayoutItemIndex)
+     or ((P1.LayoutItemIndex=P2.LayoutItemIndex) and (P1.CharOffset>P2.CharOffset)) then
+  begin
+    WordStart:=P2;
+    WordEnd:=P1;
+  end
+  else
+  begin
+    WordStart:=P1;
+    WordEnd:=P2;
+  end;
+  ApplySelection(WordStart, WordEnd);
+  Result:=True;
+end;
+
+function TMarkDownCanvasRenderer.SelectParagraphAtPoint(const aHit: TSelectionPoint): Boolean;
+var
+  Item: TLayoutItem;
+  FirstIdx, LastIdx: Integer;
+begin
+  Result:=False;
+  if aHit.LayoutItemIndex=-1 then
+    exit;
+  Item:=FLists.Items[aHit.LayoutItemIndex];
+
+  // extend from the hit item while items are "dense" vertically:
+  // consecutive text items of the same paragraph are one row apart;
+  // a paragraph gap shows as a bigger Y step
+  FirstIdx:=aHit.LayoutItemIndex;
+  while FirstIdx>0 do
+  begin
+    Item:=FLists.Items[FirstIdx-1];
+    if (Item.Kind=likText) and (FLists.Items[FirstIdx].Y - Item.Y <= Item.Height + DIP(2)) then
+      Dec(FirstIdx)
+    else
+      Break;
+  end;
+  LastIdx:=aHit.LayoutItemIndex;
+  while LastIdx+1<FLists.Items.Count do
+  begin
+    Item:=FLists.Items[LastIdx+1];
+    if (Item.Kind=likText) and (Item.Y - FLists.Items[LastIdx].Y <= FLists.Items[LastIdx].Height + DIP(2)) then
+      Inc(LastIdx)
+    else
+      Break;
+  end;
+
+  ApplySelection(
+    LocalSelectionPoint(FirstIdx, 0),
+    LocalSelectionPoint(LastIdx, MaxInt));
+  Result:=True;
+end;
+
+procedure TMarkDownCanvasRenderer.SetSelectionAnchor(const aValue: TSelectionPoint);
+begin
+  FSelectionAnchor:=aValue;
+end;
+
+procedure TMarkDownCanvasRenderer.SetSelectionExtent(const aValue: TSelectionPoint);
+begin
+  FSelectionExtent:=aValue;
+end;
+
+{ ExtendSelectionTo: Shift+Click semantics. The ANCHOR (where the
+  selection started) never moves; the extent jumps to the new point.
+  When the new point is BEFORE the anchor, the pair is swapped so
+  ApplySelection still receives document order. With no selection
+  yet, the click becomes a one-char selection anchor the next
+  shift-click will extend from. A miss (LayoutItemIndex=-1) keeps the
+  current selection untouched. }
+
+function TMarkDownCanvasRenderer.ExtendSelectionTo(const aNew: TSelectionPoint): Boolean;
+var
+  P1, P2: TSelectionPoint;
+begin
+  Result:=False;
+  if aNew.LayoutItemIndex<0 then
+    exit(False); // miss: keep the current selection intact
+
+  if FSelectionAnchor.LayoutItemIndex=-1 then
+    begin
+    // no selection yet: this click becomes the anchor; select the
+    // clicked char so something is visibly selected, like editors do
+    FSelectionAnchor:=aNew;
+    FSelectionExtent:=aNew;
+    exit(True);
+    end;
+
+  // extend: anchor stays, extent moves
+  if (aNew.LayoutItemIndex<FSelectionAnchor.LayoutItemIndex)
+     or ((aNew.LayoutItemIndex=FSelectionAnchor.LayoutItemIndex)
+         and (aNew.CharOffset<FSelectionAnchor.CharOffset)) then
+    begin
+    P1:=aNew;
+    P2:=FSelectionAnchor;
+    end
+  else
+    begin
+    P1:=FSelectionAnchor;
+    P2:=aNew;
+    end;
+  ApplySelection(P1, P2);
+  Result:=True;
+end;
+
 procedure TMarkDownCanvasRenderer.ClearSelection;
 begin
   ClearAllSelections;
+  FSelectionAnchor.LayoutItemIndex:=-1;
+  FSelectionExtent.LayoutItemIndex:=-1;
 end;
 
 function TMarkDownCanvasRenderer.GetSelectedText: String;
@@ -838,10 +1110,26 @@ begin
       begin
       ItemText:=UTF8Copy(Item.Text, Item.SelectionStartChar + 1,
                           Item.SelectionEndChar - Item.SelectionStartChar);
+      // guard: a reversed (RTL drag) or degenerate range must never
+      // reach UTF8Copy with a negative count (UTF8Copy tolerates it,
+      // but the result is garbage text, not an empty string)
+      if Item.SelectionEndChar < Item.SelectionStartChar then
+        ItemText:='';
       if Result<>'' then
         begin
-        // Add spacing between items
-        if (I>0) and (PrevItem.Y<>Item.Y) then
+        // Add spacing between items.
+        // Wrapped FENCED CODE rows are pieces of ONE source line
+        // (soft wraps, LayoutFencedCodeLine): they must be joined with
+        // NO separator at all, or a copy of a single long code line
+        // would get spaces/newlines injected at every wrap point.
+        // Different Y rows of normal text are separate source lines
+        // (LineEnding); same-row items are separate words (' ').
+        if (fcFencedCode in PrevItem.Context) and (fcFencedCode in Item.Context) then
+          begin
+          if PrevItem.Y<>Item.Y then
+            ; // soft wrap of one code source line: no separator
+          end
+        else if (I>0) and (PrevItem.Y<>Item.Y) then
           Result:=Result + LineEnding
         else
           Result:=Result + ' ';
@@ -1107,7 +1395,18 @@ begin
     lY:=FLayout.LineY + FLayout.LineAboveExtra + BaselineShift;
     Item:=FLists.Items.NewItem(TLayoutItemKind.likText,lX,lY);
 
-    item.BGColor:=GetTextBGColor(aContext);
+    // Do NOT cache the live background color in the item: the renderer
+    // BGColor is synced from control.Color only at Paint() time, while
+    // layout items are created earlier (parse/load). A cached value
+    // bakes the stale constructor default (clWindow = white) into the
+    // item, so the first paints show white text bands until the layout
+    // is rebuilt (Lazarus work item 42722). clNone makes DrawLayoutItem
+    // fall back to the CURRENT renderer.BGColor at draw time. Explicit
+    // background kinds (fenced code) keep their own stable color.
+    if fcFencedCode in aContext then
+      item.BGColor:=GetTextBGColor(aContext)
+    else
+      item.BGColor:=clNone;
     item.color:=GetTextColor(aContext);
     Item.Width:=lWidth;
     Item.Height:=lHeight;
@@ -1335,6 +1634,64 @@ begin
   FLayout.NeedSpaceBeforeNextText:=(lLength>0) and (lText[lLength] in WhiteSpace);
 end;
 
+procedure TMarkDownCanvasRenderer.LayoutFencedCodeLine(const aCanvas: TCanvas; const aText: utf8string;
+  const aFontSize: LongInt; const aFontStyle: TFontStyles; const aContext : TFontContext);
+var
+  CharPos, CharLen, TextLen: LongInt;
+  CharBuffer, CurrentChar: utf8string;
+  CharWidth: LongInt;
+begin
+  // Wrap ONE source line of a fenced code block at character
+  // boundaries so it fits FLayout.MaxWidth. Code has no word
+  // boundaries worth respecting (long paths, statements, strings),
+  // so unlike LayoutTextWrapped we do NOT collapse whitespace and do
+  // NOT break at spaces: every character is preserved on a wrapped
+  // line exactly as in the source. The old code flushed the whole
+  // line as a single item that could be far wider than the visible
+  // window: the tail was invisible (fCalculatedWidth grew to the
+  // line width and the text stuck out of the code background band).
+  TextLen:=length(aText);
+  if TextLen=0 then
+    exit;
+  CharPos:=1;
+  CharBuffer:='';
+  while CharPos<=TextLen do
+    begin
+    if Byte(aText[CharPos])<$80 then
+      CharLen:=1
+    else if (Byte(aText[CharPos]) and $e0)=$c0 then
+      CharLen:=2
+    else if (Byte(aText[CharPos]) and $f0)=$e0 then
+      CharLen:=3
+    else
+      CharLen:=4;
+    if CharPos+CharLen>TextLen+1 then
+      CharLen:=1; // truncated sequence at line end: take it byte-wise
+    CurrentChar:=copy(aText, CharPos, CharLen);
+    CharWidth:=MeasureTextWidth(aCanvas, CharBuffer+CurrentChar, aFontSize, aFontStyle, aContext);
+    if (FLayout.CurrentIndent+FLayout.LineX+CharWidth)<=FLayout.MaxWidth then
+      CharBuffer:=CharBuffer+CurrentChar
+    else
+      begin
+      if length(CharBuffer)>0 then
+        begin
+        FlushTextRun(aCanvas, CharBuffer, aFontSize, aFontStyle, '', aContext, False);
+        CharBuffer:='';
+        end;
+      // advance to a new line only when the current one carries
+      // something: an empty line must stay empty (blank code line)
+      if FLayout.LineX>0 then
+        NewLine(aCanvas);
+      CharBuffer:=CurrentChar;
+      end;
+    Inc(CharPos, CharLen);
+    end;
+  // flush the remainder of the line (caller does the final NewLine
+  // so the code background band covers all wrapped rows)
+  if length(CharBuffer)>0 then
+    FlushTextRun(aCanvas, CharBuffer, aFontSize, aFontStyle, '', aContext, False);
+end;
+
 procedure TMarkDownCanvasRenderer.CalculateLayout(const aCanvas: TCanvas; const aMaxWidth: LongInt;
   out aContentWidth: LongInt; out aContentHeight: LongInt);
 begin
@@ -1394,9 +1751,12 @@ begin
      begin
      if aItem.IsSelected then
        aCanvas.Brush.Style:=bsClear
-     else if ([fcCode,fcFencedCode] * aItem.Context)<>[] then
+     else if (fcFencedCode in aItem.Context) then
        aCanvas.Brush.Color:=aItem.GetColor(ckBackground,BGCodeColor)
      else
+       // inline code (`x`) never had a code background in the canvas
+       // renderer: GetTextBGColor gives it BGColor too. Keep that when
+       // the item no longer caches the color (42722 fix).
        aCanvas.Brush.Color:=aItem.GetColor(ckBackground,BGColor);
      with aItem do
        begin
@@ -1627,10 +1987,15 @@ begin
       begin
       if fcFencedCode in lContext then
         begin
+        // fenced code line: wrap it to FLayout.MaxWidth like the rest
+        // of the document (fancy ``` blocks used to lay the whole
+        // source line out as ONE item: a line longer than the window
+        // was simply wider than the visible area, its tail invisible
+        // and it dragged the horizontal scroll range out)
         lItem:=FLists.Items.NewItem(likBackground,FLayout.LineX,FLayout.LineY);
         lItem.BGColor:=GetTextBGColor([fcFencedCode]);
         lItem.Width:=FLayout.MaxWidth-LItem.X;
-        FlushTextRun(fCanvas, lText, aFontSize, fontStyle, '', lContext, False);
+        LayoutFencedCodeLine(fCanvas, lText, aFontSize, fontStyle, lContext);
         NewLine(fCanvas);
         lItem.Height:=FLayout.LineY-lItem.Y;
         end
@@ -2353,11 +2718,24 @@ end;
 { TCanvasMarkDownThematicBreakBlockRenderer }
 
 procedure TCanvasMarkDownThematicBreakBlockRenderer.DoRender(aBlock: TMarkDownBlock);
+var
+  Itm: TLayoutItem;
 begin
   if not assigned(aBlock) then exit;
 
-  // Render horizontal line
-  LayoutText('────────────────────────────────────────', CanvasRenderer.fBaseFontSize, [], '', []);
+  // Render horizontal line: a real likLine item across the FULL
+  // available row width, not a text of box-drawing chars
+  // (fixes CudaText issue 6645: the fixed 40-char line was shorter
+  // than wide windows and never grew with the layout width)
+  MaybeStartParagraph;
+  Itm:=CreateLayoutItem(likLine,
+    CanvasRenderer.FLayout.CurrentIndent,
+    CanvasRenderer.FLayout.LineY + CanvasRenderer.FLayout.LineHeight div 2);
+  Itm.DeltaX:=Max(1, CanvasRenderer.FLayout.MaxWidth - CanvasRenderer.FLayout.CurrentIndent);
+  Itm.DeltaY:=0;
+  Itm.Width:=Itm.DeltaX;
+  Itm.Height:=DIP(2);
+  NewLine;
   ParagraphBreak;
 end;
 
