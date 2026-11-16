@@ -32,6 +32,94 @@
   properties rows/vars box to those metrics; the favorites and panel
   filter fields grow the same way. With the options set, nothing
   changes.
+- Follow-up: the panel's filter field still started small after a
+  restart with a big editor font (the favorites filter was fine - its
+  window is built on demand, when everything is rendered). The side
+  panel is built at CudaText's startup, when there may be no document
+  yet or nothing painted: the pixel measures of the previous fix need
+  a RENDERED editor and gave nothing. The font is now read DIRECTLY
+  (the user's suggestion): the SIZE via ed.get_prop(PROP_FONT) - a
+  plain property readable at any time, the engine assigns the raw
+  points to every editor control (EditorApplyOps /
+  DoControl_ApplyEditorProps) - scaled by the engine's font scale
+  (the per-editor zoom PROP_SCALE_FONT, 0 = not zoomed, else the
+  app's global font scale from PROC_CONFIG_SCALE_GET; the same
+  arithmetic as the engine's own listbox row, AppListboxItemHeight),
+  and the estimated cell (utils.font_size_to_cell, ~1.25
+  line-height) grows the row. A first attempt used a one-shot retry
+  timer instead - removed: its block was mis-anchored into
+  apply_panel_theme (called on every on_state) and raised NameError.
+- Follow-up: even that direct read could not grow the TREE filter at
+  startup, because the panel is built BEFORE the session's editors
+  exist (the sidebar is restored first - no current editor, so
+  ed.get_prop(PROP_FONT) answers nothing at build time; the
+  favorites window is built on demand, which is why it always
+  worked). The font is therefore read from the filter field ITSELF:
+  the engine creates it with the user's editor font (raw points, a
+  plain property readable before any rendering and without any
+  document), rendered scaled by the app's global font scale (dialog
+  controls have no per-editor zoom) - Command._filter_editor_cell
+  turns that into the estimated cell, apply_panel_fonts uses it when
+  no main editor is measurable, and init_form_main ends with
+  apply_panel_fonts() so the just-built row grows immediately. No
+  timers, no retries.
+- Follow-up: the field-font read still left the row small at startup
+  for the reporter, and the remaining failure points (whether
+  get_prop(PROP_FONT) answers for a dialog control, the exact shape
+  of PROC_CONFIG_SCALE_GET, whether the docking pass re-applies
+  stored control props) cannot be verified from the plugin repo -
+  the app_proc dispatcher lives in the Python-glue units outside it.
+  So the startup growth is now DEFENDED on every point at once:
+  utils.app_font_scale() parses the global font scale defensively
+  ((ui, font) tuple, a bare int, a "ui,font" string - anything
+  unexpected falls back to 100); _filter_editor_cell falls back to
+  the field's own PIXEL cell (PROP_CELL_SIZE on the control) when
+  PROP_FONT is unreadable; init_panel re-grows the row AFTER the
+  panel is docked and activated (the same engine pass that resets
+  the treeview font could re-apply stored props). Plus one-line
+  TEMPORARY Console diagnostics at @build and @docked - if the row
+  is ever small again, the Console line pinpoints which source
+  failed (they are removed once the sizing is confirmed working).
+- Follow-up: v8's diagnostics printed NOTHING - a bug in the
+  diagnostic itself: log_msg does not exist in the current API
+  (app_log does), so the call raised NameError, which the
+  diagnostic's own never-break guard swallowed. The report now goes
+  through utils.log_diag() on three channels that each exist on
+  their own - print() to the console (log_error's channel), the
+  status bar (msg_status, imported for log_error already) and a
+  startup_diag.txt file appended next to the plugin - each channel
+  guarded separately, so one broken channel cannot hide the others.
+  The two startup lines are now unconditional, and a crash anywhere
+  in init_form_main is reported via log_error and re-raised: it
+  aborts the whole row growth silently otherwise.
+- Follow-up: the diagnostic CRACKED it - the reporter's log read
+  "h=23 font=('Fira Code SemiBold', 15) cell=31 main=(4, 4)": every
+  read worked, the measurement was HIJACKED. At startup the EMPTY
+  current editor answers PROP_CELL_SIZE with garbage (4, 4), which
+  passed the old "> 0" check, counted as a real measurement, and
+  won over the field's own 15 pt font (cell 31) - the row kept the
+  base GUI height (23 on that setup; 15 pt text needs 31 and
+  touched the box edges). This also explains the whole symptom
+  pattern: the options-OK cycle works (a real editor is open then),
+  favorites works (built on demand), restart is small again (the
+  empty editor again). utils.MIN_PLAUSIBLE_CELL (8 px - a real 5 pt
+  font at 96 dpi already measures ~8 px with the leading) now
+  floors both cell sources: editor_default_metrics treats a smaller
+  PROP_CELL_SIZE as "not rendered" (falling through to the font
+  estimate / the field's font), and the PROP_CELL_SIZE fallback of
+  Command._filter_editor_cell likewise. On the reporter's setup the
+  row now grows to cell + 8 = 39.
+- Follow-up: confirmed working on the reporter's build. The
+  TEMPORARY round-6i diagnostics are removed (utils.log_diag with
+  its DIAG_FILE, the two startup lines, the init_panel wrapper
+  around init_form_main - the engine already logs such tracebacks).
+  A review of the whole round-6i stack with the culprit known kept
+  everything else: the pitch half of editor_default_metrics is
+  consumed by projman_dlg's multi-line editor boxes, the
+  post-docking re-apply is idempotent insurance the confirmed fix
+  includes, the creation-time EH metrics give the right height
+  without a reflow flash, and the field-font fallback covers
+  editors whose font cannot be read.
 
 2026.11.15 (@badrelmers)
 - FIX (issue #6632): new "auto" value of the "Toolbar icons" option

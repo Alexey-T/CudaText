@@ -16,8 +16,9 @@ from .projman_glob import *
 from .projman_backup import ProjectFileBackups, DEFAULT_BACKUP_COUNT, DEFAULT_BACKUP_FOLDER
 from .projman_trash import (send_to_trash, trash_label,
                              trash_supported, delete_permanently)
-from .utils import (editor_default_metrics, font_row_h, log_error,
-                    option_font_size)
+from .utils import (MIN_PLAUSIBLE_CELL, app_font_scale,
+                    editor_default_metrics, font_row_h,
+                    font_size_to_cell, log_error, option_font_size)
 
 from cudatext import *
 from cudatext_keys import *
@@ -1494,6 +1495,15 @@ class Command:
         # (the tree and the toolbar are themed by the engine itself)
         self.apply_panel_theme()
 
+        # the panel is often built BEFORE CudaText loads the session
+        # (the sidebar is restored first): no current editor yet, so
+        # utils.editor_default_metrics has nothing to measure and the
+        # row above was sized for the base GUI height. The field
+        # itself was just created with the user's editor font -
+        # re-apply the font options now, its own font grows the row
+        if not edit_fs:
+            self.apply_panel_fonts()
+
     def apply_panel_theme(self):
         """Re-color the panel background, the filter field and the
         filter status line to the current UI theme (the treeview and
@@ -1553,6 +1563,13 @@ class Command:
 
         if and_activate:
             self.do_show()
+
+        # the docking/show pass above can re-apply stored control
+        # props (the same pass that resets the treeview font): grow
+        # the filter row once more, so it survives the docking when
+        # 'edit_font_size' is unset (idempotent, no timers)
+        if not option_font_size(self.options.get('edit_font_size')):
+            self.apply_panel_fonts()
 
         self.action_refresh()
         self.generate_context_menu()
@@ -3883,6 +3900,13 @@ class Command:
                 # FONT (see utils.editor_default_metrics): grow the row
                 # to the real metrics too (runtime px, like the panel)
                 cell_h, _pitch = editor_default_metrics()
+                if not cell_h:
+                    # no measurable main editor (the panel is BUILT
+                    # before the session's editors exist): the filter
+                    # field itself is an editor control the engine
+                    # just created with the user's editor font - its
+                    # reported SIZE drives the same growth
+                    cell_h = self._filter_editor_cell()
                 if cell_h:
                     h = max(h, cell_h + 8)
             prop = {'h': h}
@@ -3913,6 +3937,46 @@ class Command:
         except Exception:
             log_error('Project Manager: cannot apply '
                       'the panel font options')
+
+    def _filter_editor_cell(self):
+        """Estimated char cell (runtime px) of the filter field's OWN
+        font - the source for the panel BUILD, which runs before
+        CudaText loads the session (no current editor yet, nothing
+        for utils.editor_default_metrics to measure): the engine
+        creates the field with the user's editor font (raw points, a
+        plain property readable at any time) and renders it scaled by
+        the app's GLOBAL font scale (dialog controls have no
+        per-editor zoom). When the font property is unreadable on
+        the control, the field's own pixel cell (PROP_CELL_SIZE) is
+        the fallback. None when nothing about the field's font can
+        be read - a pixel cell below utils.MIN_PLAUSIBLE_CELL
+        (garbage from a not-yet-rendered control) counts as
+        unreadable."""
+        if self.filter_ed is None:
+            return None
+        try:
+            fs = int(self.filter_ed.get_prop(PROP_FONT)[1])
+        except Exception:
+            # intentional silence, with a fallback: PROP_FONT
+            # unreadable on the control - its own PIXEL cell (the
+            # rendered size of its font) is the next best source
+            try:
+                cell = self.filter_ed.get_prop(PROP_CELL_SIZE)
+                # a garbage cell from a not-yet-rendered control
+                # (see MIN_PLAUSIBLE_CELL) is no source at all
+                if cell and int(cell[1]) >= MIN_PLAUSIBLE_CELL:
+                    return int(cell[1])
+            except Exception:
+                # intentional silence: no readable cell either
+                pass
+            return None
+        try:
+            scale = app_font_scale()
+            ppi = int(app_proc(PROC_GET_SYSTEM_PPI, '')) or 96
+            return font_size_to_cell(fs * scale / 100.0, ppi)
+        except Exception:
+            # intentional silence: no readable scale/DPI - 100%, 96
+            return font_size_to_cell(fs, 96)
 
     def _filter_edit_focused(self):
         """True while the user types in the panel's filter field (those

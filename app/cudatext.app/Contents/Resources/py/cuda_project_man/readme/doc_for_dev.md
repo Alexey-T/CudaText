@@ -644,6 +644,36 @@ successful save).
   while word-wrap is on, a wrapped first line would inflate it;
   (None, None) = unmeasurable, the base heights stay).
 
+  The pixel measures need a RENDERED editor - which the side panel's
+  build at CudaText's startup cannot count on (no document yet, or
+  nothing painted): the helper then reads the font DIRECTLY - the
+  SIZE via ed.get_prop(PROP_FONT) (a plain property readable at any
+  time; the engine assigns the raw points to every editor control,
+  EditorApplyOps / DoControl_ApplyEditorProps) and the scale the
+  engine applies for rendering (the per-editor zoom PROP_SCALE_FONT,
+  0 = not zoomed, else the app's global font scale
+  PROC_CONFIG_SCALE_GET - the same arithmetic as the engine's own
+  listbox row, AppListboxItemHeight in proc_globdata.pas) - and
+  estimates the cell (utils.font_size_to_cell, ~1.25 line-height:
+  10 pt ~ 17 px at 96 ppi). The side panel is built even BEFORE the
+  session's editors exist (the sidebar is restored first), so at
+  build time even PROP_FONT has nothing to report: the panel instead
+  reads the filter field's OWN font (Command._filter_editor_cell -
+  the engine creates the field with the user's editor font at
+  DLG_CTL_ADD time, raw points, no rendering needed; scaled by the
+  app's global font scale via utils.app_font_scale() - parsed
+  defensively, since dialog controls have no per-editor zoom; the
+  field's own pixel cell PROP_CELL_SIZE is the fallback when
+  PROP_FONT is unreadable on the control), init_form_main ends with
+  apply_panel_fonts(), which grows the just-built row from it, and
+  init_panel re-grows the row after docking/activation (the engine
+  pass that resets the treeview font could re-apply stored props).
+  The startup measurement has a plausibility floor: an EMPTY
+  never-painted editor answers PROP_CELL_SIZE with garbage like
+  (4, 4) (observed on a real build), so cells below
+  utils.MIN_PLAUSIBLE_CELL (8 px) count as "not rendered" and fall
+  through to the font estimates.
+
 ## 13. Drag & drop
 
 Three directions exist; each uses a different mechanism. (A fourth one,
