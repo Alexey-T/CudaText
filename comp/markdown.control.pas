@@ -505,6 +505,16 @@ procedure TCustomMarkDownControl.MouseDown(Button: TMouseButton; Shift: TShiftSt
 begin
   inherited MouseDown(Button, Shift, X, Y);
 
+  // The control takes keyboard input (Ctrl+C copy etc) but Win32 does
+  // not focus a user-drawn child window on click by itself: after the
+  // user clicks ANY other control (e.g. a "load file..." button that
+  // opens a dialog), KeyDown/Ctrl+C stopped reaching the control and
+  // nothing was copied, although the selection itself worked.
+  // Take focus on click like the reference editors do (SynEdit calls
+  // SetFocus in MouseDown for the same reason).
+  if CanFocus and not Focused then
+    SetFocus;
+
   if Button = mbLeft then
   begin
     // Start text selection.

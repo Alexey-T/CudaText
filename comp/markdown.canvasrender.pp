@@ -665,6 +665,7 @@ var
   I: Integer;
   Item: TLayoutItem;
   StartIdx, EndIdx: Integer;
+  StartPoint, EndPoint: TSelectionPoint;
 begin
   ClearAllSelections;
   StartIdx:=aStartPoint.LayoutItemIndex;
@@ -672,12 +673,29 @@ begin
   if (StartIdx = -1) or (EndIdx = -1) then
     Exit;
 
-  // Ensure proper order
+  // Normalize the two points into document order (Start first).
+  // The old code only swapped the ITEM indexes; when both points fall
+  // into the SAME item of a RIGHT-TO-LEFT drag, the start char offset
+  // is LARGER than the end offset and was stored reversed:
+  // SelectionStartChar > SelectionEndChar, so GetSelectedText did
+  // UTF8Copy(Text, Start+1, End-Start) with a NEGATIVE count and
+  // copied garbage (selecting "Ma" of "Markdown" RTL copied "rkdown",
+  // selecting "Supported" RTL copied "Markdown" etc). The same
+  // reversal corrupted the drawn selection x-coordinates.
+  StartPoint:=aStartPoint;
+  EndPoint:=aEndPoint;
   if StartIdx>EndIdx then
     begin
-    I:=StartIdx;
+    StartPoint:=aEndPoint;
+    EndPoint:=aStartPoint;
     StartIdx:=EndIdx;
-    EndIdx:=I;
+    EndIdx:=aStartPoint.LayoutItemIndex;
+    end
+  else if (StartIdx=EndIdx) and (StartPoint.CharOffset>EndPoint.CharOffset) then
+    begin
+    // same item, reversed drag: swap the offsets, keep the item index
+    StartPoint:=aEndPoint;
+    EndPoint:=aStartPoint;
     end;
 
   for I:=StartIdx to EndIdx do
@@ -691,26 +709,26 @@ begin
     if (I = StartIdx) and (I = EndIdx) then
       begin
       // Single item selection
-      Item.SelectionStartChar:=aStartPoint.CharOffset;
-      Item.SelectionEndChar:=aEndPoint.CharOffset;
-      Item.SelectionStart:=CalculateCharXPosition(Item, aStartPoint.CharOffset);
-      Item.SelectionEnd:=CalculateCharXPosition(Item, aEndPoint.CharOffset);
+      Item.SelectionStartChar:=StartPoint.CharOffset;
+      Item.SelectionEndChar:=EndPoint.CharOffset;
+      Item.SelectionStart:=CalculateCharXPosition(Item, StartPoint.CharOffset);
+      Item.SelectionEnd:=CalculateCharXPosition(Item, EndPoint.CharOffset);
       end
     else if I = StartIdx then
       begin
       // Start item
-      Item.SelectionStartChar:=aStartPoint.CharOffset;
+      Item.SelectionStartChar:=StartPoint.CharOffset;
       Item.SelectionEndChar:=UTF8Length(Item.Text);
-      Item.SelectionStart:=CalculateCharXPosition(Item, aStartPoint.CharOffset);
+      Item.SelectionStart:=CalculateCharXPosition(Item, StartPoint.CharOffset);
       Item.SelectionEnd:=Item.Width;
       end
     else if I = EndIdx then
       begin
       // End item
       Item.SelectionStartChar:=0;
-      Item.SelectionEndChar:=aEndPoint.CharOffset;
+      Item.SelectionEndChar:=EndPoint.CharOffset;
       Item.SelectionStart:=0;
-      Item.SelectionEnd:=CalculateCharXPosition(Item, aEndPoint.CharOffset);
+      Item.SelectionEnd:=CalculateCharXPosition(Item, EndPoint.CharOffset);
       end
     else
       begin
@@ -729,6 +747,7 @@ var
   OldBrushColor: TColor;
   OldBrushStyle: TBrushStyle;
   OldPenStyle: TPenStyle;
+  I: Integer;
 begin
   if not aItem.IsSelected then
     Exit;
@@ -745,6 +764,16 @@ begin
   SelectionRect.Top:=aItem.Y + aTopPosition;
   SelectionRect.Right:=aItem.X + aLeftPosition + aItem.SelectionEnd;
   SelectionRect.Bottom:=aItem.Y + aTopPosition + aItem.Height;
+
+  // right-to-left drags used to store Start/End reversed on single
+  // items (see ApplySelection): normalize before filling, otherwise
+  // FillRect got an empty/inverted rect and nothing was painted
+  if SelectionRect.Right<SelectionRect.Left then
+    begin
+    I:=SelectionRect.Left;
+    SelectionRect.Left:=SelectionRect.Right;
+    SelectionRect.Right:=I;
+    end;
 
   aCanvas.FillRect(SelectionRect);
 
@@ -848,6 +877,11 @@ begin
       begin
       ItemText:=UTF8Copy(Item.Text, Item.SelectionStartChar + 1,
                           Item.SelectionEndChar - Item.SelectionStartChar);
+      // guard: a reversed (RTL drag) or degenerate range must never
+      // reach UTF8Copy with a negative count (UTF8Copy tolerates it,
+      // but the result is garbage text, not an empty string)
+      if Item.SelectionEndChar < Item.SelectionStartChar then
+        ItemText:='';
       if Result<>'' then
         begin
         // Add spacing between items
