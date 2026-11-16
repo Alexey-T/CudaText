@@ -108,7 +108,7 @@ import json
 from cudatext import *
 from cudatext_keys import *
 from cudax_lib import get_translation
-from .utils import log_error
+from .utils import font_row_h, log_error, option_font_size
 
 _ = get_translation(__file__)  # i18n
 
@@ -792,6 +792,13 @@ class FavoritesForm:
         self._hover_btn = -1
         self._sb_w = 20         # scrollbar width, for the Path stretch
         self._scale = 1.0
+        #: (ui, edit) font-size overrides the window was BUILT with
+        #: (see _font_opts); show_favorites() compares them with the
+        #: current options and rebuilds the window on a change
+        self.font_opts = (None, None)
+        #: 'ui_font_size' the window was built with (int, 0 = unset);
+        #: _draw_text_cell paints the list text with it
+        self._ui_fs = 0
         #: norm-keys of the checked favorites (checkbox column)
         self.checked = set()
         #: colors for the owner-drawn rows (filled by _load_draw_theme)
@@ -831,6 +838,17 @@ class FavoritesForm:
         # and DLG_SCALE scales it once at the end (see _unscale_px)
         BH = _unscale_px(app_proc(PROC_GET_GUI_HEIGHT, 'button'), scale, 30)
         EH = _unscale_px(app_proc(PROC_GET_GUI_HEIGHT, 'edit'), scale, 28)
+        # the two font-size overrides of the plugin options (see
+        # utils.option_font_size): with a size set, every row that
+        # shows that font GROWS with it (font_row_h) - buttons and
+        # tabs from BH, the filter row and the edit heights from EH;
+        # None = the engine defaults. Stored for the list text
+        # (_draw_text_cell) and the rebuild check (show_favorites)
+        self.font_opts = _font_opts()
+        ui_fs, edit_fs = self.font_opts
+        self._ui_fs = ui_fs or 0
+        BH = font_row_h(BH, ui_fs)
+        EH = font_row_h(EH, edit_fs)
         # the buttons and tabs get extra vertical padding: the raw GUI
         # button height hugs the caption text too tightly (the text
         # almost touched the button's border)
@@ -1020,6 +1038,13 @@ class FavoritesForm:
         # CudaText build) - the filter field is optional
         except Exception:
             self._filter_ed = None
+        # 'edit_font_size' override: the engine default of dialog
+        # editor controls is the EDITOR font, oversized in this small
+        # field for big editor fonts - the exact case the option
+        # solves (the row height already grew with EH above)
+        if edit_fs:
+            dlg_proc(self.h, DLG_CTL_PROP_SET, name='f_filter',
+                     prop={'font_size': edit_fs})
 
         # the status label must be created BEFORE the list: the list's
         # bottom anchor references it by name.
@@ -1169,8 +1194,10 @@ class FavoritesForm:
         self.h_list = dlg_proc(self.h, DLG_CTL_HANDLE, name='list') or 0
         if self.h_list:
             listbox_proc(self.h_list, LISTBOX_SET_COLUMN_SEP, text=LIST_SEP)
+            # the row height grows with 'ui_font_size': the rows
+            # draw their text at that size (see _draw_text_cell)
             listbox_proc(self.h_list, LISTBOX_SET_ITEM_H,
-                         index=int(ITEM_H * scale))
+                         index=int(font_row_h(ITEM_H, ui_fs) * scale))
             listbox_proc(self.h_list, LISTBOX_SET_DRAWN, index=1)
 
         dlg_proc(self.h, DLG_SCALE)
@@ -1211,6 +1238,26 @@ class FavoritesForm:
         # repaint the owner-drawn rows with the new colors
         if self.h_list and self.rows:
             self.fill_list()
+        # 'ui_font_size' pass (also re-applied here after a theme
+        # change): the buttons, the tabs and the list. The list gets
+        # font_color TOGETHER with font_size: a listbox with a set
+        # font stops using its themed font (ThemedFont), so the
+        # header text color must come from the theme dict explicitly
+        if self.font_opts[0]:
+            for _b in ('btn_open', 'btn_add', 'btn_add_opened',
+                       'btn_checked', 'btn_up', 'btn_down', 'btn_del',
+                       'btn_close', 'tab0', 'tab1', 'tab2'):
+                try:
+                    dlg_proc(self.h, DLG_CTL_PROP_SET, name=_b,
+                             prop={'font_size': self.font_opts[0]})
+                except Exception:
+                    log_error('Favorites: cannot set a button font')
+            try:
+                dlg_proc(self.h, DLG_CTL_PROP_SET, name='list',
+                         prop={'font_size': self.font_opts[0],
+                               'font_color': self._theme['font']})
+            except Exception:
+                log_error('Favorites: cannot set the list font')
 
     def _load_draw_theme(self):
         """Colors for painting the list rows. The listbox_ex control
@@ -1640,7 +1687,8 @@ class FavoritesForm:
         with an ellipsis so they never bleed into the next column."""
         try:
             canvas_proc(cnv, CANVAS_SET_FONT, text='default',
-                        color=color, style=style)
+                        color=color, style=style,
+                        size=self._ui_fs or -1)
             tw, th = canvas_proc(cnv, CANVAS_GET_TEXT_SIZE, text=text)
             if tw > w - 8 and tw > 0 and len(text) > 1:
                 # proportional cut, then trim until it fits
@@ -2677,12 +2725,61 @@ def apply_theme_all():
         _form.apply_theme()
 
 
+def _font_opts():
+    """(ui, edit) font-size overrides from the plugin options file:
+    validated ints, or None for unset (the engine defaults). Read
+    fresh at every window build/show: the options dialog saves the
+    file on OK, so the next open always sees the current values."""
+    ui = edit = None
+    try:
+        path = os.path.join(app_path(APP_DIR_SETTINGS),
+                            'cuda_project_man.json')
+        with open(path, encoding='utf8') as f:
+            data = json.load(f)
+        if isinstance(data, dict):
+            ui = option_font_size(data.get('ui_font_size'))
+            edit = option_font_size(data.get('edit_font_size'))
+    except Exception:
+        # intentional silence: no options file yet / unreadable ->
+        # the engine defaults
+        pass
+    return ui, edit
+
+
+def _rebuild_form():
+    """Free the hidden form and build a fresh one (a font-size option
+    changed - every row/button height follows them). Only ever called
+    from show_favorites(), never from a dialog callback or a timer -
+    i.e. from the very context the form was first created in, so no
+    callback can arrive for the freed dialog (that crash pattern is
+    the reason close() only hides the form)."""
+    global _form
+    old = _form
+    _form = None
+    if old is not None and old.h:
+        try:
+            old.save_ui_state()
+        except Exception:
+            log_error('Favorites: cannot save the window state '
+                      'on rebuild')
+        try:
+            dlg_proc(old.h, DLG_FREE)
+        except Exception:
+            log_error('Favorites: cannot free the old window')
+    _form = FavoritesForm(get_core())
+
+
 def show_favorites():
     """Open (or focus) the Favorites window. The one-way import from
     cuda_favorites.json runs on every open (the external file may have
-    changed while the window was closed)."""
+    changed while the window was closed). A changed font-size option
+    rebuilds the window first: the hidden form is reused only while
+    the options stay the same, because every row height was computed
+    from the fonts at build time."""
     global _form
     refresh_core()
+    if _form is not None and _form.h and _form.font_opts != _font_opts():
+        _rebuild_form()
     if _form is None or not _form.h:
         _form = FavoritesForm(get_core())
     else:

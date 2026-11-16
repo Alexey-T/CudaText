@@ -1,3 +1,24 @@
+2026.11.16 (@badrelmers)
+- Two new options: "UI font size" and "Edit font size" (whole
+  points, 5..40; empty = the CudaText defaults - with empty options
+  everything looks exactly as before). "Edit font size" applies to
+  every field where you type: the tree filter, the Favorites filter,
+  the edit rows and the recent/variables editors of the options and
+  Project-properties dialogs - and the one-line boxes GROW with the
+  font. "UI font size" applies to the tree and the buttons of the
+  panel, and to the buttons, tabs and list (row heights included) of
+  the Favorites window. The panel re-applies both immediately after
+  the options dialog OK; the Favorites window rebuilds on its next
+  open when the options changed.
+- Follow-up: the dropdown boxes of the options dialog follow "UI font
+  size" too (the sort order, the file-type icons, the toolbar icons):
+  they are 'editor_combo' controls - TATComboEdit is an editor
+  subclass - so the dialog font prop works on them, and their rows
+  grow with the size. The buttons keep the engine's themed font:
+  button_ex cannot take a per-control font size at all (TATButton
+  paints its caption from the global ATFlatTheme on every repaint,
+  and button_proc() has no font action).
+
 2026.11.15 (@badrelmers)
 - FIX (issue #6632): new "auto" value of the "Toolbar icons" option
   (the new default): the default icons follow the UI theme - the

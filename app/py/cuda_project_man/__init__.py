@@ -16,7 +16,7 @@ from .projman_glob import *
 from .projman_backup import ProjectFileBackups, DEFAULT_BACKUP_COUNT, DEFAULT_BACKUP_FOLDER
 from .projman_trash import (send_to_trash, trash_label,
                              trash_supported, delete_permanently)
-from .utils import log_error
+from .utils import font_row_h, log_error, option_font_size
 
 from cudatext import *
 from cudatext_keys import *
@@ -997,6 +997,14 @@ class Command:
         "backup_folder": DEFAULT_BACKUP_FOLDER,
         "backup_count": DEFAULT_BACKUP_COUNT,
         "projects_dir": "",
+        # optional font-size overrides (whole points, 5..40; empty =
+        # the engine defaults): 'ui_font_size' - the buttons and the
+        # tree/list of the panel and the Favorites window;
+        # 'edit_font_size' - every field where the user types (the
+        # two filter fields, the edit rows of the options and
+        # Project-properties dialogs). See utils.option_font_size.
+        "ui_font_size": "",
+        "edit_font_size": "",
     }
     # Default options used as the base when loading from disk: any key
     # missing from the loaded file is filled in from here, so settings
@@ -1310,6 +1318,16 @@ class Command:
         # any prop. The text is read/written through the Editor object
         # (the dialog 'val' prop does not serve editor controls).
         EH = app_proc(PROC_GET_GUI_HEIGHT, 'edit') or 28
+        # the two optional font-size overrides: 'edit_font_size' for
+        # the filter field (its row GROWS with the font - lbl_fstat is
+        # anchored below the field, the tree below lbl_fstat, so the
+        # whole panel follows), 'ui_font_size' for the tree and the x
+        # button. None = the engine default fonts, the behavior of
+        # the versions before these options existed
+        edit_fs = option_font_size(self.options.get('edit_font_size'))
+        ui_fs = option_font_size(self.options.get('ui_font_size'))
+        EH = font_row_h(EH, edit_fs,
+                        app_proc(PROC_GET_SYSTEM_PPI, '') or 96)
         #---- cancel (x) button at the right of the filter field ----
         # Created BEFORE the edit: the edit's right edge is anchored to
         # this button's left edge. Clicking it cancels a RUNNING search
@@ -1358,6 +1376,9 @@ class Command:
             'hint': _('Cancel the running search\r(or clear the filter when no search is running)'),
             'on_change': self.panel_filter_cancel_click,
         })
+        if ui_fs:
+            dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, name='btn_fcancel',
+                     prop={'font_size': ui_fs})
         n = dlg_proc(self.h_dlg, DLG_CTL_ADD, prop='editor_edit')
         # stored for _filter_edit_focused(): the form's 'focused' prop
         # is a control index, like this n
@@ -1385,6 +1406,13 @@ class Command:
         # CudaText build) - the filter field is optional
         except Exception:
             self.filter_ed = None
+        # 'edit_font_size' override: the engine default of dialog
+        # editor controls is the EDITOR font (EditorOps.OpFontSize) -
+        # oversized in the small one-line box for people who edit at
+        # 15-16 px, which is exactly the case the option solves
+        if edit_fs:
+            dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, name='f_filter',
+                     prop={'font_size': edit_fs})
         # 'f_filter' exists now: glue the cancel button's top and bottom
         # edges to the edit's ones (0 spacing) - the button always keeps
         # the same height as the filter field, at any DPI / GUI height
@@ -1442,6 +1470,13 @@ class Command:
         self.tree_imglist = tree_proc(self.tree, TREE_GET_IMAGELIST)
         tree_proc(self.tree, TREE_PROP_SHOW_ROOT, text='0')
         tree_proc(self.tree, TREE_ITEM_DELETE, 0)
+        # 'ui_font_size' for the tree; the item heights follow the
+        # font. Must ALSO be re-applied by apply_panel_theme(): the
+        # engine's theming pass RESETS the treeview font
+        # (ApplyThemeToTreeview in proc_miscutils.pas)
+        if ui_fs:
+            dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, name='tree',
+                     prop={'font_size': ui_fs})
 
         self.icon_init()
         self._tree_icon_constants()
@@ -1479,6 +1514,20 @@ class Command:
         except Exception:
             log_error('Project Manager: cannot apply the UI theme '
                       'to the panel dialog')
+        # re-apply the font overrides AFTER the engine's theming pass
+        # (it resets the treeview font, which would wipe the tree's
+        # set font on every theme change)
+        try:
+            ui_fs = option_font_size(self.options.get('ui_font_size'))
+            if ui_fs:
+                dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, name='tree',
+                         prop={'font_size': ui_fs})
+                dlg_proc(self.h_dlg, DLG_CTL_PROP_SET,
+                         name='btn_fcancel',
+                         prop={'font_size': ui_fs})
+        except Exception:
+            log_error('Project Manager: cannot re-apply '
+                      'the panel fonts')
 
 
     def init_panel(self, and_activate=True):
@@ -3797,6 +3846,58 @@ class Command:
 
     #------------- type-ahead (incremental search in the tree)
 
+    def apply_panel_fonts(self):
+        """(re)apply the two font-size options to the BUILT panel:
+        'edit_font_size' to the filter field (the row grows with the
+        font - lbl_fstat is anchored below the field and the tree
+        below lbl_fstat, so the whole panel reflows), 'ui_font_size'
+        to the tree and the x button. Called after the options dialog
+        OK, so a change applies without a restart.
+
+        A cleared 'edit_font_size' restores the engine default
+        exactly: the font of the current editor (the engine assigns
+        EditorOps.OpFontSize to dialog editor controls, and
+        ed.get_prop(PROP_FONT) reports that same value). For the tree
+        and the x button a cleared option cannot restore the previous
+        font - CudaText has no API to read the UI font of a themed
+        treeview - so their font stays as it was until the next
+        start."""
+        if not self.h_dlg:
+            return
+        try:
+            edit_fs = option_font_size(self.options.get('edit_font_size'))
+            h = font_row_h(app_proc(PROC_GET_GUI_HEIGHT, 'edit') or 28,
+                           edit_fs,
+                           app_proc(PROC_GET_SYSTEM_PPI, '') or 96)
+            prop = {'h': h}
+            if edit_fs:
+                prop['font_size'] = edit_fs
+            else:
+                # cleared: back to the engine default = the current
+                # editor's font; unreadable -> only the height resets
+                try:
+                    prop['font_size'] = int(ed.get_prop(PROP_FONT)[1])
+                except Exception:
+                    # intentional silence: no readable editor font -
+                    # keep the field's current font
+                    pass
+            dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, name='f_filter',
+                     prop=prop)
+            # the x button keeps the field's height via its anchors;
+            # its cached WIDTH is the same value (a square button)
+            self._filter_cancel_w = h
+            self._filter_cancel_btn_update()
+            ui_fs = option_font_size(self.options.get('ui_font_size'))
+            if ui_fs:
+                dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, name='tree',
+                         prop={'font_size': ui_fs})
+                dlg_proc(self.h_dlg, DLG_CTL_PROP_SET,
+                         name='btn_fcancel',
+                         prop={'font_size': ui_fs})
+        except Exception:
+            log_error('Project Manager: cannot apply '
+                      'the panel font options')
+
     def _filter_edit_focused(self):
         """True while the user types in the panel's filter field (those
         keystrokes belong to the filter, not to the type-ahead)."""
@@ -5562,6 +5663,10 @@ class Command:
             self.save_options()
 
             if self.h_dlg:
+                # the two font-size options apply immediately; the
+                # filter row grows/shrinks and everything below it
+                # follows via the anchors
+                self.apply_panel_fonts()
                 dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, name='bar', prop={
                     'vis': self.options.get('toolbar', True)
                     })
@@ -5632,7 +5737,9 @@ class Command:
             return
 
         from .projman_dlg import dialog_proj_prop
-        if dialog_proj_prop(self.project):
+        if dialog_proj_prop(
+                self.project,
+                option_font_size(self.options.get('edit_font_size'))):
             self.update_global_data()
             if self.project_file_path:
                 self.action_save_project_as(self.project_file_path)

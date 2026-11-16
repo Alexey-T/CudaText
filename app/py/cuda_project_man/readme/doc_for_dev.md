@@ -607,6 +607,30 @@ successful save).
   depends on the theme.
 
 ---
+- The optional font-size options ('ui_font_size',
+  'edit_font_size', empty = the engine defaults, the pre-option
+  behavior): 'edit_font_size' covers every TYPING field - the panel
+  filter, the Favorites filter, the edit rows of the options dialog,
+  the recent/vars editors (dialog editor controls otherwise get the
+  EDITOR font, DoControl_ApplyEditorProps - oversized for people
+  editing at 15-16 px), and the one-line boxes grow with the font
+  (utils.font_row_h). 'ui_font_size' covers the panel tree and x
+  button and the Favorites buttons/tabs/list (row heights included).
+  The tree font is RE-applied in apply_panel_theme():
+  ApplyThemeToTreeview resets the treeview font on every theme pass.
+  The Favorites window is rebuilt by show_favorites() when the
+  options changed - the hidden form is reused only while they stay
+  the same, because every row height was computed from the fonts at
+  build time.
+  The options-dialog dropdowns are 'editor_combo' controls
+  (TATComboEdit - a TATSynEdit subclass): the dialog 'font_size' prop
+  works on them directly, so they follow 'ui_font_size' and their
+  rows grow with it. The buttons CANNOT follow the option:
+  'button_ex' (TATButton) paints its caption from the global
+  ATFlatTheme on every repaint (atbuttons.pas PaintTo), and
+  button_proc() has no font action - no API exists to change one
+  button's font size.
+
 ## 13. Drag & drop
 
 Three directions exist; each uses a different mechanism. (A fourth one,
