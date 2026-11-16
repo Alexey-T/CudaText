@@ -776,16 +776,26 @@ begin
     // the text of the row starts at this item?
     if aX<Item.X then
       Continue;
-    // item hit exactly, or the first item of the row extending the
-    // click to the whole row line (fixes Lazarus work item 42734:
-    // clicking after the text end must give the row end, not -1)
-    if (aX<=Item.X+Item.Width) or (BestItem=nil) then
+    // item hit exactly, or the click/drag is beyond the text end of the
+    // row: the whole row line is the target (fixes Lazarus work items
+    // 42734: clicking after the text end must give the row end, not -1,
+    // and selecting past the end must keep the LAST word selected).
+    // When the position is past the item's right edge we do NOT stop
+    // scanning: later items of the SAME row may follow (a row with two
+    // words is two items). Keep updating the fallback so the LAST item
+    // of the row wins; freezing on the first one deselected the last
+    // word of the row while dragging past the line end.
+    if (aX<=Item.X+Item.Width) then
+      begin
+      BestItem:=Item;
+      Result.LayoutItemIndex:=I;
+      Break;
+      end
+    else
       begin
       BestItem:=Item;
       Result.LayoutItemIndex:=I;
       end;
-    if (aX<=Item.X+Item.Width) then
-      Break;
     end;
 
   if BestItem=nil then
