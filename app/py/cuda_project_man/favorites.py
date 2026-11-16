@@ -108,6 +108,7 @@ import json
 from cudatext import *
 from cudatext_keys import *
 from cudax_lib import get_translation
+from .projman_log import log_error
 
 _ = get_translation(__file__)  # i18n
 
@@ -244,6 +245,8 @@ def _ui_scale():
     try:
         val = app_proc(PROC_CONFIG_SCALE_GET, '')
         return max(1.0, int(val[0]) / 100.0)
+    # intentional silence: old CudaText builds without this API -
+    # unscaled layout
     except Exception:
         return 1.0
 
@@ -258,6 +261,8 @@ def get_theme_ui_colors():
     engine itself."""
     try:
         d = app_proc(PROC_THEME_UI_DICT_GET, '')
+    # intentional silence: old CudaText builds without the theme-dict
+    # API - the default (untinted) colors are used
     except Exception:
         d = None
 
@@ -266,6 +271,8 @@ def get_theme_ui_colors():
             v = d.get(key)
             if isinstance(v, dict) and v.get('color') is not None:
                 return int(v['color'])
+        # intentional silence: a theme without the key / with a bad
+        # color value - the documented fallback color is the point
         except Exception:
             pass
         return None
@@ -285,6 +292,8 @@ def _theme_dict():
     """Raw UI-theme dict (or None)."""
     try:
         return app_proc(PROC_THEME_UI_DICT_GET, '')
+    # intentional silence: old CudaText builds without the theme-dict
+    # API - the callers use their fallback colors
     except Exception:
         return None
 
@@ -296,6 +305,8 @@ def _theme_color(d, key, fallback):
         v = d.get(key)
         if isinstance(v, dict) and v.get('color') is not None:
             return int(v['color'])
+    # intentional silence: a theme without the key / with a bad color
+    # value - the documented fallback color is the point here
     except Exception:
         pass
     return fallback
@@ -359,10 +370,14 @@ def _base_name(path):
 
 
 def _read_json(filename):
+    """Parsed JSON of the file, or None when it is missing/unreadable.
+    A CORRUPT file raises ValueError: the caller must decide how to
+    keep the user's data instead of silently starting empty."""
     try:
         with open(filename, encoding='utf8') as fin:
             return json.load(fin)
-    except Exception:
+    # intentional silence: missing/unreadable file - nothing to read
+    except OSError:
         return None
 
 
@@ -381,6 +396,8 @@ def get_current_project():
     try:
         import cuda_project_man
         return cuda_project_man.global_project_info.get('filename', '') or ''
+    # intentional silence: Project Manager not loaded (standalone use
+    # of the Favorites module) - no current project then
     except Exception:
         return ''
 
@@ -534,7 +551,23 @@ class FavoritesCore:
         """Read our file, then import new entries from cuda_favorites.json
         (one-way: imported here, never exported back). Returns the
         number of imported entries."""
-        own = _read_json(self.path_own)
+        try:
+            own = _read_json(self.path_own)
+        except ValueError:
+            # corrupt json: rename it so the next save never overwrites
+            # the user's data with an empty list, then start clean
+            try:
+                os.rename(self.path_own, self.path_own + '.corrupt')
+                log_error('Favorites: data file is corrupt - it is kept '
+                          'as ' + self.path_own + '.corrupt, starting empty')
+            except OSError:
+                # even the rename failed: stay loaded but never save
+                # over the broken file
+                self.read_only = True
+                log_error('Favorites: data file is corrupt and cannot be '
+                          'renamed - not saving over it, fix it manually: '
+                          + self.path_own)
+            own = None
         self.data = {cat: [] for cat in CATS}
         if isinstance(own, dict):
             for cat in CATS:
@@ -551,7 +584,12 @@ class FavoritesCore:
         self._normalize()
 
         imported = 0
-        ext = _read_json(self.path_ext)
+        try:
+            ext = _read_json(self.path_ext)
+        # intentional silence: the foreign plugin's file is corrupt -
+        # the one-way import is just skipped then
+        except ValueError:
+            ext = None
         if isinstance(ext, dict):
             for p in ext.get('fv_projs') or []:
                 if isinstance(p, str) and p and not self._is_deleted(p):
@@ -570,10 +608,16 @@ class FavoritesCore:
         """Write our own json - and nothing else: the sync with
         cuda_favorites.json is one-way (import-only), that file is
         never written here."""
+        if getattr(self, 'read_only', False):
+            # the data file was corrupt and could not be renamed away:
+            # never save an empty list over the user's data
+            msg_status(_('Favorites: not saving - the data file is '
+                         'corrupt, fix it first: ') + self.path_own)
+            return False
         out = {cat: self.data[cat] for cat in CATS}
         out['_ui'] = self.ui
         out['_deleted'] = self.deleted
-        _write_json(self.path_own, out)
+        return _write_json(self.path_own, out)
 
     #------------- data operations
 
@@ -700,8 +744,8 @@ def init_on_start():
     broken or missing data file must not break the Project Manager."""
     try:
         get_core().load()
-    except Exception as ex:
-        print('Favorites: startup load failed: ' + str(ex))
+    except Exception:
+        log_error('Favorites: startup load failed')
 
 
 def refresh_core():
@@ -763,11 +807,9 @@ class FavoritesForm:
         self.cols = [CHECK_W, STAR_W, NAME_W, 400, STATE_W]
 
     def _ui_get(self, key, default):
-        try:
-            val = self.core.ui.get(key, default)
-            return default if val is None else val
-        except Exception:
-            return default
+        # plain dict access, cannot fail - no error handling wanted
+        val = self.core.ui.get(key, default)
+        return default if val is None else val
 
     def cat(self):
         return CATS[self.tab] if 0 <= self.tab < len(CATS) else 'files'
@@ -817,6 +859,8 @@ class FavoritesForm:
         ]
         try:
             self._sb_w = int(app_proc(PROC_GET_GUI_HEIGHT, 'scrollbar') or 20) or 20
+        # intentional silence: old CudaText builds - the constant
+        # scrollbar width
         except Exception:
             self._sb_w = 20
 
@@ -972,6 +1016,8 @@ class FavoritesForm:
         try:
             self._filter_ed = Editor(
                 dlg_proc(self.h, DLG_CTL_HANDLE, index=n) or 0)
+        # intentional silence: the control was not created (an old
+        # CudaText build) - the filter field is optional
         except Exception:
             self._filter_ed = None
 
@@ -1156,7 +1202,8 @@ class FavoritesForm:
                 dlg_proc(self.h, DLG_CTL_PROP_SET, name='lbl_status',
                          prop={'font_color': colors['label_font']})
         except Exception:
-            pass
+            log_error('Favorites: cannot apply the UI theme '
+                      'to the window')
         # re-color the tab strip from the new theme (the active tab's
         # face, the dimming of the inactive ones) - the theme can be
         # switched while the window is open
@@ -1201,7 +1248,7 @@ class FavoritesForm:
         try:
             dlg_proc(self.h, DLG_CTL_FOCUS, name='f_filter')
         except Exception:
-            pass
+            log_error('Favorites: cannot focus the filter field')
 
     def close(self, id_dlg=0, id_ctl=0, data=''):
         if not self.h or self._closing:
@@ -1267,6 +1314,8 @@ class FavoritesForm:
             props = dlg_proc(self.h, DLG_CTL_PROP_GET, name='btn_open') or {}
             right = int(props.get('x', 0) or 0) - left
         except Exception:
+            log_error('Favorites: cannot measure the tab strip '
+                      'for the layout')
             right = 0
         if right <= left + 3 * 46:
             return   # button column not placed yet / window too narrow:
@@ -1279,7 +1328,7 @@ class FavoritesForm:
                 dlg_proc(self.h, DLG_CTL_PROP_SET, name=name,
                          prop={'w': tab_w})
             except Exception:
-                pass
+                log_error('Favorites: cannot set the tab widths')
 
     def _live_list_w(self):
         """Live width of the list control ('w' is a live prop), or 0."""
@@ -1287,6 +1336,7 @@ class FavoritesForm:
             props = dlg_proc(self.h, DLG_CTL_PROP_GET, name='list') or {}
             return int(props.get('w', 0) or 0)
         except Exception:
+            log_error('Favorites: cannot read the list width')
             return 0
 
     def _live_list_h(self):
@@ -1295,6 +1345,7 @@ class FavoritesForm:
             props = dlg_proc(self.h, DLG_CTL_PROP_GET, name='list') or {}
             return int(props.get('h', 0) or 0)
         except Exception:
+            log_error('Favorites: cannot read the list height')
             return 0
 
     def _live_cols(self):
@@ -1330,7 +1381,9 @@ class FavoritesForm:
             v = int(listbox_proc(self.h_list, LISTBOX_GET_ITEM_H))
             if v > 0:
                 return v
-        except Exception:
+        # intentional silence: API returned nothing usable (old build,
+        # empty list) - the default row height below takes over
+        except (TypeError, ValueError):
             pass
         return int(ITEM_H * self._scale)
 
@@ -1353,7 +1406,8 @@ class FavoritesForm:
             return -1
         try:
             top = int(listbox_proc(self.h_list, LISTBOX_GET_TOP))
-        except Exception:
+        # intentional silence: no usable value (old build) - row 0
+        except (TypeError, ValueError):
             top = 0
         idx = top + (y - ih) // ih
         if 0 <= idx < len(self.rows):
@@ -1391,7 +1445,7 @@ class FavoritesForm:
             listbox_proc(self.h_list, LISTBOX_SET_HEADER,
                          text=self._header_text())
         except Exception:
-            pass
+            log_error('Favorites: cannot set up the list columns')
 
     def _repaint_list(self):
         """Best-effort repaint of the owner-drawn rows (without
@@ -1410,7 +1464,7 @@ class FavoritesForm:
                     listbox_proc(self.h_list, LISTBOX_SET_TOP, index=1)
                     listbox_proc(self.h_list, LISTBOX_SET_TOP, index=0)
         except Exception:
-            pass
+            log_error('Favorites: cannot scroll the list')
 
     def fill_list(self, keep_selection=True):
         if not self.h or not self.h_list:
@@ -1437,7 +1491,7 @@ class FavoritesForm:
                 listbox_proc(self.h_list, LISTBOX_ADD, index=-1,
                              text=LIST_SEP.join((r['name'], r['path'])))
         except Exception:
-            pass
+            log_error('Favorites: cannot refill the list')
         self._apply_columns()
 
         # restore selection
@@ -1454,7 +1508,7 @@ class FavoritesForm:
             try:
                 listbox_proc(self.h_list, LISTBOX_SET_SEL, index=sel)
             except Exception:
-                pass
+                log_error('Favorites: cannot select the row')
 
         self._update_tabs()
         self.update_status()
@@ -1515,6 +1569,8 @@ class FavoritesForm:
                          prop={'color': col,
                                'font_color': fnt,
                                'ex3': brd})
+            # intentional silence: the 'ex3' border prop is missing in
+            # older CudaText builds - a plain tab look is fine there
             except Exception:
                 pass
 
@@ -1549,7 +1605,7 @@ class FavoritesForm:
                 'cap': '   ·   '.join(parts),
             })
         except Exception:
-            pass
+            log_error('Favorites: cannot update the status line')
 
         # enable/disable the buttons which need a selected row
         has_sel = self.selected_row() is not None
@@ -1557,14 +1613,16 @@ class FavoritesForm:
             try:
                 dlg_proc(self.h, DLG_CTL_PROP_SET, name=name, prop={'en': has_sel})
             except Exception:
-                pass
+                log_error('Favorites: cannot update the buttons')
 
     #------------- selection helpers
 
     def _sel_index(self):
         try:
             return int(listbox_proc(self.h_list, LISTBOX_GET_SEL))
-        except Exception:
+        # intentional silence: no selection (the API gives no int
+        # then) - 'none selected'
+        except (TypeError, ValueError):
             return -1
 
     def selected_row(self):
@@ -1596,7 +1654,7 @@ class FavoritesForm:
             tx = x + (w - tw) // 2 if centered else x + 4
             canvas_proc(cnv, CANVAS_TEXT, text=text, x=tx, y=ty)
         except Exception:
-            pass
+            log_error('Favorites: cannot draw a list cell')
 
     def list_on_draw_item(self, id_dlg, id_ctl, data='', info=''):
         """Paint one list row from the theme colors: row background
@@ -1614,7 +1672,9 @@ class FavoritesForm:
             index = int(index)
             x0, y0, x1, y1 = (int(rect[0]), int(rect[1]),
                               int(rect[2]), int(rect[3]))
-        except Exception:
+        # intentional silence: malformed paint-event data - nothing
+        # to draw
+        except (TypeError, ValueError, IndexError):
             return
         if not (0 <= index < len(self.rows)):
             return
@@ -1636,6 +1696,7 @@ class FavoritesForm:
             canvas_proc(cnv, CANVAS_SET_BRUSH, color=bg, style=BRUSH_SOLID)
             canvas_proc(cnv, CANVAS_RECT_FILL, x=x0, y=y0, x2=x1, y2=y1)
         except Exception:
+            log_error('Favorites: cannot draw the row background')
             return
 
         bounds = self._col_bounds()
@@ -1663,7 +1724,7 @@ class FavoritesForm:
                                 x=cx + sz // 2, y=cy + sz - m,
                                 x2=cx + sz - m, y2=cy + m)
             except Exception:
-                pass
+                log_error('Favorites: cannot draw the checkbox')
 
         # star glyph (col 1) - the UTF-8 glyphs, no image files
         self._draw_text_cell(cnv, bounds[COL_STAR][0], y0,
@@ -1687,7 +1748,7 @@ class FavoritesForm:
             canvas_proc(cnv, CANVAS_RECT_FILL, x=bounds[COL_PATH][0], y=y0,
                         x2=bounds[COL_PATH][1], y2=y1)
         except Exception:
-            pass
+            log_error('Favorites: cannot draw the path cell')
         path_col = fg
         if not selected and th.get('path') is not None:
             path_col = th['path']
@@ -1703,7 +1764,7 @@ class FavoritesForm:
             canvas_proc(cnv, CANVAS_RECT_FILL, x=bounds[COL_STATE][0], y=y0,
                         x2=x1, y2=y1)
         except Exception:
-            pass
+            log_error('Favorites: cannot draw the state cell')
         if row['dead']:
             self._draw_text_cell(cnv, bounds[COL_STATE][0], y0,
                                  self.cols[COL_STATE], row_h,
@@ -1723,7 +1784,7 @@ class FavoritesForm:
                     canvas_proc(cnv, CANVAS_LINE,
                                 x=lx, y=y0, x2=lx, y2=y1 - 1)
         except Exception:
-            pass
+            log_error('Favorites: cannot draw the column lines')
 
     #------------- events: filter, tabs, selection
 
@@ -1733,6 +1794,9 @@ class FavoritesForm:
         try:
             self.filter = (self._filter_ed.get_text_all()
                            if self._filter_ed else '')
+        # intentional silence: hot path (every keystroke) with a
+        # documented '' contract - the editor is dead only while the
+        # dialog is closing
         except Exception:
             self.filter = ''
         self.fill_list(keep_selection=False)
@@ -1907,6 +1971,8 @@ class FavoritesForm:
         try:
             dlg_proc(self.h, DLG_CTL_PROP_SET, name='list',
                      prop={'cursor': CURSOR_HSPLIT if hsplit else 0})
+        # intentional silence: the 'cursor' prop is missing in older
+        # builds - the normal cursor
         except Exception:
             pass
 
@@ -2026,7 +2092,7 @@ class FavoritesForm:
                 try:
                     listbox_proc(self.h_list, LISTBOX_SET_SEL, index=idx)
                 except Exception:
-                    pass
+                    log_error('Favorites: cannot select the row')
 
         row = None if on_header else self.selected_row()
         nchecked = sum(1 for r in self.rows if r['checked'])
@@ -2144,6 +2210,8 @@ class FavoritesForm:
                     try:
                         if self._filter_ed:
                             self._filter_ed.set_text_all('')
+                    # intentional silence: the dialog is already
+                    # closing - nothing to clear
                     except Exception:
                         pass
                     self.filter = ''
@@ -2169,7 +2237,7 @@ class FavoritesForm:
             try:
                 dlg_proc(self.h, DLG_FOCUS)
             except Exception:
-                pass
+                log_error('Favorites: cannot focus the window')
 
     #------------- actions (on the selected row)
 
@@ -2205,8 +2273,8 @@ class FavoritesForm:
             p = paths.pop(0)
             try:
                 open_item(p)
-            except Exception as ex:
-                print('Favorites: cannot open favorite: ' + str(ex))
+            except Exception:
+                log_error('Favorites: cannot open favorite: ' + str(p))
             # chain the next one (or the final focus-restore)
             timer_proc(TIMER_START_ONE, open_next, OPEN_DELAY_MS)
 
@@ -2293,8 +2361,9 @@ class FavoritesForm:
         def do_reveal(tag=None):
             try:
                 reveal_in_file_manager(path)
-            except Exception as ex:
-                print('Favorites: cannot reveal in file manager: ' + str(ex))
+            except Exception:
+                log_error('Favorites: cannot reveal in file manager: '
+                          + str(path))
 
         # deferred, like opening (see _open_paths)
         timer_proc(TIMER_START_ONE, do_reveal, OPEN_DELAY_MS)

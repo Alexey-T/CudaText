@@ -4,6 +4,7 @@ from cudatext_keys import *
 from cudax_lib import get_translation
 from .projman_glob import *
 from .projman_backup import DEFAULT_BACKUP_COUNT, DEFAULT_BACKUP_FOLDER
+from .projman_log import log_error
 from .favorites import (get_theme_ui_colors, _theme_color, _theme_dict,
                         _unscale_px, _ui_scale, BTN_PAD)
 
@@ -86,6 +87,8 @@ def _monitor_client_h(scale):
         if avail_px <= 200:
             return None
         return int(avail_px / scale)
+    # intentional silence: old CudaText builds / an unusable monitor
+    # API - the caller keeps the default dialog size
     except Exception:
         return None
 
@@ -231,6 +234,8 @@ def dialog_config(op):
         None keeps the option out of 'eds' and its value unchanged)."""
         try:
             return Editor(dlg_proc(h, DLG_CTL_HANDLE, index=index) or 0)
+        # intentional silence: the control was not created (an old
+        # CudaText build) - the option keeps its value
         except Exception:
             return None
 
@@ -240,6 +245,8 @@ def dialog_config(op):
         for nm, ed in eds.items():
             try:
                 state[nm] = ed.get_text_all()
+            # intentional silence: the dialog is already closing - keep
+            # '' for this field
             except Exception:
                 state[nm] = ''
         for nm in checks:
@@ -247,6 +254,8 @@ def dialog_config(op):
         for nm, (ed, items) in combos.items():
             try:
                 t = ed.get_text_all()
+            # intentional silence: the dialog is already closing - keep
+            # '' for this combo
             except Exception:
                 t = ''
             state[nm] = str(items.index(t)) if t in items else '-1'
@@ -276,7 +285,8 @@ def dialog_config(op):
             dlg_proc(h, DLG_CTL_PROP_SET, name='chki_' + nm,
                      prop={'cap': CHECK_GLYPH if checks[nm] else ''})
         except Exception:
-            pass
+            log_error('Project Manager: cannot update '
+                      'the options checkbox glyph')
 
     fprop = {
         'cap': _('Project Manager options'),
@@ -494,7 +504,8 @@ def dialog_config(op):
                 try:
                     ed.set_text_all(str(val))
                 except Exception:
-                    pass
+                    log_error('Project Manager: cannot set the initial '
+                              'value of an options field')
         y[0] += 28
 
     def row_combo(lab_cap, name, items, index):
@@ -526,7 +537,8 @@ def dialog_config(op):
                     ed.set_prop(PROP_RO, True)
                     combos[name] = (ed, items)
                 except Exception:
-                    pass
+                    log_error('Project Manager: cannot fill '
+                              'an options combo')
         y[0] += 28
 
     #--------- the layout
@@ -551,7 +563,8 @@ def dialog_config(op):
                 ed.set_prop(PROP_GUTTER_ALL, False)
                 ed.set_text_all('\n'.join(op.get('recent_projects', []) or []))
             except Exception:
-                pass
+                log_error('Project Manager: cannot fill '
+                          'the recent-projects list')
     y[0] += RECENT_H + 5
 
     sep()
@@ -652,7 +665,7 @@ def dialog_config(op):
             dlg_proc(id_dlg, DLG_CTL_PROP_SET, name='btn_cancel',
                      prop={'y': y_b})
         except Exception:
-            pass
+            log_error('Project Manager: cannot resize the options dialog')
 
     dlg_proc(h, DLG_PROP_SET, prop={'h': H, 'on_resize': on_form_resize})
     dlg_proc(h, DLG_CTL_PROP_SET, name='scr', prop={'h': scr_h})
@@ -744,6 +757,7 @@ def dialog_proj_prop(prop):
         # read the memo text while the dialog is definitely alive
         try:
             state['vars'] = ed_vars.get_text_all()
+        # intentional silence: the dialog is already closing - keep ''
         except Exception:
             state['vars'] = ''
         dlg_proc(h, DLG_HIDE)
@@ -800,6 +814,7 @@ def dialog_proj_prop(prop):
             ed_vars.set_prop(PROP_GUTTER_ALL, False)
             ed_vars.set_text_all('\n'.join(list_vars))
         except Exception:
+            log_error('Project Manager: cannot set up the vars editor')
             ed_vars = None
 
     label('lab_main', _('&Main file (read-only, change in context menu)'),
@@ -817,7 +832,7 @@ def dialog_proj_prop(prop):
             ed.set_text_all(main_file)
             ed.set_prop(PROP_RO, True)
         except Exception:
-            pass
+            log_error('Project Manager: cannot show the main file field')
 
     # flat themed buttons, bottom-right (button_ex draws its caption
     # itself, so no '&' accelerators)

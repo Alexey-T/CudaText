@@ -988,3 +988,38 @@ result.
   (behind every `toolbar_proc(TOOLBAR_UPDATE)`) recomputes icon-only
   widths, so `toolbar_apply_icon_spacing()` must run after every
   toolbar update: at panel init and after every `toolbar_icons_load()`.
+
+## 17. Error handling policy
+
+An exception is never swallowed silently - a crash must be visible so
+it can be fixed. Every `except` handler in the plugin is one of these
+forms (the AST-based policy test scripts/test_projman_errors.py checks
+the rules on every run):
+
+- NARROW: it catches only the expected error type (OSError,
+  ValueError, TypeError, ImportError, ...) and falls back on purpose -
+  the type documents what is expected (an unreadable folder during a
+  scan, a drag payload without coordinates, ...).
+- REPORT: it calls `log_error()` from projman_log.py - full traceback
+  to the console, one-line hint to the status bar - where raising
+  would be worse than the bug itself (paint callbacks, the background
+  filter thread, per-keystroke refreshes).
+- ESCAPE: no handler at all (or a re-raise): CudaText catches uncaught
+  plugin errors and shows them in a box with the traceback - the most
+  visible option, used wherever nothing speaks against it.
+- SILENT ON PURPOSE: an `# intentional silence:` comment with the
+  reason sits on the handler (greppable). The intentional silences
+  are: old-CudaText API compat (the theme dict, UI scale, monitor
+  size, the 'ex3'/'cursor' props, editor_edit controls,
+  APPSTATE_THEME_UI), optional modules/plugins (ctypes, cudax_lib,
+  the send2trash probing, Find in Files), routine per-entry scanning
+  (permission errors are normal), best-effort cleanup (temp files,
+  .trashinfo), the documented hot-path contracts of the filter field,
+  and the dialog-closing races when the options are read back.
+
+The same principle protects user data in the Favorites: a CORRUPT
+favorites.json raises ValueError from `_read_json`, `load()` renames
+the file to `.corrupt` (and starts empty) - when even the rename
+fails, the core goes read-only and `save()` refuses, so an empty list
+is never written over the user's data. A merely MISSING file returns
+None and stays silent (a fresh install is not an error).

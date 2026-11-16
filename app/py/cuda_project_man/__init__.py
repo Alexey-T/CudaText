@@ -16,6 +16,7 @@ from .projman_glob import *
 from .projman_backup import ProjectFileBackups, DEFAULT_BACKUP_COUNT, DEFAULT_BACKUP_FOLDER
 from .projman_trash import (send_to_trash, trash_label,
                              trash_supported, delete_permanently)
+from .projman_log import log_error
 
 from cudatext import *
 from cudatext_keys import *
@@ -27,9 +28,8 @@ _   = get_translation(__file__)  # i18n
 from . import favorites as _favorites
 try:
     _favorites.init_on_start()
-except Exception as _favorites_startup_error:
-    print('Project Manager: favorites startup failed:',
-          _favorites_startup_error)
+except Exception:
+    log_error('Project Manager: favorites startup failed')
 
 IS_WIN = os.name == 'nt'
 IS_MAC = sys.platform == 'darwin'
@@ -89,6 +89,8 @@ def get_theme_category():
         if 0.299 * r + 0.587 * g + 0.114 * b < 128:
             return 'black'
         return 'grey'
+    # intentional silence: old CudaText builds without the theme-dict
+    # API, or a theme without the key - 'unknown' is the right answer
     except Exception:
         return ''
 
@@ -221,6 +223,8 @@ def scan_dir_entries(fn, opts):
     (os.scandir is safe to call from several threads)."""
     try:
         entries = list(os.scandir(fn))
+    # intentional silence: unreadable folder (permissions, dropped
+    # network drive) - the caller skips it
     except OSError:
         return None
     res = []
@@ -230,6 +234,7 @@ def scan_dir_entries(fn, opts):
     for e in entries:
         try:
             is_dir = e.is_dir()
+        # intentional silence: the entry vanished / is unreadable
         except OSError:
             continue
         if is_dir and e.is_symlink():
@@ -245,6 +250,8 @@ def scan_dir_entries(fn, opts):
     if order != '':
         try:
             res = sorted(res, key=lambda p: _direntry_ordering(p, order))
+        # intentional silence: an entry vanished during the sort -
+        # keep the unsorted order
         except OSError:
             pass
     else:
@@ -394,6 +401,9 @@ class _FilterWorker(threading.Thread):
                 self.tree = cleaned
                 self.version += 1
         except Exception:
+            # a bug in the filter scan must not hang the panel: log it
+            # with the traceback and show an empty result
+            log_error('Project Manager: tree filter scan crashed')
             self.tree = {}
         finally:
             self.done = True
@@ -485,6 +495,8 @@ def make_project_backup(path):
     try:
         shutil.copy2(str(p), str(bak))
     except OSError:
+        log_error('Project Manager: cannot make the backup copy '
+                  + str(bak))
         return None
     return bak
 
@@ -522,6 +534,7 @@ def _write_text_file_atomic(path, text):
         if os.path.exists(tmp):
             try:
                 os.unlink(tmp)
+            # intentional silence: best-effort cleanup of the temp file
             except OSError:
                 pass
 
@@ -1159,6 +1172,8 @@ class Command:
             try:
                 with self.options_filename.open(encoding='utf8') as fin:
                     loaded = json.load(fin)
+                if not isinstance(loaded, dict):
+                    raise ValueError('not a json object')
                 self.options.update(loaded)
                 if "recent_projects" in self.options:
                     # heal entries merged into one tab-joined line by the
@@ -1169,8 +1184,14 @@ class Command:
                     for fn in self.options["recent_projects"]:
                         healed.extend(p for p in str(fn).split("\t") if p.strip())
                     self.options["recent_projects"] = [expand_macros('', fn) for fn in healed]
-            except Exception:
+            except FileNotFoundError:
+                # intentional silence: no options file yet (first run)
                 pass
+            except (OSError, ValueError):
+                # unreadable or corrupt options file: keep the defaults,
+                # but say so instead of silently ignoring them
+                log_error('Project Manager: cannot load the options from '
+                          + str(self.options_filename))
         self.migrate_loaded_options()
 
         self.new_project() # reset to the "no project" state
@@ -1353,6 +1374,8 @@ class Command:
         try:
             self.filter_ed = Editor(
                 dlg_proc(self.h_dlg, DLG_CTL_HANDLE, index=n) or 0)
+        # intentional silence: the control was not created (an old
+        # CudaText build) - the filter field is optional
         except Exception:
             self.filter_ed = None
         # 'f_filter' exists now: glue the cancel button's top and bottom
@@ -1447,7 +1470,8 @@ class Command:
                 dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, name='lbl_fstat',
                          prop=lbl)
         except Exception:
-            pass
+            log_error('Project Manager: cannot apply the UI theme '
+                      'to the panel dialog')
 
 
     def init_panel(self, and_activate=True):
@@ -2997,7 +3021,6 @@ class Command:
             except Exception:
                 tree_proc(self.tree, TREE_ITEM_SET_ICON, parent, image_index=self.ICON_BAD)
                 raise # good to see the error
-                return
 
         for path in nodes:
             # DirEntry or Path?
@@ -3048,6 +3071,8 @@ class Command:
         object, the dialog 'val' prop does not serve editor controls."""
         try:
             return self.filter_ed.get_text_all() if self.filter_ed else ''
+        # intentional silence: documented '' contract - the editor
+        # object is dead only while the dialog is closing
         except Exception:
             return ''
 
@@ -3057,6 +3082,8 @@ class Command:
         try:
             if self.filter_ed:
                 self.filter_ed.set_text_all(text)
+        # intentional silence: documented never-raises contract (used
+        # while the dialog closes)
         except Exception:
             pass
 
@@ -3130,7 +3157,8 @@ class Command:
                 dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, name='btn_fcancel',
                          prop={'w': 0, 'vis': False})
         except Exception:
-            pass
+            log_error('Project Manager: cannot update '
+                      'the filter cancel button')
 
     def apply_tree_filter(self, text):
         """Show only the matching nodes in the tree: starts the
@@ -3326,11 +3354,11 @@ class Command:
                      if text.lower() in sname.lower()]
         try:
             w.start()
-        except Exception as ex:
+        except Exception:
             # cannot start a thread (very exotic): fall back to the
             # name-only view rather than break the panel (expands then
             # use the single-level fallback filter)
-            print('Project Manager: cannot start the filter thread: ' + str(ex))
+            log_error('Project Manager: cannot start the filter thread')
             self._filter_worker = None
             self._filter_index = {}
             self._fill_tree_filtered_top(inst_rows)
@@ -3468,6 +3496,7 @@ class Command:
             try:
                 if flt in e.name.lower():
                     rows.append((e.name, e.path, e.is_dir()))
+            # intentional silence: the entry vanished - skip it
             except OSError:
                 pass
         self._filter_fallback[path] = rows
@@ -3631,7 +3660,8 @@ class Command:
             dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, name='lbl_fstat',
                      prop={'cap': cap})
         except Exception:
-            pass
+            log_error('Project Manager: cannot update '
+                      'the filter status label')
 
     def _node_icon(self, spath, sname, is_dir):
         """Icon index of one tree node (shared by the normal and the
@@ -3769,6 +3799,7 @@ class Command:
             props = dlg_proc(self.h_dlg, DLG_PROP_GET) or {}
             return int(props.get('focused', -1)) == self.filter_ctl_index
         except Exception:
+            log_error('Project Manager: cannot test the filter focus')
             return False
 
     def _typeahead_scope(self):
@@ -4007,7 +4038,8 @@ class Command:
                 data = json.load(f)
             self.project = normalize_project_data(data)
         except (OSError, ValueError):
-            pass
+            log_error('Project Manager: cannot re-read the project file '
+                      + path_str)
         self.project['last_session'] = 'session1'
 
         self.update_global_data()
@@ -4182,6 +4214,8 @@ class Command:
                     data['last_session'] = name
                     data.pop('def_session', None)
                     write_json_file(fn_proj, data)
+            # intentional silence: unreadable project file here - the
+            # next full project save writes the key anyway
             except (OSError, ValueError):
                 pass
         self.project['last_session'] = name
@@ -4249,6 +4283,8 @@ class Command:
         try:
             _write_text_file_atomic(fn, new_text)
         except OSError:
+            log_error('Project Manager: cannot update "last_session" in '
+                      + fn)
             return False
         return True
 
@@ -4264,6 +4300,8 @@ class Command:
         try:
             with open(path, 'r', encoding='utf8') as f:
                 data = json.load(f)
+        # intentional silence: no session file yet - an empty dict is
+        # the correct value
         except (OSError, ValueError):
             return {}
         res = {}
@@ -4523,6 +4561,8 @@ class Command:
                 try:
                     with open(path, 'r', encoding='utf8') as f:
                         self.project['sessions'] = json.load(f).get('sessions', {})
+                # intentional silence: the session write failed - the
+                # in-memory project keeps the old session list
                 except (OSError, ValueError):
                     pass
         elif not self.project.get('sessions'):
@@ -5622,7 +5662,9 @@ class Command:
                 with open(history_path, encoding='utf8') as f:
                     hist = json.load(f)
                 sess_ptr = hist.get('session' + OS_SUFFIX, '')
-            except Exception:
+            # intentional silence: CudaText's own history file - missing
+            # on a fresh install, its format is not ours to validate
+            except (OSError, ValueError):
                 pass
 
             if sess_ptr and '|' in sess_ptr:
@@ -6139,21 +6181,18 @@ class Command:
         resize only re-anchors the buttons, keeping their sizes."""
         if not self.h_bar or not self._toolbar_icon_btns:
             return
-        try:
-            scale = _favorites._ui_scale()
-        except Exception:
-            scale = 1
+        # _ui_scale() never raises (it falls back to 1.0 internally)
+        # and the int() calls on our own constants cannot fail
+        scale = _favorites._ui_scale()
         icon = int(getattr(self, '_toolbar_icon_px', 16) * scale) or 16
-        try:
-            gap = max(0, int(round(TOOLBAR_ICON_SPACING * scale)))
-        except Exception:
-            gap = 0
+        gap = max(0, int(round(TOOLBAR_ICON_SPACING * scale)))
         w = icon + 2 * gap
         for h_btn, _fn_icon, _cmd in self._toolbar_icon_btns:
             try:
                 button_proc(h_btn, BTN_SET_WIDTH, w)
             except Exception:
-                pass
+                log_error('Project Manager: cannot set '
+                          'the toolbar icon width')
 
     def toolbar_icons_refresh(self):
         """Make the toolbar icons match the current UI theme and options:
@@ -6213,8 +6252,8 @@ class Command:
             # action_refresh (not _int): it keeps the tree's folds and
             # selection and handles an active tree filter
             self.action_refresh()
-        except Exception as e:
-            print(_('Project Manager: cannot reload file type icons:'), e)
+        except Exception:
+            log_error('Project Manager: cannot reload the file type icons')
 
 
     def icon_get(self, key):
@@ -6409,8 +6448,10 @@ class Command:
                         dirs.append(found.path)
                     elif found.is_file() and not self.is_filename_ignored(found.path, False):
                         files.append(found.path)
-            except (OSError, FileNotFoundError):
-                pass # Permissions issue. Not much we can do
+            # intentional silence: permission problem on that folder -
+            # not much a scan can do about it
+            except OSError:
+                pass
         return files
 
     def open_all(self):
@@ -7114,7 +7155,8 @@ class Command:
             try:
                 _favorites.apply_theme_all()
             except Exception:
-                pass
+                log_error('Project Manager: cannot re-theme '
+                          'the Favorites windows')
             return
 
         if state == APPSTATE_SESSION_SAVE_AFTER:

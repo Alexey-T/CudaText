@@ -38,6 +38,14 @@
   crosshair ("locate") icon now; the old arrow icon was confusing.
 - The file-type icons and the sorting order options apply immediately
   now, no CudaText restart needed anymore.
+- FIX: internal errors are never silently swallowed anymore: unexpected
+  exceptions get a full traceback in the console (plus a status-bar
+  hint) via the new projman_log.log_error(), overly-broad exception
+  handlers were narrowed to the error types that can really occur, and
+  the few intentionally silent places are marked with
+  "# intentional silence" comments. A corrupt favorites.json is not
+  overwritten with an empty list anymore: it is renamed to ".corrupt"
+  (or the plugin stays read-only when even that fails).
 
 2026.11.14 (@badrelmers)
 - SAFETY: no command deletes anything permanently on Windows, macOS
