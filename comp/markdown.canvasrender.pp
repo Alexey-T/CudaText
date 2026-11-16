@@ -1107,7 +1107,18 @@ begin
     lY:=FLayout.LineY + FLayout.LineAboveExtra + BaselineShift;
     Item:=FLists.Items.NewItem(TLayoutItemKind.likText,lX,lY);
 
-    item.BGColor:=GetTextBGColor(aContext);
+    // Do NOT cache the live background color in the item: the renderer
+    // BGColor is synced from control.Color only at Paint() time, while
+    // layout items are created earlier (parse/load). A cached value
+    // bakes the stale constructor default (clWindow = white) into the
+    // item, so the first paints show white text bands until the layout
+    // is rebuilt (Lazarus work item 42722). clNone makes DrawLayoutItem
+    // fall back to the CURRENT renderer.BGColor at draw time. Explicit
+    // background kinds (fenced code) keep their own stable color.
+    if fcFencedCode in aContext then
+      item.BGColor:=GetTextBGColor(aContext)
+    else
+      item.BGColor:=clNone;
     item.color:=GetTextColor(aContext);
     Item.Width:=lWidth;
     Item.Height:=lHeight;
@@ -1394,9 +1405,12 @@ begin
      begin
      if aItem.IsSelected then
        aCanvas.Brush.Style:=bsClear
-     else if ([fcCode,fcFencedCode] * aItem.Context)<>[] then
+     else if (fcFencedCode in aItem.Context) then
        aCanvas.Brush.Color:=aItem.GetColor(ckBackground,BGCodeColor)
      else
+       // inline code (`x`) never had a code background in the canvas
+       // renderer: GetTextBGColor gives it BGColor too. Keep that when
+       // the item no longer caches the color (42722 fix).
        aCanvas.Brush.Color:=aItem.GetColor(ckBackground,BGColor);
      with aItem do
        begin
