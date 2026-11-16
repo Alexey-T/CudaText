@@ -614,8 +614,13 @@ successful save).
   the recent/vars editors (dialog editor controls otherwise get the
   EDITOR font, DoControl_ApplyEditorProps - oversized for people
   editing at 15-16 px), and the one-line boxes grow with the font
-  (utils.font_row_h). 'ui_font_size' covers the panel tree and x
-  button and the Favorites buttons/tabs/list (row heights included).
+  (utils.font_row_h). The panel's filter STATUS line (lbl_fstat) is
+  in the EDIT domain too, not the UI one: it shows at the font the
+  filter field renders (the override when set, else the field's own
+  engine default, read from the control itself), and its row grows
+  the same way (base height 17). 'ui_font_size' covers the panel
+  tree and x button and the Favorites buttons/tabs/list (row
+  heights included).
   The tree font is RE-applied in apply_panel_theme():
   ApplyThemeToTreeview resets the treeview font on every theme pass.
   The Favorites window is rebuilt by show_favorites() when the

@@ -120,6 +120,15 @@
   includes, the creation-time EH metrics give the right height
   without a reflow flash, and the field-font fallback covers
   editors whose font cannot be read.
+- The filter status line (lbl_fstat, the "Filter: searching..." line
+  under the tree filter) now follows 'edit_font_size' instead of
+  staying at the UI font: with the option set it shows at that size
+  right away (creation) or on the next options-OK
+  (apply_panel_fonts); unset it mirrors the filter field's engine
+  default - the editor font, read from the field control itself (a
+  label gets no editor font from the engine) - and its row grows
+  with the font like the field's (base height 17, the tree anchored
+  below reflows). 'ui_font_size' keeps the tree and the x button.
 
 2026.11.15 (@badrelmers)
 - FIX (issue #6632): new "auto" value of the "Toolbar icons" option
