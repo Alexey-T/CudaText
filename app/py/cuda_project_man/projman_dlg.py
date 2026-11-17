@@ -7,7 +7,7 @@ from .projman_backup import DEFAULT_BACKUP_COUNT, DEFAULT_BACKUP_FOLDER
 from .utils import (editor_default_metrics, font_row_h, log_error,
                     option_font_size)
 from .favorites import (get_theme_ui_colors, _theme_color, _theme_dict,
-                        _unscale_px, _ui_scale, BTN_PAD)
+                        _unscale_px, _ui_scale)
 
 _   = get_translation(__file__)  # i18n
 
@@ -680,10 +680,7 @@ def dialog_config(op):
     # theme); the OS 'button' cannot be themed via the API. button_ex
     # draws its caption itself, so no '&' accelerators. Enter is
     # handled by the form (on_form_key), Esc cancels (engine).
-    # BTN_H adds the same comfortable vertical padding as the buttons
-    # of the Favorites window (the raw GUI button height hugs the
-    # caption too tightly - the buttons looked like thin slabs).
-    BTN_H = BH + BTN_PAD
+    BTN_H = BH
     BTN_ROW = BTN_H + 18      # the buttons + 8 px above + 10 px below
     needed_h = content_h + 8 + BTN_ROW
 
@@ -839,8 +836,7 @@ def dialog_proj_prop(prop, edit_font_size=None):
         if cell_h:
             EH = max(EH, int(cell_h / scale) + 8)
             vars_line = max(17, int(pitch_h / scale))
-    # the same comfortable vertical padding as in the other dialogs
-    BTN_H = BH + BTN_PAD
+    BTN_H = BH
 
     W = 508
     # the vars editor is 154 design px (5 lines) at the default edit
