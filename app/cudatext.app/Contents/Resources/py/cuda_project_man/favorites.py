@@ -206,10 +206,6 @@ TAB_W = 120
 #: gap between the tabs (unscaled px): tight, so the three
 #: rectangles read as one tab strip, not as separate boxes
 TAB_GAP = 2
-#: extra vertical padding (unscaled px) added to the raw GUI button
-#: height of the buttons/tabs: the raw height hugs the caption text
-#: too tightly (the text and the button border almost touched)
-BTN_PAD = 8
 
 BTN_W = 150
 #: margin (unscaled px) between the window edge and the button column
@@ -876,10 +872,7 @@ class FavoritesForm:
             cell_h, _pitch = editor_default_metrics()
             if cell_h:
                 EH = max(EH, int(cell_h / scale) + 8)
-        # the buttons and tabs get extra vertical padding: the raw GUI
-        # button height hugs the caption text too tightly (the text
-        # almost touched the button's border)
-        BTN_H = BH + BTN_PAD
+        BTN_H = BH
 
         # min window height: the right button column (4 buttons, group
         # gap, 2 buttons, group gap, Delete) + Close + the status line
@@ -1148,8 +1141,7 @@ class FavoritesForm:
                 'a_t': ('f_filter', ']'),   # BTN_GAP below the REAL filter
                 'sp_t': BTN_GAP,            # bottom, at every scale/DPI
                 'w': tab_w,
-                'h': BTN_H,          # the FULLY padded height, like every
-                                     # button of the right column
+                'h': BTN_H,
                 'tab_order': 1,
                 # 'act': True is REQUIRED: the colorpanel reports its
                 # click through on_change (OnClick -> DoOnChange), and
