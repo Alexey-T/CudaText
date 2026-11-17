@@ -331,7 +331,15 @@ def _mix_color(c1, c2, t):
     def part(a, b, shift):
         a = (int(a) >> shift) & 0xFF
         b = (int(b) >> shift) & 0xFF
-        return int(round(a + (b - a) * t))
+        # clamped to the 0..255 color cube: the extrapolation of
+        # _dim_toward (t > 1) can push a channel past the edge - amy
+        # ships ButtonBgPassive #200020 with TabBg #130013, and
+        # t = 2.54 turns the R/B channels into 32 - 33 = -1, so the
+        # blend returned the int -1 (= clDither, an INVALID TColor)
+        # and the engine painted the inactive tabs WHITE with a
+        # black caption box. A blend that leaves the cube stops at
+        # its edge (black/white) - a valid color always comes out.
+        return max(0, min(255, int(round(a + (b - a) * t))))
     return ((part(c1, c2, 16) << 16) |
             (part(c1, c2, 8) << 8) |
             part(c1, c2, 0))
