@@ -1,4 +1,4 @@
-object SyntAnal13: TLibSyntAnalyzer
+object SyntAnal14: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Heading'
@@ -764,6 +764,7 @@ object SyntAnal13: TLibSyntAnalyzer
           TokenTypes = 65536
         end>
       BlockEnd = '`end'
+      NotCollapsed = True
       DisplayInTree = False
       DynHighlight = dhRange
       HighlightPos = cpAny
@@ -788,6 +789,7 @@ object SyntAnal13: TLibSyntAnalyzer
           TokenTypes = 262144
         end>
       BlockEnd = '~end'
+      NotCollapsed = True
       DisplayInTree = False
       DynHighlight = dhRange
       HighlightPos = cpAny
@@ -982,38 +984,38 @@ object SyntAnal13: TLibSyntAnalyzer
       StatesAbsent = 3
       StartExpression = '(?s)<script\b.*?>'
       EndExpression = '</script>'
-      SyntAnalyzer = SyntAnal10
+      SyntAnalyzer = SyntAnal11
     end
     item
       DisplayName = 'CSS'
       StatesAbsent = 3
       StartExpression = '(?s)<style\b.*?>'
       EndExpression = '</style>'
-      SyntAnalyzer = SyntAnal6
+      SyntAnalyzer = SyntAnal7
     end
     item
       DisplayName = 'YAML front matter'
       StartExpression = '\A---(\s*yaml)?$'
       EndExpression = '^(---|\.\.\.)$'
-      SyntAnalyzer = SyntAnal18
+      SyntAnalyzer = SyntAnal19
     end
     item
       DisplayName = 'JSON front matter'
       StartExpression = '\A---\s*json$'
       EndExpression = '^---$'
-      SyntAnalyzer = SyntAnal12
+      SyntAnalyzer = SyntAnal13
     end
     item
       DisplayName = 'Fenced block, tick'
       StartExpression = '(?<=^\x20{0,3})`{3,}\x20*\w.*$'
       EndExpression = '(?<=^\x20{0,3})`{3,}\x20*$'
-      SyntAnalyzer = SyntAnal8
+      SyntAnalyzer = SyntAnal9
     end
     item
       DisplayName = 'Fenced block, tilde'
       StartExpression = '(?<=^\x20{0,3})~{3,}\x20*\w.*$'
       EndExpression = '(?<=^\x20{0,3})~{3,}\x20*$'
-      SyntAnalyzer = SyntAnal8
+      SyntAnalyzer = SyntAnal9
     end>
   SampleText.Strings = (
     '---'
