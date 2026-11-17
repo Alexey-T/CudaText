@@ -138,6 +138,15 @@
   exactly like the edit rows); 'ui_font_size' owns nothing in the
   options dialog anymore (it keeps the panel tree/list/buttons and
   the Favorites window).
+- FIX (user report): in the Favorites window the owner-drawn rows
+  started their column grid at the control's left edge, while the
+  engine (TATListbox) indents its whole column grid - the header
+  captions included - by IndentLeft = 4 px: every row column sat
+  4 px left of the header's (the check column looked 4 px narrower,
+  and the header's last cell lost 4 px to the right edge). The
+  owner-drawn rows and the divider hit-tests now use the same
+  origin (favorites.LIST_INDENT = 4, mirrored from the engine - the
+  property is not exposed via listbox_proc).
 
 2026.11.15 (@badrelmers)
 - FIX (issue #6632): new "auto" value of the "Toolbar icons" option

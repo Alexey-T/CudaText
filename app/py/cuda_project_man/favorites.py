@@ -156,6 +156,16 @@ PATH_MIN_W = 160
 ITEM_H = 30
 #: unscaled size of the checkbox square
 CHECK_SZ = 15
+#: the engine (TATListbox behind listbox_ex) indents its whole
+#: column grid - the header captions and the engine-drawn cells -
+#: by this many px right of the control's left edge (the IndentLeft
+#: property, default 4; not DPI-scaled, and not exposed via
+#: listbox_proc, so the default is mirrored here). The owner-drawn
+#: rows and the divider hit-tests must use the same origin, or every
+#: row column sits 4 px left of the header's (and the header loses
+#: its last 4 px to the right edge - the engine's grid overflows by
+#: the indent)
+LIST_INDENT = 4
 #: half-width (px) of the header-divider drag zone
 RESIZE_GRIP = 6
 #: min widths (px, unscaled) of the columns while dragging
@@ -1446,9 +1456,12 @@ class FavoritesForm:
     def _col_bounds(self):
         """[(x0, x1), ...] of the NCOLS columns, from the LIVE widths
         (the Path column is auto-stretched, so its real width is only
-        known from the control size)."""
+        known from the control size). The grid starts at LIST_INDENT:
+        the engine indents its own column painting (the header
+        included) by that much, and the owner-drawn rows must match
+        it or every row column sits left of the header's."""
         res = []
-        x = 0
+        x = LIST_INDENT
         for wc in self._live_cols():
             res.append((x, x + wc))
             x += wc
@@ -2011,7 +2024,7 @@ class FavoritesForm:
         the header)."""
         best = -1
         best_d = RESIZE_GRIP
-        pos = 0
+        pos = LIST_INDENT   # the engine's grid origin (see _col_bounds)
         cols = self._live_cols()
         for k in range(NCOLS - 1):
             pos += cols[k]
