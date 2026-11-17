@@ -659,9 +659,25 @@ procedure TCustomMarkDownControl.MouseMove(Shift: TShiftState; X, Y: Integer);
 var
   CurrentPoint: TSelectionPoint;
   P1,P2 : TSelectionPoint;
+  URL: UTF8String;
 
 begin
   inherited MouseMove(Shift, X, Y);
+
+  //show the hand cursor while the pointer hovers a hyperlink, like
+  //other link-capable controls do (editor URLs, gutter bookmarks);
+  //clicks are handled in Click via the same hit-test
+  if FIsSelecting or (ssLeft in Shift) then
+    Cursor:= crDefault
+  else
+  begin
+    // same client->document mapping as in MouseDown: hit-testing
+    // must use document coordinates (see comment there)
+    if FRenderer.HitTestLink(X+ScrolledLeft, Y+ScrolledTop, URL) then
+      Cursor:= crHandPoint
+    else
+      Cursor:= crDefault;
+  end;
 
   if FIsSelecting and (ssLeft in Shift) then
   begin

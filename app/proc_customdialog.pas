@@ -1182,6 +1182,7 @@ begin
     begin
       Ctl:= TMarkDownControl.Create(AForm);
       TMarkDownControl(Ctl).OnGetImage:= @AForm.DoOnMarkdownGetImage;
+      TMarkDownControl(Ctl).OnOpenURL:= @AForm.DoOnMarkdownOpenURL;
       exit;
     end;
 

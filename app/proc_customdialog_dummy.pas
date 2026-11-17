@@ -192,6 +192,7 @@ type
     procedure DoOnEditorClickLink(Sender: TObject; const ALink: string);
     procedure DoOnEditorPaste(Sender: TObject; var AHandled: boolean; AKeepCaret, ASelectThen: boolean);
     procedure DoOnMarkdownGetImage(Sender: TObject; const aURL: string; var aImage: TPicture);
+    procedure DoOnMarkdownOpenURL(Sender: TObject; aURL: String);
     function DoEvent(AIdControl: integer; const ACallback: string; const AData: TAppVariant): boolean;
     procedure DoEmulatedModalShow;
     procedure DoEmulatedModalClose;
@@ -1775,6 +1776,15 @@ begin
 
   if not DoEvent(IdControl, Callback, Data) then
     AHandled:= true;
+end;
+
+procedure TFormDummy.DoOnMarkdownOpenURL(Sender: TObject; aURL: String);
+begin
+  //md_view link click: open in the browser / mail client, like the
+  //Lazarus markdown demo does. Without assigning OnOpenURL, the
+  //control's Click finds the link but nobody listens: clicking a
+  //link in the dialog markdown view did nothing
+  OpenURL(aURL);
 end;
 
 procedure TFormDummy.DoOnMarkdownGetImage(Sender: TObject; const aURL: string;

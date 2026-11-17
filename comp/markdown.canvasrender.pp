@@ -454,6 +454,7 @@ type
     FAvailableWidth : Integer;
     FGridSize : Integer;
     FCellPadding : Integer;
+    FCellPaddingX : Integer;
     FStartX,FStartY : Integer;
     FRowHeights: TLongintArray;
     FCurrentRow : integer;
@@ -480,6 +481,7 @@ type
     Property GridSize : Integer Read FGridSize;
     // Cell padding
     Property CellPadding : Integer Read FCellPadding;
+    Property CellPaddingX : Integer Read FCellPaddingX;
     // Available width, calculated in DoRender
     Property AvailableWidth : Integer Read FAvailableWidth;
     // Font styles
@@ -621,7 +623,8 @@ begin
   fParser:=TMarkDownParser.Create(Self);
 
   // Initialize default values
-  fParagraphSpacing:=10;
+  // GitHub spacing v2: p { margin-bottom: 16px } (Primer --base-size-16)
+  fParagraphSpacing:=16;
   fExtraIndent:=0;
   fTargetDPI:=96;
   fFontName:='Sans Serif';
@@ -1707,7 +1710,8 @@ begin
   if FBlockQuoteIndent<>0 then
     FCalculatedBlockQuoteIndent:=FBlockQuoteIndent
   else
-    FCalculatedBlockQuoteIndent:=MeasureTextWidth(FCanvas,'WWWW',fBaseFontSize,[],[]);
+    // GitHub spacing: blockquote { padding: 0 1em } = 16px left inset
+    FCalculatedBlockQuoteIndent:=DIP(16);
   BeginLayout;
 
   FLayout.MaxWidth:=aMaxWidth;
@@ -2241,6 +2245,11 @@ begin
   FontSize:=CanvasRenderer.fBaseFontSize;
   if (lHeading.Level in [1..FontSizeCount]) then
     Inc(FontSize,FontSizes[lHeading.Level]);
+  // GitHub spacing v2 for headings: margin-top 24px / margin-bottom 16px
+  // (paragraph breaks now contribute 16px each way: the extra above is
+  // 24-16=8; below, the 16px paragraph break IS GitHub's h margin-bottom,
+  // so no extra is added; no underline below headers)
+  SetCurrentY(GetCurrentY+DIP(8));
   Renderer.RenderChildren(lHeading);
   ParagraphBreak;
 end;
@@ -2283,6 +2292,11 @@ begin
   FItemNumber:=0;
   For I:=0 to aBlock.ChildCount-1 do
     begin
+    if I>0 then
+      // GitHub spacing v2: li+li { margin-top: .25em } = 4px (on top
+      // of the 16px paragraph break the text block always adds =>
+      // 20px total gap between sibling items)
+      SetCurrentY(GetCurrentY+DIP(4));
     if lBlock.Ordered then
       FItemNumber:=lBlock.Start+i;
     Renderer.RenderBlock(aBlock.Children[i]);
@@ -2321,9 +2335,12 @@ begin
     lPrefix:=IntToStr(lListRenderer.ItemNumber)+'.'
   else
     lPrefix:=CanvasRenderer.GetBullet;
-  LayoutText(lPrefix+' ', CanvasRenderer.fBaseFontSize, [], '', []);
-  lIndent:=MeasureTextWidth(lPrefix+'_',CanvasRenderer.BaseFontSize,[],[]);
+  // GitHub spacing: ul/ol { padding-left: 2em } = 32px marker box:
+  // indent FIRST so the bullet and the first text line both sit
+  // inside the 32px box (and wrapped lines align with the text)
+  lIndent:=DIP(32);
   CanvasRenderer.Indent(lIndent);
+  LayoutText(lPrefix+' ', CanvasRenderer.fBaseFontSize, [], '', []);
   Renderer.RenderChildren(lBlock);
   CanvasRenderer.Undent(lIndent);
   NewLine;
@@ -2340,8 +2357,16 @@ procedure TCanvasMarkDownCodeBlockRenderer.DoRender(aBlock: TMarkDownBlock);
 begin
   if not assigned(aBlock) then exit;
   ParagraphBreak;
+  // GitHub spacing v2: pre { padding: 16px } and the pre wrapper
+  // keeps a 16px margin below; horizontal padding via indent, vertical
+  // via position shifts (the per-line background band spans the full
+  // width, so it covers the padding like GitHub's pre background does)
+  SetCurrentY(GetCurrentY+DIP(16));
+  Indent(DIP(16));
   // Render code with monospace font
   Renderer.RenderChildren(aBlock as TMarkDownContainerBlock);
+  Undent(DIP(16));
+  SetCurrentY(GetCurrentY+DIP(16));
   ParagraphBreak;
 end;
 
@@ -2411,7 +2436,7 @@ begin
 
      CellWidth:=0;
      CellWidth:=CellWidth+FColLayout[lColumn].Width;
-     TextWidth:=CellWidth-(FCellPadding*2);
+     TextWidth:=CellWidth-(FCellPaddingX*2);
      if TextWidth<1 then
       TextWidth:=1;
 
@@ -2619,7 +2644,11 @@ begin
   CanvasRenderer.MaybeStartParagraph;
   SetLength(FColLayout,Length(lTable.Columns));
   FGridSize:=DIP(1);
-  FCellPadding:=DIP(4);
+  // GitHub spacing: table th/td { padding: 6px 13px }: vertical 6px,
+  // horizontal 13px (kept separate: CellPadding drives row height,
+  // CellPaddingX drives the text inset)
+  FCellPadding:=DIP(6);
+  FCellPaddingX:=DIP(13);
   FAvailableWidth:=CanvasRenderer.FLayout.MaxWidth-CanvasRenderer.FLayout.CurrentIndent-(TotalColumns-1)*FGridSize;
   if FAvailableWidth<1 then
     FAvailableWidth:=1;
@@ -2701,8 +2730,8 @@ begin
     Cell:=aBlock.Children[lColumn];
     CellWidth:=FTableRenderer.ColLayout[lColumn].Width;
     Temp:=Default(TLayoutData);
-    Temp.MaxWidth:=CurrentX+CellWidth-FTableRenderer.CellPadding;
-    Temp.CurrentIndent:=CurrentX+FTableRenderer.FCellPadding;
+    Temp.MaxWidth:=CurrentX+CellWidth-FTableRenderer.CellPaddingX;
+    Temp.CurrentIndent:=CurrentX+FTableRenderer.FCellPaddingX;
     Temp.LineY:=CurrentY+FTableRenderer.FCellPadding;
     Saved:=CanvasRenderer.SwapLayout(Temp);
     CanvasRenderer.RenderBlock(Cell);
@@ -2730,6 +2759,11 @@ begin
   // (fixes CudaText issue 6645: the fixed 40-char line was shorter
   // than wide windows and never grew with the layout width)
   MaybeStartParagraph;
+  // GitHub spacing v2: hr { margin: var(--base-size-24) 0 } = 24px
+  // above and below (paragraph breaks now contribute 16px each way,
+  // so the extra is 24-16=8; the hr line itself is drawn centered in
+  // the row, same rhythm as GitHub)
+  SetCurrentY(GetCurrentY+DIP(8));
   Itm:=CreateLayoutItem(likLine,
     CanvasRenderer.FLayout.CurrentIndent,
     CanvasRenderer.FLayout.LineY + CanvasRenderer.FLayout.LineHeight div 2);
@@ -2738,6 +2772,7 @@ begin
   Itm.Width:=Itm.DeltaX;
   Itm.Height:=DIP(2);
   NewLine;
+  SetCurrentY(GetCurrentY+DIP(8));
   ParagraphBreak;
 end;
 
