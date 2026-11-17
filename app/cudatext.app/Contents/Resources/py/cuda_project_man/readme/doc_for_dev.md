@@ -627,6 +627,12 @@ successful save).
   options changed - the hidden form is reused only while they stay
   the same, because every row height was computed from the fonts at
   build time.
+  The Favorites list columns: TATListbox indents its whole column
+  grid - the header captions and the engine-drawn cells - by its
+  IndentLeft property (default 4 px, not DPI-scaled, not exposed
+  via listbox_proc). The plugin's owner-drawn rows and the header
+  divider hit-tests use the same origin (favorites.LIST_INDENT), or
+  every row column sits 4 px left of the header's.
   The options-dialog dropdowns are 'editor_combo' controls
   (TATComboEdit - a TATSynEdit subclass): the dialog 'font_size' prop
   works on them directly, so they follow 'edit_font_size' and their
