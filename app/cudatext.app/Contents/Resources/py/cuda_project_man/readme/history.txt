@@ -138,6 +138,26 @@
   exactly like the edit rows); 'ui_font_size' owns nothing in the
   options dialog anymore (it keeps the panel tree/list/buttons and
   the Favorites window).
+- FIX (user report): in the Favorites window the owner-drawn rows
+  started their column grid at the control's left edge, while the
+  engine (TATListbox) indents its whole column grid - the header
+  captions included - by IndentLeft = 4 px: every row column sat
+  4 px left of the header's (the check column looked 4 px narrower,
+  and the header's last cell lost 4 px to the right edge). The
+  owner-drawn rows and the divider hit-tests now use the same
+  origin (favorites.LIST_INDENT = 4, mirrored from the engine - the
+  property is not exposed via listbox_proc).
+- FIX (user report): on the amy theme the Favorites inactive tabs
+  were painted WHITE with a black caption box: amy is the one
+  preinstalled theme whose ButtonBgPassive (#200020) sits so near
+  the window TabBg (#130013) that the inactive-tab dimming
+  extrapolated past the window with t = 2.54, and the R/B channels
+  32 - 33 came out as -1 - _mix_color returned the int -1 (=
+  clDither, an invalid TColor), which the engine rendered as a
+  white face with a black caption background. _mix_color clamps
+  every channel to the 0..255 color cube now: amy's inactive face
+  becomes plain black (a clearly visible step below the active
+  face), the caption mid-gray.
 
 2026.11.15 (@badrelmers)
 - FIX (issue #6632): new "auto" value of the "Toolbar icons" option

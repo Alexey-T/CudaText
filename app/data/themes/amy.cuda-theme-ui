@@ -91,7 +91,7 @@
   "ListCompleteParams": "#66A7AE",
   "ButtonFont": "#C1C1C1",
   "ButtonFontDisabled": "#808080",
-  "ButtonBgPassive": "#200020",
+  "ButtonBgPassive": "#400040",
   "ButtonBgOver": "#470E47",
   "ButtonBgChecked": "#500050",
   "ButtonBgDisabled": "#200020",
