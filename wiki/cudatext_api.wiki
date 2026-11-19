@@ -2319,7 +2319,7 @@ Possible values of "id_action":
 * MD_SEL_CLEAR: Removes the selection.
 * MD_GET_HL: Returns enabled-flag of syntax-highlight of "fenced code-blocks".
 * MD_SET_HL: Sets the enabled-flag of syntax-highlight of "fenced code-blocks". Flag is not per-control, it's global for all controls. Flag is applied on the next loading of text into viewer. Param "val" must be 1 (enable) or 0 (disable).
-* MD_SET_FONT_MONO: Sets the font name of monospaced font.
+* MD_SET_FONT_MONO: Sets the name of monospaced font. (To set the name of usual font, set "font_name"/"font_size" properties in dlg_proc).
  
 ===finder_proc===
 
