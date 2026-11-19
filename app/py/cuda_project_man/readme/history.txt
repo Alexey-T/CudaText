@@ -37,7 +37,25 @@
   button at the right of the filter field turns into a RED button -
   a clear signal that clicking it cancels the running search (the
   findings stay visible). When the search finishes or is cancelled,
-  the button returns to its normal look.
+  the button returns to its normal look. (The red tile is a label
+  glued to the button's rect: the themed (x) button paints its face
+  from the UI theme and cannot be recolored by the dialog API.)
+- Tree filter: the live growth of the result tree while the scan
+  runs no longer FLASHES. The visible tree used to be cleared and
+  refilled from scratch on every progress tick (a few times a
+  second), which repainted the whole tree and reset its scroll on
+  every finding; now the new findings are INSERTED in place (only
+  new rows appear, nothing is deleted or moved, the folds and the
+  scroll stay put). A full refill happens only once, when the
+  search finishes (the cleaned final result may differ from the
+  partial one).
+- CudaText core (tree_proc API): the item commands (add/delete/
+  set-text/set-icon/fold/unfold/select/...) no longer repaint the
+  treeview one by one while a TREE_LOCK is held - a locked batch
+  of item commands costs exactly one repaint (on unlock) instead
+  of one per command, which used to show as flicker when a plugin
+  filled a tree item-by-item (the Project Manager's live filter
+  tree was the visible case).
 
 2026.11.16 (@badrelmers)
 - Two new options: "UI font size" and "Edit font size" (whole

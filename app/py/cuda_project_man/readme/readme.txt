@@ -337,7 +337,10 @@ typing stay in effect for every re-scan. Nothing changes about WHAT is
 found - only the order in which matches appear while the scan runs.
 While a search is running, the x button turns RED - a clear signal
 that clicking it cancels the running search and keeps everything
-found so far.
+found so far. The result tree grows WITHOUT flicker: new findings
+are inserted in place while the scan runs (only new rows appear,
+nothing jumps), and the tree is refilled once when the search
+finishes.
 
 While the panel has the keyboard focus (and you are not typing in the
 filter field), plain letters and digits jump to the first node of the

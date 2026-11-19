@@ -1506,32 +1506,34 @@ class Command:
         # _filter_cancel_btn_update): the (x) button is a TATButton,
         # which paints its face from the UI theme only (the dialog
         # 'color' prop is ignored by it), so the running state is this
-        # LABEL - a label fills its whole rect with its color. It is
-        # anchored EXACTLY over the button's rect (the same right /
-        # top / bottom anchors and width) and shows only while a
-        # background scan runs, with the button hidden in the meantime
-        # (a hidden control keeps its bounds, so the filter field's
-        # right anchor to the button does not move). 'on_click' is
-        # wired for labels too, so the red tile cancels the search
-        # exactly like the button would. The caption is padded with
-        # two spaces to center the glyph (labels cannot center their
-        # text through this dialog API).
+        # LABEL - a label fills its whole rect with its color.
+        # GEOMETRY: the label is anchored to the BUTTON's rect (all
+        # four sides, 0 spacing), so it always covers it exactly at
+        # any DPI - a fresh label cannot be anchored by ('', ']') the
+        # way the button was, because its own width must FOLLOW the
+        # button, not the form. 'autosize' comes FIRST: labels default
+        # to AutoSize=True in LCL, and the engine applies the props in
+        # dict order - with autosize still on, a later 'w'/'h'/'cap'
+        # would resize the label to its text and the tile would render
+        # as a tiny dot somewhere instead of the red square.
+        # 'on_click' is wired for labels too, so the red tile cancels
+        # the search exactly like the button would.
         n = dlg_proc(self.h_dlg, DLG_CTL_ADD, prop='label')
         dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, index=n, prop={
             'name': 'lbl_fcancel_run',
-            'x': 300, 'y': 2,      # sane pre-anchor position; the right
-                                   # anchor places the tile finally
-            'a_t': ('f_filter', '['),
+            'autosize': False,
+            'a_l': ('btn_fcancel', '['),
+            'sp_l': 0,
+            'a_r': ('btn_fcancel', ']'),
+            'sp_r': 0,
+            'a_t': ('btn_fcancel', '['),
             'sp_t': 0,
-            'a_b': ('f_filter', ']'),
+            'a_b': ('btn_fcancel', ']'),
             'sp_b': 0,
-            'a_l': None,
-            'a_r': ('', ']'),
-            'sp_r': 2,
+            'x': 300, 'y': 2,   # placeholder pre-anchor position
             'w': EH,
             'h': EH,
-            'autosize': False,
-            'cap': '  ×',
+            'cap': '×',
             'color': 0x0000FF,        # red (TColor is BGR)
             'font_color': 0xFFFFFF,   # white glyph on the red tile
             'vis': False,
@@ -3747,7 +3749,10 @@ class Command:
             self._filter_label_running(w.count)
             if w.version != self._filter_live_version:
                 self._filter_live_version = w.version
-                self._filter_rebuild(w.res, w.live)
+                # LIVE update: insert-only sync of the new findings -
+                # no clear+refill (which repainted the whole tree and
+                # flashed on every finding)
+                self._filter_rebuild(w.res, w.live, incremental=True)
             return
 
         # finished
@@ -3887,7 +3892,7 @@ class Command:
             tree_proc(self.tree, TREE_ITEM_SELECT, found[0])
             tree_proc(self.tree, TREE_ITEM_SHOW, found[0])
 
-    def _filter_rebuild(self, index, live):
+    def _filter_rebuild(self, index, live, incremental=False):
         """Rebuild the visible part of the filtered tree from a lazy
         index - the worker's PARTIAL index while the scan runs (called
         from _filter_progress_tick), its cleaned result when it finished
@@ -3895,6 +3900,21 @@ class Command:
         _filter_capture_expanded) and the selection are carried over,
         so a rebuild is visually calm: rows only ever appear, the folds
         and the selected node stay where they were.
+
+        Two strategies:
+        - incremental=True (the LIVE update while the scan runs): the
+          scan's index only ever GROWS (buckets are appended to, `live`
+          only gains paths), so the visible tree is SYNCD in place -
+          only the NEW rows are inserted at their sorted position, no
+          node is deleted or moved. This is what keeps the live growth
+          flash-free: a full clear+refill per progress tick used to
+          repaint the whole tree (and reset its scroll) on every
+          finding - a visible flicker at each 150 ms tick.
+        - incremental=False (the finished/cancelled result): the
+          cleaned index can differ arbitrarily from the partial one
+          (optimistic rows dropped, files of still-hidden folders
+          gone), so the tree is refilled from scratch - ONE repaint at
+          the end of the search, which is not perceived as flashing.
 
         The tree stays LAZY: every folder which is not unfolded gets a
         'dummy' child, and its real rows are added on the expand
@@ -3917,20 +3937,38 @@ class Command:
         self._filter_rebuilding = True
         tree_proc(self.tree, TREE_LOCK)
         try:
-            tree_proc(self.tree, TREE_ITEM_DELETE, 0)
-            parent = tree_proc(
-                self.tree,
-                TREE_ITEM_ADD,
-                0,
-                -1,
-                self.get_project_name(),
-                self.ICON_PROJ,
-            )
-            self._filter_fill_level(parent, '', index, live, expanded)
-            tree_proc(self.tree, TREE_ITEM_UNFOLD, parent)
+            if incremental:
+                items_root = tree_proc(self.tree, TREE_ITEM_ENUM_EX, 0)
+                if items_root:
+                    self._filter_sync_level(items_root[0]['id'], '',
+                                            index, live, expanded)
+            else:
+                tree_proc(self.tree, TREE_ITEM_DELETE, 0)
+                parent = tree_proc(
+                    self.tree,
+                    TREE_ITEM_ADD,
+                    0,
+                    -1,
+                    self.get_project_name(),
+                    self.ICON_PROJ,
+                )
+                self._filter_fill_level(parent, '', index, live, expanded)
+                tree_proc(self.tree, TREE_ITEM_UNFOLD, parent)
         finally:
             tree_proc(self.tree, TREE_UNLOCK)
             self._filter_rebuilding = False
+        if incremental:
+            # nothing was deleted, so a selection which still exists
+            # was never disturbed: re-selecting it (TREE_ITEM_SHOW!)
+            # would scroll the tree on every tick while the user is
+            # browsing - only heal a lost selection (the project node
+            # vanished, e.g. the tree was cleared meanwhile)
+            if not self.selected:
+                items_root = tree_proc(self.tree, TREE_ITEM_ENUM_EX, 0)
+                if items_root:
+                    tree_proc(self.tree, TREE_ITEM_SELECT,
+                              items_root[0]['id'])
+            return
         # keep the selection where it was; select the project node when
         # the old selection does not exist anymore
         if sel_path:
@@ -3939,6 +3977,49 @@ class Command:
             items_root = tree_proc(self.tree, TREE_ITEM_ENUM_EX, 0)
             if items_root:
                 tree_proc(self.tree, TREE_ITEM_SELECT, items_root[0]['id'])
+
+    def _filter_sync_level(self, node, key, index, live, expanded):
+        """One level of the INCREMENTAL live sync (see _filter_rebuild):
+        insert the rows the index holds for `key` which are not in the
+        tree yet - each at the position it has in the level's row list,
+        so the visible order is always exactly the order a full rebuild
+        would show, no matter in which order the scan discovered the
+        rows. Folder rows get their 'dummy' child as usual; folders the
+        user unfolded (path in `expanded`) are recursed into. NEVER
+        deletes anything - that is the point of the incremental sync
+        (no delete, no move: existing nodes keep their identity, so
+        the folds, the selection and the scroll position stay put and
+        nothing flashes)."""
+        rows = self._filter_rows_for(key, index, live)
+        if not rows:
+            return
+        # existing children of this level, keyed by PATH (paths are
+        # unique). A 'dummy' child carries no data and belongs to the
+        # folder row above it - it is not a row of this level.
+        by_path = {}
+        for it in tree_proc(self.tree, TREE_ITEM_ENUM_EX, node) or []:
+            spath = it.get('data') or ''
+            if spath:
+                by_path[spath] = it['id']
+        # walk the desired rows in their final order; every row which
+        # is not in the tree yet is inserted at the number of rows
+        # which precede it in the list (matched or just inserted) -
+        # the earlier inserts shifted the tree exactly into the
+        # desired order
+        pos = 0
+        for sname, spath, is_dir in rows:
+            child = by_path.get(spath)
+            if child is None:
+                child = self._add_tree_node(node, sname, spath, is_dir,
+                                            index=pos)
+                by_path[spath] = child
+                if is_dir:
+                    tree_proc(self.tree, TREE_ITEM_ADD, child, -1,
+                              'dummy', -1)
+            pos += 1
+            if is_dir and spath in expanded:
+                self._filter_sync_level(child, spath, index, live,
+                                        expanded)
 
     def _filter_fill_level(self, node, key, index, live, expanded):
         """Add the rows of ONE level of the filtered tree (the children
@@ -4197,11 +4278,10 @@ class Command:
                                    app_proc(PROC_GET_SYSTEM_PPI,
                                             '') or 96)})
             # the x button keeps the field's height via its anchors;
-            # its cached WIDTH is the same value (a square button) -
-            # and the red running tile must follow it (same rect)
+            # its cached WIDTH is the same value (a square button).
+            # The red running tile needs no width sync: it is anchored
+            # to the button's rect on all four sides and follows it
             self._filter_cancel_w = h
-            dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, name='lbl_fcancel_run',
-                     prop={'w': h})
             self._filter_cancel_btn_update()
             ui_fs = option_font_size(self.options.get('ui_font_size'))
             if ui_fs:
