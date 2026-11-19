@@ -2045,8 +2045,12 @@ begin
 
   if AName='font_size' then
   begin
+    Num:= StrToIntDef(AValue, 0);
+    if Num<2 then exit;
     with DoControl_Target(C) do
-      Font.Size:= StrToIntDef(AValue, Font.Size);
+      Font.Size:= Num;
+    if C is TMarkDownControl then
+      TMarkDownControl(C).BaseFontSize:= Num;
     if C is TATSynEdit then
       TATSynEdit(C).OptForceSeparateCharSizer:= true;
     if C is TATListbox then
