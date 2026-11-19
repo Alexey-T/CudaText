@@ -1,3 +1,35 @@
+2026.11.19
+- "Create new project from open tabs..." now offers (a Yes/No message
+  box, before the location dialog) to also add the folders of the
+  opened tabs to the new project as root nodes - a project made from
+  open tabs usually wants to browse the code it was made from. The
+  folders are deduplicated (several tabs of one folder add it once);
+  "No" keeps the old behavior (an empty root list). With no opened tab
+  having a folder, no question is asked.
+- New command "Add to project: folders of all opened files" (command
+  palette; also in the context menu's Root nodes, right below "Add
+  folder of current file"): adds the folder of every opened tab (all
+  tab groups), skipping duplicates.
+- Favorites window: Esc now always closes the window directly. The old
+  two-step behavior (the first Esc cleared the filter, only the second
+  one closed) was dropped on request - to clear the filter, delete its
+  text (Ctrl+A / Backspace); the field's tooltip was updated too.
+- Favorites window: Up/Down now cycle the favorites list (or the
+  filtered list) from ANY focused control - they work right after the
+  window opens, while the filter field still has the focus, without
+  clicking the list first; the selection wraps at the ends (Down on
+  the last row selects the first one and vice versa).
+- Tree filter: the background scan is now PRIORITIZED so the matches
+  you are most likely interested in appear first. Tier 1: the folder
+  of the file in the current editor tab, then its parent folders
+  going up. Tier 2: the folder of the selected tree node, then its
+  parents. Tier 3: the folders expanded in the tree. Tier 4:
+  everything else (breadth-first, like before). A folder on the path
+  down to a prioritized folder inherits its priority, so the focused
+  branch is walked to its bottom before anything else. What is found
+  does not change - only the order in which matches appear during the
+  scan.
+
 2026.11.16 (@badrelmers)
 - Two new options: "UI font size" and "Edit font size" (whole
   points, 5..40; empty = the CudaText defaults - with empty options

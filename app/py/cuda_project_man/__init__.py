@@ -2,14 +2,13 @@ import os
 import sys
 import re
 import collections
+import heapq
 import json
-import stat
 import copy
 import functools
 import string
 import time
 import threading
-from collections import deque
 from fnmatch import fnmatch
 from pathlib import Path, PurePosixPath
 from .projman_glob import *
@@ -263,8 +262,7 @@ def scan_dir_entries(fn, opts):
 
 class _FilterWorker(threading.Thread):
     """Background scan for the tree filter. Walks the project's root
-    nodes ONCE, BREADTH-FIRST, and builds the LAZY TREE INDEX of the
-    result:
+    nodes ONCE and builds the LAZY TREE INDEX of the result:
         {parent folder path: [(name, path, is_dir), ...]}
     (the project root's children live under the key ''). The UI thread
     rebuilds the visible part of the tree from this index on every
@@ -283,22 +281,40 @@ class _FilterWorker(threading.Thread):
         depth) a matching node. A name-matching folder does NOT bring
         its whole content: its children follow the same two rules.
 
+    SCAN ORDER: the walk is ITERATIVE with an explicit queue, driven by
+    PRIORITIES (`pri`, {folder path: priority}, lower = sooner - see
+    Command._filter_scan_priorities): tier 1 is the folder of the file
+    in the current editor tab plus its parent chain, tier 2 the folder
+    of the tree selection plus its parents, tier 3 the folders the user
+    expanded, tier 4 everything else. The priorities are keyed by FOLDER
+    PATHS: a folder on the path DOWN to a prioritized folder (a root
+    node holding it, its subfolders on the way) inherits its priority
+    through _pri_of, so the focused branch is walked to its bottom
+    before the queue moves on. Inside one priority the order is
+    breadth-first (a heapq with (priority, seq, path); seq keeps the
+    queue FIFO for equal priorities). With no priorities (no editor
+    file, nothing selected, nothing expanded) this is exactly the old
+    plain breadth-first walk.
+
     The worker NEVER calls the CudaText API (not thread-safe) - it only
     touches the disk. The UI thread polls .done/.count/.version with a
     timer and reads .res/.live while the scan runs; a new filter text
     cancels the previous worker co-operatively (the .cancel flag is
     checked around every folder). The walk is ITERATIVE (an explicit
-    FIFO queue), not recursive: a drive-deep folder chain cannot hit
+    queue), not recursive: a drive-deep folder chain cannot hit
     Python's recursion limit, and the breadth-first order makes the
     live tree grow where the user looks at it (shallow levels first)."""
 
-    def __init__(self, text, roots):
+    def __init__(self, text, roots, pri=None):
         threading.Thread.__init__(self)
         self.daemon = True
         self.text = text
         #: [(spath, sname, is_dir)] of the project's root nodes,
         #: pre-filtered and sorted by the UI thread
         self.roots = roots
+        #: {folder path: priority} of the folders to scan first (see the
+        #: class docstring); None = no priorities, plain BFS order
+        self.pri = pri or {}
         #: snapshot of the options which rule the scan
         self.opts = {}
         self.cancel = False
@@ -326,6 +342,8 @@ class _FilterWorker(threading.Thread):
         #: the finished result: {parent path: [(name, path, is_dir)]}
         #: (cleaned of the optimistic rows; None when cancelled)
         self.tree = None
+        #: memoized _pri_of() results, filled by the worker thread only
+        self._pri_cache = {}
         self.done = False
 
     def _mark_chain(self, path):
@@ -343,11 +361,42 @@ class _FilterWorker(threading.Thread):
                 break
             p = nxt
 
+    def _pri_of(self, path):
+        """Priority of a folder: its own entry in the `pri` map when it
+        has one, else the LOWEST (best) priority among the `pri` entries
+        it CONTAINS (a root node holding the focused folder is scanned
+        with that folder's priority - the path DOWN to a prioritized
+        folder must be walked first to reach it), else +inf (no
+        priority: plain breadth-first among the rest). Memoized: a
+        folder is looked up once."""
+        p = self._pri_cache.get(path)
+        if p is not None:
+            return p
+        p = self.pri.get(path)
+        if p is None:
+            # does this folder contain a prioritized one? (a prioritized
+            # ancestor implies the priority of the whole path down to
+            # it, so only the ancestors of a `pri` path can hit this)
+            pr = _rtrim_sep(path)
+            best = None
+            for q, qp in self.pri.items():
+                if path_contains(pr, q):
+                    if best is None or qp < best:
+                        best = qp
+            p = best if best is not None else float('inf')
+        self._pri_cache[path] = p
+        return p
+
     def run(self):
         try:
             res = self.res
             flt = self.text.lower()
-            queue = deque()
+            self._pri_cache = {}
+            # priority queue: (priority, seq, path). seq keeps the order
+            # FIFO for equal priorities; the plain integer priorities of
+            # `pri` always beat 'inf' (float compares fine with int)
+            queue = []
+            seq = 0
             # roots: every root FOLDER gets its (optimistic) top-level
             # row immediately, so the top level of the live tree is
             # complete from the very start (a root folder shows as soon
@@ -359,7 +408,8 @@ class _FilterWorker(threading.Thread):
                     if flt in sname.lower():
                         self.count += 1
                         self._mark_chain(spath)
-                    queue.append(spath)
+                    heapq.heappush(queue, (self._pri_of(spath), seq, spath))
+                    seq += 1
                 elif flt in sname.lower():
                     res.setdefault('', []).append((sname, spath, False))
                     self.count += 1
@@ -367,7 +417,7 @@ class _FilterWorker(threading.Thread):
             while queue:
                 if self.cancel:
                     break
-                path = queue.popleft()
+                _, _, path = heapq.heappop(queue)
                 for e in scan_dir_entries(path, self.opts) or []:
                     if self.cancel:
                         break
@@ -379,7 +429,15 @@ class _FilterWorker(threading.Thread):
                         if flt in e.name.lower():
                             self.count += 1
                             self._mark_chain(e.path)
-                        queue.append(e.path)
+                        # a subfolder gets its OWN priority (its own
+                        # 'pri' entry, else the one it contains, else
+                        # the parent's): a folder on the path down to
+                        # the focused folder outranks the siblings of
+                        # its parent, so the focused branch is walked
+                        # to the bottom before anything else
+                        heapq.heappush(queue, (self._pri_of(e.path),
+                                               seq, e.path))
+                        seq += 1
                     elif flt in e.name.lower():
                         res.setdefault(path, []).append(
                             (e.name, e.path, False))
@@ -924,6 +982,7 @@ class Command:
         (_("Add current file"), "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.add_current_file", ""),
         (_("Add all opened files"), "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.add_opened_files", ""),
         (_("Add folder of current file"), "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.add_current_dir", ""),
+        (_("Add folders of all opened files"), "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.add_opened_dirs", ""),
         ("-", "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "", ""),
         (_("Stop tracking this folder/file"), "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_remove_node", ""),
         (_("Clean up missing paths..."), "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_remove_deleted_nodes", ""),
@@ -3387,6 +3446,113 @@ class Command:
 
     #------------- background scan (the _FilterWorker thread)
 
+    def _filter_scan_priorities(self, roots):
+        """Priority map for the next filter scan: {folder path: priority},
+        lower number = scanned earlier (0 = first). Makes the search find
+        what the user is most likely looking for FIRST, in this order:
+
+        1. the folder of the file focused in the CURRENT EDITOR TAB, then
+           its parent folders going up (that is where the user works
+           RIGHT NOW - the strongest signal there is);
+        2. the folder of the tree SELECTION (a file or folder node) and
+           its parents (the last node the user picked in the panel);
+        3. the folders the user has EXPANDED in the tree (they are
+           looking at them - a match there is more interesting than one
+           in a never-opened folder);
+        4. everything else (collapsed / never expanded) last, keeping
+           the tree's own order.
+
+        The map is keyed by the ACTUAL paths of the priority folders
+        and their ancestors; the scan queue carries a 'pri' number
+        computed from it (see the worker): a folder on the path DOWN to
+        a priority folder (a root node holding it, its subfolders)
+        inherits its priority, so the whole current branch is scanned
+        before the queue moves on to the next tier.
+
+        Returns None when no editor file is open, nothing is selected
+        and nothing is expanded (the plain old scan order is fine
+        then)."""
+
+        root_paths = [spath for spath, sname, is_dir in roots]
+
+        pri = {}
+        next_pri = 0
+
+        def mark(path):
+            """Give `path` (and its ancestors up to a root node) the next
+            priority numbers, innermost first; already-prioritized paths
+            keep their (better) number."""
+            nonlocal next_pri
+            chain = []
+            p = path
+            while p and p not in chain:
+                chain.append(p)
+                # stop at a path which IS a root node: the ancestors
+                # above the project are not scanned anyway
+                if any(path_equals(p, r) for r in root_paths):
+                    break
+                nxt = os.path.dirname(p)
+                if nxt == p:
+                    break
+                p = nxt
+            for q in chain:
+                if q not in pri:
+                    pri[q] = next_pri
+                    next_pri += 1
+
+        def folder_of_focus(path):
+            """'path' is a file or folder the user focuses on; return the
+            folder to prioritize for it: the file's folder, or the folder
+            itself."""
+            if path and not os.path.isdir(path):
+                path = os.path.dirname(path)
+            return path
+
+        # tier 1: the file in the current editor tab
+        try:
+            focus = folder_of_focus(ed.get_prop(PROP_FN, '*') or '')
+        # intentional silence: no editor / no file name
+        except Exception:
+            focus = ''
+        if focus:
+            mark(focus)
+
+        # tier 2: the tree selection. While a filter is ACTIVE the tree
+        # on screen is the FILTERED one: its selection is the node the
+        # user clicked in the result list (the strongest live signal)
+        # or the carried-over node - but when the filtered tree shows
+        # nothing of the old selection, the tree falls back to the
+        # project node (data='') and the REAL pre-filter selection
+        # lives in _filter_saved_sel: use it then.
+        sel = self.selected
+        focus = ''
+        if sel:
+            prop = tree_proc(self.tree, TREE_ITEM_GET_PROPS, sel)
+            if prop:
+                focus = folder_of_focus(str(prop.get('data', '') or ''))
+        if not focus and self.tree_filter and self._filter_saved_sel:
+            focus = folder_of_focus(self._filter_saved_sel)
+        if focus:
+            mark(focus)
+
+        # tier 3: the expanded folders, in the tree's top-down order (the
+        # user's attention runs top-down); a folder already marked by a
+        # higher tier keeps its better number. While a filter is ACTIVE
+        # the on-screen folds are only those of the FILTERED tree - the
+        # folders the user had open before typing are gone from the
+        # screen until a match appears in them, but their 'user is
+        # interested' signal is not: merge the saved pre-filter folds
+        # in (the live ones win: they are the user's CURRENT view).
+        expanded = self._filter_capture_expanded()
+        if self.tree_filter and self._filter_saved_folds:
+            expanded = set(expanded) | set(self._filter_saved_folds)
+        if expanded:
+            for path in sorted(expanded, key=lambda p: (p.count(os.sep), p)):
+                if path not in pri:
+                    mark(path)
+
+        return pri or None
+
     def _filter_start(self, text):
         """(Re)start the background scan for the given filter text: a
         fresh _FilterWorker thread (the previous one is cancelled
@@ -3425,7 +3591,14 @@ class Command:
                 continue
             roots.append((spath, sname, bool(is_dir)))
 
-        w = _FilterWorker(text, roots)
+        # scan priorities: the folder of the editor file first, then the
+        # tree selection's, then the expanded folders, then everything
+        # else (see _filter_scan_priorities). Computed HERE on the UI
+        # thread: it reads the editor and the tree, neither of which
+        # the worker may touch.
+        pri = self._filter_scan_priorities(roots)
+
+        w = _FilterWorker(text, roots, pri)
         w.opts = {
             'no_hidden': bool(self.options.get('no_hidden', True)),
             'no_files': str(self.options.get('no_files', '') or ''),
@@ -4176,13 +4349,16 @@ class Command:
         msg_status(_("Created project: ") + '"' + os.path.basename(str(path)) + '"')
 
     @_with_backup_cause('on project switch')
-    def _create_project_file(self, path, close_tabs=True):
+    def _create_project_file(self, path, close_tabs=True, init_nodes=None):
         """Create a new project file at `path` and make it the current
         project. Saves the current project (and its session slot) first.
         With close_tabs=True all tabs are closed and session 'session1'
         starts empty (used by New project); with close_tabs=False the
         current tabs are embedded as session 'session1' (used by
-        'New project from open tabs...')."""
+        'New project from open tabs...'). init_nodes is an optional list
+        of root node paths the new project starts with (used by
+        'New project from open tabs...' when the user accepts adding the
+        opened tabs' folders)."""
 
         # The command can run with the side panel not created yet: the
         # plugin was lazy-loaded by the menu command itself and the panel
@@ -4220,8 +4396,10 @@ class Command:
             if saved:
                 self._clear_modified_all_tabs()
 
-        # Reset project state
-        self.project = normalize_project_data(dict(nodes=[]))
+        # Reset project state; the new project may start with root nodes
+        # (the folders of the open tabs, when the user accepted them)
+        nodes = list(init_nodes) if init_nodes else []
+        self.project = normalize_project_data(dict(nodes=nodes))
         self.project_file_path = path
         self.update_global_data()
         self.goto_history = []
@@ -4289,7 +4467,26 @@ class Command:
         'session1', makes it the default session and switches to the new
         project. Open tabs are NOT closed — the current state becomes the
         new project's session. (Migration helper for the old workflow which
-        kept sessions in external .cuda-session files.)"""
+        kept sessions in external .cuda-session files.)
+
+        Before the location dialog, when at least one opened tab has a
+        folder, the user is offered to also add those folders to the new
+        project as root nodes - a project made from open tabs usually
+        wants to browse the code it was made from."""
+
+        # ask FIRST, before the location dialog: with the folders declined,
+        # the flow is exactly the old one
+        add_tab_dirs = False
+        tab_dirs = self._collect_opened_dirs()
+        if tab_dirs:
+            n = len(tab_dirs)
+            if n == 1:
+                msg = _('Do you also want to add the folder of the opened file to the project?')
+            else:
+                msg = _('Do you also want to add the folders of the {} opened files to the project?').format(n)
+            res = msg_box_ex(_('Project Manager'), msg,
+                             [_('Yes'), _('No')], MB_ICONQUESTION)
+            add_tab_dirs = (res == 0)
 
         path = info
         if path is None:
@@ -4309,7 +4506,8 @@ class Command:
             msg_status(_('This file is already the current project'))
             return
 
-        self._create_project_file(path, close_tabs=False)
+        self._create_project_file(path, close_tabs=False,
+                                  init_nodes=tab_dirs if add_tab_dirs else None)
         msg_status(_("Created project from current session: ") + os.path.basename(str(path)))
 
     @_with_backup_cause('on project save')
@@ -6618,6 +6816,42 @@ class Command:
             e = Editor(h)
             fn = e.get_prop(PROP_FN, '*')
             self.add_node(fn)
+
+    def _collect_opened_dirs(self):
+        """Deduplicated list of the folders of ALL opened tabs (every tab
+        group), in tab order. Untitled tabs (no file name) are skipped;
+        Windows drive roots ('D:\\') are skipped like add_current_dir
+        does - a whole drive is rarely what one wants in a project."""
+        dirs = []
+        seen = set()
+        for h in ed_handles():
+            e = Editor(h)
+            fn = e.get_prop(PROP_FN, '*')
+            if not fn:
+                continue
+            d = os.path.dirname(fn)
+            if not d:
+                continue
+            if IS_WIN and d.endswith(':\\'):
+                continue
+            key = _rtrim_sep(d)
+            if key in seen:
+                continue
+            seen.add(key)
+            dirs.append(d)
+        return dirs
+
+    def add_opened_dirs(self):
+        """Command "Add to project: folders of all opened files": adds the
+        folder of every opened tab (all tab groups), skipping duplicates -
+        several tabs of one folder add it once."""
+        self.init_panel()
+        dirs = self._collect_opened_dirs()
+        if not dirs:
+            msg_status(_('No opened files with a folder to add'))
+            return
+        for d in dirs:
+            self.add_node(d)
 
     def add_folder(self):
         """Command "Add to project: folder...": pick a folder and add it

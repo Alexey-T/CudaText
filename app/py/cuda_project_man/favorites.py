@@ -61,11 +61,12 @@ Main window (non-modal, resizable):
   header captions (the mouse cursor changes to the split shape over a
   divider); the Path column is auto-stretched - it always fills the
   free width, also when the window is resized
-- filter field at the top filters by name and path; Esc clears it
+- filter field at the top filters by name and path
 - while the window is focused: Ctrl+1..9 / Alt+1..9 open the item at
   that index (index in the currently visible, filtered list), Enter
   opens the selection, Del deletes it, F2 renames it, Space checks it,
-  Alt+Up/Down move it, Esc clears the filter (or closes the window)
+  Alt+Up/Down move it, Up/Down cycle the list (from any focused
+  control, wrapping at the ends), Esc closes the window
 - the window is only HIDDEN on close and reused on the next open, so
   its size and position are kept for the whole CudaText session; they
   reset only when CudaText restarts (the size is not saved to disk: a
@@ -1045,7 +1046,7 @@ class FavoritesForm:
             'x': BTN_X, 'y': 8, 'w': bx - 2 * BTN_X, 'h': EH,
             'tab_order': 0,
             'texthint': _('Filter by name or path...'),
-            'hint': _('Quickly filter the favorites list.\rEsc clears the filter'),
+            'hint': _('Quickly filter the favorites list.\rUp/Down cycles the list, Esc closes the window'),
             'a_l': ('', '['),
             'sp_l': BTN_X,
             **MAIN_RIGHT,
@@ -2266,28 +2267,24 @@ class FavoritesForm:
                 if row is not None:
                     self._toggle_check_row(row)
                     return False
+            # Up/Down work from ANY focused control (the filter field is
+            # focused right after the window opens - see show()): the
+            # keys cycle the favorites list / the filtered list, without
+            # the user having to click the list first
+            if key == VK_UP:
+                self.move_selection(-1)
+                return False
+            if key == VK_DOWN:
+                self.move_selection(+1)
+                return False
             if key == VK_ESCAPE:
-                if self.filter:
-                    # first Esc clears the filter, the next one closes
-                    # the form (the built-in Esc handling closes it when
-                    # this handler does not block the key).
-                    # NOTE for the old OS 'edit' control, setting the
-                    # text programmatically did NOT fire on_change, so
-                    # the list was refilled here; the 'editor_edit'
-                    # control DOES fire on_change on set_text_all, so
-                    # on_filter_change refills it - the manual refill
-                    # below stays as a harmless safety net
-                    try:
-                        if self._filter_ed:
-                            self._filter_ed.set_text_all('')
-                    # intentional silence: the dialog is already
-                    # closing - nothing to clear
-                    except Exception:
-                        pass
-                    self.filter = ''
-                    self.fill_list(keep_selection=False)
-                    return False
-                return None  # let the form close itself
+                # Esc always closes the window (the built-in Esc handling
+                # does it when this handler does not block the key); the
+                # old two-step behavior (first Esc clears the filter,
+                # the second one closes) was dropped on request - the
+                # filter has its (x)-less text hint and the user can
+                # clear it with the mouse / Shift+Home-style editing
+                return None
 
         # Alt+Up / Alt+Down: move the item
         if 'a' in mods and 'c' not in mods and 's' not in mods:
@@ -2405,6 +2402,49 @@ class FavoritesForm:
                        else _('Favorites: already at the bottom'))
         self.selected_data = new
         self.fill_list()
+
+    def move_selection(self, delta):
+        """Up/Down from ANY focused control (the filter field included -
+        it has the focus right after the window opens): move the list
+        selection by `delta` rows, WRAPPING at the ends (Down on the last
+        row selects the first one, Up on the first row selects the last
+        one) - the keys always cycle the favorites list / the filtered
+        list, never leave it, and never need a click on the list first.
+        The listbox's own key handling cannot do this: it only works
+        while the LIST is focused."""
+        if not self.h_list or not self.rows:
+            return
+        i = self._sel_index()
+        if i < 0:
+            i = 0
+        else:
+            i = (i + delta) % len(self.rows)
+        try:
+            # scroll the row into view ONLY when it sits outside it
+            # (a blind SET_TOP of every move would jump the view: the
+            # selected row would always land on the first visible line)
+            ih = self._item_h()
+            h = self._live_list_h()
+            try:
+                top = int(listbox_proc(self.h_list, LISTBOX_GET_TOP))
+            except (TypeError, ValueError):
+                top = 0
+            visible = max(1, h // ih) if (ih > 0 and h > 0) else 1
+            if i < top:
+                listbox_proc(self.h_list, LISTBOX_SET_TOP, index=i)
+            elif i >= top + visible:
+                listbox_proc(self.h_list, LISTBOX_SET_TOP,
+                             index=i - visible + 1)
+            listbox_proc(self.h_list, LISTBOX_SET_SEL, index=i)
+            # 'act':True fires on_change -> list_on_change updates
+            # self.selected_data and the status line; do it by hand too,
+            # so the state is right even in builds where the programmatic
+            # selection does not fire the event
+            row = self.rows[i]
+            self.selected_data = row['data_idx']
+            self.update_status()
+        except Exception:
+            log_error('Favorites: cannot move the list selection')
 
     def star_selected(self):
         row = self.selected_row()

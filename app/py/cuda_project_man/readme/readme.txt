@@ -132,6 +132,11 @@ PROJECT FILE
       .cuda-proj location, embeds the currently open tabs as a session
       named "session1", and switches to the new project. Tabs are not
       closed.
+      Before the location dialog, when at least one opened tab has a
+      folder, a confirmation offers to also add those folders to the
+      new project as root nodes (deduplicated; several tabs of one
+      folder add it once), so the new project already lists the code
+      it was made from. Answer "No" to start with an empty root list.
 
   Open project...
       Opens an existing .cuda-proj file. Saves the current project's
@@ -173,9 +178,12 @@ ROOT NODES
       Adds a folder/file to the project's root list (a browse dialog
       opens).
 
-  Add current file / Add all opened files / Add folder of current file
+  Add current file / Add all opened files / Add folder of current
+  file / Add folders of all opened files
       Adds the file open in the editor / every opened file (all tab
-      groups) / the folder of the current file.
+      groups) / the folder of the current file / the folders of every
+      opened tab (all tab groups), skipping duplicates - several tabs
+      of one folder add it once.
 
   Stop tracking this folder/file
       Removes the selected top-level entry from the project. The actual
@@ -316,6 +324,15 @@ Esc) clears the filter and restores the tree with the folds and the
 selection from before the filtering. The scan starts 0.4 s after the
 typing pauses, not on every keystroke.
 
+The scan order is PRIORITIZED, so what you are most likely looking for
+is found first: the folder of the file in the current editor tab (and
+its parent folders going up) is scanned first, then the folder of the
+selected tree node (and its parents), then the folders you have
+expanded in the tree, and only then everything else. A folder on the
+path down to a prioritized folder inherits its priority, so a whole
+branch can be "current" too. Nothing changes about WHAT is found -
+only the order in which matches appear while the scan runs.
+
 While the panel has the keyboard focus (and you are not typing in the
 filter field), plain letters and digits jump to the first node of the
 current level whose name starts with the typed text - "myf" selects
@@ -409,8 +426,9 @@ window...)
       too. Sort by it to gather the dead favorites at one end.
 
   Filter
-      The field at the top filters by name AND path as you type; Esc
-      clears it (a second Esc closes the window).
+      The field at the top filters by name AND path as you type. Clear
+      it by deleting the text (Ctrl+A / Backspace) - Esc does not touch
+      it.
 
   Sorting
       Click a column header: 1st click sorts ascending, 2nd descending,
@@ -427,8 +445,11 @@ window...)
       Del                     delete it (from the favorites list)
       F2                      rename it
       Space                   check/uncheck it
+      Up / Down               cycle the list from ANY focused control
+                              (the filter field included - no need to
+                              click the list first); wraps at the ends
       Alt+Up / Alt+Down       move it up/down
-      Esc                     clear the filter; second Esc closes
+      Esc                     close the window
 
   Right-click menu: Open, Reveal in file manager, Copy path,
   Star/Unstar, Rename..., Delete, the "Checked (N):" commands, Sort
