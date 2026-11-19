@@ -197,18 +197,18 @@ Dragging:
 
 * Alt+drag - Make '''[[#Behaviour of column selection|column selection]]'''.
 * Drag on Gutter line numbers - Select text by entire lines.
-* Double left-click and immediately drag - Select text by words.
+* Double left click and immediately drag - Select text by words.
 
 Clicks:
 
-* Double left-click - Select clicked word; this behavior can be customized as described in '''[[#How to select extra symbols by double-click|§ How to select extra symbols by double-click]]''' using the "nonword_chars" option.
-* Triple left-click - Select entire line (block is limited by newline characters).
-* Middle-click - Configurable by option "mouse_middle_click", choices are:
-** '''0''' Nothing.
-** '''1''' Start "browser scrolling" mode: circle mark appears and mouse moving around this mark auto-scrolls text in 4 directions; speed of scrolling depends on distance of cursor from circle mark (any click to turn off).
-** '''2''' Paste from clipboard. This mimics Linux apps behaviour.
-** '''3''' Call "Go to definition" command.
-* Click on Back/Forward mouse buttons - These clicks do nothing by default, but they produce keyboard actions BrowserBack/BrowserForward (extended keys on Windows keyboards), and so they can be assigned in the hotkeys setup dialog (F9 in the Command Palette). For example, Ctrl+Back produces Ctrl+BrowserBack keyboard action.
+* Double left click - Select clicked word; this behavior can be customized as described in '''[[#How to select extra symbols by double-click|§ How to select extra symbols by double-click]]''' using the "nonword_chars" option.
+* Triple left click - Select entire line (block is limited by newline characters).
+* Middle click - Configurable by option "mouse_middle_click", choices are:
+** 0: Nothing.
+** 1: Start "browser scrolling" mode: circle mark appears and mouse moving around this mark auto-scrolls text in 4 directions; speed of scrolling depends on distance of cursor from circle mark (any click to turn off).
+** 2: Paste from clipboard. This mimics Linux apps behaviour.
+** 3: Call "Go to definition" command.
+* Click on Backward/Forward mouse buttons - These clicks do nothing by default, but they produce keyboard actions BrowserBack/BrowserForward (extended keys on Windows keyboards), and so they can be assigned in the hotkeys setup dialog (F9 in the Command Palette). For example, Ctrl+Back produces Ctrl+BrowserBack keyboard action.
 
 Miscellaneous:
 
