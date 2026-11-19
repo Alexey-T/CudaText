@@ -927,6 +927,20 @@ const
   BITMAP_GET_SIZE = 3;
   BITMAP_GET_CANVAS = 4;
 
+  MD_GET_TEXT      = 0;
+  MD_SET_TEXT      = 1;
+  MD_LOAD_FILE     = 2;
+  MD_LOAD_EDITOR   = 3;
+  MD_GET_FOLDER    = 4;
+  MD_SET_FOLDER    = 5;
+  MD_GET_SCROLL_Y  = 6;
+  MD_SET_SCROLL_Y  = 7;
+  // MD_GET_SCROLL_X  = 8;
+  // MD_SET_SCROLL_X  = 9;
+  MD_SEL_GET_TEXT  = 10;
+  MD_SEL_COPY      = 11;
+  MD_SEL_CLEAR     = 12;
+
 implementation
 
 end.

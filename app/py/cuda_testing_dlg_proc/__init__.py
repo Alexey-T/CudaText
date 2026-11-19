@@ -1229,19 +1229,31 @@ end
             'cap': '(clicked tab-'+str(n+1)+')',
             })
 
-    def callback_md_loadfile(self, id_dlg, id_ctl, data='', info=''):
+    def callback_md_load_file(self, id_dlg, id_ctl, data='', info=''):
         fn_dir = os.path.dirname(__file__)
         fn = dlg_file(True, '', fn_dir, 'Markdown|*.md', 'Open file')
         if fn:
             self._load_markdown(fn, id_dlg)
+
+    def callback_md_load_editor(self, id_dlg, id_ctl, data='', info=''):
+        h_md = dlg_proc(id_dlg, DLG_CTL_HANDLE, name='markdown1')
+        md_proc(h_md, MD_SET_FOLDER, '')
+        md_proc(h_md, MD_LOAD_EDITOR, ed.get_prop(PROP_HANDLE_SELF))
+        
+    def callback_md_scroll_up(self, id_dlg, id_ctl, data='', info=''):
+        h_md = dlg_proc(id_dlg, DLG_CTL_HANDLE, name='markdown1')
+        y = md_proc(h_md, MD_GET_SCROLL_Y)
+        md_proc(h_md, MD_SET_SCROLL_Y, max(0, y-20))
+        
+    def callback_md_scroll_down(self, id_dlg, id_ctl, data='', info=''):
+        h_md = dlg_proc(id_dlg, DLG_CTL_HANDLE, name='markdown1')
+        y = md_proc(h_md, MD_GET_SCROLL_Y)
+        md_proc(h_md, MD_SET_SCROLL_Y, y+20)
         
     def _load_markdown(self, fn, id_dlg):
-        text = open(fn, encoding='utf8').read()
-        filedir = os.path.dirname(fn)
-        dlg_proc(id_dlg, DLG_CTL_PROP_SET, name='markdown1', prop={
-                'texthint': filedir,
-                'val': text,
-                })
+        h_md = dlg_proc(id_dlg, DLG_CTL_HANDLE, name='markdown1')
+        md_proc(h_md, MD_SET_FOLDER, os.path.dirname(fn))
+        md_proc(h_md, MD_LOAD_FILE, fn)
 
     def test_sidepanel(self):
         print('test_sidepanel')
@@ -1462,13 +1474,46 @@ end
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
-            'name': 'btn_1',
+            'name': 'btn_load_file',
             'cap': 'Load file...',
             'p': 'p_bottom',
             'x': 2,
             'y': 2,
-            'w': 150,
-            'on_change': 'module=cuda_testing_dlg_proc;cmd=callback_md_loadfile;'
+            'w': 96,
+            'on_change': 'module=cuda_testing_dlg_proc;cmd=callback_md_load_file;'
+            })
+
+        n=dlg_proc(h, DLG_CTL_ADD, 'button')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'btn_load_editor',
+            'cap': 'Load cur editor',
+            'p': 'p_bottom',
+            'x': 100,
+            'y': 2,
+            'w': 96,
+            'on_change': 'module=cuda_testing_dlg_proc;cmd=callback_md_load_editor;'
+            })
+
+        n=dlg_proc(h, DLG_CTL_ADD, 'button')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'btn_scroll_up',
+            'cap': 'Scroll up',
+            'p': 'p_bottom',
+            'x': 200,
+            'y': 2,
+            'w': 96,
+            'on_change': 'module=cuda_testing_dlg_proc;cmd=callback_md_scroll_up;'
+            })
+
+        n=dlg_proc(h, DLG_CTL_ADD, 'button')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'btn_scroll_down',
+            'cap': 'Scroll down',
+            'p': 'p_bottom',
+            'x': 300,
+            'y': 2,
+            'w': 96,
+            'on_change': 'module=cuda_testing_dlg_proc;cmd=callback_md_scroll_down;'
             })
 
         dlg_proc(h, DLG_SHOW_MODAL)

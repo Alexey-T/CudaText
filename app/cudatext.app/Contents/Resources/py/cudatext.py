@@ -1108,6 +1108,20 @@ BITMAP_SET_SIZE = 2
 BITMAP_GET_SIZE = 3
 BITMAP_GET_CANVAS = 4
 
+MD_GET_TEXT      = 0
+MD_SET_TEXT      = 1
+MD_LOAD_FILE     = 2
+MD_LOAD_EDITOR   = 3
+MD_GET_FOLDER    = 4
+MD_SET_FOLDER    = 5
+MD_GET_SCROLL_Y  = 6
+MD_SET_SCROLL_Y  = 7
+# MD_GET_SCROLL_X  = 8
+# MD_SET_SCROLL_X  = 9
+MD_SEL_GET_TEXT  = 10
+MD_SEL_COPY      = 11
+MD_SEL_CLEAR     = 12
+
 V_API, V_EXE = ct.app_ver()
 
 def app_exe_version():
@@ -1260,6 +1274,9 @@ def tree_proc(id_tree, id_action, id_item=0, index=0, text='', image_index=-1, d
         return
     text = to_str(text)
     return ct.tree_proc(id_tree, id_action, id_item, index, text, image_index, data)
+
+def md_proc(id_md, id_action, param1='', param2=''):
+    return ct.md_proc(id_md, id_action, str(param1), str(param2))
 
 def _menu_proc_callback_proxy(info=''):
     if info in _live:

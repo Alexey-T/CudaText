@@ -11301,6 +11301,119 @@ begin
 end;
 
 
+function api_md_proc(Self, Args: PPyObject): PPyObject; cdecl;
+var
+  IdMarkdown, IdEditor: Int64;
+  IdAction: integer;
+  PtrParam1, PtrParam2: PChar;
+  MD: TMarkdownControl;
+  Ed: TATSynEdit;
+  Obj: TObject;
+  SLine: UnicodeString;
+  N: integer;
+begin
+  with AppPython.Engine do
+    if Bool(PyArg_ParseTuple(Args, 'Liss:md_proc', @IdMarkdown, @IdAction, @PtrParam1, @PtrParam2)) then
+    begin
+      Obj:= TObject(PtrInt(IdMarkdown));
+      if not (Obj is TMarkDownControl) then
+      begin
+        MsgLogConsole('ERROR: md_proc() gets bad handle, of type '+Obj.ClassName);
+        exit(ReturnNone);
+      end;
+
+      MD:= TMarkDownControl(Obj);
+      Obj:= nil;
+
+      case IdAction of
+        MD_GET_TEXT:
+          begin
+            Result:= PyUnicodeFromString(MD.MarkDown.Text);
+          end;
+
+        MD_SET_TEXT:
+          begin
+            MD.MarkDown.Text:= string(PtrParam1);
+            Result:= PyLong_FromLong(MD.Markdown.Count);
+          end;
+
+        MD_LOAD_FILE:
+          begin
+            MD.MarkDown.LoadFromFile(string(PtrParam1));
+            Result:= PyLong_FromLong(MD.Markdown.Count);
+          end;
+
+        MD_LOAD_EDITOR:
+          begin
+            IdEditor:= StrToInt64Def(string(PtrParam1), 0);
+            Ed:= PyHelper_EditorFromHandle(IdEditor);
+            if Ed=nil then
+            begin
+              MsgLogConsole('ERROR: md_proc(.., MD_LOAD_EDITOR, ..) gets bad editor handle');
+              exit(ReturnNone);
+            end;
+
+            MD.Markdown.BeginUpdate;
+            MD.Markdown.Clear;
+            for N:= 0 to Ed.Strings.Count-1 do
+            begin
+              SLine:= Ed.Strings.Lines[N];
+              MD.MarkDown.Add(UTF8Encode(SLine));
+            end;
+            MD.Markdown.EndUpdate;
+            Result:= PyLong_FromLong(MD.Markdown.Count);
+          end;
+
+        MD_GET_FOLDER:
+          begin
+            Result:= PyUnicodeFromString(MD.FileDir);
+          end;
+
+        MD_SET_FOLDER:
+          begin
+            MD.FileDir:= string(PtrParam1);
+            Result:= ReturnNone;
+          end;
+
+        MD_GET_SCROLL_Y:
+          begin
+            Result:= PyLong_FromLong(MD.ScrolledTop);
+          end;
+
+        MD_SET_SCROLL_Y:
+          begin
+            N:= StrToIntDef(string(PtrParam1), -1);
+            if N>=0 then
+              MD.ScrolledTop:= N;
+            Result:= ReturnNone;
+          end;
+
+        MD_SEL_GET_TEXT:
+          begin
+            Result:= PyUnicodeFromString(MD.SelectedText);
+          end;
+
+        MD_SEL_COPY:
+          begin
+            MD.CopySelectionToClipBoard;
+            Result:= ReturnNone;
+          end;
+
+        MD_SEL_CLEAR:
+          begin
+            MD.ClearSelection;
+            Result:= ReturnNone;
+          end;
+
+        else
+          Result:= ReturnNone;
+      end;
+    end
+  else
+    Result:= ReturnNone;
+end;
+
+
 //func at end (uses funcs above)
 procedure TfmMain.PythonModuleInitialization(Sender: TObject);
 begin
@@ -11398,6 +11511,7 @@ begin
     AddMethod('image_proc', @api_image_proc, '');
     AddMethod('button_proc', @api_button_proc, '');
     AddMethod('finder_proc', @api_finder_proc, '');
+    AddMethod('md_proc', @api_md_proc, '');
   end;
 end;
 

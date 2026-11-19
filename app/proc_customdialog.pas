@@ -1606,10 +1606,7 @@ begin
     (C as TCustomEdit).TextHint:= S
   else
   if C is TATSynEdit then
-    (C as TATSynEdit).OptTextHint:= S
-  else
-  if C is TMarkDownControl then
-    TMarkdownControl(C).FileDir:= S;
+    (C as TATSynEdit).OptTextHint:= S;
 end;
 
 
