@@ -1278,8 +1278,8 @@ def tree_proc(id_tree, id_action, id_item=0, index=0, text='', image_index=-1, d
     text = to_str(text)
     return ct.tree_proc(id_tree, id_action, id_item, index, text, image_index, data)
 
-def md_proc(id_md, id_action, param1='', param2=''):
-    return ct.md_proc(id_md, id_action, str(param1), str(param2))
+def md_proc(id_md, id_action, param1=''):
+    return ct.md_proc(id_md, id_action, str(param1))
 
 def _menu_proc_callback_proxy(info=''):
     if info in _live:

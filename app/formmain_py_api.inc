@@ -11305,14 +11305,14 @@ function api_md_proc(Self, Args: PPyObject): PPyObject; cdecl;
 var
   IdMarkdown, IdEditor: Int64;
   IdAction: integer;
-  PtrParam1, PtrParam2: PChar;
+  PtrParam1: PChar;
   MD: TMarkdownControl;
   Ed: TATSynEdit;
   Obj: TObject;
   N: integer;
 begin
   with AppPython.Engine do
-    if Bool(PyArg_ParseTuple(Args, 'Liss:md_proc', @IdMarkdown, @IdAction, @PtrParam1, @PtrParam2)) then
+    if Bool(PyArg_ParseTuple(Args, 'Lis:md_proc', @IdMarkdown, @IdAction, @PtrParam1)) then
     begin
       Obj:= TObject(PtrInt(IdMarkdown));
       if not (Obj is TMarkDownControl) then
