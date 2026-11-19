@@ -11405,6 +11405,12 @@ begin
             Result:= ReturnNone;
           end;
 
+        MD_SET_HL:
+          begin
+            MdViewCodeSyntaxEnabled:= AppStrToBool(string(PtrParam1));
+            Result:= ReturnNone;
+          end;
+
         else
           Result:= ReturnNone;
       end;

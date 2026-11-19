@@ -71,8 +71,7 @@ var
 implementation
 
 uses
-  markdown.control,
-  proc_mdview_control;
+  markdown.control;
 
 var
   FDialogShown: boolean = false;

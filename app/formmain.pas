@@ -1333,6 +1333,7 @@ implementation
 
 uses
   Markdown.Control,
+  proc_mdview_control,
   Emmet,
   EmmetHelper,
   TreeHelpers_Base,
