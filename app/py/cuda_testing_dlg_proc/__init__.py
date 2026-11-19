@@ -1464,7 +1464,7 @@ end
             'border': False,
             'color': 0xC0F0C0,
             'font_name': 'Arial',
-            'font_size': 14,
+            'font_size': 11,
             })
         
         fn_md = os.path.join(os.path.dirname(__file__), 'testing_doc1', 'markdown+html.md')

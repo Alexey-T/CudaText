@@ -11305,14 +11305,14 @@ function api_md_proc(Self, Args: PPyObject): PPyObject; cdecl;
 var
   IdMarkdown, IdEditor: Int64;
   IdAction: integer;
-  PtrParam1: PChar;
+  PtrVal: PChar;
   MD: TMarkdownControl;
   Ed: TATSynEdit;
   Obj: TObject;
   N: integer;
 begin
   with AppPython.Engine do
-    if Bool(PyArg_ParseTuple(Args, 'Lis:md_proc', @IdMarkdown, @IdAction, @PtrParam1)) then
+    if Bool(PyArg_ParseTuple(Args, 'Lis:md_proc', @IdMarkdown, @IdAction, @PtrVal)) then
     begin
       Obj:= TObject(PtrInt(IdMarkdown));
       if not (Obj is TMarkDownControl) then
@@ -11332,19 +11332,19 @@ begin
 
         MD_SET_TEXT:
           begin
-            MD.MarkDown.Text:= string(PtrParam1);
+            MD.MarkDown.Text:= string(PtrVal);
             Result:= PyLong_FromLong(MD.Markdown.Count);
           end;
 
         MD_LOAD_FILE:
           begin
-            MD.MarkDown.LoadFromFile(string(PtrParam1));
+            MD.MarkDown.LoadFromFile(string(PtrVal));
             Result:= PyLong_FromLong(MD.Markdown.Count);
           end;
 
         MD_LOAD_EDITOR:
           begin
-            IdEditor:= StrToInt64Def(string(PtrParam1), 0);
+            IdEditor:= StrToInt64Def(string(PtrVal), 0);
             Ed:= PyHelper_EditorFromHandle(IdEditor);
             if Ed=nil then
             begin
@@ -11363,7 +11363,7 @@ begin
 
         MD_SET_FOLDER:
           begin
-            MD.FileDir:= string(PtrParam1);
+            MD.FileDir:= string(PtrVal);
             Result:= ReturnNone;
           end;
 
@@ -11374,7 +11374,7 @@ begin
 
         MD_SET_SCROLL_Y:
           begin
-            N:= StrToIntDef(string(PtrParam1), -1);
+            N:= StrToIntDef(string(PtrVal), -1);
             if N>=0 then
               MD.ScrolledTop:= N;
             Result:= ReturnNone;
@@ -11404,13 +11404,13 @@ begin
 
         MD_SET_FENCED_HL:
           begin
-            MdViewCodeSyntaxEnabled:= AppStrToBool(string(PtrParam1));
+            MdViewCodeSyntaxEnabled:= AppStrToBool(string(PtrVal));
             Result:= ReturnNone;
           end;
 
         MD_SET_FONT_MONO:
           begin
-            MD.MonoFontName:= string(PtrParam1);
+            MD.MonoFontName:= string(PtrVal);
             Result:= ReturnNone;
           end;
 

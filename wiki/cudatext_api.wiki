@@ -2298,7 +2298,7 @@ Note: Toolbars contain several "button_ex" objects, which are anchored one to an
 
 ===md_proc===
 
- md_proc(id_md, id_action, param1="")
+ md_proc(id_md, id_action, val="")
 
 Perform action on Markdown viewer control.
 
@@ -2307,18 +2307,18 @@ Param "id_md" is int handle of Markdown viewer.
 Possible values of "id_action":
 
 * MD_GET_TEXT: Returns the entire text.
-* MD_SET_TEXT: Sets the entire text. Param "param1" must be text.
-* MD_LOAD_FILE: Loads the entire text from given filename. It is much faster then to load the file via Python and then call MD_SET_TEXT. Param "param1" must be valid filename.
-* MD_LOAD_EDITOR: Loads the entire text from given Editor control. Param "param1" must be int handle of Editor control.
+* MD_SET_TEXT: Sets the entire text. Param "val" must be text.
+* MD_LOAD_FILE: Loads the entire text from given filename. It is much faster then to load the file via Python and then call MD_SET_TEXT. Param "val" must be valid filename.
+* MD_LOAD_EDITOR: Loads the entire text from given Editor control. Param "val" must be int handle of Editor control.
 * MD_GET_FOLDER: Returns the folder path of document.
 * MD_SET_FOLDER: Sets the folder path of document, which is needed for Markdown picture-refs with relative filenames.
 * MD_GET_SCROLL_Y: Returns the vertical scroll position.
-* MD_SET_SCROLL_Y: Sets the vertical scroll position. Too huge value is allowed (e.g. maximal 32-bit value 0x7FFFffff), it will scroll to the document end. Param "param1" must be scroll position.
+* MD_SET_SCROLL_Y: Sets the vertical scroll position. Too huge value is allowed (e.g. maximal 32-bit value 0x7FFFffff), it will scroll to the document end. Param "val" must be scroll position.
 * MD_SEL_GET_TEXT: Returns the selected text.
 * MD_SEL_COPY: Copies the selected text to clipboard.
 * MD_SEL_CLEAR: Removes the selection.
 * MD_GET_HL: Returns enabled-flag of syntax-highlight of "fenced code-blocks".
-* MD_SET_HL: Sets the enabled-flag of syntax-highlight of "fenced code-blocks". Flag is applied on the next loading of text into viewer. Param "param1" must be 1 (enable) or 0 (disable).
+* MD_SET_HL: Sets the enabled-flag of syntax-highlight of "fenced code-blocks". Flag is applied on the next loading of text into viewer. Param "val" must be 1 (enable) or 0 (disable).
 * MD_SET_FONT_MONO: Sets the font name of monospaced font.
  
 ===finder_proc===
