@@ -981,9 +981,7 @@ Shows dialog with controls of many types. This is legacy API, it is recommended 
 * "pages": PageControl: set of tabs, with pages attached to them (only one of pages is visible).
 * "splitter": divider bar (vertical or horizontal), which can be dragged by mouse, to change width/height of nearest control. It finds linked control, ie control with the same "parent" and "align", which position (coordinates) are nearest to the splitter. On mouse drag, splitter resizes this linked control. It's recommended to place another control with "align": ALIGN_CLIENT, so splitter will resize two controls at once. A panel may contain several splitters (mixed with other controls between them).
 * "scrollbox": like panel, but has two auto-shown scrollbars to scroll the area containing children controls (ie controls which parent is this scrollbox).
-* "md_view": panel which renders Markdown document. special properties:
-** "texthint" (str): folder of Markdown document, must be set if you need to show picture-files with relative filenames.
-** "ex0" (bool): enable syntax highlighting of fenced code blocks, using lexers of app.
+* "md_view": panel which renders Markdown document.
 
 Details:
 
@@ -1071,7 +1069,6 @@ Action DLG_CTL_PROP_SET, for "listview", allows both "items" (it sets columns) a
 * For "scrollbox":
 ** on reading: value is 6 numbers ","-separated: vert_position, horz_position, vert_range, horz_range, vert_pagesize, horz_pagesize.
 ** on writing: value is only 2 numbers ","-separated: vert_position, horz_position.
-* For "md_view": value is text in control.
 
 ====dlg_custom - Properties "ex"====
 
@@ -1079,8 +1076,6 @@ Properties "ex0"..."ex9" are specific to each control kind. They have different 
 
 * "button":
 ** "ex0": bool: default for Enter key.
-* "md_view":
-** "ex0": bool: enable syntax highlighting of fenced code blocks in the control, using lexers of app (e.g. "```python ..." blocks are colored like in editor with "Python" lexer). Set it before setting property "val" (text), because highlighting is applied while rendering the text. If lexer for a fenced block's language is not found, block is rendered w/o highlighting.
 * "edit":
 ** "ex0": bool: read-only.
 ** "ex1": bool: font is monospaced.
@@ -2300,6 +2295,28 @@ Possible values of "id_action":
 
 Note: Toolbars contain several "button_ex" objects, which are anchored one to another (horizontally or vertically). You can also construct such toolbar by hands. API <code>toolbar_proc()</code> don't allow to specify kind of buttons, it sets kind from button properties.
 
+===md_proc===
+
+ md_proc(id_md, id_action, param1="", param2="")
+
+Perform action on Markdown viewer control.
+
+Param "id_md" is int handle of Markdown viewer.
+
+Possible values of "id_action":
+
+* MD_GET_TEXT: Returns the entire text.
+* MD_SET_TEXT: Sets the entire text. Param "param1" must be text.
+* MD_LOAD_FILE: Loads the entire text from given filename. It is much faster then to load the file via Python and then call MD_SET_TEXT. Param "param1" must be valid filename.
+* MD_LOAD_EDITOR: Loads the entire text from given Editor control. Param "param1" must be int handle of Editor control.
+* MD_GET_FOLDER: Returns the folder path of document.
+MD_SET_FOLDER: Sets the folder path of document, which is needed for Markdown picture-refs with relative filenames.
+* MD_GET_SCROLL_Y: Returns the vertical scroll position.
+* MD_SET_SCROLL_Y: Sets the vertical scroll position. Too huge value is allowed (e.g. maximal 32-bit value 0x7FFFffff), it will scroll to the document end. Param "param1" must be scroll position.
+* MD_SEL_GET_TEXT: Returns the selected text.
+MD_SEL_COPY: Copies the selected text to clipboard.
+MD_SEL_CLEAR: Removes the selection.
+ 
 ===finder_proc===
 
  finder_proc(id_finder, id_action, value="", setcaret=True)
@@ -5579,5 +5596,6 @@ It provides:
 
 1.0.487 (app 1.240.0)
 * add: dlg_proc: control type "md_view"
+* add: md_proc
 
 [[Category:CudaText]]
