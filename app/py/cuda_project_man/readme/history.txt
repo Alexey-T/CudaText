@@ -20,15 +20,24 @@
   clicking the list first; the selection wraps at the ends (Down on
   the last row selects the first one and vice versa).
 - Tree filter: the background scan is now PRIORITIZED so the matches
-  you are most likely interested in appear first. Tier 1: the folder
-  of the file in the current editor tab, then its parent folders
-  going up. Tier 2: the folder of the selected tree node, then its
-  parents. Tier 3: the folders expanded in the tree. Tier 4:
-  everything else (breadth-first, like before). A folder on the path
-  down to a prioritized folder inherits its priority, so the focused
-  branch is walked to its bottom before anything else. What is found
-  does not change - only the order in which matches appear during the
-  scan.
+  you are most likely interested in appear first, and each priority
+  region is scanned to ITS FULL END before the next one starts. Tier
+  1: the folder of the file in the current editor tab. Tier 2: the
+  folder of the selected tree node. Tier 3: the folders expanded in
+  the tree. Tier 4: everything else (breadth-first, like before).
+  The whole SUBTREE of a tier's folder is scanned inside that tier
+  (a big expanded folder is finished before anything else starts -
+  it no longer interleaves with never-opened folders), and the path
+  DOWN to a tier's folder shares its tier so it is walked first.
+  What is found does not change - only the order in which matches
+  appear during the scan. While a filter is active, the pre-typing
+  selection and expansions are remembered and stay in effect for
+  every re-scan (each further keystroke).
+- Tree filter: while the background search is RUNNING, the (x)
+  button at the right of the filter field turns into a RED button -
+  a clear signal that clicking it cancels the running search (the
+  findings stay visible). When the search finishes or is cancelled,
+  the button returns to its normal look.
 
 2026.11.16 (@badrelmers)
 - Two new options: "UI font size" and "Edit font size" (whole

@@ -325,13 +325,19 @@ selection from before the filtering. The scan starts 0.4 s after the
 typing pauses, not on every keystroke.
 
 The scan order is PRIORITIZED, so what you are most likely looking for
-is found first: the folder of the file in the current editor tab (and
-its parent folders going up) is scanned first, then the folder of the
-selected tree node (and its parents), then the folders you have
-expanded in the tree, and only then everything else. A folder on the
-path down to a prioritized folder inherits its priority, so a whole
-branch can be "current" too. Nothing changes about WHAT is found -
-only the order in which matches appear while the scan runs.
+is found first, and each priority region is scanned to its FULL END
+before the next one starts: the folder of the file in the current
+editor tab is scanned first, then the folder of the selected tree
+node, then the folders you have expanded in the tree, and only then
+everything else. The whole SUBTREE of a tier's folder is scanned
+inside that tier (a big expanded folder is completely finished before
+anything else starts), and the path down to it is walked first. While
+a filter is active, the selection and the expansions from before the
+typing stay in effect for every re-scan. Nothing changes about WHAT is
+found - only the order in which matches appear while the scan runs.
+While a search is running, the x button turns RED - a clear signal
+that clicking it cancels the running search and keeps everything
+found so far.
 
 While the panel has the keyboard focus (and you are not typing in the
 filter field), plain letters and digits jump to the first node of the
