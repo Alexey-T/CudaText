@@ -1249,6 +1249,10 @@ end
         h_md = dlg_proc(id_dlg, DLG_CTL_HANDLE, name='markdown1')
         y = md_proc(h_md, MD_GET_SCROLL_Y)
         md_proc(h_md, MD_SET_SCROLL_Y, y+20)
+
+    def callback_md_sel_clear(self, id_dlg, id_ctl, data='', info=''):
+        h_md = dlg_proc(id_dlg, DLG_CTL_HANDLE, name='markdown1')
+        md_proc(h_md, MD_SEL_CLEAR)
         
     def _load_markdown(self, fn, id_dlg):
         h_md = dlg_proc(id_dlg, DLG_CTL_HANDLE, name='markdown1')
@@ -1514,6 +1518,17 @@ end
             'y': 2,
             'w': 96,
             'on_change': 'module=cuda_testing_dlg_proc;cmd=callback_md_scroll_down;'
+            })
+
+        n=dlg_proc(h, DLG_CTL_ADD, 'button')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'btn_sel_clear',
+            'cap': 'Clear sel',
+            'p': 'p_bottom',
+            'x': 400,
+            'y': 2,
+            'w': 96,
+            'on_change': 'module=cuda_testing_dlg_proc;cmd=callback_md_sel_clear;'
             })
 
         dlg_proc(h, DLG_SHOW_MODAL)
