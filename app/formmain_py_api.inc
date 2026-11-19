@@ -11405,6 +11405,11 @@ begin
             Result:= ReturnNone;
           end;
 
+        MD_GET_HL:
+          begin
+            Result:= PyBool_FromLong(Ord(MdViewCodeSyntaxEnabled));
+          end;
+
         MD_SET_HL:
           begin
             MdViewCodeSyntaxEnabled:= AppStrToBool(string(PtrParam1));

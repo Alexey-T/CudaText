@@ -1121,6 +1121,7 @@ MD_SET_SCROLL_Y  = 7
 MD_SEL_GET_TEXT  = 10
 MD_SEL_COPY      = 11
 MD_SEL_CLEAR     = 12
+MD_GET_HL        = 13
 MD_SET_HL        = 14
 
 V_API, V_EXE = ct.app_ver()
