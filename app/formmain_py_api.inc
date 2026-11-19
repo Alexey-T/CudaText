@@ -11309,7 +11309,6 @@ var
   MD: TMarkdownControl;
   Ed: TATSynEdit;
   Obj: TObject;
-  SLine: UnicodeString;
   N: integer;
 begin
   with AppPython.Engine do
@@ -11353,14 +11352,7 @@ begin
               exit(ReturnNone);
             end;
 
-            MD.Markdown.BeginUpdate;
-            MD.Markdown.Clear;
-            for N:= 0 to Ed.Strings.Count-1 do
-            begin
-              SLine:= Ed.Strings.Lines[N];
-              MD.MarkDown.Add(UTF8Encode(SLine));
-            end;
-            MD.Markdown.EndUpdate;
+            Ed.SaveToStrings(MD.MarkDown);
             Result:= PyLong_FromLong(MD.Markdown.Count);
           end;
 
