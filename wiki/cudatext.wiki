@@ -15,61 +15,51 @@
  | style="background-color: #eee8d5; border: 2px solid #fff; color: #657b83; font-size: 1.225rem; font-weight: 500; line-height: 1.1; padding: 0 1em 0.2em; width: 25%;" | [https://github.com/Alexey-T ''other required lazarus packages'']
 |}
 '''CudaText''' is a cross-platform text editor, written in Object Pascal language using the Lazarus IDE, with a focus on performance and a broad featureset, which includes:
-{{Columns-start|num=3}}
 * [[#List of lexers|Syntax highlighting for 300+ languages]]
 * [[#Multi-carets|Multi-carets]], [[#Multi-selections|multi-selections]]
 * [[#Folding|Code folding]]
 * [[#Code-Tree|Code-tree]] (list of functions/classes/etc., if lexer-supported)
 * [[#Dialog Find/Replace|Search/replace]] with [[#Regular expressions|regular expressions]]
-{{Column|num=3}}
 * [[#Command Palette|Command palette]]
 * [[#Configuration|Configuration files in JSON]]
 * [[#Color themes|Interface- and syntax-themes]]
 * [[#Encodings|Support for many encodings]]
 * Based on the [[ATSynEdit]] engine
 * [[#Add-ons|Extensibility via Python add-ons]], e.g. [[wikipedia:Language Server Protocol|<abbr title="Language Server Protocol">LSP</abbr>]] support
-{{Column|num=3}}
 * Built-in HTML and CSS auto-completion
 * HTML tag completion with {{Keystroke|⭾ Tab}}
 * HTML tooltips on mouse-over
 * Hex color code underlining
 * Viewer for picture files (jpeg, png, gif, bmp, ico, webp)
-{{Columns-end}}
 
 == UI elements ==
 [[File:cudatext.png|thumb|center|875px|Screenshot on Windows]]
 [[File:cudatext-ui-elements.png|border|center|CudaText UI Elements]]
 <div style="clear: both;"></div>
-{{Columns-start}}
 ; ed : Main editor field.
 ; gut : Gutter, contains several columns for the active editor: bookmark icons, line numbers, folding icons, line-state marks. 
 ; tabs : UI-tabs, to switch between different documents.
 ; map : Mini-map (left side), which is shown here together with micro-map (thin bar on the right side).
 ; tree : Code-tree, shows 'symbols' from the active document (functions, classes, structs etc) in the tree view.
 ; filt : Filtering input field for the code-tree. Leaves only those items which contain entered text.
-{{Column}}
 ; tb : Toolbar: buttons for some commands. Hidden by default. Configurable via plugin Config Toolbar.
 ; sb : Sidebar. Vertical bar with buttons to activate different parts of the '''side panel''': [[#Code-Tree|Code-Tree]] (built-in), Project Manager (plugin), Snippet Panel (plugin) etc. Sidebar buttons on the bottom half activate parts of the '''bottom (horizontal) panel''': [[#Console panel|Console panel]], [[#Output/Validate panels|Output panel]] etc. Plugins can add buttons to sidebar, for example the bottom black icon is the ExTerminal plugin.
 ; cons : [[#Console panel|Console]]. One of the bottom panels. You can activate others ([[#Output/Validate panels|Output and Validate panels]]) via sidebar.
 ; stat : Statusbar. Has several cells to show some current states.
 ; bre : Breadcrumb bar, clickable filepath entries provided by an optional [https://github.com/CudaText-addons/cuda_breadcrumbs plugin] available in the [[#Add-ons|Addons Manager]].
-{{Columns-end}}
 
 == Configuration ==
 The CudaText configuration system uses JSON files: call menu item "Options | Settings - default" and you'll see the default configuration file {{Code|default.json}}. Copy lines from this file to the file {{Code|user.json}} displayed by selecting the menu item "Options | Settings - user" and edit the values there to customize your user configuration. The {{Code|user.json}} is the actual configuration file, the default configuration is provided solely to use as a reference.
 
 {{Note|You can copy the JSON comments from the default file into your user configuration, too. In the user config, include useful lines inside the curly braces {{Code|&lbrace; &rbrace;}}, this is JSON formatting. Trailing commas on the final key:value pair before a closing brace ({{Code|&rbrace;}}) are allowed here.}}
-{{Columns-start|num=2}}
 ; Default config : File {{Code|settings_default/default.json}}, can be opened via menu item "Options | Settings - default". CudaText doesn't use this file, it's only for user reference. CudaText only opens this file by the command, and this file is parsed by plugin "Options Editor Lite".
 ; Hotkeys (keyboard shortcuts) config : File {{Code|settings/keys.json}}. Special dialog allows to change all hotkeys in CudaText. You should not edit this file directly, without using the dialog. Dialog is called from "View | Command palette" by pressing {{Keystroke|F9}}. Dialog allows to set primary+secondary hotkeys for any command (except dynamically added commands which, for example, change current lexer).
 ; Plugin configs : Files {{Code|settings/cuda_*}}. Plugins store their settings in there, and files can be in any format (most commonly JSON or INI). Good quality plugins provide menu items in "Options | Settings - plugins" to open their config file, or to show configuration dialog.
 ; History file : File {{Code|settings/history.json}}. Mentioned here because sometimes users need to delete their history file (dialog positions, recent files list etc, recent search strings etc).
-{{Column|num=2}}
 ; User config : File {{Code|settings/user.json}}. Can be opened via menu item "Options | Settings - user".
 ; User lexer-specific configs : Files {{Code|settings/lexer <var>NNN</var>.json}}. It is layer which is read after user config, when user activates some lexer. E.g. if you open C file, config file {{Code|lexer C.json}} is read. You should not write {{Code|ui_}} options to lexer-specific configuration files (they may produce weird effects when changing lexers), and some other global options.<ul><li>For (None) lexer, config file is named {{Code|lexer -.json}}.</li><li>For lite lexers, configuration filenames are appended with a circumflex, e.g. {{Code|lexer XML ^.json}}</li></ul>
 ; Default lexer-specific configs : Files {{Code|settings_default/lexer <var>NNN</var>.json}}. It is layer which is read after user config, but before lexer specific config. CudaText provides several such files, with useful defaults.
 ; Lexer-specific hotkeys configs : Files {{Code|settings/keys lexer <var>NNN</var>.json}}. Each such config contains hotkeys for one lexer only.
-{{Columns-end}}
 
 === File types ===
 {| style="border-collapse: collapse; float: right; margin-left: 3em; margin-right: 3em; width: 20vw;"
@@ -918,7 +908,6 @@ You can change encoding of document by clicking on statusbar item, or by using m
 * "Convert to": Change encoding in memory only (this doesn't save the file).
 
 Possible encoding names for command-line usage:
-{{Columns-start|num=3}}
 * utf8
 * utf8_bom
 * utf16le
@@ -938,7 +927,6 @@ Possible encoding names for command-line usage:
 * cp1256
 * cp1257
 * cp1258
-{{Column|num=3}}
 * cp437
 * cp850
 * cp852
@@ -953,7 +941,6 @@ Possible encoding names for command-line usage:
 * big5
 * gb2312
 * euc-kr
-{{Column|num=3}}
 * iso-8859-1
 * iso-8859-2
 * iso-8859-3
@@ -970,7 +957,6 @@ Possible encoding names for command-line usage:
 * koi8r
 * koi8u
 * koi8ru
-{{Columns-end}}
 
 == Line ends ==
 All major types of line-ends are supported:
