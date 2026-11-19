@@ -1438,6 +1438,7 @@ Possible values of "id_action":
 ** type "statusbar": pass handle to <code>statusbar_proc()</code>.
 ** type "treeview": pass handle to <code>tree_proc()</code>.
 ** type "toolbar": pass handle to <code>toolbar_proc()</code>.
+** type "md_view": pass handle to <code>md_proc()</code>.
 
 * DLG_CTL_TO_FRONT: Puts control to the foreground (in Z-order of controls).
 * DLG_CTL_TO_BACK: Puts control to the background (in Z-order of controls).
@@ -2310,12 +2311,13 @@ Possible values of "id_action":
 * MD_LOAD_FILE: Loads the entire text from given filename. It is much faster then to load the file via Python and then call MD_SET_TEXT. Param "param1" must be valid filename.
 * MD_LOAD_EDITOR: Loads the entire text from given Editor control. Param "param1" must be int handle of Editor control.
 * MD_GET_FOLDER: Returns the folder path of document.
-MD_SET_FOLDER: Sets the folder path of document, which is needed for Markdown picture-refs with relative filenames.
+* MD_SET_FOLDER: Sets the folder path of document, which is needed for Markdown picture-refs with relative filenames.
 * MD_GET_SCROLL_Y: Returns the vertical scroll position.
 * MD_SET_SCROLL_Y: Sets the vertical scroll position. Too huge value is allowed (e.g. maximal 32-bit value 0x7FFFffff), it will scroll to the document end. Param "param1" must be scroll position.
 * MD_SEL_GET_TEXT: Returns the selected text.
-MD_SEL_COPY: Copies the selected text to clipboard.
-MD_SEL_CLEAR: Removes the selection.
+* MD_SEL_COPY: Copies the selected text to clipboard.
+* MD_SEL_CLEAR: Removes the selection.
+* MD_SET_HL: Enables/disables the syntax-highlight of "fenced code-blocks" in Markdown. Param "param1" must be 1 (enable) or 0 (disable).
  
 ===finder_proc===
 
