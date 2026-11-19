@@ -2318,7 +2318,7 @@ Possible values of "id_action":
 * MD_SEL_COPY: Copies the selected text to clipboard.
 * MD_SEL_CLEAR: Removes the selection.
 * MD_GET_HL: Returns enabled-flag of syntax-highlight of "fenced code-blocks".
-* MD_SET_HL: Sets the enabled-flag of syntax-highlight of "fenced code-blocks". Param "param1" must be 1 (enable) or 0 (disable).
+* MD_SET_HL: Sets the enabled-flag of syntax-highlight of "fenced code-blocks". Flag is applied on the next loading of text into viewer. Param "param1" must be 1 (enable) or 0 (disable).
  
 ===finder_proc===
 
