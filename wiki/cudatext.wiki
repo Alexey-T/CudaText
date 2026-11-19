@@ -24,7 +24,7 @@ External Links:
 * Based on the [[ATSynEdit]] engine
 * [[#Add-ons|Extensibility via Python add-ons]], e.g. LSP (Language Server Protocol) support
 * Built-in HTML and CSS auto-completion
-* HTML tag completion with `Tab`
+* HTML tag completion with Tab-key
 * HTML tooltips on mouse-over
 * Hex color code underlining
 * Viewer for picture files (jpeg, png, gif, bmp, ico, webp)
@@ -52,7 +52,7 @@ The CudaText configuration system uses JSON files: call menu item "Options | Set
 Note: You can copy the JSON comments from the default file into your user configuration, too. In the user config, include useful lines inside the curly braces, this is JSON formatting. Trailing commas on the final key:value pair before a closing brace are allowed here.
 
 * Default config: File "settings_default/default.json", can be opened via menu item "Options | Settings - default". CudaText doesn't use this file, it's only for user reference. CudaText only opens this file by the command, and this file is parsed by plugin "Options Editor Lite".
-* Hotkeys (keyboard shortcuts) config: File "settings/keys.json". Special dialog allows to change all hotkeys in CudaText. You should not edit this file directly, without using the dialog. Dialog is called from "View | Command palette" by pressing `F9`. Dialog allows to set primary+secondary hotkeys for any command (except dynamically added commands which, for example, change current lexer).
+* Hotkeys (keyboard shortcuts) config: File "settings/keys.json". Special dialog allows to change all hotkeys in CudaText. You should not edit this file directly, without using the dialog. Dialog is called from "View | Command palette" by pressing F9. Dialog allows to set primary+secondary hotkeys for any command (except dynamically added commands which, for example, change current lexer).
 * Plugin configs: Files "settings/cuda_*". Plugins store their settings in there, and files can be in any format (most commonly JSON or INI). Good quality plugins provide menu items in "Options | Settings - plugins" to open their config file, or to show configuration dialog.
 * History file: File "settings/history.json". Mentioned here because sometimes users need to delete their history file (dialog positions, recent files list etc, recent search strings etc).
 * User config: File "settings/user.json". Can be opened via menu item "Options | Settings - user".
@@ -658,7 +658,7 @@ In SynWrite, you've created .lcf file in folder SynWrite/Data/LexLib. If you con
 You can place file(s) "lexer LexerName.json" into zip archive, per each lexer in zip archive. These JSON files will be installed to the folder "settings_default" of CudaText. Ie, these are lexer-specific configs for lexers. Some lexers do this already: Lua, Pascal, PHP, Ruby, TypeScript.
 
 === Lite lexers ===
-Lite lexers are lexers is special format (internally it's JSON file), with very limited features. They don't support code-tree, folding, don't support multi-line comments, don't have rich highlighting (e.g. background highlight of string `12+$var` with additional highlight for 12 and $var inside). And they don't keep tokens information in memory (positions of found tokens in text). Lite lexers process only lines visible on screen, not all document lines. So, they work fast for any file size.
+Lite lexers are lexers is special format (internally it's JSON file), with very limited features. They don't support code-tree, folding, don't support multi-line comments, don't have rich highlighting (e.g. background highlight of string "12+$var" with additional highlight for 12 and $var inside). And they don't keep tokens information in memory (positions of found tokens in text). Lite lexers process only lines visible on screen, not all document lines. So, they work fast for any file size.
 
 Limitation: on lines longer than 4K chars, only first 4K chars have the syntax highlighting.
 
@@ -1148,7 +1148,7 @@ Code-tree for CSS lexer has additional feature: in the "Colors" node, it shows c
 
 =Console panel=
 
-Panel is called by key Ctrl+tilde (Ctrl+`). It has read-only memo with output and edit field. You can type Python commands in the edit field, they will run and show output in the memo. E.g. enter "print(10+12)" and you'll see output "22". Can enter complex commands: e.g. "for i in range(10): print(i)".
+Panel is called by key Ctrl+tilde (Ctrl+backtick). It has read-only memo with output and edit field. You can type Python commands in the edit field, they will run and show output in the memo. E.g. enter "print(10+12)" and you'll see output "22". Can enter complex commands: e.g. "for i in range(10): print(i)".
 
 [[File:cudatext-console.png]]
 
@@ -1168,7 +1168,7 @@ ed.bookmark(BOOKMARK_SET, 10)
 
 ==How to use Console as calculator==
 
-Call Console panel with Ctrl+` (Ctrl+tilde). In its input field, enter valid Python expressions with leading "=" char. To use "sin", "cos", "pi" etc, first enter command "from math import *".
+Call Console panel with Ctrl+tilde (Ctrl+backtick). In its input field, enter valid Python expressions with leading "=" char. To use "sin", "cos", "pi" etc, first enter command "from math import *".
 
 Example of 3 entered lines and their log in console:
 
