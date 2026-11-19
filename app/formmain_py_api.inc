@@ -11405,12 +11405,12 @@ begin
             Result:= ReturnNone;
           end;
 
-        MD_GET_HL:
+        MD_GET_FENCED_HL:
           begin
             Result:= PyBool_FromLong(Ord(MdViewCodeSyntaxEnabled));
           end;
 
-        MD_SET_HL:
+        MD_SET_FENCED_HL:
           begin
             MdViewCodeSyntaxEnabled:= AppStrToBool(string(PtrParam1));
             Result:= ReturnNone;

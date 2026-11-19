@@ -940,8 +940,8 @@ const
   MD_SEL_GET_TEXT  = 10;
   MD_SEL_COPY      = 11;
   MD_SEL_CLEAR     = 12;
-  MD_GET_HL        = 13;
-  MD_SET_HL        = 14;
+  MD_GET_FENCED_HL = 13;
+  MD_SET_FENCED_HL = 14;
 
 implementation
 
