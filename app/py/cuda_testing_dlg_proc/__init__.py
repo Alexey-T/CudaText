@@ -1462,13 +1462,12 @@ end
             'name': 'markdown1',
             'align': ALIGN_CLIENT,
             'border': False,
-            'color': 0xC0F0C0,
             'font_name': 'Arial',
-            'font_size': 11,
+            'font_size': 10,
             })
         
         h_md = dlg_proc(h, DLG_CTL_HANDLE, name='markdown1')
-        md_proc(h_md, MD_SET_COLOR_BACK, 0xFFC0C0)
+        md_proc(h_md, MD_SET_COLOR_BACK, 0xD0D0C0)
         md_proc(h_md, MD_SET_COLOR_FONT, 0x008000)
         md_proc(h_md, MD_SET_COLOR_BACK_CODE, 0xE0E080)
         
