@@ -11408,6 +11408,12 @@ begin
             Result:= ReturnNone;
           end;
 
+        MD_SET_FONT_MONO:
+          begin
+            MD.MonoFontName:= string(PtrParam1);
+            Result:= ReturnNone;
+          end;
+
         else
           Result:= ReturnNone;
       end;
