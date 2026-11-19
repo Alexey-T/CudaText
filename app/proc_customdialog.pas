@@ -226,9 +226,6 @@ begin
   if C is TMemo then
     exit(DoControl_GetState_Memo(TMemo(C)));
 
-  if C is TMarkDownControl then
-    exit(TMarkDownControl(C).MarkDown.Text);
-
   if C is TRadioGroup then
     exit(IntToStr(TRadioGroup(C).ItemIndex));
 
@@ -696,17 +693,6 @@ begin
   N:= StrToIntDef(S2, -1);
   if N>=0 then
     C.HorzScrollBar.Position:= N;
-end;
-
-type
-  TMarkdownControlHack = class(TMarkdownControl);
-
-procedure DoControl_SetState_Markdown(C: TMarkDownControl; const AValue: string);
-begin
-  C.Markdown.Clear;
-  C.Markdown.TextLineBreakStyle:= tlbsLF;
-  C.Markdown.Text:= AValue;
-  C.Invalidate;
 end;
 
 function DoControl_GetState_Listview(C: TListView): string;
@@ -1181,6 +1167,7 @@ begin
     if S='md_view' then
     begin
       Ctl:= TMarkDownControl.Create(AForm);
+      ApplyThemeToMarkdown(TMarkDownControl(Ctl));
       TMarkDownControl(Ctl).OnGetImage:= @AForm.DoOnMarkdownGetImage;
       TMarkDownControl(Ctl).OnOpenURL:= @AForm.DoOnMarkdownOpenURL;
       exit;
@@ -1476,15 +1463,6 @@ begin
     end;
     exit;
   end;
-
-  if (C is TMarkDownControl) then
-  begin
-    case AIndex of
-      // enable syntax highlighting of fenced code blocks
-      0: MdViewCodeSyntaxEnabled:= AppStrToBool(S);
-    end;
-    exit;
-  end;
 end;
 
 
@@ -1711,11 +1689,6 @@ begin
   begin
     DoControl_SetState_ScrollBox(TScrollBox(C), S);
     exit
-  end;
-  if C is TMarkDownControl then
-  begin
-    ApplyThemeToMarkdown(TMarkDownControl(C));
-    DoControl_SetState_Markdown(TMarkDownControl(C), S);
   end;
 end;
 
