@@ -11414,6 +11414,47 @@ begin
             Result:= ReturnNone;
           end;
 
+        MD_SET_COLOR_BACK:
+          begin
+            MD.Color:= StrToIntDef(string(PtrVal), clRed);
+            Result:= ReturnNone;
+          end;
+        MD_SET_COLOR_FONT:
+          begin
+            MD.FontColor:= StrToIntDef(string(PtrVal), clRed);
+            Result:= ReturnNone;
+          end;
+        MD_SET_COLOR_FONT_CODE:
+          begin
+            MD.FontCodeColor:= StrToIntDef(string(PtrVal), clRed);
+            Result:= ReturnNone;
+          end;
+        MD_SET_COLOR_FONT_QUOTE:
+          begin
+            MD.FontQuoteColor:= StrToIntDef(string(PtrVal), clRed);
+            Result:= ReturnNone;
+          end;
+        MD_SET_COLOR_FONT_LINK:
+          begin
+            MD.HyperLinkColor:= StrToIntDef(string(PtrVal), clRed);
+            Result:= ReturnNone;
+          end;
+        MD_SET_COLOR_BACK_CODE:
+          begin
+            MD.BGCodeColor:= StrToIntDef(string(PtrVal), clRed);
+            Result:= ReturnNone;
+          end;
+        MD_SET_COLOR_TABLE_LINE:
+          begin
+            MD.TableLinesColor:= StrToIntDef(string(PtrVal), clRed);
+            Result:= ReturnNone;
+          end;
+        MD_SET_COLOR_BACK_SEL:
+          begin
+            MD.SelectionColor:= StrToIntDef(string(PtrVal), clRed);
+            Result:= ReturnNone;
+          end;
+
         else
           Result:= ReturnNone;
       end;

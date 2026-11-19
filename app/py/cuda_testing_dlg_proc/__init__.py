@@ -1467,6 +1467,11 @@ end
             'font_size': 11,
             })
         
+        h_md = dlg_proc(h, DLG_CTL_HANDLE, name='markdown1')
+        md_proc(h_md, MD_SET_COLOR_BACK, 0xFFC0C0)
+        md_proc(h_md, MD_SET_COLOR_FONT, 0x008000)
+        md_proc(h_md, MD_SET_COLOR_BACK_CODE, 0xE0E080)
+        
         fn_md = os.path.join(os.path.dirname(__file__), 'testing_doc1', 'markdown+html.md')
         self._load_markdown(fn_md, h)
 
