@@ -20,7 +20,7 @@ ToDo: (see end of file)
 import  cudatext        as app
 from    cudatext    import ed
 import  cudatext_cmd    as cmds
-import  os, json, re, sys, collections, gettext
+import  os, json, re, sys, collections, gettext, shutil, time
 odict       = collections.OrderedDict
 
 # Overridden option tools:
@@ -142,6 +142,7 @@ def _get_file_opts(opts_json, def_opts={}, **kw):
         pass;                  #LOG and log('load "{}" with mtime_os={}',os.path.basename(opts_json), int(mtime_os))
         kw['fn'] = opts_json
         opts    = _json_loads(open(opts_json, encoding='utf-8-sig').read(), **kw)
+        _keep_if_damaged(opts_json, opts)
         LAST_FILE_OPTS[opts_json]       = (opts, mtime_os)
     else:
         opts, mtime = LAST_FILE_OPTS[opts_json]
@@ -149,6 +150,7 @@ def _get_file_opts(opts_json, def_opts={}, **kw):
             pass;              #LOG and log('reload "{}" with mtime, mtime_os={}',os.path.basename(opts_json), (int(mtime), int(mtime_os)))
             kw['fn'] = opts_json
             opts= _json_loads(open(opts_json, encoding='utf-8-sig').read(), **kw)
+            _keep_if_damaged(opts_json, opts)
             LAST_FILE_OPTS[opts_json]   = (opts, mtime_os)
     return opts
    #def _get_file_opts
@@ -226,6 +228,8 @@ def set_opt(path, value, lev=CONFIG_LEV_USER, ed_cfg=ed, lexer='', user_json='us
             -> the key is added / updated / deleted in the parsed tree
             -> the whole file is dumped pretty (indent=2, comments kept)
             -> stored atomically (temp file + os.replace).
+        A file that does not parse is NEVER auto-repaired: set_opt refuses
+        the write (returns None) and keeps a timestamped copy beside it.
         Config pairs key:val are add/update/delete into
             <root>/settings/user.json
             <root>/settings/lexer <LEXER-NAME>.json
@@ -293,7 +297,17 @@ def set_opt(path, value, lev=CONFIG_LEV_USER, ed_cfg=ed, lexer='', user_json='us
     tails   = []
     if body.strip():
         skel, trails, tails = _take_trailing_comments(body)
-        body_js = _json_loads(_comms2pairs(skel), object_pairs_hook=odict)
+        parsed  = _loads_tolerant(_comms2pairs(skel), object_pairs_hook=odict)
+        if parsed is None:
+            # Damaged file (crash, bad hand edit, disk error). It is NOT
+            # auto-repaired: keep a timestamped copy beside it and refuse
+            # the write -- clobbering it would silently lose every other
+            # option stored in the file. The reader keeps printing the
+            # load error on every start until the user looks at it.
+            log('Warning: cannot update option, json file is damaged;¶original kept, copy saved as {}'
+               , _backup_corrupt(cfg_json))
+            return None # Fail! Never auto-repair a damaged file
+        body_js = parsed
 
     # 2. Modify the tree -- simple keys and '/'-paths share one walk
     node    = body_js
@@ -448,6 +462,47 @@ def _save_file_atomic(path, text):
             os.remove(tmp)                            # no-op after replace
         except OSError:
             pass
+
+def _loads_tolerant(s, **kw):
+    """ json.loads on prepped text; None on ANY damage. No logging here:
+        readers log through _json_loads; set_opt reports damaged files
+        in its own terms (timestamped copy + refused write). """
+    try:
+        return json.loads(_prep_json_text(s), **kw)
+    except Exception:
+        return None
+
+def _backup_corrupt(path):
+    """ Keep a timestamped copy of a damaged option file beside it.
+        Newer copies never overwrite older ones (timestamp + counter);
+        the original file itself is never touched -- damaged files are
+        not auto-repaired. Returns the backup path or None. """
+    stamp   = time.strftime('%Y%m%d-%H%M%S')
+    bak     = '{}.corrupt-{}.bak'.format(path, stamp)
+    num     = 0
+    while os.path.exists(bak):
+        num +=  1
+        bak =    '{}.corrupt-{}-{}.bak'.format(path, stamp, num)
+    try:
+        shutil.copyfile(path, bak)
+    except OSError:
+        return None
+    return bak
+
+def _keep_if_damaged(opts_json, opts):
+    """ After a read: a damaged file (crash, bad hand edit, disk error)
+        is never auto-repaired -- the load error keeps printing on every
+        start so the problem stays visible -- but a timestamped copy is
+        kept beside the file each time damage is seen. """
+    if opts:
+        return                                          # parsed to something
+    try:
+        text = open(opts_json, encoding='utf-8-sig').read()
+    except OSError:
+        return
+    if not text.strip() or _loads_tolerant(text) is not None:
+        return                                          # blank or ok: not damaged
+    _backup_corrupt(opts_json)
 
 
 def remove_empty_nodes(tree, keys):
