@@ -12,7 +12,7 @@ Authors:
     Andrey Kvichansky    (kvichans on github)
     Alexey Torgashin (CudaText)
 Version:
-    '0.6.17 2026-08-13'
+    '0.6.18 2026-11-20'
 Wiki: github.com/kvichans/cudax_lib/wiki
 ToDo: (see end of file)
 """
@@ -83,6 +83,12 @@ pass;                           log_gap = ''    # use only into log()
 APP_DEF_LEX_OPTS    = {}
 APP_DEFAULT_OPTS    = {}
 LAST_FILE_OPTS      = {}
+# 0.6.18: set_opt was rewritten. Option files are now ALWAYS
+# rewritten as a whole: parsed tolerantly ('//' comments, stray
+# commas), modified in the parsed tree, dumped PRETTY (indent=2)
+# with all comments kept. Plugins can detect the safe writer with:
+#   getattr(cudax_lib, 'SAFE_OPT_WRITER', False)
+SAFE_OPT_WRITER     = True
 
 #################################################
 ## Common APP utils
@@ -215,6 +221,10 @@ def get_opt(path, def_value=None, lev=CONFIG_LEV_ALL, ed_cfg=ed, lexer='', user_
 
 def set_opt(path, value, lev=CONFIG_LEV_USER, ed_cfg=ed, lexer='', user_json='user.json'):
     ''' Overridden options tool.
+        0.6.18: the file is ALWAYS rewritten as a whole:
+            parsed tolerantly ('//' comments, stray commas, blank files)
+            -> the key is added / updated / deleted in the parsed tree
+            -> the whole file is dumped pretty (indent=2, comments kept).
         Config pairs key:val are add/update/delete into
             <root>/settings/user.json
             <root>/settings/lexer <LEXER-NAME>.json
@@ -224,6 +234,8 @@ def set_opt(path, value, lev=CONFIG_LEV_USER, ed_cfg=ed, lexer='', user_json='us
             value       Value for setting or deleting
                             None        Delete pair (last key in path)
                             not None    Add or update pair value
+                        Deleting a key that is absent is not an error:
+                        the value (None) is returned, nothing is written.
             lev         Level for set opt
                             CONFIG_LEV_USER, CONFIG_LEV_LEX, CONFIG_LEV_FILE
                         For CONFIG_LEV_FILE path only from
@@ -268,130 +280,77 @@ def set_opt(path, value, lev=CONFIG_LEV_USER, ed_cfg=ed, lexer='', user_json='us
     if not os.path.exists(cfg_json)     and value is     None:
         return None # SUCCESS (or fail?)
 
-    kv_dct  = {path:value}
     keys    = path.split('/')
-    if '/' in path:
-        kv_dct  = {}
-        dic     = kv_dct
-        for ikey,key in enumerate(keys):
-            if ikey+1<len(keys):
-                dic = dic.setdefault(key, {})
-            else:
-                dic[key] = value
 
-    if not os.path.exists(cfg_json)     and value is not None:
-        # First pair for this file
-        open(cfg_json, 'w', encoding='utf8').write(json.dumps(kv_dct, indent=SPACES))
-        return value
+    # 1. Read what is there and parse it tolerantly ('//' comments, stray
+    #    commas). Simple keys and '/'-paths now share ONE write path:
+    #    parse the whole file, modify the tree, dump the whole file.
+    body    = open(cfg_json, encoding='utf8').read() \
+                if os.path.exists(cfg_json) else ''
+    body_js = odict()
+    if body.strip():
+        body_js = _json_loads(_comms2pairs(body), object_pairs_hook=odict)
 
-    # Try to modify file
-    body    = open(cfg_json, encoding='utf8').read()
-    value4js= json.dumps({"": value})[len('{"": '):-1]      # Format value as 'after ": " string'
-    if '/' in path:
-        # Trick:
-        #   1. Replace all comments to cmkey:value
-        #   2. Parse
-        #   3. Modify
-        #   4. Dump
-        #   5. Replace all cmkey:value to comments
-        # Comments
-        #   //abc
-        #     //xyz
-        #   //"a": "\t"
-        # Pairs
-        # "__c_m_n_t_0__":"  //abc"
-        # "__c_m_n_t_1__":"    //xyz"
-        # "__c_m_n_t_2__":"  //\"a\": \"\\t\""
-        # Comment # N
-        #   //smth
-        # is replaced to pair
-        #   "__c_m_n_t_N__":"SMTH"
-        # where
-        #   SMTH = repr(r'  //smth')
-        def comms2pairs(text):
-            co_num  = 0
-            def c2p(match):     # Saving: Replace all json comments to spec_key:val_from_comment
-                nonlocal co_num
-                co_num += 1
-                return '"__c_m_n_t_{}__": "{}",'.format(co_num, repr(match.group(0)).replace('"', r'\"'))
-            return re.sub(r'^\s*//.*', c2p, text, flags=re.MULTILINE)
-        def pairs2comms(text):  # Restoring: Replace all spec_key:val to json comment lines
-            def p2c(match):
-                return eval(match.group(1))
-            return re.sub(r'^\s*"__c_m_n_t_\d+__": "(.*)",?$', p2c, text, flags=re.MULTILINE)
-        # 1. Repl   2. Parse
-        body_c2p = comms2pairs(body)
-        body_c2p = re.sub(r',\s*}$', '}', body_c2p)     # Kill "," after last value
-        body_js  = _json_loads(body_c2p, object_pairs_hook=odict)
-#       body_js  = json.loads(body_c2p, object_pairs_hook=odict)
-        # 3. Modify
-        node    = body_js
-        kv_node = None
-        for ikey,key in enumerate(keys):
-            assert isinstance(node, dict)
-            if key not in node and value is None:
-                return None                             # Nothing to modify
-            if ikey+1==len(keys):                       # Last path segment
-                if value is None:
-                    del node[key]                       # Remove pair
-                    remove_empty_nodes(body_js, keys)
-                else:
-                    log(_('Warning: section is overwritten with simple key.\n\tfile={}\n\tpath={}').format(
-                            cfg_json, '/'.join(keys[:ikey+1]), node[key])) \
-                        if key in node and isinstance(node[key], dict) else 0
-                    if node.get(key)==value:
-                        return value                    # No need to modify
-                    node[key]   = value                 # Change or Add
-            else:                                       # Middle path segment
+    # 2. Modify the tree -- simple keys and '/'-paths share one walk
+    node    = body_js
+    for ikey,key in enumerate(keys):
+        assert isinstance(node, dict)
+        if ikey+1==len(keys):                       # Last path segment
+            if value is None:
                 if key not in node:
-                    node    = node.setdefault(key, {})  # Add section
-                elif isinstance(node[key], dict):
-                    node    = node[key]                 # Step down
-                else:                                   # key is not for section
-                    log(_('Warning: simple key is overwritten with section.\n\tfile={}\n\tpath={}\n\told value={}').format(
-                            cfg_json, '/'.join(keys[:ikey+1]), node[key]))
-                    node[key]   = {}
-                    node    = node[key]                 # Step down
-           #for ikey,key
-        # 4. Dump   5. Repl
-        body_pr  = json.dumps(body_js, indent=SPACES)
-        body     = pairs2comms(body_pr)
-    else:
-        # Simple key
-        # Assumptions:
-        #    one key:val into one row
-        sre_key_val = r'^\s*,?\s*"{}"\s*:(.+)'.format(re.escape(path))
-        cre_key_val = re.compile(sre_key_val, re.MULTILINE)  # MULTILINE for ^
-        mt_key_val  = cre_key_val.search(body)
-        has_pair    = mt_key_val is not None
-        pass;                  #LOG and log('re_key_val, has_pair={}',(re_key_val,has_pair))
-        if False:pass
-        elif has_pair and value is None:
-            # Delete!
-            pass;              #LOG and log('del!',)
-            body    = cre_key_val.sub('', body)     # Will empty line
-        elif has_pair and value is not None:
-            # Update?
-            if mt_key_val.group(1).strip(' \t,') == value4js:
-                # Skip! Value is same
-                return value
-            # Update!
-            new_pair= ' '*SPACES + '"{}": {},'.format(path, value4js.replace('\\', r'\\'))
-            body    = cre_key_val.sub(new_pair, body)   # NB! backslash escapes in 1st par are processed
-        elif not has_pair and value is None:
-            # Skip! Nothing to delete
-            return value
-        elif not has_pair:
-            # Add! before end
-            pass;              #LOG and log('add!',)
-            body = body.rstrip(' \t\r\n')[:-1].rstrip(' \t\r\n')
-            body += ('{}\n' + ' '*SPACES + '"{}": {},\n}}').format(
-                         '' if body[-1] in ',{' else ','
-                       , path
-                       , value4js)
-    open(cfg_json, 'w', encoding='utf8').write(body)
+                    return value                    # Nothing to delete
+                del node[key]                       # Remove pair
+                remove_empty_nodes(body_js, keys)
+            else:
+                log(_('Warning: section is overwritten with simple key.\n\tfile={}\n\tpath={}').format(
+                        cfg_json, '/'.join(keys[:ikey+1]))) \
+                    if '/' in path and isinstance(node.get(key), dict) else 0
+                node[key]   = value                 # Change or Add
+        else:                                       # Middle path segment
+            if key not in node:
+                if value is None:
+                    return value                    # Nothing to delete
+                node    = node.setdefault(key, {})  # Add section
+            elif isinstance(node[key], dict):
+                node    = node[key]                 # Step down
+            else:                                   # key is not for section
+                log(_('Warning: simple key is overwritten with section.\n\tfile={}\n\tpath={}\n\told value={}').format(
+                        cfg_json, '/'.join(keys[:ikey+1]), node[key]))
+                node[key]   = {}
+                node    = node[key]                 # Step down
+       #for ikey,key
+
+    # 3. Dump the whole file pretty and put the comments back
+    body_pr = json.dumps(body_js, indent=SPACES)
+    body_pr = _pairs2comms(body_pr)
+    body_pr = body_pr.rstrip('\n') + '\n'
+
+    # 4. Store; skip the write when nothing changed
+    if body_pr != body:
+        open(cfg_json, 'w', encoding='utf8').write(body_pr)
     return value
    #def set_opt
+
+# ==== 0.6.18: option-file helpers used by set_opt ==================
+
+def _comms2pairs(text):
+    """ Saving: replace each full-line json comment with a spec pair, so
+        comments survive the parse-modify-dump round-trip in place:
+            //abc            ->  "__c_m_n_t_1__": "  //abc",
+        where the value is repr() of the whole comment line. """
+    co_num  = 0
+    def c2p(match):
+        nonlocal co_num
+        co_num += 1
+        return '"__c_m_n_t_{}__": "{}",'.format(co_num, repr(match.group(0)).replace('"', r'\"'))
+    return re.sub(r'^\s*//.*', c2p, text, flags=re.MULTILINE)
+
+def _pairs2comms(text):
+    """ Restoring: replace all spec pairs back to json comment lines. """
+    def p2c(match):
+        return eval(match.group(1))
+    return re.sub(r'^\s*"__c_m_n_t_\d+__": "(.*)",?$', p2c, text, flags=re.MULTILINE)
+
 
 def remove_empty_nodes(tree, keys):
     prn_keys= []
