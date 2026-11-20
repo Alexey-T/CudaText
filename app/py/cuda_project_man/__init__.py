@@ -801,7 +801,12 @@ def _rtrim_sep(s):
     """Path without its trailing separator(s): 'D:\\' -> 'D:',
     '\\\\server\\share\\' -> '\\\\server\\share'. Needed to compare
     paths that keep/drop the trailing separator in different places
-    (the tree, the saved nodes list, the OS dialogs)."""
+    (the tree, the saved nodes list, the OS dialogs). Tolerates
+    pathlib.Path arguments (get_location_by_index returns them):
+    os.fspath() turns Path into str, so 'Stop tracking' on the folder
+    opened with "Open folder" no longer crashes with "'WindowsPath'
+    object has no attribute 'rstrip'" when cur_dir holds a Path."""
+    s = os.fspath(s)
     if not s:
         return s
     return s.rstrip('\\/' if IS_WIN else '/')
@@ -3084,9 +3089,12 @@ class Command:
         tree_proc(self.tree, TREE_ITEM_SELECT, h_parent)
         self.action_refresh(h_parent)
 
-        path = self.get_location_by_index(self.selected)
-        app_proc(PROC_SET_FOLDER, path)
-        self.cur_dir = path
+        # str() like in the tree click: cur_dir must stay a str for
+        # path_contains() (see do_unfold_first); skip the parasitic '.'
+        path = str(self.get_location_by_index(self.selected))
+        if path and not path.startswith('.'):
+            app_proc(PROC_SET_FOLDER, path)
+            self.cur_dir = path
 
         if outcome == 'trash':
             msg_status(_("Moved to %s: ") % trash_label() + str(location.name))
@@ -6065,19 +6073,69 @@ class Command:
         tree_proc(self.tree, TREE_ITEM_UNFOLD, h_first)
         tree_proc(self.tree, TREE_ITEM_SELECT, h_first)
 
-        path = self.get_location_by_index(self.selected)
-        app_proc(PROC_SET_FOLDER, path)
-        self.cur_dir = path
+        # str() like in the tree click: get_location_by_index returns a
+        # pathlib.Path, and cur_dir must stay a str — "Stop tracking"
+        # feeds it to path_contains() (issue #6624 traceback). The '.'
+        # guard is the tree click's: str(Path('')) is '.', the parasitic
+        # caption of the project root node.
+        path = str(self.get_location_by_index(self.selected))
+        if path and not path.startswith('.'):
+            app_proc(PROC_SET_FOLDER, path)
+            self.cur_dir = path
+
+    def _find_folder_project(self, fn):
+        """Project detection for "Open folder" (issue #6624): return the
+        .cuda-proj file the folder carries, to open instead of the plain
+        folder. The rules (agreed with badrelmers):
+        - the project named after the folder ('<folder>/<name>.cuda-proj')
+          wins, like the old rule;
+        - else, if the folder carries exactly ONE project, open it,
+          whatever its name;
+        - else, if it carries several, let the user pick from a dialog
+          listing them all;
+        - no project inside (or the dialog cancelled): '' — the plain
+          "one folder" open.
+        Only the folder's top level is scanned: a project nested deeper
+        must not be opened behind the user's back."""
+
+        try:
+            names = os.listdir(fn)
+        except OSError:
+            return ''
+        projects = [name for name in names
+                    if name.endswith(PROJECT_EXTENSION)
+                    and os.path.isfile(os.path.join(fn, name))]
+
+        base = os.path.basename(fn.rstrip('\\/')) or 'project'
+        same = os.path.join(fn, base + PROJECT_EXTENSION)
+        # isfile(), not list membership: on Windows the file system is
+        # case-insensitive, 'MyApp.cuda-proj' is the folder's project too
+        if os.path.isfile(same):
+            return same
+
+        if len(projects) == 1:
+            return os.path.join(fn, projects[0])
+
+        if projects:
+            projects.sort()
+            res = dlg_menu(DMENU_LIST, projects,
+                           caption=_('Choose project to open'))
+            if res is None:
+                # cancelled: the user still wanted the FOLDER open
+                return ''
+            return os.path.join(fn, projects[res])
+
+        return ''
 
     def _open_folder_any(self, fn):
         """Shared "Open folder" flow (issue #6624): open the folder the
         "one folder" way (_open_folder_independent) — or, when the folder
-        already carries its own project file (<folder>/<name>.cuda-proj),
-        open THAT project instead: the folder is then a project, with its
-        sessions. Used by "File - Open folder...", 'cudatext <folder>' /
-        the OS shell's "Open in CudaText" (via open_dir), and by the
-        folder entries of the "Recent projects" list (via
-        action_open_project)."""
+        carries a .cuda-proj file, open THAT project instead (the folder
+        is then a project, with its sessions); see _find_folder_project
+        for which project that is. Used by "File - Open folder...",
+        'cudatext <folder>' / the OS shell's "Open in CudaText" (via
+        open_dir), and by the folder entries of the "Recent projects"
+        list (via action_open_project)."""
 
         if not os.path.isdir(fn):
             print(_('Project Manager: folder not found: ') + fn)
@@ -6091,10 +6149,9 @@ class Command:
             return
 
         self.init_panel()
-        base = os.path.basename(fn.rstrip('\\/')) or 'project'
-        proj = os.path.join(fn, base + PROJECT_EXTENSION)
-        if os.path.isfile(proj):
-            # the folder already has a project: open it instead
+        proj = self._find_folder_project(fn)
+        if proj:
+            # the folder carries a project: open it instead
             self.action_open_project(proj)
             return
 

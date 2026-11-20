@@ -12,15 +12,24 @@
   from the folder become its tabs. With a project open, opening a
   folder closes the project first (its session is saved into the
   project file, the default session loads); opening a project closes
-  the opened folder. If the opened folder already contains its own
-  <name>.cuda-proj, that project is opened instead - this also restores
-  the old behavior of folders which carry their project.
+  opened folder. When the folder carries .cuda-proj file(s) in its top
+  level, a project is opened instead of the plain folder: the one named
+  after the folder wins, else the only one found, else a dialog lists
+  all of them for the user to choose (cancelling the dialog opens the
+  plain folder).
 - The opened folder is added to the "Recent projects" list; a directory
   entry of that list opens back as a folder.
 - Drag&drop of a folder onto the editor (from the OS file manager): with
   a project open the folder is added to the project (unchanged); with no
   project open it now opens the "one folder" way instead of polluting
   the untitled project's node list.
+- Fixed "'WindowsPath' object has no attribute 'rstrip'" (a traceback
+  dialog) on "Stop tracking this folder/file" right after "Open
+  folder", and the same latent crash after deleting a file/folder from
+  the panel: do_unfold_first() and the delete flow stored a
+  pathlib.Path into cur_dir, which path_contains() could not compare;
+  both now store a str (like the tree click always did), and the path
+  helpers tolerate Path arguments too.
 
 2026.11.19
 - "Create new project from open tabs..." now offers (a Yes/No message

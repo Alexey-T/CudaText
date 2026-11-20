@@ -105,9 +105,12 @@ Opened folder ("Open folder")
   project is open and a folder is opened, the project is closed first
   (its session is saved into the project file, the default session
   loads), so the panel shows only the new folder; opening a project
-  closes the opened folder. If the opened folder already contains its
-  own project file (<folder>/<name>.cuda-proj), that project is opened
-  instead.
+  closes the opened folder. When the opened folder carries .cuda-proj
+  file(s) in its top level, a project is opened instead of the plain
+  folder: the project named after the folder wins; else, if the folder
+  carries exactly one project, that one; else a dialog lists all of
+  them for you to choose (cancelling the dialog opens the plain
+  folder).
 
   A folder dragged from the OS file manager onto the editor works
   differently: with a project open it is added to that project (as
