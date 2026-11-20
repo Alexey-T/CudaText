@@ -12,7 +12,7 @@ Authors:
     Andrey Kvichansky    (kvichans on github)
     Alexey Torgashin (CudaText)
 Version:
-    '0.6.17 2026-08-13'
+    '0.6.18 2026-11-20'
 Wiki: github.com/kvichans/cudax_lib/wiki
 ToDo: (see end of file)
 """
@@ -20,7 +20,7 @@ ToDo: (see end of file)
 import  cudatext        as app
 from    cudatext    import ed
 import  cudatext_cmd    as cmds
-import  os, json, re, sys, collections, gettext
+import  os, json, re, sys, ast, collections, gettext, shutil, time
 odict       = collections.OrderedDict
 
 # Overridden option tools:
@@ -83,6 +83,12 @@ pass;                           log_gap = ''    # use only into log()
 APP_DEF_LEX_OPTS    = {}
 APP_DEFAULT_OPTS    = {}
 LAST_FILE_OPTS      = {}
+# 0.6.18: set_opt was rewritten. Option files are now ALWAYS
+# rewritten as a whole: parsed tolerantly ('//' comments, stray
+# commas), modified in the parsed tree, dumped PRETTY (indent=2)
+# with all comments kept. Plugins can detect the safe writer with:
+#   getattr(cudax_lib, 'SAFE_OPT_WRITER', False)
+SAFE_OPT_WRITER     = True
 
 #################################################
 ## Common APP utils
@@ -131,19 +137,20 @@ def _get_file_opts(opts_json, def_opts={}, **kw):
         pass;                  #LOG and log('no {}',os.path.basename(opts_json))
         LAST_FILE_OPTS.pop(opts_json, None)
         return def_opts
-    mtime_os    = os.path.getmtime(opts_json)
-    if opts_json not in LAST_FILE_OPTS:
-        pass;                  #LOG and log('load "{}" with mtime_os={}',os.path.basename(opts_json), int(mtime_os))
-        kw['fn'] = opts_json
-        opts    = _json_loads(open(opts_json, encoding='utf8').read(), **kw)
-        LAST_FILE_OPTS[opts_json]       = (opts, mtime_os)
-    else:
-        opts, mtime = LAST_FILE_OPTS[opts_json]
-        if mtime_os > mtime:
-            pass;              #LOG and log('reload "{}" with mtime, mtime_os={}',os.path.basename(opts_json), (int(mtime), int(mtime_os)))
-            kw['fn'] = opts_json
-            opts= _json_loads(open(opts_json, encoding='utf8').read(), **kw)
-            LAST_FILE_OPTS[opts_json]   = (opts, mtime_os)
+    # Reload when the file changed on disk. The stamp is (mtime, size):
+    # mtime alone misses fresh same-size writes on FAT32/exFAT (2s
+    # steps), many network shares (1s) and lazy NTFS timestamp updates
+    # -- get_opt right after set_opt returned the OLD value there.
+    stat_os     = os.stat(opts_json)
+    stamp_os    = (stat_os.st_mtime, stat_os.st_size)
+    cached      = LAST_FILE_OPTS.get(opts_json)
+    if cached is not None and cached[1]==stamp_os:
+        return cached[0]
+    pass;                      #LOG and log('load/reload "{}" with stamp={}',os.path.basename(opts_json), stamp_os)
+    kw['fn'] = opts_json
+    opts    = _json_loads(open(opts_json, encoding='utf-8-sig').read(), **kw)
+    _keep_if_damaged(opts_json, opts)
+    LAST_FILE_OPTS[opts_json]   = (opts, stamp_os)
     return opts
    #def _get_file_opts
 
@@ -210,11 +217,23 @@ def get_opt(path, def_value=None, lev=CONFIG_LEV_ALL, ed_cfg=ed, lexer='', user_
                                                                           ,_opt_for_keys(usr_opts, keys
                                                                           ,_opt_for_keys(def_opts, keys, def_value)))
                 pass;          #LOG and log('lev=ALL ans={}',(ans))
-    return ans if def_value is None else type(def_value)(ans)
+    if def_value is None:
+        return ans
+    try:
+        return type(def_value)(ans)              # lenient coercion, as always
+    except Exception:
+        return ans             # stored type mismatch: raw value beats a crash
    #def get_opt
 
 def set_opt(path, value, lev=CONFIG_LEV_USER, ed_cfg=ed, lexer='', user_json='user.json'):
     ''' Overridden options tool.
+        0.6.18: the file is ALWAYS rewritten as a whole:
+            parsed tolerantly ('//' comments, stray commas, blank files)
+            -> the key is added / updated / deleted in the parsed tree
+            -> the whole file is dumped pretty (indent=2, comments kept)
+            -> stored atomically (temp file + os.replace).
+        A file that does not parse is NEVER auto-repaired: set_opt refuses
+        the write (returns None) and keeps a timestamped copy beside it.
         Config pairs key:val are add/update/delete into
             <root>/settings/user.json
             <root>/settings/lexer <LEXER-NAME>.json
@@ -224,6 +243,8 @@ def set_opt(path, value, lev=CONFIG_LEV_USER, ed_cfg=ed, lexer='', user_json='us
             value       Value for setting or deleting
                             None        Delete pair (last key in path)
                             not None    Add or update pair value
+                        Deleting a key that is absent is not an error:
+                        the value (None) is returned, nothing is written.
             lev         Level for set opt
                             CONFIG_LEV_USER, CONFIG_LEV_LEX, CONFIG_LEV_FILE
                         For CONFIG_LEV_FILE path only from
@@ -268,130 +289,237 @@ def set_opt(path, value, lev=CONFIG_LEV_USER, ed_cfg=ed, lexer='', user_json='us
     if not os.path.exists(cfg_json)     and value is     None:
         return None # SUCCESS (or fail?)
 
-    kv_dct  = {path:value}
     keys    = path.split('/')
-    if '/' in path:
-        kv_dct  = {}
-        dic     = kv_dct
-        for ikey,key in enumerate(keys):
-            if ikey+1<len(keys):
-                dic = dic.setdefault(key, {})
-            else:
-                dic[key] = value
+    if any(not key for key in keys):
+        return None # Fail! Bad path ('a//b', 'a/', '')
 
-    if not os.path.exists(cfg_json)     and value is not None:
-        # First pair for this file
-        open(cfg_json, 'w', encoding='utf8').write(json.dumps(kv_dct, indent=SPACES))
-        return value
+    # 1. Read what is there and parse it tolerantly ('//' comments, stray
+    #    commas). Simple keys and '/'-paths now share ONE write path:
+    #    parse the whole file, modify the tree, dump the whole file.
+    body    = open(cfg_json, encoding='utf-8-sig').read() \
+                if os.path.exists(cfg_json) else ''
+    body_js = odict()
+    trails  = {}
+    tails   = []
+    if body.strip():
+        skel, trails, tails = _take_trailing_comments(body)
+        parsed  = _loads_tolerant(_comms2pairs(skel), object_pairs_hook=odict)
+        if parsed is None:
+            # Damaged file (crash, bad hand edit, disk error). It is NOT
+            # auto-repaired: keep a timestamped copy beside it and refuse
+            # the write -- clobbering it would silently lose every other
+            # option stored in the file. The reader keeps printing the
+            # load error on every start until the user looks at it.
+            log('Warning: cannot update option, json file is damaged;¶original kept, copy saved as {}'
+               , _backup_corrupt(cfg_json))
+            return None # Fail! Never auto-repair a damaged file
+        body_js = parsed
 
-    # Try to modify file
-    body    = open(cfg_json, encoding='utf8').read()
-    value4js= json.dumps({"": value})[len('{"": '):-1]      # Format value as 'after ": " string'
-    if '/' in path:
-        # Trick:
-        #   1. Replace all comments to cmkey:value
-        #   2. Parse
-        #   3. Modify
-        #   4. Dump
-        #   5. Replace all cmkey:value to comments
-        # Comments
-        #   //abc
-        #     //xyz
-        #   //"a": "\t"
-        # Pairs
-        # "__c_m_n_t_0__":"  //abc"
-        # "__c_m_n_t_1__":"    //xyz"
-        # "__c_m_n_t_2__":"  //\"a\": \"\\t\""
-        # Comment # N
-        #   //smth
-        # is replaced to pair
-        #   "__c_m_n_t_N__":"SMTH"
-        # where
-        #   SMTH = repr(r'  //smth')
-        def comms2pairs(text):
-            co_num  = 0
-            def c2p(match):     # Saving: Replace all json comments to spec_key:val_from_comment
-                nonlocal co_num
-                co_num += 1
-                return '"__c_m_n_t_{}__": "{}",'.format(co_num, repr(match.group(0)).replace('"', r'\"'))
-            return re.sub(r'^\s*//.*', c2p, text, flags=re.MULTILINE)
-        def pairs2comms(text):  # Restoring: Replace all spec_key:val to json comment lines
-            def p2c(match):
-                return eval(match.group(1))
-            return re.sub(r'^\s*"__c_m_n_t_\d+__": "(.*)",?$', p2c, text, flags=re.MULTILINE)
-        # 1. Repl   2. Parse
-        body_c2p = comms2pairs(body)
-        body_c2p = re.sub(r',\s*}$', '}', body_c2p)     # Kill "," after last value
-        body_js  = _json_loads(body_c2p, object_pairs_hook=odict)
-#       body_js  = json.loads(body_c2p, object_pairs_hook=odict)
-        # 3. Modify
-        node    = body_js
-        kv_node = None
-        for ikey,key in enumerate(keys):
-            assert isinstance(node, dict)
-            if key not in node and value is None:
-                return None                             # Nothing to modify
-            if ikey+1==len(keys):                       # Last path segment
-                if value is None:
-                    del node[key]                       # Remove pair
-                    remove_empty_nodes(body_js, keys)
-                else:
-                    log(_('Warning: section is overwritten with simple key.\n\tfile={}\n\tpath={}').format(
-                            cfg_json, '/'.join(keys[:ikey+1]), node[key])) \
-                        if key in node and isinstance(node[key], dict) else 0
-                    if node.get(key)==value:
-                        return value                    # No need to modify
-                    node[key]   = value                 # Change or Add
-            else:                                       # Middle path segment
+    # 2. Modify the tree -- simple keys and '/'-paths share one walk
+    node    = body_js
+    for ikey,key in enumerate(keys):
+        assert isinstance(node, dict)
+        if ikey+1==len(keys):                       # Last path segment
+            if value is None:
                 if key not in node:
-                    node    = node.setdefault(key, {})  # Add section
-                elif isinstance(node[key], dict):
-                    node    = node[key]                 # Step down
-                else:                                   # key is not for section
-                    log(_('Warning: simple key is overwritten with section.\n\tfile={}\n\tpath={}\n\told value={}').format(
-                            cfg_json, '/'.join(keys[:ikey+1]), node[key]))
-                    node[key]   = {}
-                    node    = node[key]                 # Step down
-           #for ikey,key
-        # 4. Dump   5. Repl
-        body_pr  = json.dumps(body_js, indent=SPACES)
-        body     = pairs2comms(body_pr)
-    else:
-        # Simple key
-        # Assumptions:
-        #    one key:val into one row
-        sre_key_val = r'^\s*,?\s*"{}"\s*:(.+)'.format(re.escape(path))
-        cre_key_val = re.compile(sre_key_val, re.MULTILINE)  # MULTILINE for ^
-        mt_key_val  = cre_key_val.search(body)
-        has_pair    = mt_key_val is not None
-        pass;                  #LOG and log('re_key_val, has_pair={}',(re_key_val,has_pair))
-        if False:pass
-        elif has_pair and value is None:
-            # Delete!
-            pass;              #LOG and log('del!',)
-            body    = cre_key_val.sub('', body)     # Will empty line
-        elif has_pair and value is not None:
-            # Update?
-            if mt_key_val.group(1).strip(' \t,') == value4js:
-                # Skip! Value is same
-                return value
-            # Update!
-            new_pair= ' '*SPACES + '"{}": {},'.format(path, value4js.replace('\\', r'\\'))
-            body    = cre_key_val.sub(new_pair, body)   # NB! backslash escapes in 1st par are processed
-        elif not has_pair and value is None:
-            # Skip! Nothing to delete
-            return value
-        elif not has_pair:
-            # Add! before end
-            pass;              #LOG and log('add!',)
-            body = body.rstrip(' \t\r\n')[:-1].rstrip(' \t\r\n')
-            body += ('{}\n' + ' '*SPACES + '"{}": {},\n}}').format(
-                         '' if body[-1] in ',{' else ','
-                       , path
-                       , value4js)
-    open(cfg_json, 'w', encoding='utf8').write(body)
+                    return value                    # Nothing to delete
+                del node[key]                       # Remove pair
+                remove_empty_nodes(body_js, keys)
+            else:
+                # NB: no _() on log()-only diagnostics: module-level _ does
+                #     not exist (get_translation() hands _ to each plugin)
+                log('Warning: section is overwritten with simple key.\n\tfile={}\n\tpath={}'
+                   , cfg_json, '/'.join(keys[:ikey+1])) \
+                    if '/' in path and isinstance(node.get(key), dict) else 0
+                node[key]   = value                 # Change or Add
+        else:                                       # Middle path segment
+            if key not in node:
+                if value is None:
+                    return value                    # Nothing to delete
+                node    = node.setdefault(key, {})  # Add section
+            elif isinstance(node[key], dict):
+                node    = node[key]                 # Step down
+            else:                                   # key is not for section
+                log('Warning: simple key is overwritten with section.\n\tfile={}\n\tpath={}\n\told value={}'
+                   , cfg_json, '/'.join(keys[:ikey+1]), node[key])
+                node[key]   = {}
+                node    = node[key]                 # Step down
+       #for ikey,key
+
+    # 3. Dump the whole file pretty and put the comments back
+    body_pr = json.dumps(body_js, indent=SPACES)
+    body_pr = _pairs2comms(body_pr)
+    body_pr = _put_trailing_comments(body_pr, trails, tails)
+    body_pr = body_pr.rstrip('\n') + '\n'
+
+    # 4. Store atomically; drop the cache so the next get_opt re-reads;
+    #    skip the write when nothing changed
+    if body_pr != body:
+        _save_file_atomic(cfg_json, body_pr)
+        LAST_FILE_OPTS.pop(cfg_json, None)
     return value
    #def set_opt
+
+# ==== 0.6.18: option-file helpers used by set_opt ==================
+
+def _comms2pairs(text):
+    """ Saving: replace each full-line json comment with a spec pair, so
+        comments survive the parse-modify-dump round-trip in place:
+            //abc            ->  "__c_m_n_t_1__": "  //abc",
+        where the value is repr() of the whole comment line. """
+    co_num  = 0
+    def c2p(match):
+        nonlocal co_num
+        co_num += 1
+        return '"__c_m_n_t_{}__": "{}",'.format(co_num, repr(match.group(0)).replace('"', r'\"'))
+    return re.sub(r'^\s*//.*', c2p, text, flags=re.MULTILINE)
+
+def _pairs2comms(text):
+    """ Restoring: replace all spec pairs back to json comment lines.
+        ast.literal_eval instead of eval: FILE CONTENT MUST NEVER BE
+        EXECUTED AS CODE. A forged pair whose value is not a literal
+        stays in the file as-is instead of crashing the write. """
+    def p2c(match):
+        try:
+            return ast.literal_eval(match.group(1))
+        except (ValueError, SyntaxError):
+            return match.group(1)                     # forged: keep raw
+    return re.sub(r'^\s*"__c_m_n_t_\d+__": "(.*)",?$', p2c, text, flags=re.MULTILINE)
+
+_TRAIL_KEY_RE  = re.compile(r'^\s*,?\s*"(?P<key>[^"]+)"\s*:')
+
+def _take_trailing_comments(body):
+    """ Split '//' comment tails off code lines (string-aware: '//' inside
+        a value like "http://x" is not a comment).
+        Returns (skeleton, trails, tails):
+            skeleton  body with the tails cut; FULL-LINE comments stay
+                      untouched -- _comms2pairs keeps them in place
+            trails    {key: '//comment'} from lines like '"key": 1, // c'
+            tails     ['//comment'] from structural lines like '}, // c'
+        A comment glued to a deleted key vanishes with the key. """
+    lines   = body.split('\n')
+    trails  = {}
+    tails   = []
+    for i,line in enumerate(lines):
+        pos     = 0
+        in_str  = False
+        cut     = None
+        while pos<len(line):
+            ch  = line[pos]
+            if ch=='\\':
+                pos += 2
+            else:
+                if ch=='"':
+                    in_str = not in_str
+                else:
+                    if not in_str and line[pos:pos+2]=='//':
+                        cut = pos
+                        break
+                pos += 1
+        if cut is None:
+            continue                                # no comment here
+        code    = line[:cut].rstrip()
+        if not code.strip():
+            continue                                # full-line comment
+        cmt = line[cut:].rstrip('\r')
+        mt  = _TRAIL_KEY_RE.match(code)
+        if mt:
+            trails[mt.group('key')] = cmt
+        else:
+            tails.append(cmt)                       # '{', '},', ']' ...
+        lines[i]    = code
+    return '\n'.join(lines), trails, tails
+
+def _put_trailing_comments(dump, trails, tails):
+    """ Put the collected comments back onto the pretty dump: key-line
+        comments are re-attached to their key's line, structural ones go
+        before the closing brace. """
+    if not trails and not tails:
+        return dump
+    lines   = dump.split('\n')
+    for key,cmt in trails.items():
+        cre_key  = re.compile(r'^(\s*)"%s"\s*:' % re.escape(key))
+        for i,line in enumerate(lines):
+            if cre_key.match(line):
+                lines[i]    = line.rstrip() + ' ' + cmt
+                break
+    if tails:
+        for i in range(len(lines)-1, -1, -1):
+            if lines[i].strip()=='}':
+                lines[i:i]  = ['  '+cmt for cmt in tails]
+                break
+        else:
+            lines       += ['  '+cmt for cmt in tails]
+    return '\n'.join(lines)
+
+def _save_file_atomic(path, text):
+    """ Write via a temp file in the same dir + os.replace: a crash (or a
+        killed app) can never leave a truncated file behind. os.replace
+        is atomic on POSIX and on Windows (same volume). Falls back to a
+        direct write only if the atomic way is impossible. """
+    try:
+        os.makedirs(os.path.dirname(path) or '.', exist_ok=True)
+    except OSError:
+        pass
+    tmp = '%s.tmp%d' % (path, os.getpid())
+    try:
+        with open(tmp, 'w', encoding='utf8') as f:
+            f.write(text)
+        os.replace(tmp, path)
+    except OSError:
+        try:
+            os.remove(tmp)
+        except OSError:
+            pass
+        with open(path, 'w', encoding='utf8') as f:   # fallback: direct
+            f.write(text)
+    finally:
+        try:
+            os.remove(tmp)                            # no-op after replace
+        except OSError:
+            pass
+
+def _loads_tolerant(s, **kw):
+    """ json.loads on prepped text; None on ANY damage. No logging here:
+        readers log through _json_loads; set_opt reports damaged files
+        in its own terms (timestamped copy + refused write). """
+    try:
+        return json.loads(_prep_json_text(s), **kw)
+    except Exception:
+        return None
+
+def _backup_corrupt(path):
+    """ Keep a timestamped copy of a damaged option file beside it.
+        Newer copies never overwrite older ones (timestamp + counter);
+        the original file itself is never touched -- damaged files are
+        not auto-repaired. Returns the backup path or None. """
+    stamp   = time.strftime('%Y%m%d-%H%M%S')
+    bak     = '{}.corrupt-{}.bak'.format(path, stamp)
+    num     = 0
+    while os.path.exists(bak):
+        num +=  1
+        bak =    '{}.corrupt-{}-{}.bak'.format(path, stamp, num)
+    try:
+        shutil.copyfile(path, bak)
+    except OSError:
+        return None
+    return bak
+
+def _keep_if_damaged(opts_json, opts):
+    """ After a read: a damaged file (crash, bad hand edit, disk error)
+        is never auto-repaired -- the load error keeps printing on every
+        start so the problem stays visible -- but a timestamped copy is
+        kept beside the file each time damage is seen. """
+    if opts:
+        return                                          # parsed to something
+    try:
+        text = open(opts_json, encoding='utf-8-sig').read()
+    except OSError:
+        return
+    if not text.strip() or _loads_tolerant(text) is not None:
+        return                                          # blank or ok: not damaged
+    _backup_corrupt(opts_json)
+
 
 def remove_empty_nodes(tree, keys):
     prn_keys= []
@@ -406,11 +534,14 @@ def remove_empty_nodes(tree, keys):
    #def remove_empty_nodes
 
 
-def _json_loads(s, **kw):
+def _prep_json_text(s):
     ''' Adapt s for json.loads
+            Skip a UTF-8 BOM
             Delete comments
             Delete unnecessary ',' from {,***,} and [,***,]
     '''
+    if s[:1]=='\ufeff':
+        s   = s[1:]
 #   s = re.sub(r'(^|[^:])//.*'  , r'\1', s)     # :// in http://
 #   s = re.sub(r'(^|[^:])//.*'  , r'\1', s, flags=re.MULTILINE)     # :// in http://
     def rm_cm(match):
@@ -435,19 +566,28 @@ def _json_loads(s, **kw):
     s = re.sub(r',\s*}'         , r'}' , s)
     s = re.sub(r'\[\s*,'        , r'[' , s)
     s = re.sub(r',\s*\]'        , r']' , s)
+    return s
+    #def _prep_json_text
 
+def _json_loads(s, **kw):
+    ''' _prep_json_text + json.loads. On damage: one line printed, the
+        text kept in cudax.log, {} returned -- never raises for bad json.
+    '''
     fn = ''
     if 'fn' in kw:
         fn = kw['fn']
         kw.pop('fn')
+    log_file    = kw.pop('log_file', None) or _get_log_file()
 
     try:
-        ans = json.loads(s, **kw)
+        ans = json.loads(_prep_json_text(s), **kw)
     except Exception:
         pass;                   #LOG and log('FAIL: s={}',s)
         pass;                   #LOG and log('sys.exc_info()={}',sys.exc_info())
-        log_file    = kw.get('log_file', _get_log_file())
-        open(log_file, 'a', encoding='utf8').write('_json_loads FAIL: filename "'+fn+'", text:\n'+s+'\n')
+        try:
+            open(log_file, 'a', encoding='utf8').write('_json_loads FAIL: filename "'+fn+'", text:\n'+s+'\n')
+        except OSError:
+            pass                                # e.g. unwritable log dir
         print('ERROR: error on loading json. Log file:', log_file)
         ans = {}
     return ans
