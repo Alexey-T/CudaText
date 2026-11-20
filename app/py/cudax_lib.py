@@ -217,7 +217,12 @@ def get_opt(path, def_value=None, lev=CONFIG_LEV_ALL, ed_cfg=ed, lexer='', user_
                                                                           ,_opt_for_keys(usr_opts, keys
                                                                           ,_opt_for_keys(def_opts, keys, def_value)))
                 pass;          #LOG and log('lev=ALL ans={}',(ans))
-    return ans if def_value is None else type(def_value)(ans)
+    if def_value is None:
+        return ans
+    try:
+        return type(def_value)(ans)              # lenient coercion, as always
+    except Exception:
+        return ans             # stored type mismatch: raw value beats a crash
    #def get_opt
 
 def set_opt(path, value, lev=CONFIG_LEV_USER, ed_cfg=ed, lexer='', user_json='user.json'):
