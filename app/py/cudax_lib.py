@@ -319,8 +319,10 @@ def set_opt(path, value, lev=CONFIG_LEV_USER, ed_cfg=ed, lexer='', user_json='us
                 del node[key]                       # Remove pair
                 remove_empty_nodes(body_js, keys)
             else:
-                log(_('Warning: section is overwritten with simple key.\n\tfile={}\n\tpath={}').format(
-                        cfg_json, '/'.join(keys[:ikey+1]))) \
+                # NB: no _() on log()-only diagnostics: module-level _ does
+                #     not exist (get_translation() hands _ to each plugin)
+                log('Warning: section is overwritten with simple key.\n\tfile={}\n\tpath={}'
+                   , cfg_json, '/'.join(keys[:ikey+1])) \
                     if '/' in path and isinstance(node.get(key), dict) else 0
                 node[key]   = value                 # Change or Add
         else:                                       # Middle path segment
@@ -331,8 +333,8 @@ def set_opt(path, value, lev=CONFIG_LEV_USER, ed_cfg=ed, lexer='', user_json='us
             elif isinstance(node[key], dict):
                 node    = node[key]                 # Step down
             else:                                   # key is not for section
-                log(_('Warning: simple key is overwritten with section.\n\tfile={}\n\tpath={}\n\told value={}').format(
-                        cfg_json, '/'.join(keys[:ikey+1]), node[key]))
+                log('Warning: simple key is overwritten with section.\n\tfile={}\n\tpath={}\n\told value={}'
+                   , cfg_json, '/'.join(keys[:ikey+1]), node[key])
                 node[key]   = {}
                 node    = node[key]                 # Step down
        #for ikey,key
