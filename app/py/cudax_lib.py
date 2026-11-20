@@ -570,14 +570,17 @@ def _json_loads(s, **kw):
     if 'fn' in kw:
         fn = kw['fn']
         kw.pop('fn')
+    log_file    = kw.pop('log_file', None) or _get_log_file()
 
     try:
         ans = json.loads(_prep_json_text(s), **kw)
     except Exception:
         pass;                   #LOG and log('FAIL: s={}',s)
         pass;                   #LOG and log('sys.exc_info()={}',sys.exc_info())
-        log_file    = kw.get('log_file', _get_log_file())
-        open(log_file, 'a', encoding='utf8').write('_json_loads FAIL: filename "'+fn+'", text:\n'+s+'\n')
+        try:
+            open(log_file, 'a', encoding='utf8').write('_json_loads FAIL: filename "'+fn+'", text:\n'+s+'\n')
+        except OSError:
+            pass                                # e.g. unwritable log dir
         print('ERROR: error on loading json. Log file:', log_file)
         ans = {}
     return ans
