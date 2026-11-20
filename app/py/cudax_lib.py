@@ -288,8 +288,11 @@ def set_opt(path, value, lev=CONFIG_LEV_USER, ed_cfg=ed, lexer='', user_json='us
     body    = open(cfg_json, encoding='utf8').read() \
                 if os.path.exists(cfg_json) else ''
     body_js = odict()
+    trails  = {}
+    tails   = []
     if body.strip():
-        body_js = _json_loads(_comms2pairs(body), object_pairs_hook=odict)
+        skel, trails, tails = _take_trailing_comments(body)
+        body_js = _json_loads(_comms2pairs(skel), object_pairs_hook=odict)
 
     # 2. Modify the tree -- simple keys and '/'-paths share one walk
     node    = body_js
@@ -323,6 +326,7 @@ def set_opt(path, value, lev=CONFIG_LEV_USER, ed_cfg=ed, lexer='', user_json='us
     # 3. Dump the whole file pretty and put the comments back
     body_pr = json.dumps(body_js, indent=SPACES)
     body_pr = _pairs2comms(body_pr)
+    body_pr = _put_trailing_comments(body_pr, trails, tails)
     body_pr = body_pr.rstrip('\n') + '\n'
 
     # 4. Store; skip the write when nothing changed
@@ -350,6 +354,72 @@ def _pairs2comms(text):
     def p2c(match):
         return eval(match.group(1))
     return re.sub(r'^\s*"__c_m_n_t_\d+__": "(.*)",?$', p2c, text, flags=re.MULTILINE)
+
+_TRAIL_KEY_RE  = re.compile(r'^\s*,?\s*"(?P<key>[^"]+)"\s*:')
+
+def _take_trailing_comments(body):
+    """ Split '//' comment tails off code lines (string-aware: '//' inside
+        a value like "http://x" is not a comment).
+        Returns (skeleton, trails, tails):
+            skeleton  body with the tails cut; FULL-LINE comments stay
+                      untouched -- _comms2pairs keeps them in place
+            trails    {key: '//comment'} from lines like '"key": 1, // c'
+            tails     ['//comment'] from structural lines like '}, // c'
+        A comment glued to a deleted key vanishes with the key. """
+    lines   = body.split('\n')
+    trails  = {}
+    tails   = []
+    for i,line in enumerate(lines):
+        pos     = 0
+        in_str  = False
+        cut     = None
+        while pos<len(line):
+            ch  = line[pos]
+            if ch=='\\':
+                pos += 2
+            else:
+                if ch=='"':
+                    in_str = not in_str
+                else:
+                    if not in_str and line[pos:pos+2]=='//':
+                        cut = pos
+                        break
+                pos += 1
+        if cut is None:
+            continue                                # no comment here
+        code    = line[:cut].rstrip()
+        if not code.strip():
+            continue                                # full-line comment
+        cmt = line[cut:].rstrip('\r')
+        mt  = _TRAIL_KEY_RE.match(code)
+        if mt:
+            trails[mt.group('key')] = cmt
+        else:
+            tails.append(cmt)                       # '{', '},', ']' ...
+        lines[i]    = code
+    return '\n'.join(lines), trails, tails
+
+def _put_trailing_comments(dump, trails, tails):
+    """ Put the collected comments back onto the pretty dump: key-line
+        comments are re-attached to their key's line, structural ones go
+        before the closing brace. """
+    if not trails and not tails:
+        return dump
+    lines   = dump.split('\n')
+    for key,cmt in trails.items():
+        cre_key  = re.compile(r'^(\s*)"%s"\s*:' % re.escape(key))
+        for i,line in enumerate(lines):
+            if cre_key.match(line):
+                lines[i]    = line.rstrip() + ' ' + cmt
+                break
+    if tails:
+        for i in range(len(lines)-1, -1, -1):
+            if lines[i].strip()=='}':
+                lines[i:i]  = ['  '+cmt for cmt in tails]
+                break
+        else:
+            lines       += ['  '+cmt for cmt in tails]
+    return '\n'.join(lines)
 
 
 def remove_empty_nodes(tree, keys):
