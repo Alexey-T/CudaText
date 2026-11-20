@@ -2,14 +2,13 @@ import os
 import sys
 import re
 import collections
+import heapq
 import json
-import stat
 import copy
 import functools
 import string
 import time
 import threading
-from collections import deque
 from fnmatch import fnmatch
 from pathlib import Path, PurePosixPath
 from .projman_glob import *
@@ -263,8 +262,7 @@ def scan_dir_entries(fn, opts):
 
 class _FilterWorker(threading.Thread):
     """Background scan for the tree filter. Walks the project's root
-    nodes ONCE, BREADTH-FIRST, and builds the LAZY TREE INDEX of the
-    result:
+    nodes ONCE and builds the LAZY TREE INDEX of the result:
         {parent folder path: [(name, path, is_dir), ...]}
     (the project root's children live under the key ''). The UI thread
     rebuilds the visible part of the tree from this index on every
@@ -283,22 +281,44 @@ class _FilterWorker(threading.Thread):
         depth) a matching node. A name-matching folder does NOT bring
         its whole content: its children follow the same two rules.
 
+    SCAN ORDER: the walk is ITERATIVE with an explicit queue, driven by
+    PRIORITIES (`pri`, {folder path: tier}, lower = sooner - see
+    Command._filter_scan_priorities): tier 1 is the folder of the file
+    in the current editor tab, tier 2 the folder of the tree selection,
+    tier 3 the folders the user expanded, tier 4 everything else. The
+    `pri` map holds ONLY the tier target folders; a scanned folder's
+    effective priority comes from _pri_of(): the best tier among the
+    targets RELATED to it - a target which CONTAINS it (the whole
+    SUBTREE of a target is scanned with the target's tier, so a big
+    expanded/selected folder is FINISHED before the queue moves on to
+    the next tier) or which is INSIDE it (the path DOWN to a target:
+    its ancestors must be walked first to reach it). Each tier is
+    therefore scanned as one uninterrupted region, and only then does
+    the next tier start. Inside one priority the order is breadth-
+    first (a heapq with (priority, seq, path); seq keeps the queue
+    FIFO for equal priorities). With no priorities (no editor file,
+    nothing selected, nothing expanded) this is exactly the old
+    plain breadth-first walk.
+
     The worker NEVER calls the CudaText API (not thread-safe) - it only
     touches the disk. The UI thread polls .done/.count/.version with a
     timer and reads .res/.live while the scan runs; a new filter text
     cancels the previous worker co-operatively (the .cancel flag is
     checked around every folder). The walk is ITERATIVE (an explicit
-    FIFO queue), not recursive: a drive-deep folder chain cannot hit
+    queue), not recursive: a drive-deep folder chain cannot hit
     Python's recursion limit, and the breadth-first order makes the
     live tree grow where the user looks at it (shallow levels first)."""
 
-    def __init__(self, text, roots):
+    def __init__(self, text, roots, pri=None):
         threading.Thread.__init__(self)
         self.daemon = True
         self.text = text
         #: [(spath, sname, is_dir)] of the project's root nodes,
         #: pre-filtered and sorted by the UI thread
         self.roots = roots
+        #: {folder path: priority} of the folders to scan first (see the
+        #: class docstring); None = no priorities, plain BFS order
+        self.pri = pri or {}
         #: snapshot of the options which rule the scan
         self.opts = {}
         self.cancel = False
@@ -326,6 +346,8 @@ class _FilterWorker(threading.Thread):
         #: the finished result: {parent path: [(name, path, is_dir)]}
         #: (cleaned of the optimistic rows; None when cancelled)
         self.tree = None
+        #: memoized _pri_of() results, filled by the worker thread only
+        self._pri_cache = {}
         self.done = False
 
     def _mark_chain(self, path):
@@ -343,11 +365,46 @@ class _FilterWorker(threading.Thread):
                 break
             p = nxt
 
+    def _pri_of(self, path):
+        """Effective scan priority of a folder: the best (lowest) tier
+        among the `pri` targets RELATED to it -
+          - a target which CONTAINS the folder: the whole SUBTREE of a
+            target folder is scanned with the target's tier, so a big
+            selected/expanded folder is completely FINISHED before the
+            queue moves on to the next tier (this is what keeps a tier
+            contiguous - the bug the FIFO interleave used to cause);
+          - a target which is INSIDE the folder: the path DOWN to a
+            target must be walked first to reach it, so the ancestors
+            of a target share its tier;
+          - the folder's own entry, when it is a target itself.
+        Folders with no related target get +inf (no priority: plain
+        breadth-first among the rest). Memoized: a folder is looked up
+        once."""
+        p = self._pri_cache.get(path)
+        if p is not None:
+            return p
+        pr = _rtrim_sep(path)
+        best = None
+        for q, qp in self.pri.items():
+            # q contains path: path is inside q's subtree
+            # path contains q: path is an ancestor of q
+            if path_contains(q, pr) or path_contains(pr, q):
+                if best is None or qp < best:
+                    best = qp
+        p = best if best is not None else float('inf')
+        self._pri_cache[path] = p
+        return p
+
     def run(self):
         try:
             res = self.res
             flt = self.text.lower()
-            queue = deque()
+            self._pri_cache = {}
+            # priority queue: (priority, seq, path). seq keeps the order
+            # FIFO for equal priorities; the plain integer priorities of
+            # `pri` always beat 'inf' (float compares fine with int)
+            queue = []
+            seq = 0
             # roots: every root FOLDER gets its (optimistic) top-level
             # row immediately, so the top level of the live tree is
             # complete from the very start (a root folder shows as soon
@@ -359,7 +416,8 @@ class _FilterWorker(threading.Thread):
                     if flt in sname.lower():
                         self.count += 1
                         self._mark_chain(spath)
-                    queue.append(spath)
+                    heapq.heappush(queue, (self._pri_of(spath), seq, spath))
+                    seq += 1
                 elif flt in sname.lower():
                     res.setdefault('', []).append((sname, spath, False))
                     self.count += 1
@@ -367,7 +425,7 @@ class _FilterWorker(threading.Thread):
             while queue:
                 if self.cancel:
                     break
-                path = queue.popleft()
+                _, _, path = heapq.heappop(queue)
                 for e in scan_dir_entries(path, self.opts) or []:
                     if self.cancel:
                         break
@@ -379,7 +437,15 @@ class _FilterWorker(threading.Thread):
                         if flt in e.name.lower():
                             self.count += 1
                             self._mark_chain(e.path)
-                        queue.append(e.path)
+                        # a subfolder gets its OWN priority (its own
+                        # 'pri' entry, else the one it contains, else
+                        # the parent's): a folder on the path down to
+                        # the focused folder outranks the siblings of
+                        # its parent, so the focused branch is walked
+                        # to the bottom before anything else
+                        heapq.heappush(queue, (self._pri_of(e.path),
+                                               seq, e.path))
+                        seq += 1
                     elif flt in e.name.lower():
                         res.setdefault(path, []).append(
                             (e.name, e.path, False))
@@ -924,6 +990,7 @@ class Command:
         (_("Add current file"), "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.add_current_file", ""),
         (_("Add all opened files"), "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.add_opened_files", ""),
         (_("Add folder of current file"), "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.add_current_dir", ""),
+        (_("Add folders of all opened files"), "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.add_opened_dirs", ""),
         ("-", "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "", ""),
         (_("Stop tracking this folder/file"), "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_remove_node", ""),
         (_("Clean up missing paths..."), "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_remove_deleted_nodes", ""),
@@ -1341,43 +1408,61 @@ class Command:
             cell_h, _pitch = editor_default_metrics()
             if cell_h:
                 EH = max(EH, cell_h + 8)
-        #---- cancel (x) button at the right of the filter field ----
-        # Created BEFORE the edit: the edit's right edge is anchored to
-        # this button's left edge. Clicking it cancels a RUNNING search
-        # (the tree keeps its current content, the status line reports
-        # what was found so far); when no search is running it clears
-        # the filter, like the x of a usual search box. button_ex = the
-        # flat themed button, so it follows the UI theme.
-        # VISIBILITY: the button shows ONLY while it can do something -
-        # the filter field has text, or a background search is running
-        # (_filter_cancel_btn_update, called on every filter change).
-        # Hidden, it is also COLLAPSED to zero width, so the filter
-        # field stretches over the full row: a hidden control keeps
-        # its bounds, so only hiding it would leave an empty gap at
-        # the right of the field.
-        # ANCHORS: 'a_l': None is REQUIRED. The dialog engine maps a_l/
-        # a_r onto the LCL anchors, and the LCL default is akLeft=on:
-        # with the left anchor kept, the left edge stayed pinned to the
-        # initial x=0 while the right edge followed the panel edge - the
-        # button stretched across the WHOLE filter row and covered the
-        # edit (nothing could be typed). With akLeft removed, the button
-        # keeps its width (EH) and only MOVES with the panel's right
-        # edge - and setting 'w': 0 (the hidden state) moves its left
-        # edge to the panel's right edge, which is what lets the edit
-        # grow.
-        # The button's TOP+BOTTOM are re-anchored to the edit AFTER the
-        # edit is created (below): the engine resolves the control name
-        # of an anchor only if that control already exists, so the
-        # vertical glue cannot be set here yet. With both vertical edges
-        # glued to the edit (0 spacing), the button is EXACTLY as tall
-        # as the filter box at every DPI / GUI height - the fixed h=EH
-        # below is only the initial pre-anchor size (without the glue
-        # the button rendered SMALLER than the filter field).
-        n = dlg_proc(self.h_dlg, DLG_CTL_ADD, prop='button_ex')
+        #---- cancel (x) tile at the right of the filter field ----
+        # ONE control for BOTH states - the SAME design, only the
+        # color changes (this is the fix for the styling mismatch of
+        # the earlier two-control pair: a themed button_ex next to a
+        # colored panel can never look the same, and the panel missed
+        # the 2px margin the button had). The control is a
+        # 'colorpanel' (TATPanelColor): a windowed control that paints
+        # its whole face from its Color/Font.Color properties (what
+        # the dialog API can actually recolor at runtime - a
+        # button_ex is a TATButton which paints from its theme record
+        # and cannot be recolored), centers its caption itself, and
+        # fires 'on_click' (the engine wires click events for every
+        # control, DoControl_InitPropsObject). CanFocus()=false in
+        # TATPanelColor, so clicking it never steals the keyboard
+        # focus from the filter field.
+        # Created BEFORE the edit: the edit's right edge is anchored
+        # to this tile's left edge (that is what keeps the 2px margin
+        # between them - the anchor chain survives, because the tile
+        # is never hidden-with-width-0 while text exists).
+        # Clicking it cancels a RUNNING search (the tree keeps its
+        # current content, the status line reports what was found so
+        # far); when no search is running it clears the filter, like
+        # the x of a usual search box.
+        # COLORS: the passive look comes from the UI THEME
+        # (ButtonBgPassive / ButtonFont - the colors CudaText's own
+        # buttons use, so the tile blends with the theme on light and
+        # dark themes alike); a running search turns the face red and
+        # the glyph white (_filter_cancel_btn_update). apply_panel_
+        # theme() re-reads the passive pair when the theme changes.
+        # GEOMETRY - ANCHORS ONLY, no x/y/w/h at runtime:
+        #   a_r ('', ']') + sp_r 2   right edge glued to the panel
+        #                             edge, 2px from it
+        #   a_l None                  no left anchor: the tile keeps
+        #                             its width and only MOVES with
+        #                             the panel's right edge
+        #   a_t/a_b ('f_filter',     vertical glue to the filter
+        #   '['/']' + sp 0)          field - the same height as it at
+        #                             every DPI / GUI height
+        # 'a_l': None is REQUIRED: the LCL default is akLeft=on, and
+        # with the left anchor kept, the left edge stays pinned while
+        # the right edge follows the panel - the tile would stretch
+        # across the whole filter row. With akLeft removed, setting
+        # 'w': 0 (the idle state) moves the left edge to the panel's
+        # right edge, which is what lets the edit grow over the row.
+        # The tile's TOP+BOTTOM are re-anchored to the edit AFTER the
+        # edit is created (below): the engine resolves the control
+        # name of an anchor only if that control already exists.
+        colors = _favorites.get_theme_ui_colors()
+        self._filter_x_passive_bg = colors['btn_bg'] \
+            if colors['btn_bg'] is not None else 0xCCCCCC
+        self._filter_x_passive_font = colors['btn_font'] \
+            if colors['btn_font'] is not None else 0x000000
+        n = dlg_proc(self.h_dlg, DLG_CTL_ADD, prop='colorpanel')
         dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, index=n, prop={
-            'name': 'btn_fcancel',
-            'x': 300, 'y': 2,      # sane pre-anchor position; the right
-                                   # anchor places the button finally
+            'name': 'pnl_fcancel',
             'a_t': ('bar', ']'),
             'sp_t': 2,
             'a_l': None,
@@ -1386,12 +1471,23 @@ class Command:
             'w': EH,
             'h': EH,
             'cap': '×',
+            'color': self._filter_x_passive_bg,
+            'font_color': self._filter_x_passive_font,
+            'vis': False,
             'hint': _('Cancel the running search\r(or clear the filter when no search is running)'),
+            # CLICK WIRING - the engine PRE-ASSIGNS the colorpanel's
+            # OnClick to DoOnChange (the 'colorpanel' creation block in
+            # proc_customdialog.pas), so the generic DoOnClick wiring
+            # (which fires the 'on_click' prop) is SKIPPED for this
+            # control type ('if not Assigned(Ctl.OnClick)'). A click
+            # therefore fires 'on_change' - and ONLY with 'act': True,
+            # for DoOnChange gates on FActive, which is false by
+            # default and auto-true only for 'button*' types. This is
+            # the EXACT wiring of the old button_ex cancel button,
+            # which worked via on_change + the button's act=True.
+            'act': True,
             'on_change': self.panel_filter_cancel_click,
         })
-        if ui_fs:
-            dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, name='btn_fcancel',
-                     prop={'font_size': ui_fs})
         n = dlg_proc(self.h_dlg, DLG_CTL_ADD, prop='editor_edit')
         # stored for _filter_edit_focused(): the form's 'focused' prop
         # is a control index, like this n
@@ -1402,7 +1498,7 @@ class Command:
             'sp_t': 2,
             'a_l': ('', '['),
             'sp_l': 2,
-            'a_r': ('btn_fcancel', '['),
+            'a_r': ('pnl_fcancel', '['),
             'sp_r': 2,
             'h': EH,
             'act': True,
@@ -1426,21 +1522,20 @@ class Command:
         if edit_fs:
             dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, name='f_filter',
                      prop={'font_size': edit_fs})
-        # 'f_filter' exists now: glue the cancel button's top and bottom
-        # edges to the edit's ones (0 spacing) - the button always keeps
+        # 'f_filter' exists now: glue the cancel tile's top and bottom
+        # edges to the edit's ones (0 spacing) - the tile always keeps
         # the same height as the filter field, at any DPI / GUI height
-        dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, name='btn_fcancel', prop={
+        dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, name='pnl_fcancel', prop={
             'a_t': ('f_filter', '['),
             'sp_t': 0,
             'a_b': ('f_filter', ']'),
             'sp_b': 0,
         })
-        # the (x) button starts HIDDEN and collapsed: with no filter
-        # text and no running search there is nothing it could do
-        # (every later filter change calls _filter_cancel_btn_update)
+        # the tile starts HIDDEN and collapsed: with no filter text
+        # and no running search there is nothing it could do (every
+        # later filter change calls _filter_cancel_btn_update)
         self._filter_cancel_w = EH
         self._filter_cancel_btn_update()
-
         #---- filter status line (between the filter and the tree) ----
         # While the filter field is not empty, it ALWAYS shows what the
         # background search is doing: "searching... N match(es) so far"
@@ -1546,6 +1641,14 @@ class Command:
             if lbl:
                 dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, name='lbl_fstat',
                          prop=lbl)
+            # the cancel tile's passive colors follow the theme too
+            # (its red running face is a state, not a theme color):
+            # re-read them and re-assert on the current state
+            if colors['btn_bg'] is not None:
+                self._filter_x_passive_bg = colors['btn_bg']
+            if colors['btn_font'] is not None:
+                self._filter_x_passive_font = colors['btn_font']
+            self._filter_cancel_btn_update()
         except Exception:
             log_error('Project Manager: cannot apply the UI theme '
                       'to the panel dialog')
@@ -1558,7 +1661,7 @@ class Command:
                 dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, name='tree',
                          prop={'font_size': ui_fs})
                 dlg_proc(self.h_dlg, DLG_CTL_PROP_SET,
-                         name='btn_fcancel',
+                         name='pnl_fcancel',
                          prop={'font_size': ui_fs})
         except Exception:
             log_error('Project Manager: cannot re-apply '
@@ -3233,27 +3336,54 @@ class Command:
         self.apply_tree_filter(text)
 
     def _filter_cancel_btn_update(self):
-        """Show the filter's (x) button only while it can do something:
+        """Show the filter's (x) tile only while it can do something:
         while the filter field has text, or a background search is
-        running. With no text and no search the button is hidden AND
+        running. It is ONE 'colorpanel' control for both states, so
+        the design is IDENTICAL in both - only the COLORS change:
+        the passive theme pair (ButtonBgPassive/ButtonFont, see
+        init_panel) normally, red face + white glyph while a search
+        runs. With no text and no search the tile is hidden AND
         collapsed to zero width, so the filter field stretches over
         the full row (the field's right edge is anchored to the
-        button's LEFT edge, and a hidden control keeps its bounds - so
-        only hiding the button would leave an empty gap at the right
-        of the field). Called at panel build, on every filter-field
-        change and whenever a scan starts or ends."""
+        tile's LEFT edge; a hidden control keeps its bounds, so only
+        hiding it would leave an empty gap at the right of the
+        field). Called at panel build, on every filter-field change
+        and whenever a scan starts or ends."""
         if not self.h_dlg:
             return
         text = self._filter_text()
         w = self._filter_worker
         searching = (w is not None) and (not w.done)
         try:
-            if text or searching:
-                dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, name='btn_fcancel',
-                         prop={'w': self._filter_cancel_w, 'vis': True})
+            if searching:
+                # red face, white glyph: a clear signal that the click
+                # cancels the RUNNING search. Geometry keeps the
+                # cached square width (a search runs only with text,
+                # so the tile is already placed - only colors change)
+                dlg_proc(self.h_dlg, DLG_CTL_PROP_SET,
+                         name='pnl_fcancel', prop={
+                             'w': self._filter_cancel_w,
+                             'vis': True,
+                             'color': 0x0000FF,        # red (BGR)
+                             'font_color': 0xFFFFFF,   # white glyph
+                         })
+            elif text:
+                # passive look: the theme colors captured at panel
+                # build (re-read by apply_panel_theme on theme change)
+                dlg_proc(self.h_dlg, DLG_CTL_PROP_SET,
+                         name='pnl_fcancel', prop={
+                             'w': self._filter_cancel_w,
+                             'vis': True,
+                             'color': self._filter_x_passive_bg,
+                             'font_color': self._filter_x_passive_font,
+                         })
             else:
-                dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, name='btn_fcancel',
-                         prop={'w': 0, 'vis': False})
+                # idle: hidden and collapsed, the field takes the row
+                dlg_proc(self.h_dlg, DLG_CTL_PROP_SET,
+                         name='pnl_fcancel', prop={
+                             'w': 0,
+                             'vis': False,
+                         })
         except Exception:
             log_error('Project Manager: cannot update '
                       'the filter cancel button')
@@ -3358,6 +3488,9 @@ class Command:
         self._filter_label_cancelled(w.count)
         # rebuild the visible tree from the snapshot: the findings stay
         self._filter_rebuild(cleaned, w.live)
+        # the search ended (cancelled): the red tile must go and the
+        # (x) button come back (it shows: the filter text stays)
+        self._filter_cancel_btn_update()
 
     def clear_panel_filter(self):
         """Esc / the (x) button: clear the filter field and show the
@@ -3386,6 +3519,97 @@ class Command:
         self.apply_tree_filter('')
 
     #------------- background scan (the _FilterWorker thread)
+
+    def _filter_scan_priorities(self, roots):
+        """Tier map for the next filter scan: {folder path: tier}, lower
+        number = scanned earlier (0 = first). Makes the search find what
+        the user is most likely looking for FIRST, in this order:
+
+        1. the folder of the file focused in the CURRENT EDITOR TAB
+           (that is where the user works RIGHT NOW - the strongest
+           signal there is);
+        2. the folder of the tree SELECTION (a file or folder node -
+           the last node the user picked in the panel);
+        3. the folders the user has EXPANDED in the tree (they are
+           looking at them - a match there is more interesting than one
+           in a never-opened folder);
+        4. everything else (collapsed / never expanded) last, keeping
+           the tree's own order.
+
+        Only the tier TARGET folders are keyed here. The worker's
+        _pri_of() turns them into effective priorities: the target's
+        whole SUBTREE is scanned with the target's tier (a big expanded
+        folder is FINISHED before the next tier starts), and the path
+        DOWN to a target (its ancestors) shares the target's tier too -
+        so each tier is scanned as one uninterrupted region. Targets
+        already marked by a better tier keep it (a folder can be both
+        selected and expanded - the strongest context wins).
+
+        Returns None when no editor file is open, nothing is selected
+        and nothing is expanded (the plain old scan order is fine
+        then)."""
+
+        pri = {}
+        next_tier = 0
+
+        def mark(path):
+            """Give `path` the next tier number when it has none yet
+            (a path already marked by a better tier keeps it)."""
+            nonlocal next_tier
+            if path and path not in pri:
+                pri[path] = next_tier
+                next_tier += 1
+
+        def folder_of_focus(path):
+            """'path' is a file or folder the user focuses on; return the
+            folder to prioritize for it: the file's folder, or the folder
+            itself."""
+            if path and not os.path.isdir(path):
+                path = os.path.dirname(path)
+            return path
+
+        # tier 1: the file in the current editor tab
+        try:
+            focus = folder_of_focus(ed.get_prop(PROP_FN, '*') or '')
+        # intentional silence: no editor / no file name
+        except Exception:
+            focus = ''
+        mark(focus)
+
+        # tier 2: the tree selection. While a filter is ACTIVE the tree
+        # on screen is the FILTERED one: its selection is the node the
+        # user clicked in the result list (the strongest live signal)
+        # or an arbitrary restored row - and the REAL pre-filter
+        # selection lives in _filter_saved_sel. Cumulative: the live
+        # selection is marked first, then the saved one (a different
+        # node is still a signal of interest; the same node keeps its
+        # better tier through mark()).
+        sel = self.selected
+        focus = ''
+        if sel:
+            prop = tree_proc(self.tree, TREE_ITEM_GET_PROPS, sel)
+            if prop:
+                focus = folder_of_focus(str(prop.get('data', '') or ''))
+        if focus:
+            mark(focus)
+        if self.tree_filter and self._filter_saved_sel:
+            mark(folder_of_focus(self._filter_saved_sel))
+
+        # tier 3: the expanded folders, in the tree's top-down order (the
+        # user's attention runs top-down); a folder already marked by a
+        # higher tier keeps its better number. While a filter is ACTIVE
+        # the on-screen folds are only those of the FILTERED tree - the
+        # folders the user had open before typing are gone from the
+        # screen until a match appears in them, but their 'user is
+        # interested' signal is not: merge the saved pre-filter folds
+        # in (the live ones win: they are the user's CURRENT view).
+        expanded = self._filter_capture_expanded()
+        if self.tree_filter and self._filter_saved_folds:
+            expanded = set(expanded) | set(self._filter_saved_folds)
+        for path in sorted(expanded, key=lambda p: (p.count(os.sep), p)):
+            mark(path)
+
+        return pri or None
 
     def _filter_start(self, text):
         """(Re)start the background scan for the given filter text: a
@@ -3425,7 +3649,14 @@ class Command:
                 continue
             roots.append((spath, sname, bool(is_dir)))
 
-        w = _FilterWorker(text, roots)
+        # scan priorities: the folder of the editor file first, then the
+        # tree selection's, then the expanded folders, then everything
+        # else (see _filter_scan_priorities). Computed HERE on the UI
+        # thread: it reads the editor and the tree, neither of which
+        # the worker may touch.
+        pri = self._filter_scan_priorities(roots)
+
+        w = _FilterWorker(text, roots, pri)
         w.opts = {
             'no_hidden': bool(self.options.get('no_hidden', True)),
             'no_files': str(self.options.get('no_files', '') or ''),
@@ -3461,6 +3692,9 @@ class Command:
             self._filter_index = {}
             self._fill_tree_filtered_top(inst_rows)
             self._filter_label_done(0)
+            # no search is running: restore the button (a previous
+            # worker was cancelled above - its red tile must not stay)
+            self._filter_cancel_btn_update()
             return
         self._fill_tree_filtered_top(inst_rows)
         self._filter_label_running(0)
@@ -3518,7 +3752,10 @@ class Command:
             self._filter_label_running(w.count)
             if w.version != self._filter_live_version:
                 self._filter_live_version = w.version
-                self._filter_rebuild(w.res, w.live)
+                # LIVE update: insert-only sync of the new findings -
+                # no clear+refill (which repainted the whole tree and
+                # flashed on every finding)
+                self._filter_rebuild(w.res, w.live, incremental=True)
             return
 
         # finished
@@ -3658,7 +3895,7 @@ class Command:
             tree_proc(self.tree, TREE_ITEM_SELECT, found[0])
             tree_proc(self.tree, TREE_ITEM_SHOW, found[0])
 
-    def _filter_rebuild(self, index, live):
+    def _filter_rebuild(self, index, live, incremental=False):
         """Rebuild the visible part of the filtered tree from a lazy
         index - the worker's PARTIAL index while the scan runs (called
         from _filter_progress_tick), its cleaned result when it finished
@@ -3666,6 +3903,21 @@ class Command:
         _filter_capture_expanded) and the selection are carried over,
         so a rebuild is visually calm: rows only ever appear, the folds
         and the selected node stay where they were.
+
+        Two strategies:
+        - incremental=True (the LIVE update while the scan runs): the
+          scan's index only ever GROWS (buckets are appended to, `live`
+          only gains paths), so the visible tree is SYNCD in place -
+          only the NEW rows are inserted at their sorted position, no
+          node is deleted or moved. This is what keeps the live growth
+          flash-free: a full clear+refill per progress tick used to
+          repaint the whole tree (and reset its scroll) on every
+          finding - a visible flicker at each 150 ms tick.
+        - incremental=False (the finished/cancelled result): the
+          cleaned index can differ arbitrarily from the partial one
+          (optimistic rows dropped, files of still-hidden folders
+          gone), so the tree is refilled from scratch - ONE repaint at
+          the end of the search, which is not perceived as flashing.
 
         The tree stays LAZY: every folder which is not unfolded gets a
         'dummy' child, and its real rows are added on the expand
@@ -3688,20 +3940,38 @@ class Command:
         self._filter_rebuilding = True
         tree_proc(self.tree, TREE_LOCK)
         try:
-            tree_proc(self.tree, TREE_ITEM_DELETE, 0)
-            parent = tree_proc(
-                self.tree,
-                TREE_ITEM_ADD,
-                0,
-                -1,
-                self.get_project_name(),
-                self.ICON_PROJ,
-            )
-            self._filter_fill_level(parent, '', index, live, expanded)
-            tree_proc(self.tree, TREE_ITEM_UNFOLD, parent)
+            if incremental:
+                items_root = tree_proc(self.tree, TREE_ITEM_ENUM_EX, 0)
+                if items_root:
+                    self._filter_sync_level(items_root[0]['id'], '',
+                                            index, live, expanded)
+            else:
+                tree_proc(self.tree, TREE_ITEM_DELETE, 0)
+                parent = tree_proc(
+                    self.tree,
+                    TREE_ITEM_ADD,
+                    0,
+                    -1,
+                    self.get_project_name(),
+                    self.ICON_PROJ,
+                )
+                self._filter_fill_level(parent, '', index, live, expanded)
+                tree_proc(self.tree, TREE_ITEM_UNFOLD, parent)
         finally:
             tree_proc(self.tree, TREE_UNLOCK)
             self._filter_rebuilding = False
+        if incremental:
+            # nothing was deleted, so a selection which still exists
+            # was never disturbed: re-selecting it (TREE_ITEM_SHOW!)
+            # would scroll the tree on every tick while the user is
+            # browsing - only heal a lost selection (the project node
+            # vanished, e.g. the tree was cleared meanwhile)
+            if not self.selected:
+                items_root = tree_proc(self.tree, TREE_ITEM_ENUM_EX, 0)
+                if items_root:
+                    tree_proc(self.tree, TREE_ITEM_SELECT,
+                              items_root[0]['id'])
+            return
         # keep the selection where it was; select the project node when
         # the old selection does not exist anymore
         if sel_path:
@@ -3710,6 +3980,49 @@ class Command:
             items_root = tree_proc(self.tree, TREE_ITEM_ENUM_EX, 0)
             if items_root:
                 tree_proc(self.tree, TREE_ITEM_SELECT, items_root[0]['id'])
+
+    def _filter_sync_level(self, node, key, index, live, expanded):
+        """One level of the INCREMENTAL live sync (see _filter_rebuild):
+        insert the rows the index holds for `key` which are not in the
+        tree yet - each at the position it has in the level's row list,
+        so the visible order is always exactly the order a full rebuild
+        would show, no matter in which order the scan discovered the
+        rows. Folder rows get their 'dummy' child as usual; folders the
+        user unfolded (path in `expanded`) are recursed into. NEVER
+        deletes anything - that is the point of the incremental sync
+        (no delete, no move: existing nodes keep their identity, so
+        the folds, the selection and the scroll position stay put and
+        nothing flashes)."""
+        rows = self._filter_rows_for(key, index, live)
+        if not rows:
+            return
+        # existing children of this level, keyed by PATH (paths are
+        # unique). A 'dummy' child carries no data and belongs to the
+        # folder row above it - it is not a row of this level.
+        by_path = {}
+        for it in tree_proc(self.tree, TREE_ITEM_ENUM_EX, node) or []:
+            spath = it.get('data') or ''
+            if spath:
+                by_path[spath] = it['id']
+        # walk the desired rows in their final order; every row which
+        # is not in the tree yet is inserted at the number of rows
+        # which precede it in the list (matched or just inserted) -
+        # the earlier inserts shifted the tree exactly into the
+        # desired order
+        pos = 0
+        for sname, spath, is_dir in rows:
+            child = by_path.get(spath)
+            if child is None:
+                child = self._add_tree_node(node, sname, spath, is_dir,
+                                            index=pos)
+                by_path[spath] = child
+                if is_dir:
+                    tree_proc(self.tree, TREE_ITEM_ADD, child, -1,
+                              'dummy', -1)
+            pos += 1
+            if is_dir and spath in expanded:
+                self._filter_sync_level(child, spath, index, live,
+                                        expanded)
 
     def _filter_fill_level(self, node, key, index, live, expanded):
         """Add the rows of ONE level of the filtered tree (the children
@@ -3967,8 +4280,8 @@ class Command:
                                    17, lbl_fs,
                                    app_proc(PROC_GET_SYSTEM_PPI,
                                             '') or 96)})
-            # the x button keeps the field's height via its anchors;
-            # its cached WIDTH is the same value (a square button)
+            # the x tile keeps the field's height via its anchors;
+            # its cached WIDTH is the same value (a square tile)
             self._filter_cancel_w = h
             self._filter_cancel_btn_update()
             ui_fs = option_font_size(self.options.get('ui_font_size'))
@@ -3976,7 +4289,7 @@ class Command:
                 dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, name='tree',
                          prop={'font_size': ui_fs})
                 dlg_proc(self.h_dlg, DLG_CTL_PROP_SET,
-                         name='btn_fcancel',
+                         name='pnl_fcancel',
                          prop={'font_size': ui_fs})
         except Exception:
             log_error('Project Manager: cannot apply '
@@ -4176,13 +4489,16 @@ class Command:
         msg_status(_("Created project: ") + '"' + os.path.basename(str(path)) + '"')
 
     @_with_backup_cause('on project switch')
-    def _create_project_file(self, path, close_tabs=True):
+    def _create_project_file(self, path, close_tabs=True, init_nodes=None):
         """Create a new project file at `path` and make it the current
         project. Saves the current project (and its session slot) first.
         With close_tabs=True all tabs are closed and session 'session1'
         starts empty (used by New project); with close_tabs=False the
         current tabs are embedded as session 'session1' (used by
-        'New project from open tabs...')."""
+        'New project from open tabs...'). init_nodes is an optional list
+        of root node paths the new project starts with (used by
+        'New project from open tabs...' when the user accepts adding the
+        opened tabs' folders)."""
 
         # The command can run with the side panel not created yet: the
         # plugin was lazy-loaded by the menu command itself and the panel
@@ -4220,8 +4536,10 @@ class Command:
             if saved:
                 self._clear_modified_all_tabs()
 
-        # Reset project state
-        self.project = normalize_project_data(dict(nodes=[]))
+        # Reset project state; the new project may start with root nodes
+        # (the folders of the open tabs, when the user accepted them)
+        nodes = list(init_nodes) if init_nodes else []
+        self.project = normalize_project_data(dict(nodes=nodes))
         self.project_file_path = path
         self.update_global_data()
         self.goto_history = []
@@ -4289,7 +4607,26 @@ class Command:
         'session1', makes it the default session and switches to the new
         project. Open tabs are NOT closed — the current state becomes the
         new project's session. (Migration helper for the old workflow which
-        kept sessions in external .cuda-session files.)"""
+        kept sessions in external .cuda-session files.)
+
+        Before the location dialog, when at least one opened tab has a
+        folder, the user is offered to also add those folders to the new
+        project as root nodes - a project made from open tabs usually
+        wants to browse the code it was made from."""
+
+        # ask FIRST, before the location dialog: with the folders declined,
+        # the flow is exactly the old one
+        add_tab_dirs = False
+        tab_dirs = self._collect_opened_dirs()
+        if tab_dirs:
+            n = len(tab_dirs)
+            if n == 1:
+                msg = _('Do you also want to add the folder of the opened file to the project?')
+            else:
+                msg = _('Do you also want to add the folders of the {} opened files to the project?').format(n)
+            res = msg_box_ex(_('Project Manager'), msg,
+                             [_('Yes'), _('No')], MB_ICONQUESTION)
+            add_tab_dirs = (res == 0)
 
         path = info
         if path is None:
@@ -4309,7 +4646,8 @@ class Command:
             msg_status(_('This file is already the current project'))
             return
 
-        self._create_project_file(path, close_tabs=False)
+        self._create_project_file(path, close_tabs=False,
+                                  init_nodes=tab_dirs if add_tab_dirs else None)
         msg_status(_("Created project from current session: ") + os.path.basename(str(path)))
 
     @_with_backup_cause('on project save')
@@ -6618,6 +6956,42 @@ class Command:
             e = Editor(h)
             fn = e.get_prop(PROP_FN, '*')
             self.add_node(fn)
+
+    def _collect_opened_dirs(self):
+        """Deduplicated list of the folders of ALL opened tabs (every tab
+        group), in tab order. Untitled tabs (no file name) are skipped;
+        Windows drive roots ('D:\\') are skipped like add_current_dir
+        does - a whole drive is rarely what one wants in a project."""
+        dirs = []
+        seen = set()
+        for h in ed_handles():
+            e = Editor(h)
+            fn = e.get_prop(PROP_FN, '*')
+            if not fn:
+                continue
+            d = os.path.dirname(fn)
+            if not d:
+                continue
+            if IS_WIN and d.endswith(':\\'):
+                continue
+            key = _rtrim_sep(d)
+            if key in seen:
+                continue
+            seen.add(key)
+            dirs.append(d)
+        return dirs
+
+    def add_opened_dirs(self):
+        """Command "Add to project: folders of all opened files": adds the
+        folder of every opened tab (all tab groups), skipping duplicates -
+        several tabs of one folder add it once."""
+        self.init_panel()
+        dirs = self._collect_opened_dirs()
+        if not dirs:
+            msg_status(_('No opened files with a folder to add'))
+            return
+        for d in dirs:
+            self.add_node(d)
 
     def add_folder(self):
         """Command "Add to project: folder...": pick a folder and add it
