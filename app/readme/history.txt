@@ -12,11 +12,12 @@
     + add: safety: no command deletes anything permanently anymore, plugin uses OS's Trash / Recycle Bin
     + add: Options dialog redesigned to support themes colors
 
-+ add: hotkeys Ctrl+PageUp / Ctrl+PageDown to switch ui-tabs (like in VSCode/Sublime)
++ add: hotkeys Ctrl+PageUp / Ctrl+PageDown to switch ui-tabs, like in VSCode/Sublime/browsers
 + add: Gtk3 version: 2nd app instance could not focus the 1st instance, Gtk3 apps must use special 'startup id' for this (thanks @pablorq, patch by Z.ai)
 - fix: Gtk3 version: on X11 app had incorrect caret blinking (thanks @SmallJoker, fixed by Z.ai)
 - fix: Windows version: avoid flickering of scrollbar/sidebar/toolbar on showing/hiding auto-completion / IME (thanks @ThaiDat, fixed by Z.ai)
 - fix: several bugs in cudax_lib.py, causing damage of plugins' config files (found/fixed by @badrelmers using audit from AI)
+- fix: when "caret_view" sets caret height>100%, column of N carets was rendered with coord overlaps
 
 1.239.1 (2026/11)
 
