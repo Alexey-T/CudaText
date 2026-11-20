@@ -523,8 +523,8 @@ begin
   M.Add(cmd_HideNotificationPanels, 'ui: hide editor notification panel(s)', [], []);
   M.Add(cmd_ToggleFileNotifications, 'ui: toggle file-change notifications', [], []);
 
-  M.Add(cmd_SwitchTab_HotkeyNext, 'ui: switch tab, to next', [scCtrl+VK_TAB], []);
-  M.Add(cmd_SwitchTab_HotkeyPrev, 'ui: switch tab, to previous', [scCtrl+scShift+VK_TAB], []);
+  M.Add(cmd_SwitchTab_HotkeyNext, 'ui: switch tab, to next', [scCtrl+VK_TAB], [scCtrl+VK_NEXT]);
+  M.Add(cmd_SwitchTab_HotkeyPrev, 'ui: switch tab, to previous', [scCtrl+scShift+VK_TAB], [scCtrl+VK_PRIOR]);
   M.Add(cmd_SwitchTab_SimpleNext, 'ui: switch tab, simply to next', [], []);
   M.Add(cmd_SwitchTab_SimplePrev, 'ui: switch tab, simply to previous', [], []);
   M.Add(cmd_SwitchTab_Dialog, 'ui: switch tab, dialog', [], []);
