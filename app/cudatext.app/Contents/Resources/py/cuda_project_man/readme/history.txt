@@ -1,3 +1,77 @@
+2026.11.19
+- "Create new project from open tabs..." now offers (a Yes/No message
+  box, before the location dialog) to also add the folders of the
+  opened tabs to the new project as root nodes - a project made from
+  open tabs usually wants to browse the code it was made from. The
+  folders are deduplicated (several tabs of one folder add it once);
+  "No" keeps the old behavior (an empty root list). With no opened tab
+  having a folder, no question is asked.
+- New command "Add to project: folders of all opened files" (command
+  palette; also in the context menu's Root nodes, right below "Add
+  folder of current file"): adds the folder of every opened tab (all
+  tab groups), skipping duplicates.
+- Favorites window: Esc now always closes the window directly. The old
+  two-step behavior (the first Esc cleared the filter, only the second
+  one closed) was dropped on request - to clear the filter, delete its
+  text (Ctrl+A / Backspace); the field's tooltip was updated too.
+- Favorites window: Up/Down now cycle the favorites list (or the
+  filtered list) from ANY focused control - they work right after the
+  window opens, while the filter field still has the focus, without
+  clicking the list first; the selection wraps at the ends (Down on
+  the last row selects the first one and vice versa).
+- Tree filter: the background scan is now PRIORITIZED so the matches
+  you are most likely interested in appear first, and each priority
+  region is scanned to ITS FULL END before the next one starts. Tier
+  1: the folder of the file in the current editor tab. Tier 2: the
+  folder of the selected tree node. Tier 3: the folders expanded in
+  the tree. Tier 4: everything else (breadth-first, like before).
+  The whole SUBTREE of a tier's folder is scanned inside that tier
+  (a big expanded folder is finished before anything else starts -
+  it no longer interleaves with never-opened folders), and the path
+  DOWN to a tier's folder shares its tier so it is walked first.
+  What is found does not change - only the order in which matches
+  appear during the scan. While a filter is active, the pre-typing
+  selection and expansions are remembered and stay in effect for
+  every re-scan (each further keystroke).
+- Tree filter: the (x) at the right of the filter field is now ONE
+  control for both states, so its design is identical whether a
+  search is running or not - only the COLOR changes: the passive look
+  paints with the UI theme's own button colors (ButtonBgPassive /
+  ButtonFont, so it blends with light and dark themes alike), and
+  while the background search runs the face turns red with a white
+  glyph - a clear signal that the click cancels the running search
+  (the findings stay visible). When the search finishes or is
+  cancelled, the theme colors return. (The control is a 'colorpanel':
+  it paints its face from its Color/Font.Color properties, which the
+  dialog API can change at runtime - a button_ex is a TATButton that
+  paints from its theme record and cannot be recolored. The earlier
+  two-control pair - a themed button plus a red panel shown in its
+  place - could never look the same: the panel missed the 2px margin
+  the button had, and the button's hiding broke the edit's right
+  anchor on some widgetsets. The tile's passive colors are re-read
+  when the UI theme changes. Click wiring: the engine routes a
+  colorpanel's click to the dialog 'on_change' event (its OnClick is
+  pre-assigned to DoOnChange in the creation code, so the generic
+  on_click path is skipped for this type), and DoOnChange fires only
+  for an 'act' control - so the tile is wired with 'act': True +
+  'on_change', exactly like a button.)
+- Tree filter: the live growth of the result tree while the scan
+  runs no longer FLASHES. The visible tree used to be cleared and
+  refilled from scratch on every progress tick (a few times a
+  second), which repainted the whole tree and reset its scroll on
+  every finding; now the new findings are INSERTED in place (only
+  new rows appear, nothing is deleted or moved, the folds and the
+  scroll stay put). A full refill happens only once, when the
+  search finishes (the cleaned final result may differ from the
+  partial one).
+- CudaText core (tree_proc API): the item commands (add/delete/
+  set-text/set-icon/fold/unfold/select/...) no longer repaint the
+  treeview one by one while a TREE_LOCK is held - a locked batch
+  of item commands costs exactly one repaint (on unlock) instead
+  of one per command, which used to show as flicker when a plugin
+  filled a tree item-by-item (the Project Manager's live filter
+  tree was the visible case).
+
 2026.11.16 (@badrelmers)
 - Two new options: "UI font size" and "Edit font size" (whole
   points, 5..40; empty = the CudaText defaults - with empty options

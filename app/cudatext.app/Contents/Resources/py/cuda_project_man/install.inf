@@ -139,6 +139,11 @@ section=commands
 caption=&Project Manager\Add to project: folder of the current file
 method=add_current_dir
 
+[item51]
+section=commands
+caption=&Project Manager\Add to project: folders of all opened files
+method=add_opened_dirs
+
 [item27]
 section=commands
 caption=&Project Manager\Clean up missing paths...
