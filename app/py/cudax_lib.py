@@ -137,21 +137,20 @@ def _get_file_opts(opts_json, def_opts={}, **kw):
         pass;                  #LOG and log('no {}',os.path.basename(opts_json))
         LAST_FILE_OPTS.pop(opts_json, None)
         return def_opts
-    mtime_os    = os.path.getmtime(opts_json)
-    if opts_json not in LAST_FILE_OPTS:
-        pass;                  #LOG and log('load "{}" with mtime_os={}',os.path.basename(opts_json), int(mtime_os))
-        kw['fn'] = opts_json
-        opts    = _json_loads(open(opts_json, encoding='utf-8-sig').read(), **kw)
-        _keep_if_damaged(opts_json, opts)
-        LAST_FILE_OPTS[opts_json]       = (opts, mtime_os)
-    else:
-        opts, mtime = LAST_FILE_OPTS[opts_json]
-        if mtime_os > mtime:
-            pass;              #LOG and log('reload "{}" with mtime, mtime_os={}',os.path.basename(opts_json), (int(mtime), int(mtime_os)))
-            kw['fn'] = opts_json
-            opts= _json_loads(open(opts_json, encoding='utf-8-sig').read(), **kw)
-            _keep_if_damaged(opts_json, opts)
-            LAST_FILE_OPTS[opts_json]   = (opts, mtime_os)
+    # Reload when the file changed on disk. The stamp is (mtime, size):
+    # mtime alone misses fresh same-size writes on FAT32/exFAT (2s
+    # steps), many network shares (1s) and lazy NTFS timestamp updates
+    # -- get_opt right after set_opt returned the OLD value there.
+    stat_os     = os.stat(opts_json)
+    stamp_os    = (stat_os.st_mtime, stat_os.st_size)
+    cached      = LAST_FILE_OPTS.get(opts_json)
+    if cached is not None and cached[1]==stamp_os:
+        return cached[0]
+    pass;                      #LOG and log('load/reload "{}" with stamp={}',os.path.basename(opts_json), stamp_os)
+    kw['fn'] = opts_json
+    opts    = _json_loads(open(opts_json, encoding='utf-8-sig').read(), **kw)
+    _keep_if_damaged(opts_json, opts)
+    LAST_FILE_OPTS[opts_json]   = (opts, stamp_os)
     return opts
    #def _get_file_opts
 
@@ -344,9 +343,11 @@ def set_opt(path, value, lev=CONFIG_LEV_USER, ed_cfg=ed, lexer='', user_json='us
     body_pr = _put_trailing_comments(body_pr, trails, tails)
     body_pr = body_pr.rstrip('\n') + '\n'
 
-    # 4. Store atomically; skip the write when nothing changed
+    # 4. Store atomically; drop the cache so the next get_opt re-reads;
+    #    skip the write when nothing changed
     if body_pr != body:
         _save_file_atomic(cfg_json, body_pr)
+        LAST_FILE_OPTS.pop(cfg_json, None)
     return value
    #def set_opt
 
