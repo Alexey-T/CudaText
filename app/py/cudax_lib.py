@@ -285,6 +285,8 @@ def set_opt(path, value, lev=CONFIG_LEV_USER, ed_cfg=ed, lexer='', user_json='us
         return None # SUCCESS (or fail?)
 
     keys    = path.split('/')
+    if any(not key for key in keys):
+        return None # Fail! Bad path ('a//b', 'a/', '')
 
     # 1. Read what is there and parse it tolerantly ('//' comments, stray
     #    commas). Simple keys and '/'-paths now share ONE write path:
