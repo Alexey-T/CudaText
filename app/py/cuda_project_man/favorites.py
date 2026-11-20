@@ -293,6 +293,11 @@ def get_theme_ui_colors():
         'edit_font': col('EdTextFont'),
         # plain labels on the form background
         'label_font': col('EdTextFont'),
+        # flat buttons: the colors the tree panel's (x) cancel tile
+        # uses for its passive look (the same face as CudaText's own
+        # buttons - it turns red only while a search runs)
+        'btn_bg': col('ButtonBgPassive'),
+        'btn_font': col('ButtonFont'),
     }
 
 

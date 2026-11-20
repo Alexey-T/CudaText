@@ -33,13 +33,28 @@
   appear during the scan. While a filter is active, the pre-typing
   selection and expansions are remembered and stay in effect for
   every re-scan (each further keystroke).
-- Tree filter: while the background search is RUNNING, the (x)
-  button at the right of the filter field turns into a RED button -
-  a clear signal that clicking it cancels the running search (the
-  findings stay visible). When the search finishes or is cancelled,
-  the button returns to its normal look. (The red tile is a label
-  glued to the button's rect: the themed (x) button paints its face
-  from the UI theme and cannot be recolored by the dialog API.)
+- Tree filter: the (x) at the right of the filter field is now ONE
+  control for both states, so its design is identical whether a
+  search is running or not - only the COLOR changes: the passive look
+  paints with the UI theme's own button colors (ButtonBgPassive /
+  ButtonFont, so it blends with light and dark themes alike), and
+  while the background search runs the face turns red with a white
+  glyph - a clear signal that the click cancels the running search
+  (the findings stay visible). When the search finishes or is
+  cancelled, the theme colors return. (The control is a 'colorpanel':
+  it paints its face from its Color/Font.Color properties, which the
+  dialog API can change at runtime - a button_ex is a TATButton that
+  paints from its theme record and cannot be recolored. The earlier
+  two-control pair - a themed button plus a red panel shown in its
+  place - could never look the same: the panel missed the 2px margin
+  the button had, and the button's hiding broke the edit's right
+  anchor on some widgetsets. The tile's passive colors are re-read
+  when the UI theme changes. Click wiring: the engine routes a
+  colorpanel's click to the dialog 'on_change' event (its OnClick is
+  pre-assigned to DoOnChange in the creation code, so the generic
+  on_click path is skipped for this type), and DoOnChange fires only
+  for an 'act' control - so the tile is wired with 'act': True +
+  'on_change', exactly like a button.)
 - Tree filter: the live growth of the result tree while the scan
   runs no longer FLASHES. The visible tree used to be cleared and
   refilled from scratch on every progress tick (a few times a

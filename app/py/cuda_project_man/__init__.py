@@ -1408,43 +1408,61 @@ class Command:
             cell_h, _pitch = editor_default_metrics()
             if cell_h:
                 EH = max(EH, cell_h + 8)
-        #---- cancel (x) button at the right of the filter field ----
-        # Created BEFORE the edit: the edit's right edge is anchored to
-        # this button's left edge. Clicking it cancels a RUNNING search
-        # (the tree keeps its current content, the status line reports
-        # what was found so far); when no search is running it clears
-        # the filter, like the x of a usual search box. button_ex = the
-        # flat themed button, so it follows the UI theme.
-        # VISIBILITY: the button shows ONLY while it can do something -
-        # the filter field has text, or a background search is running
-        # (_filter_cancel_btn_update, called on every filter change).
-        # Hidden, it is also COLLAPSED to zero width, so the filter
-        # field stretches over the full row: a hidden control keeps
-        # its bounds, so only hiding it would leave an empty gap at
-        # the right of the field.
-        # ANCHORS: 'a_l': None is REQUIRED. The dialog engine maps a_l/
-        # a_r onto the LCL anchors, and the LCL default is akLeft=on:
-        # with the left anchor kept, the left edge stayed pinned to the
-        # initial x=0 while the right edge followed the panel edge - the
-        # button stretched across the WHOLE filter row and covered the
-        # edit (nothing could be typed). With akLeft removed, the button
-        # keeps its width (EH) and only MOVES with the panel's right
-        # edge - and setting 'w': 0 (the hidden state) moves its left
-        # edge to the panel's right edge, which is what lets the edit
-        # grow.
-        # The button's TOP+BOTTOM are re-anchored to the edit AFTER the
-        # edit is created (below): the engine resolves the control name
-        # of an anchor only if that control already exists, so the
-        # vertical glue cannot be set here yet. With both vertical edges
-        # glued to the edit (0 spacing), the button is EXACTLY as tall
-        # as the filter box at every DPI / GUI height - the fixed h=EH
-        # below is only the initial pre-anchor size (without the glue
-        # the button rendered SMALLER than the filter field).
-        n = dlg_proc(self.h_dlg, DLG_CTL_ADD, prop='button_ex')
+        #---- cancel (x) tile at the right of the filter field ----
+        # ONE control for BOTH states - the SAME design, only the
+        # color changes (this is the fix for the styling mismatch of
+        # the earlier two-control pair: a themed button_ex next to a
+        # colored panel can never look the same, and the panel missed
+        # the 2px margin the button had). The control is a
+        # 'colorpanel' (TATPanelColor): a windowed control that paints
+        # its whole face from its Color/Font.Color properties (what
+        # the dialog API can actually recolor at runtime - a
+        # button_ex is a TATButton which paints from its theme record
+        # and cannot be recolored), centers its caption itself, and
+        # fires 'on_click' (the engine wires click events for every
+        # control, DoControl_InitPropsObject). CanFocus()=false in
+        # TATPanelColor, so clicking it never steals the keyboard
+        # focus from the filter field.
+        # Created BEFORE the edit: the edit's right edge is anchored
+        # to this tile's left edge (that is what keeps the 2px margin
+        # between them - the anchor chain survives, because the tile
+        # is never hidden-with-width-0 while text exists).
+        # Clicking it cancels a RUNNING search (the tree keeps its
+        # current content, the status line reports what was found so
+        # far); when no search is running it clears the filter, like
+        # the x of a usual search box.
+        # COLORS: the passive look comes from the UI THEME
+        # (ButtonBgPassive / ButtonFont - the colors CudaText's own
+        # buttons use, so the tile blends with the theme on light and
+        # dark themes alike); a running search turns the face red and
+        # the glyph white (_filter_cancel_btn_update). apply_panel_
+        # theme() re-reads the passive pair when the theme changes.
+        # GEOMETRY - ANCHORS ONLY, no x/y/w/h at runtime:
+        #   a_r ('', ']') + sp_r 2   right edge glued to the panel
+        #                             edge, 2px from it
+        #   a_l None                  no left anchor: the tile keeps
+        #                             its width and only MOVES with
+        #                             the panel's right edge
+        #   a_t/a_b ('f_filter',     vertical glue to the filter
+        #   '['/']' + sp 0)          field - the same height as it at
+        #                             every DPI / GUI height
+        # 'a_l': None is REQUIRED: the LCL default is akLeft=on, and
+        # with the left anchor kept, the left edge stays pinned while
+        # the right edge follows the panel - the tile would stretch
+        # across the whole filter row. With akLeft removed, setting
+        # 'w': 0 (the idle state) moves the left edge to the panel's
+        # right edge, which is what lets the edit grow over the row.
+        # The tile's TOP+BOTTOM are re-anchored to the edit AFTER the
+        # edit is created (below): the engine resolves the control
+        # name of an anchor only if that control already exists.
+        colors = _favorites.get_theme_ui_colors()
+        self._filter_x_passive_bg = colors['btn_bg'] \
+            if colors['btn_bg'] is not None else 0xCCCCCC
+        self._filter_x_passive_font = colors['btn_font'] \
+            if colors['btn_font'] is not None else 0x000000
+        n = dlg_proc(self.h_dlg, DLG_CTL_ADD, prop='colorpanel')
         dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, index=n, prop={
-            'name': 'btn_fcancel',
-            'x': 300, 'y': 2,      # sane pre-anchor position; the right
-                                   # anchor places the button finally
+            'name': 'pnl_fcancel',
             'a_t': ('bar', ']'),
             'sp_t': 2,
             'a_l': None,
@@ -1453,12 +1471,23 @@ class Command:
             'w': EH,
             'h': EH,
             'cap': '×',
+            'color': self._filter_x_passive_bg,
+            'font_color': self._filter_x_passive_font,
+            'vis': False,
             'hint': _('Cancel the running search\r(or clear the filter when no search is running)'),
+            # CLICK WIRING - the engine PRE-ASSIGNS the colorpanel's
+            # OnClick to DoOnChange (the 'colorpanel' creation block in
+            # proc_customdialog.pas), so the generic DoOnClick wiring
+            # (which fires the 'on_click' prop) is SKIPPED for this
+            # control type ('if not Assigned(Ctl.OnClick)'). A click
+            # therefore fires 'on_change' - and ONLY with 'act': True,
+            # for DoOnChange gates on FActive, which is false by
+            # default and auto-true only for 'button*' types. This is
+            # the EXACT wiring of the old button_ex cancel button,
+            # which worked via on_change + the button's act=True.
+            'act': True,
             'on_change': self.panel_filter_cancel_click,
         })
-        if ui_fs:
-            dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, name='btn_fcancel',
-                     prop={'font_size': ui_fs})
         n = dlg_proc(self.h_dlg, DLG_CTL_ADD, prop='editor_edit')
         # stored for _filter_edit_focused(): the form's 'focused' prop
         # is a control index, like this n
@@ -1469,7 +1498,7 @@ class Command:
             'sp_t': 2,
             'a_l': ('', '['),
             'sp_l': 2,
-            'a_r': ('btn_fcancel', '['),
+            'a_r': ('pnl_fcancel', '['),
             'sp_r': 2,
             'h': EH,
             'act': True,
@@ -1493,59 +1522,20 @@ class Command:
         if edit_fs:
             dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, name='f_filter',
                      prop={'font_size': edit_fs})
-        # 'f_filter' exists now: glue the cancel button's top and bottom
-        # edges to the edit's ones (0 spacing) - the button always keeps
+        # 'f_filter' exists now: glue the cancel tile's top and bottom
+        # edges to the edit's ones (0 spacing) - the tile always keeps
         # the same height as the filter field, at any DPI / GUI height
-        dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, name='btn_fcancel', prop={
+        dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, name='pnl_fcancel', prop={
             'a_t': ('f_filter', '['),
             'sp_t': 0,
             'a_b': ('f_filter', ']'),
             'sp_b': 0,
         })
-        # The RED cancel tile shown WHILE the search runs (see
-        # _filter_cancel_btn_update): the (x) button is a TATButton,
-        # which paints its face from the UI theme only (the dialog
-        # 'color' prop is ignored by it), so the running state is this
-        # LABEL - a label fills its whole rect with its color.
-        # GEOMETRY: the label is anchored to the BUTTON's rect (all
-        # four sides, 0 spacing), so it always covers it exactly at
-        # any DPI - a fresh label cannot be anchored by ('', ']') the
-        # way the button was, because its own width must FOLLOW the
-        # button, not the form. 'autosize' comes FIRST: labels default
-        # to AutoSize=True in LCL, and the engine applies the props in
-        # dict order - with autosize still on, a later 'w'/'h'/'cap'
-        # would resize the label to its text and the tile would render
-        # as a tiny dot somewhere instead of the red square.
-        # 'on_click' is wired for labels too, so the red tile cancels
-        # the search exactly like the button would.
-        n = dlg_proc(self.h_dlg, DLG_CTL_ADD, prop='label')
-        dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, index=n, prop={
-            'name': 'lbl_fcancel_run',
-            'autosize': False,
-            'a_l': ('btn_fcancel', '['),
-            'sp_l': 0,
-            'a_r': ('btn_fcancel', ']'),
-            'sp_r': 0,
-            'a_t': ('btn_fcancel', '['),
-            'sp_t': 0,
-            'a_b': ('btn_fcancel', ']'),
-            'sp_b': 0,
-            'x': 300, 'y': 2,   # placeholder pre-anchor position
-            'w': EH,
-            'h': EH,
-            'cap': '×',
-            'color': 0x0000FF,        # red (TColor is BGR)
-            'font_color': 0xFFFFFF,   # white glyph on the red tile
-            'vis': False,
-            'hint': _('Cancel the running search'),
-            'on_click': self.panel_filter_cancel_click,
-        })
-        # the (x) button starts HIDDEN and collapsed: with no filter
-        # text and no running search there is nothing it could do
-        # (every later filter change calls _filter_cancel_btn_update)
+        # the tile starts HIDDEN and collapsed: with no filter text
+        # and no running search there is nothing it could do (every
+        # later filter change calls _filter_cancel_btn_update)
         self._filter_cancel_w = EH
         self._filter_cancel_btn_update()
-
         #---- filter status line (between the filter and the tree) ----
         # While the filter field is not empty, it ALWAYS shows what the
         # background search is doing: "searching... N match(es) so far"
@@ -1651,6 +1641,14 @@ class Command:
             if lbl:
                 dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, name='lbl_fstat',
                          prop=lbl)
+            # the cancel tile's passive colors follow the theme too
+            # (its red running face is a state, not a theme color):
+            # re-read them and re-assert on the current state
+            if colors['btn_bg'] is not None:
+                self._filter_x_passive_bg = colors['btn_bg']
+            if colors['btn_font'] is not None:
+                self._filter_x_passive_font = colors['btn_font']
+            self._filter_cancel_btn_update()
         except Exception:
             log_error('Project Manager: cannot apply the UI theme '
                       'to the panel dialog')
@@ -1663,10 +1661,7 @@ class Command:
                 dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, name='tree',
                          prop={'font_size': ui_fs})
                 dlg_proc(self.h_dlg, DLG_CTL_PROP_SET,
-                         name='btn_fcancel',
-                         prop={'font_size': ui_fs})
-                dlg_proc(self.h_dlg, DLG_CTL_PROP_SET,
-                         name='lbl_fcancel_run',
+                         name='pnl_fcancel',
                          prop={'font_size': ui_fs})
         except Exception:
             log_error('Project Manager: cannot re-apply '
@@ -3341,18 +3336,19 @@ class Command:
         self.apply_tree_filter(text)
 
     def _filter_cancel_btn_update(self):
-        """Show the filter's (x) button only while it can do something:
+        """Show the filter's (x) tile only while it can do something:
         while the filter field has text, or a background search is
-        running. With no text and no search the button is hidden AND
+        running. It is ONE 'colorpanel' control for both states, so
+        the design is IDENTICAL in both - only the COLORS change:
+        the passive theme pair (ButtonBgPassive/ButtonFont, see
+        init_panel) normally, red face + white glyph while a search
+        runs. With no text and no search the tile is hidden AND
         collapsed to zero width, so the filter field stretches over
         the full row (the field's right edge is anchored to the
-        button's LEFT edge, and a hidden control keeps its bounds - so
-        only hiding the button would leave an empty gap at the right
-        of the field). While a search RUNS, the red tile label
-        ('lbl_fcancel_run') shows in the button's place instead: the
-        button itself (a TATButton) paints its face from the UI theme
-        and cannot be recolored. Called at panel build, on every
-        filter-field change and whenever a scan starts or ends."""
+        tile's LEFT edge; a hidden control keeps its bounds, so only
+        hiding it would leave an empty gap at the right of the
+        field). Called at panel build, on every filter-field change
+        and whenever a scan starts or ends."""
         if not self.h_dlg:
             return
         text = self._filter_text()
@@ -3360,27 +3356,34 @@ class Command:
         searching = (w is not None) and (not w.done)
         try:
             if searching:
-                # red tile ON in the button's rect; the button is HIDDEN
-                # but KEEPS ITS WIDTH - the filter field's right edge is
-                # anchored to the button's left edge, so collapsing the
-                # button would grow the field UNDER the red tile
+                # red face, white glyph: a clear signal that the click
+                # cancels the RUNNING search. Geometry keeps the
+                # cached square width (a search runs only with text,
+                # so the tile is already placed - only colors change)
                 dlg_proc(self.h_dlg, DLG_CTL_PROP_SET,
-                         name='lbl_fcancel_run', prop={'vis': True})
+                         name='pnl_fcancel', prop={
+                             'w': self._filter_cancel_w,
+                             'vis': True,
+                             'color': 0x0000FF,        # red (BGR)
+                             'font_color': 0xFFFFFF,   # white glyph
+                         })
+            elif text:
+                # passive look: the theme colors captured at panel
+                # build (re-read by apply_panel_theme on theme change)
                 dlg_proc(self.h_dlg, DLG_CTL_PROP_SET,
-                         name='btn_fcancel',
-                         prop={'w': self._filter_cancel_w, 'vis': False})
+                         name='pnl_fcancel', prop={
+                             'w': self._filter_cancel_w,
+                             'vis': True,
+                             'color': self._filter_x_passive_bg,
+                             'font_color': self._filter_x_passive_font,
+                         })
             else:
-                # red tile OFF, button back to its text-dependent state
+                # idle: hidden and collapsed, the field takes the row
                 dlg_proc(self.h_dlg, DLG_CTL_PROP_SET,
-                         name='lbl_fcancel_run', prop={'vis': False})
-                if text:
-                    dlg_proc(self.h_dlg, DLG_CTL_PROP_SET,
-                             name='btn_fcancel',
-                             prop={'w': self._filter_cancel_w, 'vis': True})
-                else:
-                    dlg_proc(self.h_dlg, DLG_CTL_PROP_SET,
-                             name='btn_fcancel',
-                             prop={'w': 0, 'vis': False})
+                         name='pnl_fcancel', prop={
+                             'w': 0,
+                             'vis': False,
+                         })
         except Exception:
             log_error('Project Manager: cannot update '
                       'the filter cancel button')
@@ -4277,10 +4280,8 @@ class Command:
                                    17, lbl_fs,
                                    app_proc(PROC_GET_SYSTEM_PPI,
                                             '') or 96)})
-            # the x button keeps the field's height via its anchors;
-            # its cached WIDTH is the same value (a square button).
-            # The red running tile needs no width sync: it is anchored
-            # to the button's rect on all four sides and follows it
+            # the x tile keeps the field's height via its anchors;
+            # its cached WIDTH is the same value (a square tile)
             self._filter_cancel_w = h
             self._filter_cancel_btn_update()
             ui_fs = option_font_size(self.options.get('ui_font_size'))
@@ -4288,10 +4289,7 @@ class Command:
                 dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, name='tree',
                          prop={'font_size': ui_fs})
                 dlg_proc(self.h_dlg, DLG_CTL_PROP_SET,
-                         name='btn_fcancel',
-                         prop={'font_size': ui_fs})
-                dlg_proc(self.h_dlg, DLG_CTL_PROP_SET,
-                         name='lbl_fcancel_run',
+                         name='pnl_fcancel',
                          prop={'font_size': ui_fs})
         except Exception:
             log_error('Project Manager: cannot apply '
