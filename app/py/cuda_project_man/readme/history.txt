@@ -1,3 +1,27 @@
+2026.11.20 (@badrelmers)
+- "Open folder" (the File-menu command, the OS shell's "Open in
+  CudaText", 'cudatext <folder>') no longer creates a project: the
+  folder opens in the Project panel as just a folder, and nothing is
+  ever written inside it - no .cuda-proj file, no .cudatext/ backup
+  folder (issue #6624). Only one folder is open this way at a time:
+  opening another one closes the previous. The folder is remembered
+  across restarts and restored into the panel at start ("Close project"
+  with no project open closes it).
+- The opened folder owns no session (issue #6624): the current external
+  session (default.cuda-session) keeps owning the tabs, files opened
+  from the folder become its tabs. With a project open, opening a
+  folder closes the project first (its session is saved into the
+  project file, the default session loads); opening a project closes
+  the opened folder. If the opened folder already contains its own
+  <name>.cuda-proj, that project is opened instead - this also restores
+  the old behavior of folders which carry their project.
+- The opened folder is added to the "Recent projects" list; a directory
+  entry of that list opens back as a folder.
+- Drag&drop of a folder onto the editor (from the OS file manager): with
+  a project open the folder is added to the project (unchanged); with no
+  project open it now opens the "one folder" way instead of polluting
+  the untitled project's node list.
+
 2026.11.19
 - "Create new project from open tabs..." now offers (a Yes/No message
   box, before the location dialog) to also add the folders of the

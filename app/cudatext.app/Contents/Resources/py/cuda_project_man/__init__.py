@@ -1049,6 +1049,11 @@ class Command:
 
     options = {
         "recent_projects": [],
+        # "one folder" state (issue #6624): the folder opened with
+        # "Open folder", kept across restarts and restored into the panel
+        # by on_start. Internal state like "on_start" - never in the
+        # options dialog.
+        "opened_folder": "",
         "no_files": "",
         "no_dirs": ".git;.svn",
         "no_hidden": True,
@@ -1267,6 +1272,11 @@ class Command:
                     for fn in self.options["recent_projects"]:
                         healed.extend(p for p in str(fn).split("\t") if p.strip())
                     self.options["recent_projects"] = [expand_macros('', fn) for fn in healed]
+                if "opened_folder" in self.options:
+                    # same portability treatment as the recent list: a
+                    # folder inside the app dir keeps working after the
+                    # whole app dir is moved
+                    self.options["opened_folder"] = expand_macros('', self.options["opened_folder"])
             except FileNotFoundError:
                 # intentional silence: no options file yet (first run)
                 pass
@@ -2548,9 +2558,9 @@ class Command:
                 self.action_save_project_as(self.project_file_path)
 
     def new_project(self):
-        """Reset the plugin state to "no project". Only used at plugin
-        startup, when nothing is open yet — it never touches sessions,
-        tabs or files."""
+        """Reset the plugin state to "no project". Used at plugin startup
+        (when nothing is open yet) and by the "one folder" flows
+        (issue #6624) — it never touches sessions, tabs or files."""
         self.project = normalize_project_data(dict(nodes=[]))
         self.project_file_path = None
         self.update_global_data()
@@ -4541,6 +4551,9 @@ class Command:
         nodes = list(init_nodes) if init_nodes else []
         self.project = normalize_project_data(dict(nodes=nodes))
         self.project_file_path = path
+        # a project is open now — the remembered "one folder" state (if
+        # any) is over
+        self._forget_opened_folder()
         self.update_global_data()
         self.goto_history = []
         self.cur_dir = ''
@@ -4661,7 +4674,25 @@ class Command:
     @_with_backup_cause('on project close')
     def action_close_project(self):
         """Close the current project: save session, close all tabs, load
-        default.cuda-session (restoring, not overwriting, its tabs)."""
+        default.cuda-session (restoring, not overwriting, its tabs).
+        With no project open but an "Open folder" folder, close the
+        FOLDER instead — no session is touched at all (a folder is not a
+        session, issue #6624). Returns True when the close completed,
+        False when the user cancelled it (used by
+        _open_folder_independent)."""
+
+        if not self.project_file_path and self.options.get('opened_folder'):
+            # "one folder" state: closing the folder only resets the panel
+            # tree — no session is saved or loaded, no tab is closed, the
+            # current external session simply keeps owning its tabs
+            # (scenario 1 of issue #6624: "user closes folder1, no session
+            # is closed or opened")
+            self.new_project()
+            self.action_refresh()
+            self._forget_opened_folder()
+            self._update_on_start_subscription(False)
+            msg_status(_("Folder closed"))
+            return True
 
         # Saving the project also saves the current session into its slot
         # inside the project file
@@ -4731,6 +4762,7 @@ class Command:
 
         if not aborted:
             msg_status(_("Project closed"))
+        return not aborted
 
     def _set_session(self, ptr):
         """app_proc(PROC_SET_SESSION, ...) wrapper for session changes made
@@ -4914,6 +4946,13 @@ class Command:
 
     @_with_backup_cause('on project switch')
     def action_open_project(self, info=None, load_session=True):
+        # the "Recent projects" list also carries folders opened with
+        # "Open folder" (issue #6624): a directory entry opens the "one
+        # folder" way, not as a project file
+        if info and os.path.isdir(str(info)):
+            self._open_folder_any(info)
+            return
+
         had_project = bool(self.project_file_path)
         # Abort-revert target for the load at the bottom: the session
         # owning the current tabs (the old project's slot / the app
@@ -5066,6 +5105,9 @@ class Command:
         bads = [fn for fn in self.project["nodes"] if not os.path.exists(fn)]
 
         self.project_file_path = Path(path)
+        # a project is open now — the remembered "one folder" state (if
+        # any) is over (issue #6624: opening a project closes the folder)
+        self._forget_opened_folder()
         self.add_recent(path)
         self.action_refresh()
         self.options['on_start'] = True
@@ -5527,6 +5569,10 @@ class Command:
 
         if self.project_file_path:
             self.action_save_project_as(self.project_file_path)
+        # the removed root node may have been the opened "one folder"
+        # folder: forget the remembered state, or the next start would
+        # re-add it
+        self._forget_opened_folder_if_removed()
 
     @_with_backup_cause('on project save')
     def action_remove_deleted_nodes(self):
@@ -5550,6 +5596,9 @@ class Command:
 
             if self.project_file_path:
                 self.action_save_project_as(self.project_file_path)
+            # the opened "one folder" folder may be among the missing
+            # paths: forget the remembered state with it
+            self._forget_opened_folder_if_removed()
             msg_status(_('Removed missing paths: ') + ', '.join(nodes_deleted))
         else:
             msg_status(_('No missing paths'))
@@ -5648,6 +5697,9 @@ class Command:
             # Point the plugin to the new path BEFORE saving the session,
             # so the session is embedded into the new file, not the old one
             self.project_file_path = path
+            # saving the "one folder" state as a project file ends the
+            # folder state: the folder node now lives in the project
+            self._forget_opened_folder()
             write_json_file(path, d)
 
             # Save the current session into the file. This round-trips the
@@ -5971,6 +6023,8 @@ class Command:
         defaults = type(self).options
         d = {k: copy.deepcopy(v) for k, v in self.options.items() if k in defaults}
         d["recent_projects"] = [collapse_macros('', fn) for fn in d.get("recent_projects", [])]
+        if d.get("opened_folder"):
+            d["opened_folder"] = collapse_macros('', d["opened_folder"])
         write_json_file(self.options_filename, d)
 
     def menu_recents(self):
@@ -5980,7 +6034,14 @@ class Command:
             items.remove('')
         if str(self.project_file_path) in items:
             items.remove(str(self.project_file_path))
-        items = [item for item in items if os.path.isfile(item)]
+        fn_folder = self.options.get('opened_folder', '')
+        if fn_folder and fn_folder in items:
+            # the opened "one folder" folder is already in the panel
+            items.remove(fn_folder)
+        # folders opened with "Open folder" share the recent list with
+        # projects (issue #6624) — accept both kinds; a folder entry
+        # opens back as a folder (see action_open_project)
+        items = [item for item in items if os.path.isfile(item) or os.path.isdir(item)]
         if not items:
             return
 
@@ -6008,12 +6069,15 @@ class Command:
         app_proc(PROC_SET_FOLDER, path)
         self.cur_dir = path
 
-    def _new_project_from_dir(self, fn):
-        """Create a project from folder `fn` in one step: the project file
-        is created inside the folder, named after the folder (e.g. "myapp"
-        -> "myapp/myapp.cuda-proj") — no second "save as" dialog. If the
-        folder already contains that project file, it is simply opened
-        instead."""
+    def _open_folder_any(self, fn):
+        """Shared "Open folder" flow (issue #6624): open the folder the
+        "one folder" way (_open_folder_independent) — or, when the folder
+        already carries its own project file (<folder>/<name>.cuda-proj),
+        open THAT project instead: the folder is then a project, with its
+        sessions. Used by "File - Open folder...", 'cudatext <folder>' /
+        the OS shell's "Open in CudaText" (via open_dir), and by the
+        folder entries of the "Recent projects" list (via
+        action_open_project)."""
 
         if not os.path.isdir(fn):
             print(_('Project Manager: folder not found: ') + fn)
@@ -6026,69 +6090,109 @@ class Command:
             print(_('Project Manager: folder is locked: ') + fn)
             return
 
+        self.init_panel()
         base = os.path.basename(fn.rstrip('\\/')) or 'project'
         proj = os.path.join(fn, base + PROJECT_EXTENSION)
-
         if os.path.isfile(proj):
             # the folder already has a project: open it instead
             self.action_open_project(proj)
             return
 
-        if not os.access(fn, os.W_OK):
-            msg_status(_('Cannot create project file in a read-only folder'))
-            return
+        self._open_folder_independent(fn)
 
-        try:
-            self._create_project_file(Path(proj))
-            self.add_node(fn)
-            self.do_unfold_first()
-        except OSError as ex:
-            msg_status(_('Cannot create project file: %s') % ex)
-            return
+    def _open_folder_independent(self, fn):
+        """The "one folder" open (issue #6624): `fn` becomes the single
+        root node of the panel with NO project — a folder is just a
+        folder, not a project and not a session. Nothing is created
+        inside the folder (no .cuda-proj, no .cudatext/), and no session
+        is closed or opened: the active external session (the default
+        cuda-session, when no project was open) keeps owning the tabs. If
+        a project is open, it is closed first by the normal "Close
+        project" flow, so the panel shows only the new folder. The folder
+        replaces any previously opened folder ("one folder" at a time)
+        and is remembered for the next start (restored by on_start).
+        Returns False when the user cancelled the closing of the current
+        project."""
 
+        self.init_panel()
+        if self.project_file_path:
+            if not self.action_close_project():
+                # the user cancelled "Save modified tab?" — the project
+                # stays open, the folder must not join its tree
+                msg_status(_('Project close cancelled; folder not opened'))
+                return False
+
+        # reset to "no project" and add the single node: add_node saves
+        # nothing with no project file, exactly the wanted state (the
+        # folder node lives only in memory + the opened_folder option)
+        self.new_project()
+        self.add_node(fn)
+
+        # the folder is one click away after it is closed: recent entries
+        # that are directories open back as folders (see
+        # action_open_project)
+        self.add_recent(fn)
+
+        # remember for the on_start restore, and keep the plugin loading
+        # at the next start while a folder is open (like an open project
+        # does); _update_on_start_subscription saves the options, so
+        # opened_folder must be set first
+        self.options['opened_folder'] = fn
+        self._update_on_start_subscription(True)
+
+        self.do_unfold_first()
         app_proc(PROC_SIDEPANEL_ACTIVATE, self.title)
-        msg_status(_('Created project: ') + '"' + os.path.basename(proj) + '"')
+        msg_status(_('Folder opened: ') + '"' + collapse_filename(fn) + '"')
+        return True
 
     def new_project_open_dir(self):
         """CudaText's "File - Open folder..." command (the core calls this
         method by name, it is not in this plugin's own menus): pick a
-        folder and make a project from it in one step, see
-        _new_project_from_dir."""
+        folder and open it — the "one folder" way, see _open_folder_any.
+        The old behavior (creating a project file inside the picked
+        folder) is gone: issue #6624."""
 
         fn = dlg_dir("")
         if fn is None: return
 
-        self.init_panel()
-        self._new_project_from_dir(fn)
+        self._open_folder_any(fn)
 
     def open_dir(self, dirname, new_proj=False):
-        """Called by CudaText itself when a folder is dragged from the OS
-        file manager and dropped onto the editor (the core calls this
-        method by name, it is not in this plugin's own menus). The folder
-        is added as a root node of the current project; with no project
-        open, of a new untitled project (it is saved to disk when the
-        user saves the project). new_proj=True (not used by the current
-        core) makes a new project from the folder in one step, like
-        "File - Open folder..."."""
+        """Called by CudaText itself (the core calls this method by name,
+        it is not in this plugin's own menus). Two sources, told apart by
+        the core's flag:
+        - new_proj=True: the command line ('cudatext <folder>', the OS
+          shell's "Open in CudaText") — always the "one folder" open of
+          _open_folder_any (the core passes True for the first folder
+          argument only).
+        - new_proj=False: a folder dragged from the OS file manager and
+          dropped onto the editor (and the 2nd+ folders of one command
+          line, where no project can be open anymore): with a project
+          open, the folder is ADDED to that project (the old drag&drop
+          behavior, which was correct); with no project open, the "one
+          folder" open, which replaces a previously opened folder."""
 
-        if not os.path.isdir(dirname):
-            print(_('Project Manager: folder not found: ') + dirname)
+        if not new_proj and self.project_file_path:
+            # drag&drop with a project open: add the folder to the
+            # project, like before (issue #6624 only rejects the
+            # project-creating open, not this)
+            if not os.path.isdir(dirname):
+                print(_('Project Manager: folder not found: ') + dirname)
+                return
+
+            #expand "." to fully qualified name
+            dirname = os.path.abspath(dirname)
+
+            if is_locked(dirname):
+                print(_('Project Manager: folder is locked: ') + dirname)
+                return
+
+            self.init_panel()
+            self.add_node(dirname)
+            app_proc(PROC_SIDEPANEL_ACTIVATE, self.title)
             return
 
-        #expand "." to fully qualified name
-        dirname = os.path.abspath(dirname)
-
-        if is_locked(dirname):
-            print(_('Project Manager: folder is locked: ') + dirname)
-            return
-
-        self.init_panel()
-        if new_proj:
-            self._new_project_from_dir(dirname)
-            return
-
-        self.add_node(dirname)
-        app_proc(PROC_SIDEPANEL_ACTIVATE, self.title)
+        self._open_folder_any(dirname)
 
     def on_open_pre(self, ed_self, filename):
         if filename.endswith(PROJECT_EXTENSION):
@@ -6111,7 +6215,10 @@ class Command:
             # No project is loaded at exit: the plugin must not load at
             # the next CudaText start. It would only find a non-project
             # session in history.json and detach again. Remove the on_start
-            # subscription from plugins.ini [events].
+            # subscription from plugins.ini [events] — unless an "Open
+            # folder" folder is open: on_start then restores it into the
+            # panel at the next start (_update_on_start_subscription
+            # keeps the key while opened_folder is set).
             self._update_on_start_subscription(False)
 
     def config(self):
@@ -6154,24 +6261,50 @@ class Command:
             # re-subscribe the plugin with no project open)
             self._update_on_start_subscription(bool(self.project_file_path))
 
+    def _forget_opened_folder(self):
+        """Drop the remembered "one folder" state (issue #6624): a project
+        just became open (the folder's node now lives in the project
+        file), or the folder was closed/removed. Cheap no-op when nothing
+        is remembered, so the frequent callers (every project open/save)
+        cost nothing."""
+        if self.options.get('opened_folder'):
+            self.options['opened_folder'] = ''
+            self.save_options()
+
+    def _forget_opened_folder_if_removed(self):
+        """After root nodes were removed from the tree: when the
+        remembered "one folder" folder is not among the nodes anymore
+        ("Stop tracking this folder", "Clean up missing paths"), forget
+        it — or the next start would re-add a folder the user just
+        removed from the panel."""
+        if self.project_file_path:
+            return
+        fn = self.options.get('opened_folder', '')
+        if fn and not any(path_equals(fn, n) for n in self.project['nodes']):
+            self._forget_opened_folder()
+            self._update_on_start_subscription(False)
+
     def _update_on_start_subscription(self, loaded):
         """Keep the on_start subscription in plugins.ini [events] in sync
-        with whether a project is loaded. CudaText loads this plugin at
-        start ONLY to restore an open project's session (the lazy '~'
-        events of install.inf still work and load it on demand), so
-        plugins.ini must not keep a stale on_start key.
+        with whether a project is loaded or an "Open folder" folder is
+        open. CudaText loads this plugin at start ONLY to restore an open
+        project's session or the opened folder (the lazy '~' events of
+        install.inf still work and load it on demand), so plugins.ini
+        must not keep a stale on_start key.
 
         The key is subscribed by every project open/create/save (they set
-        options['on_start']=True and call save_events). This method is the
-        single unsubscribe point, called on EVERY path that ends with no
-        project: "Close project", the on_start detach branches (foreign
-        or plain session restored at start), the external-session-switch
-        close in on_state, and on_exit with no project. With no project
-        loaded the plugin then never loads at the next CudaText start.
+        options['on_start']=True and call save_events) and by the "one
+        folder" open (which remembers the folder for on_start). This
+        method is the single unsubscribe point, called on EVERY path that
+        ends with no project: "Close project", the on_start detach
+        branches (foreign or plain session restored at start), the
+        external-session-switch close in on_state, and on_exit with no
+        project. With no project and no folder open the plugin then never
+        loads at the next CudaText start.
 
         The hidden on_start option is set off, which makes save_events()
         delete the plugins.ini key, and the option file records it too."""
-        self.options['on_start'] = bool(loaded)
+        self.options['on_start'] = bool(loaded) or bool(self.options.get('opened_folder'))
         self.save_events()
         self.save_options()
 
@@ -6218,11 +6351,12 @@ class Command:
 
     def on_start(self, ed_self):
         # on_start is subscribed via plugins.ini, so it only runs when the
-        # plugin was loaded on start, i.e. when a project was used on the
-        # previous run. Auto-open the most recent project, but only if
-        # CudaText is restoring that project's session (detected via
-        # history.json). If history.json points at a different session,
-        # detach silently to avoid overwriting it.
+        # plugin was loaded on start, i.e. when a project or an "Open
+        # folder" folder was open on the previous run. Auto-open the most
+        # recent project, but only if CudaText is restoring that project's
+        # session (detected via history.json). If history.json points at a
+        # different session, detach silently to avoid overwriting it. The
+        # "one folder" restore runs at the end, see below.
         and_activate = self.options.get("on_start_activate", False)
         self.init_panel(and_activate)
 
@@ -6270,8 +6404,9 @@ class Command:
                     # project's session isn't overwritten.
                     self._close_project_silent()
                     # No project is in use now — also drop the on_start
-                    # subscription, so the next start doesn't load the
-                    # plugin just to detach again.
+                    # subscription (unless an "Open folder" folder is
+                    # open, which on_start restores), so the next start
+                    # doesn't load the plugin just to detach again.
                     self._update_on_start_subscription(False)
             else:
                 # No project session in history.json (either empty or a
@@ -6279,8 +6414,32 @@ class Command:
                 # the project — let the foreign/default session stand.
                 self._close_project_silent()
                 # No project is in use now — also drop the on_start
-                # subscription, so the next start doesn't load the
-                # plugin just to detach again.
+                # subscription (unless an "Open folder" folder is open,
+                # which on_start restores), so the next start doesn't load
+                # the plugin just to detach again.
+                self._update_on_start_subscription(False)
+
+        # "one folder" restore (issue #6624): no project was restored
+        # above (history.json carried a plain session, or a foreign
+        # project's session, or the recent list is empty — a user who
+        # only ever opens folders has no recent projects), so if a folder
+        # was open at exit, bring it back into the panel. It is only tree
+        # state: the app itself has restored the external session, and
+        # the folder deliberately owns no session of its own.
+        fn = self.options.get('opened_folder', '')
+        if fn and not self.project_file_path:
+            if os.path.isdir(fn):
+                self.new_project()
+                self.add_node(fn)
+                self.do_unfold_first()
+                # the subscription stays on: the folder must restore
+                # again at the next start (the _update_on_start_subscription
+                # calls above kept it while opened_folder is set)
+            else:
+                # the folder is gone (deleted, renamed, unplugged drive):
+                # forget it, and drop the on_start subscription with it
+                self.options['opened_folder'] = ''
+                self.save_options()
                 self._update_on_start_subscription(False)
 
     def enum_all(self, callback):

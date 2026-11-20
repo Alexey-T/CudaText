@@ -89,6 +89,35 @@ Session
   project silently, so the project's saved sessions can never be
   overwritten by it.
 
+Opened folder ("Open folder")
+  "Open folder" (CudaText's File-menu command, the OS file manager's
+  "Open in CudaText", or 'cudatext <folder>' on the command line) opens
+  the folder in the Project panel as just a folder: no project is
+  created for it, and nothing is written inside the folder (no
+  .cuda-proj file, no .cudatext/ backup folder). Only one folder is
+  open this way at a time - opening another folder closes the previous
+  one. The folder is remembered and shown again after a CudaText
+  restart; "Close project" with no project open closes it.
+
+  A folder is not a session: while it is open, the current external
+  session (usually default.cuda-session) keeps owning the tabs - files
+  opened from the folder simply become tabs of that session. When a
+  project is open and a folder is opened, the project is closed first
+  (its session is saved into the project file, the default session
+  loads), so the panel shows only the new folder; opening a project
+  closes the opened folder. If the opened folder already contains its
+  own project file (<folder>/<name>.cuda-proj), that project is opened
+  instead.
+
+  A folder dragged from the OS file manager onto the editor works
+  differently: with a project open it is added to that project (as
+  before); with no project open it is opened the "one folder" way.
+  "Add folder..." always adds to the current project, it never replaces
+  the opened folder.
+
+  Opened folders also enter the "Recent projects" list; clicking such
+  an entry opens the folder again.
+
 
 ------------------------------------------------------------------------------
 UPGRADE TO PROJECT FILE FORMAT V2
