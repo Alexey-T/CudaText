@@ -20,7 +20,7 @@ ToDo: (see end of file)
 import  cudatext        as app
 from    cudatext    import ed
 import  cudatext_cmd    as cmds
-import  os, json, re, sys, collections, gettext, shutil, time
+import  os, json, re, sys, ast, collections, gettext, shutil, time
 odict       = collections.OrderedDict
 
 # Overridden option tools:
@@ -368,9 +368,15 @@ def _comms2pairs(text):
     return re.sub(r'^\s*//.*', c2p, text, flags=re.MULTILINE)
 
 def _pairs2comms(text):
-    """ Restoring: replace all spec pairs back to json comment lines. """
+    """ Restoring: replace all spec pairs back to json comment lines.
+        ast.literal_eval instead of eval: FILE CONTENT MUST NEVER BE
+        EXECUTED AS CODE. A forged pair whose value is not a literal
+        stays in the file as-is instead of crashing the write. """
     def p2c(match):
-        return eval(match.group(1))
+        try:
+            return ast.literal_eval(match.group(1))
+        except (ValueError, SyntaxError):
+            return match.group(1)                     # forged: keep raw
     return re.sub(r'^\s*"__c_m_n_t_\d+__": "(.*)",?$', p2c, text, flags=re.MULTILINE)
 
 _TRAIL_KEY_RE  = re.compile(r'^\s*,?\s*"(?P<key>[^"]+)"\s*:')
