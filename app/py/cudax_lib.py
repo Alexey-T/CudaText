@@ -141,14 +141,14 @@ def _get_file_opts(opts_json, def_opts={}, **kw):
     if opts_json not in LAST_FILE_OPTS:
         pass;                  #LOG and log('load "{}" with mtime_os={}',os.path.basename(opts_json), int(mtime_os))
         kw['fn'] = opts_json
-        opts    = _json_loads(open(opts_json, encoding='utf8').read(), **kw)
+        opts    = _json_loads(open(opts_json, encoding='utf-8-sig').read(), **kw)
         LAST_FILE_OPTS[opts_json]       = (opts, mtime_os)
     else:
         opts, mtime = LAST_FILE_OPTS[opts_json]
         if mtime_os > mtime:
             pass;              #LOG and log('reload "{}" with mtime, mtime_os={}',os.path.basename(opts_json), (int(mtime), int(mtime_os)))
             kw['fn'] = opts_json
-            opts= _json_loads(open(opts_json, encoding='utf8').read(), **kw)
+            opts= _json_loads(open(opts_json, encoding='utf-8-sig').read(), **kw)
             LAST_FILE_OPTS[opts_json]   = (opts, mtime_os)
     return opts
    #def _get_file_opts
@@ -285,7 +285,7 @@ def set_opt(path, value, lev=CONFIG_LEV_USER, ed_cfg=ed, lexer='', user_json='us
     # 1. Read what is there and parse it tolerantly ('//' comments, stray
     #    commas). Simple keys and '/'-paths now share ONE write path:
     #    parse the whole file, modify the tree, dump the whole file.
-    body    = open(cfg_json, encoding='utf8').read() \
+    body    = open(cfg_json, encoding='utf-8-sig').read() \
                 if os.path.exists(cfg_json) else ''
     body_js = odict()
     trails  = {}
@@ -435,11 +435,14 @@ def remove_empty_nodes(tree, keys):
    #def remove_empty_nodes
 
 
-def _json_loads(s, **kw):
+def _prep_json_text(s):
     ''' Adapt s for json.loads
+            Skip a UTF-8 BOM
             Delete comments
             Delete unnecessary ',' from {,***,} and [,***,]
     '''
+    if s[:1]=='\ufeff':
+        s   = s[1:]
 #   s = re.sub(r'(^|[^:])//.*'  , r'\1', s)     # :// in http://
 #   s = re.sub(r'(^|[^:])//.*'  , r'\1', s, flags=re.MULTILINE)     # :// in http://
     def rm_cm(match):
@@ -464,14 +467,20 @@ def _json_loads(s, **kw):
     s = re.sub(r',\s*}'         , r'}' , s)
     s = re.sub(r'\[\s*,'        , r'[' , s)
     s = re.sub(r',\s*\]'        , r']' , s)
+    return s
+    #def _prep_json_text
 
+def _json_loads(s, **kw):
+    ''' _prep_json_text + json.loads. On damage: one line printed, the
+        text kept in cudax.log, {} returned -- never raises for bad json.
+    '''
     fn = ''
     if 'fn' in kw:
         fn = kw['fn']
         kw.pop('fn')
 
     try:
-        ans = json.loads(s, **kw)
+        ans = json.loads(_prep_json_text(s), **kw)
     except Exception:
         pass;                   #LOG and log('FAIL: s={}',s)
         pass;                   #LOG and log('sys.exc_info()={}',sys.exc_info())
