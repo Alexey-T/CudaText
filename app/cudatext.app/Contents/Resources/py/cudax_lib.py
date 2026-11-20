@@ -5,12 +5,10 @@ Overridden option tools:
         Path: simple value (e.g. "tab_size") or "/"-separated path inside JSON tree
     set_opt(path, value, ed=ed, level=CONFIG_LEV_USER, ed=ed, lexer='')
         Add/Update/Delete option into a config (user-config if no param level).
-Duplicate:
-    duplicate
-        Dub cur selection or cur line (by opt)
 Authors:
-    Andrey Kvichansky    (kvichans on github)
+    Andrey Kvichansky (kvichans on github)
     Alexey Torgashin (CudaText)
+    Badr Elmers (badrelmers on github)
 Version:
     '0.7.0 2026-11-20'
 Wiki: github.com/kvichans/cudax_lib/wiki
