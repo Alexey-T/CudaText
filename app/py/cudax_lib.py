@@ -224,7 +224,8 @@ def set_opt(path, value, lev=CONFIG_LEV_USER, ed_cfg=ed, lexer='', user_json='us
         0.6.18: the file is ALWAYS rewritten as a whole:
             parsed tolerantly ('//' comments, stray commas, blank files)
             -> the key is added / updated / deleted in the parsed tree
-            -> the whole file is dumped pretty (indent=2, comments kept).
+            -> the whole file is dumped pretty (indent=2, comments kept)
+            -> stored atomically (temp file + os.replace).
         Config pairs key:val are add/update/delete into
             <root>/settings/user.json
             <root>/settings/lexer <LEXER-NAME>.json
@@ -329,9 +330,9 @@ def set_opt(path, value, lev=CONFIG_LEV_USER, ed_cfg=ed, lexer='', user_json='us
     body_pr = _put_trailing_comments(body_pr, trails, tails)
     body_pr = body_pr.rstrip('\n') + '\n'
 
-    # 4. Store; skip the write when nothing changed
+    # 4. Store atomically; skip the write when nothing changed
     if body_pr != body:
-        open(cfg_json, 'w', encoding='utf8').write(body_pr)
+        _save_file_atomic(cfg_json, body_pr)
     return value
    #def set_opt
 
@@ -420,6 +421,33 @@ def _put_trailing_comments(dump, trails, tails):
         else:
             lines       += ['  '+cmt for cmt in tails]
     return '\n'.join(lines)
+
+def _save_file_atomic(path, text):
+    """ Write via a temp file in the same dir + os.replace: a crash (or a
+        killed app) can never leave a truncated file behind. os.replace
+        is atomic on POSIX and on Windows (same volume). Falls back to a
+        direct write only if the atomic way is impossible. """
+    try:
+        os.makedirs(os.path.dirname(path) or '.', exist_ok=True)
+    except OSError:
+        pass
+    tmp = '%s.tmp%d' % (path, os.getpid())
+    try:
+        with open(tmp, 'w', encoding='utf8') as f:
+            f.write(text)
+        os.replace(tmp, path)
+    except OSError:
+        try:
+            os.remove(tmp)
+        except OSError:
+            pass
+        with open(path, 'w', encoding='utf8') as f:   # fallback: direct
+            f.write(text)
+    finally:
+        try:
+            os.remove(tmp)                            # no-op after replace
+        except OSError:
+            pass
 
 
 def remove_empty_nodes(tree, keys):
