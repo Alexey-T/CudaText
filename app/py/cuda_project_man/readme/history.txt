@@ -1,4 +1,35 @@
 2026.11.21 (@badrelmers)
+- Safety audit of every disk-mutating flow (paste, rename,
+  duplicate, new file/folder, drag-move), after three reported data
+  hazards. Paste is fully reworked: a COPY paste never overwrites
+  and never asks - a taken destination name lands as
+  'name - Copy.ext' ('name - Copy (2).ext', ... the Windows Explorer
+  duplicate naming; the old code overwrote the existing file in
+  another folder, and its same-folder stamp was a datetime suffix);
+  a CUT paste onto an existing name asks ONE dialog for the whole
+  batch - Replace (the existing item goes to the trash first, so a
+  replace is reversible; on an OS without trash support the
+  permanent deletion needs its own explicit confirmation), Paste as
+  copy (keep both: the item lands stamped, the cut source stays in
+  place) or Skip - instead of the reported raw shutil.Error
+  traceback; folders never merge into an existing folder (they get
+  the stamped name), a folder pasted into its own subtree is
+  refused on the status line, and pasting onto a dead/root node
+  with no known folder reports instead of quietly creating files
+  relative to the process CWD.
+- Renaming onto an EXISTING name now fails with an alert instead of
+  silently overwriting the destination on every OS (the old code
+  used Path.replace()/editor-save, which overwrite; the report:
+  "that file gets overwritten, this is dangerous"). Case-only
+  renames ('a.txt' -> 'A.TXT') are still allowed on Windows, a name
+  with a path separator or '.'/'..' is refused, and a dead node's
+  rename reports on the status line instead of raising.
+- Duplicating onto an existing name, and New file/New folder with a
+  taken name, now refuse with a message (duplicate used copy2 to
+  overwrite; new file/folder raised a raw FileExistsError traceback).
+- Drag-moving a folder into its own subtree is refused on the
+  status line (shutil's 'into itself' error would have shown as an
+  error status).
 - Fix: Shift+click multi-selection killed the context menu (the
   report: "selected file menu disappears and I cannot run the commands
   inside it like delete; only ctrl+click works"). LCL's Shift+click

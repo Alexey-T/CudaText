@@ -2309,6 +2309,12 @@ class Command:
         node or the main file."""
         import shutil
         dst_path = os.path.join(tgt_folder, os.path.basename(src_path))
+        if os.path.isdir(src_path) and self._is_within(dst_path, src_path):
+            # shutil would raise 'Cannot move a directory into
+            # itself' - say it on the status line instead
+            msg_status(_('Cannot move a folder into itself: ')
+                       + collapse_filename(src_path))
+            return
         if os.path.exists(dst_path):
             msg_status(_('Cannot move, already exists: ') + collapse_filename(dst_path))
             return
@@ -2726,6 +2732,11 @@ class Command:
             return
 
         path = location / result
+        if path.exists():
+            msg_status(_("File already exists: ")
+                       + collapse_filename(str(path)))
+            self.jump_to_filename(str(path))
+            return
         path.touch()
         self.action_refresh()
 
@@ -2821,16 +2832,39 @@ class Command:
         result = dlg_input(_("Rename to:"), str(location.name))
         if not result:
             return
+        # the typed name must be a NAME: it is joined onto the parent
+        # folder, so a separator or '.'/'..' would escape the folder
+        if (os.sep in result) or (os.altsep and os.altsep in result) \
+                or result in ('.', '..'):
+            msg_status(_("Incorrect file name"))
+            return
 
         new_location = location.parent / result
         if location == new_location:
             return
+        # renaming onto an EXISTING name must fail loudly: the old
+        # code called Path.replace()/e.save(), which silently
+        # OVERWRITES the destination on every OS (the report: "that
+        # file gets overwritten... a rename like that should fail and
+        # alert"). Case-only renames ('a.txt' -> 'A.TXT') are not
+        # collisions on Windows - the name is the same item there.
+        if new_location.exists() and not self._same_path(location,
+                                                         new_location):
+            msg_box(_("Cannot rename - the name already exists:\n")
+                    + str(new_location), MB_OK + MB_ICONERROR)
+            return
 
-        if e is not None:
-            e.save(str(new_location))
-            location.unlink(True)
-        else:
-            location.replace(new_location)
+        try:
+            if e is not None:
+                e.save(str(new_location))
+                location.unlink(True)
+            else:
+                location.replace(new_location)
+        except OSError as ex:
+            # e.g. the node is stale and its file is gone (a dead
+            # node's rename must report, not traceback)
+            msg_status(_('Cannot rename: ') + str(ex))
+            return
 
         if self.is_path_in_root(location):
             self.action_remove_node()
@@ -2858,9 +2892,19 @@ class Command:
         result = dlg_input(_("Duplicate to:"), str(backup_name))
         if not result:
             return
+        if (os.sep in result) or (os.altsep and os.altsep in result) \
+                or result in ('.', '..'):
+            msg_status(_("Incorrect file name"))
+            return
 
         new_location = location.parent / result
         if location == new_location:
+            return
+        # duplicating onto an EXISTING name must fail loudly - the
+        # old code overwrote the destination file with copy2
+        if new_location.exists():
+            msg_box(_("Cannot duplicate - the name already exists:\n")
+                    + str(new_location), MB_OK + MB_ICONERROR)
             return
 
         if e is not None:
@@ -3157,6 +3201,90 @@ class Command:
         # (the bug: after any Cut, Ctrl+C + Ctrl+V moved the files)
         self.action_cut_activate = False
 
+    @staticmethod
+    def _same_path(a, b):
+        """True when both paths name the same item - Windows compares
+        file names case-insensitively ('A.txt' == 'a.txt'), so a
+        case-only rename is not a name collision there."""
+        return os.path.normcase(str(a)) == os.path.normcase(str(b))
+
+    @staticmethod
+    def _is_within(path, folder):
+        """True when path is folder itself or lies inside it (a folder
+        pasted/moved into its own subtree is impossible; shutil would
+        only raise its 'into itself' error)."""
+        try:
+            Path(os.path.normcase(str(path))) \
+                .relative_to(os.path.normcase(str(folder)))
+            return True
+        except ValueError:
+            return False
+
+    @staticmethod
+    def _unique_path(dst):
+        """The first free 'name - Copy.ext' variant of dst - the
+        Windows Explorer duplicate naming ('name - Copy (2).ext',
+        'name - Copy (3).ext', ...). Copy-paste uses it whenever the
+        destination name is taken: a paste must NEVER overwrite."""
+        p = Path(dst)
+        for tail in [' - Copy'] + [' - Copy (%d)' % i
+                                    for i in range(2, 100)]:
+            cand = p.parent / (p.stem + tail + p.suffix)
+            if not cand.exists():
+                return cand
+        raise OSError(_('No free file name for: ') + str(p))
+
+    def _paste_destination(self):
+        """The folder to paste into: the selected folder node (a file
+        node means its parent), falling back to the folder of the last
+        tree click. None (with a status message) when no folder is
+        known - pasting onto a dead/root node used to build a RELATIVE
+        destination and quietly drop files into the process CWD."""
+        loc = str(self.get_location_by_index(self.selected))
+        if loc and not loc.startswith('.'):
+            p = Path(loc)
+            if p.is_dir():
+                return p
+            if p.is_file():
+                return p.parent
+        cur = self.cur_dir or ''
+        if cur and Path(cur).is_dir():
+            return Path(cur)
+        msg_status(_('Select a destination folder first'))
+        return None
+
+    def _trash_for_replace(self, dst):
+        """Remove the existing dst for a confirmed 'Replace' - to the
+        OS trash, so a replace stays reversible; never a silent disk
+        overwrite. Returns True when dst is gone. On an OS without
+        trash support the permanent deletion needs its own explicit
+        confirmation (the same rule as the delete flow)."""
+        if trash_supported():
+            try:
+                send_to_trash(dst)
+                return True
+            except OSError as e:
+                msg_box(_("Cannot move to the %s:\n%s\n\n%s")
+                        % (trash_label(), str(dst), str(e)),
+                        MB_OK + MB_ICONERROR)
+                return False
+        msg = _("This operating system does not support moving files "
+                "to the trash.\n\nThe existing item will be deleted "
+                "PERMANENTLY so the pasted one can replace it - this "
+                "cannot be undone!\n\n%s") % str(dst)
+        res = msg_box_ex(_("Replace"), msg,
+                         [_("DELETE PERMANENTLY"), _("Skip")],
+                         MB_ICONWARNING, focused=1)
+        if res != 0:
+            return False
+        try:
+            delete_permanently(dst)
+        except OSError as e:
+            msg_box(_("Cannot delete:\n%s\n\n%s")
+                    % (str(dst), str(e)), MB_OK + MB_ICONERROR)
+            return False
+        return True
+
     def action_paste(self):
         location = app_proc(PROC_GET_CLIP, '')
         # the clipboard no longer holds what pm's Cut/Copy last wrote
@@ -3172,46 +3300,101 @@ class Command:
                    if ln and (Path(ln).is_file() or Path(ln).is_dir())]
         if not sources:
             return
+
+        dst_dir = self._paste_destination()
+        if dst_dir is None:
+            return
+
+        # resolve (source, destination) pairs; the degenerate cases
+        # get a status line, not an exception (the old cut-paste onto
+        # an existing name crashed with a raw shutil.Error traceback)
+        pairs = []
         for src in sources:
-            self._paste_one(src)
+            src = Path(src)
+            dst = dst_dir / src.name
+            if self._same_path(src, dst):
+                # pasting an item onto itself: a cut is a no-op, and
+                # a copy keeps both via the 'name - Copy' stamp
+                continue
+            if src.is_dir() and self._is_within(dst, src):
+                msg_status(_('Cannot paste a folder into itself: ')
+                           + collapse_filename(str(src)))
+                continue
+            pairs.append((src, dst))
+
+        # a COPY paste never asks and never overwrites: every taken
+        # destination name gets the 'name - Copy' stamp. Only a CUT
+        # paste onto an existing name asks - ONE dialog for the whole
+        # batch, with the keep-both choice focused (the safe option)
+        mode = 'stamp'
+        if self.action_cut_activate:
+            conflicts = [(s, d) for s, d in pairs if d.exists()]
+            if conflicts:
+                if len(conflicts) == 1:
+                    msg = (_("The destination already has an item "
+                             "named:") + "\n\n"
+                           + str(conflicts[0][1].name)
+                           + "\n\n" + _("Replace it with the pasted "
+                                          "one?"))
+                    buttons = [_("Replace"), _("Paste as copy"),
+                               _("Skip")]
+                else:
+                    msg = (_("%d items at the destination already "
+                             "exist.") % len(conflicts)
+                           + "\n\n" + _("Replace them with the "
+                                          "pasted ones?"))
+                    buttons = [_("Replace all"), _("Paste all as copies"),
+                               _("Skip all")]
+                res = msg_box_ex(_("Replace"), msg, buttons,
+                                 MB_ICONQUESTION, focused=1)
+                mode = ('replace', 'stamp', 'skip')[res]
+
+        for src, dst in pairs:
+            self._paste_one(src, dst, mode)
         self.action_refresh()
 
-    def _paste_one(self, location):
-        """Paste ONE clipboard path into the selected folder (see
-        action_paste). The rename-on-same-name handling (a stamp
-        suffix) stays per source path."""
-        new_location = Path(self.get_location_by_index(self.selected))
-        if (Path(location).is_file() or Path(location).is_dir()):
-            if new_location.is_file():
-                new_location = new_location.parent
-            if Path(location).is_file():
-                new_location_path = str(new_location) + os.sep + str(Path(location).name)
-                if location == new_location_path:
-                    fn_parts = Path(location).name.split('.')
-                    from datetime import datetime
-                    fn_1 = Path(location).name if not fn_parts[0] else fn_parts[0]
-                    fn_2 = '' if not fn_parts[0] else ('.' + '.'.join(fn_parts[i+1] for i in range(len(fn_parts) - 1)))
-                    new_name = fn_1 + '_' + datetime.now().strftime("%y%m%d_%H%M%S") + fn_2
-                    new_location = str(new_location) + os.sep + new_name
-                import shutil
-                if self.action_cut_activate:
-                    shutil.move(location, new_location)
-                else:
-                    shutil.copy2(location, new_location)
-            else:
-                new_location = str(new_location) + os.sep + Path(location).name
-                import shutil
-                if self.action_cut_activate:
-                    shutil.move(str(location), new_location)
-                else:
-                    # shutil, not the removed distutils (gone in Python 3.12);
-                    # copytree refuses to overwrite an existing folder, while
-                    # distutils copy_tree silently merged into it
-                    try:
-                        shutil.copytree(str(location), new_location)
-                    except OSError as ex:
-                        msg_status(_('Cannot copy folder: ') + str(ex))
+    def _paste_one(self, src, dst, mode):
+        """Paste ONE source onto its destination path; mode is the
+        batch's conflict decision (see action_paste):
+        - 'stamp' (a copy paste, or the 'Paste as copy' choice): the
+          taken destination name is NEVER touched - the item lands as
+          'name - Copy' (Windows Explorer duplicate naming) and a cut
+          source stays in place (keep both)
+        - 'replace' (a cut paste only): the existing destination item
+          goes to the trash FIRST - reversible, never an overwrite -
+          then the source moves onto it
+        - 'skip': nothing happens, both items stay as they are
+        Disk errors report on the status line, never a traceback."""
+        import shutil
+        try:
+            if dst.exists():
+                if mode == 'skip':
+                    msg_status(_('Skipped, already exists: ')
+                               + collapse_filename(str(dst)))
+                    return
+                if mode == 'replace':
+                    if not self._trash_for_replace(dst):
                         return
+                    move = self.action_cut_activate
+                else:
+                    # 'stamp': keep both - even a cut source is only
+                    # copied, the original stays where it is
+                    dst = self._unique_path(dst)
+                    move = False
+            else:
+                move = self.action_cut_activate
+
+            if move:
+                shutil.move(str(src), str(dst))
+            elif src.is_dir():
+                # copytree, not the removed distutils (gone in Python
+                # 3.12): it refuses to merge into an existing folder,
+                # which is exactly the wanted never-merge behavior
+                shutil.copytree(str(src), str(dst), symlinks=False)
+            else:
+                shutil.copy2(str(src), str(dst))
+        except OSError as ex:
+            msg_status(_('Cannot paste: ') + str(ex))
 
     def get_w_h(self):
         w_ = 600
@@ -3417,8 +3600,16 @@ class Command:
         result = dlg_input(_("New folder:"), "")
         if not result:
             return
+        if (os.sep in result) or (os.altsep and os.altsep in result) \
+                or result in ('.', '..'):
+            msg_status(_("Incorrect file name"))
+            return
 
         location = location / result
+        if location.exists():
+            msg_status(_("Folder already exists: ")
+                       + collapse_filename(str(location)))
+            return
         location.mkdir()
         self.action_refresh()
         self.jump_to_filename(str(location))
