@@ -538,6 +538,14 @@ begin
     tvoNoDoubleClickExpand
     ];
 
+  // preserve the multi-selection a plugin enabled via
+  // tree_proc(TREE_SET_MULSELECT): this full Options:= reassignment
+  // must not silently turn it off - TREE_THEME re-runs this function
+  // AFTER a plugin's init code (tvoAllowMultiselect is the same flag
+  // the MultiSelect property sets)
+  if tvoAllowMultiselect in C.Options then
+    Include(Op, tvoAllowMultiselect);
+
   if AChangeShowRoot or C.ShowRoot then
     Include(Op, tvoShowRoot)
   else
