@@ -1,3 +1,214 @@
+2026.11.21 (@badrelmers)
+- Safety audit of every disk-mutating flow (paste, rename,
+  duplicate, new file/folder, drag-move), after three reported data
+  hazards. Paste is fully reworked: a COPY paste never overwrites
+  and never asks - a taken destination name lands as
+  'name - Copy.ext' ('name - Copy (2).ext', ... the Windows Explorer
+  duplicate naming; the old code overwrote the existing file in
+  another folder, and its same-folder stamp was a datetime suffix);
+  a CUT paste onto an existing name asks ONE dialog for the whole
+  batch - Replace (the existing item goes to the trash first, so a
+  replace is reversible; on an OS without trash support the
+  permanent deletion needs its own explicit confirmation), Paste as
+  copy (keep both: the item lands stamped, the cut source stays in
+  place) or Skip - instead of the reported raw shutil.Error
+  traceback; folders never merge into an existing folder (they get
+  the stamped name), a folder pasted into its own subtree is
+  refused on the status line, and pasting onto a dead/root node
+  with no known folder reports instead of quietly creating files
+  relative to the process CWD.
+- Renaming onto an EXISTING name now fails with an alert instead of
+  silently overwriting the destination on every OS (the old code
+  used Path.replace()/editor-save, which overwrite; the report:
+  "that file gets overwritten, this is dangerous"). Case-only
+  renames ('a.txt' -> 'A.TXT') are still allowed on Windows, a name
+  with a path separator or '.'/'..' is refused, and a dead node's
+  rename reports on the status line instead of raising.
+- Duplicating onto an existing name, and New file/New folder with a
+  taken name, now refuse with a message (duplicate used copy2 to
+  overwrite; new file/folder raised a raw FileExistsError traceback).
+- Drag-moving a folder into its own subtree is refused on the
+  status line (shutil's 'into itself' error would have shown as an
+  error status).
+- Fix: Shift+click multi-selection killed the context menu (the
+  report: "selected file menu disappears and I cannot run the commands
+  inside it like delete; only ctrl+click works"). LCL's Shift+click
+  range selection clears the focused node and never re-focuses one
+  (TTreeNodes.MultiSelect calls ClearMultiSelection(True) ->
+  Selected := nil), while Ctrl+click keeps the focus on the previously
+  clicked node - so after a Shift+click there was NO current node and
+  the menu generator built no "Selected file/folder" sections at all.
+  The `selected` property now falls back to the last node of the
+  multi-selection when the tree has no focused node.
+- Fix: Copy (Ctrl+C) silently acted as Cut - after ANY Cut, the next
+  Copy left the move-on-paste marker on, so Ctrl+C + Ctrl+V MOVED the
+  files instead of copying them (an upstream bug: action_copy never
+  reset the marker). Every clipboard writer now keeps the marker
+  current (Copy and the path-copy commands reset it, Cut sets it only
+  when it actually wrote the clipboard), and a paste whose clipboard
+  was replaced outside the plugin always pastes as a copy - never
+  moves foreign content.
+- Fix: Ctrl/Shift+click multi-selection had no visible effect (the
+  report: "still only one element selected"). Cause: init_panel calls
+  TREE_THEME right after the tree is built, and the engine's
+  ApplyThemeToTreeview REBUILDS the treeview Options set - without
+  tvoAllowMultiselect, which is exactly the flag TREE_SET_MULSELECT
+  had set a moment earlier (both are the same LCL flag: the
+  tvoAllowMultiselect option and the MultiSelect property). Fixes:
+  the plugin now enables the multi-selection AFTER the TREE_THEME
+  call (works on the current build, no rebuild needed), and the
+  engine's ApplyThemeToTreeview preserves tvoAllowMultiselect across
+  the Options reassignment (protects the TREE_SET_MULSELECT API for
+  every plugin and any later TREE_THEME; needs a rebuild).
+- Fix: after Space/single-click opened a file, the focus landed on the
+  FILTER field instead of the file-list. Two causes, both fixed: (1)
+  the engine's DLG_CTL_FOCUS was a silent no-op for treeview controls
+  - the inner Tree has Owner=nil, LCL's SetActiveControl raises on
+  that and DoForm_FocusControl swallowed the exception; the core now
+  focuses the control directly (proc_customdialog.pas, and
+  EditorFocus in proc_editor.pas got the same reorder - needs a
+  CudaText rebuild to take effect); (2) plugin-side, the tree is now
+  the first tab-stop (tab_order 0, the filter is 1), so even an
+  unpatched build's form-level focus lands on the tree.
+- Settings/state split (user request): cuda_project_man.json keeps
+  ONLY settings; the runtime state moved to the new
+  cuda_project_man_store.json - "recent_projects", "opened_folder",
+  and the Favorites data in its "favorites" namespace (the file
+  replaces cuda_project_man_favorites.json). One-way migrations on
+  load: state keys in an old options file move to the store and are
+  dropped from the options file; a leftover old Favorites file is
+  imported and removed. All store writes go through store_update()
+  (read-modify-write, atomic, per namespace).
+- Multi-selection in the project tree (Ctrl+click toggles, Shift+click
+  ranges - the engine's TREE_SET_MULSELECT, LCL does the mouse work):
+  a click with Ctrl/Shift held never opens a file and never starts a
+  drag; with several nodes selected, Space/Enter/double-click open
+  every selected file, Del untracks the selected roots and trashes the
+  selected inner items (one grouped confirmation per kind, the
+  single-item safety rules unchanged), Ctrl+C/X copy/cut all selected
+  paths (newline-joined; Ctrl+V pastes them all), Copy path / Copy
+  relative path list them all, Add to favorites and Open in default
+  application handle every selected node. Rename, properties, new
+  file/folder, drag&drop and type-ahead keep acting on the focused
+  node.
+- The "Recent projects/folders" list holds up to 50 entries (was 10).
+- Every OK/Cancel button of every dialog of the plugin is 7px taller
+  (BTN_OK_ADD in projman_glob.py): the options dialog, the project
+  properties dialog, the "create from tabs" dialog and the memo/info
+  dialog.
+- Other plugins (cuda_lsp) see the tree folders in EVERY state now:
+  global_project_info['nodes'] always lists the current tree roots -
+  an opened project, the "Open folder" folder, "Add folder" folders
+  with no project open - and the closing of a folder / silent project
+  detach fires the APPSTATE_PROJECT_NODE_DEL event like any node
+  removal (listeners of e.g. LSP workspace folders learn the folders
+  are gone; APPSTATE_PROJECT does not fire in no-project states).
+- Issue #6441: Space (like single click) opens the selected file and
+  the focus STAYS on the file-list - the panel form and then the tree
+  itself are refocused after the open; Enter, F4 and double-click open
+  and move the focus to the editor (double-click in the default
+  preview mode also focuses the editor of the file its first click
+  opened; a folder node never steals the editor focus).
+- "Create new project from open tabs..." now asks in a small themed
+  dialog what the new project gets besides the session: the open tabs
+  always become its session, and two checkboxes (both on by default,
+  the choice remembered between calls) add the FILES of the open tabs
+  and/or their folders as project nodes. The old Yes/No question about
+  the folders is gone; a project from untitled-only tabs works too.
+- The Favorites window has a quick-select label column ('#', first
+  column) like the shortcuts of the cuda_favorites plugin, without its
+  1-9/a-z limit: 1..9, then a..z, then aa..zz, then aaa..zzz and so on
+  (bijective base-26). Typing a label with plain keys - a short
+  type-ahead with a 1-second pause, the filter field keeps its letters
+  - selects that row and scrolls it into view.
+- New session command "New empty session (closes all tabs)" (the
+  sessions menu, the sessions toolbar button and the panel context
+  menu): it saves the current session, re-points the app session to the
+  new slot, closes all tabs and saves the empty state as the new
+  session - the project stays open. The order (save current -> re-point
+  -> close -> save empty) keeps any autosave tick from ever clobbering
+  a session slot; a cancelled prompt or a missing project touches
+  nothing.
+- The Favorites window: the Projects / Files / Folders tabs switch from
+  the keyboard too - Ctrl+PgUp/PgDn and Ctrl+Left/Right cycle them
+  (with wrap-around), Alt+P / Alt+F / Alt+O jump directly, from any
+  focused control.
+- The Favorites window: while the filter field is focused, Del edits
+  the filter text (deletes the next letter, as in any editor); with
+  anything else focused it still deletes the selected favorite.
+- Attachments: a file/folder favorite can be attached to project
+  favorites - "Attach favorite to project..." in the context menu opens
+  the filterable project list, "Detach from project..." removes one
+  link, and "Attach checked to project..." (the Checked button and the
+  context menu) attaches every checked row to one picked project at
+  once. The Files and Folders tabs get an "Attached projects" column;
+  a project favorite's context menu gets "List attached files/folders..."
+  (the same filterable list; Enter opens the entry). Deleting a project
+  favorite drops every link to it, deleting a file/folder favorite
+  drops its links. The links live in the favorites json (the item's
+  "projects" key).
+- New command "Find favorites..." (the panel context menu, the Plugins
+  menu and the command palette): the CudaText list dialog - with its
+  own filter field - over ALL favorites, each entry prefixed
+  "project:" / "file:" / "folder:" and "?" before the name when its
+  path is gone; Enter opens the pick.
+- Fixed a "." folder auto-added to the panel at a start where the last
+  project's file was deleted: the saved empty "opened_folder" option
+  expanded to "." (os.path.normpath('') is '.'), and the folder restore
+  then tracked the CudaText process working directory as a folder. Only
+  a non-empty absolute opened_folder restores now; a config already
+  carrying "." self-heals on load. At such a start nothing is opened or
+  added, and the plugin's on_start subscription is dropped, so it does
+  not reload at every next start just to find the project file dead.
+- A folder dropped from the OS file manager onto the Project panel with
+  no project open is opened the "one folder" way (it was added to the
+  untitled tree like "Add folder..."); with a project open it is still
+  added to the project. Dropped files keep being added to the tree.
+- The tree root caption is "Folder (No project)" while a persistent
+  "Open folder" folder is open, and "(No project)" for a plain untitled
+  "Add folder" tree, which does not survive a restart.
+- The "Folder (No project)" / "(No project)" root caption now follows
+  the state change immediately instead of going stale until a manual
+  refresh or a restart: opening a folder (drop, "Open folder", command
+  line) remembered the folder only after the tree refresh, and "Stop
+  tracking this folder" / "Close project" cleared it only after (or
+  without) a refresh. The remembered folder is now set before the
+  refresh of the open, and every forget fixes the caption in place
+  with TREE_ITEM_SET_TEXT.
+
+2026.11.20 (@badrelmers)
+- "Open folder" (the File-menu command, the OS shell's "Open in
+  CudaText", 'cudatext <folder>') no longer creates a project: the
+  folder opens in the Project panel as just a folder, and nothing is
+  ever written inside it - no .cuda-proj file, no .cudatext/ backup
+  folder (issue #6624). Only one folder is open this way at a time:
+  opening another one closes the previous. The folder is remembered
+  across restarts and restored into the panel at start ("Close project"
+  with no project open closes it).
+- The opened folder owns no session (issue #6624): the current external
+  session (default.cuda-session) keeps owning the tabs, files opened
+  from the folder become its tabs. With a project open, opening a
+  folder closes the project first (its session is saved into the
+  project file, the default session loads); opening a project closes
+  opened folder. When the folder carries .cuda-proj file(s) in its top
+  level, a project is opened instead of the plain folder: the one named
+  after the folder wins, else the only one found, else a dialog lists
+  all of them for the user to choose (cancelling the dialog opens the
+  plain folder).
+- The opened folder is added to the "Recent projects" list; a directory
+  entry of that list opens back as a folder.
+- Drag&drop of a folder onto the editor (from the OS file manager): with
+  a project open the folder is added to the project (unchanged); with no
+  project open it now opens the "one folder" way instead of polluting
+  the untitled project's node list.
+- Fixed "'WindowsPath' object has no attribute 'rstrip'" (a traceback
+  dialog) on "Stop tracking this folder/file" right after "Open
+  folder", and the same latent crash after deleting a file/folder from
+  the panel: do_unfold_first() and the delete flow stored a
+  pathlib.Path into cur_dir, which path_contains() could not compare;
+  both now store a str (like the tree click always did), and the path
+  helpers tolerate Path arguments too.
+
 2026.11.19
 - "Create new project from open tabs..." now offers (a Yes/No message
   box, before the location dialog) to also add the folders of the

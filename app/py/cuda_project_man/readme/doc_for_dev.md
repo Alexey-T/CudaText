@@ -531,7 +531,29 @@ Current format version: `PROJECT_FORMAT_VERSION = 2`, written as
   `ProjMainFile`, `ProjMainFileNameOnly`, `ProjMainFileNameNoExt` and
   the user variables from Project properties. Used e.g. by ExtTools.
 - `global_project_info` (module level) mirrors filename/nodes/vars/
-  mainfile for the current project; updated by `update_global_data()`.
+  mainfile; updated by `update_global_data()`.
+- **Settings vs state files.** `cuda_project_man.json` (the options
+  file) keeps ONLY settings - values the user configures; every
+  runtime STATE lives in `cuda_project_man_store.json` (module
+  `store.py`), each subsystem in its own namespace: `favorites` (the
+  whole Favorites data dict - this used to be the
+  `cuda_project_man_favorites.json` file), `recent_projects`,
+  `opened_folder`. All writers MUST go through `store_update(**kv)`
+  (read-modify-write of their own keys only - the file is shared).
+  One-way migrations run on load: state keys found in an old options
+  file move to the store and are dropped from the options file; a
+  leftover `cuda_project_man_favorites.json` is imported into the
+  `favorites` namespace and removed. `Command._save_state()` persists
+  the two Project Manager state keys (paths macro-collapsed, like the
+  options file always did). `nodes` are the CURRENT
+  TREE ROOTS in EVERY state - an opened project, the "Open folder"
+  folder, "Add folder" folders with no project open (in-memory only).
+  `filename` is EMPTY in the folder-only states while `nodes` still
+  lists their folders: consumers (cuda_lsp reads this for its LSP
+  workspaceFolders) must not treat an empty `filename` as "no folders"
+  - filter the list with os.path.isdir, it also carries file nodes.
+  In-place node changes fire APPSTATE_PROJECT_NODE_ADD / _DEL (see
+  `update_global_data`'s docstring for the full event contract).
 
 If you change these names, grep the CudaText ecosystem for users first.
 
@@ -633,6 +655,20 @@ successful save).
   via listbox_proc). The plugin's owner-drawn rows and the header
   divider hit-tests use the same origin (favorites.LIST_INDENT), or
   every row column sits 4 px left of the header's.
+  The column SET is tab-dependent: the Files and Folders tabs show the
+  'Attached projects' column (COL_PROJECTS, between Path and State),
+  the Projects tab does not. The hidden column sits BEFORE State, so
+  the tab's columns cannot be sliced off self.cols - FavoritesForm
+  _col_const()/_live_col() map between the live (in-listbox) column
+  indexes and the self.cols/COL_* constants (sort clicks and divider
+  drags arrive with LIVE indexes, the drawing and widths use the
+  constants), and _apply_columns/_live_cols remove the column instead.
+  The FIRST column is COL_KEY ('#'): the quick-select labels
+  (favorites.quick_label - 1-9, then bijective base-26 a-z, aa-zz,
+  aaa-zzz, ...), assigned per VIEW position in fill_list and typed
+  with plain keys in form_on_key (a type-ahead buffer with
+  KEY_SELECT_PAUSE; _select_by_typed/_select_row select and scroll).
+  COL_KEY is never hidden, so it needs no live/constant mapping.
   The options-dialog dropdowns are 'editor_combo' controls
   (TATComboEdit - a TATSynEdit subclass): the dialog 'font_size' prop
   works on them directly, so they follow 'edit_font_size' and their

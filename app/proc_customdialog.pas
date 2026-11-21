@@ -2244,7 +2244,19 @@ begin
       C:= DoControl_Target(C);
       if C is TWinControl then
       try
-        F.ActiveControl:= C as TWinControl;
+        if F.Visible then
+          //focus the control directly: F.ActiveControl:= silently does
+          //NOTHING for wrapped controls - the dialog treeview's inner
+          //Tree has Owner=nil, LCL's SetActiveControl raises on
+          //"Value.Owner<>Self" and the except below swallowed it, so
+          //DLG_CTL_FOCUS on a treeview never focused anything (the
+          //focus stayed wherever the form-level focus landed, e.g. on
+          //the first tab-stop control)
+          TWinControl(C).SetFocus
+        else
+          //form not shown yet (a modal dialog before DLG_SHOW): remember
+          //the control as the initially focused one
+          F.ActiveControl:= C as TWinControl;
       except
       end;
     end;

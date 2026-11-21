@@ -89,6 +89,42 @@ Session
   project silently, so the project's saved sessions can never be
   overwritten by it.
 
+Opened folder ("Open folder")
+  "Open folder" (CudaText's File-menu command, the OS file manager's
+  "Open in CudaText", or 'cudatext <folder>' on the command line) opens
+  the folder in the Project panel as just a folder: no project is
+  created for it, and nothing is written inside the folder (no
+  .cuda-proj file, no .cudatext/ backup folder). Only one folder is
+  open this way at a time - opening another folder closes the previous
+  one. The folder is remembered and shown again after a CudaText
+  restart; "Close project" with no project open closes it. While such
+  a folder is open, the tree root reads "Folder (No project)" - a plain
+  untitled "Add folder" tree reads "(No project)" and does not survive
+  a restart.
+
+  A folder is not a session: while it is open, the current external
+  session (usually default.cuda-session) keeps owning the tabs - files
+  opened from the folder simply become tabs of that session. When a
+  project is open and a folder is opened, the project is closed first
+  (its session is saved into the project file, the default session
+  loads), so the panel shows only the new folder; opening a project
+  closes the opened folder. When the opened folder carries .cuda-proj
+  file(s) in its top level, a project is opened instead of the plain
+  folder: the project named after the folder wins; else, if the folder
+  carries exactly one project, that one; else a dialog lists all of
+  them for you to choose (cancelling the dialog opens the plain
+  folder).
+
+  A folder dragged from the OS file manager onto the editor - or onto
+  the Project panel - works differently: with a project open it is
+  added to that project (as before); with no project open it is opened
+  the "one folder" way.
+  "Add folder..." always adds to the current project, it never replaces
+  the opened folder.
+
+  Opened folders also enter the "Recent projects" list; clicking such
+  an entry opens the folder again.
+
 
 ------------------------------------------------------------------------------
 UPGRADE TO PROJECT FILE FORMAT V2
@@ -132,11 +168,15 @@ PROJECT FILE
       .cuda-proj location, embeds the currently open tabs as a session
       named "session1", and switches to the new project. Tabs are not
       closed.
-      Before the location dialog, when at least one opened tab has a
-      folder, a confirmation offers to also add those folders to the
-      new project as root nodes (deduplicated; several tabs of one
-      folder add it once), so the new project already lists the code
-      it was made from. Answer "No" to start with an empty root list.
+      Before the location dialog, a small options dialog asks what
+      else the new project should contain:
+        "Add the files of the open tabs to the project tree"
+        "Add the folders of the open tabs to the project tree"
+      Both are checked by default (deduplicated; several tabs of one
+      file or folder add it once), so the new project already lists
+      the code it was made from. Uncheck both to start with an empty
+      root list - the session alone is a fine project too. The choice
+      is remembered for the next call of the command.
 
   Open project...
       Opens an existing .cuda-proj file. Saves the current project's
@@ -232,6 +272,13 @@ PROJECT SESSIONS (also on the toolbar button)
       closed - the full current state is saved as is, and the previously
       active session is updated with the same state.
 
+  New empty session (closes all tabs)
+      Prompts for a name and creates a brand-new EMPTY session of the
+      same project: the current session is saved first (nothing is
+      lost), all tabs close, and the new session - with no tabs -
+      becomes the active one. The project stays open; only the session
+      changes. Disabled without an open project.
+
   Delete session...
       Prompts to pick a session and deletes it from the project. The
       last remaining session cannot be deleted (a project is itself a
@@ -271,10 +318,10 @@ GENERAL (context menu top level)
       Same items as the toolbar sessions menu.
 
   Favorites >
-      The bookmarks submenu: "Show Favorites window..." first, then
-      "Add to favorites" (bookmarks the right-clicked node; disabled
-      when nothing is selected) and "Add opened..." - see FAVORITES
-      (BOOKMARKS) below.
+      The bookmarks submenu: "Show Favorites window...", "Find
+      favorites...", then "Add to favorites" (bookmarks the
+      right-clicked node; disabled when nothing is selected) and
+      "Add opened..." - see FAVORITES (BOOKMARKS) below.
 
   Project Manager options...
       Opens the plugin options dialog (see OPTIONS).
@@ -349,6 +396,29 @@ current level whose name starts with the typed text - "myf" selects
 typed text is forgotten after about a second of pause. Like in Windows
 Explorer, the search is scoped to the folder you are in.
 
+Multi-selection (Ctrl+click toggles a node, Shift+click selects the
+range from the focused node): while several nodes are selected, the
+commands act on the WHOLE selection -
+
+- Space / Enter / double-click opens every selected FILE (folders are
+  skipped);
+- Del untracks the selected root nodes and moves the selected inner
+  files/folders to the OS trash, with ONE grouped confirmation per kind
+  (the safety rules of the single-item delete apply unchanged: a root
+  node is never deleted from the disk, permanent deletion only on an OS
+  without trash support, after the explicit warning);
+- Ctrl+C / Ctrl+X copy/cut every selected path (several paths are
+  joined with the OS newline; Ctrl+V in the tree pastes them all);
+- "Copy path" / "Copy relative path" put every selected path on the
+  clipboard, one per line;
+- "Add to favorites" adds every selected node;
+- "Open in default application" opens every selected file.
+
+Commands that work on exactly ONE node (rename, properties, new
+file/folder, drag&drop, type-ahead) still act on the focused node.
+Any tree refresh (F5, node changes) rebuilds the tree and clears the
+multi-selection.
+
 
 ------------------------------------------------------------------------------
 PLUGINS MENU COMMANDS
@@ -380,12 +450,14 @@ Cut/Copy/Paste, Rename, Delete, ...) live only in the context menu.
 
   Project sessions >
       Open session..., Save session, Save session as...,
+      New empty session (closes all tabs),
       Delete session..., Import external session... - the same items as
       the sessions menu of the panel.
 
   Favorites >
-      Show Favorites window..., Add to favorites: current file /
-      current folder / current project, Add opened... - see FAVORITES
+      Show Favorites window..., Find favorites..., Add to favorites:
+      current file / current folder / current project, Add opened... -
+      see FAVORITES
       (BOOKMARKS) below.
 
   Close tabs not belonging to project
@@ -413,9 +485,25 @@ THE FAVORITES WINDOW (toolbar button, or Favorites > Show Favorites
 window...)
   A resizable, non-modal window with three tabs: Projects, Files,
   Folders. The active tab and the sort order are remembered between
-  CudaText sessions. Columns: check | star | Name | Path | State; the
+  CudaText sessions. Columns: # | check | star | Name | Path |
+  [Attached projects |] State - the "Attached projects" column exists
+  only on the Files and Folders tabs (see Attachments below); the
   column widths are resizable (drag the divider between two header
   captions), the Path column fills the remaining width.
+
+  Quick-select labels (the "#" column, first)
+      Every row carries a short label: 1 to 9, then a to z, then aa,
+      ab ... az, ba ... zz, then aaa ... and so on. TYPE a label with
+      plain keys (while the filter field is not focused) and that row
+      is selected: press "3" to select row 3, "a" for the first row
+      after 9, "a" then "b" for the row "ab". A pause of one second
+      starts the label from scratch. Like the shortcuts of the old
+      "Favorites" plugin - but without its 1-9/a-z limit.
+
+  Tab switching from the keyboard (from any focused control):
+      Ctrl+PgUp / Ctrl+PgDn     previous / next tab (wraps around)
+      Ctrl+Left / Ctrl+Right    previous / next tab (wraps around)
+      Alt+P / Alt+F / Alt+O     Projects / Files / Folders tab
 
   Checkbox column
       Check several rows, then run ONE command on all of them at once:
@@ -434,6 +522,11 @@ window...)
       dead favorite); its name is painted in the theme's accent color
       too. Sort by it to gather the dead favorites at one end.
 
+  Attached projects column (Files and Folders tabs)
+      The project favorites a file/folder favorite is attached to (see
+      Attachments below), comma-separated. Not sortable - click the
+      header of the other columns to sort.
+
   Filter
       The field at the top filters by name AND path as you type. Clear
       it by deleting the text (Ctrl+A / Backspace) - Esc does not touch
@@ -450,8 +543,13 @@ window...)
 
   Keyboard (active while the window has the focus):
       Ctrl+1..9 / Alt+1..9    open the favorite at that position
+      a label, typed          select the favorite carrying it (see the
+                              "#" column above; 1-9, a-z, aa-zz, ...)
       Enter / double-click    open the selected favorite
-      Del                     delete it (from the favorites list)
+      Del                     delete it (from the favorites list) - but
+                              while the FILTER is focused, Del stays in
+                              the field and deletes the next letter, as
+                              in any editor
       F2                      rename it
       Space                   check/uncheck it
       Up / Down               cycle the list from ANY focused control
@@ -461,17 +559,61 @@ window...)
       Esc                     close the window
 
   Right-click menu: Open, Reveal in file manager, Copy path,
-  Star/Unstar, Rename..., Delete, the "Checked (N):" commands, Sort
-  commands, Add current file/folder/project. A right-click on the
-  header offers the Sort commands + Check/Uncheck all.
+  Star/Unstar, Rename..., Delete, the attachment commands (see
+  Attachments), the "Checked (N):" commands, Sort commands, Add current
+  file/folder/project. A right-click on the header offers the Sort
+  commands + Check/Uncheck all.
+
+ATTACHMENTS (files/folders <-> projects)
+  A file or folder favorite can be ATTACHED to one or several project
+  favorites - a simple link, handy to see which files/folders belong to
+  which projects.
+
+  Attach favorite to project...
+      (context menu of a file/folder favorite) A filterable list of the
+      project favorites opens (the CudaText list dialog with its own
+      filter field); pick one and the favorite attaches to it. It shows
+      up in the "Attached projects" column immediately.
+
+  Detach from project...
+      (context menu of a file/folder favorite) The same list, limited
+      to the projects the favorite is attached to; pick one to remove
+      that link.
+
+  Attach checked to project...
+      Bulk attach: check several files/folders (the checkbox column),
+      then run it from the "Checked" button menu or the right-click
+      menu - ONE picker, and every checked favorite attaches to the
+      picked project at once.
+
+  List attached files/folders...
+      (context menu of a PROJECT favorite) The filterable list of
+      everything attached to that project, prefixed file:/folder: and
+      "?" when the path is gone; Enter opens the picked entry.
+
+  Deleting a project favorite drops every link to it; deleting a
+  file/folder favorite drops its links. Attachments live in the
+  favorites json (see below).
+
+FIND FAVORITES
+  Favorites > Find favorites... (panel context menu, Plugins menu,
+  command palette): the CudaText list dialog - with its own filter
+  field - over ALL favorites at once. Every entry is prefixed
+  "project:", "file:" or "folder:", and a favorite whose path no longer
+  exists on disk gets "?" before its name. Enter opens the picked
+  favorite.
 
   "Delete" here only removes the BOOKMARK from the list - it never
   touches the file/folder on the disk.
 
 WHERE THE DATA LIVES
-  settings/cuda_project_man_favorites.json (in the CudaText settings
-  folder). Each entry keeps its path, display name (rename with F2) and
-  star flag. The file is created on the first change.
+  settings/cuda_project_man_store.json (in the CudaText settings
+  folder) - the state store shared with the Project Manager itself
+  (recent projects, the opened folder); the favorites sit in its
+  "favorites" namespace. Each entry keeps its path, display name
+  (rename with F2) and star flag. The file is created on the first
+  change. An older version kept the favorites in a file of their own,
+  cuda_project_man_favorites.json - it is imported once and removed.
 
 IMPORT FROM THE "FAVORITES" PLUGIN (cuda_favorites)
   If you also use kvichans' "Favorites" plugin, its
@@ -791,8 +933,27 @@ folders together.
 KEYBOARD SHORTCUTS (project tree)
 ------------------------------------------------------------------------------
 
-  Enter, Space or double-click   open the selected file / unfold the
-                                 selected folder
+  Space                          open the selected file / unfold the
+                                 selected folder; the focus STAYS on
+                                 the file-list, so you can keep
+                                 browsing with the keyboard (issue
+                                 #6441)
+  Enter or F4                    open the selected file / unfold the
+                                 selected folder; the focus moves to
+                                 the editor (same as double-click,
+                                 issue #6441)
+  Ctrl+click / Shift+click       multi-selection (see below): Ctrl
+                                 toggles a node in/out of the
+                                 selection, Shift selects the range
+                                 from the focused node; a click with
+                                 Ctrl/Shift held never opens a file
+  double-click                   open the selected file: in "open by
+                                 double-click" mode it opens and
+                                 focuses the editor; in the default
+                                 preview mode the first click opened
+                                 the file already and the double-click
+                                 turns the preview into a normal tab
+                                 and focuses the editor
   Del                            move to trash (files/folders inside a
                                  node; the dialog button says "Move to
                                  trash"), or - only on an OS without
