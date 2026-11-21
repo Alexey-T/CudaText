@@ -1240,22 +1240,35 @@ begin
 
       SSplitByChar(AppSessionName_, '|', sFilename, sRootPath);
       sFilename:= AppExpandFileNameWithDir(sFilename, AppDir_Settings);
-      if (sRootPath='') and not FileExists(sFilename) then
+      if not FileExists(sFilename) then
       begin
-        sBackupFilename:= ChangeFileExt(sFilename, '.1.cuda-session');
-        if FileExists(sBackupFilename) then
+        if sRootPath='' then
         begin
-          if FileUtil.CopyFile(sBackupFilename, sFilename) then
-            MsgLogConsole(Format('NOTE: Session file "%s" not found, restored from backup', [ExtractFileName(sFilename)]))
-          else
+          sBackupFilename:= ChangeFileExt(sFilename, '.1.cuda-session');
+          if FileExists(sBackupFilename) then
           begin
-            MsgLogConsole(Format('ERROR: Session file "%s" not found, cannot copy from backup', [ExtractFileName(sFilename)]));
+            if FileUtil.CopyFile(sBackupFilename, sFilename) then
+              MsgLogConsole(Format('NOTE: Session file "%s" not found, restored from backup', [ExtractFileName(sFilename)]))
+            else
+            begin
+              MsgLogConsole(Format('ERROR: Session file "%s" not found, cannot copy from backup', [ExtractFileName(sFilename)]));
+              AppSessionName_Set(cAppSessionDefault);
+            end;
+          end
+          else
+          if AppSessionName_<>cAppSessionDefault then
+          begin
+            MsgLogConsole(Format('ERROR: Session file "%s" not found, and there is no backup', [ExtractFileName(sFilename)]));
             AppSessionName_Set(cAppSessionDefault);
           end;
         end
         else
-        if AppSessionName_<>cAppSessionDefault then
         begin
+          //project session (e.g. "name.cuda-proj|/sessions/name"): file part is
+          //the project file, which has no app-made .1.cuda-session backup; report
+          //error and use the default session, like for non-project sessions,
+          //otherwise the dead pointer stays and session saving re-creates
+          //the deleted project file
           MsgLogConsole(Format('ERROR: Session file "%s" not found, and there is no backup', [ExtractFileName(sFilename)]));
           AppSessionName_Set(cAppSessionDefault);
         end;
