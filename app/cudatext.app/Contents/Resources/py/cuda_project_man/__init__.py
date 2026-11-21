@@ -1179,7 +1179,15 @@ class Command:
     #: gap (seconds) after the last typed char which resets the buffer
     TYPEAHEAD_TIMEOUT = 1.2
 
+    # "the clipboard content was written by action_cut": paste then
+    # MOVES the paths instead of copying. Every clipboard writer must
+    # keep it current (action_copy used to leave a stale True after any
+    # cut - Ctrl+C then Ctrl+V silently MOVED the files).
     action_cut_activate = False
+    # the exact clipboard text pm's Cut/Copy/path-copy last wrote: when
+    # the OS clipboard holds something else, it is not pm's cut anymore
+    # and must paste as a copy (no unexpected move of foreign content)
+    _clip_last = ''
 
     def __init__(self):
         # state of the drag&drop in the project tree (tree_mouse_down/move/up):
@@ -2511,7 +2519,23 @@ class Command:
         # command, side panel never shown): behave as "nothing selected"
         if not self.tree:
             return None
-        return tree_proc(self.tree, TREE_ITEM_GET_SELECTED)
+        res = tree_proc(self.tree, TREE_ITEM_GET_SELECTED)
+        if res:
+            return res
+        # no focused node: LCL's Shift+click range selection clears the
+        # focused node and never re-focuses one (TTreeNodes.MultiSelect
+        # calls ClearMultiSelection(True) -> Selected := nil), while
+        # Ctrl+click leaves the focus where it was. Without this
+        # fallback a Shift+click selection had NO current node at all:
+        # the context menu lost its "Selected file/folder" sections and
+        # every command keyed on the current node was dead. Fall back to
+        # the last node of the multi-selection (the chain is in display
+        # order, so this is the bottom node of the range - the clicked
+        # node when the range goes downward).
+        items = tree_proc(self.tree, TREE_GET_SELECTIONS)
+        if isinstance(items, list) and items:
+            return items[-1]
+        return None
 
     def add_context_menu_node(self, parent, action, name):
         return menu_proc(parent, MENU_ADD, command=action, caption=name)
@@ -3073,8 +3097,11 @@ class Command:
         lines = [ln for ln in lines if ln]
         if not lines:
             return
-        app_proc(PROC_SET_CLIP,
-                 lines[0] if len(lines) == 1 else os.linesep.join(lines))
+        text = lines[0] if len(lines) == 1 else os.linesep.join(lines)
+        app_proc(PROC_SET_CLIP, text)
+        # a path copy is a copy: it must never enable move-on-paste
+        self._clip_last = text
+        self.action_cut_activate = False
 
     def action_copy_relative_path(self):
         def convert(file_path):
@@ -3115,15 +3142,29 @@ class Command:
         clip = self._clip_paths()
         if clip is not None:
             app_proc(PROC_SET_CLIP, clip)
-        self.action_cut_activate = True
+            self._clip_last = clip
+            # the marker only with a written clipboard: a cut that put
+            # nothing on the clipboard must not mark the next paste
+            self.action_cut_activate = True
 
     def action_copy(self):
         clip = self._clip_paths()
         if clip is not None:
             app_proc(PROC_SET_CLIP, clip)
+            self._clip_last = clip
+        # a copy NEVER means "move on paste": reset the marker even
+        # when nothing was written - the user's last intent was Copy
+        # (the bug: after any Cut, Ctrl+C + Ctrl+V moved the files)
+        self.action_cut_activate = False
 
     def action_paste(self):
         location = app_proc(PROC_GET_CLIP, '')
+        # the clipboard no longer holds what pm's Cut/Copy last wrote
+        # (it was replaced by another app or action): its content is
+        # not pm's cut anymore - pasting it must COPY, silently moving
+        # foreign content would be unexpected data loss
+        if self.action_cut_activate and (location != self._clip_last):
+            self.action_cut_activate = False
         # the clipboard may carry SEVERAL paths (a multi-selection copy
         # joins them with the OS newline): paste every valid line, the
         # single-path form is the old behavior

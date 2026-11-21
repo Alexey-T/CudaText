@@ -1,4 +1,22 @@
 2026.11.21 (@badrelmers)
+- Fix: Shift+click multi-selection killed the context menu (the
+  report: "selected file menu disappears and I cannot run the commands
+  inside it like delete; only ctrl+click works"). LCL's Shift+click
+  range selection clears the focused node and never re-focuses one
+  (TTreeNodes.MultiSelect calls ClearMultiSelection(True) ->
+  Selected := nil), while Ctrl+click keeps the focus on the previously
+  clicked node - so after a Shift+click there was NO current node and
+  the menu generator built no "Selected file/folder" sections at all.
+  The `selected` property now falls back to the last node of the
+  multi-selection when the tree has no focused node.
+- Fix: Copy (Ctrl+C) silently acted as Cut - after ANY Cut, the next
+  Copy left the move-on-paste marker on, so Ctrl+C + Ctrl+V MOVED the
+  files instead of copying them (an upstream bug: action_copy never
+  reset the marker). Every clipboard writer now keeps the marker
+  current (Copy and the path-copy commands reset it, Cut sets it only
+  when it actually wrote the clipboard), and a paste whose clipboard
+  was replaced outside the plugin always pastes as a copy - never
+  moves foreign content.
 - Fix: Ctrl/Shift+click multi-selection had no visible effect (the
   report: "still only one element selected"). Cause: init_panel calls
   TREE_THEME right after the tree is built, and the engine's
