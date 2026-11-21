@@ -217,18 +217,24 @@ Install one of the servers (clangd or ccls).
 ==== clangd ====
 : '''''[https://clangd.llvm.org/installation.html clangd homepage]'''''
 For Windows, you need the "clangd.exe" and "clang.exe" binaries. You can get them in two ways:
-# '''Standalone (lightweight)'''
-#* Download "clangd-windows-x.x.x.zip" from https://github.com/clangd/clangd/releases. Extract it and add the "bin" folder to your OS PATH.
-# '''Via compiler suites''' (needed for full auto-completion and headers)
-#* If you need clangd to correctly find your project headers and provide full auto-completion, it is better to get it via one of these tools:
-#** '''LLVM Toolchain:''' Download the LLVM installer from the LLVM GitHub releases. During installation, select "Add LLVM to the system PATH".
-#** '''MinGW/MSYS2:''' If you use MinGW, install the package "mingw-w64-x86_64-clang-tools-extra".
-#** '''Visual Studio Build Tools:''' Download from: https://visualstudio.microsoft.com/downloads/ (scroll to "Tools for Visual Studio" → "Build Tools for Visual Studio").
-#*** Run the installer and select the workload "Desktop development with C++".
-#*** In the optional components, ensure these are checked:
-#**** "C++ Clang tools for Windows"
-#**** The latest MSVC toolset (e.g., MSVC v143 or similar).
-#**** Windows SDK (usually selected by default).
+
+'''Standalone (lightweight)'''
+
+* Download "clangd-windows-x.x.x.zip" from https://github.com/clangd/clangd/releases.
+* Extract it and add the "bin" folder to your OS PATH.
+
+'''Via compiler suites''' (needed for full auto-completion and headers)
+
+If you need clangd to correctly find your project headers and provide full auto-completion, it is better to get it via one of these tools:
+
+* '''LLVM Toolchain:''' Download the LLVM installer from the LLVM GitHub releases. During installation, select "Add LLVM to the system PATH".
+* '''MinGW/MSYS2:''' If you use MinGW, install the package "mingw-w64-x86_64-clang-tools-extra".
+* '''Visual Studio Build Tools:''' Download from: https://visualstudio.microsoft.com/downloads/ (scroll to "Tools for Visual Studio" → "Build Tools for Visual Studio").
+** Run the installer and select the workload "Desktop development with C++".
+** In the optional components, ensure these are checked:
+*** "C++ Clang tools for Windows"
+*** The latest MSVC toolset (e.g., MSVC v143 or similar).
+*** Windows SDK (usually selected by default).
 
 ==== ccls ====
 * https://github.com/MaskRay/ccls/wiki/Build
