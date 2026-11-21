@@ -268,6 +268,13 @@ PROJECT SESSIONS (also on the toolbar button)
       closed - the full current state is saved as is, and the previously
       active session is updated with the same state.
 
+  New empty session (closes all tabs)
+      Prompts for a name and creates a brand-new EMPTY session of the
+      same project: the current session is saved first (nothing is
+      lost), all tabs close, and the new session - with no tabs -
+      becomes the active one. The project stays open; only the session
+      changes. Disabled without an open project.
+
   Delete session...
       Prompts to pick a session and deletes it from the project. The
       last remaining session cannot be deleted (a project is itself a
@@ -307,10 +314,10 @@ GENERAL (context menu top level)
       Same items as the toolbar sessions menu.
 
   Favorites >
-      The bookmarks submenu: "Show Favorites window..." first, then
-      "Add to favorites" (bookmarks the right-clicked node; disabled
-      when nothing is selected) and "Add opened..." - see FAVORITES
-      (BOOKMARKS) below.
+      The bookmarks submenu: "Show Favorites window...", "Find
+      favorites...", then "Add to favorites" (bookmarks the
+      right-clicked node; disabled when nothing is selected) and
+      "Add opened..." - see FAVORITES (BOOKMARKS) below.
 
   Project Manager options...
       Opens the plugin options dialog (see OPTIONS).
@@ -416,12 +423,14 @@ Cut/Copy/Paste, Rename, Delete, ...) live only in the context menu.
 
   Project sessions >
       Open session..., Save session, Save session as...,
+      New empty session (closes all tabs),
       Delete session..., Import external session... - the same items as
       the sessions menu of the panel.
 
   Favorites >
-      Show Favorites window..., Add to favorites: current file /
-      current folder / current project, Add opened... - see FAVORITES
+      Show Favorites window..., Find favorites..., Add to favorites:
+      current file / current folder / current project, Add opened... -
+      see FAVORITES
       (BOOKMARKS) below.
 
   Close tabs not belonging to project
@@ -449,9 +458,16 @@ THE FAVORITES WINDOW (toolbar button, or Favorites > Show Favorites
 window...)
   A resizable, non-modal window with three tabs: Projects, Files,
   Folders. The active tab and the sort order are remembered between
-  CudaText sessions. Columns: check | star | Name | Path | State; the
-  column widths are resizable (drag the divider between two header
-  captions), the Path column fills the remaining width.
+  CudaText sessions. Columns: check | star | Name | Path | [Attached
+  projects |] State - the "Attached projects" column exists only on the
+  Files and Folders tabs (see Attachments below); the column widths are
+  resizable (drag the divider between two header captions), the Path
+  column fills the remaining width.
+
+  Tab switching from the keyboard (from any focused control):
+      Ctrl+PgUp / Ctrl+PgDn     previous / next tab (wraps around)
+      Ctrl+Left / Ctrl+Right    previous / next tab (wraps around)
+      Alt+P / Alt+F / Alt+O     Projects / Files / Folders tab
 
   Checkbox column
       Check several rows, then run ONE command on all of them at once:
@@ -470,6 +486,11 @@ window...)
       dead favorite); its name is painted in the theme's accent color
       too. Sort by it to gather the dead favorites at one end.
 
+  Attached projects column (Files and Folders tabs)
+      The project favorites a file/folder favorite is attached to (see
+      Attachments below), comma-separated. Not sortable - click the
+      header of the other columns to sort.
+
   Filter
       The field at the top filters by name AND path as you type. Clear
       it by deleting the text (Ctrl+A / Backspace) - Esc does not touch
@@ -487,7 +508,10 @@ window...)
   Keyboard (active while the window has the focus):
       Ctrl+1..9 / Alt+1..9    open the favorite at that position
       Enter / double-click    open the selected favorite
-      Del                     delete it (from the favorites list)
+      Del                     delete it (from the favorites list) - but
+                              while the FILTER is focused, Del stays in
+                              the field and deletes the next letter, as
+                              in any editor
       F2                      rename it
       Space                   check/uncheck it
       Up / Down               cycle the list from ANY focused control
@@ -497,9 +521,49 @@ window...)
       Esc                     close the window
 
   Right-click menu: Open, Reveal in file manager, Copy path,
-  Star/Unstar, Rename..., Delete, the "Checked (N):" commands, Sort
-  commands, Add current file/folder/project. A right-click on the
-  header offers the Sort commands + Check/Uncheck all.
+  Star/Unstar, Rename..., Delete, the attachment commands (see
+  Attachments), the "Checked (N):" commands, Sort commands, Add current
+  file/folder/project. A right-click on the header offers the Sort
+  commands + Check/Uncheck all.
+
+ATTACHMENTS (files/folders <-> projects)
+  A file or folder favorite can be ATTACHED to one or several project
+  favorites - a simple link, handy to see which files/folders belong to
+  which projects.
+
+  Attach favorite to project...
+      (context menu of a file/folder favorite) A filterable list of the
+      project favorites opens (the CudaText list dialog with its own
+      filter field); pick one and the favorite attaches to it. It shows
+      up in the "Attached projects" column immediately.
+
+  Detach from project...
+      (context menu of a file/folder favorite) The same list, limited
+      to the projects the favorite is attached to; pick one to remove
+      that link.
+
+  Attach checked to project...
+      Bulk attach: check several files/folders (the checkbox column),
+      then run it from the "Checked" button menu or the right-click
+      menu - ONE picker, and every checked favorite attaches to the
+      picked project at once.
+
+  List attached files/folders...
+      (context menu of a PROJECT favorite) The filterable list of
+      everything attached to that project, prefixed file:/folder: and
+      "?" when the path is gone; Enter opens the picked entry.
+
+  Deleting a project favorite drops every link to it; deleting a
+  file/folder favorite drops its links. Attachments live in the
+  favorites json (see below).
+
+FIND FAVORITES
+  Favorites > Find favorites... (panel context menu, Plugins menu,
+  command palette): the CudaText list dialog - with its own filter
+  field - over ALL favorites at once. Every entry is prefixed
+  "project:", "file:" or "folder:", and a favorite whose path no longer
+  exists on disk gets "?" before its name. Enter opens the picked
+  favorite.
 
   "Delete" here only removes the BOOKMARK from the list - it never
   touches the file/folder on the disk.

@@ -1,4 +1,35 @@
 2026.11.21 (@badrelmers)
+- New session command "New empty session (closes all tabs)" (the
+  sessions menu, the sessions toolbar button and the panel context
+  menu): it saves the current session, re-points the app session to the
+  new slot, closes all tabs and saves the empty state as the new
+  session - the project stays open. The order (save current -> re-point
+  -> close -> save empty) keeps any autosave tick from ever clobbering
+  a session slot; a cancelled prompt or a missing project touches
+  nothing.
+- The Favorites window: the Projects / Files / Folders tabs switch from
+  the keyboard too - Ctrl+PgUp/PgDn and Ctrl+Left/Right cycle them
+  (with wrap-around), Alt+P / Alt+F / Alt+O jump directly, from any
+  focused control.
+- The Favorites window: while the filter field is focused, Del edits
+  the filter text (deletes the next letter, as in any editor); with
+  anything else focused it still deletes the selected favorite.
+- Attachments: a file/folder favorite can be attached to project
+  favorites - "Attach favorite to project..." in the context menu opens
+  the filterable project list, "Detach from project..." removes one
+  link, and "Attach checked to project..." (the Checked button and the
+  context menu) attaches every checked row to one picked project at
+  once. The Files and Folders tabs get an "Attached projects" column;
+  a project favorite's context menu gets "List attached files/folders..."
+  (the same filterable list; Enter opens the entry). Deleting a project
+  favorite drops every link to it, deleting a file/folder favorite
+  drops its links. The links live in the favorites json (the item's
+  "projects" key).
+- New command "Find favorites..." (the panel context menu, the Plugins
+  menu and the command palette): the CudaText list dialog - with its
+  own filter field - over ALL favorites, each entry prefixed
+  "project:" / "file:" / "folder:" and "?" before the name when its
+  path is gone; Enter opens the pick.
 - Fixed a "." folder auto-added to the panel at a start where the last
   project's file was deleted: the saved empty "opened_folder" option
   expanded to "." (os.path.normpath('') is '.'), and the folder restore

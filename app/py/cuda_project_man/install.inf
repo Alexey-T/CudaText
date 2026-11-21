@@ -169,6 +169,11 @@ section=commands
 caption=&Project Manager\Project sessions\Save session as...
 method=session_save_as
 
+[item31b]
+section=commands
+caption=&Project Manager\Project sessions\&New empty session (closes all tabs)
+method=session_new_empty
+
 [item32]
 section=commands
 caption=&Project Manager\Project sessions\Delete session...
@@ -203,6 +208,11 @@ method=_
 section=commands
 caption=&Project Manager\Favorites\Show Favorites &window...
 method=favorites_show
+
+[item42b]
+section=commands
+caption=&Project Manager\Favorites\&Find favorites...
+method=favorites_find
 
 [item44]
 section=commands

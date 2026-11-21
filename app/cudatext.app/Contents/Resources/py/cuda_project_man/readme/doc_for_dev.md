@@ -633,6 +633,14 @@ successful save).
   via listbox_proc). The plugin's owner-drawn rows and the header
   divider hit-tests use the same origin (favorites.LIST_INDENT), or
   every row column sits 4 px left of the header's.
+  The column SET is tab-dependent: the Files and Folders tabs show the
+  'Attached projects' column (COL_PROJECTS, between Path and State),
+  the Projects tab does not. The hidden column sits BEFORE State, so
+  the tab's columns cannot be sliced off self.cols - FavoritesForm
+  _col_const()/_live_col() map between the live (in-listbox) column
+  indexes and the self.cols/COL_* constants (sort clicks and divider
+  drags arrive with LIVE indexes, the drawing and widths use the
+  constants), and _apply_columns/_live_cols remove the column instead.
   The options-dialog dropdowns are 'editor_combo' controls
   (TATComboEdit - a TATSynEdit subclass): the dialog 'font_size' prop
   works on them directly, so they follow 'edit_font_size' and their

@@ -42,10 +42,12 @@ Main window (non-modal, resizable):
   dialog: its column header, items, selection and scrollbar all follow
   the theme, live, also when the theme is switched while CudaText runs;
   the list is ANCHORED to the form, so it grows/shrinks with the window
-- columns: check / star / Name / Path / State, separated by vertical
-  lines (painted with the rows). Every row is painted by the plugin
-  (on_draw_item owner-drawing) from the theme colors: checkbox, star
-  glyph, texts, column separators
+- columns: check / star / Name / Path / [Attached projects /] State,
+  separated by vertical lines (painted with the rows). Every row is
+  painted by the plugin (on_draw_item owner-drawing) from the theme
+  colors: checkbox, star glyph, texts, column separators. The
+  'Attached projects' column exists only on the Files and Folders
+  tabs (see the attachments paragraph below)
 - checkbox column: click it to check rows, then run one command on ALL
   checked favorites at once - open, star/unstar, copy paths, rename,
   move up/down (as a block), delete - from the "Checked" button or
@@ -62,11 +64,17 @@ Main window (non-modal, resizable):
   divider); the Path column is auto-stretched - it always fills the
   free width, also when the window is resized
 - filter field at the top filters by name and path
+- tab switching from the keyboard, from any focused control:
+  Ctrl+PgUp/PgDn and Ctrl+Left/Right cycle the Projects / Files /
+  Folders tabs (with wrap-around), Alt+P / Alt+F / Alt+O jump straight
+  to the Projects / Files / Folders tab
 - while the window is focused: Ctrl+1..9 / Alt+1..9 open the item at
   that index (index in the currently visible, filtered list), Enter
-  opens the selection, Del deletes it, F2 renames it, Space checks it,
+  opens the selection, F2 renames it, Space checks it,
   Alt+Up/Down move it, Up/Down cycle the list (from any focused
-  control, wrapping at the ends), Esc closes the window
+  control, wrapping at the ends), Esc closes the window. Del deletes
+  the SELECTED favorite - but while the filter field is focused, Del
+  stays in the field and deletes the next letter, as in any editor
 - the window is only HIDDEN on close and reused on the next open, so
   its size and position are kept for the whole CudaText session; they
   reset only when CudaText restarts (the size is not saved to disk: a
@@ -84,6 +92,22 @@ while CudaText runs.
 
 "Add opened..." shows the same chooser as "Add...": pick the opened
 project, the current editor file, or the folder of the current file.
+
+ATTACHMENTS: a file/folder favorite can be ATTACHED to one or several
+project favorites ("Attach favorite to project..." in the context
+menu; "Attach checked to project..." attaches every checked row of
+the tab to one picked project at once). The links live in the item's
+'projects' key of our json. The Files and Folders tabs show them in
+the 'Attached projects' column; a project favorite's context menu has
+"List attached files/folders..." (the same filterable list; picking
+an entry opens it). Deleting a project favorite drops every link to
+it; deleting a file/folder favorite drops its links with it.
+
+"Find favorites..." (the plugin menu, the panel context menu and the
+command palette) opens the dlg_menu list dialog - the CudaText API
+dialog with its own filter field and close icon - over ALL favorites,
+each entry prefixed 'project:' / 'file:' / 'folder:' and '?' before
+the name when the path is absent on disk; Enter opens the pick.
 
 Opening a favorite: project -> opened by Project Manager; file ->
 opened in the editor; folder -> simply opened in the OS file manager.
@@ -137,8 +161,11 @@ COL_CHECK = 0
 COL_STAR = 1
 COL_NAME = 2
 COL_PATH = 3
-COL_STATE = 4
-NCOLS = 5
+#: 'Attached projects' column - only shown on the Files and Folders
+#: tabs (the projects tab passes 5 columns to the listbox, see _ncols)
+COL_PROJECTS = 4
+COL_STATE = 5
+NCOLS = 6
 
 #: column separator inside listbox_ex item/header strings: a char that
 #: never appears in a name or path
@@ -152,6 +179,8 @@ CHECK_W = 38
 STAR_W = 46
 NAME_W = 210
 STATE_W = 54
+#: 'Attached projects' column (Files and Folders tabs only)
+PROJECTS_W = 150
 PATH_MIN_W = 160
 #: unscaled listbox row height (the header row has the same height)
 ITEM_H = 30
@@ -170,7 +199,7 @@ LIST_INDENT = 4
 #: half-width (px) of the header-divider drag zone
 RESIZE_GRIP = 6
 #: min widths (px, unscaled) of the columns while dragging
-COL_MIN_W = (24, 26, 60, 100, 34)
+COL_MIN_W = (24, 26, 60, 100, 40, 34)
 #: a drag must move this many px before it counts as a resize (below
 #: that, releasing over the header is a normal header click = sorting)
 DRAG_THRESHOLD = 4
@@ -527,6 +556,25 @@ class FavoritesCore:
                 seen.add(key)
                 it['name'] = str(it.get('name') or '') or _base_name(it['path'])
                 it['star'] = bool(it.get('star', False))
+                # 'projects': the project favorites this file/folder
+                # favorite is ATTACHED to - a list of unique non-empty
+                # paths (absent = attached to nothing)
+                projs = it.get('projects')
+                if isinstance(projs, list):
+                    pseen = set()
+                    pout = []
+                    for p in projs:
+                        if isinstance(p, str) and p:
+                            pk = _norm_path(p)
+                            if pk and pk not in pseen:
+                                pseen.add(pk)
+                                pout.append(p)
+                    if pout:
+                        it['projects'] = pout
+                    else:
+                        it.pop('projects', None)
+                else:
+                    it.pop('projects', None)
                 items.append(it)
             self.data[cat] = items
         # tombstones: a flat list of unique paths
@@ -660,6 +708,10 @@ class FavoritesCore:
         if 0 <= index < len(self.data[cat]):
             path = self.data[cat][index]['path']
             del self.data[cat][index]
+            # deleting a PROJECT favorite drops every attachment to it
+            # (no dangling links in the 'Attached projects' column)
+            if cat == 'projects':
+                self.detach_all_of_project(path)
             # remember the deletion so the one-way import from
             # cuda_favorites.json does not bring the entry back
             if not self._is_deleted(path):
@@ -677,6 +729,9 @@ class FavoritesCore:
         removed = [self.data[cat][i]['path'] for i in sorted(idxset)]
         self.data[cat] = [it for i, it in enumerate(self.data[cat])
                           if i not in idxset]
+        if cat == 'projects':
+            for p in removed:
+                self.detach_all_of_project(p)
         for p in removed:
             if not self._is_deleted(p):
                 self.deleted.append(p)
@@ -707,6 +762,97 @@ class FavoritesCore:
             self.save()
             return True
         return False
+
+    #------------- attachments (files/folders <-> projects)
+
+    def attach(self, cat, index, proj_path):
+        """Attach a file/folder favorite to a project favorite (its
+        path). Returns True when the attachment was added, False when
+        it existed already."""
+        if not (0 <= index < len(self.data[cat])):
+            return False
+        it = self.data[cat][index]
+        projs = it.get('projects')
+        if not isinstance(projs, list):
+            projs = []
+        key = _norm_path(proj_path)
+        if any(_norm_path(p) == key for p in projs):
+            return False
+        projs.append(str(proj_path))
+        it['projects'] = projs
+        self.save()
+        return True
+
+    def detach(self, cat, index, proj_path):
+        """Remove one attachment. Returns True when it was removed."""
+        if not (0 <= index < len(self.data[cat])):
+            return False
+        it = self.data[cat][index]
+        projs = it.get('projects')
+        if not isinstance(projs, list):
+            return False
+        key = _norm_path(proj_path)
+        new = [p for p in projs if _norm_path(p) != key]
+        if len(new) == len(projs):
+            return False
+        if new:
+            it['projects'] = new
+        else:
+            it.pop('projects', None)
+        self.save()
+        return True
+
+    def attached_projects(self, cat, index):
+        """Paths of the project favorites the item is attached to."""
+        if 0 <= index < len(self.data[cat]):
+            return list(self.data[cat][index].get('projects') or [])
+        return []
+
+    def attached_items_of(self, proj_path):
+        """[(cat, item)] of every file/folder favorite attached to the
+        project favorite at proj_path (data order)."""
+        key = _norm_path(proj_path)
+        res = []
+        for cat in ('files', 'folders'):
+            for it in self.data[cat]:
+                if any(_norm_path(p) == key
+                       for p in it.get('projects') or []):
+                    res.append((cat, it))
+        return res
+
+    def detach_all_of_project(self, proj_path):
+        """Drop every attachment to proj_path (the project favorite was
+        deleted - the links must not dangle). Pure data op, NO save:
+        the callers save. Returns the number of dropped links."""
+        key = _norm_path(proj_path)
+        n = 0
+        for cat in ('files', 'folders'):
+            for it in self.data[cat]:
+                projs = it.get('projects')
+                if not isinstance(projs, list):
+                    continue
+                new = [p for p in projs if _norm_path(p) != key]
+                if len(new) != len(projs):
+                    n += len(projs) - len(new)
+                    if new:
+                        it['projects'] = new
+                    else:
+                        it.pop('projects', None)
+        return n
+
+    def project_display_name(self, proj_path):
+        """Caption for an attached project path: the project FAVORITE's
+        name when it is still in the list, else the file base name
+        (minus the .cuda-proj extension) - a dangling link still shows
+        something readable."""
+        key = _norm_path(proj_path)
+        for it in self.data['projects']:
+            if _norm_path(it['path']) == key:
+                return it['name']
+        base = _base_name(proj_path)
+        if base.lower().endswith(PROJECT_EXTENSION):
+            base = base[:-len(PROJECT_EXTENSION)]
+        return base or proj_path
 
     #------------- views (sorted/filtered)
 
@@ -831,8 +977,9 @@ class FavoritesForm:
         #: a resize drag just ended: swallow the header-click (sort)
         #: that the release would fire
         self._suppress_header_click = False
-        #: column widths [check, star, name, path, state], scaled px
-        self.cols = [CHECK_W, STAR_W, NAME_W, 400, STATE_W]
+        #: column widths [check, star, name, path, projects, state],
+        #: scaled px (path = 0: auto-stretched by the listbox)
+        self.cols = [CHECK_W, STAR_W, NAME_W, 400, PROJECTS_W, STATE_W]
 
     def _ui_get(self, key, default):
         # plain dict access, cannot fail - no error handling wanted
@@ -841,6 +988,30 @@ class FavoritesForm:
 
     def cat(self):
         return CATS[self.tab] if 0 <= self.tab < len(CATS) else 'files'
+
+    def _ncols(self):
+        """Columns the listbox gets for the ACTIVE tab: 6 on the Files
+        and Folders tabs (the 'Attached projects' column is shown
+        there), 5 on the Projects tab."""
+        return NCOLS if self.cat() in ('files', 'folders') else NCOLS - 1
+
+    def _col_const(self, live_i):
+        """Index in self.cols of the LIVE (in-listbox) column live_i.
+        The Projects tab hides COL_PROJECTS, so every live column after
+        it sits one further left in self.cols."""
+        if self._ncols() < NCOLS and live_i >= COL_PROJECTS:
+            return live_i + 1
+        return live_i
+
+    def _live_col(self, col):
+        """Live (in-listbox) index of the self.cols index `col`; None
+        for the column hidden on the Projects tab (COL_PROJECTS)."""
+        if self._ncols() < NCOLS:
+            if col == COL_PROJECTS:
+                return None
+            if col > COL_PROJECTS:
+                return col - 1
+        return col
 
     #------------- dialog construction
 
@@ -899,6 +1070,7 @@ class FavoritesForm:
             int(STAR_W * scale),
             int(NAME_W * scale),
             0,   # Path: auto-stretched by the listbox (column size 0)
+            int(PROJECTS_W * scale),
             int(STATE_W * scale),
         ]
         try:
@@ -1427,8 +1599,12 @@ class FavoritesForm:
         minus the vertical scrollbar when the rows overflow it).
         self.cols keeps the SET sizes; this returns what is actually
         painted - used for hit-testing (checkbox/star cells) and for
-        the header divider positions."""
+        the header divider positions. Only the ACTIVE tab's columns
+        are considered (the Projects tab hides the 'Attached projects'
+        column - it is removed, not sliced: it sits BEFORE State)."""
         cols = list(self.cols)
+        if self._ncols() < NCOLS:
+            del cols[COL_PROJECTS]
         if 0 not in cols:
             return cols
         w = self._live_list_w()
@@ -1498,25 +1674,35 @@ class FavoritesForm:
         return base + (' ↓' if self.sort_desc else ' ↑')
 
     def _header_text(self):
-        """The themed header line: 'All | ★ | Name | Path | State' with
-        the sort arrow on the active column. The first cell ('All')
-        toggles all checkboxes when clicked."""
-        return LIST_SEP.join([
+        """The themed header line: 'All | ★ | Name | Path | [Attached
+        projects |] State' with the sort arrow on the active column.
+        The first cell ('All') toggles all checkboxes when clicked. The
+        'Attached projects' cell only exists on the Files and Folders
+        tabs."""
+        cells = [
             _('All'),
             '★',
             self._sort_caption('name', _('Name')),
             self._sort_caption('path', _('Path')),
-            self._sort_caption('state', _('State')),
-        ])
+        ]
+        if self._ncols() == NCOLS:
+            cells.append(_('Attached projects'))
+        cells.append(self._sort_caption('state', _('State')))
+        return LIST_SEP.join(cells)
 
     def _apply_columns(self):
         """Push the column widths + the header line into the listbox
-        (this repaints the themed header)."""
+        (this repaints the themed header). Only the ACTIVE tab's
+        columns are passed - the Projects tab has no 'Attached
+        projects' column (removed, not sliced: it sits BEFORE State)."""
         if not self.h_list:
             return
+        cols = list(self.cols)
+        if self._ncols() < NCOLS:
+            del cols[COL_PROJECTS]
         try:
             listbox_proc(self.h_list, LISTBOX_SET_COLUMNS,
-                         text=[int(c) for c in self.cols])
+                         text=[int(c) for c in cols])
             listbox_proc(self.h_list, LISTBOX_SET_HEADER,
                          text=self._header_text())
         except Exception:
@@ -1548,7 +1734,9 @@ class FavoritesForm:
         self.view = self.core.view(cat, self.sort_col, self.sort_desc, self.filter)
 
         # what is shown: the dead state is computed ONCE here, not on
-        # every repaint (os.path.exists on each paint would be slow)
+        # every repaint (os.path.exists on each paint would be slow);
+        # so is the 'Attached projects' text (name lookups per paint
+        # would be slow too)
         self.rows = [{
             'data_idx': data_idx,
             'path': it['path'],
@@ -1556,6 +1744,8 @@ class FavoritesForm:
             'star': bool(it['star']),
             'dead': not os.path.exists(it['path']),
             'checked': _norm_path(it['path']) in self.checked,
+            'projects': ', '.join(self.core.project_display_name(p)
+                                  for p in it.get('projects') or []),
         } for (data_idx, it) in self.view]
 
         # items: the visible text is painted by on_draw_item, the item
@@ -1833,16 +2023,35 @@ class FavoritesForm:
                              path_w, row_h,
                              row['path'], path_col)
 
-        # state (col 4): fill to the right edge (covers a long path),
-        # then the centered '?' for dead paths
+        # attached projects (col 4, Files/Folders tabs only): refill
+        # its background first (covers a long path bleeding into it),
+        # then the joined project names, dimmed like the path
+        lc_proj = self._live_col(COL_PROJECTS)
+        if lc_proj is not None:
+            try:
+                canvas_proc(cnv, CANVAS_SET_BRUSH, color=bg,
+                            style=BRUSH_SOLID)
+                canvas_proc(cnv, CANVAS_RECT_FILL,
+                            x=bounds[lc_proj][0], y=y0,
+                            x2=bounds[lc_proj][1], y2=y1)
+            except Exception:
+                log_error('Favorites: cannot draw the projects cell')
+            self._draw_text_cell(cnv, bounds[lc_proj][0], y0,
+                                 self.cols[COL_PROJECTS], row_h,
+                                 row['projects'], path_col)
+
+        # state (always the LAST live column - State on both layouts):
+        # fill to the right edge (covers a long path), then the
+        # centered '?' for dead paths
+        lc_state = len(bounds) - 1
         try:
             canvas_proc(cnv, CANVAS_SET_BRUSH, color=bg, style=BRUSH_SOLID)
-            canvas_proc(cnv, CANVAS_RECT_FILL, x=bounds[COL_STATE][0], y=y0,
+            canvas_proc(cnv, CANVAS_RECT_FILL, x=bounds[lc_state][0], y=y0,
                         x2=x1, y2=y1)
         except Exception:
             log_error('Favorites: cannot draw the state cell')
         if row['dead']:
-            self._draw_text_cell(cnv, bounds[COL_STATE][0], y0,
+            self._draw_text_cell(cnv, bounds[lc_state][0], y0,
                                  self.cols[COL_STATE], row_h,
                                  '?', th['dead'], centered=True)
 
@@ -1876,6 +2085,27 @@ class FavoritesForm:
         except Exception:
             self.filter = ''
         self.fill_list(keep_selection=False)
+
+    def switch_tab(self, delta, target=None):
+        """Switch the tab strip from the KEYBOARD: delta -1/+1 cycles
+        the tabs with wrap-around (Ctrl+PgUp/PgDn, Ctrl+Left/Right),
+        `target` jumps to that tab index (Alt+P/F/O). Falls through to
+        on_tab_button, which does the recolor + refill."""
+        if target is None:
+            target = (self.tab + delta) % len(CATS)
+        if 0 <= target < len(CATS):
+            self.on_tab_button(target)
+
+    def _filter_focused(self):
+        """True while the filter editor control owns the keyboard focus
+        (the Del key edits the filter text then - see form_on_key)."""
+        try:
+            return bool(self._filter_ed
+                        and self._filter_ed.get_prop(PROP_FOCUSED))
+        # intentional silence: a dead editor object (the window is
+        # closing) - 'not focused'
+        except Exception:
+            return False
 
     def on_tab_button(self, index):
         """A tab was clicked: switch the category (the strip is
@@ -1999,7 +2229,9 @@ class FavoritesForm:
         if col == COL_CHECK:
             self._toggle_check_all()
             return
-        self.sort_by_column(col)
+        # col is the LIVE column index (the Projects tab hides the
+        # 'Attached projects' cell) - the sort works on the constants
+        self.sort_by_column(self._col_const(col))
 
     def _toggle_check_all(self):
         """The 'All' header cell: check everything, or uncheck when
@@ -2032,7 +2264,7 @@ class FavoritesForm:
         best_d = RESIZE_GRIP
         pos = LIST_INDENT   # the engine's grid origin (see _col_bounds)
         cols = self._live_cols()
-        for k in range(NCOLS - 1):
+        for k in range(len(cols) - 1):
             pos += cols[k]
             d = abs(x - pos)
             if d <= best_d:
@@ -2075,16 +2307,22 @@ class FavoritesForm:
         if k < 0:
             return
         # which column the drag resizes: normally the one LEFT of the
-        # divider; but the Path|State divider resizes STATE - the Path
-        # column is auto-stretched (size 0), it must stay 0 and simply
-        # absorbs whatever width is left, so the divider still follows
-        # the mouse exactly
-        k_col = COL_STATE if k == COL_PATH else k
+        # divider; but the divider right of the auto-stretched Path
+        # column (size 0) resizes the column AFTER it - Path must stay
+        # 0 and simply absorbs whatever width is left, so the divider
+        # still follows the mouse exactly ('Attached projects' on the
+        # Files/Folders tabs, State on the Projects tab). k is a LIVE
+        # column index (the Projects tab hides 'Attached projects');
+        # k_col maps it back to the self.cols index
+        live = self._live_cols()
+        li = k + 1 if k == COL_PATH else k
+        if not (0 <= li < len(live)):
+            return
+        k_col = self._col_const(li)
         self._col_drag = {
             'col': k_col,
             'x0': x,
-            'orig_w': self.cols[k_col] if self.cols[k_col] > 0
-                      else self._live_cols()[k_col],
+            'orig_w': self.cols[k_col] if self.cols[k_col] > 0 else live[li],
             'sign': -1 if k == COL_PATH else 1,
             'moved': False,
         }
@@ -2172,6 +2410,8 @@ class FavoritesForm:
 
         row = None if on_header else self.selected_row()
         nchecked = sum(1 for r in self.rows if r['checked'])
+        cat = self.cat()
+        attachable = cat in ('files', 'folders')
         menu = menu_proc(0, MENU_CREATE)
         menu_proc(menu, MENU_CLEAR)
 
@@ -2208,21 +2448,39 @@ class FavoritesForm:
         add(_('Rename...') + ' (F2)', 'rename', row is not None)
         add(_('Delete') + ' (Del)', 'delete', row is not None)
 
+        # attachments: files/folders attach TO a project favorite,
+        # a project favorite lists what is attached TO IT
+        if attachable:
+            menu_proc(menu, MENU_ADD, caption='-')
+            add(_('Attach favorite to project...'), 'attach',
+                row is not None and bool(self.core.data['projects']))
+            add(_('Detach from project...'), 'detach',
+                row is not None and bool(row and row['projects']))
+        else:
+            menu_proc(menu, MENU_ADD, caption='-')
+            add(_('List attached files/folders...'), 'list_attached',
+                row is not None)
+
         # commands on ALL checked favorites
         menu_proc(menu, MENU_ADD, caption='-')
         cap = _('Checked ({}):').format(nchecked) if nchecked else _('Checked (none):')
         add(cap, None, False)
-        for caption, action in (
-                (_('Open all checked'), 'ck_open'),
-                (_('Star all checked'), 'ck_star'),
-                (_('Unstar all checked'), 'ck_unstar'),
-                (_('Copy paths of checked'), 'ck_copy'),
-                (_('Rename checked...'), 'ck_rename'),
-                (_('Move checked up'), 'ck_up'),
-                (_('Move checked down'), 'ck_down'),
-                (_('Delete checked...'), 'ck_delete'),
-                (_('Uncheck all'), 'ck_uncheck'),
-        ):
+        ck_items = [
+            (_('Open all checked'), 'ck_open'),
+            (_('Star all checked'), 'ck_star'),
+            (_('Unstar all checked'), 'ck_unstar'),
+            (_('Copy paths of checked'), 'ck_copy'),
+            (_('Rename checked...'), 'ck_rename'),
+            (_('Move checked up'), 'ck_up'),
+            (_('Move checked down'), 'ck_down'),
+            (_('Delete checked...'), 'ck_delete'),
+            (_('Uncheck all'), 'ck_uncheck'),
+        ]
+        if attachable:
+            # bulk attach: check several files/folders, pick ONE
+            # project, all checked items attach to it at once
+            ck_items.insert(1, (_('Attach checked to project...'), 'ck_attach'))
+        for caption, action in ck_items:
             add(caption, action, nchecked > 0)
 
         menu_proc(menu, MENU_ADD, caption='-')
@@ -2256,12 +2514,36 @@ class FavoritesForm:
                 msg_status(_('Favorites: no item at #{}').format(n + 1))
             return False  # block key
 
+        # Ctrl+PgUp/PgDn and Ctrl+Left/Right: switch the Projects /
+        # Files / Folders tabs (cycling with wrap-around), from any
+        # focused control - the same switching as clicking a tab
+        if 'c' in mods and 'a' not in mods and 's' not in mods:
+            if key in (VK_PAGEUP, VK_LEFT):
+                self.switch_tab(-1)
+                return False
+            if key in (VK_PAGEDOWN, VK_RIGHT):
+                self.switch_tab(+1)
+                return False
+
+        # Alt+P / Alt+F / Alt+O: jump straight to the Projects / Files
+        # / Folders tab (VK letter codes are the UPPERCASE ords)
+        if 'a' in mods and 'c' not in mods and 's' not in mods:
+            for i, ch in enumerate((ord('P'), ord('F'), ord('O'))):
+                if key == ch:
+                    self.switch_tab(0, target=i)
+                    return False
+
         # plain keys
         if 'a' not in mods and 'c' not in mods and 's' not in mods and 'm' not in mods:
             if key == VK_ENTER:
                 self.open_selected()
                 return False
             if key == VK_DELETE:
+                # Del edits the FILTER while it is focused (deletes the
+                # next letter, the editor's usual Del) and deletes the
+                # SELECTED favorite otherwise
+                if self._filter_focused():
+                    return None
                 self.delete_selected()
                 return False
             if key == VK_F2:
@@ -2483,6 +2765,115 @@ class FavoritesForm:
         # deferred, like opening (see _open_paths)
         timer_proc(TIMER_START_ONE, do_reveal, OPEN_DELAY_MS)
 
+    #------------- attachment actions (files/folders <-> projects)
+
+    def _choose_project_favorite(self):
+        """The project-favorite picker of 'Attach favorite to project':
+        a filterable dlg_menu over the project favorites (name; the
+        path too when several favorites share one name). Returns the
+        chosen item dict, or None (cancelled / no project favorites)."""
+        items = self.core.data['projects']
+        if not items:
+            msg_status(_('Favorites: no project favorites - add the project first'))
+            return None
+        names = [it['name'] for it in items]
+        dup = {n for n in names if names.count(n) > 1}
+        caps = [it['name'] if it['name'] not in dup
+                else '{} — {}'.format(it['name'], it['path'])
+                for it in items]
+        res = dlg_menu(DMENU_LIST, caps,
+                       caption=_('Attach to which project favorite?'))
+        if res is None:
+            return None
+        return items[res]
+
+    def attach_selected(self):
+        """Context 'Attach favorite to project...': attach the selected
+        file/folder favorite to a picked project favorite."""
+        row = self.selected_row()
+        if row is None:
+            return
+        proj = self._choose_project_favorite()
+        if proj is None:
+            return
+        data_idx = self.core.find(self.cat(), row['path'])
+        if data_idx < 0:
+            return
+        if self.core.attach(self.cat(), data_idx, proj['path']):
+            msg_status(_('Favorites: attached to "{}"').format(proj['name']))
+        else:
+            msg_status(_('Favorites: already attached to "{}"').format(proj['name']))
+        self.fill_list()
+
+    def detach_selected(self):
+        """Context 'Detach from project...': pick one of the item's
+        attached projects and remove that link."""
+        row = self.selected_row()
+        if row is None:
+            return
+        data_idx = self.core.find(self.cat(), row['path'])
+        if data_idx < 0:
+            return
+        projs = self.core.attached_projects(self.cat(), data_idx)
+        if not projs:
+            msg_status(_('Favorites: not attached to any project'))
+            return
+        caps = [self.core.project_display_name(p) for p in projs]
+        res = dlg_menu(DMENU_LIST, caps, caption=_('Detach from which project?'))
+        if res is None:
+            return
+        self.core.detach(self.cat(), data_idx, projs[res])
+        msg_status(_('Favorites: detached'))
+        self.fill_list()
+
+    def list_attached_selected(self):
+        """Context 'List attached files/folders...' (Projects tab):
+        the filterable list of everything attached to the selected
+        project favorite; picking an entry opens it."""
+        row = self.selected_row()
+        if row is None:
+            return
+        items = self.core.attached_items_of(row['path'])
+        if not items:
+            msg_status(_('Favorites: nothing attached to this project'))
+            return
+        caps = []
+        for cat, it in items:
+            prefix = _('file:') if cat == 'files' else _('folder:')
+            dead = '' if os.path.exists(it['path']) else '?'
+            caps.append('{} {}{} — {}'.format(prefix, dead, it['name'],
+                                              it['path']))
+        res = dlg_menu(DMENU_LIST, caps,
+                       caption=_('Attached to: ') + row['name'])
+        if res is None:
+            return
+        self._open_paths([items[res][1]['path']])
+
+    def op_checked_attach(self):
+        """Bulk attach: every CHECKED file/folder favorite of the tab
+        attaches to ONE picked project favorite at once (already
+        attached items are skipped, one save)."""
+        rows = self._checked_or_status()
+        if not rows:
+            return
+        if self.cat() not in ('files', 'folders'):
+            return
+        proj = self._choose_project_favorite()
+        if proj is None:
+            return
+        cat = self.cat()
+        done = 0
+        for r in rows:
+            if 0 <= r['data_idx'] < len(self.core.data[cat]):
+                if self.core.attach(cat, r['data_idx'], proj['path']):
+                    done += 1
+        if done:
+            msg_status(_('Favorites: attached {} item(s) to "{}"').format(
+                done, proj['name']))
+        else:
+            msg_status(_('Favorites: already attached to "{}"').format(proj['name']))
+        self.fill_list()
+
     def btn_open_click(self, id_dlg, id_ctl, data='', info=''):
         self.open_selected()
 
@@ -2679,17 +3070,20 @@ class FavoritesForm:
 
         cap = _('Checked ({}):').format(nchecked) if nchecked else _('Checked (none):')
         add(cap, None, False)
-        for caption, action in (
-                (_('Open all checked'), 'ck_open'),
-                (_('Star all checked'), 'ck_star'),
-                (_('Unstar all checked'), 'ck_unstar'),
-                (_('Copy paths of checked'), 'ck_copy'),
-                (_('Rename checked...'), 'ck_rename'),
-                (_('Move checked up'), 'ck_up'),
-                (_('Move checked down'), 'ck_down'),
-                (_('Delete checked...'), 'ck_delete'),
-                (_('Uncheck all'), 'ck_uncheck'),
-        ):
+        ck_items = [
+            (_('Open all checked'), 'ck_open'),
+            (_('Star all checked'), 'ck_star'),
+            (_('Unstar all checked'), 'ck_unstar'),
+            (_('Copy paths of checked'), 'ck_copy'),
+            (_('Rename checked...'), 'ck_rename'),
+            (_('Move checked up'), 'ck_up'),
+            (_('Move checked down'), 'ck_down'),
+            (_('Delete checked...'), 'ck_delete'),
+            (_('Uncheck all'), 'ck_uncheck'),
+        ]
+        if self.cat() in ('files', 'folders'):
+            ck_items.insert(1, (_('Attach checked to project...'), 'ck_attach'))
+        for caption, action in ck_items:
             add(caption, action, nchecked > 0)
         menu_proc(menu, MENU_SHOW, command='')
 
@@ -2751,6 +3145,14 @@ class FavoritesForm:
             self.op_checked_delete()
         elif action == 'ck_uncheck':
             self.op_checked_uncheck()
+        elif action == 'ck_attach':
+            self.op_checked_attach()
+        elif action == 'attach':
+            self.attach_selected()
+        elif action == 'detach':
+            self.detach_selected()
+        elif action == 'list_attached':
+            self.list_attached_selected()
         elif action == 'open':
             self.open_selected()
         elif action == 'reveal':
@@ -2946,3 +3348,40 @@ def context_action(action):
     command _favorites_ctx)."""
     if _form is not None and _form.h:
         _form.context_action(action)
+
+
+def find_favorites():
+    """Command 'Find favorites...': the dlg_menu list dialog (the
+    CudaText API dialog with its own FILTER field and close icon) over
+    ALL favorites - projects, files, folders - every entry prefixed
+    'project:' / 'file:' / 'folder:'; a favorite whose path is absent
+    on disk gets '?' before its name. Enter opens the picked favorite
+    (from a timer, like every open of this plugin - see _open_paths).
+    Returns True when something was picked."""
+    core = refresh_core()[0]
+    caps = []
+    entries = []   # (cat, path) in the same order
+    for cat, prefix in (('projects', _('project:')),
+                        ('files', _('file:')),
+                        ('folders', _('folder:'))):
+        for it in core.data[cat]:
+            dead = '?' if not os.path.exists(it['path']) else ''
+            caps.append('{} {}{} — {}'.format(prefix, dead, it['name'],
+                                              it['path']))
+            entries.append((cat, it['path']))
+    if not caps:
+        msg_status(_('Favorites: nothing saved yet'))
+        return False
+    res = dlg_menu(DMENU_LIST, caps, caption=_('Find favorites'))
+    if res is None:
+        return False
+    path = entries[res][1]
+
+    def do_open(tag=None):
+        try:
+            open_item(path)
+        except Exception:
+            log_error('Favorites: cannot open favorite: ' + str(path))
+
+    timer_proc(TIMER_START_ONE, do_open, OPEN_DELAY_MS)
+    return True

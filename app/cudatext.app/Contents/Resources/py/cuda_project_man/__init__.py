@@ -5865,6 +5865,12 @@ class Command:
         folders in one resizable manager dialog."""
         _favorites.show_favorites()
 
+    def favorites_find(self):
+        """'Find favorites...' - the CudaText list dialog (with its own
+        filter field) over ALL favorites, prefixed project:/file:/
+        folder: and '?' for absent paths; Enter opens the pick."""
+        _favorites.find_favorites()
+
     def favorites_add_current_file(self):
         """Bookmark the file open in the editor."""
         _favorites.add_current_file()
@@ -5985,6 +5991,10 @@ class Command:
         if not self.project_file_path:
             menu_proc(id, MENU_SET_ENABLED, command=False)
 
+        id = menu_proc(menu, MENU_ADD, command='cuda_project_man.session_new_empty', caption=_('New empty session (closes all tabs)'))
+        if not self.project_file_path:
+            menu_proc(id, MENU_SET_ENABLED, command=False)
+
         id = menu_proc(menu, MENU_ADD, command='cuda_project_man.session_delete', caption=_('Delete session...'))
         # a project must always keep at least one session
         if len(names) < 2:
@@ -5996,12 +6006,16 @@ class Command:
 
     def fill_favorites_menu(self, menu):
         """Fill the context-menu "Favorites" submenu: the Favorites
-        window first (the most used command), then the add-commands
-        (the same items as the Plugins-menu Favorites submenu - see
-        the Favorites > items in install.inf)."""
+        window first (the most used command), then Find favorites, then
+        the add-commands (the same items as the Plugins-menu Favorites
+        submenu - see the Favorites > items in install.inf)."""
         menu_proc(menu, MENU_ADD,
                   command='cuda_project_man.favorites_show',
                   caption=_('Show Favorites window...'))
+
+        menu_proc(menu, MENU_ADD,
+                  command='cuda_project_man.favorites_find',
+                  caption=_('Find favorites...'))
 
         menu_proc(menu, MENU_ADD, caption='-')
 
@@ -7591,6 +7605,71 @@ class Command:
         # save-as falls back to the stat-cached file read.
         if s not in self.project.get('sessions', {}):
             self._sync_sessions_from_disk()
+
+    @_with_backup_cause('on session save')
+    def session_new_empty(self):
+        """Menu command 'New empty session (closes all tabs)': save the
+        current session, then switch the project to a brand-new EMPTY
+        session and close all tabs - the project stays open, only the
+        session changes.
+
+        Order matters (no session is ever clobbered):
+        1. the current editor state is saved into the session it
+           belongs to (the project's active slot, or the app session
+           file when the pointer sits outside the project) - the close
+           below loses nothing;
+        2. the app session pointer is re-pointed to the NEW slot
+           BEFORE any tab is closed: a session-autosave tick in between
+           writes the still-open tabs into the new slot (overwritten by
+           the final empty save), never into the just-saved old slot;
+        3. all tabs close (silently only when the state was stored;
+           otherwise CudaText asks 'save changes?' per tab);
+        4. PROC_SAVE_SESSION of the empty state CREATES the session in
+           the project file. No load runs - the empty state is already
+           current, so close_all_tabs (not a session load) owns the
+           closing."""
+
+        fn = str(self.project_file_path) if self.project_file_path else ''
+        if not fn:
+            msg_status(_('No project open'))
+            return
+
+        names = self.session_get_names()
+        s = 'new'
+        while True:
+            s = dlg_input(_('New empty session name:'), s)
+            if s is None:
+                return
+            s = s.strip()
+            if not s:
+                msg_status(_('Empty session name'))
+                continue
+            if not is_session_name(s):
+                msg_status(_('Not allowed char(s) in the session name'))
+                continue
+            if s in names:
+                msg_status(_('Session "%s" already exists') % s)
+                continue
+            break
+
+        # 1. save the current state into the session owning it
+        saved = self._save_session_before_close_tabs()
+        if saved:
+            # the state (incl. the text of modified/untitled tabs) is
+            # stored: the close needs no prompt
+            self._clear_modified_all_tabs()
+
+        # 2. re-point before closing (see the docstring)
+        ptr_new = fn + '|/sessions/' + s
+        self._set_session(ptr_new)
+
+        # 3. close all tabs
+        self.close_all_tabs(silent=saved)
+
+        # 4. the empty state becomes the new session
+        app_proc(PROC_SAVE_SESSION, ptr_new)
+        self._sync_sessions_from_disk()
+        msg_status(_('Created empty session: ') + s)
 
     def session_load_menu(self):
 
