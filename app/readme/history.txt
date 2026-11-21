@@ -3,6 +3,8 @@
   - fixed
   * changed
 
+- fix: don't over-scale toolbar/sidebar buttons for "ui_scale":150 (thanks @NeroWolfe75)
+
 1.240.0 (2026/11)
 
 + add: new API to show Markdown with formatting/tables/pictures/bullets; it will be used in LSP_Client and later in other plugins (thanks @badrelmers)
