@@ -396,6 +396,29 @@ current level whose name starts with the typed text - "myf" selects
 typed text is forgotten after about a second of pause. Like in Windows
 Explorer, the search is scoped to the folder you are in.
 
+Multi-selection (Ctrl+click toggles a node, Shift+click selects the
+range from the focused node): while several nodes are selected, the
+commands act on the WHOLE selection -
+
+- Space / Enter / double-click opens every selected FILE (folders are
+  skipped);
+- Del untracks the selected root nodes and moves the selected inner
+  files/folders to the OS trash, with ONE grouped confirmation per kind
+  (the safety rules of the single-item delete apply unchanged: a root
+  node is never deleted from the disk, permanent deletion only on an OS
+  without trash support, after the explicit warning);
+- Ctrl+C / Ctrl+X copy/cut every selected path (several paths are
+  joined with the OS newline; Ctrl+V in the tree pastes them all);
+- "Copy path" / "Copy relative path" put every selected path on the
+  clipboard, one per line;
+- "Add to favorites" adds every selected node;
+- "Open in default application" opens every selected file.
+
+Commands that work on exactly ONE node (rename, properties, new
+file/folder, drag&drop, type-ahead) still act on the focused node.
+Any tree refresh (F5, node changes) rebuilds the tree and clears the
+multi-selection.
+
 
 ------------------------------------------------------------------------------
 PLUGINS MENU COMMANDS
@@ -584,9 +607,13 @@ FIND FAVORITES
   touches the file/folder on the disk.
 
 WHERE THE DATA LIVES
-  settings/cuda_project_man_favorites.json (in the CudaText settings
-  folder). Each entry keeps its path, display name (rename with F2) and
-  star flag. The file is created on the first change.
+  settings/cuda_project_man_store.json (in the CudaText settings
+  folder) - the state store shared with the Project Manager itself
+  (recent projects, the opened folder); the favorites sit in its
+  "favorites" namespace. Each entry keeps its path, display name
+  (rename with F2) and star flag. The file is created on the first
+  change. An older version kept the favorites in a file of their own,
+  cuda_project_man_favorites.json - it is imported once and removed.
 
 IMPORT FROM THE "FAVORITES" PLUGIN (cuda_favorites)
   If you also use kvichans' "Favorites" plugin, its
@@ -915,6 +942,11 @@ KEYBOARD SHORTCUTS (project tree)
                                  selected folder; the focus moves to
                                  the editor (same as double-click,
                                  issue #6441)
+  Ctrl+click / Shift+click       multi-selection (see below): Ctrl
+                                 toggles a node in/out of the
+                                 selection, Shift selects the range
+                                 from the focused node; a click with
+                                 Ctrl/Shift held never opens a file
   double-click                   open the selected file: in "open by
                                  double-click" mode it opens and
                                  focuses the editor; in the default

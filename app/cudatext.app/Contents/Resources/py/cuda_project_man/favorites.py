@@ -1,7 +1,11 @@
 '''Favorites (bookmarks) manager for the CudaText "Project Manager" plugin.
 
-Stores three kinds of bookmarks - projects, files, folders - in
-"cuda_project_man_favorites.json" in the CudaText settings folder.
+Stores three kinds of bookmarks - projects, files, folders - in the
+'favorites' namespace of "cuda_project_man_store.json" (the state store
+shared with the Project Manager itself: recent projects, the opened
+folder) in the CudaText settings folder. A data file of the older
+versions, "cuda_project_man_favorites.json", is imported once and
+removed (store.migrate_legacy_favorites).
 
 One-way import from the separate "Favorites" plugin (cuda_favorites by
 kvichans): its data file "cuda_favorites.json" is read when this plugin
@@ -142,6 +146,8 @@ import time
 from cudatext import *
 from cudatext_keys import *
 from cudax_lib import get_translation
+from .store import (migrate_legacy_favorites, store_path, store_read,
+                     store_update)
 from .utils import (editor_default_metrics, font_row_h, log_error,
                     option_font_size)
 
@@ -152,7 +158,11 @@ IS_MAC = sys.platform == 'darwin'
 OS_SUFFIX = app_proc(PROC_GET_OS_SUFFIX, '')
 
 #: our own storage file
-FAVORITES_FILENAME = 'cuda_project_man_favorites.json'
+# the Favorites data lives in the 'favorites' namespace of the shared
+# store file cuda_project_man_store.json (it used to be a file of its
+# own, cuda_project_man_favorites.json - store.migrate_legacy_favorites
+# imports a leftover old file once and removes it)
+FAVORITES_FILENAME = 'cuda_project_man_store.json'
 #: data file of the "Favorites" plugin (cuda_favorites by kvichans);
 #: import-only - never created or modified by this plugin
 EXT_FAVORITES_FILENAME = 'cuda_favorites.json'
@@ -567,7 +577,10 @@ class FavoritesCore:
     cuda_favorites plugin's json (import-only, never exported back)."""
 
     def __init__(self):
-        self.path_own = os.path.join(app_path(APP_DIR_SETTINGS), FAVORITES_FILENAME)
+        # the store file, shared with the Project Manager's own state
+        # (recent_projects, opened_folder); our data sits in its
+        # 'favorites' namespace
+        self.path_own = store_path()
         self.path_ext = os.path.join(app_path(APP_DIR_SETTINGS), EXT_FAVORITES_FILENAME)
         self.data = {cat: [] for cat in CATS}
         self.ui = {}
@@ -659,23 +672,14 @@ class FavoritesCore:
         """Read our file, then import new entries from cuda_favorites.json
         (one-way: imported here, never exported back). Returns the
         number of imported entries."""
-        try:
-            own = _read_json(self.path_own)
-        except ValueError:
-            # corrupt json: rename it so the next save never overwrites
-            # the user's data with an empty list, then start clean
-            try:
-                os.rename(self.path_own, self.path_own + '.corrupt')
-                log_error('Favorites: data file is corrupt - it is kept '
-                          'as ' + self.path_own + '.corrupt, starting empty')
-            except OSError:
-                # even the rename failed: stay loaded but never save
-                # over the broken file
-                self.read_only = True
-                log_error('Favorites: data file is corrupt and cannot be '
-                          'renamed - not saving over it, fix it manually: '
-                          + self.path_own)
-            own = None
+        # a leftover data file of the pre-store versions is imported
+        # into the store's 'favorites' namespace once, then removed
+        migrate_legacy_favorites()
+        # the namespace read; a corrupt STORE is renamed to
+        # '<name>.corrupt' by store_read itself (kept for manual
+        # repair) and an empty store starts - the read_only guard of
+        # the old separate-file flow is gone with the file
+        own = store_read().get('favorites')
         self.data = {cat: [] for cat in CATS}
         if isinstance(own, dict):
             for cat in CATS:
@@ -713,19 +717,14 @@ class FavoritesCore:
         return imported
 
     def save(self):
-        """Write our own json - and nothing else: the sync with
-        cuda_favorites.json is one-way (import-only), that file is
-        never written here."""
-        if getattr(self, 'read_only', False):
-            # the data file was corrupt and could not be renamed away:
-            # never save an empty list over the user's data
-            msg_status(_('Favorites: not saving - the data file is '
-                         'corrupt, fix it first: ') + self.path_own)
-            return False
+        """Write our namespace of the store file - and nothing else:
+        the sync with cuda_favorites.json is one-way (import-only),
+        that file is never written here, and the store's other
+        namespaces (recent_projects, opened_folder) are not touched."""
         out = {cat: self.data[cat] for cat in CATS}
         out['_ui'] = self.ui
         out['_deleted'] = self.deleted
-        return _write_json(self.path_own, out)
+        return store_update(favorites=out)
 
     #------------- data operations
 

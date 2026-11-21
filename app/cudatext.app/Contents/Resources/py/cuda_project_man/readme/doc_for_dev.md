@@ -531,7 +531,21 @@ Current format version: `PROJECT_FORMAT_VERSION = 2`, written as
   `ProjMainFile`, `ProjMainFileNameOnly`, `ProjMainFileNameNoExt` and
   the user variables from Project properties. Used e.g. by ExtTools.
 - `global_project_info` (module level) mirrors filename/nodes/vars/
-  mainfile; updated by `update_global_data()`. `nodes` are the CURRENT
+  mainfile; updated by `update_global_data()`.
+- **Settings vs state files.** `cuda_project_man.json` (the options
+  file) keeps ONLY settings - values the user configures; every
+  runtime STATE lives in `cuda_project_man_store.json` (module
+  `store.py`), each subsystem in its own namespace: `favorites` (the
+  whole Favorites data dict - this used to be the
+  `cuda_project_man_favorites.json` file), `recent_projects`,
+  `opened_folder`. All writers MUST go through `store_update(**kv)`
+  (read-modify-write of their own keys only - the file is shared).
+  One-way migrations run on load: state keys found in an old options
+  file move to the store and are dropped from the options file; a
+  leftover `cuda_project_man_favorites.json` is imported into the
+  `favorites` namespace and removed. `Command._save_state()` persists
+  the two Project Manager state keys (paths macro-collapsed, like the
+  options file always did). `nodes` are the CURRENT
   TREE ROOTS in EVERY state - an opened project, the "Open folder"
   folder, "Add folder" folders with no project open (in-memory only).
   `filename` is EMPTY in the folder-only states while `nodes` still

@@ -12,6 +12,8 @@ import threading
 from fnmatch import fnmatch
 from pathlib import Path, PurePosixPath
 from .projman_glob import *
+from .store import (STATE_KEYS, migrate_options_file, store_read,
+                    store_update)
 from .projman_backup import ProjectFileBackups, DEFAULT_BACKUP_COUNT, DEFAULT_BACKUP_FOLDER
 from .projman_trash import (send_to_trash, trash_label,
                              trash_supported, delete_permanently)
@@ -1053,12 +1055,11 @@ class Command:
     )
 
     options = {
-        "recent_projects": [],
-        # "one folder" state (issue #6624): the folder opened with
-        # "Open folder", kept across restarts and restored into the panel
-        # by on_start. Internal state like "on_start" - never in the
-        # options dialog.
-        "opened_folder": "",
+        # STATE KEYS ARE NOT HERE ANYMORE: "recent_projects" and
+        # "opened_folder" (the "one folder" state, issue #6624) live in
+        # the store file cuda_project_man_store.json (see store.py) -
+        # the options file keeps only settings. They are loaded into
+        # self.options at startup and saved by _save_state().
         # "Create new project from open tabs...": the last state of the
         # dialog's two checkboxes (add the files / the folders of the
         # open tabs as project nodes). Internal state like "on_start" -
@@ -1229,6 +1230,11 @@ class Command:
         self._tree_press_folded = None
         self._tree_drag_out_item = None
         self._tree_drag_out_path = ''
+        # modifier keys of the last mouse-down in the tree ('c'/'s'/...)
+        # - tree_on_click skips the single-click OPEN while Ctrl/Shift is
+        # held: the press extends/toggles the multi-selection (LCL
+        # msControlSelect/msShiftSelect) instead of activating the node
+        self._tree_press_state = ''
         # _session_names_cache/_session_names_key: (project-file stat,
         #   session-name list) of the last file-read fallback in
         #   session_get_names(); the fast path reads the in-memory mirror
@@ -1274,30 +1280,6 @@ class Command:
                 if not isinstance(loaded, dict):
                     raise ValueError('not a json object')
                 self.options.update(loaded)
-                if "recent_projects" in self.options:
-                    # heal entries merged into one tab-joined line by the
-                    # buggy options dialog of older builds (the dialog-API
-                    # memo control separates its lines with TAB, and the
-                    # old code read the value with splitlines())
-                    healed = []
-                    for fn in self.options["recent_projects"]:
-                        healed.extend(p for p in str(fn).split("\t") if p.strip())
-                    self.options["recent_projects"] = [expand_macros('', fn) for fn in healed]
-                if self.options.get("opened_folder"):
-                    # same portability treatment as the recent list: a
-                    # folder inside the app dir keeps working after the
-                    # whole app dir is moved. Only a non-empty value is
-                    # expanded, and the result must be absolute:
-                    # expand_macros ends with os.path.normpath, which maps
-                    # '' to '.', and a restored '.' would add the process
-                    # working directory to the tree (seen at a start where
-                    # the last project's file was deleted, so no project
-                    # loaded and the folder restore ran instead). "Open
-                    # folder" always saves absolute paths, so a relative
-                    # value here is garbage - drop it, the file self-heals
-                    # on the next save_options
-                    fn = expand_macros('', self.options["opened_folder"])
-                    self.options["opened_folder"] = fn if os.path.isabs(fn) else ''
             except FileNotFoundError:
                 # intentional silence: no options file yet (first run)
                 pass
@@ -1306,6 +1288,49 @@ class Command:
                 # but say so instead of silently ignoring them
                 log_error('Project Manager: cannot load the options from '
                           + str(self.options_filename))
+
+        # the options file keeps ONLY settings now (user request): the
+        # state keys live in the store file, cuda_project_man_store.json
+        # (see store.py). A file written by an older version still
+        # carries them - migrate it away (one-way), then the store is
+        # the truth. setdefault: the runtime code expects both keys to
+        # always exist (menu_recents, add_recent index them directly).
+        migrated = migrate_options_file(str(self.options_filename),
+                                        self.options)
+        state = store_read()
+        for key in STATE_KEYS:
+            if key in state:
+                self.options[key] = state[key]
+            elif key in migrated:
+                self.options[key] = migrated[key]
+        self.options.setdefault('recent_projects', [])
+        self.options.setdefault('opened_folder', '')
+
+        if "recent_projects" in self.options:
+            # heal entries merged into one tab-joined line by the
+            # buggy options dialog of older builds (the dialog-API
+            # memo control separates its lines with TAB, and the
+            # old code read the value with splitlines())
+            healed = []
+            for fn in self.options["recent_projects"]:
+                healed.extend(p for p in str(fn).split("\t") if p.strip())
+            self.options["recent_projects"] = [expand_macros('', fn) for fn in healed]
+        if self.options.get("opened_folder"):
+            # same portability treatment as the recent list: a
+            # folder inside the app dir keeps working after the
+            # whole app dir is moved. Only a non-empty value is
+            # expanded, and the result must be absolute:
+            # expand_macros ends with os.path.normpath, which maps
+            # '' to '.', and a restored '.' would add the process
+            # working directory to the tree (seen at a start where
+            # the last project's file was deleted, so no project
+            # loaded and the folder restore ran instead). "Open
+            # folder" always saves absolute paths, so a relative
+            # value here is garbage - drop it, the file self-heals
+            # on the next save
+            fn = expand_macros('', self.options["opened_folder"])
+            self.options["opened_folder"] = fn if os.path.isabs(fn) else ''
+
         self.migrate_loaded_options()
 
         self.new_project() # reset to the "no project" state
@@ -1533,6 +1558,11 @@ class Command:
             'sp_r': 2,
             'h': EH,
             'act': True,
+            # tab order: tree FIRST (0), then the filter (1) - whatever
+            # focuses the panel form "in general" (DLG_FOCUS, LCL's
+            # form-level focus) then lands on the tree, the panel's
+            # main control, not on the filter field
+            'tab_order': 1,
             'texthint': _('Filter the project tree...'),
             'hint': _('Show only the files/folders whose name matches.\rEsc clears the filter'),
             'on_change': self.panel_filter_on_change,
@@ -1609,6 +1639,10 @@ class Command:
             'sp_t': 2,
             'a_r':('',']'), #anchor to entire form
             'a_b':('',']'),
+            # first in the tab order (the filter is 1): the tree is the
+            # panel's main control, a generic form-level focus must land
+            # on IT - see the f_filter prop above
+            'tab_order': 0,
             'on_menu': 'cuda_project_man.tree_on_menu',
             'on_unfold': 'cuda_project_man.tree_on_unfold',
             'on_click': 'cuda_project_man.tree_on_click',
@@ -1622,6 +1656,14 @@ class Command:
         self.tree_imglist = tree_proc(self.tree, TREE_GET_IMAGELIST)
         tree_proc(self.tree, TREE_PROP_SHOW_ROOT, text='0')
         tree_proc(self.tree, TREE_ITEM_DELETE, 0)
+        # multi-selection like in other editors: Ctrl+click toggles a
+        # node in/out of the selection (msControlSelect), Shift+click
+        # selects the range from the focused node (msShiftSelect); read
+        # the set with selected_handles()/selected_locations(). LCL's
+        # TTreeView does the mouse handling itself, a plain click
+        # resets to a single selection. A tree refresh (F5 and every
+        # node change) rebuilds the items and clears the selection.
+        tree_proc(self.tree, TREE_SET_MULSELECT, text='cs')
         # 'ui_font_size' for the tree; the item heights follow the
         # font. Must ALSO be re-applied by apply_panel_theme(): the
         # engine's theming pass RESETS the treeview font
@@ -1750,6 +1792,11 @@ class Command:
         self._tree_drag_out_item = None
         self._tree_drag_out_path = ''
         self._tree_press_folded = None
+        # the engine reports the modifier state of the press as a
+        # string ('c'=ctrl, 's'=shift, 'a'=alt, 'm'=meta, buttons as
+        # 'L'/'R'/'M'); kept for tree_on_click and the drag start
+        self._tree_press_state = (str(data.get('state', ''))
+                                  if isinstance(data, dict) else '')
         if isinstance(data, dict) and data.get('btn', -1) == 0:
             x = int(data.get('x', 0))
             y = int(data.get('y', 0))
@@ -1774,6 +1821,11 @@ class Command:
         x = int(data.get('x', 0))
         y = int(data.get('y', 0))
 
+        # a press that held Ctrl/Shift was a selection gesture, not a
+        # drag intent (with multi-selection on, dragging a selection
+        # would move a node the user is still busy selecting)
+        if ('c' in self._tree_press_state) or ('s' in self._tree_press_state):
+            return
         if self._tree_drag_mode is None:
             if max(abs(x-press[0]), abs(y-press[1])) <= self.TREE_DRAG_THRESHOLD:
                 return
@@ -2624,7 +2676,10 @@ class Command:
         if path in recent:
             recent.pop(recent.index(path))
 
-        self.options["recent_projects"] = ([path] + recent)[:10]
+        # the recent list is capped at RECENT_MAX entries (50): it is
+        # shared by projects and "Open folder" folders (issue #6624)
+        self.options["recent_projects"] = ([path] + recent)[:RECENT_MAX]
+        self._save_state()
         self.generate_context_menu()
 
     def action_new_file(self):
@@ -2650,8 +2705,17 @@ class Command:
             _file_open(str(path))
 
     def action_open_def(self):
-        fn = self.get_location_by_index(self.selected)
-        sfn = str(fn)
+        # multi-selection aware: every selected FILE goes to the OS
+        # default application, one OS call per file
+        targets = [str(p) for p in self.selected_locations()
+                   if os.path.isfile(str(p))]
+        if not targets:
+            return
+        for sfn in targets:
+            self._open_def_one(sfn)
+
+    def _open_def_one(self, sfn):
+        """Open ONE existing file with the OS default application."""
         if not os.path.isfile(sfn):
             return
         suffix = OS_SUFFIX
@@ -2833,6 +2897,109 @@ class Command:
             return None
         return 'permanent'
 
+    def _untrack_root_by_path(self, path):
+        """'Stop tracking' for one KNOWN root path (the multi-delete):
+        find the top-level tree item of the path, drop it and its
+        saved node - the same steps action_remove_node does for the
+        focused node. Returns True when the root was found."""
+        items = tree_proc(self.tree, TREE_ITEM_ENUM_EX, 0) or []
+        h_item = None
+        for it in items:
+            if path_equals(str(it.get('data', '')), str(path)):
+                h_item = it['id']
+                break
+        if h_item is None:
+            return False
+        tree_proc(self.tree, TREE_ITEM_DELETE, h_item)
+        node = None
+        for n in self.project["nodes"]:
+            if path_equals(n, str(path)):
+                node = n
+                break
+        if node is not None:
+            self.project["nodes"].remove(node)
+            self._fire_project_nodes_removed()
+        return True
+
+    def _delete_locations_multi(self, locations):
+        """Delete/untrack SEVERAL selected locations with grouped
+        confirmations (see action_delete_file for the safety rules - a
+        root node is only untracked, an inner item goes to the OS
+        trash; permanent deletion only on an OS without trash support,
+        after the explicit warning). One dialog for the roots, one for
+        the trashable items."""
+        roots = [p for p in locations if self.is_path_in_root(p)]
+        inner = [p for p in locations if not self.is_path_in_root(p)]
+
+        def listing(paths):
+            lines = [str(p) for p in paths[:8]]
+            if len(paths) > 8:
+                lines.append('... ' + str(len(paths) - 8) + _(' more'))
+            return '\n'.join(lines)
+
+        if roots:
+            msg = (_("Are you sure you want to stop tracking %d entries?\n\n"
+                     "%s\n\nThey are only removed from the project tree,\n"
+                     "the files/folders themselves stay on the disk.")
+                   % (len(roots), listing(roots)))
+            res = msg_box_ex(_("Stop tracking"), msg,
+                             [_("Stop tracking"), _("Cancel")],
+                             MB_ICONQUESTION)
+            if res == 0:
+                for p in roots:
+                    self._untrack_root_by_path(p)
+
+        if not inner:
+            self.action_refresh()
+            return
+
+        if trash_supported():
+            msg = (_("Are you sure you want to delete %d items?\n\n%s\n\n"
+                     "You can restore them from the %s.")
+                   % (len(inner), listing(inner), trash_label()))
+            res = msg_box_ex(_("Delete"), msg,
+                             [_("Move to trash"), _("Cancel")],
+                             MB_ICONQUESTION)
+            if res != 0:
+                return
+            failed = []
+            for p in inner:
+                try:
+                    send_to_trash(p)
+                except OSError as e:
+                    failed.append((p, e))
+            for p, e in failed:
+                msg_box(_("Cannot move to the %s:\n%s\n\n%s")
+                        % (trash_label(), str(p), str(e)),
+                        MB_OK + MB_ICONERROR)
+            moved = len(inner) - len(failed)
+            if moved:
+                msg_status(_("Moved to %s: ") % trash_label() + str(moved)
+                           + _(' item(s)'))
+        else:
+            # the single-item flow's warning, once for the whole batch
+            msg = (_("This operating system does not support moving files "
+                     "to the trash.\n\nAre you sure you want to delete "
+                     "%d items?\n\n%s\n\nThey will be deleted "
+                     "PERMANENTLY - this cannot be undone!")
+                   % (len(inner), listing(inner)))
+            res = msg_box_ex(_("Delete"), msg,
+                             [_("DELETE PERMANENTLY"), _("Cancel")],
+                             MB_ICONWARNING, focused=1)
+            if res != 0:
+                return
+            for p in inner:
+                try:
+                    if p.is_dir():
+                        import shutil
+                        shutil.rmtree(str(p))
+                    else:
+                        os.remove(str(p))
+                except OSError as e:
+                    msg_box(_("Cannot delete:\n%s\n\n%s")
+                            % (str(p), str(e)), MB_OK + MB_ICONERROR)
+        self.action_refresh()
+
     def action_delete_file(self):
         """Context menu / Del key on a file.
 
@@ -2845,6 +3012,10 @@ class Command:
         dialog with the "DELETE PERMANENTLY" button, can it be
         permanently deleted (_confirm_and_delete). A failed move
         leaves the file in place and reports the reason."""
+        locations = self.selected_locations()
+        if len(locations) > 1:
+            self._delete_locations_multi(locations)
+            return
         location = Path(self.get_location_by_index(self.selected))
         if not str(location):
             return
@@ -2888,39 +3059,80 @@ class Command:
 
         self.action_remove_node()
 
+    def _clip_paths_text(self, convert):
+        """Set the clipboard to the converted path(s) of the selection
+        (multi-selection aware): one path = a plain line, several
+        paths = OS-newline-joined lines."""
+        lines = [convert(str(p)) for p in self.selected_locations()]
+        lines = [ln for ln in lines if ln]
+        if not lines:
+            return
+        app_proc(PROC_SET_CLIP,
+                 lines[0] if len(lines) == 1 else os.linesep.join(lines))
+
     def action_copy_relative_path(self):
-        file_path = str(self.get_location_by_index(self.selected))
-        project_node = ''
-        for node in self.project["nodes"]:
-            if (file_path+os.sep).startswith(node+os.sep):
-                project_node = node
-                break
-        if project_node:
-            file_path = file_path[len(os.path.dirname(project_node))+1:]
-        app_proc(PROC_SET_CLIP, file_path)
+        def convert(file_path):
+            project_node = ''
+            for node in self.project["nodes"]:
+                if (file_path+os.sep).startswith(node+os.sep):
+                    project_node = node
+                    break
+            if project_node:
+                file_path = file_path[len(os.path.dirname(project_node))+1:]
+            return file_path
+        self._clip_paths_text(convert)
 
     def action_copy_path(self):
-        file_path = str(self.get_location_by_index(self.selected))
-        proj_path = os.path.dirname(self.project_file_path or '')
-        if not proj_path:
-            return
-        if file_path.startswith(proj_path+os.sep):
-            file_path = file_path[len(proj_path)+1:]
-        app_proc(PROC_SET_CLIP, file_path)
+        def convert(file_path):
+            proj_path = os.path.dirname(self.project_file_path or '')
+            if not proj_path:
+                return ''
+            if file_path.startswith(proj_path+os.sep):
+                file_path = file_path[len(proj_path)+1:]
+            return file_path
+        self._clip_paths_text(convert)
+
+    def _clip_paths(self):
+        """Valid paths of the selection for the clipboard. One path is
+        set as a plain line (paste it anywhere); several paths are
+        joined with the OS newline - action_paste understands the
+        multi-line form and pastes every line."""
+        paths = [str(p) for p in self.selected_locations()
+                 if p.is_file() or p.is_dir()]
+        if not paths:
+            return None
+        if len(paths) == 1:
+            return paths[0]
+        return os.linesep.join(paths)
 
     def action_cut(self):
-        selected = self.get_location_by_index(self.selected)
-        if (selected.is_file() or selected.is_dir()):
-            app_proc(PROC_SET_CLIP, str(selected))
+        clip = self._clip_paths()
+        if clip is not None:
+            app_proc(PROC_SET_CLIP, clip)
         self.action_cut_activate = True
 
     def action_copy(self):
-        selected = self.get_location_by_index(self.selected)
-        if (selected.is_file() or selected.is_dir()):
-            app_proc(PROC_SET_CLIP, str(selected))
+        clip = self._clip_paths()
+        if clip is not None:
+            app_proc(PROC_SET_CLIP, clip)
 
     def action_paste(self):
         location = app_proc(PROC_GET_CLIP, '')
+        # the clipboard may carry SEVERAL paths (a multi-selection copy
+        # joins them with the OS newline): paste every valid line, the
+        # single-path form is the old behavior
+        sources = [ln for ln in str(location).splitlines()
+                   if ln and (Path(ln).is_file() or Path(ln).is_dir())]
+        if not sources:
+            return
+        for src in sources:
+            self._paste_one(src)
+        self.action_refresh()
+
+    def _paste_one(self, location):
+        """Paste ONE clipboard path into the selected folder (see
+        action_paste). The rename-on-same-name handling (a stamp
+        suffix) stays per source path."""
         new_location = Path(self.get_location_by_index(self.selected))
         if (Path(location).is_file() or Path(location).is_dir()):
             if new_location.is_file():
@@ -2953,7 +3165,6 @@ class Command:
                     except OSError as ex:
                         msg_status(_('Cannot copy folder: ') + str(ex))
                         return
-            self.action_refresh()
 
     def get_w_h(self):
         w_ = 600
@@ -3007,8 +3218,11 @@ class Command:
             'a_b': ('', ']'),
             'sp_a': 6,
             'x': w_-100,
-            'y': h_-6-25,
+            # BTN_OK_ADD (+7px on OK/Cancel buttons, like every dialog
+            # of the plugin) - the default button height here is 25
+            'y': h_-6-25-BTN_OK_ADD,
             'w': 100-6,
+            'h': 25+BTN_OK_ADD,
             'cap': _('OK'),
             'on_change': 'module=cuda_project_man;cmd=callback_button_ok;',
         })
@@ -3021,7 +3235,7 @@ class Command:
             'x': 6,
             'y': 6,
             'w': w_-6*2,
-            'h': h_-6*3-25,
+            'h': h_-6*3-25-BTN_OK_ADD,
             'ex0': True,           # read-only (dialog API prop of edit/memo)
             'ex1': True,           # monospaced font
         }
@@ -3116,6 +3330,10 @@ class Command:
         moved to the OS trash/recycle bin; only on an OS without any
         trash support, after the separate warning dialog with the
         "DELETE PERMANENTLY" button, can it be permanently deleted."""
+        locations = self.selected_locations()
+        if len(locations) > 1:
+            self._delete_locations_multi(locations)
+            return
         location = Path(self.get_location_by_index(self.selected))
         if not str(location):
             return
@@ -5927,22 +6145,28 @@ class Command:
         _favorites.add_opened()
 
     def action_add_to_favorites(self):
-        """Context-menu command: add the selected tree node (project,
-        file or folder node) to favorites."""
+        """Context-menu command: add the selected tree node(s) to
+        favorites - every node of a multi-selection is added (the
+        project root node still needs a saved project file)."""
         node = self.selected
         if node is None:
             return
         node_type = self.get_node_type()
         if node_type == NODE_PROJECT:
             path = str(self.project_file_path) if self.project_file_path else ''
-            cat = 'projects'
-        else:
-            path = str(self.get_location_by_index(node))
-            cat = 'folders' if node_type == NODE_DIR else 'files'
-        if not path or path == '.':
-            msg_status(_('Project is not saved yet, cannot add it to favorites'))
+            if not path or path == '.':
+                msg_status(_('Project is not saved yet, cannot add it to favorites'))
+                return
+            _favorites.add_favorite('projects', path)
             return
-        _favorites.add_favorite(cat, path)
+        # file/folder nodes: multi-selection aware
+        added = 0
+        for loc in self.selected_locations():
+            cat = 'folders' if os.path.isdir(str(loc)) else 'files'
+            if _favorites.add_favorite(cat, str(loc)):
+                added += 1
+        if added:
+            msg_status(_('Added to favorites: ') + str(added))
 
     def _favorites_ctx(self, info=None):
         """Internal: callback of the favorites list context menu."""
@@ -6126,6 +6350,37 @@ class Command:
         if info:
             return NodeInfo(info['text'], info['icon'])
 
+    def selected_handles(self):
+        """Handles of every selected tree item - the LCL
+        multi-selection (TREE_GET_SELECTIONS) when several items are
+        selected, the focused item otherwise. Deduped, order kept.
+        Works without the panel too (empty list)."""
+        if not self.tree:
+            return []
+        items = tree_proc(self.tree, TREE_GET_SELECTIONS)
+        if not isinstance(items, list):
+            items = []
+        seen = set()
+        res = []
+        for h in items:
+            if h and h not in seen:
+                seen.add(h)
+                res.append(h)
+        if not res and self.selected is not None:
+            res.append(self.selected)
+        return res
+
+    def selected_locations(self):
+        """Paths of every selected node (multi-selection aware). The
+        root node's parasitic '.' location is skipped, like in
+        tree_on_click. Order: the tree's selection order."""
+        res = []
+        for h in self.selected_handles():
+            s = str(self.get_location_by_index(h))
+            if s and not s.startswith('.'):
+                res.append(Path(s))
+        return res
+
     def get_location_by_index(self, index):
         '''
         path = []
@@ -6150,13 +6405,26 @@ class Command:
     def save_options(self):
         # Only save keys that exist in the current defaults dict. This
         # automatically drops stale keys that were removed from the code,
-        # keeping the config file clean and in sync with the code.
+        # keeping the config file clean and in sync with the code - and,
+        # since the state keys left the defaults, it also drops any
+        # state key that a stale in-memory dict still carries: the
+        # options file keeps only settings (see store.py).
         defaults = type(self).options
         d = {k: copy.deepcopy(v) for k, v in self.options.items() if k in defaults}
-        d["recent_projects"] = [collapse_macros('', fn) for fn in d.get("recent_projects", [])]
-        if d.get("opened_folder"):
-            d["opened_folder"] = collapse_macros('', d["opened_folder"])
         write_json_file(self.options_filename, d)
+
+    def _save_state(self):
+        """Persist the state keys (recent_projects, opened_folder) to
+        the store file - they are not in the options file anymore. Like
+        the old options save, paths are stored macro-collapsed, so a
+        folder inside the app dir keeps working after the app dir
+        moves."""
+        store_update(
+            recent_projects=[collapse_macros('', fn)
+                             for fn in self.options.get('recent_projects', [])],
+            opened_folder=(collapse_macros('', self.options['opened_folder'])
+                           if self.options.get('opened_folder') else ''),
+        )
 
     def menu_recents(self):
         items = list(self.options["recent_projects"])
@@ -6312,6 +6580,8 @@ class Command:
         self.options['opened_folder'] = fn
         self.new_project()
         self.add_node(fn)
+        # the store, not the options file, keeps the state keys now
+        self._save_state()
 
         # the folder is one click away after it is closed: recent entries
         # that are directories open back as folders (see
@@ -6458,7 +6728,7 @@ class Command:
             # action_refresh afterwards ("Stop tracking" removes the
             # node with a single TREE_ITEM_DELETE)
             self._update_root_caption()
-            self.save_options()
+            self._save_state()
 
     def _forget_opened_folder_if_removed(self):
         """After root nodes were removed from the tree: when the
@@ -6641,7 +6911,7 @@ class Command:
                 # the folder is gone (deleted, renamed, unplugged drive):
                 # forget it, and drop the on_start subscription with it
                 self.options['opened_folder'] = ''
-                self.save_options()
+                self._save_state()
                 self._update_on_start_subscription(False)
 
     def enum_all(self, callback):
@@ -6926,6 +7196,40 @@ class Command:
             self.action_open_def()
             return
 
+        # multi-selection (Ctrl/Shift click): open EVERY selected file
+        # - folders and dead nodes are skipped (the focused node's fold
+        # state was already toggled by the click/Enter above for the
+        # single case; with several items, toggling makes no sense)
+        handles = self.selected_handles()
+        if len(handles) > 1:
+            opened_n = 0
+            for h in handles:
+                info_h = self.get_info(h)
+                path_h = self.get_location_by_index(h)
+                if (not info_h) or (not path_h) \
+                        or info_h.image in (self.ICON_DIR, self.ICON_BAD,
+                                            self.ICON_PROJ):
+                    continue
+                s_loc = str(path_h)
+                if s_loc.startswith('.'):
+                    continue
+                if not os.path.isfile(s_loc):
+                    tree_proc(self.tree, TREE_ITEM_SET_ICON, h,
+                              image_index=self.ICON_BAD)
+                    continue
+                if info_h.caption.endswith(open_def_ext):
+                    # zip/media: hand it to the OS default application
+                    self._open_def_one(s_loc)
+                    continue
+                _file_open(s_loc, options=options)
+                opened_n += 1
+            if keep_panel_focus:
+                dlg_proc(self.h_dlg, DLG_FOCUS)
+                dlg_proc(self.h_dlg, DLG_CTL_FOCUS, name='tree')
+            if opened_n:
+                msg_status(_('Opened: ') + str(opened_n))
+            return
+
         _file_open(str(path), options=options)
 
         if keep_panel_focus:
@@ -7000,6 +7304,12 @@ class Command:
         # don't let it open the dropped-on node
         if self._tree_suppress_click:
             self._tree_suppress_click = False
+            return
+
+        # Ctrl/Shift were held: LCL just toggled/extended the
+        # multi-selection - the click must NOT open the file (nor change
+        # the current folder): the user is selecting, not activating
+        if ('c' in self._tree_press_state) or ('s' in self._tree_press_state):
             return
 
         # LCL fires OnClick for every left press+release inside the tree,

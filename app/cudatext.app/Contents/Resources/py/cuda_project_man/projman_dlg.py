@@ -9,7 +9,7 @@ from .utils import (editor_default_metrics, font_row_h, log_error,
 from .favorites import (get_theme_ui_colors, _theme_color, _theme_dict,
                         _unscale_px, _ui_scale)
 
-_   = get_translation(__file__)  # i18n
+_   = get_translation(__file__)  # i18n  (BTN_OK_ADD lives in projman_glob)
 
 #: width (unscaled px) kept free at the right of the options area for
 #: the scrollbox's vertical scrollbar: the content panel is narrower
@@ -680,7 +680,9 @@ def dialog_config(op):
     # theme); the OS 'button' cannot be themed via the API. button_ex
     # draws its caption itself, so no '&' accelerators. Enter is
     # handled by the form (on_form_key), Esc cancels (engine).
-    BTN_H = BH
+    # BTN_OK_ADD: the OK/Cancel buttons are 7px taller than the GUI's
+    # button height (user request - easier to hit)
+    BTN_H = BH + BTN_OK_ADD
     BTN_ROW = BTN_H + 18      # the buttons + 8 px above + 10 px below
     needed_h = content_h + 8 + BTN_ROW
 
@@ -836,7 +838,8 @@ def dialog_proj_prop(prop, edit_font_size=None):
         if cell_h:
             EH = max(EH, int(cell_h / scale) + 8)
             vars_line = max(17, int(pitch_h / scale))
-    BTN_H = BH
+    # +7px on OK/Cancel, like every dialog of the plugin (BTN_OK_ADD)
+    BTN_H = BH + BTN_OK_ADD
 
     W = 508
     # the vars editor is 154 design px (5 lines) at the default edit
@@ -1104,14 +1107,16 @@ def dialog_project_from_tabs(def_files, def_folders):
           _('Add the folders of the open tabs to the project tree'), 66)
 
     # flat themed buttons, bottom-right (button_ex draws its caption
-    # itself, so no '&' accelerators)
+    # itself, so no '&' accelerators); +7px like every dialog's
+    # OK/Cancel (BTN_OK_ADD)
+    BTN_H = BH + BTN_OK_ADD
     ctl('button_ex', 'btn_ok', {
-        'x': W - 8 - 96 - 6 - 90, 'y': H - 8 - BH, 'w': 90, 'h': BH,
+        'x': W - 8 - 96 - 6 - 90, 'y': H - 8 - BTN_H, 'w': 90, 'h': BTN_H,
         'cap': _('Create'),
         'on_change': on_ok,
     })
     ctl('button_ex', 'btn_cancel', {
-        'x': W - 8 - 96, 'y': H - 8 - BH, 'w': 96, 'h': BH,
+        'x': W - 8 - 96, 'y': H - 8 - BTN_H, 'w': 96, 'h': BTN_H,
         'cap': _('Cancel'),
         'on_change': on_cancel,
     })

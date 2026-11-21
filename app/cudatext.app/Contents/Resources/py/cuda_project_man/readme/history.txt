@@ -1,4 +1,40 @@
 2026.11.21 (@badrelmers)
+- Fix: after Space/single-click opened a file, the focus landed on the
+  FILTER field instead of the file-list. Two causes, both fixed: (1)
+  the engine's DLG_CTL_FOCUS was a silent no-op for treeview controls
+  - the inner Tree has Owner=nil, LCL's SetActiveControl raises on
+  that and DoForm_FocusControl swallowed the exception; the core now
+  focuses the control directly (proc_customdialog.pas, and
+  EditorFocus in proc_editor.pas got the same reorder - needs a
+  CudaText rebuild to take effect); (2) plugin-side, the tree is now
+  the first tab-stop (tab_order 0, the filter is 1), so even an
+  unpatched build's form-level focus lands on the tree.
+- Settings/state split (user request): cuda_project_man.json keeps
+  ONLY settings; the runtime state moved to the new
+  cuda_project_man_store.json - "recent_projects", "opened_folder",
+  and the Favorites data in its "favorites" namespace (the file
+  replaces cuda_project_man_favorites.json). One-way migrations on
+  load: state keys in an old options file move to the store and are
+  dropped from the options file; a leftover old Favorites file is
+  imported and removed. All store writes go through store_update()
+  (read-modify-write, atomic, per namespace).
+- Multi-selection in the project tree (Ctrl+click toggles, Shift+click
+  ranges - the engine's TREE_SET_MULSELECT, LCL does the mouse work):
+  a click with Ctrl/Shift held never opens a file and never starts a
+  drag; with several nodes selected, Space/Enter/double-click open
+  every selected file, Del untracks the selected roots and trashes the
+  selected inner items (one grouped confirmation per kind, the
+  single-item safety rules unchanged), Ctrl+C/X copy/cut all selected
+  paths (newline-joined; Ctrl+V pastes them all), Copy path / Copy
+  relative path list them all, Add to favorites and Open in default
+  application handle every selected node. Rename, properties, new
+  file/folder, drag&drop and type-ahead keep acting on the focused
+  node.
+- The "Recent projects/folders" list holds up to 50 entries (was 10).
+- Every OK/Cancel button of every dialog of the plugin is 7px taller
+  (BTN_OK_ADD in projman_glob.py): the options dialog, the project
+  properties dialog, the "create from tabs" dialog and the memo/info
+  dialog.
 - Other plugins (cuda_lsp) see the tree folders in EVERY state now:
   global_project_info['nodes'] always lists the current tree roots -
   an opened project, the "Open folder" folder, "Add folder" folders
