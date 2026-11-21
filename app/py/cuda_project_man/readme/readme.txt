@@ -97,7 +97,10 @@ Opened folder ("Open folder")
   .cuda-proj file, no .cudatext/ backup folder). Only one folder is
   open this way at a time - opening another folder closes the previous
   one. The folder is remembered and shown again after a CudaText
-  restart; "Close project" with no project open closes it.
+  restart; "Close project" with no project open closes it. While such
+  a folder is open, the tree root reads "Folder (No project)" - a plain
+  untitled "Add folder" tree reads "(No project)" and does not survive
+  a restart.
 
   A folder is not a session: while it is open, the current external
   session (usually default.cuda-session) keeps owning the tabs - files
@@ -112,9 +115,10 @@ Opened folder ("Open folder")
   them for you to choose (cancelling the dialog opens the plain
   folder).
 
-  A folder dragged from the OS file manager onto the editor works
-  differently: with a project open it is added to that project (as
-  before); with no project open it is opened the "one folder" way.
+  A folder dragged from the OS file manager onto the editor - or onto
+  the Project panel - works differently: with a project open it is
+  added to that project (as before); with no project open it is opened
+  the "one folder" way.
   "Add folder..." always adds to the current project, it never replaces
   the opened folder.
 

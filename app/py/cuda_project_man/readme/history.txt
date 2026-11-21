@@ -1,3 +1,20 @@
+2026.11.21 (@badrelmers)
+- Fixed a "." folder auto-added to the panel at a start where the last
+  project's file was deleted: the saved empty "opened_folder" option
+  expanded to "." (os.path.normpath('') is '.'), and the folder restore
+  then tracked the CudaText process working directory as a folder. Only
+  a non-empty absolute opened_folder restores now; a config already
+  carrying "." self-heals on load. At such a start nothing is opened or
+  added, and the plugin's on_start subscription is dropped, so it does
+  not reload at every next start just to find the project file dead.
+- A folder dropped from the OS file manager onto the Project panel with
+  no project open is opened the "one folder" way (it was added to the
+  untitled tree like "Add folder..."); with a project open it is still
+  added to the project. Dropped files keep being added to the tree.
+- The tree root caption is "Folder (No project)" while a persistent
+  "Open folder" folder is open, and "(No project)" for a plain untitled
+  "Add folder" tree, which does not survive a restart.
+
 2026.11.20 (@badrelmers)
 - "Open folder" (the File-menu command, the OS shell's "Open in
   CudaText", 'cudatext <folder>') no longer creates a project: the
