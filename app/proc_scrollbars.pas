@@ -91,20 +91,20 @@ constructor TAppTreeContainer.Create(AOwner: TComponent);
 begin
   inherited;
 
-  Tree:= TAppTreeView.Create(nil);
+  Tree:= TAppTreeView.Create(Self);
   Tree.Parent:= Self;
   Tree.Align:= alClient;
   Tree.Container:= Self;
   Tree.OnDeletion:= @TreeOnDeletion;
 
-  FScrollbarVert:= TATScrollbar.Create(nil);
+  FScrollbarVert:= TATScrollbar.Create(Self);
   FScrollbarVert.Parent:= Self;
   FScrollbarVert.Kind:= sbVertical;
   FScrollbarVert.Align:= alRight;
   FScrollbarVert.Width:= ATScrollbarTheme.InitialSize;
   FScrollbarVert.OnChange:= @ScrollVertChange;
 
-  FScrollbarHorz:= TATScrollbar.Create(nil);
+  FScrollbarHorz:= TATScrollbar.Create(Self);
   FScrollbarHorz.Parent:= Self;
   FScrollbarHorz.Kind:= sbHorizontal;
   FScrollbarHorz.Align:= alBottom;
