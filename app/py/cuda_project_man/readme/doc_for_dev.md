@@ -531,7 +531,15 @@ Current format version: `PROJECT_FORMAT_VERSION = 2`, written as
   `ProjMainFile`, `ProjMainFileNameOnly`, `ProjMainFileNameNoExt` and
   the user variables from Project properties. Used e.g. by ExtTools.
 - `global_project_info` (module level) mirrors filename/nodes/vars/
-  mainfile for the current project; updated by `update_global_data()`.
+  mainfile; updated by `update_global_data()`. `nodes` are the CURRENT
+  TREE ROOTS in EVERY state - an opened project, the "Open folder"
+  folder, "Add folder" folders with no project open (in-memory only).
+  `filename` is EMPTY in the folder-only states while `nodes` still
+  lists their folders: consumers (cuda_lsp reads this for its LSP
+  workspaceFolders) must not treat an empty `filename` as "no folders"
+  - filter the list with os.path.isdir, it also carries file nodes.
+  In-place node changes fire APPSTATE_PROJECT_NODE_ADD / _DEL (see
+  `update_global_data`'s docstring for the full event contract).
 
 If you change these names, grep the CudaText ecosystem for users first.
 

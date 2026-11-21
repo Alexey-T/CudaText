@@ -2595,9 +2595,24 @@ class Command:
         """Reset the plugin state to "no project". Used at plugin startup
         (when nothing is open yet) and by the "one folder" flows
         (issue #6624) — it never touches sessions, tabs or files."""
+        # dropping non-empty tree roots (the "one folder" state, the
+        # nodes of a closed project) must reach other plugins like any
+        # node removal: PROC_PROJECT_NODE_DEL is how e.g. cuda_lsp
+        # learns the workspace folders are gone. The event is fired
+        # AFTER update_global_data, so a listener that re-reads
+        # global_project_info already sees the empty list. (The "close
+        # folder" case needs it the most: APPSTATE_PROJECT does not
+        # fire there — no project pointer changes in a no-project
+        # state.)
+        # (getattr: the very first call runs from Command.__init__,
+        # before any self.project exists)
+        old_proj = getattr(self, 'project', None)
+        had_nodes = bool(old_proj.get('nodes')) if old_proj else False
         self.project = normalize_project_data(dict(nodes=[]))
         self.project_file_path = None
         self.update_global_data()
+        if had_nodes:
+            app_proc(PROC_PROJECT_NODE_DEL, '')
         self.goto_history = []
         self.cur_dir = ''
 
@@ -5005,9 +5020,16 @@ class Command:
         """Reset project state without touching tabs or sessions. Used when
         an external session switch is detected — the foreign session is now
         active and we must detach from the project without disrupting it."""
+        # fire the node-removal event like new_project does (see its
+        # comment): the tree roots die here too, and with a real project
+        # closing, APPSTATE_PROJECT alone covers only listeners of that
+        # one event
+        had_nodes = bool(self.project.get('nodes'))
         self.project = normalize_project_data(dict(nodes=[]))
         self.project_file_path = None
         self.update_global_data()
+        if had_nodes:
+            app_proc(PROC_PROJECT_NODE_DEL, '')
         self.goto_history = []
         self.cur_dir = ''
 
@@ -6045,6 +6067,29 @@ class Command:
                   caption=_('Add opened...'))
 
     def update_global_data(self):
+        """Refresh global_project_info - THE cross-plugin API of this
+        plugin (consumers: cuda_lsp workspace folders, ExtTools
+        variables, anything reading cuda_project_man.global_project_info):
+
+        - 'nodes': the CURRENT TREE ROOTS, in EVERY state - the nodes
+          of an opened project, the folder of "Open folder" (issue
+          #6624), and folders added with "Add folder..." while no
+          project is open (kept in memory only). Listeners must NOT
+          treat an empty 'filename' as "no folders": the folder-only
+          states have no project file but their folders are right
+          here. Consumers that need only folders filter with
+          os.path.isdir (the list also carries FILE nodes).
+        - 'filename': the .cuda-proj path, '' when no project is open.
+        - 'vars'/'mainfile': project properties, empty without a
+          project.
+
+        In-place changes of the root list are announced with
+        APPSTATE_PROJECT_NODE_ADD / _DEL (see _fire_project_nodes_added
+        / _fire_project_nodes_removed / new_project) - consumers re-read
+        this dict in the on_state handler, the events carry no payload.
+        Project open/close/switch is additionally announced by the core
+        as APPSTATE_PROJECT (fired when this plugin calls
+        PROC_SET_PROJECT)."""
         global global_project_info
         global_project_info['filename'] = str(self.project_file_path) if self.project_file_path else ''
         global_project_info['nodes'] = self.project.get('nodes', [])
@@ -6852,7 +6897,12 @@ class Command:
         menu_proc(self.h_menu, MENU_SHOW, command='')
 
 
-    def do_open_current_file(self, options):
+    def do_open_current_file(self, options, keep_panel_focus=True):
+        """Open the file of the selected tree node. keep_panel_focus
+        (issue #6441) splits the two open styles: True (single click,
+        Space) - the focus STAYS on the file-list, so keyboard browsing
+        continues in the tree; False (Enter, F4, double-click) - the
+        editor keeps the focus the open gave it."""
 
         info = self.get_info(self.selected)
         if not info:
@@ -6878,8 +6928,14 @@ class Command:
 
         _file_open(str(path), options=options)
 
-        # avoid stealing focus by editor
-        dlg_proc(self.h_dlg, DLG_FOCUS)
+        if keep_panel_focus:
+            # avoid stealing focus by editor: give the focus back to the
+            # panel form, then to the TREE itself (the file-list) - the
+            # form-level focus alone restores whatever control had it
+            # last, which is not always the tree (e.g. after the filter
+            # field was used)
+            dlg_proc(self.h_dlg, DLG_FOCUS)
+            dlg_proc(self.h_dlg, DLG_CTL_FOCUS, name='tree')
 
 
     def get_open_options(self):
@@ -6988,10 +7044,24 @@ class Command:
         if not self.options.get('d_click', False):
             #turn off 'preview' tab kind on dbl-click
             ed.set_prop(PROP_PREVIEW, False)
+            # a double-click always means "go to the editor" (issue
+            # #6441, like Enter/F4): the first click of this very
+            # double-click opened the file in preview and kept the
+            # focus on the file-list, so the active editor IS that
+            # file. Only FILE nodes: a folder node was not opened, and
+            # its editor must not steal the focus
+            info = self.get_info(item)
+            if info and info.image not in (self.ICON_DIR,
+                                           self.ICON_PROJ,
+                                           self.ICON_BAD):
+                ed.focus()
             return
         if item and self._tree_click_skips_node(item):
             return
-        self.do_open_current_file(self.get_open_options())
+        # 'open by double-click' mode: the open itself carries the
+        # focus to the editor (keep_panel_focus=False, issue #6441)
+        self.do_open_current_file(self.get_open_options(),
+                                  keep_panel_focus=False)
 
 
     def set_imagelist_size(self, theme_name, imglist):
@@ -7201,8 +7271,17 @@ class Command:
         if not reg_key and self._typeahead_key(id_ctl):
             return False  # block key
 
-        if id_ctl in [VK_SPACE, VK_ENTER, VK_F4] and not reg_key:
-            self.do_open_current_file(self.get_open_options())
+        # the two open styles of issue #6441: Space opens like a click
+        # and the focus STAYS on the file-list (keyboard browsing
+        # continues in the tree); Enter and F4 open like a double-click
+        # and the focus moves to the editor
+        if id_ctl == VK_SPACE and not reg_key:
+            self.do_open_current_file(self.get_open_options(),
+                                      keep_panel_focus=True)
+            return False #block key
+        if id_ctl in [VK_ENTER, VK_F4] and not reg_key:
+            self.do_open_current_file(self.get_open_options(),
+                                      keep_panel_focus=False)
             return False #block key
         elif id_ctl == VK_DELETE and not reg_key:
             node_type = self.get_node_type()

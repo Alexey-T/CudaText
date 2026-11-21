@@ -906,8 +906,22 @@ folders together.
 KEYBOARD SHORTCUTS (project tree)
 ------------------------------------------------------------------------------
 
-  Enter, Space or double-click   open the selected file / unfold the
-                                 selected folder
+  Space                          open the selected file / unfold the
+                                 selected folder; the focus STAYS on
+                                 the file-list, so you can keep
+                                 browsing with the keyboard (issue
+                                 #6441)
+  Enter or F4                    open the selected file / unfold the
+                                 selected folder; the focus moves to
+                                 the editor (same as double-click,
+                                 issue #6441)
+  double-click                   open the selected file: in "open by
+                                 double-click" mode it opens and
+                                 focuses the editor; in the default
+                                 preview mode the first click opened
+                                 the file already and the double-click
+                                 turns the preview into a normal tab
+                                 and focuses the editor
   Del                            move to trash (files/folders inside a
                                  node; the dialog button says "Move to
                                  trash"), or - only on an OS without

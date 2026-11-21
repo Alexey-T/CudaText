@@ -1,4 +1,17 @@
 2026.11.21 (@badrelmers)
+- Other plugins (cuda_lsp) see the tree folders in EVERY state now:
+  global_project_info['nodes'] always lists the current tree roots -
+  an opened project, the "Open folder" folder, "Add folder" folders
+  with no project open - and the closing of a folder / silent project
+  detach fires the APPSTATE_PROJECT_NODE_DEL event like any node
+  removal (listeners of e.g. LSP workspace folders learn the folders
+  are gone; APPSTATE_PROJECT does not fire in no-project states).
+- Issue #6441: Space (like single click) opens the selected file and
+  the focus STAYS on the file-list - the panel form and then the tree
+  itself are refocused after the open; Enter, F4 and double-click open
+  and move the focus to the editor (double-click in the default
+  preview mode also focuses the editor of the file its first click
+  opened; a folder node never steals the editor focus).
 - "Create new project from open tabs..." now asks in a small themed
   dialog what the new project gets besides the session: the open tabs
   always become its session, and two checkboxes (both on by default,
