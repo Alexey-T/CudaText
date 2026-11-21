@@ -1,4 +1,16 @@
 2026.11.21 (@badrelmers)
+- "Create new project from open tabs..." now asks in a small themed
+  dialog what the new project gets besides the session: the open tabs
+  always become its session, and two checkboxes (both on by default,
+  the choice remembered between calls) add the FILES of the open tabs
+  and/or their folders as project nodes. The old Yes/No question about
+  the folders is gone; a project from untitled-only tabs works too.
+- The Favorites window has a quick-select label column ('#', first
+  column) like the shortcuts of the cuda_favorites plugin, without its
+  1-9/a-z limit: 1..9, then a..z, then aa..zz, then aaa..zzz and so on
+  (bijective base-26). Typing a label with plain keys - a short
+  type-ahead with a 1-second pause, the filter field keeps its letters
+  - selects that row and scrolls it into view.
 - New session command "New empty session (closes all tabs)" (the
   sessions menu, the sessions toolbar button and the panel context
   menu): it saves the current session, re-points the app session to the

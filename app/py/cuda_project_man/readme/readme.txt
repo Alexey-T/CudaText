@@ -168,11 +168,15 @@ PROJECT FILE
       .cuda-proj location, embeds the currently open tabs as a session
       named "session1", and switches to the new project. Tabs are not
       closed.
-      Before the location dialog, when at least one opened tab has a
-      folder, a confirmation offers to also add those folders to the
-      new project as root nodes (deduplicated; several tabs of one
-      folder add it once), so the new project already lists the code
-      it was made from. Answer "No" to start with an empty root list.
+      Before the location dialog, a small options dialog asks what
+      else the new project should contain:
+        "Add the files of the open tabs to the project tree"
+        "Add the folders of the open tabs to the project tree"
+      Both are checked by default (deduplicated; several tabs of one
+      file or folder add it once), so the new project already lists
+      the code it was made from. Uncheck both to start with an empty
+      root list - the session alone is a fine project too. The choice
+      is remembered for the next call of the command.
 
   Open project...
       Opens an existing .cuda-proj file. Saves the current project's
@@ -458,11 +462,20 @@ THE FAVORITES WINDOW (toolbar button, or Favorites > Show Favorites
 window...)
   A resizable, non-modal window with three tabs: Projects, Files,
   Folders. The active tab and the sort order are remembered between
-  CudaText sessions. Columns: check | star | Name | Path | [Attached
-  projects |] State - the "Attached projects" column exists only on the
-  Files and Folders tabs (see Attachments below); the column widths are
-  resizable (drag the divider between two header captions), the Path
-  column fills the remaining width.
+  CudaText sessions. Columns: # | check | star | Name | Path |
+  [Attached projects |] State - the "Attached projects" column exists
+  only on the Files and Folders tabs (see Attachments below); the
+  column widths are resizable (drag the divider between two header
+  captions), the Path column fills the remaining width.
+
+  Quick-select labels (the "#" column, first)
+      Every row carries a short label: 1 to 9, then a to z, then aa,
+      ab ... az, ba ... zz, then aaa ... and so on. TYPE a label with
+      plain keys (while the filter field is not focused) and that row
+      is selected: press "3" to select row 3, "a" for the first row
+      after 9, "a" then "b" for the row "ab". A pause of one second
+      starts the label from scratch. Like the shortcuts of the old
+      "Favorites" plugin - but without its 1-9/a-z limit.
 
   Tab switching from the keyboard (from any focused control):
       Ctrl+PgUp / Ctrl+PgDn     previous / next tab (wraps around)
@@ -507,6 +520,8 @@ window...)
 
   Keyboard (active while the window has the focus):
       Ctrl+1..9 / Alt+1..9    open the favorite at that position
+      a label, typed          select the favorite carrying it (see the
+                              "#" column above; 1-9, a-z, aa-zz, ...)
       Enter / double-click    open the selected favorite
       Del                     delete it (from the favorites list) - but
                               while the FILTER is focused, Del stays in

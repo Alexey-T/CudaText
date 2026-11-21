@@ -1059,6 +1059,12 @@ class Command:
         # by on_start. Internal state like "on_start" - never in the
         # options dialog.
         "opened_folder": "",
+        # "Create new project from open tabs...": the last state of the
+        # dialog's two checkboxes (add the files / the folders of the
+        # open tabs as project nodes). Internal state like "on_start" -
+        # never in the options dialog.
+        "project_from_tabs_files": True,
+        "project_from_tabs_folders": True,
         "no_files": "",
         "no_dirs": ".git;.svn",
         "no_hidden": True,
@@ -4561,8 +4567,8 @@ class Command:
         current tabs are embedded as session 'session1' (used by
         'New project from open tabs...'). init_nodes is an optional list
         of root node paths the new project starts with (used by
-        'New project from open tabs...' when the user accepts adding the
-        opened tabs' folders)."""
+        'New project from open tabs...' for the files and/or folders of
+        the open tabs the user checked in the options dialog)."""
 
         # The command can run with the side panel not created yet: the
         # plugin was lazy-loaded by the menu command itself and the panel
@@ -4676,24 +4682,33 @@ class Command:
         new project's session. (Migration helper for the old workflow which
         kept sessions in external .cuda-session files.)
 
-        Before the location dialog, when at least one opened tab has a
-        folder, the user is offered to also add those folders to the new
-        project as root nodes - a project made from open tabs usually
-        wants to browse the code it was made from."""
+        Before the location dialog, an options dialog asks what else
+        goes into the new project besides the session: the FILES of the
+        open tabs and/or their FOLDERS, added as root nodes (a project
+        made from open tabs usually wants to browse the code it was
+        made from). Both checkboxes default to on, and the choice is
+        remembered for the next call."""
 
-        # ask FIRST, before the location dialog: with the folders declined,
-        # the flow is exactly the old one
-        add_tab_dirs = False
-        tab_dirs = self._collect_opened_dirs()
-        if tab_dirs:
-            n = len(tab_dirs)
-            if n == 1:
-                msg = _('Do you also want to add the folder of the opened file to the project?')
-            else:
-                msg = _('Do you also want to add the folders of the {} opened files to the project?').format(n)
-            res = msg_box_ex(_('Project Manager'), msg,
-                             [_('Yes'), _('No')], MB_ICONQUESTION)
-            add_tab_dirs = (res == 0)
+        from .projman_dlg import dialog_project_from_tabs
+
+        # ask FIRST, before the location dialog: both unchecked keeps
+        # the flow exactly the old one (a session-only project)
+        res = dialog_project_from_tabs(
+            bool(self.options.get('project_from_tabs_files', True)),
+            bool(self.options.get('project_from_tabs_folders', True)))
+        if res is None:
+            return
+        add_tab_files, add_tab_dirs = res
+        # remember the choice for the next call (saved right away, so
+        # it survives even when the location dialog is then cancelled)
+        if (self.options.get('project_from_tabs_files') != add_tab_files
+                or self.options.get('project_from_tabs_folders') != add_tab_dirs):
+            self.options['project_from_tabs_files'] = add_tab_files
+            self.options['project_from_tabs_folders'] = add_tab_dirs
+            self.save_options()
+
+        tab_files = self._collect_opened_files() if add_tab_files else []
+        tab_dirs = self._collect_opened_dirs() if add_tab_dirs else []
 
         path = info
         if path is None:
@@ -4714,7 +4729,7 @@ class Command:
             return
 
         self._create_project_file(path, close_tabs=False,
-                                  init_nodes=tab_dirs if add_tab_dirs else None)
+                                  init_nodes=(tab_files + tab_dirs) or None)
         msg_status(_("Created project from current session: ") + os.path.basename(str(path)))
 
     @_with_backup_cause('on project save')
@@ -7257,6 +7272,27 @@ class Command:
             e = Editor(h)
             fn = e.get_prop(PROP_FN, '*')
             self.add_node(fn)
+
+    def _collect_opened_files(self):
+        """Deduplicated list of the FILE names of all opened tabs (every
+        tab group), in tab order - the file half of the 'New project
+        from open tabs' dialog. Untitled tabs (no file name) are
+        skipped; a file is not filtered by whether its folder is also
+        collected - the dialog's checkboxes say exactly what the user
+        wants."""
+        files = []
+        seen = set()
+        for h in ed_handles():
+            e = Editor(h)
+            fn = e.get_prop(PROP_FN, '')
+            if not fn or fn == '*':
+                continue
+            key = os.path.normcase(os.path.normpath(fn))
+            if key in seen:
+                continue
+            seen.add(key)
+            files.append(fn)
+        return files
 
     def _collect_opened_dirs(self):
         """Deduplicated list of the folders of ALL opened tabs (every tab

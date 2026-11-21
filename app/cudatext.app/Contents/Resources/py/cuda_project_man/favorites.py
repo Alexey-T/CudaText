@@ -42,12 +42,19 @@ Main window (non-modal, resizable):
   dialog: its column header, items, selection and scrollbar all follow
   the theme, live, also when the theme is switched while CudaText runs;
   the list is ANCHORED to the form, so it grows/shrinks with the window
-- columns: check / star / Name / Path / [Attached projects /] State,
-  separated by vertical lines (painted with the rows). Every row is
-  painted by the plugin (on_draw_item owner-drawing) from the theme
-  colors: checkbox, star glyph, texts, column separators. The
+- columns: # / check / star / Name / Path / [Attached projects /]
+  State, separated by vertical lines (painted with the rows). Every
+  row is painted by the plugin (on_draw_item owner-drawing) from the
+  theme colors: checkbox, star glyph, texts, column separators. The
   'Attached projects' column exists only on the Files and Folders
   tabs (see the attachments paragraph below)
+- '#' column (first): the QUICK-SELECT label of every row - 1..9,
+  then a..z, then aa..zz, then aaa..zzz and so on (quick_label -
+  bijective base-26). Type a label with PLAIN keys (filter not
+  focused) and that row is selected: a short type-ahead buffer with a
+  KEY_SELECT_PAUSE-second pause, like the shortcut column of the
+  cuda_favorites plugin but without its 1-9/a-z limit - typing 'aaa'
+  selects the 711th row
 - checkbox column: click it to check rows, then run one command on ALL
   checked favorites at once - open, star/unstar, copy paths, rename,
   move up/down (as a block), delete - from the "Checked" button or
@@ -69,9 +76,10 @@ Main window (non-modal, resizable):
   Folders tabs (with wrap-around), Alt+P / Alt+F / Alt+O jump straight
   to the Projects / Files / Folders tab
 - while the window is focused: Ctrl+1..9 / Alt+1..9 open the item at
-  that index (index in the currently visible, filtered list), Enter
-  opens the selection, F2 renames it, Space checks it,
-  Alt+Up/Down move it, Up/Down cycle the list (from any focused
+  that index (index in the currently visible, filtered list), typing
+  an item's quick-select label (plain keys, see the '#' column)
+  SELECTS it, Enter opens the selection, F2 renames it, Space checks
+  it, Alt+Up/Down move it, Up/Down cycle the list (from any focused
   control, wrapping at the ends), Esc closes the window. Del deletes
   the SELECTED favorite - but while the filter field is focused, Del
   stays in the field and deletes the next letter, as in any editor
@@ -129,6 +137,7 @@ blow up the button column at 125%/150% DPI and make buttons disappear).
 import os
 import sys
 import json
+import time
 
 from cudatext import *
 from cudatext_keys import *
@@ -157,15 +166,19 @@ SORT_COLS = ('star', 'name', 'path', 'state')
 DEFAULT_SORT = 'star'
 
 # listbox_ex column indexes
-COL_CHECK = 0
-COL_STAR = 1
-COL_NAME = 2
-COL_PATH = 3
+#: quick-select label (1-9, a-z, aa-zz, ... - see quick_label), the
+#: FIRST column, like the shortcuts of the cuda_favorites plugin
+COL_KEY = 0
+COL_CHECK = 1
+COL_STAR = 2
+COL_NAME = 3
+COL_PATH = 4
 #: 'Attached projects' column - only shown on the Files and Folders
-#: tabs (the projects tab passes 5 columns to the listbox, see _ncols)
-COL_PROJECTS = 4
-COL_STATE = 5
-NCOLS = 6
+#: tabs (the projects tab passes one column less to the listbox, see
+#: _ncols)
+COL_PROJECTS = 5
+COL_STATE = 6
+NCOLS = 7
 
 #: column separator inside listbox_ex item/header strings: a char that
 #: never appears in a name or path
@@ -175,6 +188,7 @@ LIST_SEP = chr(1)
 #: Path column is AUTO-STRETCHED by the listbox itself (column size 0
 #: = "share the free width" in listbox_ex) - it always fills the list
 #: up to its right edge, also when the window is resized
+KEY_W = 40
 CHECK_W = 38
 STAR_W = 46
 NAME_W = 210
@@ -199,10 +213,13 @@ LIST_INDENT = 4
 #: half-width (px) of the header-divider drag zone
 RESIZE_GRIP = 6
 #: min widths (px, unscaled) of the columns while dragging
-COL_MIN_W = (24, 26, 60, 100, 40, 34)
+COL_MIN_W = (18, 24, 26, 60, 100, 40, 34)
 #: a drag must move this many px before it counts as a resize (below
 #: that, releasing over the header is a normal header click = sorting)
 DRAG_THRESHOLD = 4
+#: seconds the quick-select type-ahead waits for the next key before
+#: the typed label buffer starts over (see form_on_key)
+KEY_SELECT_PAUSE = 1.0
 
 #: LCL mouse-cursor id of the horizontal-split (left-right arrows)
 #: shape: shown over the draggable header dividers and while dragging
@@ -417,6 +434,28 @@ def _base_name(path):
     s = str(path).rstrip('/\\')
     s = os.path.basename(s)
     return s or str(path)
+
+
+def quick_label(i):
+    """Quick-select label of the row at VIEW index i (0-based):
+    '1'..'9', then 'a'..'z', then 'aa'..'zz', then 'aaa'..'zzz' and so
+    on - the digits exist only as single chars, the longer labels are
+    pure letter sequences (bijective base-26: a..z = 1..26, aa = 27,
+    ab = 28, ..., zz = 702, aaa = 703). 9 + 26 + 676 + 17576 + ...
+    labels are far more rows than any favorites list ever has; a label
+    longer than its column gets an ellipsis when drawn, but typing it
+    still selects the row."""
+    if i < 0:
+        return ''
+    if i < 9:
+        return str(i + 1)
+    k = i - 8          # bijective value: i=9 -> 1 -> 'a'
+    s = ''
+    while k > 0:
+        k -= 1
+        s = chr(ord('a') + k % 26) + s
+        k //= 26
+    return s
 
 
 def _read_json(filename):
@@ -977,9 +1016,14 @@ class FavoritesForm:
         #: a resize drag just ended: swallow the header-click (sort)
         #: that the release would fire
         self._suppress_header_click = False
-        #: column widths [check, star, name, path, projects, state],
-        #: scaled px (path = 0: auto-stretched by the listbox)
-        self.cols = [CHECK_W, STAR_W, NAME_W, 400, PROJECTS_W, STATE_W]
+        #: quick-select type-ahead: the typed label letters and the
+        #: time of the last key press (see form_on_key)
+        self._key_buf = ''
+        self._key_time = 0.0
+        #: column widths [key, check, star, name, path, projects,
+        #: state], scaled px (path = 0: auto-stretched by the listbox)
+        self.cols = [KEY_W, CHECK_W, STAR_W, NAME_W, 400, PROJECTS_W,
+                     STATE_W]
 
     def _ui_get(self, key, default):
         # plain dict access, cannot fail - no error handling wanted
@@ -990,9 +1034,9 @@ class FavoritesForm:
         return CATS[self.tab] if 0 <= self.tab < len(CATS) else 'files'
 
     def _ncols(self):
-        """Columns the listbox gets for the ACTIVE tab: 6 on the Files
+        """Columns the listbox gets for the ACTIVE tab: 7 on the Files
         and Folders tabs (the 'Attached projects' column is shown
-        there), 5 on the Projects tab."""
+        there), 6 on the Projects tab."""
         return NCOLS if self.cat() in ('files', 'folders') else NCOLS - 1
 
     def _col_const(self, live_i):
@@ -1066,6 +1110,7 @@ class FavoritesForm:
         # coordinates but not the listbox_ex internals)
         self._scale = scale
         self.cols = [
+            int(KEY_W * scale),
             int(CHECK_W * scale),
             int(STAR_W * scale),
             int(NAME_W * scale),
@@ -1674,12 +1719,14 @@ class FavoritesForm:
         return base + (' ↓' if self.sort_desc else ' ↑')
 
     def _header_text(self):
-        """The themed header line: 'All | ★ | Name | Path | [Attached
+        """The themed header line: '# | All | ★ | Name | Path | [Attached
         projects |] State' with the sort arrow on the active column.
-        The first cell ('All') toggles all checkboxes when clicked. The
-        'Attached projects' cell only exists on the Files and Folders
-        tabs."""
+        The '#' cell holds the quick-select labels (typing one selects
+        the row), the 'All' cell toggles all checkboxes when clicked.
+        The 'Attached projects' cell only exists on the Files and
+        Folders tabs."""
         cells = [
+            '#',
             _('All'),
             '★',
             self._sort_caption('name', _('Name')),
@@ -1736,7 +1783,11 @@ class FavoritesForm:
         # what is shown: the dead state is computed ONCE here, not on
         # every repaint (os.path.exists on each paint would be slow);
         # so is the 'Attached projects' text (name lookups per paint
-        # would be slow too)
+        # would be slow too). The quick-select label follows the VIEW
+        # position (index in the filtered, sorted list), like the
+        # shortcuts of the cuda_favorites plugin - and every refill
+        # starts the type-ahead from scratch
+        self._key_buf = ''
         self.rows = [{
             'data_idx': data_idx,
             'path': it['path'],
@@ -1744,9 +1795,10 @@ class FavoritesForm:
             'star': bool(it['star']),
             'dead': not os.path.exists(it['path']),
             'checked': _norm_path(it['path']) in self.checked,
+            'key': quick_label(i),
             'projects': ', '.join(self.core.project_display_name(p)
                                   for p in it.get('projects') or []),
-        } for (data_idx, it) in self.view]
+        } for i, (data_idx, it) in enumerate(self.view)]
 
         # items: the visible text is painted by on_draw_item, the item
         # text only carries the data (name + path, sep-separated)
@@ -1967,7 +2019,16 @@ class FavoritesForm:
 
         bounds = self._col_bounds()
 
-        # checkbox (col 0)
+        # quick-select label (col 0): the centered label, dimmed like
+        # the path - typing it selects the row (see form_on_key)
+        key_col = fg
+        if not selected and th.get('path') is not None:
+            key_col = th['path']
+        self._draw_text_cell(cnv, bounds[COL_KEY][0], y0,
+                             self.cols[COL_KEY], row_h,
+                             row['key'], key_col, centered=True)
+
+        # checkbox (col 1)
         sz = int(CHECK_SZ * self._scale)
         sz = min(sz, row_h - 8, self.cols[COL_CHECK] - 8)
         if sz >= 8:
@@ -1997,13 +2058,13 @@ class FavoritesForm:
                              self.cols[COL_STAR], row_h,
                              '★' if row['star'] else '☆', fg, centered=True)
 
-        # name (col 2) - dead paths painted in the theme's accent color
+        # name (col 3) - dead paths painted in the theme's accent color
         name_col = th['dead'] if row['dead'] else fg
         self._draw_text_cell(cnv, bounds[COL_NAME][0], y0,
                              self.cols[COL_NAME], row_h,
                              row['name'], name_col)
 
-        # path (col 3): refill its background first so a long name
+        # path (col 4): refill its background first so a long name
         # cannot bleed into it, then draw the path (dimmed when the
         # theme defines a sign color). The cell width is the LIVE
         # width of the auto-stretched column (self.cols[COL_PATH] is
@@ -2023,7 +2084,7 @@ class FavoritesForm:
                              path_w, row_h,
                              row['path'], path_col)
 
-        # attached projects (col 4, Files/Folders tabs only): refill
+        # attached projects (col 5, Files/Folders tabs only): refill
         # its background first (covers a long path bleeding into it),
         # then the joined project names, dimmed like the path
         lc_proj = self._live_col(COL_PROJECTS)
@@ -2573,6 +2634,20 @@ class FavoritesForm:
                 # clear it with the mouse / Shift+Home-style editing
                 return None
 
+        # quick-select labels: a PLAIN digit or letter, typed while the
+        # filter is not focused, builds the label of a row (1-9, a-z,
+        # aa-zz, ... - see the '#' column) and selects it; a pause of
+        # KEY_SELECT_PAUSE seconds starts the label from scratch
+        if not mods and not self._filter_focused():
+            ch = ''
+            if ord('1') <= key <= ord('9'):
+                ch = chr(key)
+            elif ord('A') <= key <= ord('Z') or ord('a') <= key <= ord('z'):
+                ch = chr(key).lower()
+            if ch:
+                self._select_by_typed(ch)
+                return False
+
         # Alt+Up / Alt+Down: move the item
         if 'a' in mods and 'c' not in mods and 's' not in mods:
             if key == VK_UP:
@@ -2706,10 +2781,19 @@ class FavoritesForm:
             i = 0
         else:
             i = (i + delta) % len(self.rows)
+        self._select_row(i)
+
+    def _select_row(self, i):
+        """Select row i and scroll it into view (Up/Down cycling and
+        the quick-select labels both come here). Scrolls ONLY when the
+        row sits outside the visible window (a blind SET_TOP of every
+        select would jump the view: the selected row would always land
+        on the first visible line). The listbox's own key handling
+        cannot do any of this: it only works while the LIST is
+        focused."""
+        if not self.h_list or not (0 <= i < len(self.rows)):
+            return
         try:
-            # scroll the row into view ONLY when it sits outside it
-            # (a blind SET_TOP of every move would jump the view: the
-            # selected row would always land on the first visible line)
             ih = self._item_h()
             h = self._live_list_h()
             try:
@@ -2732,6 +2816,38 @@ class FavoritesForm:
             self.update_status()
         except Exception:
             log_error('Favorites: cannot move the list selection')
+
+    def _select_by_typed(self, ch):
+        """One key of the quick-select type-ahead (see form_on_key):
+        append the char to the typed label and select the row carrying
+        that label (or the first row whose label CONTINUES it - so 'a'
+        selects 'a', then typing on builds 'aa'). A pause longer than
+        KEY_SELECT_PAUSE starts the label from scratch; a label that
+        matches nothing resets it."""
+        now = time.time()
+        if now - self._key_time > KEY_SELECT_PAUSE:
+            self._key_buf = ''
+        self._key_time = now
+        if ch.isdigit():
+            buf = ch            # 1-9 exist only as single-char labels
+        else:
+            buf = self._key_buf + ch
+        idx = -1
+        for i, r in enumerate(self.rows):
+            if r['key'] == buf:
+                idx = i
+                break
+        if idx < 0:
+            for i, r in enumerate(self.rows):
+                if r['key'].startswith(buf):
+                    idx = i
+                    break
+        if idx < 0:
+            self._key_buf = ''
+            msg_status(_('Favorites: no favorite "{}"').format(buf))
+            return
+        self._key_buf = '' if ch.isdigit() else buf
+        self._select_row(idx)
 
     def star_selected(self):
         row = self.selected_row()

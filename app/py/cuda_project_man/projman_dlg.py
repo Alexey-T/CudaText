@@ -965,3 +965,162 @@ def dialog_proj_prop(prop, edit_font_size=None):
 
     dlg_proc(h, DLG_FREE)
     return True if ok else None
+
+
+def dialog_project_from_tabs(def_files, def_folders):
+    """'New project from open tabs' options dialog, shown by
+    action_save_session_as_project BEFORE the location prompt: the open
+    tabs always become the new project's session (that is what the
+    command does), the two checkboxes decide what ELSE goes into the
+    project tree - the files of the open tabs, and their folders. The
+    checkbox states come from the plugin options (the last choice is
+    remembered) and are returned to the caller, which stores them back.
+
+    Built like dialog_proj_prop (themed form/labels/button_ex buttons,
+    Enter handled by the form) with the DRAWN checkboxes of
+    dialog_config (the sandwich of two 'colorpanel' controls - the OS
+    'check' control paints its glyph with OS colors and ignores the
+    theme, issue #6634). Returns (add_files, add_folders) when Create
+    was pressed, None when cancelled."""
+
+    colors = get_theme_ui_colors()
+    scale = _ui_scale()
+    BH = _unscale_px(app_proc(PROC_GET_GUI_HEIGHT, 'button'),
+                     scale, 30)
+    # the checkbox border: ButtonBorderPassive blended 40% toward the
+    # text color, the same recipe as dialog_config (plain
+    # ButtonBorderPassive is nearly invisible on grey themes)
+    th_dict = _theme_dict()
+    check_border = _theme_color(th_dict, 'ButtonBorderPassive', 0x808080)
+    if colors['label_font'] is not None:
+        check_border = _blend(check_border, colors['label_font'], 0.4)
+
+    W = 470
+    H = 146
+    state = {'ok': False}
+    checks = {'files': bool(def_files), 'folders': bool(def_folders)}
+    # control index -> checkbox name (both square panels + the caption
+    # label all toggle)
+    check_names = {}
+
+    def on_ok(id_dlg, id_ctl, data='', info=''):
+        state['ok'] = True
+        dlg_proc(h, DLG_HIDE)
+
+    def on_cancel(id_dlg, id_ctl, data='', info=''):
+        state['ok'] = False
+        dlg_proc(h, DLG_HIDE)
+
+    def on_form_key(id_dlg, id_ctl, data='', info=''):
+        """button_ex has no "default button" support, so the form
+        handles Enter itself (Esc cancels the modal form - engine)."""
+        if id_ctl == VK_ENTER and not (data or ''):
+            on_ok(id_dlg, id_ctl)
+            return False
+        return None
+
+    def on_check_click(id_dlg, id_ctl, data='', info=''):
+        nm = check_names.get(id_ctl)
+        if nm is None:
+            return
+        checks[nm] = not checks.get(nm, False)
+        try:
+            dlg_proc(h, DLG_CTL_PROP_SET, name='chki_' + nm,
+                     prop={'cap': CHECK_GLYPH if checks[nm] else ''})
+        except Exception:
+            log_error('Project Manager: cannot update '
+                      'the checkbox glyph')
+
+    fprop = {
+        'cap': _('New project from open tabs'),
+        'w': W,
+        'h': H,
+        'border': DBORDER_DIALOG,
+        'keypreview': True,
+        'on_key_down': on_form_key,
+    }
+    if colors['form_bg'] is not None:
+        fprop['color'] = colors['form_bg']
+    h = dlg_proc(0, DLG_CREATE)
+    dlg_proc(h, DLG_PROP_SET, prop=fprop)
+
+    def ctl(kind, name, cprop):
+        n = dlg_proc(h, DLG_CTL_ADD, prop=kind)
+        if n is None:
+            return None
+        cprop = dict(cprop)
+        cprop['name'] = name
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop=cprop)
+        return n
+
+    def label(name, cap, x, y, w, on_click=None):
+        p = {'x': x, 'y': y, 'w': w, 'h': 16, 'cap': cap}
+        if on_click is not None:
+            p['on_click'] = on_click
+        p.update(_theme_props(colors, bg_key='form_bg',
+                              font_key='label_font'))
+        return ctl('label', name, p)
+
+    label('lab_info',
+          _('Your open tabs will be saved as the new project\'s session.'),
+          12, 10, W - 24)
+
+    def check(name, cap, y):
+        """One drawn checkbox row - the sandwich pattern of
+        dialog_config.check (see its docstring for why two panels)."""
+        for nm_suffix, dx, dy, size, cap_txt in (
+                ('chk_', 0, 0, CHECK_SZ, ''),
+                ('chki_', 1, 1, CHECK_SZ - 2,
+                 CHECK_GLYPH if checks[name] else '')):
+            box = {
+                'x': 14 + dx, 'y': y + 1 + dy, 'w': size, 'h': size,
+                # 'act' is REQUIRED: the colorpanel reports its click
+                # through on_change only when marked 'act'
+                'act': True,
+                'on_change': on_check_click,
+            }
+            if nm_suffix == 'chk_':
+                box['ex0'] = 1
+                box['ex3'] = check_border
+            else:
+                box['ex0'] = 0
+                box['cap'] = cap_txt
+            if colors['form_bg'] is not None:
+                box['color'] = colors['form_bg']
+            if colors['label_font'] is not None:
+                box['font_color'] = colors['label_font']
+            n = ctl('colorpanel', nm_suffix + name, box)
+            if n is not None:
+                check_names[n] = name
+        n = label('chklab_' + name, cap,
+                  14 + CHECK_SZ + 6, y, W - 24 - CHECK_SZ - 6,
+                  on_click=on_check_click)
+        if n is not None:
+            check_names[n] = name
+
+    check('files', _('Add the files of the open tabs to the project tree'),
+          40)
+    check('folders',
+          _('Add the folders of the open tabs to the project tree'), 66)
+
+    # flat themed buttons, bottom-right (button_ex draws its caption
+    # itself, so no '&' accelerators)
+    ctl('button_ex', 'btn_ok', {
+        'x': W - 8 - 96 - 6 - 90, 'y': H - 8 - BH, 'w': 90, 'h': BH,
+        'cap': _('Create'),
+        'on_change': on_ok,
+    })
+    ctl('button_ex', 'btn_cancel', {
+        'x': W - 8 - 96, 'y': H - 8 - BH, 'w': 96, 'h': BH,
+        'cap': _('Cancel'),
+        'on_change': on_cancel,
+    })
+
+    dlg_proc(h, DLG_SCALE)
+    dlg_proc(h, DLG_SHOW_MODAL)
+
+    ok = state.get('ok', False)
+    dlg_proc(h, DLG_FREE)
+    if not ok:
+        return None
+    return (checks['files'], checks['folders'])

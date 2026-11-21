@@ -641,6 +641,12 @@ successful save).
   indexes and the self.cols/COL_* constants (sort clicks and divider
   drags arrive with LIVE indexes, the drawing and widths use the
   constants), and _apply_columns/_live_cols remove the column instead.
+  The FIRST column is COL_KEY ('#'): the quick-select labels
+  (favorites.quick_label - 1-9, then bijective base-26 a-z, aa-zz,
+  aaa-zzz, ...), assigned per VIEW position in fill_list and typed
+  with plain keys in form_on_key (a type-ahead buffer with
+  KEY_SELECT_PAUSE; _select_by_typed/_select_row select and scroll).
+  COL_KEY is never hidden, so it needs no live/constant mapping.
   The options-dialog dropdowns are 'editor_combo' controls
   (TATComboEdit - a TATSynEdit subclass): the dialog 'font_size' prop
   works on them directly, so they follow 'edit_font_size' and their
