@@ -1392,14 +1392,18 @@ begin
       if Form.CanFocus then
         Form.SetFocus;
 
-    //must set Form.ActiveControl even for not yet visible form
-    if Form.Enabled then
-      if C.Enabled then
-        Form.ActiveControl:= C;
-
     if Form.Visible and Form.Enabled then
       if C.CanFocus then
         C.SetFocus;
+
+    //must set Form.ActiveControl even for not yet visible form;
+    //AFTER the C.SetFocus above: the assignment raises for controls
+    //whose Owner is not the form (e.g. the treeview wrapped in
+    //TAppTreeContainer by the dialog API) and the outer except must
+    //not skip that focus call
+    if Form.Enabled then
+      if C.Enabled then
+        Form.ActiveControl:= C;
   except
   end;
 end;
