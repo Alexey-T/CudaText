@@ -3221,6 +3221,22 @@ class Command:
         else:
             return self.project_file_path.stem
 
+    def _update_root_caption(self):
+        """Set the tree root's text to the current panel state
+        (get_project_name) in place, WITHOUT rebuilding the tree. The
+        caption depends on opened_folder, which changes on paths that
+        don't run a full action_refresh right after (the root node is
+        removed with a single TREE_ITEM_DELETE by "Stop tracking";
+        _open_folder_independent used to set opened_folder after
+        add_node's refresh) — the caption must follow the state change
+        immediately, not on the next manual refresh or restart."""
+        if not self.tree:
+            return
+        items = tree_proc(self.tree, TREE_ITEM_ENUM_EX, 0) or []
+        if items:
+            tree_proc(self.tree, TREE_ITEM_SET_TEXT, items[0]['id'], 0,
+                      self.get_project_name())
+
     def action_refresh_int(self, parent=None):
 
         global sort_order
@@ -4724,10 +4740,13 @@ class Command:
             # tree — no session is saved or loaded, no tab is closed, the
             # current external session simply keeps owning its tabs
             # (scenario 1 of issue #6624: "user closes folder1, no session
-            # is closed or opened")
+            # is closed or opened"). Forget BEFORE the refresh:
+            # action_refresh rebuilds the root caption from
+            # get_project_name(), which must already see the folder as
+            # gone ("(No project)", not a stale "Folder (No project)")
+            self._forget_opened_folder()
             self.new_project()
             self.action_refresh()
-            self._forget_opened_folder()
             self._update_on_start_subscription(False)
             msg_status(_("Folder closed"))
             return True
@@ -6212,6 +6231,11 @@ class Command:
         # reset to "no project" and add the single node: add_node saves
         # nothing with no project file, exactly the wanted state (the
         # folder node lives only in memory + the opened_folder option)
+        # opened_folder must be set BEFORE add_node: add_node ends with
+        # action_refresh, which builds the root caption from
+        # get_project_name(), and that must already see the "one folder"
+        # state ("Folder (No project)"), not a stale "(No project)"
+        self.options['opened_folder'] = fn
         self.new_project()
         self.add_node(fn)
 
@@ -6220,11 +6244,10 @@ class Command:
         # action_open_project)
         self.add_recent(fn)
 
-        # remember for the on_start restore, and keep the plugin loading
-        # at the next start while a folder is open (like an open project
-        # does); _update_on_start_subscription saves the options, so
-        # opened_folder must be set first
-        self.options['opened_folder'] = fn
+        # keep the plugin loading at the next start while a folder is
+        # open (like an open project does); _update_on_start_subscription
+        # saves the options, so opened_folder must be set first (it is,
+        # above)
         self._update_on_start_subscription(True)
 
         self.do_unfold_first()
@@ -6356,6 +6379,11 @@ class Command:
         cost nothing."""
         if self.options.get('opened_folder'):
             self.options['opened_folder'] = ''
+            # the root caption ("Folder (No project)") must drop to
+            # "(No project)" right here: not every caller runs a full
+            # action_refresh afterwards ("Stop tracking" removes the
+            # node with a single TREE_ITEM_DELETE)
+            self._update_root_caption()
             self.save_options()
 
     def _forget_opened_folder_if_removed(self):

@@ -14,6 +14,14 @@
 - The tree root caption is "Folder (No project)" while a persistent
   "Open folder" folder is open, and "(No project)" for a plain untitled
   "Add folder" tree, which does not survive a restart.
+- The "Folder (No project)" / "(No project)" root caption now follows
+  the state change immediately instead of going stale until a manual
+  refresh or a restart: opening a folder (drop, "Open folder", command
+  line) remembered the folder only after the tree refresh, and "Stop
+  tracking this folder" / "Close project" cleared it only after (or
+  without) a refresh. The remembered folder is now set before the
+  refresh of the open, and every forget fixes the caption in place
+  with TREE_ITEM_SET_TEXT.
 
 2026.11.20 (@badrelmers)
 - "Open folder" (the File-menu command, the OS shell's "Open in

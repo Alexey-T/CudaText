@@ -1,3 +1,28 @@
+2026.11.21 (@badrelmers)
+- Fixed a "." folder auto-added to the panel at a start where the last
+  project's file was deleted: the saved empty "opened_folder" option
+  expanded to "." (os.path.normpath('') is '.'), and the folder restore
+  then tracked the CudaText process working directory as a folder. Only
+  a non-empty absolute opened_folder restores now; a config already
+  carrying "." self-heals on load. At such a start nothing is opened or
+  added, and the plugin's on_start subscription is dropped, so it does
+  not reload at every next start just to find the project file dead.
+- A folder dropped from the OS file manager onto the Project panel with
+  no project open is opened the "one folder" way (it was added to the
+  untitled tree like "Add folder..."); with a project open it is still
+  added to the project. Dropped files keep being added to the tree.
+- The tree root caption is "Folder (No project)" while a persistent
+  "Open folder" folder is open, and "(No project)" for a plain untitled
+  "Add folder" tree, which does not survive a restart.
+- The "Folder (No project)" / "(No project)" root caption now follows
+  the state change immediately instead of going stale until a manual
+  refresh or a restart: opening a folder (drop, "Open folder", command
+  line) remembered the folder only after the tree refresh, and "Stop
+  tracking this folder" / "Close project" cleared it only after (or
+  without) a refresh. The remembered folder is now set before the
+  refresh of the open, and every forget fixes the caption in place
+  with TREE_ITEM_SET_TEXT.
+
 2026.11.20 (@badrelmers)
 - "Open folder" (the File-menu command, the OS shell's "Open in
   CudaText", 'cudatext <folder>') no longer creates a project: the
@@ -12,15 +37,24 @@
   from the folder become its tabs. With a project open, opening a
   folder closes the project first (its session is saved into the
   project file, the default session loads); opening a project closes
-  the opened folder. If the opened folder already contains its own
-  <name>.cuda-proj, that project is opened instead - this also restores
-  the old behavior of folders which carry their project.
+  opened folder. When the folder carries .cuda-proj file(s) in its top
+  level, a project is opened instead of the plain folder: the one named
+  after the folder wins, else the only one found, else a dialog lists
+  all of them for the user to choose (cancelling the dialog opens the
+  plain folder).
 - The opened folder is added to the "Recent projects" list; a directory
   entry of that list opens back as a folder.
 - Drag&drop of a folder onto the editor (from the OS file manager): with
   a project open the folder is added to the project (unchanged); with no
   project open it now opens the "one folder" way instead of polluting
   the untitled project's node list.
+- Fixed "'WindowsPath' object has no attribute 'rstrip'" (a traceback
+  dialog) on "Stop tracking this folder/file" right after "Open
+  folder", and the same latent crash after deleting a file/folder from
+  the panel: do_unfold_first() and the delete flow stored a
+  pathlib.Path into cur_dir, which path_contains() could not compare;
+  both now store a str (like the tree click always did), and the path
+  helpers tolerate Path arguments too.
 
 2026.11.19
 - "Create new project from open tabs..." now offers (a Yes/No message

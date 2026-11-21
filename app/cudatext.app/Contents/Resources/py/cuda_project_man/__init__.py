@@ -801,7 +801,12 @@ def _rtrim_sep(s):
     """Path without its trailing separator(s): 'D:\\' -> 'D:',
     '\\\\server\\share\\' -> '\\\\server\\share'. Needed to compare
     paths that keep/drop the trailing separator in different places
-    (the tree, the saved nodes list, the OS dialogs)."""
+    (the tree, the saved nodes list, the OS dialogs). Tolerates
+    pathlib.Path arguments (get_location_by_index returns them):
+    os.fspath() turns Path into str, so 'Stop tracking' on the folder
+    opened with "Open folder" no longer crashes with "'WindowsPath'
+    object has no attribute 'rstrip'" when cur_dir holds a Path."""
+    s = os.fspath(s)
     if not s:
         return s
     return s.rstrip('\\/' if IS_WIN else '/')
@@ -1272,11 +1277,21 @@ class Command:
                     for fn in self.options["recent_projects"]:
                         healed.extend(p for p in str(fn).split("\t") if p.strip())
                     self.options["recent_projects"] = [expand_macros('', fn) for fn in healed]
-                if "opened_folder" in self.options:
+                if self.options.get("opened_folder"):
                     # same portability treatment as the recent list: a
                     # folder inside the app dir keeps working after the
-                    # whole app dir is moved
-                    self.options["opened_folder"] = expand_macros('', self.options["opened_folder"])
+                    # whole app dir is moved. Only a non-empty value is
+                    # expanded, and the result must be absolute:
+                    # expand_macros ends with os.path.normpath, which maps
+                    # '' to '.', and a restored '.' would add the process
+                    # working directory to the tree (seen at a start where
+                    # the last project's file was deleted, so no project
+                    # loaded and the folder restore ran instead). "Open
+                    # folder" always saves absolute paths, so a relative
+                    # value here is garbage - drop it, the file self-heals
+                    # on the next save_options
+                    fn = expand_macros('', self.options["opened_folder"])
+                    self.options["opened_folder"] = fn if os.path.isabs(fn) else ''
             except FileNotFoundError:
                 # intentional silence: no options file yet (first run)
                 pass
@@ -2297,7 +2312,10 @@ class Command:
 
         - Files/folders dropped from the OS file manager are added to the
           current project (CudaText opens files dropped anywhere else in
-          the editor, as before).
+          the editor, as before). A FOLDER dropped with NO project open
+          opens the "one folder" way instead (issue #6624): the untitled
+          "Add folder" tree does not survive a restart, a dropped folder
+          is clearly meant to be opened.
         - On Windows, a node dragged out of the tree (OLE 'drag_files')
           and dropped back onto the panel is the inner drag&drop: reorder
           the node / move a file/folder into a folder node, with
@@ -2353,6 +2371,7 @@ class Command:
             return
 
         added = []
+        opened = []
         skipped = []
         for fn in files_str.split(chr(1)):
             fn = fn.strip().strip('"').strip("'")
@@ -2364,18 +2383,27 @@ class Command:
             if is_locked(fn):
                 skipped.append(fn + ' (' + _('hidden/locked') + ')')
                 continue
+            if os.path.isdir(fn) and not self.project_file_path:
+                # a folder dropped with NO project open is not "Add
+                # folder": the untitled tree does not survive a restart,
+                # so open it the "one folder" way, exactly like a drop
+                # onto the editor does (issue #6624)
+                self._open_folder_any(fn)
+                opened.append(fn)
+                continue
             self.add_node(fn)
             added.append(fn)
 
         if added:
             msg_status(_('Added to project') + ': ' + str(len(added)))
-        else:
+        elif not opened:
             # loud and diagnostic: show what was received, so a broken
             # drop can never be silent again
             received = files_str.replace(chr(1), ', ')
             detail = ('; ' + '; '.join(skipped)) if skipped else ''
             msg_status(_('Cannot add dropped paths to the project') + ': ' +
                        received + detail)
+        # a folder opened above keeps its own "Folder opened: ..." status
 
     def _do_panel_self_drop(self, x, y):
         """A node dragged out of the tree was dropped back onto this panel
@@ -3084,9 +3112,12 @@ class Command:
         tree_proc(self.tree, TREE_ITEM_SELECT, h_parent)
         self.action_refresh(h_parent)
 
-        path = self.get_location_by_index(self.selected)
-        app_proc(PROC_SET_FOLDER, path)
-        self.cur_dir = path
+        # str() like in the tree click: cur_dir must stay a str for
+        # path_contains() (see do_unfold_first); skip the parasitic '.'
+        path = str(self.get_location_by_index(self.selected))
+        if path and not path.startswith('.'):
+            app_proc(PROC_SET_FOLDER, path)
+            self.cur_dir = path
 
         if outcome == 'trash':
             msg_status(_("Moved to %s: ") % trash_label() + str(location.name))
@@ -3179,9 +3210,32 @@ class Command:
     def get_project_name(self):
 
         if self.project_file_path is None:
+            # the "Open folder" state is the only other persistent panel
+            # state (issue #6624): mark it, so a tree restored after a
+            # restart ("Folder (No project)") is told apart from a plain
+            # untitled "Add folder" tree ("(No project)"), which does not
+            # survive a restart
+            if self.options.get('opened_folder'):
+                return _("Folder (No project)")
             return PROJECT_UNSAVED_NAME
         else:
             return self.project_file_path.stem
+
+    def _update_root_caption(self):
+        """Set the tree root's text to the current panel state
+        (get_project_name) in place, WITHOUT rebuilding the tree. The
+        caption depends on opened_folder, which changes on paths that
+        don't run a full action_refresh right after (the root node is
+        removed with a single TREE_ITEM_DELETE by "Stop tracking";
+        _open_folder_independent used to set opened_folder after
+        add_node's refresh) — the caption must follow the state change
+        immediately, not on the next manual refresh or restart."""
+        if not self.tree:
+            return
+        items = tree_proc(self.tree, TREE_ITEM_ENUM_EX, 0) or []
+        if items:
+            tree_proc(self.tree, TREE_ITEM_SET_TEXT, items[0]['id'], 0,
+                      self.get_project_name())
 
     def action_refresh_int(self, parent=None):
 
@@ -4686,10 +4740,13 @@ class Command:
             # tree — no session is saved or loaded, no tab is closed, the
             # current external session simply keeps owning its tabs
             # (scenario 1 of issue #6624: "user closes folder1, no session
-            # is closed or opened")
+            # is closed or opened"). Forget BEFORE the refresh:
+            # action_refresh rebuilds the root caption from
+            # get_project_name(), which must already see the folder as
+            # gone ("(No project)", not a stale "Folder (No project)")
+            self._forget_opened_folder()
             self.new_project()
             self.action_refresh()
-            self._forget_opened_folder()
             self._update_on_start_subscription(False)
             msg_status(_("Folder closed"))
             return True
@@ -6065,19 +6122,69 @@ class Command:
         tree_proc(self.tree, TREE_ITEM_UNFOLD, h_first)
         tree_proc(self.tree, TREE_ITEM_SELECT, h_first)
 
-        path = self.get_location_by_index(self.selected)
-        app_proc(PROC_SET_FOLDER, path)
-        self.cur_dir = path
+        # str() like in the tree click: get_location_by_index returns a
+        # pathlib.Path, and cur_dir must stay a str — "Stop tracking"
+        # feeds it to path_contains() (issue #6624 traceback). The '.'
+        # guard is the tree click's: str(Path('')) is '.', the parasitic
+        # caption of the project root node.
+        path = str(self.get_location_by_index(self.selected))
+        if path and not path.startswith('.'):
+            app_proc(PROC_SET_FOLDER, path)
+            self.cur_dir = path
+
+    def _find_folder_project(self, fn):
+        """Project detection for "Open folder" (issue #6624): return the
+        .cuda-proj file the folder carries, to open instead of the plain
+        folder. The rules (agreed with badrelmers):
+        - the project named after the folder ('<folder>/<name>.cuda-proj')
+          wins, like the old rule;
+        - else, if the folder carries exactly ONE project, open it,
+          whatever its name;
+        - else, if it carries several, let the user pick from a dialog
+          listing them all;
+        - no project inside (or the dialog cancelled): '' — the plain
+          "one folder" open.
+        Only the folder's top level is scanned: a project nested deeper
+        must not be opened behind the user's back."""
+
+        try:
+            names = os.listdir(fn)
+        except OSError:
+            return ''
+        projects = [name for name in names
+                    if name.endswith(PROJECT_EXTENSION)
+                    and os.path.isfile(os.path.join(fn, name))]
+
+        base = os.path.basename(fn.rstrip('\\/')) or 'project'
+        same = os.path.join(fn, base + PROJECT_EXTENSION)
+        # isfile(), not list membership: on Windows the file system is
+        # case-insensitive, 'MyApp.cuda-proj' is the folder's project too
+        if os.path.isfile(same):
+            return same
+
+        if len(projects) == 1:
+            return os.path.join(fn, projects[0])
+
+        if projects:
+            projects.sort()
+            res = dlg_menu(DMENU_LIST, projects,
+                           caption=_('Choose project to open'))
+            if res is None:
+                # cancelled: the user still wanted the FOLDER open
+                return ''
+            return os.path.join(fn, projects[res])
+
+        return ''
 
     def _open_folder_any(self, fn):
         """Shared "Open folder" flow (issue #6624): open the folder the
         "one folder" way (_open_folder_independent) — or, when the folder
-        already carries its own project file (<folder>/<name>.cuda-proj),
-        open THAT project instead: the folder is then a project, with its
-        sessions. Used by "File - Open folder...", 'cudatext <folder>' /
-        the OS shell's "Open in CudaText" (via open_dir), and by the
-        folder entries of the "Recent projects" list (via
-        action_open_project)."""
+        carries a .cuda-proj file, open THAT project instead (the folder
+        is then a project, with its sessions); see _find_folder_project
+        for which project that is. Used by "File - Open folder...",
+        'cudatext <folder>' / the OS shell's "Open in CudaText" (via
+        open_dir), and by the folder entries of the "Recent projects"
+        list (via action_open_project)."""
 
         if not os.path.isdir(fn):
             print(_('Project Manager: folder not found: ') + fn)
@@ -6091,10 +6198,9 @@ class Command:
             return
 
         self.init_panel()
-        base = os.path.basename(fn.rstrip('\\/')) or 'project'
-        proj = os.path.join(fn, base + PROJECT_EXTENSION)
-        if os.path.isfile(proj):
-            # the folder already has a project: open it instead
+        proj = self._find_folder_project(fn)
+        if proj:
+            # the folder carries a project: open it instead
             self.action_open_project(proj)
             return
 
@@ -6125,6 +6231,11 @@ class Command:
         # reset to "no project" and add the single node: add_node saves
         # nothing with no project file, exactly the wanted state (the
         # folder node lives only in memory + the opened_folder option)
+        # opened_folder must be set BEFORE add_node: add_node ends with
+        # action_refresh, which builds the root caption from
+        # get_project_name(), and that must already see the "one folder"
+        # state ("Folder (No project)"), not a stale "(No project)"
+        self.options['opened_folder'] = fn
         self.new_project()
         self.add_node(fn)
 
@@ -6133,11 +6244,10 @@ class Command:
         # action_open_project)
         self.add_recent(fn)
 
-        # remember for the on_start restore, and keep the plugin loading
-        # at the next start while a folder is open (like an open project
-        # does); _update_on_start_subscription saves the options, so
-        # opened_folder must be set first
-        self.options['opened_folder'] = fn
+        # keep the plugin loading at the next start while a folder is
+        # open (like an open project does); _update_on_start_subscription
+        # saves the options, so opened_folder must be set first (it is,
+        # above)
         self._update_on_start_subscription(True)
 
         self.do_unfold_first()
@@ -6269,6 +6379,11 @@ class Command:
         cost nothing."""
         if self.options.get('opened_folder'):
             self.options['opened_folder'] = ''
+            # the root caption ("Folder (No project)") must drop to
+            # "(No project)" right here: not every caller runs a full
+            # action_refresh afterwards ("Stop tracking" removes the
+            # node with a single TREE_ITEM_DELETE)
+            self._update_root_caption()
             self.save_options()
 
     def _forget_opened_folder_if_removed(self):
@@ -6388,13 +6503,23 @@ class Command:
                 sess_ptr = resolve_session_pointer(sess_ptr)
                 proj_in_hist = sess_ptr.split('|', 1)[0]
                 if same_path(proj_in_hist, items[0]):
-                    # CudaText is loading this project's session — let it
-                    # proceed, just load the project metadata (no session
-                    # save/close/load, which would prompt for modified tabs).
-                    # CudaText restores the last used session itself; only
-                    # record it in the project file as "last_session".
-                    self.action_open_project(items[0], load_session=False)
-                    self._remember_last_session(sess_ptr)
+                    if os.path.isfile(items[0]):
+                        # CudaText is loading this project's session — let it
+                        # proceed, just load the project metadata (no session
+                        # save/close/load, which would prompt for modified tabs).
+                        # CudaText restores the last used session itself; only
+                        # record it in the project file as "last_session".
+                        self.action_open_project(items[0], load_session=False)
+                        self._remember_last_session(sess_ptr)
+                    else:
+                        # the project file is gone (deleted/renamed while
+                        # CudaText was closed): nothing is opened or added.
+                        # Detach too: the plugin must not load at every
+                        # next start just to find the file dead again
+                        # (report for issue #6624)
+                        msg_status(_("Project file not found: ") +
+                                   collapse_filename(items[0]))
+                        self._update_on_start_subscription(False)
                 else:
                     # CudaText is loading a session that belongs to a
                     # DIFFERENT project. This happens if history.json was
@@ -6428,7 +6553,10 @@ class Command:
         # the folder deliberately owns no session of its own.
         fn = self.options.get('opened_folder', '')
         if fn and not self.project_file_path:
-            if os.path.isdir(fn):
+            # isabs: a restored folder is always absolute; a relative
+            # leftover ('.' from a buggy value) is not a folder to open -
+            # the else branch forgets it, the options file self-heals
+            if os.path.isdir(fn) and os.path.isabs(fn):
                 self.new_project()
                 self.add_node(fn)
                 self.do_unfold_first()
