@@ -3,6 +3,24 @@
   - fixed
   * changed
 
+1.240.1 (2026/11)
+
++ add: Project Manager improvements: (by @badrelmers)
+    + add: Full multi-selection support (Ctrl+click to toggle, Shift+click for ranges)
+    - fix: Ctrl/Shift + click never opens a file or starts a drag
+    - fix: The long discussed problem of what "File > Open Folder" menu should do; Open Folder without creating a project
+    * change: Opening a folder (via File menu, shell, or command line) now shows it in the Project panel as a plain folder. No .cuda-proj file is created inside it. Only one folder can be open this way at a time. Opening another one closes the previous as VSCode.
+    + add: Favorites: Quick labels in the Favorites window (1, 2, 3… then a, b, c… then aa, ab… etc.). Just type the label to jump to that item
+    + add: Favorites: Switch between Projects/Files/Folders tabs with keyboard (Ctrl+PgUp/PgDn, Ctrl+Left/Right, or Alt+P / Alt+F / Alt+O)
+    + add: Favorites: Attach favorites to projects — link files or folders to one or more projects
+    + add: Favorites: New command “Find favorites…”
+    + add: New command: “New empty session (closes all tabs)”
+    + add: “Create new project from open tabs…” now offers clear checkboxes: "Add the open files as project nodes" / "Add their folders as project nodes"
+    + add: Recent projects/folders list now holds up to 50 entries (was 10)
+    + add: Space key opens the selected file and keeps focus on the file list (same as a single click)
+    + add: Settings and runtime state are now cleanly separated into different files cuda_project_man_store.json and cuda_project_man.json
+    - fix: a lot of bugs in cut/copy/paste files, there were some dangerous bugs and overwrites
+
 - fix: don't over-scale toolbar/sidebar buttons for "ui_scale":150 (thanks @NeroWolfe75)
 
 1.240.0 (2026/11)
