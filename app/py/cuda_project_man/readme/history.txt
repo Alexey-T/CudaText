@@ -1,4 +1,16 @@
 2026.11.21 (@badrelmers)
+- Fix: Ctrl/Shift+click multi-selection had no visible effect (the
+  report: "still only one element selected"). Cause: init_panel calls
+  TREE_THEME right after the tree is built, and the engine's
+  ApplyThemeToTreeview REBUILDS the treeview Options set - without
+  tvoAllowMultiselect, which is exactly the flag TREE_SET_MULSELECT
+  had set a moment earlier (both are the same LCL flag: the
+  tvoAllowMultiselect option and the MultiSelect property). Fixes:
+  the plugin now enables the multi-selection AFTER the TREE_THEME
+  call (works on the current build, no rebuild needed), and the
+  engine's ApplyThemeToTreeview preserves tvoAllowMultiselect across
+  the Options reassignment (protects the TREE_SET_MULSELECT API for
+  every plugin and any later TREE_THEME; needs a rebuild).
 - Fix: after Space/single-click opened a file, the focus landed on the
   FILTER field instead of the file-list. Two causes, both fixed: (1)
   the engine's DLG_CTL_FOCUS was a silent no-op for treeview controls

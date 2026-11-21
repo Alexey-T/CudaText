@@ -1656,14 +1656,6 @@ class Command:
         self.tree_imglist = tree_proc(self.tree, TREE_GET_IMAGELIST)
         tree_proc(self.tree, TREE_PROP_SHOW_ROOT, text='0')
         tree_proc(self.tree, TREE_ITEM_DELETE, 0)
-        # multi-selection like in other editors: Ctrl+click toggles a
-        # node in/out of the selection (msControlSelect), Shift+click
-        # selects the range from the focused node (msShiftSelect); read
-        # the set with selected_handles()/selected_locations(). LCL's
-        # TTreeView does the mouse handling itself, a plain click
-        # resets to a single selection. A tree refresh (F5 and every
-        # node change) rebuilds the items and clears the selection.
-        tree_proc(self.tree, TREE_SET_MULSELECT, text='cs')
         # 'ui_font_size' for the tree; the item heights follow the
         # font. Must ALSO be re-applied by apply_panel_theme(): the
         # engine's theming pass RESETS the treeview font
@@ -1750,6 +1742,20 @@ class Command:
 
         #dlg_proc(self.h_dlg, DLG_SCALE)
         tree_proc(self.tree, TREE_THEME) #TREE_THEME only after DLG_SCALE
+
+        # multi-selection like in other editors: Ctrl+click toggles a
+        # node in/out of the selection (msControlSelect), Shift+click
+        # selects the range from the focused node (msShiftSelect); read
+        # the set with selected_handles()/selected_locations(). LCL's
+        # TTreeView does the mouse handling itself, a plain click
+        # resets to a single selection. A tree refresh (F5 and every
+        # node change) rebuilds the items and clears the selection.
+        # MUST run AFTER the TREE_THEME call above: TREE_THEME reapplies
+        # the treeview theme and its ApplyThemeToTreeview REBUILDS
+        # Options, dropping tvoAllowMultiselect - enabling it before
+        # that was a silent no-op (the engine also preserves the flag
+        # now, but this order works on older builds too).
+        tree_proc(self.tree, TREE_SET_MULSELECT, text='cs')
 
         app_proc(PROC_SIDEPANEL_ADD_DIALOG, (self.title, self.h_dlg, 'project.png'))
 
