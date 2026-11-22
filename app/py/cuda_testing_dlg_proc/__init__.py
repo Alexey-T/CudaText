@@ -841,7 +841,11 @@ class Command:
 
     def do_editor_gap(self, ed, num):
 
-        id_bitmap, id_canvas = ed.gap(GAP_MAKE_BITMAP, 600, 50)
+        w = 600
+        h = 50
+        id_bitmap = bitmap_proc(0, BITMAP_CREATE, w, h)
+        id_canvas = bitmap_proc(id_bitmap, BITMAP_GET_CANVAS)
+
         canvas_proc(id_canvas, CANVAS_SET_BRUSH, color=0xa0ffa0)
         canvas_proc(id_canvas, CANVAS_SET_ANTIALIAS, style=ANTIALIAS_ON)
         canvas_proc(id_canvas, CANVAS_POLYGON, '200,0,300,30,200,49')
