@@ -1276,7 +1276,7 @@ var
   St: TATStrings;
   X1, Y1, X2, Y2: integer;
   iCaret, NLineChanged, NLastCaret: integer;
-  bSel, bBackwardSel: boolean;
+  bSel, bWithSel, bBackwardSel: boolean;
   CharEnd: WideChar;
   Shift, PosAfter: TPoint;
 begin
@@ -1308,8 +1308,20 @@ begin
 
   Ed.OptAutoPair_DisableCharDoubling:= true;
 
-  St.BeginUndoGroup;
   NLastCaret:= Ed.Carets.Count-1;
+  bWithSel:= false;
+  for iCaret:= NLastCaret downto 0 do
+  begin
+    Caret:= Ed.Carets[iCaret];
+    if not St.IsIndexValid(Caret.PosY) then Continue;
+    if Caret.IsSelection then
+    begin
+      bWithSel:= true;
+      Break;
+    end;
+  end;
+
+  St.BeginUndoGroup;
   for iCaret:= NLastCaret downto 0 do
   begin
     Caret:= Ed.Carets[iCaret];
@@ -1325,7 +1337,7 @@ begin
     if not bSel then
     begin
       St.TextInsert(X1, Y1, CharBegin+CharEnd, false, Shift, PosAfter);
-      if Assigned(AMacroStrings) then
+      if Assigned(AMacroStrings) and not bWithSel then
       begin
         AMacroStrings.Add(IntToStr(cCommand_TextInsert)+','+UTF8Encode(CharBegin+CharEnd));
         AMacroStrings.Add(IntToStr(cCommand_KeyLeft));
@@ -1374,6 +1386,8 @@ begin
 
   if Result then
   begin
+    if Assigned(AMacroStrings) and bWithSel then
+      AMacroStrings.Add(IntToStr(cCommand_TextInsert)+','+UTF8Encode(UnicodeString(CharBegin)));
     Ed.Modified:= true;
     Ed.DoEventChange(NLineChanged);
     Ed.Update(true);
