@@ -2976,9 +2976,9 @@ class Command:
 
     def _untrack_root_by_path(self, path):
         """'Stop tracking' for one KNOWN root path (the multi-delete):
-        find the top-level tree item of the path, drop it and its
-        saved node - the same steps action_remove_node does for the
-        focused node. Returns True when the root was found."""
+        drop only the SAVED node here - the tree itself is rebuilt by
+        the caller (_delete_locations_multi refreshes on every exit
+        path). Returns True."""
 
         node = None
         for n in self.project["nodes"]:
@@ -3031,6 +3031,9 @@ class Command:
                              [_("Move to trash"), _("Cancel")],
                              MB_ICONQUESTION)
             if res != 0:
+                # roots (if confirmed above) are already untracked - the
+                # tree must be rebuilt or they stay visible till refresh
+                self.action_refresh()
                 return
             failed = []
             for p in inner:
@@ -3057,6 +3060,8 @@ class Command:
                              [_("DELETE PERMANENTLY"), _("Cancel")],
                              MB_ICONWARNING, focused=1)
             if res != 0:
+                # same as above: already-untracked roots need the rebuild
+                self.action_refresh()
                 return
             for p in inner:
                 try:
