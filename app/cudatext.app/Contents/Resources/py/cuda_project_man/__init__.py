@@ -2980,19 +2980,6 @@ class Command:
         saved node - the same steps action_remove_node does for the
         focused node. Returns True when the root was found."""
 
-        # Alexey: this commented block is crap, why is it here?
-        '''
-        items = tree_proc(self.tree, TREE_ITEM_ENUM_EX, 0) or []
-        h_item = None
-        for it in items:
-            if path_equals(str(it.get('data', '')), str(path)):
-                h_item = it['id']
-                break
-        if h_item is None:
-            return False
-        tree_proc(self.tree, TREE_ITEM_DELETE, h_item)
-        '''
-
         node = None
         for n in self.project["nodes"]:
             if path_equals(n, str(path)):
