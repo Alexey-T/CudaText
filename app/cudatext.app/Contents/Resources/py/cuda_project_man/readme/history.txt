@@ -1,4 +1,17 @@
 2026.11.23 (@badrelmers)
++ Project panel: new 'Favorites' section at the very top of the
+  project tree, right below the project name and before every
+  project node - the file/folder favorites ATTACHED to the current
+  project (the same links the Favorites window manages: "Attach
+  favorite to project..."). The section wears the Favorites star
+  icon (the toolbar's star png, auto-black/white for the UI theme);
+  its children are normal tree nodes - a click opens a file, a
+  folder expands like any folder node. No section without a saved
+  project file, and none when nothing is attached (an empty
+  section would be noise). Attach/detach/delete/rename in the
+  Favorites window refresh the tree at once.
+
+2026.11.23 (@badrelmers)
 + The 'Ignore files'/'Ignore folders' option lists change their
   separator from ';' to '/': a file NAME can contain ';' on every
   OS, while '/' can never be part of a base name - so a mask with a

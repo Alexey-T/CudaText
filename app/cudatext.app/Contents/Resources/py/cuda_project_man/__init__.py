@@ -108,7 +108,10 @@ if IS_WIN:
 PROJECT_EXTENSION = ".cuda-proj"
 PROJECT_DIALOG_FILTER = _("CudaText projects") + "|*" + PROJECT_EXTENSION
 PROJECT_UNSAVED_NAME = _("(No project)")
-NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD = range(4)
+NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD, NODE_FAV = range(5)
+#: NODE_FAV marks the tree's 'Favorites' section header (the attached
+#: favorites of the current project): not a path node, every handler
+#: treats it as its own kind (no open, no fold, its own context menu)
 OS_SUFFIX = app_proc(PROC_GET_OS_SUFFIX, '')
 
 #: delay (ms) after the last keystroke in the tree filter field before
@@ -1002,12 +1005,16 @@ class Command:
         ("-", "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "", ""),
         (_("Project properties..."), "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_project_properties", ""),
 
-        (_("Add folder..."), "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_add_folder", ""),
-        (_("Add file..."), "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_add_file", ""),
-        (_("Add current file"), "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.add_current_file", ""),
-        (_("Add all opened files"), "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.add_opened_files", ""),
-        (_("Add folder of current file"), "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.add_current_dir", ""),
-        (_("Add folders of all opened files"), "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.add_opened_dirs", ""),
+        # the Add* items are also offered on the tree's 'Favorites'
+        # section header (NODE_FAV): they act on the project, not on
+        # the selection - 'Stop tracking' and 'Clean up' stay away
+        # from it (they would walk up to its level-1, path-less self)
+        (_("Add folder..."), "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD, NODE_FAV], "cuda_project_man.action_add_folder", ""),
+        (_("Add file..."), "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD, NODE_FAV], "cuda_project_man.action_add_file", ""),
+        (_("Add current file"), "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD, NODE_FAV], "cuda_project_man.add_current_file", ""),
+        (_("Add all opened files"), "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD, NODE_FAV], "cuda_project_man.add_opened_files", ""),
+        (_("Add folder of current file"), "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD, NODE_FAV], "cuda_project_man.add_current_dir", ""),
+        (_("Add folders of all opened files"), "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD, NODE_FAV], "cuda_project_man.add_opened_dirs", ""),
         ("-", "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "", ""),
         (_("Stop tracking this folder/file"), "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_remove_node", ""),
         (_("Clean up missing paths..."), "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_remove_deleted_nodes", ""),
@@ -1061,7 +1068,7 @@ class Command:
         ("-"   , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "", ""),
         (_("Project sessions"), "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "sessions_submenu", ""),
         ("-"   , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "", ""),
-        (_("Favorites"), "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "favorites_submenu", ""),
+        (_("Favorites"), "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD, NODE_FAV], "favorites_submenu", ""),
         ("-"   , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "", ""),
         (_("Project Manager options..."), "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_config", ""),
     )
@@ -1353,6 +1360,12 @@ class Command:
                 self.options[key] = migrated[key]
         self.options.setdefault('recent_projects', [])
         self.options.setdefault('opened_folder', '')
+
+        # the Favorites window reports its attachment changes (attach
+        # / detach / delete / rename / move) back here, so the tree's
+        # 'Favorites' section follows live
+        # (see _favorites_tree_refresh)
+        _favorites.set_tree_refresh_hook(self._favorites_tree_refresh)
 
         if "recent_projects" in self.options:
             # heal entries merged into one tab-joined line by the
@@ -2597,6 +2610,7 @@ class Command:
             if n == self.ICON_PROJ: node_type = NODE_PROJECT
             elif n == self.ICON_DIR: node_type = NODE_DIR
             elif n == self.ICON_BAD: node_type = NODE_BAD
+            elif n == self.ICON_FAV: node_type = NODE_FAV
             else: node_type = NODE_FILE
 
         # a TOP-LEVEL node (level 1) must never offer "Delete": nodes
@@ -3819,6 +3833,11 @@ class Command:
             items_root = tree_proc(self.tree, TREE_ITEM_ENUM_EX, 0)
             tree_proc(self.tree, TREE_ITEM_SELECT, items_root[0]['id'])
 
+            # the project's attached favorites sit at the very top,
+            # right below the project name and before every project
+            # node (see _add_favorites_section)
+            self._add_favorites_section(parent)
+
             nodes = map(Path, self.project.get("nodes", []))
             if sort_order != '':
                 nodes = sorted(nodes, key=Command.node_ordering_direntry)
@@ -4757,6 +4776,42 @@ class Command:
             self._node_icon(spath, sname, is_dir),
             data=spath
             )
+
+    def _add_favorites_section(self, parent):
+        """The 'Favorites' section at the very top of the project tree:
+        the file/folder favorites attached to the CURRENT project (the
+        same links the Favorites window manages), right below the
+        project name and before every project node - they are the
+        project's picked shortcuts, so they come first. Not shown
+        without a saved project file (the folder-only state has no
+        project identity) and not shown when nothing is attached (an
+        empty section would be pure noise). The section node itself is
+        not a path: its icon (ICON_FAV) makes every click/menu handler
+        treat it as its own kind (NODE_FAV) - the CHILDREN are normal
+        nodes, so opening files and expanding folders work unchanged."""
+        proj = str(self.project_file_path) if self.project_file_path else ''
+        if not proj or proj == '.':
+            return
+        attached = _favorites.attached_of_project(proj)
+        if not attached:
+            return
+        # data='': like the project root node, a non-path node every
+        # path-based handler skips (its icon is the behavior key)
+        section = tree_proc(self.tree, TREE_ITEM_ADD, parent, -1,
+                            _('Favorites'), self.ICON_FAV, data='')
+        for cat, name, path in attached:
+            # the opened project's own .cuda-proj file is never shown
+            # in the tree (the 'Project file' menu manages it) - an
+            # attached favorite pointing at it stays hidden too
+            if self.is_opened_project_file(path):
+                continue
+            is_dir = os.path.isdir(path)
+            index = self._add_tree_node(section, name, path, is_dir)
+            if is_dir:
+                # the dummy child gives the fold arrow; the real
+                # children are scanned on unfold, exactly like the
+                # tree's own folder nodes
+                tree_proc(self.tree, TREE_ITEM_ADD, index, -1, 'dummy', -1)
 
     def _fill_tree_filtered_top(self, rows=None):
         """Rebuild the tree showing its TOP level only: the direct
@@ -6492,6 +6547,10 @@ class Command:
         if node is None:
             return
         node_type = self.get_node_type()
+        if node_type == NODE_FAV:
+            # the tree's 'Favorites' section header is not a path
+            msg_status(_('Project Manager: the Favorites section is not a path'))
+            return
         if node_type == NODE_PROJECT:
             path = str(self.project_file_path) if self.project_file_path else ''
             if not path or path == '.':
@@ -6521,6 +6580,21 @@ class Command:
     def _favorites_ctx(self, info=None):
         """Internal: callback of the favorites list context menu."""
         _favorites.context_action(info)
+
+    def _favorites_tree_refresh(self):
+        """Callback of favorites.py (set_tree_refresh_hook, registered
+        in __init__): the favorites' attachment links or names changed
+        in the Favorites window - rebuild the tree so its 'Favorites'
+        section (the attached favorites of the current project)
+        follows live. Only with a saved project file: the section
+        needs the project identity, and a folder-only panel has
+        nothing to rebuild (a needless full refresh would also
+        collapse the expanded nodes)."""
+        if not self.tree:
+            return
+        proj = str(self.project_file_path) if self.project_file_path else ''
+        if proj and proj != '.':
+            self.action_refresh()
 
     def action_project_properties(self):
         self.config_proj()
@@ -6633,7 +6707,9 @@ class Command:
         id = menu_proc(menu, MENU_ADD,
                        command='cuda_project_man.action_add_to_favorites',
                        caption=_('Add to favorites'))
-        if self.selected is None:
+        if self.selected is None or self.get_node_type() == NODE_FAV:
+            # nothing selected, or the tree's 'Favorites' section
+            # header (not a path - nothing to add)
             menu_proc(id, MENU_SET_ENABLED, command=False)
 
         menu_proc(menu, MENU_ADD, caption='-')
@@ -7542,7 +7618,7 @@ class Command:
         if info.image == self.ICON_DIR:
             tree_proc(self.tree, TREE_ITEM_UNFOLD if tree_proc(self.tree, TREE_ITEM_GET_PROPS, self.selected)['folded'] else TREE_ITEM_FOLD, self.selected)
             return
-        elif info.image in [self.ICON_BAD, self.ICON_PROJ]:
+        elif info.image in [self.ICON_BAD, self.ICON_PROJ, self.ICON_FAV]:
             return
 
         if not os.path.isfile(str(path)):
@@ -7721,7 +7797,8 @@ class Command:
             info = self.get_info(item)
             if info and info.image not in (self.ICON_DIR,
                                            self.ICON_PROJ,
-                                           self.ICON_BAD):
+                                           self.ICON_BAD,
+                                           self.ICON_FAV):
                 ed.focus()
             return
         if item and self._tree_click_skips_node(item):
@@ -7850,8 +7927,9 @@ class Command:
 
     def _tree_icon_constants(self):
         """Fetch the special tree icons' image indexes (the project
-        root, a folder, the error marker, the generic file types) into
-        self.ICON_* attributes. Runs at panel init AND from
+        root, a folder, the error marker, the generic file types, the
+        Favorites section) into self.ICON_* attributes. Runs at panel
+        init AND from
         tree_icons_reload() - the indexes change with every imagelist
         refill (IMAGELIST_DELETE_ALL restarts them at 0)."""
         self.ICON_ALL = self.icon_get('_')
@@ -7864,6 +7942,30 @@ class Command:
         self.ICON_TEXT = self.icon_get('_text')
         self.ICON_AUDIO = self.icon_get('_audio')
         self.ICON_VIDEO = self.icon_get('_video')
+        self.ICON_FAV = self._favorites_section_icon()
+
+    def _favorites_section_icon(self):
+        """Image index of the tree's 'Favorites' section: the SAME
+        star png the toolbar's Favorites button wears, from the
+        effective toolbar icon set (it follows the UI theme - black
+        glyphs on a light theme, white on a dark one; the filetype
+        icon sets have no star). Loaded into the TREE imagelist here,
+        not via icon_get: the star is not part of a filetypeicons
+        theme. Fallbacks: the default black set, then the generic
+        file icon. Re-run by _tree_icon_constants on every imagelist
+        refill - the index changes with every refill."""
+        tried = []
+        for name in (self.toolbar_icons_effective(), ICONS_DEFAULT):
+            if name in tried:
+                continue
+            tried.append(name)
+            fn = os.path.join(app_path(APP_DIR_DATA), 'projtoolbaricons',
+                              name, 'star.png')
+            if os.path.isfile(fn):
+                n = imagelist_proc(self.tree_imglist, IMAGELIST_ADD, value=fn)
+                if n is not None:
+                    return n
+        return self.ICON_TEXT
 
     def tree_icons_reload(self):
         """File-type icon theme changed in the options: refill the
@@ -7913,6 +8015,7 @@ class Command:
             if n == self.ICON_PROJ: node_type = NODE_PROJECT
             elif n == self.ICON_DIR: node_type = NODE_DIR
             elif n == self.ICON_BAD: node_type = NODE_BAD
+            elif n == self.ICON_FAV: node_type = NODE_FAV
             else: node_type = NODE_FILE
         return node_type
 

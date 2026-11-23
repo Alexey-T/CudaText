@@ -121,7 +121,11 @@ that project; both columns are filterable (the filter field) and
 sortable; a project favorite's context menu has
 "List attached files/folders..." (the same filterable list; picking
 an entry opens it). Deleting a project favorite drops every link to
-it; deleting a file/folder favorite drops its links with it.
+it; deleting a file/folder favorite drops its links with it. The
+Project Manager panel shows the links too: the current project's
+tree carries a 'Favorites' section right below the project name,
+with the attached favorites as its children (attached_of_project
+feeds it, set_tree_refresh_hook keeps it live).
 
 "Find favorites..." (the plugin menu, the panel context menu and the
 command palette) opens the dlg_menu list dialog - the CudaText API
@@ -767,6 +771,8 @@ class FavoritesCore:
             if not self._is_deleted(path):
                 self.deleted.append(path)
             self.save()
+            # a deleted favorite leaves the tree's Favorites section
+            _notify_tree()
             return True
         return False
 
@@ -786,6 +792,8 @@ class FavoritesCore:
             if not self._is_deleted(p):
                 self.deleted.append(p)
         self.save()
+        # a deleted favorite leaves the tree's Favorites section
+        _notify_tree()
         return len(removed)
 
     def move(self, cat, index, delta):
@@ -797,6 +805,8 @@ class FavoritesCore:
             return index
         lst[index], lst[new] = lst[new], lst[index]
         self.save()
+        # the tree's Favorites section keeps the manual order
+        _notify_tree()
         return new
 
     def toggle_star(self, cat, index):
@@ -810,6 +820,8 @@ class FavoritesCore:
         if 0 <= index < len(self.data[cat]):
             self.data[cat][index]['name'] = name
             self.save()
+            # the tree's Favorites section shows the name
+            _notify_tree()
             return True
         return False
 
@@ -831,6 +843,8 @@ class FavoritesCore:
         projs.append(str(proj_path))
         it['projects'] = projs
         self.save()
+        # the panel tree's 'Favorites' section may have grown
+        _notify_tree()
         return True
 
     def detach(self, cat, index, proj_path):
@@ -850,6 +864,8 @@ class FavoritesCore:
         else:
             it.pop('projects', None)
         self.save()
+        # the panel tree's 'Favorites' section may have shrunk
+        _notify_tree()
         return True
 
     def attached_projects(self, cat, index):
@@ -888,6 +904,9 @@ class FavoritesCore:
                         it['projects'] = new
                     else:
                         it.pop('projects', None)
+        if n:
+            # the callers save; the tree only reads the in-memory data
+            _notify_tree()
         return n
 
     def project_display_name(self, proj_path):
@@ -980,6 +999,34 @@ class FavoritesCore:
 #: module-level core, created lazily
 _core = None
 _form = None       # singleton of the main window (hidden, not freed)
+#: tree-refresh callback of the Project Manager panel: fired by the
+#: core data ops that change what the panel tree's 'Favorites'
+#: section shows (the files/folders attached to the current project
+#: and their names) - the panel registers it at plugin init
+#: (set_tree_refresh_hook); None = the panel has not registered it
+_tree_refresh_hook = None
+
+
+def set_tree_refresh_hook(fn):
+    """Register the Project Manager panel's tree-refresh callback (a
+    callable without arguments). The core data ops call it after
+    every change of the attachment links or of the shown names; the
+    panel rebuilds its tree so the 'Favorites' section (the attached
+    favorites of the current project) follows the Favorites window
+    live."""
+    global _tree_refresh_hook
+    _tree_refresh_hook = fn
+
+
+def _notify_tree():
+    """Fire the tree-refresh callback. Never raises: a broken callback
+    must not break a favorites operation."""
+    if _tree_refresh_hook is not None:
+        try:
+            _tree_refresh_hook()
+        except Exception:
+            log_error('Favorites: tree refresh callback failed')
+
 
 def get_core():
     global _core
@@ -3522,6 +3569,15 @@ def context_action(action):
     command _favorites_ctx)."""
     if _form is not None and _form.h:
         _form.context_action(action)
+
+
+def attached_of_project(proj_path):
+    """(cat, name, path) of every file/folder favorite attached to the
+    project favorite at proj_path - the Project Manager tree's
+    'Favorites' section is built from this. Uses the cached core, so
+    an open Favorites window's live edits are seen at once."""
+    return [(cat, it['name'], it['path'])
+            for cat, it in get_core().attached_items_of(proj_path)]
 
 
 def find_favorites():
