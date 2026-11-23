@@ -2476,10 +2476,15 @@ class FavoritesForm:
         menu_proc(menu, MENU_CLEAR)
 
         def add(caption, action, enabled=True):
+            if '|' in caption:
+                caption, hotkey = caption.split('|', maxsplit=1)
+            else:
+                hotkey = ''
             mid = menu_proc(menu, MENU_ADD,
                             command=('module=cuda_project_man;cmd=_favorites_ctx;info={};'.format(action)
                                      if action else ''),
-                            caption=caption)
+                            caption=caption,
+                            hotkey=hotkey)
             if not enabled:
                 menu_proc(mid, MENU_SET_ENABLED, command=False)
             return mid
@@ -2499,14 +2504,14 @@ class FavoritesForm:
             menu_proc(menu, MENU_SHOW, command='')
             return
 
-        add(_('Open') + ' (Enter)', 'open', row is not None)
+        add(_('Open') + '|Enter', 'open', row is not None)
         add(_('Reveal in file manager'), 'reveal', row is not None)
         add(_('Copy path'), 'copy', row is not None)
         menu_proc(menu, MENU_ADD, caption='-')
         add((_('Unstar') if (row and row['star']) else _('Star')) + ' ★', 'star',
             row is not None)
-        add(_('Rename...') + ' (F2)', 'rename', row is not None)
-        add(_('Delete') + ' (Del)', 'delete', row is not None)
+        add(_('Rename...') + '|F2', 'rename', row is not None)
+        add(_('Delete') + '|Del', 'delete', row is not None)
 
         # attachments: files/folders attach TO a project favorite,
         # a project favorite lists what is attached TO IT
