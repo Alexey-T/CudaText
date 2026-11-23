@@ -2776,7 +2776,7 @@ class Command:
             msg_status('"Open in default application" is not implemented for this OS')
         else:
             #other Unixes
-            os.spawnvp(os.P_WAIT, 'xdg-open', ('xdg-open', fn.as_uri()))
+            os.spawnvp(os.P_WAIT, 'xdg-open', ('xdg-open', Path(sfn).as_uri()))
 
     def action_focus_in_fileman(self):
         fn = self.get_location_by_index(self.selected)
