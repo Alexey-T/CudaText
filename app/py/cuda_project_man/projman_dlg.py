@@ -593,7 +593,7 @@ def dialog_config(op):
 
     section(_('Project tree'))
     row_edit(_('Ignore &files:'), 'no_files', op.get('no_files', ''))
-    row_edit(_('Ignore fold&ers:'), 'no_dirs', op.get('no_dirs', '.git;.svn'))
+    row_edit(_('Ignore fold&ers:'), 'no_dirs', op.get('no_dirs', '.git/.svn'))
     check('no_hidden', _('Ignore all &hidden files/folders'), op.get('no_hidden', True))
     lab(_('&Recent projects:'), X0, PANEL_W - 2 * X0, dy=17)
     # a real mini-editor: 5 visible lines, one project per line, plain

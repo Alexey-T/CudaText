@@ -1,4 +1,33 @@
 2026.11.23 (@badrelmers)
++ The 'Ignore files'/'Ignore folders' option lists change their
+  separator from ';' to '/': a file NAME can contain ';' on every
+  OS, while '/' can never be part of a base name - so a mask with a
+  literal ';' is possible at last. Old configs are migrated
+  automatically once at load (';' -> '/', the options file is
+  rewritten; the 'mask_sep' marker remembers the done migration, a
+  literal ';' typed after the update survives restarts). The
+  'Add to ignore ...' context-menu commands use the new separator
+  too.
+
+2026.11.23 (@badrelmers)
++ Favorites window, Projects tab: new 'Attachments' column - the
+  files/folders attached to that project (the reverse of the
+  'Attached projects' column of the Files/Folders tabs). Every tab
+  has the same columns now, only the 6th column's text differs.
++ Favorites window: the filter field also searches the attachment
+  column - type a project's name on the Files/Folders tabs to find
+  the files/folders attached to it, type a file/folder name on the
+  Projects tab to find the projects it is attached to.
++ Favorites window: the attachment column is sortable - click its
+  header (1st click ascending, 2nd descending, 3rd manual, like the
+  other columns), or use the new 'Sort: by attachments' / 'Sort: by
+  attached projects' command.
++ Favorites window: the 'Checked' button is renamed to 'Batch
+  actions'; the right-click menus group the checked-rows commands
+  under a 'Batch actions' submenu and the sort commands under a
+  'Sort' submenu (the list header's right-click menu too).
+
+2026.11.23 (@badrelmers)
 + The opened project's .cuda-proj file no longer shows in the project
   tree (issue #6696): clicking it could not open it for editing
   anyway, the file is managed by the "Project file" menu. Hidden in

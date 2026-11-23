@@ -766,7 +766,11 @@ def is_simple_listed(name, masks):
     return False
 
 def is_mask_listed(s, masks):
-    for mask in masks.split(';'):
+    # the mask lists are '/'-separated: a file NAME can contain ';' on
+    # every OS, but never '/' - so '/' is the only safe separator.
+    # Configs of older builds keep ';' lists and are migrated once at
+    # load (see the 'mask_sep' handling in Command.__init__)
+    for mask in masks.split('/'):
         r = fnmatch(s, mask)
         #print("fnmatch('%s', '%s') = %d"%(s, mask, int(r)))
         if r:
@@ -1075,7 +1079,13 @@ class Command:
         "project_from_tabs_files": True,
         "project_from_tabs_folders": True,
         "no_files": "",
-        "no_dirs": ".git;.svn",
+        "no_dirs": ".git/.svn",
+        # separator version of the two ignore-mask lists above: '/' is
+        # the separator now (';' was the old one - unsafe, a file NAME
+        # can contain ';' on every OS). '' = a config written by a
+        # build older than the change: its ';' lists are migrated to
+        # '/' once at load (Command.__init__)
+        "mask_sep": "",
         "no_hidden": True,
         "toolbar": True,
         "preview": True,
@@ -1305,6 +1315,27 @@ class Command:
                 # but say so instead of silently ignoring them
                 log_error('Project Manager: cannot load the options from '
                           + str(self.options_filename))
+
+        # the two ignore-mask lists ('no_files'/'no_dirs') were ';'
+        # -separated once, but a file NAME can contain ';' on every OS,
+        # so the separator is '/' now (it can never be part of a base
+        # name). ONE-WAY migration of an old config: every ';' of the
+        # two lists becomes '/', the 'mask_sep' marker remembers the
+        # done migration (a literal ';' typed after the change is a
+        # mask character and must survive), and the file is rewritten
+        # at once. A config already migrated ('mask_sep' == '/') or a
+        # fresh one is not touched.
+        if self.options.get("mask_sep") != "/":
+            self.options["mask_sep"] = "/"
+            migrated_masks = False
+            for key in ("no_files", "no_dirs"):
+                val = self.options.get(key)
+                if isinstance(val, str) and ";" in val:
+                    self.options[key] = val.replace(";", "/")
+                    migrated_masks = True
+            if migrated_masks:
+                print(_('Project Manager: ignore lists migrated to the / separator'))
+                self.save_options()
 
         # the options file keeps ONLY settings now (user request): the
         # state keys live in the store file, cuda_project_man_store.json
@@ -2991,9 +3022,9 @@ class Command:
 
     def _untrack_root_by_path(self, path):
         """'Stop tracking' for one KNOWN root path (the multi-delete):
-        drop only the SAVED node here - the tree itself is rebuilt by
-        the caller (_delete_locations_multi refreshes on every exit
-        path). Returns True."""
+        find the top-level tree item of the path, drop it and its
+        saved node - the same steps action_remove_node does for the
+        focused node. Returns True when the root was found."""
 
         node = None
         for n in self.project["nodes"]:
@@ -3046,9 +3077,6 @@ class Command:
                              [_("Move to trash"), _("Cancel")],
                              MB_ICONQUESTION)
             if res != 0:
-                # roots (if confirmed above) are already untracked - the
-                # tree must be rebuilt or they stay visible till refresh
-                self.action_refresh()
                 return
             failed = []
             for p in inner:
@@ -3075,8 +3103,6 @@ class Command:
                              [_("DELETE PERMANENTLY"), _("Cancel")],
                              MB_ICONWARNING, focused=1)
             if res != 0:
-                # same as above: already-untracked roots need the rebuild
-                self.action_refresh()
                 return
             for p in inner:
                 try:
@@ -3147,7 +3173,7 @@ class Command:
     def _add_to_ignore_masks(self, opt_key, what):
         """Shared body of the two 'Add to ignore ...' context-menu
         commands: add the selected item's NAME to the option's mask
-        list (';'-separated fnmatch masks over base names), save the
+        list ('/'-separated fnmatch masks over base names), save the
         options and refresh the tree so the item disappears at once.
         A name already in the list is reported, not duplicated."""
         node = self.selected
@@ -3158,12 +3184,12 @@ class Command:
         if not name:
             return
         masks = str(self.options.get(opt_key, "") or "").strip()
-        items = [m.strip() for m in masks.split(";") if m.strip()]
+        items = [m.strip() for m in masks.split("/") if m.strip()]
         if name in items:
             msg_status(_("Already in ignore list: ") + name)
             return
         items.append(name)
-        self.options[opt_key] = ";".join(items)
+        self.options[opt_key] = "/".join(items)
         self.save_options()
         self.action_refresh()
         msg_status(_("Added to ignore %s: ") % what + name)
