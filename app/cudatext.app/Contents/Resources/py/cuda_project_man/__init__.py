@@ -3001,9 +3001,10 @@ class Command:
         inner = [p for p in locations if not self.is_path_in_root(p)]
 
         def listing(paths):
-            lines = [str(p) for p in paths[:8]]
-            if len(paths) > 8:
-                lines.append('... ' + str(len(paths) - 8) + _(' more'))
+            MAX_ITEMS = 8
+            lines = [str(p) for p in paths[:MAX_ITEMS]]
+            if len(paths) > MAX_ITEMS:
+                lines.append('... ' + str(len(paths) - MAX_ITEMS) + _(' more'))
             return '\n'.join(lines)
 
         if roots:
