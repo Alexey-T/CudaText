@@ -2979,6 +2979,9 @@ class Command:
         find the top-level tree item of the path, drop it and its
         saved node - the same steps action_remove_node does for the
         focused node. Returns True when the root was found."""
+
+        # Alexey: this commented block is crap, why is it here?
+        '''
         items = tree_proc(self.tree, TREE_ITEM_ENUM_EX, 0) or []
         h_item = None
         for it in items:
@@ -2988,6 +2991,8 @@ class Command:
         if h_item is None:
             return False
         tree_proc(self.tree, TREE_ITEM_DELETE, h_item)
+        '''
+
         node = None
         for n in self.project["nodes"]:
             if path_equals(n, str(path)):
