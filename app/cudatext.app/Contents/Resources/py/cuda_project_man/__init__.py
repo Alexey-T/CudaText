@@ -6082,43 +6082,46 @@ class Command:
 
     @_with_backup_cause('on project save')
     def action_remove_node(self):
-        index = self.selected
-        while True:
-            prop = tree_proc(self.tree, TREE_ITEM_GET_PROPS, index)
-            if prop["level"] == 0:
-                return
-            if prop["level"] == 1:
-                path = prop["data"]
-                break
-            index = prop["parent"]
 
-        tree_proc(self.tree, TREE_ITEM_DELETE, index)
+        items_sel = tree_proc(self.tree, TREE_GET_SELECTIONS)
+        if not items_sel: return
+        for index in reversed(items_sel):
+            while True:
+                prop = tree_proc(self.tree, TREE_ITEM_GET_PROPS, index)
+                if prop["level"] == 0:
+                    return
+                if prop["level"] == 1:
+                    path = prop["data"]
+                    break
+                index = prop["parent"]
 
-        # find the SAVED node that matches the tree item's path: the tree
-        # renders a root path as pathlib does ('D:\\' for a drive root,
-        # '\\server\share' for a UNC root) while the saved nodes list
-        # keeps the folder dialog's form ('D:\\', '\\server\share\') -
-        # an exact compare failed for both root kinds (the old code
-        # blindly stripped the trailing backslash for UNC and then broke
-        # the drive roots: 'Stop tracking' on 'D:\' errored with
-        # 'cannot find path "D:"' and the node returned on refresh).
-        # Remove the entry that is ACTUALLY saved, so the removal sticks.
-        node = None
-        for n in self.project["nodes"]:
-            if path_equals(n, path):
-                node = n
-                break
+            tree_proc(self.tree, TREE_ITEM_DELETE, index)
 
-        if node is not None:
-            self.project["nodes"].remove(node)
-            self._fire_project_nodes_removed()
-            # reset the 'current folder' if it was under the removed
-            # node (trailing-separator-tolerant: 'D:\foo' IS under 'D:\')
-            if path_contains(node, self.cur_dir):
-                app_proc(PROC_SET_FOLDER, '')
-                self.cur_dir = ''
-        else:
-            msg_box(_('Cannot find path "%s" in root nodes list') % path, MB_OK + MB_ICONERROR)
+            # find the SAVED node that matches the tree item's path: the tree
+            # renders a root path as pathlib does ('D:\\' for a drive root,
+            # '\\server\share' for a UNC root) while the saved nodes list
+            # keeps the folder dialog's form ('D:\\', '\\server\share\') -
+            # an exact compare failed for both root kinds (the old code
+            # blindly stripped the trailing backslash for UNC and then broke
+            # the drive roots: 'Stop tracking' on 'D:\' errored with
+            # 'cannot find path "D:"' and the node returned on refresh).
+            # Remove the entry that is ACTUALLY saved, so the removal sticks.
+            node = None
+            for n in self.project["nodes"]:
+                if path_equals(n, path):
+                    node = n
+                    break
+
+            if node is not None:
+                self.project["nodes"].remove(node)
+                self._fire_project_nodes_removed()
+                # reset the 'current folder' if it was under the removed
+                # node (trailing-separator-tolerant: 'D:\foo' IS under 'D:\')
+                if path_contains(node, self.cur_dir):
+                    app_proc(PROC_SET_FOLDER, '')
+                    self.cur_dir = ''
+            else:
+                msg_box(_('Cannot find path "%s" in root nodes list') % path, MB_OK + MB_ICONERROR)
 
         if self.project_file_path:
             self.action_save_project_as(self.project_file_path)
