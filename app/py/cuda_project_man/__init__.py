@@ -234,6 +234,7 @@ def scan_dir_entries(fn, opts):
     no_hidden = opts.get("no_hidden", True)
     no_files = str(opts.get("no_files", "") or "")
     no_dirs = str(opts.get("no_dirs", "") or "")
+    proj_file = str(opts.get("proj_file", "") or "")
     for e in entries:
         try:
             is_dir = e.is_dir()
@@ -241,6 +242,11 @@ def scan_dir_entries(fn, opts):
         except OSError:
             continue
         if is_dir and e.is_symlink():
+            continue
+        # the opened project's .cuda-proj file never shows in the tree
+        # (issue #6696); 'proj_file' is injected by the callers that
+        # build tree rows (the filter worker, the fallback scan)
+        if proj_file and path_equals(e.path, proj_file):
             continue
         if no_hidden and is_hidden(e.path):
             continue
@@ -1017,6 +1023,7 @@ class Command:
         (_("Delete"), "dir", [NODE_DIR], "cuda_project_man.action_delete_directory", "Del"),
         ("-", "dir", [NODE_DIR], "", ""),
         (_("Find in folder..."), "dir", [NODE_DIR], "cuda_project_man.action_find_in_directory", ""),
+        (_("Add to ignore folders"), "dir", [NODE_DIR], "cuda_project_man.action_ignore_dir", ""),
         ("-", "dir", [NODE_DIR], "", ""),
         (_("Reveal in file manager"), "dir", [NODE_DIR], "cuda_project_man.action_focus_in_fileman", ""),
         (_("Properties..."), "dir", [NODE_DIR], "cuda_project_man.action_get_properties", "Alt+Enter"),
@@ -1034,6 +1041,7 @@ class Command:
         (_("Rename..."), "file", [NODE_FILE], "cuda_project_man.action_rename", "F2"),
         (_("Duplicate..."), "file", [NODE_FILE], "cuda_project_man.action_duplicate", ""),
         (_("Delete"), "file", [NODE_FILE], "cuda_project_man.action_delete_file", "Del"),
+        (_("Add to ignore files"), "file", [NODE_FILE], "cuda_project_man.action_ignore_file", ""),
         ("-", "file", [NODE_FILE], "", ""),
         (_("Reveal in file manager"), "file", [NODE_FILE], "cuda_project_man.action_focus_in_fileman", ""),
         (_("Properties..."), "file", [NODE_FILE], "cuda_project_man.action_get_properties", "Alt+Enter"),
@@ -1077,6 +1085,7 @@ class Command:
         "always_sync": False,
         "on_start": False,
         "on_start_activate": False,
+        "favorites_add_opened_projects": False,
         "icon_theme": "vscode_16x16",
         "toolbar_theme": "auto",
         "backup_enabled": True,
@@ -2600,10 +2609,16 @@ class Command:
                 continue
 
             # no disk deletion for top-level nodes - see the comment
-            # at sel_is_root_node above
+            # at sel_is_root_node above; the ignore commands are skipped
+            # for them for the same reason: ignore masks filter only
+            # the disk enumeration, they cannot hide a root node (which
+            # comes from the project's node list - 'Stop tracking' is
+            # the command for those)
             if sel_is_root_node and item_action in (
                     "cuda_project_man.action_delete_file",
-                    "cuda_project_man.action_delete_directory"):
+                    "cuda_project_man.action_delete_directory",
+                    "cuda_project_man.action_ignore_dir",
+                    "cuda_project_man.action_ignore_file"):
                 continue
 
             if item_parent == "nodes":
@@ -3113,6 +3128,45 @@ class Command:
             msg_status(_("Moved to %s: ") % trash_label() + str(location.name))
         else:
             msg_status(_("Deleted permanently: ") + str(location.name))
+
+    def action_ignore_dir(self):
+        """Context menu of a folder INSIDE a root node (issue #6696):
+        append the folder's name to the 'no_dirs' ignore masks - every
+        folder with this name stops showing in the tree (the same
+        effect as typing the mask into the options dialog). Root nodes
+        don't get the command: masks filter the disk enumeration only,
+        a root node comes from the project's node list."""
+        self._add_to_ignore_masks("no_dirs", _("folders"))
+
+    def action_ignore_file(self):
+        """Context menu of a file inside a root node (issue #6696):
+        append the file's name to the 'no_files' ignore masks - every
+        file with this name stops showing in the tree."""
+        self._add_to_ignore_masks("no_files", _("files"))
+
+    def _add_to_ignore_masks(self, opt_key, what):
+        """Shared body of the two 'Add to ignore ...' context-menu
+        commands: add the selected item's NAME to the option's mask
+        list (';'-separated fnmatch masks over base names), save the
+        options and refresh the tree so the item disappears at once.
+        A name already in the list is reported, not duplicated."""
+        node = self.selected
+        if node is None:
+            return
+        path = str(self.get_location_by_index(node))
+        name = os.path.basename(path)
+        if not name:
+            return
+        masks = str(self.options.get(opt_key, "") or "").strip()
+        items = [m.strip() for m in masks.split(";") if m.strip()]
+        if name in items:
+            msg_status(_("Already in ignore list: ") + name)
+            return
+        items.append(name)
+        self.options[opt_key] = ";".join(items)
+        self.save_options()
+        self.action_refresh()
+        msg_status(_("Added to ignore %s: ") % what + name)
 
     def confirm_stop_tracking(self, location):
         """Ask whether to stop tracking the given top-level node, then
@@ -3779,6 +3833,8 @@ class Command:
                 continue
             elif self.is_filename_ignored(spath, is_dir):
                 continue
+            elif self.is_opened_project_file(spath):
+                continue
 
             imageindex = self._node_icon(spath, sname, is_dir)
 
@@ -4189,6 +4245,8 @@ class Command:
                 continue
             elif self.is_filename_ignored(spath, is_dir):
                 continue
+            elif self.is_opened_project_file(spath):
+                continue
             roots.append((spath, sname, bool(is_dir)))
 
         # scan priorities: the folder of the editor file first, then the
@@ -4204,6 +4262,7 @@ class Command:
             'no_files': str(self.options.get('no_files', '') or ''),
             'no_dirs': str(self.options.get('no_dirs', '') or ''),
             'sort_order': sort_order,
+            'proj_file': str(self.project_file_path or ''),
         }
         # remember the snapshot for the lazy single-level fallback
         # refill too (folders the scan index does not know)
@@ -4368,6 +4427,12 @@ class Command:
             return cached
         flt = (self.tree_filter or '').lower()
         opts = self._filter_opts or self.options
+        # plain options carry no 'proj_file': inject it (into a copy,
+        # never the live options dict) so the opened project file
+        # stays hidden in the fallback scan too
+        if 'proj_file' not in opts:
+            opts = dict(opts)
+            opts['proj_file'] = str(self.project_file_path or '')
         rows = []
         for e in scan_dir_entries(path, opts) or []:
             try:
@@ -5086,6 +5151,7 @@ class Command:
         # a project is open now — the remembered "one folder" state (if
         # any) is over
         self._forget_opened_folder()
+        self._auto_favorite_opened_project()
         self.update_global_data()
         self.goto_history = []
         self.cur_dir = ''
@@ -5660,6 +5726,7 @@ class Command:
         # any) is over (issue #6624: opening a project closes the folder)
         self._forget_opened_folder()
         self.add_recent(path)
+        self._auto_favorite_opened_project()
         self.action_refresh()
         self.options['on_start'] = True
         self.save_events()
@@ -6251,6 +6318,11 @@ class Command:
             # Point the plugin to the new path BEFORE saving the session,
             # so the session is embedded into the new file, not the old one
             self.project_file_path = path
+            # saving under a NEW path (also: the "one folder" state saved
+            # as a project file) makes that file the opened project - the
+            # auto-favorite option applies to it too (a plain save passes
+            # the same path and is a no-op there)
+            self._auto_favorite_opened_project()
             # saving the "one folder" state as a project file ends the
             # folder state: the folder node now lives in the project
             self._forget_opened_folder()
@@ -6409,6 +6481,16 @@ class Command:
                 added += 1
         if added:
             msg_status(_('Added to favorites: ') + str(added))
+
+    def _auto_favorite_opened_project(self):
+        """Option 'favorites_add_opened_projects' ("Add all opened
+        projects to favorites"): the project file that just became the
+        current one (opened, newly created, or saved-as) goes into the
+        'projects' favorites - see favorites.auto_add_project for the
+        already-favorited / deleted-by-user cases."""
+        if self.options.get("favorites_add_opened_projects", False) \
+                and self.project_file_path:
+            _favorites.auto_add_project(str(self.project_file_path))
 
     def _favorites_ctx(self, info=None):
         """Internal: callback of the favorites list context menu."""
@@ -7049,6 +7131,14 @@ class Command:
             return is_mask_listed(os.path.basename(fn), msk)
         else:
             return False
+
+    def is_opened_project_file(self, fn):
+        """True when 'fn' is the .cuda-proj file of the currently
+        opened project: that file never shows in the tree (issue
+        #6696) - clicking it could not open it for editing anyway,
+        it is managed by the 'Project file' menu."""
+        p = self.project_file_path
+        return bool(p) and path_equals(str(p), str(fn))
 
     def on_start(self, ed_self):
         # on_start is subscribed via plugins.ini, so it only runs when the

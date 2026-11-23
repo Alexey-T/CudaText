@@ -3396,6 +3396,20 @@ def add_favorite(cat, path):
     return False
 
 
+def auto_add_project(path):
+    """The 'Add all opened projects to favorites' option of the
+    Project Manager: add the project unless it is already favorited
+    (silent skip) or was deleted from favorites by the user (the
+    tombstone wins until a manual re-add clears it). Returns True
+    when the project was added."""
+    core = get_core()
+    if core.find('projects', path) >= 0:
+        return False
+    if core._is_deleted(path):
+        return False
+    return add_favorite('projects', path)
+
+
 def _opened_choices():
     """(caption, cat, path) for everything that can be bookmarked right
     now: the opened project, the current editor file, and the folder of

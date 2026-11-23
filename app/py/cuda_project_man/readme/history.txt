@@ -1,3 +1,24 @@
+2026.11.23 (@badrelmers)
++ The opened project's .cuda-proj file no longer shows in the project
+  tree (issue #6696): clicking it could not open it for editing
+  anyway, the file is managed by the "Project file" menu. Hidden in
+  the normal tree, the folder-expand enumeration and the background
+  filter scan.
++ Context menu of a folder/file inside a root node: new commands
+  "Add to ignore folders" / "Add to ignore files" (issue #6696) -
+  the item's name is appended to the "Ignore folders" / "Ignore
+  files" option masks and the tree refreshes at once, so e.g. the
+  .cudatext backup folder can be hidden in two clicks. Root nodes
+  don't get the commands: ignore masks filter only the disk
+  enumeration, a root node comes from the project's node list
+  ("Stop tracking" is the command for those).
++ New option "Add all opened projects to favorites" (default off,
+  in the new "Favorites" section of the options dialog): a project
+  that gets opened, newly created or saved-as is added to the
+  "projects" favorites automatically. A project already favorited
+  is skipped silently, and a project the user deleted from favorites
+  is not resurrected (until a manual re-add).
+
 2026.11.21 (@badrelmers)
 - Safety audit of every disk-mutating flow (paste, rename,
   duplicate, new file/folder, drag-move), after three reported data
