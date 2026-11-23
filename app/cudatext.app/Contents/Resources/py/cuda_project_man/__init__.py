@@ -1415,6 +1415,9 @@ class Command:
         # auto-switches to its black/white variant, a custom set is kept)
         toolbar_theme = self.toolbar_icons_effective()
         dirname = os.path.join(app_path(APP_DIR_DATA), 'projtoolbaricons', toolbar_theme)
+        if not os.path.isdir(dirname):
+            print('ERROR: Project Manager icons-folder is deleted: '+dirname)
+            dirname = os.path.join(app_path(APP_DIR_DATA), 'projtoolbaricons', 'default_16x16')
         self.set_imagelist_size(toolbar_theme, self.toolbar_imglist)
         for hint, command, fn_icon in toolbar_buttons:
             icon = imagelist_proc(self.toolbar_imglist, IMAGELIST_ADD, value = os.path.join(dirname, fn_icon))
