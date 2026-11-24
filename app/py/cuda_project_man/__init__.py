@@ -7,10 +7,8 @@ import json
 import copy
 import functools
 import string
-import tempfile
 import time
 import threading
-import traceback
 from fnmatch import fnmatch
 from pathlib import Path, PurePosixPath
 from .projman_glob import *
@@ -188,37 +186,6 @@ sort_order = 'ext'
 #: interval (ms) of the UI timer which polls the running filter worker
 FILTER_PROGRESS_MS = 150
 
-#: TEMPORARY DIAGNOSTIC for the 'results do not show up until the
-#: search finishes' report: while True, every filter search appends a
-#: trace (start, every progress tick, every live rebuild, the finished
-#: result, any exception with its full traceback) to this file:
-#:   Linux:   /tmp/projman_filter_debug.log
-#:   Windows: %TEMP%\projman_filter_debug.log
-#: A crash inside a tick is logged AND caught: the timer keeps firing
-#: and the next tick retries (an uncaught one would silently kill the
-#: live update - exceptions of timer callbacks go to the Python
-#: console only, and nobody looks there). Flip to False to silence.
-#: REMOVE once the cause is found and fixed.
-_FILTER_DEBUG = True
-_FILTER_DEBUG_FILE = os.path.join(tempfile.gettempdir(),
-                                   'projman_filter_debug.log')
-
-
-def _filter_debug(msg):
-    """One line into the filter diagnostic log (see _FILTER_DEBUG).
-    Must never raise: a diagnostic must not break the feature it
-    watches. Main thread only."""
-    if not _FILTER_DEBUG:
-        return
-    try:
-        with open(_FILTER_DEBUG_FILE, 'a', encoding='utf-8') as f:
-            f.write('%s [%s] %s\n' % (
-                time.strftime('%H:%M:%S'),
-                threading.current_thread().name,
-                msg))
-    except Exception:
-        pass
-
 
 def _secs_str(secs):
     """Elapsed seconds for the filter's status texts, one decimal
@@ -345,7 +312,14 @@ class _FilterWorker(threading.Thread):
     the next tier) or which is INSIDE it (the path DOWN to a target:
     its ancestors must be walked first to reach it). Each tier is
     therefore scanned as one uninterrupted region, and only then does
-    the next tier start. Inside one priority the order is breadth-
+    the next tier start. BEFORE every tier runs a two-level HEAD
+    START: every root folder enters the queue at priority -2 and its
+    direct children at -1, so each root's own row and its shallow
+    matches are found in the first seconds of the scan no matter how
+    big the tiered regions are (a root which holds no tier target
+    would otherwise stay unscanned - and its rows invisible - until
+    the tiered regions finish, i.e. practically until the search
+    'finishes'). Inside one priority the order is breadth-
     first (a heapq with (priority, seq, path); seq keeps the queue
     FIFO for equal priorities). With no priorities (no editor file,
     nothing selected, nothing expanded) this is exactly the old
@@ -467,14 +441,24 @@ class _FilterWorker(threading.Thread):
             # row immediately, so the top level of the live tree is
             # complete from the very start (a root folder shows as soon
             # as a match is found inside it, a name-matching root at
-            # once); a root FILE only shows when its name matches
+            # once); a root FILE only shows when its name matches.
+            # Every root enters the queue at priority -2, and the
+            # DIRECT children of a -2 root at -1 (a TWO-LEVEL HEAD
+            # START which pops before every priority tier): the tiers
+            # rule the DEEP scan and can cover whole root subtrees
+            # (a selected/expanded folder's subtree), so without the
+            # head start a root which holds no tier target is not
+            # scanned at all until the tiered regions are finished -
+            # on a big project its rows (and every match inside it)
+            # appear only when the search 'finishes'. The head start is
+            # cheap (the roots and their first levels are few).
             for spath, sname, is_dir in self.roots:
                 if is_dir:
                     res.setdefault('', []).append((sname, spath, True))
                     if flt in sname.lower():
                         self.count += 1
                         self._mark_chain(spath)
-                    heapq.heappush(queue, (self._pri_of(spath), seq, spath))
+                    heapq.heappush(queue, (-2, seq, spath))
                     seq += 1
                 elif flt in sname.lower():
                     res.setdefault('', []).append((sname, spath, False))
@@ -483,7 +467,7 @@ class _FilterWorker(threading.Thread):
             while queue:
                 if self.cancel:
                     break
-                _, _, path = heapq.heappop(queue)
+                pop_pri, _, path = heapq.heappop(queue)
                 for e in scan_dir_entries(path, self.opts) or []:
                     if self.cancel:
                         break
@@ -500,9 +484,13 @@ class _FilterWorker(threading.Thread):
                         # the parent's): a folder on the path down to
                         # the focused folder outranks the siblings of
                         # its parent, so the focused branch is walked
-                        # to the bottom before anything else
-                        heapq.heappush(queue, (self._pri_of(e.path),
-                                               seq, e.path))
+                        # to the bottom before anything else.
+                        # Exception: the direct children of a
+                        # head-start (-2) root keep the head start
+                        # (-1) - see the roots loop above
+                        child_pri = (-1 if pop_pri <= -2
+                                     else self._pri_of(e.path))
+                        heapq.heappush(queue, (child_pri, seq, e.path))
                         seq += 1
                     elif flt in e.name.lower():
                         res.setdefault(path, []).append(
@@ -4500,10 +4488,6 @@ class Command:
         self._fill_tree_filtered_top(inst_rows)
         self._filter_label_running(0)
         self._filter_timer_start()
-        _filter_debug('START text=%r roots=%d inst=%d progress_on=%s '
-                      'log=%s' % (text, len(roots), len(inst_rows),
-                                  self._filter_progress_on,
-                                  _FILTER_DEBUG_FILE))
         # a search is running now: the (x) button must show even before
         # the next keystroke reports the text
         self._filter_cancel_btn_update()
@@ -4537,24 +4521,8 @@ class Command:
             self._filter_progress_on = False
 
     def _filter_progress_tick(self, tag=''):
-        """Repeating UI timer which polls the running filter worker
-        (the body is _filter_progress_tick_int). CRASH-PROOF: an
-        exception in a timer callback goes to the Python console only
-        - nobody looks there, and the live update would silently die
-        while the finished rebuild (a different code path) would still
-        work: exactly 'results do not show up until it finishes'. The
-        wrapper catches it, logs it (console + statusbar + the
-        diagnostic file) and lets the next tick retry."""
-        try:
-            self._filter_progress_tick_int()
-        except Exception:
-            log_error('Project Manager: filter progress tick crashed')
-            _filter_debug('TICK CRASH: ' + traceback.format_exc())
-
-    def _filter_progress_tick_int(self):
-        """The body of _filter_progress_tick (the crash-proof wrapper
-        explains the split).
-        While the scan runs, the status line shows the live match count AND
+        """Repeating UI timer which polls the running filter worker.
+        While it runs, the status line shows the live match count AND
         the visible tree is REBUILT from the worker's partial index
         whenever it changed (see _filter_rebuild): the findings so far
         are always shown, at the top level and inside every folder the
@@ -4570,8 +4538,6 @@ class Command:
             self._filter_timer_stop()
             return
         if not w.done:
-            _filter_debug('tick: count=%d v=%d live_v=%s' % (
-                w.count, w.version, self._filter_live_version))
             self._filter_label_running(w.count,
                                        time.monotonic() - w.t0)
             if w.version != self._filter_live_version:
@@ -4601,9 +4567,6 @@ class Command:
             self._filter_live_done = w.live
             self._filter_live_version = w.version
             self._filter_rebuild(w.tree, w.live)
-            n_top = len(tree_proc(self.tree, TREE_ITEM_ENUM_EX, 0) or [])
-            _filter_debug('DONE: count=%d top=%d secs=%.1f' % (
-                w.count, n_top, w.t_total))
         # else: stale (the filter text changed / the scan was
         # cancelled) - the newer worker reports itself
         self._filter_timer_stop()
@@ -4781,20 +4744,8 @@ class Command:
             if incremental:
                 items_root = tree_proc(self.tree, TREE_ITEM_ENUM_EX, 0)
                 if items_root:
-                    root_id = items_root[0]['id']
-                    n_before = len(
-                        tree_proc(self.tree, TREE_ITEM_ENUM_EX,
-                                  root_id) or [])
-                    self._filter_sync_level(root_id, '', index, live,
-                                            expanded)
-                    n_after = len(
-                        tree_proc(self.tree, TREE_ITEM_ENUM_EX,
-                                  root_id) or [])
-                    _filter_debug('live sync: top rows %d -> %d '
-                                  '(bucket-0=%d live=%d)' % (
-                                      n_before, n_after,
-                                      len(index.get('') or []),
-                                      len(live)))
+                    self._filter_sync_level(items_root[0]['id'], '',
+                                            index, live, expanded)
             else:
                 tree_proc(self.tree, TREE_ITEM_DELETE, 0)
                 parent = tree_proc(

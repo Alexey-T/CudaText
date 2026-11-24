@@ -12,17 +12,18 @@
 + Tree filter: the search time is reported - live next to the
   running match count, and as the total in the 'finished' line
   and on the statusbar ("Filter: N match(es) found in X s").
-+ Tree filter: TEMPORARY DIAGNOSTIC (remove once the reported
-  'results only show when the search finishes' is tracked down):
-  every search appends a trace to projman_filter_debug.log in the
-  temp folder (search start, each progress tick, each live
-  rebuild with its row counts, the finished result, and any
-  exception in a tick with its full traceback). A crashing tick
-  is now caught and logged too: an uncaught one killed the live
-  update silently - timer callback exceptions go to the Python
-  console only. The log is written while _FILTER_DEBUG is True
-  (top of __init__.py). The filtered tree's behavior itself is
-  UNCHANGED by all this.
++ FIXED: tree filter results of a root the scan reaches LATE
+  appeared only when the search finished. The scan's priority
+  tiers (editor folder, selection, expanded folders) can cover
+  whole root subtrees, so a root holding no tier target was
+  left for the very end - its row and every match inside it
+  stayed invisible for the whole search (its live sync had
+  nothing to show). The scan now gives every root a two-level
+  HEAD START (the roots and their direct children are walked
+  before every priority tier), so each root's row and its
+  shallow matches show in the first seconds; the deep scan
+  keeps the priority tiers. The tree itself is unchanged
+  (lazy, nothing auto-expanded).
 
 2026.11.23 (@badrelmers)
 + Tree context menu > Favorites: three quick-access commands below
