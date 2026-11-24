@@ -9,14 +9,20 @@
 + Del / the delete commands inside the Favorites section ask for
   a confirmation now (one dialog for the whole batch, like the
   other delete flows) before removing the favorites.
-+ Tree filter: the results STREAM in while the background scan
-  runs. A folder row only shows when a match was found inside it,
-  and it now arrives already expanded with its level filled, so
-  the whole path down to every match is visible the moment the
-  scan finds it - before, everything sat collapsed (and therefore
-  invisible) until the search finished. A folder the user folds
-  mid-scan stays folded; the finished rebuild is insert-only now,
-  so the end of the search does not repaint the tree either.
++ Tree filter: the first found results are VISIBLE while the
+  background scan runs (before, a match only ever showed as a
+  COLLAPSED folder row - the files, the actual results, were
+  hidden until the search finished). A folder row which only
+  shows because a match was found inside it arrives expanded
+  with its level filled - but ONLY within a budget of the first
+  10 file rows (FILTER_LIVE_EXPAND_MAX): a broad filter matches
+  thousands of files, and expanding them all would flood the
+  tree and make every progress tick slow (the rejected first
+  attempt did exactly that). A level is only auto-expanded when
+  ALL its file rows fit the remaining budget - a folder matching
+  hundreds of files never spills them; it stays collapsed with
+  its lazy 'dummy' child like before, as does everything past
+  the budget. A folder the user folds mid-scan stays folded.
 + Tree filter: the search time is reported - live next to the
   running match count, and as the total in the 'finished' line
   and on the statusbar ("Filter: N match(es) found in X s").
