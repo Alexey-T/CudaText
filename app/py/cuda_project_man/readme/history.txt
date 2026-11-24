@@ -25,6 +25,20 @@
   visible live growth. The scan-order 'head start' added later
   while chasing this is removed as well: the scan order is the
   original prioritized one again.
++ Tree filter: the flashing of the live growth is gone. The live
+  refill (restored above) cleared and refilled the tree on EVERY
+  progress tick - one whole-tree repaint per tick, even when the
+  tick's findings all sit inside COLLAPSED folders, which the lazy
+  tree never shows: nothing on the screen changed, yet it
+  repainted. The refill is now gated on a cheap walk comparing the
+  tree's filled levels with the rows the scan index holds for
+  them: a tick rebuilds only when a VISIBLE row really appears or
+  disappears, so rows still show up live at the same moments as
+  before, but the repaint (and the per-tick scroll/selection
+  churn of the refill) happens only then - a typical search
+  repaints a handful of times instead of every 150 ms. No core
+  change needed: TREE_LOCK already batches a refill's item
+  commands into a single repaint.
 
 2026.11.23 (@badrelmers)
 + Tree context menu > Favorites: three quick-access commands below

@@ -4521,7 +4521,13 @@ class Command:
                                        time.monotonic() - w.t0)
             if w.version != self._filter_live_version:
                 self._filter_live_version = w.version
-                self._filter_rebuild(w.res, w.live)
+                # rebuild only when the VISIBLE content would change
+                # (see _filter_visible_changed): a tick whose findings
+                # all sit inside collapsed folders changes nothing on
+                # the screen, and a clear+refill anyway would repaint
+                # the whole tree - the flashing of the live growth
+                if self._filter_visible_changed(w.res, w.live):
+                    self._filter_rebuild(w.res, w.live)
             return
 
         # finished
@@ -4542,7 +4548,12 @@ class Command:
             self._filter_index = w.tree
             self._filter_live_done = w.live
             self._filter_live_version = w.version
-            self._filter_rebuild(w.tree, w.live)
+            # the cleaned final index can differ from the partial one -
+            # but only in rows which were never VISIBLE (optimistic
+            # rows of collapsed folders): refill only when something
+            # on the screen really changes, the live gate again
+            if self._filter_visible_changed(w.tree, w.live):
+                self._filter_rebuild(w.tree, w.live)
         # else: stale (the filter text changed / the scan was
         # cancelled) - the newer worker reports itself
         self._filter_timer_stop()
@@ -4671,6 +4682,58 @@ class Command:
         if found:
             tree_proc(self.tree, TREE_ITEM_SELECT, found[0])
             tree_proc(self.tree, TREE_ITEM_SHOW, found[0])
+
+    def _filter_visible_changed(self, index, live):
+        """True when a _filter_rebuild(index, live) would change what
+        the tree SHOWS - the gate which keeps the live update calm.
+        The progress tick used to clear and refill the tree on EVERY
+        tick (one whole-tree repaint per tick: the flashing), while
+        most ticks change nothing visible: their findings sit inside
+        COLLAPSED folders, which the lazy tree does not show at all.
+        Only a tick which would really add or remove a visible row
+        rebuilds, so a repaint happens only when the user can see
+        something change - rows appear live exactly as before, minus
+        the flashing (and minus the per-tick scroll/selection churn,
+        which the refill re-applied each time). The walk is cheap: it
+        visits only the levels which are filled in the tree right now
+        - the top level and the levels under unfolded folders - the
+        exact levels a rebuild would refill."""
+        if not self.tree or not self.tree_filter:
+            return False
+        items = tree_proc(self.tree, TREE_ITEM_ENUM_EX, 0)
+        if not items:
+            return True      # no project node: a rebuild is needed
+        return self._filter_level_changed(items[0]['id'], '', index,
+                                          live)
+
+    def _filter_level_changed(self, node, key, index, live):
+        """One level of the _filter_visible_changed walk: compare the
+        real rows under `node` (the children with a path in 'data', in
+        tree order) with the rows the index holds for `key` - the
+        exact list a refill would place here (see _filter_rows_for).
+        Any count, path or order difference means 'changed'. An
+        UNFOLDED folder row has its level filled, so the walk recurses
+        into it; a folded one is skipped whatever its hidden children
+        hold: they are invisible, and expanding the folder later
+        refills them from the current index anyway (tree_on_unfold ->
+        _filter_refill_children)."""
+        rows = self._filter_rows_for(key, index, live)
+        kids = [it for it in (tree_proc(self.tree, TREE_ITEM_ENUM_EX,
+                                        node) or [])
+                if it.get('data')]
+        if len(kids) != len(rows):
+            return True
+        for it, row in zip(kids, rows):
+            if it.get('data') != row[1]:
+                return True
+            if row[2]:
+                prop = tree_proc(self.tree, TREE_ITEM_GET_PROPS,
+                                 it['id'])
+                if prop and not prop.get('folded', True):
+                    if self._filter_level_changed(it['id'], row[1],
+                                                  index, live):
+                        return True
+        return False
 
     def _filter_rebuild(self, index, live):
         """Rebuild the visible part of the filtered tree from a lazy
