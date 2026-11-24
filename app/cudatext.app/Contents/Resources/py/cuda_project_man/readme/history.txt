@@ -12,18 +12,19 @@
 + Tree filter: the search time is reported - live next to the
   running match count, and as the total in the 'finished' line
   and on the statusbar ("Filter: N match(es) found in X s").
-+ FIXED: tree filter results of a root the scan reaches LATE
-  appeared only when the search finished. The scan's priority
-  tiers (editor folder, selection, expanded folders) can cover
-  whole root subtrees, so a root holding no tier target was
-  left for the very end - its row and every match inside it
-  stayed invisible for the whole search (its live sync had
-  nothing to show). The scan now gives every root a two-level
-  HEAD START (the roots and their direct children are walked
-  before every priority tier), so each root's row and its
-  shallow matches show in the first seconds; the deep scan
-  keeps the priority tiers. The tree itself is unchanged
-  (lazy, nothing auto-expanded).
++ REVERTED: the 'fix treeview repaint' change of 2026.11.19 that
+  made the live growth of the result tree insert-only (the
+  incremental sync). It only ever updated the top level and the
+  folders the user had already expanded, so with nothing
+  expanded the tree looked dead until the search finished - the
+  reported 'results do not show up until it finishes'. The live
+  update is the OLD clear+refill again: every progress tick
+  rebuilds the visible tree from the findings so far (the top
+  level, plus every folder the user unfolded, with their rows)
+  - the repaint per tick is back too, that is the price of the
+  visible live growth. The scan-order 'head start' added later
+  while chasing this is removed as well: the scan order is the
+  original prioritized one again.
 
 2026.11.23 (@badrelmers)
 + Tree context menu > Favorites: three quick-access commands below

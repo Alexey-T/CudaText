@@ -312,14 +312,7 @@ class _FilterWorker(threading.Thread):
     the next tier) or which is INSIDE it (the path DOWN to a target:
     its ancestors must be walked first to reach it). Each tier is
     therefore scanned as one uninterrupted region, and only then does
-    the next tier start. BEFORE every tier runs a two-level HEAD
-    START: every root folder enters the queue at priority -2 and its
-    direct children at -1, so each root's own row and its shallow
-    matches are found in the first seconds of the scan no matter how
-    big the tiered regions are (a root which holds no tier target
-    would otherwise stay unscanned - and its rows invisible - until
-    the tiered regions finish, i.e. practically until the search
-    'finishes'). Inside one priority the order is breadth-
+    the next tier start. Inside one priority the order is breadth-
     first (a heapq with (priority, seq, path); seq keeps the queue
     FIFO for equal priorities). With no priorities (no editor file,
     nothing selected, nothing expanded) this is exactly the old
@@ -441,24 +434,14 @@ class _FilterWorker(threading.Thread):
             # row immediately, so the top level of the live tree is
             # complete from the very start (a root folder shows as soon
             # as a match is found inside it, a name-matching root at
-            # once); a root FILE only shows when its name matches.
-            # Every root enters the queue at priority -2, and the
-            # DIRECT children of a -2 root at -1 (a TWO-LEVEL HEAD
-            # START which pops before every priority tier): the tiers
-            # rule the DEEP scan and can cover whole root subtrees
-            # (a selected/expanded folder's subtree), so without the
-            # head start a root which holds no tier target is not
-            # scanned at all until the tiered regions are finished -
-            # on a big project its rows (and every match inside it)
-            # appear only when the search 'finishes'. The head start is
-            # cheap (the roots and their first levels are few).
+            # once); a root FILE only shows when its name matches
             for spath, sname, is_dir in self.roots:
                 if is_dir:
                     res.setdefault('', []).append((sname, spath, True))
                     if flt in sname.lower():
                         self.count += 1
                         self._mark_chain(spath)
-                    heapq.heappush(queue, (-2, seq, spath))
+                    heapq.heappush(queue, (self._pri_of(spath), seq, spath))
                     seq += 1
                 elif flt in sname.lower():
                     res.setdefault('', []).append((sname, spath, False))
@@ -467,7 +450,7 @@ class _FilterWorker(threading.Thread):
             while queue:
                 if self.cancel:
                     break
-                pop_pri, _, path = heapq.heappop(queue)
+                _, _, path = heapq.heappop(queue)
                 for e in scan_dir_entries(path, self.opts) or []:
                     if self.cancel:
                         break
@@ -484,13 +467,9 @@ class _FilterWorker(threading.Thread):
                         # the parent's): a folder on the path down to
                         # the focused folder outranks the siblings of
                         # its parent, so the focused branch is walked
-                        # to the bottom before anything else.
-                        # Exception: the direct children of a
-                        # head-start (-2) root keep the head start
-                        # (-1) - see the roots loop above
-                        child_pri = (-1 if pop_pri <= -2
-                                     else self._pri_of(e.path))
-                        heapq.heappush(queue, (child_pri, seq, e.path))
+                        # to the bottom before anything else
+                        heapq.heappush(queue, (self._pri_of(e.path),
+                                               seq, e.path))
                         seq += 1
                     elif flt in e.name.lower():
                         res.setdefault(path, []).append(
@@ -4542,10 +4521,7 @@ class Command:
                                        time.monotonic() - w.t0)
             if w.version != self._filter_live_version:
                 self._filter_live_version = w.version
-                # LIVE update: insert-only sync of the new findings -
-                # no clear+refill (which repainted the whole tree and
-                # flashed on every finding)
-                self._filter_rebuild(w.res, w.live, incremental=True)
+                self._filter_rebuild(w.res, w.live)
             return
 
         # finished
@@ -4696,7 +4672,7 @@ class Command:
             tree_proc(self.tree, TREE_ITEM_SELECT, found[0])
             tree_proc(self.tree, TREE_ITEM_SHOW, found[0])
 
-    def _filter_rebuild(self, index, live, incremental=False):
+    def _filter_rebuild(self, index, live):
         """Rebuild the visible part of the filtered tree from a lazy
         index - the worker's PARTIAL index while the scan runs (called
         from _filter_progress_tick), its cleaned result when it finished
@@ -4704,21 +4680,6 @@ class Command:
         _filter_capture_expanded) and the selection are carried over,
         so a rebuild is visually calm: rows only ever appear, the folds
         and the selected node stay where they were.
-
-        Two strategies:
-        - incremental=True (the LIVE update while the scan runs): the
-          scan's index only ever GROWS (buckets are appended to, `live`
-          only gains paths), so the visible tree is SYNCD in place -
-          only the NEW rows are inserted at their sorted position, no
-          node is deleted or moved. This is what keeps the live growth
-          flash-free: a full clear+refill per progress tick used to
-          repaint the whole tree (and reset its scroll) on every
-          finding - a visible flicker at each 150 ms tick.
-        - incremental=False (the finished/cancelled result): the
-          cleaned index can differ arbitrarily from the partial one
-          (optimistic rows dropped, files of still-hidden folders
-          gone), so the tree is refilled from scratch - ONE repaint at
-          the end of the search, which is not perceived as flashing.
 
         The tree stays LAZY: every folder which is not unfolded gets a
         'dummy' child, and its real rows are added on the expand
@@ -4741,38 +4702,20 @@ class Command:
         self._filter_rebuilding = True
         tree_proc(self.tree, TREE_LOCK)
         try:
-            if incremental:
-                items_root = tree_proc(self.tree, TREE_ITEM_ENUM_EX, 0)
-                if items_root:
-                    self._filter_sync_level(items_root[0]['id'], '',
-                                            index, live, expanded)
-            else:
-                tree_proc(self.tree, TREE_ITEM_DELETE, 0)
-                parent = tree_proc(
-                    self.tree,
-                    TREE_ITEM_ADD,
-                    0,
-                    -1,
-                    self.get_project_name(),
-                    self.ICON_PROJ,
-                )
-                self._filter_fill_level(parent, '', index, live, expanded)
-                tree_proc(self.tree, TREE_ITEM_UNFOLD, parent)
+            tree_proc(self.tree, TREE_ITEM_DELETE, 0)
+            parent = tree_proc(
+                self.tree,
+                TREE_ITEM_ADD,
+                0,
+                -1,
+                self.get_project_name(),
+                self.ICON_PROJ,
+            )
+            self._filter_fill_level(parent, '', index, live, expanded)
+            tree_proc(self.tree, TREE_ITEM_UNFOLD, parent)
         finally:
             tree_proc(self.tree, TREE_UNLOCK)
             self._filter_rebuilding = False
-        if incremental:
-            # nothing was deleted, so a selection which still exists
-            # was never disturbed: re-selecting it (TREE_ITEM_SHOW!)
-            # would scroll the tree on every tick while the user is
-            # browsing - only heal a lost selection (the project node
-            # vanished, e.g. the tree was cleared meanwhile)
-            if not self.selected:
-                items_root = tree_proc(self.tree, TREE_ITEM_ENUM_EX, 0)
-                if items_root:
-                    tree_proc(self.tree, TREE_ITEM_SELECT,
-                              items_root[0]['id'])
-            return
         # keep the selection where it was; select the project node when
         # the old selection does not exist anymore
         if sel_path:
@@ -4781,49 +4724,6 @@ class Command:
             items_root = tree_proc(self.tree, TREE_ITEM_ENUM_EX, 0)
             if items_root:
                 tree_proc(self.tree, TREE_ITEM_SELECT, items_root[0]['id'])
-
-    def _filter_sync_level(self, node, key, index, live, expanded):
-        """One level of the INCREMENTAL live sync (see _filter_rebuild):
-        insert the rows the index holds for `key` which are not in the
-        tree yet - each at the position it has in the level's row list,
-        so the visible order is always exactly the order a full rebuild
-        would show, no matter in which order the scan discovered the
-        rows. Folder rows get their 'dummy' child as usual; folders the
-        user unfolded (path in `expanded`) are recursed into. NEVER
-        deletes anything - that is the point of the incremental sync
-        (no delete, no move: existing nodes keep their identity, so
-        the folds, the selection and the scroll position stay put and
-        nothing flashes)."""
-        rows = self._filter_rows_for(key, index, live)
-        if not rows:
-            return
-        # existing children of this level, keyed by PATH (paths are
-        # unique). A 'dummy' child carries no data and belongs to the
-        # folder row above it - it is not a row of this level.
-        by_path = {}
-        for it in tree_proc(self.tree, TREE_ITEM_ENUM_EX, node) or []:
-            spath = it.get('data') or ''
-            if spath:
-                by_path[spath] = it['id']
-        # walk the desired rows in their final order; every row which
-        # is not in the tree yet is inserted at the number of rows
-        # which precede it in the list (matched or just inserted) -
-        # the earlier inserts shifted the tree exactly into the
-        # desired order
-        pos = 0
-        for sname, spath, is_dir in rows:
-            child = by_path.get(spath)
-            if child is None:
-                child = self._add_tree_node(node, sname, spath, is_dir,
-                                            index=pos)
-                by_path[spath] = child
-                if is_dir:
-                    tree_proc(self.tree, TREE_ITEM_ADD, child, -1,
-                              'dummy', -1)
-            pos += 1
-            if is_dir and spath in expanded:
-                self._filter_sync_level(child, spath, index, live,
-                                        expanded)
 
     def _filter_fill_level(self, node, key, index, live, expanded):
         """Add the rows of ONE level of the filtered tree (the children
