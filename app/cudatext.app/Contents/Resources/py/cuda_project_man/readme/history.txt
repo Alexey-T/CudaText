@@ -9,23 +9,20 @@
 + Del / the delete commands inside the Favorites section ask for
   a confirmation now (one dialog for the whole batch, like the
   other delete flows) before removing the favorites.
-+ Tree filter: the first found results are VISIBLE while the
-  background scan runs (before, a match only ever showed as a
-  COLLAPSED folder row - the files, the actual results, were
-  hidden until the search finished). A folder row which only
-  shows because a match was found inside it arrives expanded
-  with its level filled - but ONLY within a budget of the first
-  10 file rows (FILTER_LIVE_EXPAND_MAX): a broad filter matches
-  thousands of files, and expanding them all would flood the
-  tree and make every progress tick slow (the rejected first
-  attempt did exactly that). A level is only auto-expanded when
-  ALL its file rows fit the remaining budget - a folder matching
-  hundreds of files never spills them; it stays collapsed with
-  its lazy 'dummy' child like before, as does everything past
-  the budget. A folder the user folds mid-scan stays folded.
 + Tree filter: the search time is reported - live next to the
   running match count, and as the total in the 'finished' line
   and on the statusbar ("Filter: N match(es) found in X s").
++ Tree filter: TEMPORARY DIAGNOSTIC (remove once the reported
+  'results only show when the search finishes' is tracked down):
+  every search appends a trace to projman_filter_debug.log in the
+  temp folder (search start, each progress tick, each live
+  rebuild with its row counts, the finished result, and any
+  exception in a tick with its full traceback). A crashing tick
+  is now caught and logged too: an uncaught one killed the live
+  update silently - timer callback exceptions go to the Python
+  console only. The log is written while _FILTER_DEBUG is True
+  (top of __init__.py). The filtered tree's behavior itself is
+  UNCHANGED by all this.
 
 2026.11.23 (@badrelmers)
 + Tree context menu > Favorites: three quick-access commands below

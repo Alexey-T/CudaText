@@ -7,8 +7,10 @@ import json
 import copy
 import functools
 import string
+import tempfile
 import time
 import threading
+import traceback
 from fnmatch import fnmatch
 from pathlib import Path, PurePosixPath
 from .projman_glob import *
@@ -186,13 +188,36 @@ sort_order = 'ext'
 #: interval (ms) of the UI timer which polls the running filter worker
 FILTER_PROGRESS_MS = 150
 
-#: how many of the FIRST found matches the live filter view
-#: auto-expands (the folder chains down to them) while the background
-#: scan runs: the user must SEE results before the search finishes,
-#: but a broad filter matches thousands of files and must not flood
-#: the tree with them (user request) - every folder past the budget
-#: arrives collapsed with its lazy 'dummy' child, as before
-FILTER_LIVE_EXPAND_MAX = 10
+#: TEMPORARY DIAGNOSTIC for the 'results do not show up until the
+#: search finishes' report: while True, every filter search appends a
+#: trace (start, every progress tick, every live rebuild, the finished
+#: result, any exception with its full traceback) to this file:
+#:   Linux:   /tmp/projman_filter_debug.log
+#:   Windows: %TEMP%\projman_filter_debug.log
+#: A crash inside a tick is logged AND caught: the timer keeps firing
+#: and the next tick retries (an uncaught one would silently kill the
+#: live update - exceptions of timer callbacks go to the Python
+#: console only, and nobody looks there). Flip to False to silence.
+#: REMOVE once the cause is found and fixed.
+_FILTER_DEBUG = True
+_FILTER_DEBUG_FILE = os.path.join(tempfile.gettempdir(),
+                                   'projman_filter_debug.log')
+
+
+def _filter_debug(msg):
+    """One line into the filter diagnostic log (see _FILTER_DEBUG).
+    Must never raise: a diagnostic must not break the feature it
+    watches. Main thread only."""
+    if not _FILTER_DEBUG:
+        return
+    try:
+        with open(_FILTER_DEBUG_FILE, 'a', encoding='utf-8') as f:
+            f.write('%s [%s] %s\n' % (
+                time.strftime('%H:%M:%S'),
+                threading.current_thread().name,
+                msg))
+    except Exception:
+        pass
 
 
 def _secs_str(secs):
@@ -1198,10 +1223,6 @@ class Command:
     #: seconds the last finished/cancelled search took (restored with
     #: the count when the filter text is edited back to the same value)
     _filter_rows_secs = None
-    #: remaining auto-expansion budget of the RUNNING search (see
-    #: FILTER_LIVE_EXPAND_MAX): counts down as the live view reveals
-    #: the first matches, so only the first results ever stream in
-    _filter_live_left = FILTER_LIVE_EXPAND_MAX
     #: the LAZY TREE INDEX of the last finished/cancelled filtered scan:
     #: {parent folder path: [(name, path, is_dir), ...]}, the project
     #: root's children under the key ''. The tree is filled from it
@@ -4456,9 +4477,6 @@ class Command:
         self._filter_expanded = set()
         self._filter_rows_count = 0
         self._filter_rows_secs = None
-        # a fresh search gets a fresh auto-expansion budget (the first
-        # FILTER_LIVE_EXPAND_MAX found matches stream in expanded)
-        self._filter_live_left = FILTER_LIVE_EXPAND_MAX
         self._filter_live_version = -1
         # the instant view: the root nodes whose own name matches
         inst_rows = [(sname, spath, is_dir)
@@ -4482,6 +4500,10 @@ class Command:
         self._fill_tree_filtered_top(inst_rows)
         self._filter_label_running(0)
         self._filter_timer_start()
+        _filter_debug('START text=%r roots=%d inst=%d progress_on=%s '
+                      'log=%s' % (text, len(roots), len(inst_rows),
+                                  self._filter_progress_on,
+                                  _FILTER_DEBUG_FILE))
         # a search is running now: the (x) button must show even before
         # the next keystroke reports the text
         self._filter_cancel_btn_update()
@@ -4515,15 +4537,28 @@ class Command:
             self._filter_progress_on = False
 
     def _filter_progress_tick(self, tag=''):
-        """Repeating UI timer which polls the running filter worker.
-        While it runs, the status line shows the live match count AND
+        """Repeating UI timer which polls the running filter worker
+        (the body is _filter_progress_tick_int). CRASH-PROOF: an
+        exception in a timer callback goes to the Python console only
+        - nobody looks there, and the live update would silently die
+        while the finished rebuild (a different code path) would still
+        work: exactly 'results do not show up until it finishes'. The
+        wrapper catches it, logs it (console + statusbar + the
+        diagnostic file) and lets the next tick retry."""
+        try:
+            self._filter_progress_tick_int()
+        except Exception:
+            log_error('Project Manager: filter progress tick crashed')
+            _filter_debug('TICK CRASH: ' + traceback.format_exc())
+
+    def _filter_progress_tick_int(self):
+        """The body of _filter_progress_tick (the crash-proof wrapper
+        explains the split).
+        While the scan runs, the status line shows the live match count AND
         the visible tree is REBUILT from the worker's partial index
         whenever it changed (see _filter_rebuild): the findings so far
         are always shown, at the top level and inside every folder the
-        user expanded - and the FIRST findings also arrive as expanded
-        folder chains with their matched files visible (only the first
-        FILTER_LIVE_EXPAND_MAX file rows: a broad filter must not flood
-        the tree) - rows only ever appear, nothing else moves.
+        user expanded - rows only ever appear, nothing else moves.
         When the scan finishes (and its text is still the current
         filter), its cleaned index becomes the search result, the tree
         is rebuilt from it once more (deeper levels still load lazily
@@ -4535,6 +4570,8 @@ class Command:
             self._filter_timer_stop()
             return
         if not w.done:
+            _filter_debug('tick: count=%d v=%d live_v=%s' % (
+                w.count, w.version, self._filter_live_version))
             self._filter_label_running(w.count,
                                        time.monotonic() - w.t0)
             if w.version != self._filter_live_version:
@@ -4564,6 +4601,9 @@ class Command:
             self._filter_live_done = w.live
             self._filter_live_version = w.version
             self._filter_rebuild(w.tree, w.live)
+            n_top = len(tree_proc(self.tree, TREE_ITEM_ENUM_EX, 0) or [])
+            _filter_debug('DONE: count=%d top=%d secs=%.1f' % (
+                w.count, n_top, w.t_total))
         # else: stale (the filter text changed / the scan was
         # cancelled) - the newer worker reports itself
         self._filter_timer_stop()
@@ -4741,8 +4781,20 @@ class Command:
             if incremental:
                 items_root = tree_proc(self.tree, TREE_ITEM_ENUM_EX, 0)
                 if items_root:
-                    self._filter_sync_level(items_root[0]['id'], '',
-                                            index, live, expanded)
+                    root_id = items_root[0]['id']
+                    n_before = len(
+                        tree_proc(self.tree, TREE_ITEM_ENUM_EX,
+                                  root_id) or [])
+                    self._filter_sync_level(root_id, '', index, live,
+                                            expanded)
+                    n_after = len(
+                        tree_proc(self.tree, TREE_ITEM_ENUM_EX,
+                                  root_id) or [])
+                    _filter_debug('live sync: top rows %d -> %d '
+                                  '(bucket-0=%d live=%d)' % (
+                                      n_before, n_after,
+                                      len(index.get('') or []),
+                                      len(live)))
             else:
                 tree_proc(self.tree, TREE_ITEM_DELETE, 0)
                 parent = tree_proc(
@@ -4779,8 +4831,7 @@ class Command:
             if items_root:
                 tree_proc(self.tree, TREE_ITEM_SELECT, items_root[0]['id'])
 
-    def _filter_sync_level(self, node, key, index, live, expanded,
-                           auto=False):
+    def _filter_sync_level(self, node, key, index, live, expanded):
         """One level of the INCREMENTAL live sync (see _filter_rebuild):
         insert the rows the index holds for `key` which are not in the
         tree yet - each at the position it has in the level's row list,
@@ -4791,29 +4842,10 @@ class Command:
         deletes anything - that is the point of the incremental sync
         (no delete, no move: existing nodes keep their identity, so
         the folds, the selection and the scroll position stay put and
-        nothing flashes).
-
-        auto=True is the STREAMING view of the first results: a folder
-        row only shows when a match was found inside it, so a NEWLY
-        inserted folder row within the budget (FILTER_LIVE_EXPAND_MAX)
-        is auto-expanded and its level filled instead of getting a
-        'dummy' child - the matched files of the FIRST results are
-        VISIBLE while the scan runs (the reported 'the results do not
-        show up until it finishes'), while every folder past the
-        budget stays collapsed as before (a broad filter matches
-        thousands of files: expanding them all would flood the tree
-        and make every tick slow). The budget pays for FILE rows, and
-        a level is only auto-expanded when ALL of its file rows fit
-        the remaining budget - no overshoot, a folder matching
-        hundreds of files never spills them all at once. Insertion-
-        time only - a folder the user folds afterwards stays folded,
-        this never re-expands an existing row."""
+        nothing flashes)."""
         rows = self._filter_rows_for(key, index, live)
         if not rows:
             return
-        if auto:
-            # the budget pays for the file rows this level reveals
-            self._filter_live_left -= sum(1 for r in rows if not r[2])
         # existing children of this level, keyed by PATH (paths are
         # unique). A 'dummy' child carries no data and belongs to the
         # folder row above it - it is not a row of this level.
@@ -4835,26 +4867,8 @@ class Command:
                                             index=pos)
                 by_path[spath] = child
                 if is_dir:
-                    sub = self._filter_rows_for(spath, index, live)
-                    n_files = sum(1 for r in sub if not r[2])
-                    if n_files <= self._filter_live_left:
-                        # the whole level fits the remaining budget:
-                        # stream this result (fill the level, no dummy
-                        # child) - see the docstring. The folder joins
-                        # the persistent expanded set like a user
-                        # unfold: a level which is EMPTY right now
-                        # (deeper matches not found yet) must keep
-                        # growing on the later ticks, and the capture
-                        # only keeps childless folders which are in
-                        # that set
-                        self._filter_expanded.add(spath)
-                        self._filter_sync_level(child, spath, index,
-                                                live, expanded,
-                                                auto=True)
-                        tree_proc(self.tree, TREE_ITEM_UNFOLD, child)
-                    else:
-                        tree_proc(self.tree, TREE_ITEM_ADD, child, -1,
-                                  'dummy', -1)
+                    tree_proc(self.tree, TREE_ITEM_ADD, child, -1,
+                              'dummy', -1)
             pos += 1
             if is_dir and spath in expanded:
                 self._filter_sync_level(child, spath, index, live,
