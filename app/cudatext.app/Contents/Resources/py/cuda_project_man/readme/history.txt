@@ -1,3 +1,152 @@
+2026.11.24 (@badrelmers)
++ FIXED: the Favorites section's star was BLURRED with a big
+  file-type icon set. The star png comes from the (16x16) toolbar
+  icon sets, but the tree's imagelist runs at the size of the
+  chosen file-type set - a 16px star stretched to a 64px set is
+  the blur. Every toolbar set now ships the same Font Awesome star
+  rendered for the bigger tree sizes (star_24/32/48/64.png beside
+  the 16px star.png), and the tree loads the one closest to its
+  own icon size (parsed from the file-type set's folder name):
+  an exact size matches 1:1, a near miss (a 20px set) still picks
+  a crisp 24px render over the stretched 16px one. The 16px
+  behavior is unchanged - the toolbar's own star.png, so the
+  panel button and the section icon keep matching pixel for
+  pixel.
++ FIXED along the way: the toolbar button width followed the
+  FILE-TYPE icon set's size (set_imagelist_size wrote the one
+  size attribute for both lists) - a 64px file-type set widened
+  every toolbar icon button. The toolbar's size and the tree's
+  size are tracked separately now (toolbar_apply_icon_spacing /
+  _favorites_section_icon).
++ FIXED: the tree's 'Favorites' section collapsed on every full
+  refresh (a rename, a favorites edit: anything that refills the
+  tree) - its path-less node is invisible to the unfold-state
+  collector (enum_all_getfolds); the state is kept and restored
+  directly now. The restore no longer consumes a path either, so
+  a favorite that is also a project node keeps BOTH of its tree
+  places unfolded.
++ Del / the delete commands inside the Favorites section ask for
+  a confirmation now (one dialog for the whole batch, like the
+  other delete flows) before removing the favorites.
++ Tree filter: the search time is reported - live next to the
+  running match count, and as the total in the 'finished' line
+  and on the statusbar ("Filter: N match(es) found in X s").
++ REVERTED: the 'fix treeview repaint' change of 2026.11.19 that
+  made the live growth of the result tree insert-only (the
+  incremental sync). It only ever updated the top level and the
+  folders the user had already expanded, so with nothing
+  expanded the tree looked dead until the search finished - the
+  reported 'results do not show up until it finishes'. The live
+  update is the OLD clear+refill again: every progress tick
+  rebuilds the visible tree from the findings so far (the top
+  level, plus every folder the user unfolded, with their rows)
+  - the repaint per tick is back too, that is the price of the
+  visible live growth. The scan-order 'head start' added later
+  while chasing this is removed as well: the scan order is the
+  original prioritized one again.
++ Tree filter: the flashing of the live growth is gone. The live
+  refill (restored above) cleared and refilled the tree on EVERY
+  progress tick - one whole-tree repaint per tick, even when the
+  tick's findings all sit inside COLLAPSED folders, which the lazy
+  tree never shows: nothing on the screen changed, yet it
+  repainted. The refill is now gated on a cheap walk comparing the
+  tree's filled levels with the rows the scan index holds for
+  them: a tick rebuilds only when a VISIBLE row really appears or
+  disappears, so rows still show up live at the same moments as
+  before, but the repaint (and the per-tick scroll/selection
+  churn of the refill) happens only then - a typical search
+  repaints a handful of times instead of every 150 ms. No core
+  change needed: TREE_LOCK already batches a refill's item
+  commands into a single repaint.
+
+2026.11.23 (@badrelmers)
++ Tree context menu > Favorites: three quick-access commands below
+  'Add to favorites' - 'Remove from favorites' (with the project
+  root selected: un-favorite the project), 'Attach as favorite to
+  this project' (add to favorites AND attach in one step, so it
+  shows in the tree's Favorites section at once), 'Detach favorite
+  from this project' (only the link goes, the favorite stays). All
+  multi-selection aware, enabled only when they can do something
+  with the selection.
++ FIXED: deleting from the new Favorites section corrupted the tree
+  ("the content of other node appears in the favorite list") - the
+  delete flow parent-refreshed the path-less section node, and
+  os.scandir('.') poured the CWD into it; a manual refresh fixed it.
+  Root fix: a non-folder parent is never scanned again. Deleting
+  INSIDE the section now means 'remove from favorites' - the disk
+  files are never touched from there ('Delete', 'Stop tracking'
+  and the ignore commands are not offered inside the section at
+  all, and the 'Stop tracking' walk-up can no longer delete the
+  section node from a mixed selection).
++ A disk rename / cut-paste made from the tree re-points the
+  favorites entries (and the attachment lists of a renamed
+  .cuda-proj), so no favorite dies on it; renaming a favorite that
+  is also a project node re-points the project node data-level
+  (the old 'Stop tracking' + re-add path could hit the section).
+
+2026.11.23 (@badrelmers)
++ Project panel: new 'Favorites' section at the very top of the
+  project tree, right below the project name and before every
+  project node - the file/folder favorites ATTACHED to the current
+  project (the same links the Favorites window manages: "Attach
+  favorite to project..."). The section wears the Favorites star
+  icon (the toolbar's star png, auto-black/white for the UI theme);
+  its children are normal tree nodes - a click opens a file, a
+  folder expands like any folder node. No section without a saved
+  project file, and none when nothing is attached (an empty
+  section would be noise). Attach/detach/delete/rename in the
+  Favorites window refresh the tree at once.
+
+2026.11.23 (@badrelmers)
++ The 'Ignore files'/'Ignore folders' option lists change their
+  separator from ';' to '/': a file NAME can contain ';' on every
+  OS, while '/' can never be part of a base name - so a mask with a
+  literal ';' is possible at last. Old configs are migrated
+  automatically once at load (';' -> '/', the options file is
+  rewritten; the 'mask_sep' marker remembers the done migration, a
+  literal ';' typed after the update survives restarts). The
+  'Add to ignore ...' context-menu commands use the new separator
+  too.
+
+2026.11.23 (@badrelmers)
++ Favorites window, Projects tab: new 'Attachments' column - the
+  files/folders attached to that project (the reverse of the
+  'Attached projects' column of the Files/Folders tabs). Every tab
+  has the same columns now, only the 6th column's text differs.
++ Favorites window: the filter field also searches the attachment
+  column - type a project's name on the Files/Folders tabs to find
+  the files/folders attached to it, type a file/folder name on the
+  Projects tab to find the projects it is attached to.
++ Favorites window: the attachment column is sortable - click its
+  header (1st click ascending, 2nd descending, 3rd manual, like the
+  other columns), or use the new 'Sort: by attachments' / 'Sort: by
+  attached projects' command.
++ Favorites window: the 'Checked' button is renamed to 'Batch
+  actions'; the right-click menus group the checked-rows commands
+  under a 'Batch actions' submenu and the sort commands under a
+  'Sort' submenu (the list header's right-click menu too).
+
+2026.11.23 (@badrelmers)
++ The opened project's .cuda-proj file no longer shows in the project
+  tree (issue #6696): clicking it could not open it for editing
+  anyway, the file is managed by the "Project file" menu. Hidden in
+  the normal tree, the folder-expand enumeration and the background
+  filter scan.
++ Context menu of a folder/file inside a root node: new commands
+  "Add to ignore folders" / "Add to ignore files" (issue #6696) -
+  the item's name is appended to the "Ignore folders" / "Ignore
+  files" option masks and the tree refreshes at once, so e.g. the
+  .cudatext backup folder can be hidden in two clicks. Root nodes
+  don't get the commands: ignore masks filter only the disk
+  enumeration, a root node comes from the project's node list
+  ("Stop tracking" is the command for those).
++ New option "Add all opened projects to favorites" (default off,
+  in the new "Favorites" section of the options dialog): a project
+  that gets opened, newly created or saved-as is added to the
+  "projects" favorites automatically. A project already favorited
+  is skipped silently, and a project the user deleted from favorites
+  is not resurrected (until a manual re-add).
+
 2026.11.21 (@badrelmers)
 - Safety audit of every disk-mutating flow (paste, rename,
   duplicate, new file/folder, drag-move), after three reported data

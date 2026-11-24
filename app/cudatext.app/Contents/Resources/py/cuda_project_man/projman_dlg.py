@@ -593,7 +593,7 @@ def dialog_config(op):
 
     section(_('Project tree'))
     row_edit(_('Ignore &files:'), 'no_files', op.get('no_files', ''))
-    row_edit(_('Ignore fold&ers:'), 'no_dirs', op.get('no_dirs', '.git;.svn'))
+    row_edit(_('Ignore fold&ers:'), 'no_dirs', op.get('no_dirs', '.git/.svn'))
     check('no_hidden', _('Ignore all &hidden files/folders'), op.get('no_hidden', True))
     lab(_('&Recent projects:'), X0, PANEL_W - 2 * X0, dy=17)
     # a real mini-editor: 5 visible lines, one project per line, plain
@@ -640,6 +640,13 @@ def dialog_config(op):
     # the add-ons hint sits right below the two icon dropdowns it
     # talks about (it used to be at the very bottom of the dialog)
     hint(_('For more icons, get add-ons of kind "filetypeicons", "projtoolbaricons"'))
+
+    sep()
+
+    section(_('Favorites'))
+    check('favorites_add_opened_projects',
+          _('Add all &opened projects to favorites'),
+          op.get('favorites_add_opened_projects', False))
 
     sep()
 
@@ -764,6 +771,8 @@ def dialog_config(op):
         op['preview'] = _val_bool(state.get('preview'))
         op['d_click'] = _val_bool(state.get('d_click'))
         op['always_sync'] = _val_bool(state.get('always_sync'))
+        op['favorites_add_opened_projects'] = _val_bool(
+            state.get('favorites_add_opened_projects'))
 
         index = _val_int(state.get('icon_theme'))
         if 0 <= index < len(themes):

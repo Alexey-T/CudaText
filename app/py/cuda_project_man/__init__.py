@@ -108,7 +108,10 @@ if IS_WIN:
 PROJECT_EXTENSION = ".cuda-proj"
 PROJECT_DIALOG_FILTER = _("CudaText projects") + "|*" + PROJECT_EXTENSION
 PROJECT_UNSAVED_NAME = _("(No project)")
-NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD = range(4)
+NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD, NODE_FAV = range(5)
+#: NODE_FAV marks the tree's 'Favorites' section header (the attached
+#: favorites of the current project): not a path node, every handler
+#: treats it as its own kind (no open, no fold, its own context menu)
 OS_SUFFIX = app_proc(PROC_GET_OS_SUFFIX, '')
 
 #: delay (ms) after the last keystroke in the tree filter field before
@@ -184,6 +187,13 @@ sort_order = 'ext'
 FILTER_PROGRESS_MS = 150
 
 
+def _secs_str(secs):
+    """Elapsed seconds for the filter's status texts, one decimal
+    ('0.4 s', '12.7 s'): the value is informational, not a
+    measurement instrument."""
+    return '{:.1f}'.format(max(0.0, float(secs)))
+
+
 def _direntry_ordering(path, order):
     """Sort key of one os.DirEntry / pathlib.Path for an explicit
     sort order (the same rules Command.node_ordering_direntry applies
@@ -234,6 +244,7 @@ def scan_dir_entries(fn, opts):
     no_hidden = opts.get("no_hidden", True)
     no_files = str(opts.get("no_files", "") or "")
     no_dirs = str(opts.get("no_dirs", "") or "")
+    proj_file = str(opts.get("proj_file", "") or "")
     for e in entries:
         try:
             is_dir = e.is_dir()
@@ -241,6 +252,11 @@ def scan_dir_entries(fn, opts):
         except OSError:
             continue
         if is_dir and e.is_symlink():
+            continue
+        # the opened project's .cuda-proj file never shows in the tree
+        # (issue #6696); 'proj_file' is injected by the callers that
+        # build tree rows (the filter worker, the fallback scan)
+        if proj_file and path_equals(e.path, proj_file):
             continue
         if no_hidden and is_hidden(e.path):
             continue
@@ -323,6 +339,13 @@ class _FilterWorker(threading.Thread):
         self.pri = pri or {}
         #: snapshot of the options which rule the scan
         self.opts = {}
+        #: monotonic clock at worker CREATION: the base of the live
+        #: 'searching... N match(es) so far, X s' status and of the
+        #: total a finished search reports (read by the UI thread: a
+        #: single float read is safe)
+        self.t0 = time.monotonic()
+        #: total scan seconds, set once when the scan ends (done=True)
+        self.t_total = 0.0
         self.cancel = False
         #: matches found so far - files whose name matches plus folders
         #: whose name matches (a folder which only CONTAINS matches is
@@ -476,6 +499,9 @@ class _FilterWorker(threading.Thread):
             log_error('Project Manager: tree filter scan crashed')
             self.tree = {}
         finally:
+            # the total search time (the status line and the statusbar
+            # report it when the scan ends)
+            self.t_total = time.monotonic() - self.t0
             self.done = True
 
 
@@ -760,7 +786,11 @@ def is_simple_listed(name, masks):
     return False
 
 def is_mask_listed(s, masks):
-    for mask in masks.split(';'):
+    # the mask lists are '/'-separated: a file NAME can contain ';' on
+    # every OS, but never '/' - so '/' is the only safe separator.
+    # Configs of older builds keep ';' lists and are migrated once at
+    # load (see the 'mask_sep' handling in Command.__init__)
+    for mask in masks.split('/'):
         r = fnmatch(s, mask)
         #print("fnmatch('%s', '%s') = %d"%(s, mask, int(r)))
         if r:
@@ -992,12 +1022,16 @@ class Command:
         ("-", "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "", ""),
         (_("Project properties..."), "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_project_properties", ""),
 
-        (_("Add folder..."), "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_add_folder", ""),
-        (_("Add file..."), "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_add_file", ""),
-        (_("Add current file"), "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.add_current_file", ""),
-        (_("Add all opened files"), "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.add_opened_files", ""),
-        (_("Add folder of current file"), "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.add_current_dir", ""),
-        (_("Add folders of all opened files"), "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.add_opened_dirs", ""),
+        # the Add* items are also offered on the tree's 'Favorites'
+        # section header (NODE_FAV): they act on the project, not on
+        # the selection - 'Stop tracking' and 'Clean up' stay away
+        # from it (they would walk up to its level-1, path-less self)
+        (_("Add folder..."), "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD, NODE_FAV], "cuda_project_man.action_add_folder", ""),
+        (_("Add file..."), "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD, NODE_FAV], "cuda_project_man.action_add_file", ""),
+        (_("Add current file"), "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD, NODE_FAV], "cuda_project_man.add_current_file", ""),
+        (_("Add all opened files"), "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD, NODE_FAV], "cuda_project_man.add_opened_files", ""),
+        (_("Add folder of current file"), "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD, NODE_FAV], "cuda_project_man.add_current_dir", ""),
+        (_("Add folders of all opened files"), "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD, NODE_FAV], "cuda_project_man.add_opened_dirs", ""),
         ("-", "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "", ""),
         (_("Stop tracking this folder/file"), "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_remove_node", ""),
         (_("Clean up missing paths..."), "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_remove_deleted_nodes", ""),
@@ -1017,6 +1051,7 @@ class Command:
         (_("Delete"), "dir", [NODE_DIR], "cuda_project_man.action_delete_directory", "Del"),
         ("-", "dir", [NODE_DIR], "", ""),
         (_("Find in folder..."), "dir", [NODE_DIR], "cuda_project_man.action_find_in_directory", ""),
+        (_("Add to ignore folders"), "dir", [NODE_DIR], "cuda_project_man.action_ignore_dir", ""),
         ("-", "dir", [NODE_DIR], "", ""),
         (_("Reveal in file manager"), "dir", [NODE_DIR], "cuda_project_man.action_focus_in_fileman", ""),
         (_("Properties..."), "dir", [NODE_DIR], "cuda_project_man.action_get_properties", "Alt+Enter"),
@@ -1034,6 +1069,7 @@ class Command:
         (_("Rename..."), "file", [NODE_FILE], "cuda_project_man.action_rename", "F2"),
         (_("Duplicate..."), "file", [NODE_FILE], "cuda_project_man.action_duplicate", ""),
         (_("Delete"), "file", [NODE_FILE], "cuda_project_man.action_delete_file", "Del"),
+        (_("Add to ignore files"), "file", [NODE_FILE], "cuda_project_man.action_ignore_file", ""),
         ("-", "file", [NODE_FILE], "", ""),
         (_("Reveal in file manager"), "file", [NODE_FILE], "cuda_project_man.action_focus_in_fileman", ""),
         (_("Properties..."), "file", [NODE_FILE], "cuda_project_man.action_get_properties", "Alt+Enter"),
@@ -1049,7 +1085,7 @@ class Command:
         ("-"   , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "", ""),
         (_("Project sessions"), "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "sessions_submenu", ""),
         ("-"   , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "", ""),
-        (_("Favorites"), "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "favorites_submenu", ""),
+        (_("Favorites"), "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD, NODE_FAV], "favorites_submenu", ""),
         ("-"   , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "", ""),
         (_("Project Manager options..."), "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_config", ""),
     )
@@ -1067,7 +1103,13 @@ class Command:
         "project_from_tabs_files": True,
         "project_from_tabs_folders": True,
         "no_files": "",
-        "no_dirs": ".git;.svn",
+        "no_dirs": ".git/.svn",
+        # separator version of the two ignore-mask lists above: '/' is
+        # the separator now (';' was the old one - unsafe, a file NAME
+        # can contain ';' on every OS). '' = a config written by a
+        # build older than the change: its ';' lists are migrated to
+        # '/' once at load (Command.__init__)
+        "mask_sep": "",
         "no_hidden": True,
         "toolbar": True,
         "preview": True,
@@ -1077,6 +1119,7 @@ class Command:
         "always_sync": False,
         "on_start": False,
         "on_start_activate": False,
+        "favorites_add_opened_projects": False,
         "icon_theme": "vscode_16x16",
         "toolbar_theme": "auto",
         "backup_enabled": True,
@@ -1144,6 +1187,9 @@ class Command:
     #: the "finished, N match(es)" line when the debounce fires for an
     #: unchanged filter text)
     _filter_rows_count = 0
+    #: seconds the last finished/cancelled search took (restored with
+    #: the count when the filter text is edited back to the same value)
+    _filter_rows_secs = None
     #: the LAZY TREE INDEX of the last finished/cancelled filtered scan:
     #: {parent folder path: [(name, path, is_dir), ...]}, the project
     #: root's children under the key ''. The tree is filled from it
@@ -1297,6 +1343,27 @@ class Command:
                 log_error('Project Manager: cannot load the options from '
                           + str(self.options_filename))
 
+        # the two ignore-mask lists ('no_files'/'no_dirs') were ';'
+        # -separated once, but a file NAME can contain ';' on every OS,
+        # so the separator is '/' now (it can never be part of a base
+        # name). ONE-WAY migration of an old config: every ';' of the
+        # two lists becomes '/', the 'mask_sep' marker remembers the
+        # done migration (a literal ';' typed after the change is a
+        # mask character and must survive), and the file is rewritten
+        # at once. A config already migrated ('mask_sep' == '/') or a
+        # fresh one is not touched.
+        if self.options.get("mask_sep") != "/":
+            self.options["mask_sep"] = "/"
+            migrated_masks = False
+            for key in ("no_files", "no_dirs"):
+                val = self.options.get(key)
+                if isinstance(val, str) and ";" in val:
+                    self.options[key] = val.replace(";", "/")
+                    migrated_masks = True
+            if migrated_masks:
+                print(_('Project Manager: ignore lists migrated to the / separator'))
+                self.save_options()
+
         # the options file keeps ONLY settings now (user request): the
         # state keys live in the store file, cuda_project_man_store.json
         # (see store.py). A file written by an older version still
@@ -1313,6 +1380,12 @@ class Command:
                 self.options[key] = migrated[key]
         self.options.setdefault('recent_projects', [])
         self.options.setdefault('opened_folder', '')
+
+        # the Favorites window reports its attachment changes (attach
+        # / detach / delete / rename / move) back here, so the tree's
+        # 'Favorites' section follows live
+        # (see _favorites_tree_refresh)
+        _favorites.set_tree_refresh_hook(self._favorites_tree_refresh)
 
         if "recent_projects" in self.options:
             # heal entries merged into one tab-joined line by the
@@ -2557,6 +2630,7 @@ class Command:
             if n == self.ICON_PROJ: node_type = NODE_PROJECT
             elif n == self.ICON_DIR: node_type = NODE_DIR
             elif n == self.ICON_BAD: node_type = NODE_BAD
+            elif n == self.ICON_FAV: node_type = NODE_FAV
             else: node_type = NODE_FILE
 
         # a TOP-LEVEL node (level 1) must never offer "Delete": nodes
@@ -2570,6 +2644,17 @@ class Command:
             prop = tree_proc(self.tree, TREE_ITEM_GET_PROPS, self.selected)
             if prop and prop.get('level') == 1:
                 sel_is_root_node = True
+
+        # a selection INSIDE the tree's 'Favorites' section never
+        # offers the disk-destructive and scan-shaped commands: the
+        # section is a favorites view - Del removes favorites there
+        # (see action_delete_file); 'Stop tracking' would walk up to
+        # the path-less section node and DELETE it; 'Delete' would
+        # trash a file the user only wanted unlisted. The favorites
+        # commands (in the Favorites submenu) are the section's verbs
+        sel_in_favs = False
+        if self.selected is not None and node_type in (NODE_DIR, NODE_FILE, NODE_BAD):
+            sel_in_favs = self._in_favorites_section(self.selected)
 
         if not self.h_menu:
             self.h_menu = menu_proc(0, MENU_CREATE)
@@ -2600,10 +2685,23 @@ class Command:
                 continue
 
             # no disk deletion for top-level nodes - see the comment
-            # at sel_is_root_node above
+            # at sel_is_root_node above; the ignore commands are skipped
+            # for them for the same reason: ignore masks filter only
+            # the disk enumeration, they cannot hide a root node (which
+            # comes from the project's node list - 'Stop tracking' is
+            # the command for those)
             if sel_is_root_node and item_action in (
                     "cuda_project_man.action_delete_file",
-                    "cuda_project_man.action_delete_directory"):
+                    "cuda_project_man.action_delete_directory",
+                    "cuda_project_man.action_ignore_dir",
+                    "cuda_project_man.action_ignore_file"):
+                continue
+            if sel_in_favs and item_action in (
+                    "cuda_project_man.action_delete_file",
+                    "cuda_project_man.action_delete_directory",
+                    "cuda_project_man.action_remove_node",
+                    "cuda_project_man.action_ignore_dir",
+                    "cuda_project_man.action_ignore_file"):
                 continue
 
             if item_parent == "nodes":
@@ -2869,8 +2967,21 @@ class Command:
             msg_status(_('Cannot rename: ') + str(ex))
             return
 
+        # a favorited path must not die on a disk rename made from
+        # the tree: re-point the favorites entry (and every
+        # attachment list of a renamed .cuda-proj) to the new path
+        _favorites.rename_path(str(location), str(new_location))
+
         if self.is_path_in_root(location):
-            self.action_remove_node()
+            # re-point the project node DATA-level, not via
+            # action_remove_node: its level-1 walk-up would hit the
+            # path-less Favorites section node when the rename was
+            # started from inside the section
+            for n in self.project["nodes"]:
+                if path_equals(n, str(location)):
+                    self.project["nodes"].remove(n)
+                    self._fire_project_nodes_removed()
+                    break
             self.add_node(str(new_location))
 
         # fix filename of existing ui-tab
@@ -2976,9 +3087,9 @@ class Command:
 
     def _untrack_root_by_path(self, path):
         """'Stop tracking' for one KNOWN root path (the multi-delete):
-        find the top-level tree item of the path, drop it and its
-        saved node - the same steps action_remove_node does for the
-        focused node. Returns True when the root was found."""
+        drop only the SAVED node here - the tree itself is rebuilt by
+        the caller (_delete_locations_multi refreshes on every exit
+        path). Returns True."""
 
         node = None
         for n in self.project["nodes"]:
@@ -3031,6 +3142,9 @@ class Command:
                              [_("Move to trash"), _("Cancel")],
                              MB_ICONQUESTION)
             if res != 0:
+                # roots (if confirmed above) are already untracked - the
+                # tree must be rebuilt or they stay visible till refresh
+                self.action_refresh()
                 return
             failed = []
             for p in inner:
@@ -3057,6 +3171,8 @@ class Command:
                              [_("DELETE PERMANENTLY"), _("Cancel")],
                              MB_ICONWARNING, focused=1)
             if res != 0:
+                # same as above: already-untracked roots need the rebuild
+                self.action_refresh()
                 return
             for p in inner:
                 try:
@@ -3082,13 +3198,24 @@ class Command:
         dialog with the "DELETE PERMANENTLY" button, can it be
         permanently deleted (_confirm_and_delete). A failed move
         leaves the file in place and reports the reason."""
-        locations = self.selected_locations()
+        # nodes inside the tree's 'Favorites' section are REMOVED FROM
+        # FAVORITES, never sent to the trash: the section is a
+        # favorites view - its Del key and delete commands unlist the
+        # favorites; the files themselves are deleted from their
+        # normal place in the tree (or the OS), not from here. ONE
+        # confirmation dialog, see _remove_section_favorites
+        inside, outside = self._split_selection_favorites()
+        if inside:
+            if not self._remove_section_favorites(inside):
+                return
+            if not outside:
+                return
+
+        locations = [Path(p) for p in outside]
         if len(locations) > 1:
             self._delete_locations_multi(locations)
             return
-        location = Path(self.get_location_by_index(self.selected))
-        if not str(location):
-            return
+        location = locations[0]
 
         # a root node: only the tree entry goes, the disk file stays
         if self.is_path_in_root(location):
@@ -3100,14 +3227,60 @@ class Command:
             return
 
         # a root node never reaches here (it returns above), so this is
-        # a file inside a node: refresh the parent folder of the tree
-        h_parent = tree_proc(self.tree, TREE_ITEM_GET_PROPS, self.selected)['parent']
-        tree_proc(self.tree, TREE_ITEM_SELECT, h_parent)
-        self.action_refresh(h_parent)
+        # a file inside a node: refresh the parent folder of the tree.
+        # A mixed selection may still FOCUS a Favorites-section child:
+        # its parent is the path-less section, so a full rebuild takes
+        # the parent-refresh's place (see the guard in
+        # action_refresh_int)
+        if self._in_favorites_section(self.selected):
+            self.action_refresh()
+        else:
+            h_parent = tree_proc(self.tree, TREE_ITEM_GET_PROPS, self.selected)['parent']
+            tree_proc(self.tree, TREE_ITEM_SELECT, h_parent)
+            self.action_refresh(h_parent)
         if outcome == 'trash':
             msg_status(_("Moved to %s: ") % trash_label() + str(location.name))
         else:
             msg_status(_("Deleted permanently: ") + str(location.name))
+
+    def action_ignore_dir(self):
+        """Context menu of a folder INSIDE a root node (issue #6696):
+        append the folder's name to the 'no_dirs' ignore masks - every
+        folder with this name stops showing in the tree (the same
+        effect as typing the mask into the options dialog). Root nodes
+        don't get the command: masks filter the disk enumeration only,
+        a root node comes from the project's node list."""
+        self._add_to_ignore_masks("no_dirs", _("folders"))
+
+    def action_ignore_file(self):
+        """Context menu of a file inside a root node (issue #6696):
+        append the file's name to the 'no_files' ignore masks - every
+        file with this name stops showing in the tree."""
+        self._add_to_ignore_masks("no_files", _("files"))
+
+    def _add_to_ignore_masks(self, opt_key, what):
+        """Shared body of the two 'Add to ignore ...' context-menu
+        commands: add the selected item's NAME to the option's mask
+        list ('/'-separated fnmatch masks over base names), save the
+        options and refresh the tree so the item disappears at once.
+        A name already in the list is reported, not duplicated."""
+        node = self.selected
+        if node is None:
+            return
+        path = str(self.get_location_by_index(node))
+        name = os.path.basename(path)
+        if not name:
+            return
+        masks = str(self.options.get(opt_key, "") or "").strip()
+        items = [m.strip() for m in masks.split("/") if m.strip()]
+        if name in items:
+            msg_status(_("Already in ignore list: ") + name)
+            return
+        items.append(name)
+        self.options[opt_key] = "/".join(items)
+        self.save_options()
+        self.action_refresh()
+        msg_status(_("Added to ignore %s: ") % what + name)
 
     def confirm_stop_tracking(self, location):
         """Ask whether to stop tracking the given top-level node, then
@@ -3382,6 +3555,10 @@ class Command:
 
             if move:
                 shutil.move(str(src), str(dst))
+                # a cut-paste MOVES the source: a favorited path must
+                # not die on it - re-point the favorite to the new
+                # location, exactly like the tree's Rename does
+                _favorites.rename_path(str(src), str(dst))
             elif src.is_dir():
                 # copytree, not the removed distutils (gone in Python
                 # 3.12): it refuses to merge into an existing folder,
@@ -3556,13 +3733,21 @@ class Command:
         moved to the OS trash/recycle bin; only on an OS without any
         trash support, after the separate warning dialog with the
         "DELETE PERMANENTLY" button, can it be permanently deleted."""
-        locations = self.selected_locations()
+        # see action_delete_file: a Favorites-section child is removed
+        # from favorites (with the confirmation dialog), the disk
+        # folder is never touched from there
+        inside, outside = self._split_selection_favorites()
+        if inside:
+            if not self._remove_section_favorites(inside):
+                return
+            if not outside:
+                return
+
+        locations = [Path(p) for p in outside]
         if len(locations) > 1:
             self._delete_locations_multi(locations)
             return
-        location = Path(self.get_location_by_index(self.selected))
-        if not str(location):
-            return
+        location = locations[0]
 
         # a root node: only the tree entry goes, the disk folder stays
         if self.is_path_in_root(location):
@@ -3573,9 +3758,15 @@ class Command:
         if outcome is None:
             return
 
-        h_parent = tree_proc(self.tree, TREE_ITEM_GET_PROPS, self.selected)['parent']
-        tree_proc(self.tree, TREE_ITEM_SELECT, h_parent)
-        self.action_refresh(h_parent)
+        # see action_delete_file: a mixed selection may focus a
+        # Favorites-section child - its path-less parent must not be
+        # parent-refreshed, a full rebuild takes its place
+        if self._in_favorites_section(self.selected):
+            self.action_refresh()
+        else:
+            h_parent = tree_proc(self.tree, TREE_ITEM_GET_PROPS, self.selected)['parent']
+            tree_proc(self.tree, TREE_ITEM_SELECT, h_parent)
+            self.action_refresh(h_parent)
 
         # str() like in the tree click: cur_dir must stay a str for
         # path_contains() (see do_unfold_first); skip the parasitic '.'
@@ -3643,6 +3834,17 @@ class Command:
             if prop:
                 sel_fn = prop.get('data', '')
 
+        # the Favorites section node is path-less (data=''), so
+        # enum_all_getfolds cannot collect its unfold state the way it
+        # collects the folder nodes' - remember it directly, or EVERY
+        # full refresh (rename, a favorites edit: anything that calls
+        # action_refresh) would collapse the section
+        section_unfolded = False
+        h_section = self._favorites_section_handle()
+        if h_section is not None:
+            prop = tree_proc(self.tree, TREE_ITEM_GET_PROPS, h_section)
+            section_unfolded = bool(prop and not prop['folded'])
+
         # it was hard to add TREE_LOCK/UNLOCK directly into action_refresh_int
         tree_proc(self.tree, TREE_LOCK)
         try:
@@ -3672,6 +3874,13 @@ class Command:
                 self.action_refresh_int(parent)
 
             self.enum_all_setfolds(unfolds)
+            if section_unfolded and not self.tree_filter:
+                # restore the section's own unfold state (its path-less
+                # node is never in `unfolds`); the filtered tree has no
+                # section at all
+                h = self._favorites_section_handle()
+                if h is not None:
+                    tree_proc(self.tree, TREE_ITEM_UNFOLD, h)
         finally:
             tree_proc(self.tree, TREE_UNLOCK)
 
@@ -3734,12 +3943,25 @@ class Command:
             items_root = tree_proc(self.tree, TREE_ITEM_ENUM_EX, 0)
             tree_proc(self.tree, TREE_ITEM_SELECT, items_root[0]['id'])
 
+            # the project's attached favorites sit at the very top,
+            # right below the project name and before every project
+            # node (see _add_favorites_section)
+            self._add_favorites_section(parent)
+
             nodes = map(Path, self.project.get("nodes", []))
             if sort_order != '':
                 nodes = sorted(nodes, key=Command.node_ordering_direntry)
         else:
             fn = str(self.get_location_by_index(parent)) # str() is required for old Python 3.5 for os.scandir()
-            if not fn: return
+            # a path-less parent must never be scanned: the tree's
+            # 'Favorites' section node carries data='' which str()s to
+            # '.', and os.scandir('.') would pour the CWD's content
+            # into the section ("the content of other node appears in
+            # the favorite list", fixed at the root here - the delete
+            # flows used to parent-refresh the section). Anything not
+            # a directory is equally unscannable: just skip it
+            if not fn or fn == '.' or not os.path.isdir(fn):
+                return
             #print('Reading dir:', fn)
             try:
                 if hasattr(os, "scandir") and callable(os.scandir):
@@ -3773,6 +3995,8 @@ class Command:
             elif self.options.get("no_hidden", True) and is_hidden(spath):
                 continue
             elif self.is_filename_ignored(spath, is_dir):
+                continue
+            elif self.is_opened_project_file(spath):
                 continue
 
             imageindex = self._node_icon(spath, sname, is_dir)
@@ -3868,7 +4092,8 @@ class Command:
             # re-scan, just restore the "finished" line which the
             # keystroke had replaced with "searching"
             if text:
-                self._filter_label_done(self._filter_rows_count)
+                self._filter_label_done(self._filter_rows_count,
+                                        self._filter_rows_secs)
             return
         self.apply_tree_filter(text)
 
@@ -3971,6 +4196,7 @@ class Command:
             self._filter_fallback = None
             self._filter_expanded = None
             self._filter_rows_count = 0
+            self._filter_rows_secs = None
             self.action_refresh()
             # restore the state from before the filtering
             if self._filter_saved_folds:
@@ -4022,7 +4248,8 @@ class Command:
         self._filter_index = cleaned
         self._filter_live_done = w.live
         self._filter_rows_count = w.count
-        self._filter_label_cancelled(w.count)
+        self._filter_rows_secs = w.t_total
+        self._filter_label_cancelled(w.count, w.t_total)
         # rebuild the visible tree from the snapshot: the findings stay
         self._filter_rebuild(cleaned, w.live)
         # the search ended (cancelled): the red tile must go and the
@@ -4184,6 +4411,8 @@ class Command:
                 continue
             elif self.is_filename_ignored(spath, is_dir):
                 continue
+            elif self.is_opened_project_file(spath):
+                continue
             roots.append((spath, sname, bool(is_dir)))
 
         # scan priorities: the folder of the editor file first, then the
@@ -4199,6 +4428,7 @@ class Command:
             'no_files': str(self.options.get('no_files', '') or ''),
             'no_dirs': str(self.options.get('no_dirs', '') or ''),
             'sort_order': sort_order,
+            'proj_file': str(self.project_file_path or ''),
         }
         # remember the snapshot for the lazy single-level fallback
         # refill too (folders the scan index does not know)
@@ -4213,6 +4443,7 @@ class Command:
         self._filter_fallback = {}
         self._filter_expanded = set()
         self._filter_rows_count = 0
+        self._filter_rows_secs = None
         self._filter_live_version = -1
         # the instant view: the root nodes whose own name matches
         inst_rows = [(sname, spath, is_dir)
@@ -4286,13 +4517,17 @@ class Command:
             self._filter_timer_stop()
             return
         if not w.done:
-            self._filter_label_running(w.count)
+            self._filter_label_running(w.count,
+                                       time.monotonic() - w.t0)
             if w.version != self._filter_live_version:
                 self._filter_live_version = w.version
-                # LIVE update: insert-only sync of the new findings -
-                # no clear+refill (which repainted the whole tree and
-                # flashed on every finding)
-                self._filter_rebuild(w.res, w.live, incremental=True)
+                # rebuild only when the VISIBLE content would change
+                # (see _filter_visible_changed): a tick whose findings
+                # all sit inside collapsed folders changes nothing on
+                # the screen, and a clear+refill anyway would repaint
+                # the whole tree - the flashing of the live growth
+                if self._filter_visible_changed(w.res, w.live):
+                    self._filter_rebuild(w.res, w.live)
             return
 
         # finished
@@ -4304,11 +4539,21 @@ class Command:
             return
         if w.text == self.tree_filter and w.tree is not None:
             self._filter_rows_count = w.count
-            self._filter_label_done(w.count)
+            self._filter_rows_secs = w.t_total
+            self._filter_label_done(w.count, w.t_total)
+            # the user asked for the spent search time on the MAIN
+            # statusbar too, not only in the panel's status line
+            msg_status(_('Filter: {} match(es) found in {} s').format(
+                w.count, _secs_str(w.t_total)))
             self._filter_index = w.tree
             self._filter_live_done = w.live
             self._filter_live_version = w.version
-            self._filter_rebuild(w.tree, w.live)
+            # the cleaned final index can differ from the partial one -
+            # but only in rows which were never VISIBLE (optimistic
+            # rows of collapsed folders): refill only when something
+            # on the screen really changes, the live gate again
+            if self._filter_visible_changed(w.tree, w.live):
+                self._filter_rebuild(w.tree, w.live)
         # else: stale (the filter text changed / the scan was
         # cancelled) - the newer worker reports itself
         self._filter_timer_stop()
@@ -4363,6 +4608,12 @@ class Command:
             return cached
         flt = (self.tree_filter or '').lower()
         opts = self._filter_opts or self.options
+        # plain options carry no 'proj_file': inject it (into a copy,
+        # never the live options dict) so the opened project file
+        # stays hidden in the fallback scan too
+        if 'proj_file' not in opts:
+            opts = dict(opts)
+            opts['proj_file'] = str(self.project_file_path or '')
         rows = []
         for e in scan_dir_entries(path, opts) or []:
             try:
@@ -4432,7 +4683,59 @@ class Command:
             tree_proc(self.tree, TREE_ITEM_SELECT, found[0])
             tree_proc(self.tree, TREE_ITEM_SHOW, found[0])
 
-    def _filter_rebuild(self, index, live, incremental=False):
+    def _filter_visible_changed(self, index, live):
+        """True when a _filter_rebuild(index, live) would change what
+        the tree SHOWS - the gate which keeps the live update calm.
+        The progress tick used to clear and refill the tree on EVERY
+        tick (one whole-tree repaint per tick: the flashing), while
+        most ticks change nothing visible: their findings sit inside
+        COLLAPSED folders, which the lazy tree does not show at all.
+        Only a tick which would really add or remove a visible row
+        rebuilds, so a repaint happens only when the user can see
+        something change - rows appear live exactly as before, minus
+        the flashing (and minus the per-tick scroll/selection churn,
+        which the refill re-applied each time). The walk is cheap: it
+        visits only the levels which are filled in the tree right now
+        - the top level and the levels under unfolded folders - the
+        exact levels a rebuild would refill."""
+        if not self.tree or not self.tree_filter:
+            return False
+        items = tree_proc(self.tree, TREE_ITEM_ENUM_EX, 0)
+        if not items:
+            return True      # no project node: a rebuild is needed
+        return self._filter_level_changed(items[0]['id'], '', index,
+                                          live)
+
+    def _filter_level_changed(self, node, key, index, live):
+        """One level of the _filter_visible_changed walk: compare the
+        real rows under `node` (the children with a path in 'data', in
+        tree order) with the rows the index holds for `key` - the
+        exact list a refill would place here (see _filter_rows_for).
+        Any count, path or order difference means 'changed'. An
+        UNFOLDED folder row has its level filled, so the walk recurses
+        into it; a folded one is skipped whatever its hidden children
+        hold: they are invisible, and expanding the folder later
+        refills them from the current index anyway (tree_on_unfold ->
+        _filter_refill_children)."""
+        rows = self._filter_rows_for(key, index, live)
+        kids = [it for it in (tree_proc(self.tree, TREE_ITEM_ENUM_EX,
+                                        node) or [])
+                if it.get('data')]
+        if len(kids) != len(rows):
+            return True
+        for it, row in zip(kids, rows):
+            if it.get('data') != row[1]:
+                return True
+            if row[2]:
+                prop = tree_proc(self.tree, TREE_ITEM_GET_PROPS,
+                                 it['id'])
+                if prop and not prop.get('folded', True):
+                    if self._filter_level_changed(it['id'], row[1],
+                                                  index, live):
+                        return True
+        return False
+
+    def _filter_rebuild(self, index, live):
         """Rebuild the visible part of the filtered tree from a lazy
         index - the worker's PARTIAL index while the scan runs (called
         from _filter_progress_tick), its cleaned result when it finished
@@ -4440,21 +4743,6 @@ class Command:
         _filter_capture_expanded) and the selection are carried over,
         so a rebuild is visually calm: rows only ever appear, the folds
         and the selected node stay where they were.
-
-        Two strategies:
-        - incremental=True (the LIVE update while the scan runs): the
-          scan's index only ever GROWS (buckets are appended to, `live`
-          only gains paths), so the visible tree is SYNCD in place -
-          only the NEW rows are inserted at their sorted position, no
-          node is deleted or moved. This is what keeps the live growth
-          flash-free: a full clear+refill per progress tick used to
-          repaint the whole tree (and reset its scroll) on every
-          finding - a visible flicker at each 150 ms tick.
-        - incremental=False (the finished/cancelled result): the
-          cleaned index can differ arbitrarily from the partial one
-          (optimistic rows dropped, files of still-hidden folders
-          gone), so the tree is refilled from scratch - ONE repaint at
-          the end of the search, which is not perceived as flashing.
 
         The tree stays LAZY: every folder which is not unfolded gets a
         'dummy' child, and its real rows are added on the expand
@@ -4477,38 +4765,20 @@ class Command:
         self._filter_rebuilding = True
         tree_proc(self.tree, TREE_LOCK)
         try:
-            if incremental:
-                items_root = tree_proc(self.tree, TREE_ITEM_ENUM_EX, 0)
-                if items_root:
-                    self._filter_sync_level(items_root[0]['id'], '',
-                                            index, live, expanded)
-            else:
-                tree_proc(self.tree, TREE_ITEM_DELETE, 0)
-                parent = tree_proc(
-                    self.tree,
-                    TREE_ITEM_ADD,
-                    0,
-                    -1,
-                    self.get_project_name(),
-                    self.ICON_PROJ,
-                )
-                self._filter_fill_level(parent, '', index, live, expanded)
-                tree_proc(self.tree, TREE_ITEM_UNFOLD, parent)
+            tree_proc(self.tree, TREE_ITEM_DELETE, 0)
+            parent = tree_proc(
+                self.tree,
+                TREE_ITEM_ADD,
+                0,
+                -1,
+                self.get_project_name(),
+                self.ICON_PROJ,
+            )
+            self._filter_fill_level(parent, '', index, live, expanded)
+            tree_proc(self.tree, TREE_ITEM_UNFOLD, parent)
         finally:
             tree_proc(self.tree, TREE_UNLOCK)
             self._filter_rebuilding = False
-        if incremental:
-            # nothing was deleted, so a selection which still exists
-            # was never disturbed: re-selecting it (TREE_ITEM_SHOW!)
-            # would scroll the tree on every tick while the user is
-            # browsing - only heal a lost selection (the project node
-            # vanished, e.g. the tree was cleared meanwhile)
-            if not self.selected:
-                items_root = tree_proc(self.tree, TREE_ITEM_ENUM_EX, 0)
-                if items_root:
-                    tree_proc(self.tree, TREE_ITEM_SELECT,
-                              items_root[0]['id'])
-            return
         # keep the selection where it was; select the project node when
         # the old selection does not exist anymore
         if sel_path:
@@ -4517,49 +4787,6 @@ class Command:
             items_root = tree_proc(self.tree, TREE_ITEM_ENUM_EX, 0)
             if items_root:
                 tree_proc(self.tree, TREE_ITEM_SELECT, items_root[0]['id'])
-
-    def _filter_sync_level(self, node, key, index, live, expanded):
-        """One level of the INCREMENTAL live sync (see _filter_rebuild):
-        insert the rows the index holds for `key` which are not in the
-        tree yet - each at the position it has in the level's row list,
-        so the visible order is always exactly the order a full rebuild
-        would show, no matter in which order the scan discovered the
-        rows. Folder rows get their 'dummy' child as usual; folders the
-        user unfolded (path in `expanded`) are recursed into. NEVER
-        deletes anything - that is the point of the incremental sync
-        (no delete, no move: existing nodes keep their identity, so
-        the folds, the selection and the scroll position stay put and
-        nothing flashes)."""
-        rows = self._filter_rows_for(key, index, live)
-        if not rows:
-            return
-        # existing children of this level, keyed by PATH (paths are
-        # unique). A 'dummy' child carries no data and belongs to the
-        # folder row above it - it is not a row of this level.
-        by_path = {}
-        for it in tree_proc(self.tree, TREE_ITEM_ENUM_EX, node) or []:
-            spath = it.get('data') or ''
-            if spath:
-                by_path[spath] = it['id']
-        # walk the desired rows in their final order; every row which
-        # is not in the tree yet is inserted at the number of rows
-        # which precede it in the list (matched or just inserted) -
-        # the earlier inserts shifted the tree exactly into the
-        # desired order
-        pos = 0
-        for sname, spath, is_dir in rows:
-            child = by_path.get(spath)
-            if child is None:
-                child = self._add_tree_node(node, sname, spath, is_dir,
-                                            index=pos)
-                by_path[spath] = child
-                if is_dir:
-                    tree_proc(self.tree, TREE_ITEM_ADD, child, -1,
-                              'dummy', -1)
-            pos += 1
-            if is_dir and spath in expanded:
-                self._filter_sync_level(child, spath, index, live,
-                                        expanded)
 
     def _filter_fill_level(self, node, key, index, live, expanded):
         """Add the rows of ONE level of the filtered tree (the children
@@ -4584,17 +4811,24 @@ class Command:
                 tree_proc(self.tree, TREE_ITEM_ADD, child, -1,
                           'dummy', -1)
 
-    def _filter_label_running(self, count):
-        self._filter_label(
-            _('Filter: searching... {} match(es) so far').format(count))
+    def _filter_label_running(self, count, seconds=None):
+        cap = _('Filter: searching... {} match(es) so far').format(count)
+        if seconds is not None:
+            # the elapsed time ticks along with the live match count
+            cap += _(', {} s').format(_secs_str(seconds))
+        self._filter_label(cap)
 
-    def _filter_label_done(self, count):
-        self._filter_label(
-            _('Filter: finished, {} match(es) found').format(count))
+    def _filter_label_done(self, count, seconds=None):
+        cap = _('Filter: finished, {} match(es) found').format(count)
+        if seconds is not None:
+            cap += _(' in {} s').format(_secs_str(seconds))
+        self._filter_label(cap)
 
-    def _filter_label_cancelled(self, count):
-        self._filter_label(
-            _('Filter: cancelled, {} match(es) so far').format(count))
+    def _filter_label_cancelled(self, count, seconds=None):
+        cap = _('Filter: cancelled, {} match(es) so far').format(count)
+        if seconds is not None:
+            cap += _(', {} s').format(_secs_str(seconds))
+        self._filter_label(cap)
 
     def _filter_label_clear(self):
         self._filter_label('')
@@ -4661,6 +4895,119 @@ class Command:
             self._node_icon(spath, sname, is_dir),
             data=spath
             )
+
+    def _add_favorites_section(self, parent):
+        """The 'Favorites' section at the very top of the project tree:
+        the file/folder favorites attached to the CURRENT project (the
+        same links the Favorites window manages), right below the
+        project name and before every project node - they are the
+        project's picked shortcuts, so they come first. Not shown
+        without a saved project file (the folder-only state has no
+        project identity) and not shown when nothing is attached (an
+        empty section would be pure noise). The section node itself is
+        not a path: its icon (ICON_FAV) makes every click/menu handler
+        treat it as its own kind (NODE_FAV) - the CHILDREN are normal
+        nodes, so opening files and expanding folders work unchanged."""
+        proj = str(self.project_file_path) if self.project_file_path else ''
+        if not proj or proj == '.':
+            return
+        attached = _favorites.attached_of_project(proj)
+        if not attached:
+            return
+        # data='': like the project root node, a non-path node every
+        # path-based handler skips (its icon is the behavior key)
+        section = tree_proc(self.tree, TREE_ITEM_ADD, parent, -1,
+                            _('Favorites'), self.ICON_FAV, data='')
+        for cat, name, path in attached:
+            # the opened project's own .cuda-proj file is never shown
+            # in the tree (the 'Project file' menu manages it) - an
+            # attached favorite pointing at it stays hidden too
+            if self.is_opened_project_file(path):
+                continue
+            is_dir = os.path.isdir(path)
+            index = self._add_tree_node(section, name, path, is_dir)
+            if is_dir:
+                # the dummy child gives the fold arrow; the real
+                # children are scanned on unfold, exactly like the
+                # tree's own folder nodes
+                tree_proc(self.tree, TREE_ITEM_ADD, index, -1, 'dummy', -1)
+
+    def _favorites_section_handle(self):
+        """Handle of the tree's 'Favorites' section node (the level-1
+        child of the root with the star icon), or None - the section
+        is absent without a saved project file or without attached
+        favorites."""
+        if not self.tree:
+            return None
+        root_items = tree_proc(self.tree, TREE_ITEM_ENUM_EX, 0) or []
+        if not root_items:
+            return None
+        for it in tree_proc(self.tree, TREE_ITEM_ENUM_EX,
+                            root_items[0]['id']) or []:
+            prop = tree_proc(self.tree, TREE_ITEM_GET_PROPS, it['id'])
+            if prop and prop.get('icon', -1) == self.ICON_FAV:
+                return it['id']
+        return None
+
+    def _in_favorites_section(self, h):
+        """True when the tree item h sits INSIDE the tree's Favorites
+        section (its level-1 ancestor is the section node). The
+        section header itself (level 1) is NOT 'inside' it."""
+        if h is None or not self.tree:
+            return False
+        while True:
+            prop = tree_proc(self.tree, TREE_ITEM_GET_PROPS, h)
+            if not prop:
+                return False
+            if prop['level'] <= 0:
+                return False
+            if prop['level'] == 1:
+                return prop.get('icon', -1) == self.ICON_FAV
+            h = prop['parent']
+
+    def _split_selection_favorites(self):
+        """Split the selection into (paths_inside_the_favorites_section,
+        paths_outside_it): the delete commands remove the section's
+        children from FAVORITES only (the section is a favorites view,
+        the disk files are not touched from there) and hand the rest
+        to the normal trash flow. The section node itself and the
+        project root (both path-less) fall out of both lists."""
+        inside, outside = [], []
+        for h in self.selected_handles():
+            s = str(self.get_location_by_index(h))
+            if not s or s.startswith('.'):
+                continue
+            (inside if self._in_favorites_section(h)
+             else outside).append(s)
+        return inside, outside
+
+    def _remove_section_favorites(self, inside):
+        """Shared by action_delete_file/action_delete_directory for the
+        selection's Favorites-section children: ONE confirmation for
+        the whole batch (the tree's other delete flows ask too - a
+        silent removal is too easy to hit with Del by accident), then
+        the favorites go, the disk files stay. Returns True when the
+        removal happened (or there was nothing to remove), False when
+        the user cancelled."""
+        if not inside:
+            return True
+        MAX_ITEMS = 8
+        lines = [os.path.basename(p) for p in inside[:MAX_ITEMS]]
+        if len(inside) > MAX_ITEMS:
+            lines.append('... ' + str(len(inside) - MAX_ITEMS)
+                         + _(' more'))
+        res = msg_box_ex(
+            _("Remove from favorites"),
+            _("Are you sure you want to remove %d entries from favorites?\n\n%s\n\nThey are only removed from favorites,\nthe files/folders stay on the disk.")
+            % (len(inside), '\n'.join(lines)),
+            [_("Remove"), _("Cancel")],
+            MB_ICONQUESTION)
+        if res != 0:
+            return False
+        n = _favorites.remove_paths(inside)
+        if n:
+            msg_status(_('Removed from favorites: ') + str(n))
+        return True
 
     def _fill_tree_filtered_top(self, rows=None):
         """Rebuild the tree showing its TOP level only: the direct
@@ -5081,6 +5428,7 @@ class Command:
         # a project is open now — the remembered "one folder" state (if
         # any) is over
         self._forget_opened_folder()
+        self._auto_favorite_opened_project()
         self.update_global_data()
         self.goto_history = []
         self.cur_dir = ''
@@ -5655,6 +6003,7 @@ class Command:
         # any) is over (issue #6624: opening a project closes the folder)
         self._forget_opened_folder()
         self.add_recent(path)
+        self._auto_favorite_opened_project()
         self.action_refresh()
         self.options['on_start'] = True
         self.save_events()
@@ -6088,6 +6437,13 @@ class Command:
                     break
                 index = prop["parent"]
 
+            if not path:
+                # the level-1 walk-up hit a path-less node (the
+                # tree's 'Favorites' section): not a trackable
+                # project node - skip this item, the section must
+                # survive
+                continue
+
             tree_proc(self.tree, TREE_ITEM_DELETE, index)
 
             # find the SAVED node that matches the tree item's path: the tree
@@ -6246,6 +6602,11 @@ class Command:
             # Point the plugin to the new path BEFORE saving the session,
             # so the session is embedded into the new file, not the old one
             self.project_file_path = path
+            # saving under a NEW path (also: the "one folder" state saved
+            # as a project file) makes that file the opened project - the
+            # auto-favorite option applies to it too (a plain save passes
+            # the same path and is a no-op there)
+            self._auto_favorite_opened_project()
             # saving the "one folder" state as a project file ends the
             # folder state: the folder node now lives in the project
             self._forget_opened_folder()
@@ -6389,6 +6750,10 @@ class Command:
         if node is None:
             return
         node_type = self.get_node_type()
+        if node_type == NODE_FAV:
+            # the tree's 'Favorites' section header is not a path
+            msg_status(_('Project Manager: the Favorites section is not a path'))
+            return
         if node_type == NODE_PROJECT:
             path = str(self.project_file_path) if self.project_file_path else ''
             if not path or path == '.':
@@ -6405,9 +6770,120 @@ class Command:
         if added:
             msg_status(_('Added to favorites: ') + str(added))
 
+    def _favorites_project_path(self):
+        """Path of the opened project file ('' when none is saved) -
+        the attach/detach commands and their enable states need it."""
+        proj = str(self.project_file_path) if self.project_file_path else ''
+        return proj if proj and proj != '.' else ''
+
+    def _favorites_selection_paths(self):
+        """Paths the favorites context commands act on: the selection's
+        file/folder nodes; with the project root selected, the project
+        file itself ('Remove from favorites' un-favorites the project).
+        Empty for the Favorites section header and for nothing
+        selected."""
+        if self.selected is None:
+            return []
+        node_type = self.get_node_type()
+        if node_type == NODE_FAV:
+            return []
+        if node_type == NODE_PROJECT:
+            proj = self._favorites_project_path()
+            return [proj] if proj else []
+        inside, outside = self._split_selection_favorites()
+        return inside + outside
+
+    def action_remove_from_favorites(self):
+        """Context-menu command: 'Remove from favorites' - remove the
+        selected file(s)/folder(s) from favorites; with the project
+        root selected, remove the opened PROJECT from favorites (its
+        attachments go with it). Multi-selection aware; the disk is
+        never touched - favorites are only references. Inside the
+        tree's Favorites section this is also what the Del key
+        runs."""
+        paths = self._favorites_selection_paths()
+        if not paths:
+            msg_status(_('Project Manager: nothing favorited is selected'))
+            return
+        n = _favorites.remove_paths(paths)
+        if n:
+            msg_status(_('Removed from favorites: ') + str(n))
+        else:
+            msg_status(_('Favorites: nothing of this is favorited'))
+
+    def action_attach_favorites_to_project(self):
+        """Context-menu command: 'Attach as favorite to this project' -
+        add the selected file(s)/folder(s) to favorites when missing
+        AND attach them to the current project in one step, so they
+        appear in the tree's 'Favorites' section at once. Multi-
+        selection aware; needs a saved project file."""
+        proj = self._favorites_project_path()
+        if not proj:
+            msg_status(_('Project Manager: no saved project to attach to'))
+            return
+        if self.get_node_type() == NODE_PROJECT:
+            msg_status(_('Project Manager: the project cannot attach to itself'))
+            return
+        paths = self._favorites_selection_paths()
+        if not paths:
+            msg_status(_('Project Manager: nothing to attach is selected'))
+            return
+        added, links = _favorites.attach_paths_to_project(proj, paths)
+        if links:
+            msg = _('Attached to the project: ') + str(links)
+            if added:
+                msg += _(' (new favorites: ') + str(added) + ')'
+            msg_status(msg)
+        else:
+            msg_status(_('Favorites: everything of this is already attached'))
+
+    def action_detach_favorites_from_project(self):
+        """Context-menu command: 'Detach favorite from this project' -
+        remove ONLY the attachment to the current project: the entries
+        stay in favorites (and attached to other projects). Multi-
+        selection aware; needs a saved project file."""
+        proj = self._favorites_project_path()
+        if not proj:
+            msg_status(_('Project Manager: no saved project to detach from'))
+            return
+        paths = self._favorites_selection_paths()
+        if not paths:
+            msg_status(_('Project Manager: nothing to detach is selected'))
+            return
+        n = _favorites.detach_paths_from_project(proj, paths)
+        if n:
+            msg_status(_('Detached from the project: ') + str(n))
+        else:
+            msg_status(_('Favorites: nothing of this is attached to the project'))
+
+    def _auto_favorite_opened_project(self):
+        """Option 'favorites_add_opened_projects' ("Add all opened
+        projects to favorites"): the project file that just became the
+        current one (opened, newly created, or saved-as) goes into the
+        'projects' favorites - see favorites.auto_add_project for the
+        already-favorited / deleted-by-user cases."""
+        if self.options.get("favorites_add_opened_projects", False) \
+                and self.project_file_path:
+            _favorites.auto_add_project(str(self.project_file_path))
+
     def _favorites_ctx(self, info=None):
         """Internal: callback of the favorites list context menu."""
         _favorites.context_action(info)
+
+    def _favorites_tree_refresh(self):
+        """Callback of favorites.py (set_tree_refresh_hook, registered
+        in __init__): the favorites' attachment links or names changed
+        in the Favorites window - rebuild the tree so its 'Favorites'
+        section (the attached favorites of the current project)
+        follows live. Only with a saved project file: the section
+        needs the project identity, and a folder-only panel has
+        nothing to rebuild (a needless full refresh would also
+        collapse the expanded nodes)."""
+        if not self.tree:
+            return
+        proj = str(self.project_file_path) if self.project_file_path else ''
+        if proj and proj != '.':
+            self.action_refresh()
 
     def action_project_properties(self):
         self.config_proj()
@@ -6520,7 +6996,38 @@ class Command:
         id = menu_proc(menu, MENU_ADD,
                        command='cuda_project_man.action_add_to_favorites',
                        caption=_('Add to favorites'))
-        if self.selected is None:
+        if self.selected is None or self.get_node_type() == NODE_FAV:
+            # nothing selected, or the tree's 'Favorites' section
+            # header (not a path - nothing to add)
+            menu_proc(id, MENU_SET_ENABLED, command=False)
+
+        # the quick-access trio of the project tree's favorites
+        # workflow, right below 'Add to favorites': remove entirely /
+        # add+attach in one step / detach only. Each is enabled only
+        # when it can do something with the current selection
+        # (multi-selection: one qualifying path is enough)
+        sel_paths = self._favorites_selection_paths()
+        proj = self._favorites_project_path()
+
+        id = menu_proc(menu, MENU_ADD,
+                       command='cuda_project_man.action_remove_from_favorites',
+                       caption=_('Remove from favorites'))
+        if not sel_paths or not _favorites.favorited_count(sel_paths):
+            menu_proc(id, MENU_SET_ENABLED, command=False)
+
+        id = menu_proc(menu, MENU_ADD,
+                       command='cuda_project_man.action_attach_favorites_to_project',
+                       caption=_('Attach as favorite to this project'))
+        if not proj or not sel_paths \
+                or self.get_node_type() == NODE_PROJECT \
+                or _favorites.attached_count(proj, sel_paths) >= len(sel_paths):
+            menu_proc(id, MENU_SET_ENABLED, command=False)
+
+        id = menu_proc(menu, MENU_ADD,
+                       command='cuda_project_man.action_detach_favorites_from_project',
+                       caption=_('Detach favorite from this project'))
+        if not proj or not sel_paths \
+                or not _favorites.attached_count(proj, sel_paths):
             menu_proc(id, MENU_SET_ENABLED, command=False)
 
         menu_proc(menu, MENU_ADD, caption='-')
@@ -7045,6 +7552,14 @@ class Command:
         else:
             return False
 
+    def is_opened_project_file(self, fn):
+        """True when 'fn' is the .cuda-proj file of the currently
+        opened project: that file never shows in the tree (issue
+        #6696) - clicking it could not open it for editing anyway,
+        it is managed by the 'Project file' menu."""
+        p = self.project_file_path
+        return bool(p) and path_equals(str(p), str(fn))
+
     def on_start(self, ed_self):
         # on_start is subscribed via plugins.ini, so it only runs when the
         # plugin was loaded on start, i.e. when a project or an "Open
@@ -7218,8 +7733,11 @@ class Command:
                     id = i['id']
                     fn = i.get('data', '')
                     if fn in unfolds:
+                        # NO remove() from `unfolds`: the same path can
+                        # sit in the tree TWICE now (a Favorites-
+                        # section child next to the same project node)
+                        # and every occurrence must be re-unfolded
                         tree_proc(self.tree, TREE_ITEM_UNFOLD, id)
-                        unfolds.remove(fn)
                     #else:
                     #    tree_proc(self.tree, TREE_ITEM_FOLD, id)
                     self.enum_subitems_setfolds(id, unfolds)
@@ -7421,7 +7939,7 @@ class Command:
         if info.image == self.ICON_DIR:
             tree_proc(self.tree, TREE_ITEM_UNFOLD if tree_proc(self.tree, TREE_ITEM_GET_PROPS, self.selected)['folded'] else TREE_ITEM_FOLD, self.selected)
             return
-        elif info.image in [self.ICON_BAD, self.ICON_PROJ]:
+        elif info.image in [self.ICON_BAD, self.ICON_PROJ, self.ICON_FAV]:
             return
 
         if not os.path.isfile(str(path)):
@@ -7600,7 +8118,8 @@ class Command:
             info = self.get_info(item)
             if info and info.image not in (self.ICON_DIR,
                                            self.ICON_PROJ,
-                                           self.ICON_BAD):
+                                           self.ICON_BAD,
+                                           self.ICON_FAV):
                 ed.focus()
             return
         if item and self._tree_click_skips_node(item):
@@ -7612,6 +8131,14 @@ class Command:
 
 
     def set_imagelist_size(self, theme_name, imglist):
+        """Size the given imagelist to the icon size encoded in the
+        set folder's name ('<name>_<W>x<H>'), 8..64 px. Remembers
+        WHICH list got sized: the toolbar's size feeds
+        toolbar_apply_icon_spacing (the button widths), the tree's
+        size feeds _favorites_section_icon (which star variant to
+        load) - the two lists run at different sizes, the toolbar
+        sets are all 16x16 while the tree follows the file-type icon
+        set the user chose."""
 
         res = re.match(r'^\S+x(\d+)$', theme_name)
         if not res:
@@ -7621,9 +8148,13 @@ class Command:
             return msg_box(_('Project Manager: bad icons size: "%s"') % theme_name, MB_OK+MB_ICONERROR)
 
         imagelist_proc(imglist, IMAGELIST_SET_SIZE, (n, n))
-        #: the icon size of the current set - toolbar_apply_icon_spacing
-        #: needs it to compute the button widths
-        self._toolbar_icon_px = n
+        if imglist == self.toolbar_imglist:
+            #: the toolbar button widths are computed from this
+            self._toolbar_icon_px = n
+        else:
+            #: the tree's icon size: the star of the Favorites section
+            #: is picked in this size
+            self._tree_icon_px = n
 
     def toolbar_icons_effective(self):
         """Icon set the toolbar actually uses. The 'toolbar_theme'
@@ -7729,8 +8260,9 @@ class Command:
 
     def _tree_icon_constants(self):
         """Fetch the special tree icons' image indexes (the project
-        root, a folder, the error marker, the generic file types) into
-        self.ICON_* attributes. Runs at panel init AND from
+        root, a folder, the error marker, the generic file types, the
+        Favorites section) into self.ICON_* attributes. Runs at panel
+        init AND from
         tree_icons_reload() - the indexes change with every imagelist
         refill (IMAGELIST_DELETE_ALL restarts them at 0)."""
         self.ICON_ALL = self.icon_get('_')
@@ -7743,6 +8275,66 @@ class Command:
         self.ICON_TEXT = self.icon_get('_text')
         self.ICON_AUDIO = self.icon_get('_audio')
         self.ICON_VIDEO = self.icon_get('_video')
+        self.ICON_FAV = self._favorites_section_icon()
+
+    def _favorites_section_icon(self):
+        """Image index of the tree's 'Favorites' section: the SAME
+        star the toolbar's Favorites button wears, from the effective
+        toolbar icon set (it follows the UI theme - black glyphs on a
+        light theme, white on a dark one; the filetype icon sets have
+        no star). Loaded into the TREE imagelist here, not via
+        icon_get: the star is not part of a filetypeicons theme.
+
+        SIZED to the tree's own icon size (self._tree_icon_px, parsed
+        from the filetype icon set's folder name by
+        set_imagelist_size): the toolbar star pngs are 16x16, but the
+        tree imagelist runs at the file-type set's size - a 16px star
+        stretched up to a 64px set is the blurred Favorites section
+        icon. Each toolbar set therefore ships the star at
+        16/24/32/48/64 (star.png is the 16, star_24/32/48/64.png are
+        the rest, the same Font Awesome star rendered for the bigger
+        tree sizes) and the one closest to the tree's size is loaded
+        - an exact size matches 1:1, a near miss is still a small
+        crisp resample, not a 4x stretch. Fallbacks: the default set's
+        star of the same size, then the generic file icon. Re-run by
+        _tree_icon_constants on every imagelist refill - the index
+        changes with every refill."""
+        px = getattr(self, '_tree_icon_px', 16)
+        tried = []
+        for name in (self.toolbar_icons_effective(), ICONS_DEFAULT):
+            if name in tried:
+                continue
+            tried.append(name)
+            fn = self._star_png_for(name, px)
+            if fn:
+                n = imagelist_proc(self.tree_imglist, IMAGELIST_ADD, value=fn)
+                if n is not None:
+                    return n
+        return self.ICON_TEXT
+
+    def _star_png_for(self, set_name, px):
+        """The star png of the toolbar icon set `set_name` closest to
+        the tree's icon size `px` (see _favorites_section_icon), or
+        None when the set has no star at all. star.png is the native
+        16px one, star_24/32/48/64.png the bigger renders. The
+        closest size wins; a tie between a smaller and a bigger
+        variant takes the BIGGER one (a slightly big icon downscaled
+        stays crisp, a small one upscaled blurs)."""
+        dirname = os.path.join(app_path(APP_DIR_DATA), 'projtoolbaricons',
+                               set_name)
+        best = None
+        for size, fname in ((16, 'star.png'), (24, 'star_24.png'),
+                            (32, 'star_32.png'), (48, 'star_48.png'),
+                            (64, 'star_64.png')):
+            if not os.path.isfile(os.path.join(dirname, fname)):
+                continue
+            # nearest distance wins; at a TIE a size >= px (second
+            # item False) beats a smaller one: a slightly big icon
+            # downscaled stays crisp, a small one upscaled blurs
+            key = (abs(size - px), size < px)
+            if best is None or key < best[0]:
+                best = (key, os.path.join(dirname, fname))
+        return best[1] if best else None
 
     def tree_icons_reload(self):
         """File-type icon theme changed in the options: refill the
@@ -7792,6 +8384,7 @@ class Command:
             if n == self.ICON_PROJ: node_type = NODE_PROJECT
             elif n == self.ICON_DIR: node_type = NODE_DIR
             elif n == self.ICON_BAD: node_type = NODE_BAD
+            elif n == self.ICON_FAV: node_type = NODE_FAV
             else: node_type = NODE_FILE
         return node_type
 
