@@ -1,3 +1,26 @@
+2026.11.24 (@badrelmers)
++ FIXED: the tree's 'Favorites' section collapsed on every full
+  refresh (a rename, a favorites edit: anything that refills the
+  tree) - its path-less node is invisible to the unfold-state
+  collector (enum_all_getfolds); the state is kept and restored
+  directly now. The restore no longer consumes a path either, so
+  a favorite that is also a project node keeps BOTH of its tree
+  places unfolded.
++ Del / the delete commands inside the Favorites section ask for
+  a confirmation now (one dialog for the whole batch, like the
+  other delete flows) before removing the favorites.
++ Tree filter: the results STREAM in while the background scan
+  runs. A folder row only shows when a match was found inside it,
+  and it now arrives already expanded with its level filled, so
+  the whole path down to every match is visible the moment the
+  scan finds it - before, everything sat collapsed (and therefore
+  invisible) until the search finished. A folder the user folds
+  mid-scan stays folded; the finished rebuild is insert-only now,
+  so the end of the search does not repaint the tree either.
++ Tree filter: the search time is reported - live next to the
+  running match count, and as the total in the 'finished' line
+  and on the statusbar ("Filter: N match(es) found in X s").
+
 2026.11.23 (@badrelmers)
 + Tree context menu > Favorites: three quick-access commands below
   'Add to favorites' - 'Remove from favorites' (with the project

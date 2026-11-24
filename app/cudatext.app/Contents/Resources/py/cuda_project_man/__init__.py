@@ -187,6 +187,13 @@ sort_order = 'ext'
 FILTER_PROGRESS_MS = 150
 
 
+def _secs_str(secs):
+    """Elapsed seconds for the filter's status texts, one decimal
+    ('0.4 s', '12.7 s'): the value is informational, not a
+    measurement instrument."""
+    return '{:.1f}'.format(max(0.0, float(secs)))
+
+
 def _direntry_ordering(path, order):
     """Sort key of one os.DirEntry / pathlib.Path for an explicit
     sort order (the same rules Command.node_ordering_direntry applies
@@ -332,6 +339,13 @@ class _FilterWorker(threading.Thread):
         self.pri = pri or {}
         #: snapshot of the options which rule the scan
         self.opts = {}
+        #: monotonic clock at worker CREATION: the base of the live
+        #: 'searching... N match(es) so far, X s' status and of the
+        #: total a finished search reports (read by the UI thread: a
+        #: single float read is safe)
+        self.t0 = time.monotonic()
+        #: total scan seconds, set once when the scan ends (done=True)
+        self.t_total = 0.0
         self.cancel = False
         #: matches found so far - files whose name matches plus folders
         #: whose name matches (a folder which only CONTAINS matches is
@@ -485,6 +499,9 @@ class _FilterWorker(threading.Thread):
             log_error('Project Manager: tree filter scan crashed')
             self.tree = {}
         finally:
+            # the total search time (the status line and the statusbar
+            # report it when the scan ends)
+            self.t_total = time.monotonic() - self.t0
             self.done = True
 
 
@@ -1170,6 +1187,9 @@ class Command:
     #: the "finished, N match(es)" line when the debounce fires for an
     #: unchanged filter text)
     _filter_rows_count = 0
+    #: seconds the last finished/cancelled search took (restored with
+    #: the count when the filter text is edited back to the same value)
+    _filter_rows_secs = None
     #: the LAZY TREE INDEX of the last finished/cancelled filtered scan:
     #: {parent folder path: [(name, path, is_dir), ...]}, the project
     #: root's children under the key ''. The tree is filled from it
@@ -3182,12 +3202,12 @@ class Command:
         # FAVORITES, never sent to the trash: the section is a
         # favorites view - its Del key and delete commands unlist the
         # favorites; the files themselves are deleted from their
-        # normal place in the tree (or the OS), not from here
+        # normal place in the tree (or the OS), not from here. ONE
+        # confirmation dialog, see _remove_section_favorites
         inside, outside = self._split_selection_favorites()
         if inside:
-            n = _favorites.remove_paths(inside)
-            if n:
-                msg_status(_('Removed from favorites: ') + str(n))
+            if not self._remove_section_favorites(inside):
+                return
             if not outside:
                 return
 
@@ -3714,12 +3734,12 @@ class Command:
         trash support, after the separate warning dialog with the
         "DELETE PERMANENTLY" button, can it be permanently deleted."""
         # see action_delete_file: a Favorites-section child is removed
-        # from favorites, the disk folder is never touched from there
+        # from favorites (with the confirmation dialog), the disk
+        # folder is never touched from there
         inside, outside = self._split_selection_favorites()
         if inside:
-            n = _favorites.remove_paths(inside)
-            if n:
-                msg_status(_('Removed from favorites: ') + str(n))
+            if not self._remove_section_favorites(inside):
+                return
             if not outside:
                 return
 
@@ -3814,6 +3834,17 @@ class Command:
             if prop:
                 sel_fn = prop.get('data', '')
 
+        # the Favorites section node is path-less (data=''), so
+        # enum_all_getfolds cannot collect its unfold state the way it
+        # collects the folder nodes' - remember it directly, or EVERY
+        # full refresh (rename, a favorites edit: anything that calls
+        # action_refresh) would collapse the section
+        section_unfolded = False
+        h_section = self._favorites_section_handle()
+        if h_section is not None:
+            prop = tree_proc(self.tree, TREE_ITEM_GET_PROPS, h_section)
+            section_unfolded = bool(prop and not prop['folded'])
+
         # it was hard to add TREE_LOCK/UNLOCK directly into action_refresh_int
         tree_proc(self.tree, TREE_LOCK)
         try:
@@ -3843,6 +3874,13 @@ class Command:
                 self.action_refresh_int(parent)
 
             self.enum_all_setfolds(unfolds)
+            if section_unfolded and not self.tree_filter:
+                # restore the section's own unfold state (its path-less
+                # node is never in `unfolds`); the filtered tree has no
+                # section at all
+                h = self._favorites_section_handle()
+                if h is not None:
+                    tree_proc(self.tree, TREE_ITEM_UNFOLD, h)
         finally:
             tree_proc(self.tree, TREE_UNLOCK)
 
@@ -4054,7 +4092,8 @@ class Command:
             # re-scan, just restore the "finished" line which the
             # keystroke had replaced with "searching"
             if text:
-                self._filter_label_done(self._filter_rows_count)
+                self._filter_label_done(self._filter_rows_count,
+                                        self._filter_rows_secs)
             return
         self.apply_tree_filter(text)
 
@@ -4157,6 +4196,7 @@ class Command:
             self._filter_fallback = None
             self._filter_expanded = None
             self._filter_rows_count = 0
+            self._filter_rows_secs = None
             self.action_refresh()
             # restore the state from before the filtering
             if self._filter_saved_folds:
@@ -4208,7 +4248,8 @@ class Command:
         self._filter_index = cleaned
         self._filter_live_done = w.live
         self._filter_rows_count = w.count
-        self._filter_label_cancelled(w.count)
+        self._filter_rows_secs = w.t_total
+        self._filter_label_cancelled(w.count, w.t_total)
         # rebuild the visible tree from the snapshot: the findings stay
         self._filter_rebuild(cleaned, w.live)
         # the search ended (cancelled): the red tile must go and the
@@ -4402,6 +4443,7 @@ class Command:
         self._filter_fallback = {}
         self._filter_expanded = set()
         self._filter_rows_count = 0
+        self._filter_rows_secs = None
         self._filter_live_version = -1
         # the instant view: the root nodes whose own name matches
         inst_rows = [(sname, spath, is_dir)
@@ -4475,7 +4517,8 @@ class Command:
             self._filter_timer_stop()
             return
         if not w.done:
-            self._filter_label_running(w.count)
+            self._filter_label_running(w.count,
+                                       time.monotonic() - w.t0)
             if w.version != self._filter_live_version:
                 self._filter_live_version = w.version
                 # LIVE update: insert-only sync of the new findings -
@@ -4493,11 +4536,23 @@ class Command:
             return
         if w.text == self.tree_filter and w.tree is not None:
             self._filter_rows_count = w.count
-            self._filter_label_done(w.count)
+            self._filter_rows_secs = w.t_total
+            self._filter_label_done(w.count, w.t_total)
+            # the user asked for the spent search time on the MAIN
+            # statusbar too, not only in the panel's status line
+            msg_status(_('Filter: {} match(es) found in {} s').format(
+                w.count, _secs_str(w.t_total)))
             self._filter_index = w.tree
             self._filter_live_done = w.live
             self._filter_live_version = w.version
-            self._filter_rebuild(w.tree, w.live)
+            # insert-only, like every live tick: the cleaned index only
+            # ever holds what the partial one already allowed to show
+            # (files always, folders only when live - optimistic rows
+            # were never shown), so nothing needs deleting; and a
+            # NEWLY live folder (found between the last tick and the
+            # end) gets the same auto-expand at insertion, instead of
+            # arriving collapsed at the finish line
+            self._filter_rebuild(w.tree, w.live, incremental=True)
         # else: stale (the filter text changed / the scan was
         # cancelled) - the newer worker reports itself
         self._filter_timer_stop()
@@ -4719,12 +4774,18 @@ class Command:
         tree yet - each at the position it has in the level's row list,
         so the visible order is always exactly the order a full rebuild
         would show, no matter in which order the scan discovered the
-        rows. Folder rows get their 'dummy' child as usual; folders the
-        user unfolded (path in `expanded`) are recursed into. NEVER
-        deletes anything - that is the point of the incremental sync
-        (no delete, no move: existing nodes keep their identity, so
-        the folds, the selection and the scroll position stay put and
-        nothing flashes)."""
+        rows. A NEWLY INSERTED folder row is auto-expanded at once and
+        its level filled by the same recursion (a folder row only
+        shows when a match was found inside it - so this is what makes
+        the whole path down to every match visible the moment the scan
+        finds it: the reported 'the results do not show up until it
+        finishes'); insertion-time only, a folder the user folds
+        afterwards stays folded. Existing unfolded folders (the user
+        unfolded them, or they were auto-expanded and captured) keep
+        their level growing. NEVER deletes anything - that is the
+        point of the incremental sync (no delete, no move: existing
+        nodes keep their identity, so the folds, the selection and the
+        scroll position stay put and nothing flashes)."""
         rows = self._filter_rows_for(key, index, live)
         if not rows:
             return
@@ -4744,17 +4805,24 @@ class Command:
         pos = 0
         for sname, spath, is_dir in rows:
             child = by_path.get(spath)
-            if child is None:
+            fresh = child is None
+            if fresh:
                 child = self._add_tree_node(node, sname, spath, is_dir,
                                             index=pos)
                 by_path[spath] = child
-                if is_dir:
-                    tree_proc(self.tree, TREE_ITEM_ADD, child, -1,
-                              'dummy', -1)
             pos += 1
-            if is_dir and spath in expanded:
+            if not is_dir:
+                continue
+            if fresh or spath in expanded:
+                # fresh: the streaming auto-expand described above (the
+                # folder's own level filled + the folder unfolded - no
+                # 'dummy' child: its rows arrive with it). An existing
+                # unfolded folder: its level keeps growing with the
+                # new findings.
                 self._filter_sync_level(child, spath, index, live,
                                         expanded)
+                if fresh:
+                    tree_proc(self.tree, TREE_ITEM_UNFOLD, child)
 
     def _filter_fill_level(self, node, key, index, live, expanded):
         """Add the rows of ONE level of the filtered tree (the children
@@ -4779,17 +4847,24 @@ class Command:
                 tree_proc(self.tree, TREE_ITEM_ADD, child, -1,
                           'dummy', -1)
 
-    def _filter_label_running(self, count):
-        self._filter_label(
-            _('Filter: searching... {} match(es) so far').format(count))
+    def _filter_label_running(self, count, seconds=None):
+        cap = _('Filter: searching... {} match(es) so far').format(count)
+        if seconds is not None:
+            # the elapsed time ticks along with the live match count
+            cap += _(', {} s').format(_secs_str(seconds))
+        self._filter_label(cap)
 
-    def _filter_label_done(self, count):
-        self._filter_label(
-            _('Filter: finished, {} match(es) found').format(count))
+    def _filter_label_done(self, count, seconds=None):
+        cap = _('Filter: finished, {} match(es) found').format(count)
+        if seconds is not None:
+            cap += _(' in {} s').format(_secs_str(seconds))
+        self._filter_label(cap)
 
-    def _filter_label_cancelled(self, count):
-        self._filter_label(
-            _('Filter: cancelled, {} match(es) so far').format(count))
+    def _filter_label_cancelled(self, count, seconds=None):
+        cap = _('Filter: cancelled, {} match(es) so far').format(count)
+        if seconds is not None:
+            cap += _(', {} s').format(_secs_str(seconds))
+        self._filter_label(cap)
 
     def _filter_label_clear(self):
         self._filter_label('')
@@ -4941,6 +5016,34 @@ class Command:
             (inside if self._in_favorites_section(h)
              else outside).append(s)
         return inside, outside
+
+    def _remove_section_favorites(self, inside):
+        """Shared by action_delete_file/action_delete_directory for the
+        selection's Favorites-section children: ONE confirmation for
+        the whole batch (the tree's other delete flows ask too - a
+        silent removal is too easy to hit with Del by accident), then
+        the favorites go, the disk files stay. Returns True when the
+        removal happened (or there was nothing to remove), False when
+        the user cancelled."""
+        if not inside:
+            return True
+        MAX_ITEMS = 8
+        lines = [os.path.basename(p) for p in inside[:MAX_ITEMS]]
+        if len(inside) > MAX_ITEMS:
+            lines.append('... ' + str(len(inside) - MAX_ITEMS)
+                         + _(' more'))
+        res = msg_box_ex(
+            _("Remove from favorites"),
+            _("Are you sure you want to remove %d entries from favorites?\n\n%s\n\nThey are only removed from favorites,\nthe files/folders stay on the disk.")
+            % (len(inside), '\n'.join(lines)),
+            [_("Remove"), _("Cancel")],
+            MB_ICONQUESTION)
+        if res != 0:
+            return False
+        n = _favorites.remove_paths(inside)
+        if n:
+            msg_status(_('Removed from favorites: ') + str(n))
+        return True
 
     def _fill_tree_filtered_top(self, rows=None):
         """Rebuild the tree showing its TOP level only: the direct
@@ -7666,8 +7769,11 @@ class Command:
                     id = i['id']
                     fn = i.get('data', '')
                     if fn in unfolds:
+                        # NO remove() from `unfolds`: the same path can
+                        # sit in the tree TWICE now (a Favorites-
+                        # section child next to the same project node)
+                        # and every occurrence must be re-unfolded
                         tree_proc(self.tree, TREE_ITEM_UNFOLD, id)
-                        unfolds.remove(fn)
                     #else:
                     #    tree_proc(self.tree, TREE_ITEM_FOLD, id)
                     self.enum_subitems_setfolds(id, unfolds)
