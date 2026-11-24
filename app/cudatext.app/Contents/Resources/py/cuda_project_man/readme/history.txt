@@ -1,4 +1,23 @@
 2026.11.24 (@badrelmers)
++ FIXED: the Favorites section's star was BLURRED with a big
+  file-type icon set. The star png comes from the (16x16) toolbar
+  icon sets, but the tree's imagelist runs at the size of the
+  chosen file-type set - a 16px star stretched to a 64px set is
+  the blur. Every toolbar set now ships the same Font Awesome star
+  rendered for the bigger tree sizes (star_24/32/48/64.png beside
+  the 16px star.png), and the tree loads the one closest to its
+  own icon size (parsed from the file-type set's folder name):
+  an exact size matches 1:1, a near miss (a 20px set) still picks
+  a crisp 24px render over the stretched 16px one. The 16px
+  behavior is unchanged - the toolbar's own star.png, so the
+  panel button and the section icon keep matching pixel for
+  pixel.
++ FIXED along the way: the toolbar button width followed the
+  FILE-TYPE icon set's size (set_imagelist_size wrote the one
+  size attribute for both lists) - a 64px file-type set widened
+  every toolbar icon button. The toolbar's size and the tree's
+  size are tracked separately now (toolbar_apply_icon_spacing /
+  _favorites_section_icon).
 + FIXED: the tree's 'Favorites' section collapsed on every full
   refresh (a rename, a favorites edit: anything that refills the
   tree) - its path-less node is invisible to the unfold-state

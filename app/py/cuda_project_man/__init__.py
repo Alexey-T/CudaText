@@ -8131,6 +8131,14 @@ class Command:
 
 
     def set_imagelist_size(self, theme_name, imglist):
+        """Size the given imagelist to the icon size encoded in the
+        set folder's name ('<name>_<W>x<H>'), 8..64 px. Remembers
+        WHICH list got sized: the toolbar's size feeds
+        toolbar_apply_icon_spacing (the button widths), the tree's
+        size feeds _favorites_section_icon (which star variant to
+        load) - the two lists run at different sizes, the toolbar
+        sets are all 16x16 while the tree follows the file-type icon
+        set the user chose."""
 
         res = re.match(r'^\S+x(\d+)$', theme_name)
         if not res:
@@ -8140,9 +8148,13 @@ class Command:
             return msg_box(_('Project Manager: bad icons size: "%s"') % theme_name, MB_OK+MB_ICONERROR)
 
         imagelist_proc(imglist, IMAGELIST_SET_SIZE, (n, n))
-        #: the icon size of the current set - toolbar_apply_icon_spacing
-        #: needs it to compute the button widths
-        self._toolbar_icon_px = n
+        if imglist == self.toolbar_imglist:
+            #: the toolbar button widths are computed from this
+            self._toolbar_icon_px = n
+        else:
+            #: the tree's icon size: the star of the Favorites section
+            #: is picked in this size
+            self._tree_icon_px = n
 
     def toolbar_icons_effective(self):
         """Icon set the toolbar actually uses. The 'toolbar_theme'
@@ -8267,26 +8279,62 @@ class Command:
 
     def _favorites_section_icon(self):
         """Image index of the tree's 'Favorites' section: the SAME
-        star png the toolbar's Favorites button wears, from the
-        effective toolbar icon set (it follows the UI theme - black
-        glyphs on a light theme, white on a dark one; the filetype
-        icon sets have no star). Loaded into the TREE imagelist here,
-        not via icon_get: the star is not part of a filetypeicons
-        theme. Fallbacks: the default black set, then the generic
-        file icon. Re-run by _tree_icon_constants on every imagelist
-        refill - the index changes with every refill."""
+        star the toolbar's Favorites button wears, from the effective
+        toolbar icon set (it follows the UI theme - black glyphs on a
+        light theme, white on a dark one; the filetype icon sets have
+        no star). Loaded into the TREE imagelist here, not via
+        icon_get: the star is not part of a filetypeicons theme.
+
+        SIZED to the tree's own icon size (self._tree_icon_px, parsed
+        from the filetype icon set's folder name by
+        set_imagelist_size): the toolbar star pngs are 16x16, but the
+        tree imagelist runs at the file-type set's size - a 16px star
+        stretched up to a 64px set is the blurred Favorites section
+        icon. Each toolbar set therefore ships the star at
+        16/24/32/48/64 (star.png is the 16, star_24/32/48/64.png are
+        the rest, the same Font Awesome star rendered for the bigger
+        tree sizes) and the one closest to the tree's size is loaded
+        - an exact size matches 1:1, a near miss is still a small
+        crisp resample, not a 4x stretch. Fallbacks: the default set's
+        star of the same size, then the generic file icon. Re-run by
+        _tree_icon_constants on every imagelist refill - the index
+        changes with every refill."""
+        px = getattr(self, '_tree_icon_px', 16)
         tried = []
         for name in (self.toolbar_icons_effective(), ICONS_DEFAULT):
             if name in tried:
                 continue
             tried.append(name)
-            fn = os.path.join(app_path(APP_DIR_DATA), 'projtoolbaricons',
-                              name, 'star.png')
-            if os.path.isfile(fn):
+            fn = self._star_png_for(name, px)
+            if fn:
                 n = imagelist_proc(self.tree_imglist, IMAGELIST_ADD, value=fn)
                 if n is not None:
                     return n
         return self.ICON_TEXT
+
+    def _star_png_for(self, set_name, px):
+        """The star png of the toolbar icon set `set_name` closest to
+        the tree's icon size `px` (see _favorites_section_icon), or
+        None when the set has no star at all. star.png is the native
+        16px one, star_24/32/48/64.png the bigger renders. The
+        closest size wins; a tie between a smaller and a bigger
+        variant takes the BIGGER one (a slightly big icon downscaled
+        stays crisp, a small one upscaled blurs)."""
+        dirname = os.path.join(app_path(APP_DIR_DATA), 'projtoolbaricons',
+                               set_name)
+        best = None
+        for size, fname in ((16, 'star.png'), (24, 'star_24.png'),
+                            (32, 'star_32.png'), (48, 'star_48.png'),
+                            (64, 'star_64.png')):
+            if not os.path.isfile(os.path.join(dirname, fname)):
+                continue
+            # nearest distance wins; at a TIE a size >= px (second
+            # item False) beats a smaller one: a slightly big icon
+            # downscaled stays crisp, a small one upscaled blurs
+            key = (abs(size - px), size < px)
+            if best is None or key < best[0]:
+                best = (key, os.path.join(dirname, fname))
+        return best[1] if best else None
 
     def tree_icons_reload(self):
         """File-type icon theme changed in the options: refill the
