@@ -65,23 +65,23 @@ Note: You can copy JSON-comments from the default-config into your user-config. 
 Such option are supported in the "user.json":
 
 <syntaxhighlight lang="json">{
-  …
+  ...
   "detect": {
     "*.mht": "HTML",
     "myconfig.conf": "Nginx",
     ".profile": "Bash script",
   },
-  …
+  ...
 }</syntaxhighlight>
 
 <syntaxhighlight lang="json">{
-  …
+  ...
   "detect_line": {
     "<html.*": "HTML",
     "<!DOCTYPE.*": "HTML",
     "<\\?xml.*": "XML",
   },
-  …
+  ...
 }</syntaxhighlight>
 
 The key:value pairs in the "detect" object in "user.json" specify mappings from filename to lexer name.
@@ -107,7 +107,7 @@ CudaText has several default values:
 
 === Plugins menu custom groupings ===
 <syntaxhighlight lang="json" style="float: right; margin-left: 3em; margin-right: 3em; width: 20vw;">{
-  …
+  ...
   "plugin_groups": {
     "CSS .+": "Web",
     "HTML .+": "Web",
@@ -115,10 +115,10 @@ CudaText has several default values:
     "Config.+": "Config",
     "Option.+": "Config",
   },
-  …
+  ...
 }</syntaxhighlight>
 
-The "plugin_groups" object in "user.json" allows configuring custom groupings in the Plugins menu, e.g. putting all "HTML …" and "CSS …" menu items into a "Web" submenu. For example:
+The "plugin_groups" object in "user.json" allows configuring custom groupings in the Plugins menu, e.g. putting all "HTML ..." and "CSS ..." menu items into a "Web" submenu. For example:
 * Key name: A regular expression for the top level of the menu name, e.g. if the menu name in a plugin's "install.inf" is "CSS Utils\Misc\Action", the top level is "CSS Utils".
 * Key value: The group name; the "\" character provides the ability make nested sub-menus.
 
@@ -138,7 +138,7 @@ For not portable usage, folders "settings" / "py" / "data" are created here:
 == Command line flags/arguments ==
 Usage:
 
- cudatext [ flag … ] filename …
+ cudatext [ flag ... ] filename ...
 
 Supported flags:
 
@@ -165,7 +165,7 @@ Supported flags:
 * -id=name: Set a "group" for single-instance mode, so that an instance of "group1" will not interfere with instances of "group2". The default id is "cudatext.0". Note: this switch is not supported on Windows.
 * -w=left|top|width|height: Set the position/size of the main window. Up to 4 numbers can be specified, and any number can be skipped to keep its previous value.
 * -c=cuda_module,method_name: Run the specified command plugin on startup. The command plugin is only applied to the currently active editor tab, so make sure you don't pass multiple filenames in the command line, and that the current session doesn't have multiple files. It is often used along with the "-n" and/or "-ns" flags. Need to learn the name of a "cuda_module"? It is the name of subfolder under the "py" folder. Likewise, to discover the "method_name" look for the value of the "method=" key in the "py/cuda_module/install.inf" file.
-* -p=cuda_module#param1#param2…: Run the specified plugin, and pass to its "on_cli" event the specified param strings. The number of params must be expected by the plugin, e.g. the Differ plugin supports "on_cli" and expects two filenames. If params contain spaces, you must double-quote that entire command-line flag beginning with -p, as in "-p=…".
+* -p=cuda_module#param1#param2...: Run the specified plugin, and pass to its "on_cli" event the specified param strings. The number of params must be expected by the plugin, e.g. the Differ plugin supports "on_cli" and expects two filenames. If params contain spaces, you must double-quote that entire command-line flag beginning with -p, as in "-p=...".
 
 Notes:
 
