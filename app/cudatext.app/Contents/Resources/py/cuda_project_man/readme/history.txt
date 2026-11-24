@@ -1,4 +1,29 @@
 2026.11.23 (@badrelmers)
++ Tree context menu > Favorites: three quick-access commands below
+  'Add to favorites' - 'Remove from favorites' (with the project
+  root selected: un-favorite the project), 'Attach as favorite to
+  this project' (add to favorites AND attach in one step, so it
+  shows in the tree's Favorites section at once), 'Detach favorite
+  from this project' (only the link goes, the favorite stays). All
+  multi-selection aware, enabled only when they can do something
+  with the selection.
++ FIXED: deleting from the new Favorites section corrupted the tree
+  ("the content of other node appears in the favorite list") - the
+  delete flow parent-refreshed the path-less section node, and
+  os.scandir('.') poured the CWD into it; a manual refresh fixed it.
+  Root fix: a non-folder parent is never scanned again. Deleting
+  INSIDE the section now means 'remove from favorites' - the disk
+  files are never touched from there ('Delete', 'Stop tracking'
+  and the ignore commands are not offered inside the section at
+  all, and the 'Stop tracking' walk-up can no longer delete the
+  section node from a mixed selection).
++ A disk rename / cut-paste made from the tree re-points the
+  favorites entries (and the attachment lists of a renamed
+  .cuda-proj), so no favorite dies on it; renaming a favorite that
+  is also a project node re-points the project node data-level
+  (the old 'Stop tracking' + re-add path could hit the section).
+
+2026.11.23 (@badrelmers)
 + Project panel: new 'Favorites' section at the very top of the
   project tree, right below the project name and before every
   project node - the file/folder favorites ATTACHED to the current

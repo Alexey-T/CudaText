@@ -2625,6 +2625,17 @@ class Command:
             if prop and prop.get('level') == 1:
                 sel_is_root_node = True
 
+        # a selection INSIDE the tree's 'Favorites' section never
+        # offers the disk-destructive and scan-shaped commands: the
+        # section is a favorites view - Del removes favorites there
+        # (see action_delete_file); 'Stop tracking' would walk up to
+        # the path-less section node and DELETE it; 'Delete' would
+        # trash a file the user only wanted unlisted. The favorites
+        # commands (in the Favorites submenu) are the section's verbs
+        sel_in_favs = False
+        if self.selected is not None and node_type in (NODE_DIR, NODE_FILE, NODE_BAD):
+            sel_in_favs = self._in_favorites_section(self.selected)
+
         if not self.h_menu:
             self.h_menu = menu_proc(0, MENU_CREATE)
 
@@ -2662,6 +2673,13 @@ class Command:
             if sel_is_root_node and item_action in (
                     "cuda_project_man.action_delete_file",
                     "cuda_project_man.action_delete_directory",
+                    "cuda_project_man.action_ignore_dir",
+                    "cuda_project_man.action_ignore_file"):
+                continue
+            if sel_in_favs and item_action in (
+                    "cuda_project_man.action_delete_file",
+                    "cuda_project_man.action_delete_directory",
+                    "cuda_project_man.action_remove_node",
                     "cuda_project_man.action_ignore_dir",
                     "cuda_project_man.action_ignore_file"):
                 continue
@@ -2929,8 +2947,21 @@ class Command:
             msg_status(_('Cannot rename: ') + str(ex))
             return
 
+        # a favorited path must not die on a disk rename made from
+        # the tree: re-point the favorites entry (and every
+        # attachment list of a renamed .cuda-proj) to the new path
+        _favorites.rename_path(str(location), str(new_location))
+
         if self.is_path_in_root(location):
-            self.action_remove_node()
+            # re-point the project node DATA-level, not via
+            # action_remove_node: its level-1 walk-up would hit the
+            # path-less Favorites section node when the rename was
+            # started from inside the section
+            for n in self.project["nodes"]:
+                if path_equals(n, str(location)):
+                    self.project["nodes"].remove(n)
+                    self._fire_project_nodes_removed()
+                    break
             self.add_node(str(new_location))
 
         # fix filename of existing ui-tab
@@ -3036,9 +3067,9 @@ class Command:
 
     def _untrack_root_by_path(self, path):
         """'Stop tracking' for one KNOWN root path (the multi-delete):
-        find the top-level tree item of the path, drop it and its
-        saved node - the same steps action_remove_node does for the
-        focused node. Returns True when the root was found."""
+        drop only the SAVED node here - the tree itself is rebuilt by
+        the caller (_delete_locations_multi refreshes on every exit
+        path). Returns True."""
 
         node = None
         for n in self.project["nodes"]:
@@ -3091,6 +3122,9 @@ class Command:
                              [_("Move to trash"), _("Cancel")],
                              MB_ICONQUESTION)
             if res != 0:
+                # roots (if confirmed above) are already untracked - the
+                # tree must be rebuilt or they stay visible till refresh
+                self.action_refresh()
                 return
             failed = []
             for p in inner:
@@ -3117,6 +3151,8 @@ class Command:
                              [_("DELETE PERMANENTLY"), _("Cancel")],
                              MB_ICONWARNING, focused=1)
             if res != 0:
+                # same as above: already-untracked roots need the rebuild
+                self.action_refresh()
                 return
             for p in inner:
                 try:
@@ -3142,13 +3178,24 @@ class Command:
         dialog with the "DELETE PERMANENTLY" button, can it be
         permanently deleted (_confirm_and_delete). A failed move
         leaves the file in place and reports the reason."""
-        locations = self.selected_locations()
+        # nodes inside the tree's 'Favorites' section are REMOVED FROM
+        # FAVORITES, never sent to the trash: the section is a
+        # favorites view - its Del key and delete commands unlist the
+        # favorites; the files themselves are deleted from their
+        # normal place in the tree (or the OS), not from here
+        inside, outside = self._split_selection_favorites()
+        if inside:
+            n = _favorites.remove_paths(inside)
+            if n:
+                msg_status(_('Removed from favorites: ') + str(n))
+            if not outside:
+                return
+
+        locations = [Path(p) for p in outside]
         if len(locations) > 1:
             self._delete_locations_multi(locations)
             return
-        location = Path(self.get_location_by_index(self.selected))
-        if not str(location):
-            return
+        location = locations[0]
 
         # a root node: only the tree entry goes, the disk file stays
         if self.is_path_in_root(location):
@@ -3160,10 +3207,17 @@ class Command:
             return
 
         # a root node never reaches here (it returns above), so this is
-        # a file inside a node: refresh the parent folder of the tree
-        h_parent = tree_proc(self.tree, TREE_ITEM_GET_PROPS, self.selected)['parent']
-        tree_proc(self.tree, TREE_ITEM_SELECT, h_parent)
-        self.action_refresh(h_parent)
+        # a file inside a node: refresh the parent folder of the tree.
+        # A mixed selection may still FOCUS a Favorites-section child:
+        # its parent is the path-less section, so a full rebuild takes
+        # the parent-refresh's place (see the guard in
+        # action_refresh_int)
+        if self._in_favorites_section(self.selected):
+            self.action_refresh()
+        else:
+            h_parent = tree_proc(self.tree, TREE_ITEM_GET_PROPS, self.selected)['parent']
+            tree_proc(self.tree, TREE_ITEM_SELECT, h_parent)
+            self.action_refresh(h_parent)
         if outcome == 'trash':
             msg_status(_("Moved to %s: ") % trash_label() + str(location.name))
         else:
@@ -3481,6 +3535,10 @@ class Command:
 
             if move:
                 shutil.move(str(src), str(dst))
+                # a cut-paste MOVES the source: a favorited path must
+                # not die on it - re-point the favorite to the new
+                # location, exactly like the tree's Rename does
+                _favorites.rename_path(str(src), str(dst))
             elif src.is_dir():
                 # copytree, not the removed distutils (gone in Python
                 # 3.12): it refuses to merge into an existing folder,
@@ -3655,13 +3713,21 @@ class Command:
         moved to the OS trash/recycle bin; only on an OS without any
         trash support, after the separate warning dialog with the
         "DELETE PERMANENTLY" button, can it be permanently deleted."""
-        locations = self.selected_locations()
+        # see action_delete_file: a Favorites-section child is removed
+        # from favorites, the disk folder is never touched from there
+        inside, outside = self._split_selection_favorites()
+        if inside:
+            n = _favorites.remove_paths(inside)
+            if n:
+                msg_status(_('Removed from favorites: ') + str(n))
+            if not outside:
+                return
+
+        locations = [Path(p) for p in outside]
         if len(locations) > 1:
             self._delete_locations_multi(locations)
             return
-        location = Path(self.get_location_by_index(self.selected))
-        if not str(location):
-            return
+        location = locations[0]
 
         # a root node: only the tree entry goes, the disk folder stays
         if self.is_path_in_root(location):
@@ -3672,9 +3738,15 @@ class Command:
         if outcome is None:
             return
 
-        h_parent = tree_proc(self.tree, TREE_ITEM_GET_PROPS, self.selected)['parent']
-        tree_proc(self.tree, TREE_ITEM_SELECT, h_parent)
-        self.action_refresh(h_parent)
+        # see action_delete_file: a mixed selection may focus a
+        # Favorites-section child - its path-less parent must not be
+        # parent-refreshed, a full rebuild takes its place
+        if self._in_favorites_section(self.selected):
+            self.action_refresh()
+        else:
+            h_parent = tree_proc(self.tree, TREE_ITEM_GET_PROPS, self.selected)['parent']
+            tree_proc(self.tree, TREE_ITEM_SELECT, h_parent)
+            self.action_refresh(h_parent)
 
         # str() like in the tree click: cur_dir must stay a str for
         # path_contains() (see do_unfold_first); skip the parasitic '.'
@@ -3843,7 +3915,15 @@ class Command:
                 nodes = sorted(nodes, key=Command.node_ordering_direntry)
         else:
             fn = str(self.get_location_by_index(parent)) # str() is required for old Python 3.5 for os.scandir()
-            if not fn: return
+            # a path-less parent must never be scanned: the tree's
+            # 'Favorites' section node carries data='' which str()s to
+            # '.', and os.scandir('.') would pour the CWD's content
+            # into the section ("the content of other node appears in
+            # the favorite list", fixed at the root here - the delete
+            # flows used to parent-refresh the section). Anything not
+            # a directory is equally unscannable: just skip it
+            if not fn or fn == '.' or not os.path.isdir(fn):
+                return
             #print('Reading dir:', fn)
             try:
                 if hasattr(os, "scandir") and callable(os.scandir):
@@ -4812,6 +4892,55 @@ class Command:
                 # children are scanned on unfold, exactly like the
                 # tree's own folder nodes
                 tree_proc(self.tree, TREE_ITEM_ADD, index, -1, 'dummy', -1)
+
+    def _favorites_section_handle(self):
+        """Handle of the tree's 'Favorites' section node (the level-1
+        child of the root with the star icon), or None - the section
+        is absent without a saved project file or without attached
+        favorites."""
+        if not self.tree:
+            return None
+        root_items = tree_proc(self.tree, TREE_ITEM_ENUM_EX, 0) or []
+        if not root_items:
+            return None
+        for it in tree_proc(self.tree, TREE_ITEM_ENUM_EX,
+                            root_items[0]['id']) or []:
+            prop = tree_proc(self.tree, TREE_ITEM_GET_PROPS, it['id'])
+            if prop and prop.get('icon', -1) == self.ICON_FAV:
+                return it['id']
+        return None
+
+    def _in_favorites_section(self, h):
+        """True when the tree item h sits INSIDE the tree's Favorites
+        section (its level-1 ancestor is the section node). The
+        section header itself (level 1) is NOT 'inside' it."""
+        if h is None or not self.tree:
+            return False
+        while True:
+            prop = tree_proc(self.tree, TREE_ITEM_GET_PROPS, h)
+            if not prop:
+                return False
+            if prop['level'] <= 0:
+                return False
+            if prop['level'] == 1:
+                return prop.get('icon', -1) == self.ICON_FAV
+            h = prop['parent']
+
+    def _split_selection_favorites(self):
+        """Split the selection into (paths_inside_the_favorites_section,
+        paths_outside_it): the delete commands remove the section's
+        children from FAVORITES only (the section is a favorites view,
+        the disk files are not touched from there) and hand the rest
+        to the normal trash flow. The section node itself and the
+        project root (both path-less) fall out of both lists."""
+        inside, outside = [], []
+        for h in self.selected_handles():
+            s = str(self.get_location_by_index(h))
+            if not s or s.startswith('.'):
+                continue
+            (inside if self._in_favorites_section(h)
+             else outside).append(s)
+        return inside, outside
 
     def _fill_tree_filtered_top(self, rows=None):
         """Rebuild the tree showing its TOP level only: the direct
@@ -6241,6 +6370,13 @@ class Command:
                     break
                 index = prop["parent"]
 
+            if not path:
+                # the level-1 walk-up hit a path-less node (the
+                # tree's 'Favorites' section): not a trackable
+                # project node - skip this item, the section must
+                # survive
+                continue
+
             tree_proc(self.tree, TREE_ITEM_DELETE, index)
 
             # find the SAVED node that matches the tree item's path: the tree
@@ -6567,6 +6703,92 @@ class Command:
         if added:
             msg_status(_('Added to favorites: ') + str(added))
 
+    def _favorites_project_path(self):
+        """Path of the opened project file ('' when none is saved) -
+        the attach/detach commands and their enable states need it."""
+        proj = str(self.project_file_path) if self.project_file_path else ''
+        return proj if proj and proj != '.' else ''
+
+    def _favorites_selection_paths(self):
+        """Paths the favorites context commands act on: the selection's
+        file/folder nodes; with the project root selected, the project
+        file itself ('Remove from favorites' un-favorites the project).
+        Empty for the Favorites section header and for nothing
+        selected."""
+        if self.selected is None:
+            return []
+        node_type = self.get_node_type()
+        if node_type == NODE_FAV:
+            return []
+        if node_type == NODE_PROJECT:
+            proj = self._favorites_project_path()
+            return [proj] if proj else []
+        inside, outside = self._split_selection_favorites()
+        return inside + outside
+
+    def action_remove_from_favorites(self):
+        """Context-menu command: 'Remove from favorites' - remove the
+        selected file(s)/folder(s) from favorites; with the project
+        root selected, remove the opened PROJECT from favorites (its
+        attachments go with it). Multi-selection aware; the disk is
+        never touched - favorites are only references. Inside the
+        tree's Favorites section this is also what the Del key
+        runs."""
+        paths = self._favorites_selection_paths()
+        if not paths:
+            msg_status(_('Project Manager: nothing favorited is selected'))
+            return
+        n = _favorites.remove_paths(paths)
+        if n:
+            msg_status(_('Removed from favorites: ') + str(n))
+        else:
+            msg_status(_('Favorites: nothing of this is favorited'))
+
+    def action_attach_favorites_to_project(self):
+        """Context-menu command: 'Attach as favorite to this project' -
+        add the selected file(s)/folder(s) to favorites when missing
+        AND attach them to the current project in one step, so they
+        appear in the tree's 'Favorites' section at once. Multi-
+        selection aware; needs a saved project file."""
+        proj = self._favorites_project_path()
+        if not proj:
+            msg_status(_('Project Manager: no saved project to attach to'))
+            return
+        if self.get_node_type() == NODE_PROJECT:
+            msg_status(_('Project Manager: the project cannot attach to itself'))
+            return
+        paths = self._favorites_selection_paths()
+        if not paths:
+            msg_status(_('Project Manager: nothing to attach is selected'))
+            return
+        added, links = _favorites.attach_paths_to_project(proj, paths)
+        if links:
+            msg = _('Attached to the project: ') + str(links)
+            if added:
+                msg += _(' (new favorites: ') + str(added) + ')'
+            msg_status(msg)
+        else:
+            msg_status(_('Favorites: everything of this is already attached'))
+
+    def action_detach_favorites_from_project(self):
+        """Context-menu command: 'Detach favorite from this project' -
+        remove ONLY the attachment to the current project: the entries
+        stay in favorites (and attached to other projects). Multi-
+        selection aware; needs a saved project file."""
+        proj = self._favorites_project_path()
+        if not proj:
+            msg_status(_('Project Manager: no saved project to detach from'))
+            return
+        paths = self._favorites_selection_paths()
+        if not paths:
+            msg_status(_('Project Manager: nothing to detach is selected'))
+            return
+        n = _favorites.detach_paths_from_project(proj, paths)
+        if n:
+            msg_status(_('Detached from the project: ') + str(n))
+        else:
+            msg_status(_('Favorites: nothing of this is attached to the project'))
+
     def _auto_favorite_opened_project(self):
         """Option 'favorites_add_opened_projects' ("Add all opened
         projects to favorites"): the project file that just became the
@@ -6710,6 +6932,35 @@ class Command:
         if self.selected is None or self.get_node_type() == NODE_FAV:
             # nothing selected, or the tree's 'Favorites' section
             # header (not a path - nothing to add)
+            menu_proc(id, MENU_SET_ENABLED, command=False)
+
+        # the quick-access trio of the project tree's favorites
+        # workflow, right below 'Add to favorites': remove entirely /
+        # add+attach in one step / detach only. Each is enabled only
+        # when it can do something with the current selection
+        # (multi-selection: one qualifying path is enough)
+        sel_paths = self._favorites_selection_paths()
+        proj = self._favorites_project_path()
+
+        id = menu_proc(menu, MENU_ADD,
+                       command='cuda_project_man.action_remove_from_favorites',
+                       caption=_('Remove from favorites'))
+        if not sel_paths or not _favorites.favorited_count(sel_paths):
+            menu_proc(id, MENU_SET_ENABLED, command=False)
+
+        id = menu_proc(menu, MENU_ADD,
+                       command='cuda_project_man.action_attach_favorites_to_project',
+                       caption=_('Attach as favorite to this project'))
+        if not proj or not sel_paths \
+                or self.get_node_type() == NODE_PROJECT \
+                or _favorites.attached_count(proj, sel_paths) >= len(sel_paths):
+            menu_proc(id, MENU_SET_ENABLED, command=False)
+
+        id = menu_proc(menu, MENU_ADD,
+                       command='cuda_project_man.action_detach_favorites_from_project',
+                       caption=_('Detach favorite from this project'))
+        if not proj or not sel_paths \
+                or not _favorites.attached_count(proj, sel_paths):
             menu_proc(id, MENU_SET_ENABLED, command=False)
 
         menu_proc(menu, MENU_ADD, caption='-')

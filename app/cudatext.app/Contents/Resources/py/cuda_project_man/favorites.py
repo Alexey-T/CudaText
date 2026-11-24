@@ -909,6 +909,151 @@ class FavoritesCore:
             _notify_tree()
         return n
 
+    def remove_paths(self, paths):
+        """Delete favorites BY PATH, any category (the tree's
+        'Favorites' section and its context menu): one save and one
+        tree notification for the whole batch. Paths not favorited are
+        skipped. Returns the number of removed entries. Deleting a
+        project favorite drops every attachment to it (like
+        remove_at)."""
+        keys = {_norm_path(str(p)) for p in paths if str(p)}
+        if not keys:
+            return 0
+        # collect first: indexes shift while deleting
+        doomed = []
+        for cat in ('files', 'folders', 'projects'):
+            for i, it in enumerate(self.data[cat]):
+                if _norm_path(it.get('path', '')) in keys:
+                    doomed.append((cat, i, it.get('path', '')))
+        if not doomed:
+            return 0
+        by_cat = {}
+        for cat, i, path in doomed:
+            by_cat.setdefault(cat, []).append((i, path))
+        for cat, pairs in by_cat.items():
+            # highest index first, the shifts must not eat a neighbor
+            for i, path in sorted(pairs, reverse=True):
+                del self.data[cat][i]
+                if cat == 'projects':
+                    self.detach_all_of_project(path)
+                # remember the deletion so the one-way import from
+                # cuda_favorites.json does not bring it back
+                if not self._is_deleted(path):
+                    self.deleted.append(path)
+        self.save()
+        # a deleted favorite leaves the tree's Favorites section
+        _notify_tree()
+        return len(doomed)
+
+    def attach_paths_to_project(self, proj_path, paths):
+        """'Attach as favorite to this project' (the tree's context
+        menu): every path not yet favorited is added first (files/
+        folders by what the disk says), the PROJECT favorite is added
+        when missing (the links live in the file/folder entries, but
+        the Projects tab shows favorited projects only), then every
+        entry is attached to the project. One save, one tree
+        notification for the whole batch. Returns
+        (favorites_added, links_added)."""
+        pkey = _norm_path(proj_path)
+        paths = [str(p) for p in paths
+                 if str(p) and _norm_path(str(p)) != pkey]
+        if not paths or not pkey:
+            return 0, 0
+        added = 0
+        links = 0
+        # the project side must exist: the links live in the file/
+        # folder entries, but the Projects tab shows favorited
+        # projects only. A project deleted by the user IS re-added
+        # here: this is a direct command on that project (unlike the
+        # automatic add of the 'favorites_add_opened_projects'
+        # option, which respects the deletion tombstone)
+        if self.find('projects', proj_path) < 0:
+            if self._add_if_new('projects', proj_path):
+                added += 1
+        for p in paths:
+            cat = 'folders' if os.path.isdir(p) else 'files'
+            index = self.find(cat, p)
+            if index < 0:
+                if not self._add_if_new(cat, p):
+                    continue
+                added += 1
+                index = len(self.data[cat]) - 1
+            it = self.data[cat][index]
+            projs = it.get('projects')
+            if not isinstance(projs, list):
+                projs = []
+            if any(_norm_path(q) == pkey for q in projs):
+                continue
+            projs.append(str(proj_path))
+            it['projects'] = projs
+            links += 1
+        if added or links:
+            self.save()
+            # the panel tree's 'Favorites' section may have grown
+            _notify_tree()
+        return added, links
+
+    def detach_paths_from_project(self, proj_path, paths):
+        """'Detach favorite from this project' (the tree's context
+        menu): remove only the attachment to this one project - the
+        entries stay in favorites (and attached to other projects).
+        One save, one tree notification. Returns the number of removed
+        links."""
+        pkey = _norm_path(proj_path)
+        keys = {_norm_path(str(p)) for p in paths if str(p)}
+        if not keys or not pkey:
+            return 0
+        n = 0
+        for cat in ('files', 'folders'):
+            for it in self.data[cat]:
+                if _norm_path(it.get('path', '')) not in keys:
+                    continue
+                projs = it.get('projects')
+                if not isinstance(projs, list):
+                    continue
+                new = [q for q in projs if _norm_path(q) != pkey]
+                if len(new) != len(projs):
+                    n += 1
+                    if new:
+                        it['projects'] = new
+                    else:
+                        it.pop('projects', None)
+        if n:
+            self.save()
+            # the panel tree's 'Favorites' section may have shrunk
+            _notify_tree()
+        return n
+
+    def rename_path(self, old, new):
+        """A rename/move made OUTSIDE the Favorites window (the tree's
+        Rename command, a cut-paste): re-point every favorite whose
+        path matches - the files/folders/projects entries AND the
+        attachment lists (a renamed .cuda-proj keeps its attachments).
+        The display name follows only when it was still the default
+        (the old base name): a custom name stays. Returns the number
+        of updated entries."""
+        okey = _norm_path(old)
+        if not okey or okey == _norm_path(new):
+            return 0
+        n = 0
+        for cat in ('files', 'folders', 'projects'):
+            for it in self.data[cat]:
+                if _norm_path(it.get('path', '')) == okey:
+                    it['path'] = str(new)
+                    if it.get('name', '') == _base_name(str(old)):
+                        it['name'] = _base_name(str(new))
+                    n += 1
+                projs = it.get('projects')
+                if isinstance(projs, list) \
+                        and any(_norm_path(p) == okey for p in projs):
+                    it['projects'] = [str(new) if _norm_path(p) == okey
+                                      else p for p in projs]
+        if n:
+            self.save()
+            # the tree's Favorites section may show the renamed path
+            _notify_tree()
+        return n
+
     def project_display_name(self, proj_path):
         """Caption for an attached project path: the project FAVORITE's
         name when it is still in the list, else the file base name
@@ -3578,6 +3723,70 @@ def attached_of_project(proj_path):
     an open Favorites window's live edits are seen at once."""
     return [(cat, it['name'], it['path'])
             for cat, it in get_core().attached_items_of(proj_path)]
+
+
+def remove_paths(paths):
+    """Remove favorites by path, any category (the tree's Favorites
+    section / its context menu). Returns the number of removed
+    entries; the disk is never touched."""
+    return get_core().remove_paths(paths)
+
+
+def attach_paths_to_project(proj_path, paths):
+    """Add the paths to favorites when missing and attach them to the
+    project favorite at proj_path, in one step (the tree's context
+    menu). Returns (favorites_added, links_added)."""
+    return get_core().attach_paths_to_project(proj_path, paths)
+
+
+def detach_paths_from_project(proj_path, paths):
+    """Detach the paths from the project favorite at proj_path ONLY -
+    the favorites stay (the tree's context menu). Returns the number
+    of removed links."""
+    return get_core().detach_paths_from_project(proj_path, paths)
+
+
+def rename_path(old, new):
+    """Re-point favorites after a rename/move made in the tree (the
+    Rename command, a cut-paste). Returns the number of updated
+    entries."""
+    return get_core().rename_path(old, new)
+
+
+def favorited_count(paths):
+    """How many of `paths` are favorites (any category) - the enable
+    state of the tree context menu's favorites commands."""
+    keys = {_norm_path(str(p)) for p in paths if str(p)}
+    if not keys:
+        return 0
+    core = get_core()
+    n = 0
+    for cat in ('files', 'folders', 'projects'):
+        for it in core.data[cat]:
+            if _norm_path(it.get('path', '')) in keys:
+                n += 1
+    return n
+
+
+def attached_count(proj_path, paths):
+    """How many of `paths` are attached to the project favorite at
+    proj_path - the enable state of 'Detach favorite from this
+    project'."""
+    pkey = _norm_path(proj_path)
+    keys = {_norm_path(str(p)) for p in paths if str(p)}
+    if not keys or not pkey:
+        return 0
+    core = get_core()
+    n = 0
+    for cat in ('files', 'folders'):
+        for it in core.data[cat]:
+            if _norm_path(it.get('path', '')) not in keys:
+                continue
+            projs = it.get('projects')
+            if isinstance(projs, list) \
+                    and any(_norm_path(p) == pkey for p in projs):
+                n += 1
+    return n
 
 
 def find_favorites():
