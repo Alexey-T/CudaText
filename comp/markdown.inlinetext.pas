@@ -35,6 +35,9 @@ uses
   Markdown.Utils;
 
 Type
+  // Replacement for the emoji shortcode aName. aMarkup is True when aReplacement is markup, emitted without escaping.
+  TEmojiResolver = function(const aName : TMarkdownString; out aReplacement : TMarkdownString; out aMarkup : Boolean) : Boolean;
+
   TMarkdownDelimiterMode = (dmOpen,dmClose);
   TMarkdownDelimiterModes = Set of TMarkdownDelimiterMode;
 
@@ -69,7 +72,9 @@ Type
   TInlineTextProcessor = class
   Private
     FComments: Boolean;
+    FDirectives: Boolean;
     FFootnotes: Boolean;
+    FWikiLinks: Boolean;
     FLinkReferences: TMarkdownDocument;
     FGFMExtensions : Boolean;
     FScanner : TMarkdownTextScanner;
@@ -101,17 +106,35 @@ Type
     function  HandleEntityInner: TMarkdownString; virtual;
     procedure HandleTilde; virtual;
     procedure HandleTextEscape; virtual;
+    // Handle the text at the scanner position. A run of letters, digits and non-ASCII bytes is handled in one call.
     procedure HandleTextCore; virtual;
     procedure HandleAutoLink; virtual;
     // <!-- ... --> at the scanner position. Returns False when there is no closing -->.
     function HandleComment: Boolean; virtual;
     // [^label] at the scanner position. Returns False when it is not a footnote reference.
     function HandleFootnoteRef: Boolean; virtual;
+    // :name[label]{attributes} at the scanner position. Returns False when it is not an inline directive.
+    function HandleDirective: Boolean; virtual;
+    // :name: at the scanner position. Returns False when EmojiResolver has no replacement for name.
+    function HandleEmoji: Boolean; virtual;
+    // [[target#fragment|label]] at the scanner position. Returns False when it is not a wiki link.
+    function HandleWikiLink: Boolean; virtual;
+    // Process aText, which starts at aPos, into the children of aNode.
+    procedure ProcessNested(aNode: TMarkdownTextNode; const aText: TMarkdownString; aPos: TPosition); virtual;
     procedure HandleCloseDelimiter(); virtual;
     procedure HandleGFMExtensions; virtual;
+    // Length of the run of letters, digits and non-ASCII bytes at the scanner position, up to a GFM autolink or email start.
+    function PlainRunLength : Integer;
     procedure HandleGFMLinkEmail(aLength: integer); virtual;
     procedure HandleGFMLinkURL(aStartChars : integer; const aProtocol : TMarkdownString = ''); virtual;
+    // True when an active [ or ![ delimiter is open, so the text may be link text
+    function HasOpenBracket : Boolean;
   public
+    class var
+      // Resolves :name: emoji shortcodes. Nil until an add-on such as Markdown.Emoji installs one; shortcodes stay text while it is Nil.
+      EmojiResolver : TEmojiResolver;
+      // Characters allowed in an emoji shortcode name.
+      EmojiNameChars : TSysCharSet;
     constructor Create(aLexer : TMarkdownTextScanner; aNodes: TMarkdownTextNodeList; aEntities : TFPStringHashTable; awsMode : TWhitespaceMode);
     destructor Destroy; override;
     function Process(aCloseLast : boolean = false): TMarkdownTextNodeList;
@@ -124,11 +147,12 @@ Type
     Property Comments : Boolean Read FComments Write FComments;
     // Recognize [^label] footnote references
     Property Footnotes : Boolean Read FFootnotes Write FFootnotes;
+    // Recognize :name[label]{attributes} inline directives
+    Property Directives : Boolean Read FDirectives Write FDirectives;
+    // Recognize [[target#fragment|label]] wiki links
+    Property WikiLinks : Boolean Read FWikiLinks Write FWikiLinks;
     // Document with the link reference definitions. Nil disables reference links.
     Property LinkReferences : TMarkdownDocument Read FLinkReferences Write FLinkReferences;
-    // True when an active [ or ![ delimiter is open, so the text may be link text
-    // (upstream fcl-md fix: autolinks inside link text must not nest)
-    function HasOpenBracket : Boolean;
   end;
   TInlineTextProcessorClass = class of TInlineTextProcessor;
 
@@ -374,7 +398,7 @@ begin
   Scanner.NextChars(lLen);
   lWhitespace:=false;
   lFirstWhitespace:=true;
-  while Scanner.PeekRun(True)<>aTerminal do
+  while not Scanner.PeekRunEquals(True,aTerminal) do
     begin
     C:=Scanner.Peek;
     if isWhitespaceChar(C) then
@@ -731,8 +755,7 @@ begin
     aDelim.Node.attrs.Add('href',aURL);
     aDelim.Node.active:=false;
     Nodes.MoveToChildren(aDelim.Node);
-    // upstream fcl-md fix: autolinks in the link text become plain text,
-    // links do not nest
+    // Autolinks in the link text become plain text: links do not nest.
     if aDelim.Node.HasChildren then
       for lChild in aDelim.Node.Children do
         if lChild.Kind in [nkURI,nkEmail] then
@@ -793,6 +816,158 @@ begin
   lNode.Attrs.Add('label',lText);
   Scanner.NextChars(Length(lText)+3);
   Result:=True;
+end;
+
+
+function TInlineTextProcessor.HandleDirective: Boolean;
+
+var
+  lPos,lCursor : Integer;
+  lName,lLabel,lAttrs,lID : TMarkdownString;
+  lHasLabel : Boolean;
+  lClasses : TMarkdownStringArray;
+  lPairs : TStringList;
+  lNode : TMarkdownTextNode;
+  lLocation : TPosition;
+  I : Integer;
+
+begin
+  Result:=False;
+  lCursor:=Scanner.CursorPos;
+  // A colon after a colon does not start a directive, unless that colon is escaped.
+  if (Scanner.PeekPrevious=':') and not ((lCursor>2) and (Scanner.Text[lCursor-2]='\')) then
+    Exit;
+  lPos:=lCursor+1;
+  if not ParseDirective(Scanner.Text,lPos,lName,lLabel,lAttrs,lHasLabel) then
+    Exit;
+  lLocation:=Scanner.Location;
+  lNode:=Nodes.AddTextNode(lLocation,nkDirective,'');
+  lNode.Name:=lName;
+  if lAttrs<>'' then
+    begin
+    lPairs:=TStringList.Create;
+    try
+      ParseAttributeSpec(lAttrs,lID,lClasses,lPairs,True);
+      if lID<>'' then
+        lNode.Attrs['id']:=lID;
+      if Length(lClasses)>0 then
+        lNode.Attrs['class']:=TMarkdownString.Join(' ',lClasses);
+      for I:=0 to lPairs.Count-1 do
+        lNode.Attrs[StringToMarkdown(lPairs.Names[I])]:=StringToMarkdown(lPairs.ValueFromIndex[I]);
+    finally
+      lPairs.Free;
+    end;
+    end;
+  if lHasLabel then
+    ProcessNested(lNode,lLabel,lLocation)
+  else if lAttrs='' then
+    lNode.SetNodeText(':'+lName);
+  Scanner.NextChars(lPos-lCursor);
+  Result:=True;
+end;
+
+
+function TInlineTextProcessor.HandleEmoji: Boolean;
+
+var
+  lName,lReplacement : TMarkdownString;
+  lPosition : TPosition;
+  lMarkup : Boolean;
+
+begin
+  Result:=False;
+  if not Assigned(EmojiResolver) then
+    Exit;
+  lPosition:=Scanner.Location;
+  Scanner.BookMark;
+  Scanner.NextChar;
+  lName:=Scanner.PeekWhile(EmojiNameChars);
+  if (lName<>'') and Scanner.Has(lName+':')
+     and EmojiResolver(lName,lReplacement,lMarkup) and (lReplacement<>'') then
+    begin
+    Scanner.NextChars(Length(lName)+1);
+    if lMarkup then
+      Nodes.AddTextNode(lPosition,nkRaw,lReplacement)
+    else
+      Nodes.AddText(lPosition,lReplacement);
+    Exit(True);
+    end;
+  Scanner.GotoBookMark;
+end;
+
+
+function TInlineTextProcessor.HandleWikiLink: Boolean;
+
+var
+  lEnd,P : Integer;
+  lText,lTarget,lFragment,lLabel : TMarkdownString;
+  lNode : TMarkdownTextNode;
+  lLocation : TPosition;
+
+begin
+  Result:=False;
+  lEnd:=Scanner.FindText(']]',2);
+  if lEnd=0 then
+    Exit;
+  lText:=Scanner.TextRange(Scanner.CursorPos+2,lEnd);
+  if (Pos(#10,lText)>0) or (Pos('[',lText)>0) or (Pos(']',lText)>0) then
+    Exit;
+  lLabel:='';
+  P:=Pos('|',lText);
+  if P>0 then
+    begin
+    lLabel:=Trim(Copy(lText,P+1,Length(lText)-P));
+    SetLength(lText,P-1);
+    end;
+  lText:=Trim(lText);
+  lTarget:=lText;
+  lFragment:='';
+  P:=Pos('#',lTarget);
+  if P>0 then
+    begin
+    lFragment:=Trim(Copy(lTarget,P+1,Length(lTarget)-P));
+    lTarget:=TrimRight(Copy(lTarget,1,P-1));
+    end;
+  if (lTarget='') and (lFragment='') then
+    Exit;
+  lLocation:=Scanner.Location;
+  lNode:=Nodes.AddTextNode(lLocation,nkWikiLink,'');
+  lNode.Attrs['target']:=lTarget;
+  if lFragment<>'' then
+    lNode.Attrs['fragment']:=lFragment;
+  if lLabel<>'' then
+    ProcessNested(lNode,lLabel,lLocation)
+  else
+    lNode.SetNodeText(lText);
+  Scanner.NextChars(lEnd+2-Scanner.CursorPos);
+  Result:=True;
+end;
+
+
+procedure TInlineTextProcessor.ProcessNested(aNode: TMarkdownTextNode; const aText: TMarkdownString; aPos: TPosition);
+
+var
+  lScanner : TMarkdownTextScanner;
+  lProcessor : TInlineTextProcessor;
+
+begin
+  lScanner:=TMarkdownTextScanner.Create(aText,aPos.line);
+  try
+    lProcessor:=TInlineTextProcessorClass(ClassType).Create(lScanner,aNode.Children,FEntities,FWhiteSpaceMode);
+    try
+      lProcessor.GFMExtensions:=GFMExtensions;
+      lProcessor.Comments:=Comments;
+      lProcessor.Footnotes:=Footnotes;
+      lProcessor.Directives:=Directives;
+      lProcessor.WikiLinks:=WikiLinks;
+      lProcessor.LinkReferences:=LinkReferences;
+      lProcessor.Process(True);
+    finally
+      lProcessor.Free;
+    end;
+  finally
+    lScanner.Free;
+  end;
 end;
 
 
@@ -927,6 +1102,9 @@ end;
 
 procedure TInlineTextProcessor.HandleTextCore;
 
+var
+  lCount : Integer;
+
 begin
   // code blocks leave whitespace intact
   if WhiteSpaceMode=wsLeave then
@@ -952,20 +1130,76 @@ begin
             HandleDelimiter(true)
           else
             Nodes.addText(Scanner.Location,Scanner.NextEquals());
-    '[' : if not (Footnotes and (Scanner.PeekNext='^') and HandleFootnoteRef) then
+    '[' : if not (WikiLinks and (Scanner.PeekNext='[') and HandleWikiLink)
+             and not (Footnotes and (Scanner.PeekNext='^') and HandleFootnoteRef) then
             HandleDelimiter(false);
     '!' : if Scanner.PeekNext='[' then
             HandleDelimiter(false)
           else
             Nodes.addText(Scanner.location,Scanner.NextChar);
     ']' : HandleCloseDelimiter();
+    ':' : if not HandleEmoji
+             and not (Directives and HandleDirective) then
+            Nodes.addText(Scanner.location,Scanner.NextChar);
   else
-    if GFMExtensions then
+    begin
+    lCount:=PlainRunLength;
+    if lCount>1 then
+      Nodes.addText(Scanner.location,Scanner.NextChars(lCount))
+    else if GFMExtensions then
       HandleGFMExtensions
     else
       Nodes.addText(Scanner.location,Scanner.NextChar);
+    end;
   end;
   //  DumpNodes;
+end;
+
+
+function TInlineTextProcessor.PlainRunLength : Integer;
+
+const
+  cBatch = ['A'..'Z','a'..'z','0'..'9',#128..#255];
+  cEMailChars = ['a'..'z','A'..'Z','0'..'9','+','-','_','@','.'];
+
+var
+  lText : TMarkdownString;
+  lStart,lPos,lLen,lScan : Integer;
+  c : TMarkdownChar;
+
+  function At(const aPrefix : TMarkdownString) : Boolean;
+  begin
+    Result:=(lPos+Length(aPrefix)-1<=lLen) and (CompareByte(lText[lPos],aPrefix[1],Length(aPrefix))=0);
+  end;
+
+begin
+  lText:=Scanner.Text;
+  lLen:=Length(lText);
+  lStart:=Scanner.CursorPos;
+  lPos:=lStart;
+  // lScan: end of the email-character run already known to contain no @
+  lScan:=lPos;
+  while lPos<=lLen do
+    begin
+    c:=lText[lPos];
+    if not (c in cBatch) then
+      Break;
+    if GFMExtensions then
+      begin
+      if (lPos>=lScan) and (c in cEmailChars) then
+        begin
+        lScan:=lPos;
+        while (lScan<=lLen) and (lText[lScan] in cEmailChars) and (lText[lScan]<>'@') do
+          Inc(lScan);
+        if (lScan<=lLen) and (lText[lScan]='@') then
+          Break;
+        end;
+      if (c in ['w','h','f']) and (At('www.') or At('http://') or At('https://') or At('ftp://')) then
+        Break;
+      end;
+    Inc(lPos);
+    end;
+  Result:=lPos-lStart;
 end;
 
 
@@ -1002,6 +1236,11 @@ var
 
 begin
   Result:=False;
+  lLen:=Scanner.CursorPos;
+  while (lLen<=Length(Scanner.Text)) and (Scanner.Text[lLen] in cEmailChars) and (Scanner.Text[lLen]<>'@') do
+    Inc(lLen);
+  if (lLen>Length(Scanner.Text)) or (Scanner.Text[lLen]<>'@') then
+    Exit;
   S:=Scanner.PeekWhile(cEmailChars);
   lLen:=Length(S);
   if lLen=0 then exit;
@@ -1069,19 +1308,6 @@ begin
 end;
 
 
-// upstream fcl-md fix: autolinks inside link text must not nest
-function TInlineTextProcessor.HasOpenBracket : Boolean;
-
-var
-  lDelim : TMarkdownDelimiter;
-
-begin
-  Result:=False;
-  for lDelim in FStack do
-    if lDelim.Active and ((lDelim.Delimiter='[') or (lDelim.Delimiter='![')) then
-      Exit(True);
-end;
-
 procedure TInlineTextProcessor.HandleGFMLinkEmail(aLength : integer);
 
 var
@@ -1094,6 +1320,19 @@ begin
   lNode.attrs.Add('href','mailto:'+urlEscape(lEmail));
 end;
 
+function TInlineTextProcessor.HasOpenBracket : Boolean;
+
+var
+  lDelim : TMarkdownDelimiter;
+
+begin
+  Result:=False;
+  for lDelim in FStack do
+    if lDelim.Active and ((lDelim.Delimiter='[') or (lDelim.Delimiter='![')) then
+      Exit(True);
+end;
+
+
 procedure TInlineTextProcessor.HandleGFMLinkURL(aStartChars : integer; const aProtocol : TMarkdownString='');
 
 Const
@@ -1101,8 +1340,7 @@ Const
   URLDelims = [' ',#10,'<'];
 
 var
-  lRewind : boolean;
-  lInBracket : boolean;
+  lRewind,lInBracket : boolean;
   lRemove : Integer;
   lLink,lUrl,lText : TMarkdownString;
   lNode : TMarkdownTextNode;
@@ -1118,7 +1356,6 @@ begin
     if not lLink.Contains('.') then
       Exit;
     lRewind:=False;
-    // upstream fcl-md fix: when inside link text, ']' ends the URL too
     while not (Scanner.EOF or CharInSet(Scanner.Peek,URLDelims) or (lInBracket and (Scanner.Peek=']'))) do
       lLink:=lLink+Scanner.NextChar;
     case lLink[lLink.Length] of
@@ -1141,8 +1378,6 @@ begin
       lUrl:=Copy(lLink,1,Length(lLink)-lRemove);
       lNode:=Nodes.addTextNode(Scanner.location,nkURI,aProtocol+lUrl);
       lNode.attrs.Add('href',aProtocol+urlEscape(lUrl));
-      // upstream fcl-md fix: was Copy(lLink,Length(lLink)-lRemove,lRemove),
-      // which dropped one character too many from the trailing text
       lText:=Copy(lLink,Length(lLink)-lRemove+1,lRemove);
       Nodes.addTextNode(Scanner.location,nkText,lText);
       end;
@@ -1155,5 +1390,7 @@ begin
   end;
 end;
 
+initialization
+  TInlineTextProcessor.EmojiNameChars:=['a'..'z','A'..'Z','0'..'9','_','+','-'];
 end.
 

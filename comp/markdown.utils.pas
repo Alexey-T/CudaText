@@ -46,6 +46,8 @@ Type
   { THashTable }
 
   THashTable = class(TFPStringHashTable)
+    // Create a table sized for the few attributes of one element; it grows when needed.
+    constructor Create;
     function Contains(const aKey : TMarkdownString) : boolean;
     function TryGet(const aKey : TMarkdownString; out aValue : TMarkdownString) : boolean;
   end;
@@ -102,6 +104,8 @@ function BuilderToMarkdown(aBuilder : TMarkdownStringBuilder) : TMarkdownString;
 function IsWhitespaceChar(aChar: TMarkdownChar): boolean;
 // Does S consist of only whitespace characters ?
 function IsWhitespace(const S: TMarkdownString): boolean;
+// Is aChar a whitespace character ? Same result as IsWhitespace of a one-character string.
+function IsWhitespace(aChar: TMarkdownChar): boolean;
 // must character aChar be escaped ?
 function MustEscape(C : TMarkdownChar) : boolean;
 // Are all characters in S identical ?
@@ -162,9 +166,20 @@ Function TransformTabs(const aLine : TMarkdownString) : TMarkdownString;
 // Parse an attribute specification {#id .class key=value key="quoted value"}.
 // Values use backslash escapes. aAttrs receives key=value pairs and may be Nil.
 // Returns False, and leaves aAttrs unchanged, when aText is not a valid specification.
-function ParseAttributeSpec(const aText : TMarkdownString; out aID : TMarkdownString; out aClasses : TMarkdownStringArray; aAttrs : TStrings) : Boolean;
+// With aBareKeys, a key without =value is allowed and gets an empty value.
+function ParseAttributeSpec(const aText : TMarkdownString; out aID : TMarkdownString; out aClasses : TMarkdownStringArray; aAttrs : TStrings; aBareKeys : Boolean = False) : Boolean;
 // Remove a valid attribute specification from the end of aText and return it. Returns an empty string when there is none.
 function ExtractTrailingAttributeSpec(var aText : TMarkdownString) : TMarkdownString;
+// Is aName a directive name: an ASCII letter, then letters, digits, - and _, not ending in - or _ ?
+function IsDirectiveName(const aName : TMarkdownString) : Boolean;
+// Parse name[label]{attributes} in aText at aPos. Label and attributes are optional.
+// On success aPos is just after the directive, aAttributes includes the braces.
+// An attribute specification that is not valid is not part of the directive.
+function ParseDirective(const aText : TMarkdownString; var aPos : Integer; out aName, aLabel, aAttributes : TMarkdownString; out aHasLabel : Boolean) : Boolean;
+// Parse a directive fence line without leading whitespace: two or more colons, then a directive or nothing.
+// aColons receives the number of colons, aName is empty for a closing fence.
+// Returns False when anything but whitespace follows.
+function ParseDirectiveFence(const aText : TMarkdownString; out aColons : Integer; out aName, aLabel, aAttributes : TMarkdownString; out aHasLabel : Boolean) : Boolean;
 // Parse the text of a marker comment, name[argument]: value or name: value.
 // Returns False when aText is not a marker.
 function ParseMarker(const aText : TMarkdownString; out aName, aArgument, aValue : TMarkdownString) : Boolean;
@@ -474,9 +489,7 @@ begin
     if (aLength<=lLen) and (S[aLength]=' ') then
       inc(aLength);
     end;
-  if aLength>lLen then
-    exit(false);
-  Result:=S[aLength]=aMatch;
+  Result:=(aLength<=lLen) and (S[aLength]=aMatch);
   if Result then
     Dec(aLength);
 end;
@@ -496,9 +509,7 @@ begin
     if (aLength<=lLen) and (S[aLength]=' ') then
       inc(aLength);
     end;
-  if aLength>lLen then
-    exit(false);
-  Result:=S[aLength] in aMatch;
+  Result:=(aLength<=lLen) and (S[aLength] in aMatch);
   if Result then
     Dec(aLength);
 end;
@@ -680,6 +691,12 @@ begin
       exit(false);
 end;
 
+function IsWhitespace(aChar: TMarkdownChar): boolean;
+
+begin
+  Result:=aChar in [#9,#10,#32];
+end;
+
 function MustEscape(C : TMarkdownChar) : boolean;
 
 begin
@@ -765,6 +782,13 @@ end;
 
 
 { THashTable }
+
+constructor THashTable.Create;
+
+begin
+  inherited CreateWith(17,@RSHash);
+end;
+
 
 function THashTable.Contains(const aKey: TMarkdownString): boolean;
 
@@ -943,7 +967,7 @@ begin
 end;
 
 
-function ParseAttributeSpec(const aText : TMarkdownString; out aID : TMarkdownString; out aClasses : TMarkdownStringArray; aAttrs : TStrings) : Boolean;
+function ParseAttributeSpec(const aText : TMarkdownString; out aID : TMarkdownString; out aClasses : TMarkdownStringArray; aAttrs : TStrings; aBareKeys : Boolean) : Boolean;
 
 const
   WhiteSpaceChars = [' ',#9,#10,#13];
@@ -993,11 +1017,16 @@ begin
           lKey:=lKey+S[lPos];
           Inc(lPos);
           end;
-        if (lPos>lLast) or (S[lPos]<>'=') then
-          Exit;
-        Inc(lPos);
-        if not ReadAttributeToken(S,lPos,lLast,WhiteSpaceChars+['{','}','"',''''],lToken) then
-          Exit;
+        if aBareKeys and ((lPos>lLast) or (S[lPos] in WhiteSpaceChars)) then
+          lToken:=''
+        else
+          begin
+          if (lPos>lLast) or (S[lPos]<>'=') then
+            Exit;
+          Inc(lPos);
+          if not ReadAttributeToken(S,lPos,lLast,WhiteSpaceChars+['{','}','"',''''],lToken) then
+            Exit;
+          end;
         lPairs:=Concat(lPairs,[lKey+'='+lToken]);
         end;
     else
@@ -1037,6 +1066,108 @@ begin
         end;
     Dec(P);
     end;
+end;
+
+
+function IsDirectiveName(const aName : TMarkdownString) : Boolean;
+
+var
+  I : Integer;
+
+begin
+  Result:=(aName<>'') and (aName[1] in ['a'..'z','A'..'Z']) and not (aName[Length(aName)] in ['-','_']);
+  if Result then
+    for I:=2 to Length(aName) do
+      if not (aName[I] in ['a'..'z','A'..'Z','0'..'9','-','_']) then
+        Exit(False);
+end;
+
+
+function ParseDirective(const aText : TMarkdownString; var aPos : Integer; out aName, aLabel, aAttributes : TMarkdownString; out aHasLabel : Boolean) : Boolean;
+
+var
+  P,lLen,lDepth : Integer;
+  lQuote : TMarkdownChar;
+  lID : TMarkdownString;
+  lClasses : TMarkdownStringArray;
+
+begin
+  aName:='';
+  aLabel:='';
+  aAttributes:='';
+  aHasLabel:=False;
+  lLen:=Length(aText);
+  P:=aPos;
+  while (P<=lLen) and (aText[P] in ['a'..'z','A'..'Z','0'..'9','-','_']) do
+    Inc(P);
+  aName:=Copy(aText,aPos,P-aPos);
+  Result:=IsDirectiveName(aName);
+  if not Result then
+    Exit;
+  aPos:=P;
+  if (P<=lLen) and (aText[P]='[') then
+    begin
+    lDepth:=0;
+    Inc(P);
+    while (P<=lLen) and ((aText[P]<>']') or (lDepth>0)) do
+      begin
+      if (aText[P]='\') and (P<lLen) then
+        Inc(P)
+      else if aText[P]='[' then
+        Inc(lDepth)
+      else if aText[P]=']' then
+        Dec(lDepth);
+      Inc(P);
+      end;
+    if P>lLen then
+      Exit;
+    aLabel:=Copy(aText,aPos+1,P-aPos-1);
+    aHasLabel:=True;
+    aPos:=P+1;
+    P:=aPos;
+    end;
+  if (P<=lLen) and (aText[P]='{') then
+    begin
+    lQuote:=#0;
+    while (P<=lLen) and ((aText[P]<>'}') or (lQuote<>#0)) do
+      begin
+      if (aText[P]='\') and (P<lLen) then
+        Inc(P)
+      else if (lQuote=#0) and (aText[P] in ['"','''']) then
+        lQuote:=aText[P]
+      else if aText[P]=lQuote then
+        lQuote:=#0;
+      Inc(P);
+      end;
+    if P>lLen then
+      Exit;
+    if ParseAttributeSpec(Copy(aText,aPos,P-aPos+1),lID,lClasses,Nil,True) then
+      begin
+      aAttributes:=Copy(aText,aPos,P-aPos+1);
+      aPos:=P+1;
+      end;
+    end;
+end;
+
+
+function ParseDirectiveFence(const aText : TMarkdownString; out aColons : Integer; out aName, aLabel, aAttributes : TMarkdownString; out aHasLabel : Boolean) : Boolean;
+
+var
+  P : Integer;
+
+begin
+  aName:='';
+  aLabel:='';
+  aAttributes:='';
+  aHasLabel:=False;
+  aColons:=CountStartChars(aText,':');
+  Result:=aColons>=2;
+  if not Result then
+    Exit;
+  P:=aColons+1;
+  if (P<=Length(aText)) and not IsWhitespaceChar(aText[P]) then
+    Result:=ParseDirective(aText,P,aName,aLabel,aAttributes,aHasLabel);
+  Result:=Result and IsWhitespace(Copy(aText,P,Length(aText)-P+1));
 end;
 
 

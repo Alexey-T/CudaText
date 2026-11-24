@@ -1160,7 +1160,12 @@ var
   lNode : TMarkdownAlertBlock absolute aElement;
 
 begin
-  AppendNl('\begin{mdalert}{'+AlertTypeNames[lNode.AlertType]+'}{'+Escape(Renderer.AlertTitles[lNode.AlertType])+'}');
+  Append('\begin{mdalert}{'+AlertTypeNames[lNode.AlertType]+'}{');
+  if Assigned(lNode.Title) then
+    Renderer.RenderTextNodes(lNode.Title)
+  else
+    Append(Escape(Renderer.AlertTitles[lNode.AlertType]));
+  AppendNl('}');
   Renderer.RenderChildren(lNode);
   AppendNl('\end{mdalert}');
 end;

@@ -45,6 +45,9 @@ Type
   TMarkdownMarkerEvent = procedure(aRenderer : TMarkdownRenderer; const aName, aArgument, aValue : TMarkdownString) of object;
   // Called for every link before it is written. Set aHandled when the handler wrote the link itself.
   TMarkdownResolveLinkEvent = procedure(aRenderer : TMarkdownRenderer; var aHref, aText : TMarkdownString; out aHandled : Boolean) of object;
+  // Called for every wiki link to aTarget, with aFragment after the #. aHref, aClass and aExists start with their defaults.
+  TMarkdownResolveWikiLinkEvent = procedure(aRenderer : TMarkdownRenderer; const aTarget, aFragment : TMarkdownString;
+                                            var aHref, aClass : TMarkdownString; var aExists : Boolean) of object;
   // Returns the number to write before a heading.
   TMarkdownHeadingNumberEvent = procedure(aRenderer : TMarkdownRenderer; aBlock : TMarkdownBlock; out aNumber : TMarkdownString) of object;
   // Returns the label to write before a table or figure caption.
@@ -56,6 +59,7 @@ resourcestring
   SAlertImportant = 'Important';
   SAlertWarning = 'Warning';
   SAlertCaution = 'Caution';
+  SAlertSuccess = 'Success';
 
 type
   { TMarkdownRenderer }
@@ -70,6 +74,7 @@ type
     FOnHeadingNumber: TMarkdownHeadingNumberEvent;
     FOnMarker: TMarkdownMarkerEvent;
     FOnResolveLink: TMarkdownResolveLinkEvent;
+    FOnResolveWikiLink: TMarkdownResolveWikiLinkEvent;
     function GetAlertTitle(aType : TAlertType): TMarkdownString;
     function GetParentElementRenderer: TMarkdownElementRenderer;
     procedure SetAlertTitle(aType : TAlertType; const aValue: TMarkdownString);
@@ -96,6 +101,9 @@ type
     procedure DoMarkerNode(aNode : TMarkdownTextNode);
     // Call OnResolveLink. Returns True when the handler wrote the link.
     function DoResolveLink(var aHref, aText : TMarkdownString) : Boolean; virtual;
+    // Resolve a wiki link through OnResolveWikiLink. Without handler, aHref is the URL-escaped target and fragment with spaces as %20,
+    // aClass is empty and aExists is True.
+    procedure DoResolveWikiLink(const aTarget, aFragment : TMarkdownString; out aHref, aClass : TMarkdownString; out aExists : Boolean); virtual;
     // The number to write before heading aBlock, from OnHeadingNumber.
     function GetHeadingNumber(aBlock : TMarkdownBlock) : TMarkdownString; virtual;
     // The label to write before the caption of table or figure aBlock, from OnCaptionNumber.
@@ -108,6 +116,8 @@ type
     Property OnMarker : TMarkdownMarkerEvent read FOnMarker write FOnMarker;
     // Called for every link before it is written.
     Property OnResolveLink : TMarkdownResolveLinkEvent read FOnResolveLink write FOnResolveLink;
+    // Called for every wiki link before it is written.
+    Property OnResolveWikiLink : TMarkdownResolveWikiLinkEvent read FOnResolveWikiLink write FOnResolveWikiLink;
     // Called for the number to write before a heading.
     Property OnHeadingNumber : TMarkdownHeadingNumberEvent read FOnHeadingNumber write FOnHeadingNumber;
     // Called for the label to write before a table or figure caption.
@@ -166,6 +176,16 @@ type
   { TDocumentRenderer }
 
   TDocumentRenderer = class(TMarkdownBlockRenderer)
+    class function BlockClass : TMarkdownBlockClass; override;
+  end;
+
+  { TMarkdownDirectiveBlockRenderer }
+
+  // Writes the label and the children of a directive, for every renderer class without its own directive renderer.
+  TMarkdownDirectiveBlockRenderer = class(TMarkdownBlockRenderer)
+  protected
+    procedure DoRender(aBlock: TMarkdownBlock); override;
+  public
     class function BlockClass : TMarkdownBlockClass; override;
   end;
 
@@ -275,6 +295,42 @@ begin
   Result:=TMarkdownDocument;
 end;
 
+{ TMarkdownDirectiveBlockRenderer }
+
+procedure TMarkdownDirectiveBlockRenderer.DoRender(aBlock: TMarkdownBlock);
+
+var
+  lNode : TMarkdownDirectiveBlock absolute aBlock;
+  lPar : TMarkdownParagraphBlock;
+  lText : TMarkdownTextBlock;
+
+begin
+  if Assigned(lNode.LabelNodes) and (lNode.LabelNodes.Count>0) then
+    begin
+    // The label is written as a paragraph that borrows the label nodes.
+    lPar:=TMarkdownParagraphBlock.Create(Nil,lNode.Line);
+    try
+      lText:=TMarkdownTextBlock.Create(lPar,lNode.Line,lNode.LabelText);
+      lText.Nodes:=lNode.LabelNodes;
+      try
+        Renderer.RenderBlock(lPar);
+      finally
+        lText.Nodes:=Nil;
+      end;
+    finally
+      lPar.Free;
+    end;
+    end;
+  Renderer.RenderChildren(lNode);
+end;
+
+
+class function TMarkdownDirectiveBlockRenderer.BlockClass: TMarkdownBlockClass;
+
+begin
+  Result:=TMarkdownDirectiveBlock;
+end;
+
 
 function TMarkdownRenderer.CreateRendererInstance(aClass: TMarkdownBlockRendererClass): TMarkdownBlockRenderer;
 
@@ -343,6 +399,7 @@ begin
   FAlertTitles[atImportant]:=StringToMarkdown(SAlertImportant);
   FAlertTitles[atWarning]:=StringToMarkdown(SAlertWarning);
   FAlertTitles[atCaution]:=StringToMarkdown(SAlertCaution);
+  FAlertTitles[atSuccess]:=StringToMarkdown(SAlertSuccess);
 end;
 
 
@@ -397,6 +454,20 @@ begin
   Result:=False;
   if Assigned(FOnResolveLink) then
     FOnResolveLink(Self,aHref,aText,Result);
+end;
+
+
+procedure TMarkdownRenderer.DoResolveWikiLink(const aTarget, aFragment: TMarkdownString; out aHref, aClass: TMarkdownString;
+  out aExists: Boolean);
+
+begin
+  aHref:=StringReplace(UrlEscape(aTarget),' ','%20',[rfReplaceAll]);
+  if aFragment<>'' then
+    aHref:=aHref+'#'+StringReplace(UrlEscape(aFragment),' ','%20',[rfReplaceAll]);
+  aClass:='';
+  aExists:=True;
+  if Assigned(FOnResolveWikiLink) then
+    FOnResolveWikiLink(Self,aTarget,aFragment,aHref,aClass,aExists);
 end;
 
 
@@ -579,7 +650,7 @@ begin
   while (Result=Nil) and Assigned(lClass) and (lClass<>TMarkdownBlock) do
     begin
     lRenderClass:=aRendererClass;
-    while (Result=Nil) and Assigned(lRenderClass) and (lRenderClass<>TMarkdownRenderer) do
+    while (Result=Nil) and Assigned(lRenderClass) and lRenderClass.InheritsFrom(TMarkdownRenderer) do
       begin
       lList:=FindRenderer(TMarkdownRendererClass(lRenderClass),False);
       if Assigned(lList) then
@@ -715,6 +786,7 @@ begin
     end;
 end;
 
-
+initialization
+  TMarkdownDirectiveBlockRenderer.RegisterRenderer(TMarkdownRenderer);
 end.
 

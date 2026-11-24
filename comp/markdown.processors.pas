@@ -258,6 +258,52 @@ type
     function ProcessLine(aParent : TMarkdownContainerBlock; aLine : TMarkdownLine; aContext : TMarkdownBlockProcessingContext) : Boolean; override;
   end;
 
+  { TAdmonitionProcessor }
+
+  // !!! type "title" admonitions, parsed as alert blocks whose content is indented 4 columns.
+  TAdmonitionProcessor = class(TIndentedContainerProcessor)
+  protected
+    // Is aLine an admonition marker line ? aType receives the alert type, aTitle the title text.
+    class function IsAdmonitionLine(aLine : TMarkdownLine; aMaxIndent : Integer; out aType : TAlertType; out aTitle : TMarkdownString) : Boolean;
+    function IsContainerStart(aLine : TMarkdownLine) : Boolean; override;
+  public
+    function HandlesLine(aParent : TMarkdownContainerBlock; aLine: TMarkdownLine): boolean; override;
+    function ProcessLine(aParent : TMarkdownContainerBlock; aLine : TMarkdownLine; aContext : TMarkdownBlockProcessingContext) : Boolean; override;
+  end;
+
+  { TDirectiveProcessor }
+
+  // Container directives :::name[label]{attributes} ... ::: and leaf directives ::name[label]{attributes}.
+  TDirectiveProcessor = class(TMarkdownBlockProcessor)
+  private
+    type
+      TDirectiveContext = record
+        Block : TMarkdownContainerDirectiveBlock;
+        Outer : TMarkdownBlockProcessor;
+      end;
+    var
+      FContexts : array of TDirectiveContext;
+      FContextCount : Integer;
+      FColons : Integer;
+      FName : TMarkdownString;
+      FLabel : TMarkdownString;
+      FAttributes : TMarkdownString;
+      FHasLabel : Boolean;
+    function ContextIndex(aBlock : TMarkdownBlock) : Integer;
+    function StripOuter(aIndex : Integer; aLine : TMarkdownLine) : Boolean;
+    function StripContext(aIndex : Integer; aLine : TMarkdownLine) : Boolean;
+    procedure ParseContainer(aBlock : TMarkdownContainerDirectiveBlock);
+  protected
+    // Is aLine a fence of colons that closes aBlock ? Does not move the cursor.
+    function IsClosingFence(aBlock : TMarkdownContainerDirectiveBlock; aLine : TMarkdownLine) : Boolean;
+    function StripLinePrefix(aLine : TMarkdownLine) : Boolean; override;
+  public
+    function LineEndsBlock(aBlock: TMarkdownContainerBlock; aLine: TMarkdownLine): Boolean; override;
+    function EndsList: Boolean; override;
+    function HandlesLine(aParent : TMarkdownContainerBlock; aLine: TMarkdownLine): boolean; override;
+    function ProcessLine(aParent : TMarkdownContainerBlock; aLine : TMarkdownLine; aContext : TMarkdownBlockProcessingContext) : Boolean; override;
+  end;
+
   { TLinkReferenceProcessor }
 
   TLinkReferenceProcessor = class(TMarkdownBlockProcessor)
@@ -824,9 +870,6 @@ begin
   if not CharInSet(LMarker[1], ['.', ')']) then
     Exit;
   Delete(lLine,1,lValueLen+1);
-  // upstream fcl-md fix: "1." alone on the line (nothing after the marker)
-  // must not be an ordered-list item, and lLine[1] below would index an
-  // empty string
   if (lLine='') or not CharInSet(lLine[1],[' ',#9]) then
     Exit;
   if isWhitespace(lLine) then
@@ -1345,7 +1388,8 @@ begin
   lLen:=Length(S);
   Result:=(Trim(S) = '')
           or ((lLen>0) and (S[1] in ['#','~']))
-          or S.StartsWith('   ');
+          or S.StartsWith('   ')
+          or ((mdoDirectives in Parser.Options) and (CountStartChars(TrimLeft(S),':')>=3));
 end;
 
 function TTableProcessor.Strict: boolean;
@@ -1917,6 +1961,113 @@ begin
 end;
 
 { ---------------------------------------------------------------------
+  TAdmonitionProcessor
+  ---------------------------------------------------------------------}
+
+// Alert type for an admonition keyword; unknown keywords are notes.
+function AdmonitionAlertType(const aKeyword : TMarkdownString) : TAlertType;
+
+begin
+  case LowerCase(aKeyword) of
+    'tip','hint','example' :
+      Result:=atTip;
+    'success','check','done' :
+      Result:=atSuccess;
+    'important','question','help','faq' :
+      Result:=atImportant;
+    'warning','attention' :
+      Result:=atWarning;
+    'caution','danger','error','bug','failure','fail','missing' :
+      Result:=atCaution;
+  else
+    Result:=atNote;
+  end;
+end;
+
+
+class function TAdmonitionProcessor.IsAdmonitionLine(aLine: TMarkdownLine; aMaxIndent: Integer; out aType: TAlertType;
+  out aTitle: TMarkdownString): Boolean;
+
+var
+  S : TMarkdownString;
+  lWhite,I,lLen : Integer;
+
+begin
+  Result:=False;
+  aType:=atNote;
+  aTitle:='';
+  lWhite:=aLine.LeadingWhitespace;
+  if lWhite>=aMaxIndent then
+    Exit;
+  S:=aLine.Remainder;
+  Delete(S,1,lWhite);
+  if not S.StartsWith('!!!') then
+    Exit;
+  Delete(S,1,3);
+  lLen:=Length(S);
+  I:=1;
+  while (I<=lLen) and IsWhitespaceChar(S[I]) do
+    Inc(I);
+  if I=1 then
+    Exit;
+  Delete(S,1,I-1);
+  lLen:=Length(S);
+  I:=1;
+  while (I<=lLen) and (S[I] in ['A'..'Z','a'..'z','0'..'9','-','_']) do
+    Inc(I);
+  if (I=1) or ((I<=lLen) and not IsWhitespaceChar(S[I])) then
+    Exit;
+  aType:=AdmonitionAlertType(Copy(S,1,I-1));
+  aTitle:=Trim(Copy(S,I,lLen-I+1));
+  if (Length(aTitle)>=2) and (aTitle[1]='"') and (aTitle[Length(aTitle)]='"') then
+    aTitle:=Copy(aTitle,2,Length(aTitle)-2);
+  Result:=True;
+end;
+
+
+function TAdmonitionProcessor.IsContainerStart(aLine: TMarkdownLine): Boolean;
+
+var
+  lType : TAlertType;
+  lTitle : TMarkdownString;
+
+begin
+  Result:=IsAdmonitionLine(aLine,4,lType,lTitle);
+end;
+
+
+function TAdmonitionProcessor.HandlesLine(aParent: TMarkdownContainerBlock; aLine: TMarkdownLine): boolean;
+
+var
+  lType : TAlertType;
+  lTitle : TMarkdownString;
+
+begin
+  Result:=(mdoAdmonitions in Parser.Options) and IsAdmonitionLine(aLine,MaxBlockIndent(aParent),lType,lTitle);
+end;
+
+
+function TAdmonitionProcessor.ProcessLine(aParent: TMarkdownContainerBlock; aLine: TMarkdownLine;
+  aContext: TMarkdownBlockProcessingContext): Boolean;
+
+var
+  lBlock : TMarkdownAlertBlock;
+  lType : TAlertType;
+  lTitle : TMarkdownString;
+
+begin
+  IsAdmonitionLine(aLine,MaxBlockIndent(aParent),lType,lTitle);
+  lBlock:=TMarkdownAlertBlock.Create(aParent,aLine.LineNo);
+  lBlock.AlertType:=lType;
+  lBlock.TitleText:=lTitle;
+  lBlock.ContentIndent:=aLine.LeadingWhitespace+4;
+  aLine.Advance(Length(aLine.Remainder));
+  ParseContainer(lBlock);
+  lBlock.Closed:=True;
+  Result:=True;
+end;
+
+{ ---------------------------------------------------------------------
   TLinkReferenceProcessor
   ---------------------------------------------------------------------}
 
@@ -2045,6 +2196,159 @@ begin
 end;
 
 
+{ ---------------------------------------------------------------------
+  TDirectiveProcessor
+  ---------------------------------------------------------------------}
+
+function TDirectiveProcessor.ContextIndex(aBlock: TMarkdownBlock): Integer;
+
+begin
+  Result:=FContextCount-1;
+  while (Result>=0) and (FContexts[Result].Block<>aBlock) do
+    Dec(Result);
+end;
+
+
+function TDirectiveProcessor.StripOuter(aIndex: Integer; aLine: TMarkdownLine): Boolean;
+
+var
+  lOuter : TMarkdownBlockProcessor;
+
+begin
+  lOuter:=FContexts[aIndex].Outer;
+  if lOuter=Self then
+    Result:=(aIndex>0) and StripContext(aIndex-1,aLine)
+  else if Assigned(lOuter) then
+    Result:=lOuter.StripLinePrefix(aLine)
+  else
+    Result:=True;
+end;
+
+
+function TDirectiveProcessor.StripContext(aIndex: Integer; aLine: TMarkdownLine): Boolean;
+
+begin
+  Result:=StripOuter(aIndex,aLine) and not IsClosingFence(FContexts[aIndex].Block,aLine);
+end;
+
+
+function TDirectiveProcessor.IsClosingFence(aBlock: TMarkdownContainerDirectiveBlock; aLine: TMarkdownLine): Boolean;
+
+var
+  S : TMarkdownString;
+  lColons : Integer;
+
+begin
+  Result:=aLine.LeadingWhitespace<MaxBlockIndent(aBlock.Parent);
+  if not Result then
+    Exit;
+  S:=Trim(aLine.Remainder);
+  lColons:=CountStartChars(S,':');
+  Result:=(lColons>=aBlock.FenceLength) and (lColons=Length(S));
+end;
+
+
+procedure TDirectiveProcessor.ParseContainer(aBlock: TMarkdownContainerDirectiveBlock);
+
+var
+  lLine : TMarkdownLine;
+  lStart : Integer;
+
+begin
+  if FContextCount=Length(FContexts) then
+    SetLength(FContexts,FContextCount+4);
+  FContexts[FContextCount].Block:=aBlock;
+  FContexts[FContextCount].Outer:=ParentProcessor;
+  Inc(FContextCount);
+  try
+    Parse(aBlock,Self);
+    lLine:=PeekLine;
+    if Assigned(lLine) then
+      begin
+      lStart:=lLine.CursorPos;
+      if StripOuter(FContextCount-1,lLine) and IsClosingFence(aBlock,lLine) then
+        NextLine
+      else
+        lLine.CursorPos:=lStart;
+      end;
+  finally
+    Dec(FContextCount);
+  end;
+end;
+
+
+function TDirectiveProcessor.StripLinePrefix(aLine: TMarkdownLine): Boolean;
+
+begin
+  Result:=(FContextCount>0) and StripContext(FContextCount-1,aLine);
+end;
+
+
+function TDirectiveProcessor.LineEndsBlock(aBlock: TMarkdownContainerBlock; aLine: TMarkdownLine): Boolean;
+
+var
+  lIdx,lStart : Integer;
+
+begin
+  Result:=(aLine=Nil);
+  if Result then
+    Exit;
+  lIdx:=ContextIndex(aBlock);
+  if lIdx<0 then
+    Exit(True);
+  lStart:=aLine.CursorPos;
+  Result:=not StripContext(lIdx,aLine);
+  if Result then
+    aLine.CursorPos:=lStart;
+end;
+
+
+function TDirectiveProcessor.EndsList: Boolean;
+
+begin
+  Result:=True;
+end;
+
+
+function TDirectiveProcessor.HandlesLine(aParent: TMarkdownContainerBlock; aLine: TMarkdownLine): boolean;
+
+begin
+  Result:=False;
+  if not (mdoDirectives in Parser.Options) then
+    Exit;
+  if aLine.LeadingWhitespace>=MaxBlockIndent(aParent) then
+    Exit;
+  Result:=ParseDirectiveFence(TrimLeft(aLine.Remainder),FColons,FName,FLabel,FAttributes,FHasLabel) and (FName<>'');
+end;
+
+
+function TDirectiveProcessor.ProcessLine(aParent: TMarkdownContainerBlock; aLine: TMarkdownLine;
+  aContext: TMarkdownBlockProcessingContext): Boolean;
+
+var
+  lBlock : TMarkdownDirectiveBlock;
+
+begin
+  if FColons=2 then
+    lBlock:=TMarkdownLeafDirectiveBlock.Create(aParent,aLine.LineNo)
+  else
+    lBlock:=TMarkdownContainerDirectiveBlock.Create(aParent,aLine.LineNo);
+  lBlock.DirectiveName:=FName;
+  lBlock.LabelText:=FLabel;
+  lBlock.HasLabel:=FHasLabel;
+  lBlock.ContentIndent:=aLine.LeadingWhitespace;
+  if lBlock.ApplyAttributes(FAttributes,True) and (lBlock.ID<>'') then
+    Parser.RegisterAnchor(lBlock.ID,lBlock,aLine.LineNo);
+  if lBlock is TMarkdownContainerDirectiveBlock then
+    begin
+    TMarkdownContainerDirectiveBlock(lBlock).FenceLength:=FColons;
+    ParseContainer(TMarkdownContainerDirectiveBlock(lBlock));
+    end;
+  lBlock.Closed:=True;
+  Result:=True;
+end;
+
+
 Procedure RegisterDefaultProcessors;
 
 begin
@@ -2063,6 +2367,8 @@ begin
   TFootnoteDefinitionProcessor.Register('footnote');
   TLinkReferenceProcessor.Register('linkreference');
   TDefinitionListProcessor.Register('definitionlist');
+  TAdmonitionProcessor.Register('admonition');
+  TDirectiveProcessor.Register('directive');
   TParagraphProcessor.Register('paragraph');
 end;
 

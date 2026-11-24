@@ -2638,6 +2638,14 @@ begin
           lText:='img';
         LayoutTextWrapped('['+lText+']', aFontSize, fontStyle, '', lContext+[fcQuote], False, False);
         end;
+    nkDirective, nkWikiLink:
+      begin
+      if lText<>'' then
+        LayoutTextWrapped(lText, aFontSize, fontStyle, linkHref, lContext, False, False);
+      if aTextNode.HasChildren then
+        for lChild in aTextNode.Children do
+          RenderTextNode(lChild, aFontSize, fontStyle, lContext, linkHref);
+      end;
   end;
 end;
 
@@ -2742,7 +2750,7 @@ procedure TPDFMarkDownAlertBlockRenderer.DoRender(aBlock: TMarkDownBlock);
 
 var
   lNode : TMarkdownAlertBlock absolute aBlock;
-  lStartPage, lPage : Integer;
+  lStartPage, lPage, i : Integer;
   lStartY, lBarX, lTop, lBottom : TPDFFloat;
   Itm : TLayoutItem;
 begin
@@ -2751,7 +2759,11 @@ begin
   lStartY:=LayoutData.LineY;
   lBarX:=LayoutData.CurrentIndent;
   Indent(PDFRenderer.BlockQuoteIndent);
-  LayoutText(Renderer.AlertTitles[lNode.AlertType], PDFRenderer.BaseFontSize, [fsBold], '', []);
+  if Assigned(lNode.Title) then
+    for i:=0 to lNode.Title.Count-1 do
+      PDFRenderer.RenderTextNode(lNode.Title[i], PDFRenderer.BaseFontSize, [fsBold], [])
+  else
+    LayoutText(Renderer.AlertTitles[lNode.AlertType], PDFRenderer.BaseFontSize, [fsBold], '', []);
   NewLine;
   PDFRenderer.SuppressNextParagraphBreak;
   Renderer.RenderChildren(lNode);

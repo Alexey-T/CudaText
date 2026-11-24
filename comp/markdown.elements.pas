@@ -44,7 +44,9 @@ Type
   // nkRaw holds content already in the target format, emitted without escaping.
   // nkComment holds the text of an HTML comment, with marker, argument and value in Attrs for a marker.
   // nkFootnoteRef is a footnote reference, with label and number in Attrs.
-  TTextNodeKind = (nkNamed,nkLineBreak,nkText,nkCode,nkURI,nkEmail,nkImg,nkRaw,nkComment,nkFootnoteRef);
+  // nkDirective is an inline directive: name in Name, label in Children, id, class and key=value attributes in Attrs.
+  // nkWikiLink is a [[target#fragment|label]] link: target and fragment in Attrs, label in Children.
+  TTextNodeKind = (nkNamed,nkLineBreak,nkText,nkCode,nkURI,nkEmail,nkImg,nkRaw,nkComment,nkFootnoteRef,nkDirective,nkWikiLink);
   TTextNodeKinds = set of TTextNodeKind;
 
   TNodeStyle = (nsStrong,nsEmph,nsDelete);
@@ -114,6 +116,8 @@ Type
   public
     // When the last block is active, add to that block. Otherwise, create a new text node
     function AddText(aPos: TPosition; const aContent: TMarkdownString): TMarkdownTextNode;
+    // Append a single character to the last active text node, or to a new one.
+    function AddText(aPos: TPosition; aChar: TMarkdownChar): TMarkdownTextNode;
     function AddTextNode(aPos: TPosition; aKind: TTextNodeKind; const cnt: TMarkdownString; aDoClose: Boolean=True): TMarkdownTextNode; // always make a new node, and make it inactive
     procedure RemoveAfter(node : TMarkdownTextNode);
     function LastNode : TMarkdownTextNode;
@@ -152,7 +156,8 @@ Type
     // The plain text of all text blocks inside this block, lines separated by a space.
     function PlainText : TMarkdownString;
     // Apply an attribute specification {#id .class key=value}. Returns False and changes nothing when aSpec is invalid.
-    function ApplyAttributes(const aSpec : TMarkdownString) : Boolean;
+    // With aBareKeys, a key without a value is allowed.
+    function ApplyAttributes(const aSpec : TMarkdownString; aBareKeys : Boolean = False) : Boolean;
     // Explicit or automatic id of the block.
     property ID : TMarkdownString read FID write FID;
     // Classes given in an attribute specification.
@@ -343,10 +348,16 @@ Type
     property HasSeenEmptyLine : boolean read FHasSeenEmptyLine Write FHasSeenEmptyLine; // parser state
   end;
 
+  TTaskItemState = (tisNone, tisUnchecked, tisChecked);
+
   TMarkdownListItemBlock = class (TMarkdownParagraphBlock)
+  private
+    FTaskState: TTaskItemState;
   public
     function IsPlainPara : boolean; override;
     function ContentIndentation : Integer; override;
+    // Task list checkbox state, tisNone when the item is no task.
+    property TaskState : TTaskItemState read FTaskState write FTaskState;
   end;
 
   TMarkdownHeadingBlock = class (TMarkdownContainerBlock)
@@ -405,6 +416,8 @@ Type
   public
     constructor Create(aParent : TMarkdownBlock; aLine : integer; const aText : TMarkdownString); reintroduce;
     destructor Destroy; override;
+    // Append aLine to the text, separated from existing text by a line feed.
+    procedure AppendText(const aLine : TMarkdownString);
     property Text : TMarkdownString read FText write FText;
     property Nodes : TMarkdownTextNodeList Read FNodes Write FNodes;
   end;
@@ -460,16 +473,28 @@ Type
     property ContentIndent : Integer read FContentIndent write FContentIndent;
   end;
 
-  TAlertType = (atNote, atTip, atImportant, atWarning, atCaution);
+  TAlertType = (atNote, atTip, atImportant, atWarning, atCaution, atSuccess);
 
   { TMarkdownAlertBlock }
 
   TMarkdownAlertBlock = class (TMarkdownQuoteBlock)
   private
     FAlertType: TAlertType;
+    FContentIndent: Integer;
+    FTitle: TMarkdownTextNodeList;
+    FTitleText: TMarkdownString;
+    procedure SetTitle(const aValue: TMarkdownTextNodeList);
   public
-    // Kind of alert, from the [!TYPE] marker
+    destructor Destroy; override;
+    function ContentIndentation : Integer; override;
+    // Kind of alert, from the [!TYPE] marker or the !!! type keyword
     property AlertType : TAlertType read FAlertType write FAlertType;
+    // Column at which the content of an !!! admonition starts, 0 for a > [!TYPE] alert.
+    property ContentIndent : Integer read FContentIndent write FContentIndent;
+    // Title as written after the !!! type keyword, empty for the default title.
+    property TitleText : TMarkdownString read FTitleText write FTitleText;
+    // Inline content of the title, Nil for the default title. The alert owns the list.
+    property Title : TMarkdownTextNodeList read FTitle write SetTitle;
   end;
 
   { TMarkdownFootnoteBlock }
@@ -505,8 +530,50 @@ Type
     property Caption : TMarkdownTextNodeList read FCaption write SetCaption;
   end;
 
+  { TMarkdownDirectiveBlock }
+
+  // A container or leaf directive. The attributes are in ID, Classes and Attrs.
+  TMarkdownDirectiveBlock = class abstract (TMarkdownContainerBlock)
+  private
+    FContentIndent: Integer;
+    FDirectiveName: TMarkdownString;
+    FHasLabel: Boolean;
+    FLabel: TMarkdownString;
+    FLabelNodes: TMarkdownTextNodeList;
+    procedure SetLabelNodes(const aValue: TMarkdownTextNodeList);
+  public
+    destructor Destroy; override;
+    function ContentIndentation : Integer; override;
+    // Name of the directive: note in :::note
+    property DirectiveName : TMarkdownString read FDirectiveName write FDirectiveName;
+    // Source text of the label, between [ and ].
+    property LabelText : TMarkdownString read FLabel write FLabel;
+    // Was a label given, even an empty one ?
+    property HasLabel : Boolean read FHasLabel write FHasLabel;
+    // Inline content of the label, Nil when there is no label. The block owns the list.
+    property LabelNodes : TMarkdownTextNodeList read FLabelNodes write SetLabelNodes;
+    // Column of the opening fence.
+    property ContentIndent : Integer read FContentIndent write FContentIndent;
+  end;
+
+  { TMarkdownContainerDirectiveBlock }
+
+  // :::name[label]{attributes} ... ::: with the enclosed blocks as children.
+  TMarkdownContainerDirectiveBlock = class (TMarkdownDirectiveBlock)
+  private
+    FFenceLength: Integer;
+  public
+    // Number of colons in the opening fence.
+    property FenceLength : Integer read FFenceLength write FFenceLength;
+  end;
+
+  { TMarkdownLeafDirectiveBlock }
+
+  // ::name[label]{attributes} on a line of its own.
+  TMarkdownLeafDirectiveBlock = class (TMarkdownDirectiveBlock);
+
 const
-  AlertTypeNames : Array[TAlertType] of TMarkdownString = ('note','tip','important','warning','caution');
+  AlertTypeNames : Array[TAlertType] of TMarkdownString = ('note','tip','important','warning','caution','success');
 
 implementation
 
@@ -712,6 +779,25 @@ begin
   Result.addText(aContent);
 end;
 
+function TMarkdownTextNodeList.AddText(aPos: TPosition; aChar: TMarkdownChar): TMarkdownTextNode;
+
+var
+  lNode : TMarkdownTextNode;
+
+begin
+  lNode:=Nil;
+  if (Count>0) then
+    lNode:=Elements[Count-1];
+  if (lNode=Nil) or not lNode.Active then
+    begin
+    Result:=TMarkdownTextNode.Create(aPos,nkText);
+    add(Result);
+    end
+  else
+    Result:=lNode;
+  Result.addText(aChar);
+end;
+
 function TMarkdownTextNodeList.AddTextNode(aPos: TPosition; aKind: TTextNodeKind; const cnt: TMarkdownString; aDoClose: Boolean
   ): TMarkdownTextNode;
 begin
@@ -887,7 +973,7 @@ begin
 end;
 
 
-function TMarkdownBlock.ApplyAttributes(const aSpec: TMarkdownString): Boolean;
+function TMarkdownBlock.ApplyAttributes(const aSpec: TMarkdownString; aBareKeys : Boolean): Boolean;
 
 var
   lID : TMarkdownString;
@@ -897,7 +983,7 @@ var
 begin
   lAttrs:=TStringList.Create;
   try
-    Result:=ParseAttributeSpec(aSpec,lID,lClasses,lAttrs);
+    Result:=ParseAttributeSpec(aSpec,lID,lClasses,lAttrs,aBareKeys);
     if not Result then
       Exit;
     if lID<>'' then
@@ -1146,6 +1232,16 @@ begin
   inherited;
 end;
 
+procedure TMarkdownTextBlock.AppendText(const aLine : TMarkdownString);
+
+begin
+  if FText='' then
+    FText:=aLine
+  else
+    FText:=FText+#10+aLine;
+end;
+
+
 { TMarkdownTableBlock }
 
 destructor TMarkdownTableBlock.Destroy;
@@ -1194,9 +1290,9 @@ constructor TMarkdownDocument.Create(aParent: TMarkdownBlock; aLine: Integer);
 
 begin
   inherited Create(aParent, aLine);
-  FAnchors:=TFPObjectHashTable.Create(False);
-  FFootnoteDefs:=TFPObjectHashTable.Create(False);
-  FLinkRefs:=TFPObjectHashTable.Create(True);
+  FAnchors:=TFPObjectHashTable.CreateWith(1031,@RSHash,False);
+  FFootnoteDefs:=TFPObjectHashTable.CreateWith(1031,@RSHash,False);
+  FLinkRefs:=TFPObjectHashTable.CreateWith(1031,@RSHash,True);
   FMarkers:=TMarkdownMarkerList.Create(True);
   FFootnotes:=TMarkdownBlockList.Create(False);
 end;
@@ -1321,6 +1417,32 @@ begin
   Result:=FContentIndent;
 end;
 
+{ TMarkdownAlertBlock }
+
+destructor TMarkdownAlertBlock.Destroy;
+
+begin
+  FreeAndNil(FTitle);
+  inherited Destroy;
+end;
+
+
+function TMarkdownAlertBlock.ContentIndentation: Integer;
+
+begin
+  Result:=FContentIndent;
+end;
+
+
+procedure TMarkdownAlertBlock.SetTitle(const aValue: TMarkdownTextNodeList);
+
+begin
+  if FTitle=aValue then
+    Exit;
+  FreeAndNil(FTitle);
+  FTitle:=aValue;
+end;
+
 { TMarkdownFigureBlock }
 
 destructor TMarkdownFigureBlock.Destroy;
@@ -1345,6 +1467,32 @@ begin
     Exit;
   FreeAndNil(FCaption);
   FCaption:=aValue;
+end;
+
+{ TMarkdownDirectiveBlock }
+
+destructor TMarkdownDirectiveBlock.Destroy;
+
+begin
+  FreeAndNil(FLabelNodes);
+  inherited Destroy;
+end;
+
+
+function TMarkdownDirectiveBlock.ContentIndentation: Integer;
+
+begin
+  Result:=FContentIndent;
+end;
+
+
+procedure TMarkdownDirectiveBlock.SetLabelNodes(const aValue: TMarkdownTextNodeList);
+
+begin
+  if FLabelNodes=aValue then
+    Exit;
+  FreeAndNil(FLabelNodes);
+  FLabelNodes:=aValue;
 end;
 
 end.

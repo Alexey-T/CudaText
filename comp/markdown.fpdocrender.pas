@@ -1122,7 +1122,8 @@ var
   lNode : TMarkdownAlertBlock absolute aElement;
 
 begin
-  if (lNode.AlertType in [atNote,atTip,atImportant]) and (UnicodeToMarkdown(Parent.NodeName)='descr') then
+  if (lNode.AlertType in [atNote,atTip,atImportant]) and not Assigned(lNode.Title)
+     and (UnicodeToMarkdown(Parent.NodeName)='descr') then
     begin
     FPDoc.Push('remark');
     Renderer.RenderChildren(lNode);
@@ -1132,7 +1133,13 @@ begin
     begin
     FPDoc.Push('p');
     FPDoc.Push('b');
-    FPDoc.AppendText(Renderer.AlertTitles[lNode.AlertType]+':');
+    if Assigned(lNode.Title) then
+      begin
+      Renderer.RenderTextNodes(lNode.Title);
+      FPDoc.AppendText(':');
+      end
+    else
+      FPDoc.AppendText(Renderer.AlertTitles[lNode.AlertType]+':');
     FPDoc.Pop;
     FPDoc.Pop;
     Renderer.RenderChildren(lNode);

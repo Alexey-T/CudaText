@@ -547,6 +547,21 @@ begin
       end;
     nkLineBreak:
       NewLine;
+    nkDirective,nkWikiLink:
+      begin
+      if aNode.Kind=nkWikiLink then
+        lStyle.Fg:=clLink;
+      if aNode.NodeText<>'' then
+        AddRun(aNode.NodeText,lStyle,True);
+      if aNode.HasChildren then
+        begin
+        lSaveBase:=FBaseStyle;
+        FBaseStyle:=lStyle;
+        for lChild in aNode.Children do
+          RenderInline(lChild);
+        FBaseStyle:=lSaveBase;
+        end;
+      end;
   end;
 end;
 
@@ -1069,7 +1084,10 @@ begin
   lStyle:=ANSI.DefaultStyle;
   lStyle.Bold:=True;
   lStyle.Fg:=clQuote;
-  ANSI.AddRun(Renderer.AlertTitles[lNode.AlertType],lStyle,True);
+  if Assigned(lNode.Title) then
+    ANSI.AddRun(lNode.Title.PlainText,lStyle,True)
+  else
+    ANSI.AddRun(Renderer.AlertTitles[lNode.AlertType],lStyle,True);
   ANSI.FlushLine;
   ANSI.PushPrefix(2,Spaces(2));
   Renderer.RenderChildren(lNode);

@@ -42,6 +42,17 @@ type
     procedure Apply(aDocument : TMarkdownDocument); override;
   end;
 
+  { TTaskListTransform }
+
+  // Turns list items whose text starts with [ ], [x] or [X] into task list items.
+  TTaskListTransform = class(TMarkdownTransform)
+  private
+    procedure CheckItem(aItem : TMarkdownListItemBlock);
+    procedure Walk(aBlock : TMarkdownBlock);
+  public
+    procedure Apply(aDocument : TMarkdownDocument); override;
+  end;
+
   { TCaptionTransform }
 
   // Merges Table: paragraphs into the adjacent table and turns single-image paragraphs into figures.
@@ -197,6 +208,52 @@ procedure TAlertTransform.Apply(aDocument: TMarkdownDocument);
 
 begin
   if mdoAlerts in Parser.Options then
+    Walk(aDocument);
+end;
+
+{ TTaskListTransform }
+
+procedure TTaskListTransform.CheckItem(aItem: TMarkdownListItemBlock);
+
+var
+  lText : TMarkdownTextBlock;
+  S : TMarkdownString;
+
+begin
+  if (aItem.ChildCount=0) or not IsPlainParagraph(aItem.Children[0]) then
+    Exit;
+  lText:=TMarkdownTextBlock(aItem.Children[0].Children[0]);
+  S:=TrimLeft(lText.Text);
+  if (Length(S)<5) or (S[1]<>'[') or not (S[2] in [' ','x','X']) or (S[3]<>']') or not (S[4] in [' ',#9,#10]) then
+    Exit;
+  if S[2]=' ' then
+    aItem.TaskState:=tisUnchecked
+  else
+    aItem.TaskState:=tisChecked;
+  S:=TrimLeft(Copy(S,5,Length(S)-4));
+  lText.Text:=S;
+  lText.Nodes.Free;
+  lText.Nodes:=Parser.ParseInlineText(S,lText.Line);
+end;
+
+
+procedure TTaskListTransform.Walk(aBlock: TMarkdownBlock);
+
+var
+  I : Integer;
+
+begin
+  if aBlock is TMarkdownListItemBlock then
+    CheckItem(TMarkdownListItemBlock(aBlock));
+  for I:=0 to aBlock.ChildCount-1 do
+    Walk(aBlock.Children[I]);
+end;
+
+
+procedure TTaskListTransform.Apply(aDocument: TMarkdownDocument);
+
+begin
+  if mdoTaskLists in Parser.Options then
     Walk(aDocument);
 end;
 
@@ -435,7 +492,9 @@ begin
   else if aBlock is TMarkdownTableBlock then
     ResolveNodes(TMarkdownTableBlock(aBlock).Caption)
   else if aBlock is TMarkdownFigureBlock then
-    ResolveNodes(TMarkdownFigureBlock(aBlock).Caption);
+    ResolveNodes(TMarkdownFigureBlock(aBlock).Caption)
+  else if aBlock is TMarkdownDirectiveBlock then
+    ResolveNodes(TMarkdownDirectiveBlock(aBlock).LabelNodes);
   for I:=0 to aBlock.ChildCount-1 do
     Walk(aBlock.Children[I]);
 end;
@@ -570,7 +629,9 @@ begin
   else if aBlock is TMarkdownTableBlock then
     AddNodes(aBlock,TMarkdownTableBlock(aBlock).Caption)
   else if aBlock is TMarkdownFigureBlock then
-    AddNodes(aBlock,TMarkdownFigureBlock(aBlock).Caption);
+    AddNodes(aBlock,TMarkdownFigureBlock(aBlock).Caption)
+  else if aBlock is TMarkdownDirectiveBlock then
+    AddNodes(aBlock,TMarkdownDirectiveBlock(aBlock).LabelNodes);
   for I:=0 to aBlock.ChildCount-1 do
     Walk(aBlock.Children[I]);
 end;
@@ -587,6 +648,7 @@ end;
 
 
 initialization
+  TTaskListTransform.Register('tasklists');
   TAlertTransform.Register('alerts');
   TCaptionTransform.Register('captions');
   TFootnoteTransform.Register('footnotes');

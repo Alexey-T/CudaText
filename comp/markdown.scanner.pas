@@ -78,6 +78,8 @@ type
     function FindMatchingOccurrence(const S : TMarkdownString) : boolean;
     // Check if there is a second occurrence after an occurrence of string S at current position, second occurrence may not be preceded by ExcludeBefore.
     function FindMatchingOccurrence(const S : TMarkdownString; ExcludeBefore : TMarkdownChar) : boolean;
+    // Same result as PeekRun(checkBefore)=aRun, without allocating.
+    function PeekRunEquals(checkBefore : boolean; const aRun : TMarkdownString) : boolean;
     // Skip all whitespace, advance cursor position
     procedure SkipWhitespace;
     // Current location. Takes into account offset from aLineNo
@@ -88,6 +90,8 @@ type
     function FindText(const aText : TMarkdownString; aOffset : Integer = 0) : Integer;
     // Cursor position in the text
     property CursorPos : Integer read FCursor;
+    // The scanned text
+    property Text : TMarkdownString read FText;
     // Are we at the end of the text ?
     property EOF : boolean read GetEOF;
     // Character at the current cursor position. Do not modify cursor position
@@ -101,6 +105,16 @@ type
   end;
 
 implementation
+
+// True when the aLen characters of aText at aPos equal the first aLen characters of S.
+function CompareMemRange(const aText : TMarkdownString; aPos : Integer; const S : TMarkdownString; aLen : Integer) : Boolean;
+
+begin
+  if (aPos<1) or (aLen>Length(S)) or (aPos+aLen-1>Length(aText)) then
+    Exit(False);
+  Result:=(aLen=0) or (CompareByte(aText[aPos],S[1],aLen)=0);
+end;
+
 
 { TMarkdownTextScanner }
 
@@ -138,7 +152,7 @@ begin
     begin
     Result:=(FText[i-1]<>s[1])
             and ((i=lMax) or (FText[i+len] <> s[1]))
-            and (copy(FText,i,len) = s);
+            and CompareMemRange(FText,i,S,Len);
     Inc(i);
     end;
 end;
@@ -158,9 +172,31 @@ begin
       exit(false);
     Result:=(FText[i-1]<>s[1])
             and ((i=lMax) or (FText[i+len]<>s[1]))
-            and (Copy(FText,i,len) = s);
+            and CompareMemRange(FText,i,S,Len);
     Inc(i);
     end;
+end;
+
+function TMarkdownTextScanner.PeekRunEquals(checkBefore : boolean; const aRun : TMarkdownString) : boolean;
+
+var
+  i,lLen,lRunLen : integer;
+  c : TMarkdownChar;
+
+begin
+  c:=peek;
+  i:=FCursor;
+  lRunLen:=Length(aRun);
+  if CheckBefore and (i>2) and (FText[i-1] = c) then
+    exit(lRunLen=0);
+  lLen:=Length(FText);
+  while (i<=lLen) and (FText[i] = c) do
+    Inc(i);
+  if i-FCursor<>lRunLen then
+    exit(false);
+  if lRunLen=0 then
+    exit(true);
+  Result:=CompareByte(FText[FCursor],aRun[1],lRunLen)=0;
 end;
 
 procedure TMarkdownTextScanner.SkipWhitespace;
@@ -240,19 +276,21 @@ var
   i,lCount : integer;
 
 begin
-  Result:='';
-  SetLength(Result,aCount);
-  lCount:=0;
-  for i:=1 to aCount do
-    begin
-    if not EOF then
+  lCount:=Length(FText)-FCursor+1;
+  if lCount<0 then
+    lCount:=0;
+  if lCount>aCount then
+    lCount:=aCount;
+  Result:=Copy(FText,FCursor,lCount);
+  for i:=FCursor to FCursor+lCount-1 do
+    if FText[i]=#10 then
       begin
-      Result[I]:=NextChar();
-      Inc(lCount);
-      end;
-    end;
-  if lCount<aCount then
-    SetLength(Result,lCount);
+      Inc(FPos.Line);
+      FPos.Col:=1;
+      end
+    else
+      Inc(FPos.Col);
+  Inc(FCursor,lCount);
 end;
 
 function TMarkdownTextScanner.NextEquals: TMarkdownString;
@@ -302,7 +340,8 @@ end;
 
 function TMarkdownTextScanner.Has(const S: TMarkdownString): boolean;
 begin
-  Result:=peekLen(Length(s))=s;
+  Result:=(FCursor+Length(S)-1<=Length(FText))
+          and ((Length(S)=0) or (CompareByte(FText[FCursor],S[1],Length(S))=0));
 end;
 
 function TMarkdownTextScanner.Location: TPosition;
