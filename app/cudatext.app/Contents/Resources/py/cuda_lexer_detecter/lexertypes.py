@@ -428,6 +428,7 @@ TYPES = {
     "resi": ['ReScript'],
     "rex": ['Rexx'],
     "rform": ['Ring'],
+    "rhai": ['Rhai'],
     "rhtml": ['HTML Ruby-ERB'],
     "ring": ['Ring'],
     "rjs": ['Ruby'],
