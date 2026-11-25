@@ -341,6 +341,7 @@ type
     procedure SetSplitted(AValue: boolean);
     procedure SetNotifEnabled(AValue: boolean);
     procedure SetTabCaption(const AValue: string);
+    procedure SetTabCaptionReason(const AValue: TAppTabCaptionReason);
     procedure SetLineEnds(Ed: TATSynEdit; AValue: TATLineEnds);
     procedure SetUnprintedSpaces(AValue: boolean);
     procedure SetEditorsLinked(AValue: boolean);
@@ -392,7 +393,7 @@ type
     property WordWrap: TATEditorWrapMode read GetWordWrap;
     property TabCaption: string read FTabCaption write SetTabCaption;
     property TabCaptionAddon: string read FTabCaptionAddon write SetTabCaptionAddon;
-    property TabCaptionReason: TAppTabCaptionReason read FTabCaptionReason write FTabCaptionReason;
+    property TabCaptionReason: TAppTabCaptionReason read FTabCaptionReason write SetTabCaptionReason;
     function TabCaptionConsideringPairAndFullpath: string;
     property TabImageIndex: integer read FTabImageIndex write SetTabImageIndex;
     property TabIsPreview: boolean read GetIsPreview write SetIsPreview;
@@ -687,6 +688,12 @@ begin
     DoPyEventStateEd(EdFirst, EDSTATE_TAB_TITLE);
 
   DoOnChangeCaption;
+end;
+
+procedure TEditorFrame.SetTabCaptionReason(const AValue: TAppTabCaptionReason);
+begin
+  if FTabCaptionReason<>AValue then
+    FTabCaptionReason:= AValue;
 end;
 
 procedure TEditorFrame.SetTabCaptionAddon(const AValue: string);
@@ -3285,6 +3292,8 @@ begin
 end;
 
 procedure TEditorFrame.SetFileName(Ed: TATSynEdit; const AFileName: string);
+var
+  bChanged: boolean;
 begin
   if EditorsLinked then
   begin
@@ -3299,11 +3308,17 @@ begin
   end;
 
   if EditorsLinked or (Ed=EdFirst) then
-    FFileName:= AFileName
+  begin
+    bChanged:= FFileName<>AFileName;
+    FFileName:= AFileName;
+  end
   else
+  begin
+    bChanged:= FFileName2<>AFileName;
     FFileName2:= AFileName;
+  end;
 
-  if AFileName<>'' then
+  if bChanged and (AFileName<>'') then
     TabCaptionReason:= TAppTabCaptionReason.FromFilename;
 end;
 
@@ -3455,7 +3470,8 @@ begin
       TabCaptionReason:= TAppTabCaptionReason.FromFilename;
     end;
 
-    UpdateCaptionFromFilename;
+    if TabCaptionReason=TAppTabCaptionReason.FromFilename then
+      UpdateCaptionFromFilename;
 
     DoSaveUndo(Ed);
     DoPyEvent(Ed, TAppPyEvent.OnSaveAfter, []);
