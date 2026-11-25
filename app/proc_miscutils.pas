@@ -101,7 +101,7 @@ procedure AppTreeviewCopy(Src, Dst: TTreeView);
 procedure ApplyThemeToTreeview(C: TTreeview; AThemedColors, AChangeShowRoot: boolean);
 procedure ApplyThemeToToolbar(C: TATFlatToolbar);
 procedure ApplyThemeToImageBox(AImageBox: TATImageBox);
-procedure ApplyThemeToMarkdown(C: TMarkDownControl);
+procedure ApplyThemeToMarkdown(C: TMarkdownControl);
 
 function UpdateImagelistWithIconFromFile(AList: TCustomImagelist;
   const AFilename, ACallerAPI: string; AllowScaling: boolean=false): integer;
@@ -579,14 +579,14 @@ begin
   C.Invalidate;
 end;
 
-procedure ApplyThemeToMarkdown(C: TMarkDownControl);
+procedure ApplyThemeToMarkdown(C: TMarkdownControl);
 begin
   C.BaseFontSize:= UiOps.VarFontSize;
   C.FontName:= UiOps.VarFontName;
   C.MonoFontName:= EditorOps.OpFontName;
   C.FontColor:= AppTheme.Colors[TAppThemeColor.EdTextFont].color;
   C.Color:= AppTheme.Colors[TAppThemeColor.EdTextBg].color;
-  C.FontCodeColor:= TMarkDownControl(C).FontColor;
+  C.FontCodeColor:= C.FontColor;
   C.BGCodeColor:= AppTheme.Styles[TAppThemeStyle.IncludeBG1].BgColor;
   C.FontQuoteColor:= AppTheme.Styles[TAppThemeStyle.Id2].Font.Color;
   C.SelectionColor:= AppTheme.Colors[TAppThemeColor.EdSelBg].color;

@@ -1165,10 +1165,10 @@ begin
 
     if S='md_view' then
     begin
-      Ctl:= TMarkDownControl.Create(AForm);
-      ApplyThemeToMarkdown(TMarkDownControl(Ctl));
-      TMarkDownControl(Ctl).OnGetImage:= @AForm.DoOnMarkdownGetImage;
-      TMarkDownControl(Ctl).OnOpenURL:= @AForm.DoOnMarkdownOpenURL;
+      Ctl:= TMarkdownControl.Create(AForm);
+      ApplyThemeToMarkdown(TMarkdownControl(Ctl));
+      TMarkdownControl(Ctl).OnGetImage:= @AForm.DoOnMarkdownGetImage;
+      TMarkdownControl(Ctl).OnOpenURL:= @AForm.DoOnMarkdownOpenURL;
       exit;
     end;
 
@@ -2049,8 +2049,8 @@ begin
     if Num<2 then exit;
     with DoControl_Target(C) do
       Font.Size:= Num;
-    if C is TMarkDownControl then
-      TMarkDownControl(C).BaseFontSize:= Num;
+    if C is TMarkdownControl then
+      TMarkdownControl(C).BaseFontSize:= Num;
     if C is TATSynEdit then
       TATSynEdit(C).OptForceSeparateCharSizer:= true;
     if C is TATListbox then

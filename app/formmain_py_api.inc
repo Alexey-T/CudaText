@@ -11315,30 +11315,30 @@ begin
     if Bool(PyArg_ParseTuple(Args, 'Lis:md_proc', @IdMarkdown, @IdAction, @PtrVal)) then
     begin
       Obj:= TObject(PtrInt(IdMarkdown));
-      if not (Obj is TMarkDownControl) then
+      if not (Obj is TMarkdownControl) then
       begin
         MsgLogConsole('ERROR: md_proc() gets bad handle, of type '+Obj.ClassName);
         exit(ReturnNone);
       end;
 
-      MD:= TMarkDownControl(Obj);
+      MD:= TMarkdownControl(Obj);
       Obj:= nil;
 
       case IdAction of
         MD_GET_TEXT:
           begin
-            Result:= PyUnicodeFromString(MD.MarkDown.Text);
+            Result:= PyUnicodeFromString(MD.Markdown.Text);
           end;
 
         MD_SET_TEXT:
           begin
-            MD.MarkDown.Text:= string(PtrVal);
+            MD.Markdown.Text:= string(PtrVal);
             Result:= PyLong_FromLong(MD.Markdown.Count);
           end;
 
         MD_LOAD_FILE:
           begin
-            MD.MarkDown.LoadFromFile(string(PtrVal));
+            MD.Markdown.LoadFromFile(string(PtrVal));
             Result:= PyLong_FromLong(MD.Markdown.Count);
           end;
 
@@ -11352,18 +11352,18 @@ begin
               exit(ReturnNone);
             end;
 
-            Ed.SaveToStrings(MD.MarkDown);
+            Ed.SaveToStrings(MD.Markdown);
             Result:= PyLong_FromLong(MD.Markdown.Count);
           end;
 
         MD_GET_FOLDER:
           begin
-            Result:= PyUnicodeFromString(MD.FileDir);
+            Result:= PyUnicodeFromString(MD.BaseDir);
           end;
 
         MD_SET_FOLDER:
           begin
-            MD.FileDir:= string(PtrVal);
+            MD.BaseDir:= string(PtrVal);
             Result:= ReturnNone;
           end;
 
