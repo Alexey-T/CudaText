@@ -3470,8 +3470,7 @@ begin
       TabCaptionReason:= TAppTabCaptionReason.FromFilename;
     end;
 
-    if TabCaptionReason<>TAppTabCaptionReason.FromPlugin then //to avoid resetting TabCaption after Tab_Rename plugin renamed it
-      UpdateCaptionFromFilename;
+    UpdateCaptionFromFilename;
 
     DoSaveUndo(Ed);
     DoPyEvent(Ed, TAppPyEvent.OnSaveAfter, []);
