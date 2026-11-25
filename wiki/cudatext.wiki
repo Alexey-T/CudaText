@@ -294,7 +294,7 @@ All these lexers, and preinstalled lexers, are published in the repository: http
 * [https://developer.apple.com/library/archive/documentation/AppleScript/Conceptual/AppleScriptLangGuide/introduction/ASLR_intro.html AppleScript]
 * [https://www.arduino.cc/reference/en/ Arduino]
 * [https://asciidoc.org/ AsciiDoc]
-* [[wikipedia:Assembly language|Assembly (ASM)]]:
+* Assembly (ASM)
 ** [https://developer.arm.com/documentation/102438/0100/Learning-about-assembly-language ARM Assembly (armasm)]
 *** [https://blog.st.com/stdevcon18-stm32-embedded-systems-assembly/ STM32 ARM Assembly]
 ** [https://ww1.microchip.com/downloads/en/DeviceDoc/40001917A.pdf AVR Assembly (AVRASM2)]
@@ -307,51 +307,51 @@ All these lexers, and preinstalled lexers, are published in the repository: http
 ** [https://web.cse.ohio-state.edu/~crawfis.3/cse675-02/Slides/MIPS%20Instruction%20Set.pdf MIPS Assembly]
 ** [http://68k.hax.com/ Motorola 68000 Assembly]
 ** [https://www.nasm.us/ Netwide Assembly x86 (NASM)]
-** [[wikibooks:PowerPC Assembly|PowerPC Assembly]]
-** [[wikipedia:RISC-V assembly language|RISC-V Assembly]]
+** PowerPC Assembly
+** RISC-V Assembly
 ** [https://www.analog.com/media/en/dsp-documentation/processor-manuals/236999443isr_21xxx.pdf SHARC DSP Assembly]
-** [[wikibooks:SPARC Assembly|SPARC Assembly]]
+** SPARC Assembly
 ** [https://xl2s.tk/sjasmmanual.html Z80 Assembly (SjASM)]
 * [https://astro.build/ Astro]
-* [[wikipedia:Asymptote (vector graphics language)|Asymptote]]
+* Asymptote
 * [https://www.autohotkey.com/docs/v2/Language.htm AutoHotkey]
-* [[wikipedia:AutoIt|AutoIt]]
-* [[wikipedia:Automake|Automake]]
+* AutoIt
+* Automake
 * [https://www.br-automation.com/en-us/products/software/additional-information/programming/#c56724 Automation Basic (B&R Automation Studio)]
 * [http://avisynth.nl/index.php/The_full_AviSynth_grammar AviSynth]
-* [[wikipedia:AWK|AWK]]
-* [[wikipedia:Ballerina (programming language)|Ballerina]]
-* [[wikipedia:Bash (Unix shell)|Bash shell]]
-* [[wikipedia:Batch file|Batch file]]
+* AWK
+* Ballerina
+* Bash shell
+* Batch file
 * [https://bazel.build/run/bazelrc Bazel configuration (bazelrc)]
-* [[wikipedia:BibTeX|BibTeX]]
+* BibTeX
 * [https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/file Bicep (Azure Resource Manager)]
 * [https://gnome.pages.gitlab.gnome.org/blueprint-compiler/ Blueprint (GTK 4 UI compiler)]
 * [https://community.bistudio.com/wiki/SQF_Syntax Bohemia Real Virtuality (SQF)]
-* [[wikipedia:Boo (programming language)|Boo]]
-* [[wikipedia:Brainfuck|Brainfuck]]
-* [[wikipedia:C (programming language)|C]]
-* [[wikipedia:C++|C++]]
-* [[wikipedia:C Sharp (programming language)|C#]]
+* Boo
+* Brainfuck
+* C
+* C++
+* C#
 * [https://c3-lang.org/ C3]
 * [https://caffe.berkeleyvision.org/ Caffe (prototxt)]
-* [[wikipedia:Cangjie (programming language)|Cangjie]]
-* [[wikipedia:Carbon (programming language)|Carbon]]
-* [[wikipedia:Clarion (programming language)|Clarion]]
+* Cangjie
+* Carbon
+* Clarion
 * Clavier
-* [[wikipedia:Clipper (programming language)|Clipper]]
-* [[wikipedia:Clojure|Clojure]]
-* [[wikipedia:CMake|CMake]]
-* [[wikipedia:COBOL|COBOL]]
+* Clipper
+* Clojure
+* CMake
+* COBOL
 * [https://www.codevision.be/ CodeVisionAVR]
-* [[wikipedia:CoffeeScript|CoffeeScript]]
-* [[wikipedia:ColdFusion Markup Language|ColdFusion markup]]
-* [[wikipedia:Conditional random field|Conditional Random Fields (CRF)]]
-* [[wikipedia:Crystal (programming language)|Crystal]]
-* [[wikipedia:CSS|CSS]]
+* CoffeeScript
+* ColdFusion markup
+* Conditional Random Fields (CRF)
+* Crystal
+* CSS
 * [https://docs.nvidia.com/cuda/cuda-programming-guide/02-basics/intro-to-cuda-cpp.html CUDA C++]
 * [https://cuelang.org/ CUE]
-* [[wikipedia:Cue sheet (computing)|Cue sheet]]
+* Cue sheet
 * [https://nanochess.org/cvbasic.html Colecovision BASIC {CVBasic)]
 * [https://dlang.org/ D]
 * [https://dafny.org/ Dafny]
@@ -359,16 +359,16 @@ All these lexers, and preinstalled lexers, are published in the repository: http
 * [https://www.delphibasics.info/home/delphibasicssnippets/usingresourcefileswithdelphi Delphi resources]
 * [https://dhall-lang.org/ Dhall]
 * [https://dictu-lang.com/ Dictu]
-* [[wikipedia:diff#Default output format|Diff / Patch files]]
+* Diff / Patch files
 * [https://docs.docker.com/build/concepts/dockerfile/ Dockerfile]
-* [[wikipedia:DOORS Extension Language|DOORS Extension Language (DXL)]]
-* [[wikipedia:Eiffel (programming language)|Eiffel]]
+* DOORS Extension Language (DXL)
+* Eiffel
 * [https://elixir-lang.org/ Elixir]
 * [https://elm-lang.org/ Elm]
 * [https://www.dotenv.org/docs .env files]
 * [https://www.erlang.org/ Erlang]
 * [https://github.com/leafo/etlua Embedded Lua templates]
-* [[wikipedia:Euphoria (programming language)|Euphoria]]
+* Euphoria
 * F#
 * Factor
 * Falcon
@@ -453,14 +453,14 @@ All these lexers, and preinstalled lexers, are published in the repository: http
 * Lean
 * LESS
 * Lisp
-** [[wikipedia:Common Lisp|Common Lisp]]
+** Common Lisp
 * LiveCode script
 * Log files
 * Logstash DSL
 * Lola-2
 * LS-DYNA
 * Lua
-* [[wikipedia:m4 (computer language)|M4]]
+* M4
 * Macro Scheduler script
 * Makefile
 * Markdown
@@ -544,9 +544,10 @@ All these lexers, and preinstalled lexers, are published in the repository: http
 * ReScript
 * reStructuredText
 * Rexx
+* Rhai
 * Ring
 * Roc
-* [[wikipedia:Rocq|Rocq Prover]]
+* Rocq Prover
 * RON
 * RPG/IV
 * RTF (Rich Text)
@@ -612,7 +613,7 @@ All these lexers, and preinstalled lexers, are published in the repository: http
 * XML
 * XSLT
 * Yacc (Bison)
-* YAML 
+* YAML
 * ZenScript (MineTweaker)
 * Zephir
 * Zig
