@@ -1,6 +1,6 @@
 {
   "about": "INI lexer by Alexey Torgashin",
-  "files": "*.ini;*.dsk;*.inf;*.srv;*.reg;*.cfg;*.url;*.desktop;.editorconfig;*.cuda-lexmap;*.cuda-theme-syntax;*.cuda-theme-ui",
+  "files": "*.ini;*.dsk;*.inf;*.srv;*.reg;*.cfg;*.url;*.desktop;.editorconfig;*.cuda-lexmap",
   "cmt_line": ";",
   "case_sens": true,
   "consider_spaces": true,

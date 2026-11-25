@@ -1,4 +1,4 @@
-object SyntAnal13: TLibSyntAnalyzer
+object SyntAnal14: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Symbol'
@@ -263,7 +263,9 @@ object SyntAnal13: TLibSyntAnalyzer
     'String'
     'Number'
     'Symbol {}')
-  Extentions = 'json geojson ipynb jsonl jsonld ldjson schema sublime-build'
+  Extentions = 
+    'json geojson ipynb jsonl jsonld ldjson schema sublime-build cuda' +
+    '-theme-syntax cuda-theme-ui'
   LexerName = 'JSON'
   Notes.Strings = (
     'Alexey Torgashin (CudaText)'
