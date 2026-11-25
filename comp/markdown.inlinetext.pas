@@ -123,6 +123,9 @@ Type
     procedure ProcessNested(aNode: TMarkdownTextNode; const aText: TMarkdownString; aPos: TPosition); virtual;
     procedure HandleCloseDelimiter(); virtual;
     procedure HandleGFMExtensions; virtual;
+    // True when a GFM autolink may start at aPos: a www. link after the start, whitespace, '*', '_', '~' or '(';
+    // a protocol link after anything but an ASCII letter.
+    function GFMAutolinkMayStart(aPos : Integer; aWWW : Boolean) : Boolean;
     // Length of the run of letters, digits and non-ASCII bytes at the scanner position, up to a GFM autolink or email start.
     function PlainRunLength : Integer;
     procedure HandleGFMLinkEmail(aLength: integer); virtual;
@@ -1194,7 +1197,8 @@ begin
         if (lScan<=lLen) and (lText[lScan]='@') then
           Break;
         end;
-      if (c in ['w','h','f']) and (At('www.') or At('http://') or At('https://') or At('ftp://')) then
+      if ((c='w') and At('www.') and GFMAutolinkMayStart(lPos,True))
+         or ((c in ['h','f']) and (At('http://') or At('https://') or At('ftp://')) and GFMAutolinkMayStart(lPos,False)) then
         Break;
       end;
     Inc(lPos);
@@ -1203,19 +1207,36 @@ begin
 end;
 
 
+function TInlineTextProcessor.GFMAutolinkMayStart(aPos : Integer; aWWW : Boolean) : Boolean;
+
+var
+  c : TMarkdownChar;
+
+begin
+  if aPos<=1 then
+    Exit(True);
+  c:=Scanner.Text[aPos-1];
+  if aWWW then
+    Result:=c in [' ',#9,#10,#13,'*','_','~','(']
+  else
+    Result:=not (c in ['A'..'Z','a'..'z']);
+end;
+
+
 procedure TInlineTextProcessor.HandleGFMExtensions;
 
 var
-  lLen : integer;
+  lLen,lPos : integer;
 
 begin
-  if Scanner.has('www.') then
+  lPos:=Scanner.CursorPos;
+  if Scanner.has('www.') and GFMAutolinkMayStart(lPos,True) then
     HandleGFMLinkURL(4,'http://')
-  else if Scanner.has('http://') then
+  else if Scanner.has('http://') and GFMAutolinkMayStart(lPos,False) then
     HandleGFMLinkURL(7)
-  else if Scanner.has('https://') then
+  else if Scanner.has('https://') and GFMAutolinkMayStart(lPos,False) then
     HandleGFMLinkURL(8)
-  else if Scanner.has('ftp://') then
+  else if Scanner.has('ftp://') and GFMAutolinkMayStart(lPos,False) then
     HandleGFMLinkURL(6)
   else if PeekEmailAddress(lLen) then
     HandleGFMLinkEmail(lLen)
@@ -1316,7 +1337,7 @@ var
 
 begin
   lEmail:=Scanner.NextChars(aLength);
-  lNode:=Nodes.addTextNode(Scanner.location,nkUri,lEmail);
+  lNode:=Nodes.addTextNode(Scanner.location,nkEmail,lEmail);
   lNode.attrs.Add('href','mailto:'+urlEscape(lEmail));
 end;
 
@@ -1370,13 +1391,13 @@ begin
     end;
     if lRemove=0 then
       begin
-      lNode:=Nodes.addTextNode(Scanner.location,nkEmail,lLink);
+      lNode:=Nodes.addTextNode(Scanner.location,nkURI,lLink);
       lNode.attrs.Add('href',aProtocol+urlEscape(lLink));
       end
     else
       begin
       lUrl:=Copy(lLink,1,Length(lLink)-lRemove);
-      lNode:=Nodes.addTextNode(Scanner.location,nkURI,aProtocol+lUrl);
+      lNode:=Nodes.addTextNode(Scanner.location,nkURI,lUrl);
       lNode.attrs.Add('href',aProtocol+urlEscape(lUrl));
       lText:=Copy(lLink,Length(lLink)-lRemove+1,lRemove);
       Nodes.addTextNode(Scanner.location,nkText,lText);

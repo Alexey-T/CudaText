@@ -334,7 +334,6 @@ Type
     FLastIndent: integer;
     FBaseIndent: integer;
     FContentIndent: integer;
-    FHasSeenEmptyLine : boolean; // parser state
   public
     function Grace : integer;
     property Ordered : boolean read FOrdered write FOrdered;
@@ -344,8 +343,8 @@ Type
     property ContentIndent : integer read FContentIndent write FContentIndent;
     property Start : integer read FStart write FStart;
     property Marker : TMarkdownString read FMarker write FMarker;
+    // A loose list has a blank line between two items, or between two blocks of one item.
     property Loose : boolean read FLoose write FLoose;
-    property HasSeenEmptyLine : boolean read FHasSeenEmptyLine Write FHasSeenEmptyLine; // parser state
   end;
 
   TTaskItemState = (tisNone, tisUnchecked, tisChecked);

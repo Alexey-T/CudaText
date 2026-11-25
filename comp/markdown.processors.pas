@@ -55,14 +55,11 @@ type
 
   TMarkdownListProcessor = class (TMarkdownBlockProcessor)
   private
-    FHasContent : boolean;
-    FEmptyLine : integer;
     FLastList : TMarkdownListBlock;
     FLastItem : TMarkdownListItemBlock;
     FOuter : TMarkdownBlockProcessor;
   protected
     function InListOrQuote : boolean; override;
-    function Root : Boolean;
     function LastList : TMarkdownListBlock;
     // Set the processor enclosing the outermost list, returns the previous one.
     function EnterList : TMarkdownBlockProcessor;
@@ -75,6 +72,9 @@ type
     // Is the next line an item of aList ? If so, it becomes the current line.
     function NextItemLine(aList : TMarkdownListBlock; out aLine : TMarkdownLine) : Boolean;
     function IsItemInList(aList : TMarkdownListBlock; aLine : TMarkdownLine) : Boolean; virtual; abstract;
+    // Does the blank line aLine stay in the last item of aList ?
+    // True when the next non-blank line continues that item or is an item of aList.
+    function BlankLineContinuesItem(aList : TMarkdownListBlock; aLine : TMarkdownLine) : Boolean;
     // Column at which the content of an item starts, for a line positioned just after the marker.
     class function ContentIndent(aLine : TMarkdownLine) : Integer;
   public
@@ -489,11 +489,6 @@ begin
   Result:=true;
 end;
 
-function TMarkdownListProcessor.Root: Boolean;
-begin
-  Result:=False;
-end;
-
 function TMarkdownListProcessor.LastList: TMarkdownListBlock;
 begin
   Result:=FLastList;
@@ -565,6 +560,35 @@ begin
 end;
 
 
+function TMarkdownListProcessor.BlankLineContinuesItem(aList: TMarkdownListBlock; aLine: TMarkdownLine): Boolean;
+
+var
+  lNext : TMarkdownLine;
+  lPos : Integer;
+  lFound : Boolean;
+
+begin
+  Result:=False;
+  lFound:=False;
+  lNext:=LineAfter(aLine);
+  while Assigned(lNext) and not lFound do
+    begin
+    lPos:=lNext.CursorPos;
+    lNext.Reset;
+    if not StripOuter(lNext) then
+      lFound:=True
+    else if not lNext.IsWhitespace then
+      begin
+      lFound:=True;
+      Result:=(lNext.LeadingWhitespace>=aList.ContentIndent) or IsItemInList(aList,lNext);
+      end;
+    lNext.CursorPos:=lPos;
+    if not lFound then
+      lNext:=LineAfter(lNext);
+    end;
+end;
+
+
 class function TMarkdownListProcessor.ContentIndent(aLine: TMarkdownLine): Integer;
 
 var
@@ -585,11 +609,10 @@ end;
 function TMarkdownListProcessor.PrepareLine(aLine: TMarkdownLine; aContext : TMarkdownBlockProcessingContext): boolean;
 
 var
-  lWhiteSpace, lCurrLineNo,lLastIndent,len : integer;
+  lWhiteSpace,lLastIndent,len : integer;
 
 begin
   Result:=False;
-  lCurrLineNo:=aLine.LineNo;
   lLastIndent:=LastList.LastIndent;
   lWhiteSpace:=aLine.LeadingWhitespace;
 
@@ -604,27 +627,6 @@ begin
     Result:=False
   else if not aLine.isWhitespace and isBlock(LastList, FLastItem.blocks, aLine.Remainder, LastList.LastIndent+LastList.grace) then
     Result:=true;
-  if not root then
-    Exit;
-  if not aLine.isWhiteSpace then
-   begin
-      FHasContent:=true;
-      if root and not Result and LastList.HasSeenEmptyLine then
-        LastList.loose:=true;
-    end
-    else if not Result  then
-    begin
-      Parser.Lazy:=true;
-      if not FHasContent then
-      begin
-        if FEmptyLine = -1 then
-          FEmptyLine:=lCurrLineNo
-        else if FEmptyLine <> CurrentLine.LineNo then
-          Result:=true;
-      end;
-      if (aContext = bpGeneral) and (lCurrLineNo<>FLastItem.Line) then
-        LastList.HasSeenEmptyLine:=true;
-    end;
 end;
 
 
@@ -713,7 +715,9 @@ begin
   if (lBlock is TMarkdownListItemBlock) and (lBlock.Parent is TMarkdownListBlock) then
      lBlock:=lBlock.Parent as TMarkdownListBlock;
   if (lBlock is TMarkdownListBlock) then
-    if aLine.LeadingWhitespace>=lList.LastIndent then
+    if aLine.IsWhitespace and (aLine.LeadingWhitespace<lList.LastIndent) then
+      Result:=not BlankLineContinuesItem(lList,aLine)
+    else if aLine.LeadingWhitespace>=lList.LastIndent then
       begin
 //      aLine.Advance(lList.LastIndent);
       Result:=False;
@@ -945,7 +949,9 @@ begin
     Exit;
     end;
   // Check if we're still in the parent list
-  if aLine.LeadingWhitespace>=lList.baseIndent then
+  if aLine.IsWhitespace and (aLine.LeadingWhitespace<lList.BaseIndent) then
+    Result:=not BlankLineContinuesItem(lList,aLine)
+  else if aLine.LeadingWhitespace>=lList.baseIndent then
     begin
     Result:=False;
     if aLine.LeadingWhitespace <= lList.BaseIndent then
@@ -969,8 +975,6 @@ begin
          and (not IsItemInList(lList,aLine)) then
         Result:=True;
       end;
-    if not Result then
-      aLine.Advance(lList.LastIndent);
     end;
   if Result then
     aLine.CursorPos:=lStart;
@@ -1008,8 +1012,7 @@ begin
     lList.Start:=lStart;
     FLastList:=lList;
     end;
-  // Continuation lines of an ordered item arrive with LastIndent already removed.
-  lList.ContentIndent:=lContentIndent-lIndent;
+  lList.ContentIndent:=lContentIndent;
   // While we have a line that part of this list block, add an item and parse it.
   repeat
     lItem:=TMarkdownListItemBlock.Create(lList,aLine.LineNo);
@@ -1425,13 +1428,7 @@ begin
   else
     begin
     if Not Assigned(lPar) then
-      begin
-      // A second paragraph in an item follows a blank line, which makes the list loose.
-      if (aParent is TMarkdownListItemBlock) and (aParent.Blocks.Count>0)
-         and (aParent.Parent is TMarkdownListBlock) then
-        TMarkdownListBlock(aParent.Parent).Loose:=True;
       lPar:=TMarkdownParagraphBlock.Create(aParent,aLine.LineNo);
-      end;
     Parser.parseInLine(lPar,aLine.Remainder);
     end;
 end;
