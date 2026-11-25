@@ -418,7 +418,7 @@ TYPES = {
     "rb": ['Ruby'],
     "rbi": ['Ruby'],
     "rbx": ['Ruby'],
-    "rc": ['GHS Script', 'Windows Resource Script', 'Rust'],
+    "rc": ['Windows Resource Script'],
     "rc2": ['Windows Resource Script'],
     "re": ['ReasonML'],
     "red": ['Red'],
