@@ -1,17 +1,23 @@
 {
     CudaText addon 'md_view' control: syntax highlighting of fenced code blocks.
 
-    Registered for the base TMarkDownCanvasRenderer class, so every
-    TMarkDownControl instance created by dialog API uses it.
+    Registered for the base TMarkdownCanvasRenderer class, so every
+    TMarkdownControl instance created by dialog API uses it.
     When enabled, fenced code blocks are tokenized with the app's EControl
     lexers and painted with per-token colors, like in the editor.
 
     App-side only: the vendored markdown component files in comp/ stay
-    unmodified. Design follows badrelmers/CudaText branch 'laz_markd'
-    (app/proc_markdown_hilite.pas), adapted to work WITHOUT the component's
-    OnHiliteCode hook:
+    unmodified, pristine copies of Lazarus components/markdown
+    (lazmarkdown). Design follows badrelmers/CudaText branch 'laz_markd'
+    (app/proc_markdown_hilite.pas), adapted to the upstream component:
       - block renderer subclass registered via RegisterRenderer()
-      - per-run colors by switching CanvasRenderer.FontCodeColor between runs
+      - the component's own WrapCodeBlocks/LayoutCharWrapped machinery
+        takes care of wrapping fenced code lines since Lazarus fixed the
+        "code block wider than the window" bug; only per-TOKEN colors
+        need this subclass:
+      - per-run colors by setting Item.Color after FlushTextRun created
+        the run (the renderer leaves Item.Color=clNone, DrawLayoutItem
+        then falls back to the lexer-color of the run's Context)
       - tokenization cached per (info, code) pair: layout is recalculated on
         every resize/repaint, we don't re-run the lexer each time
       - analyzer parsing via ParseInThread(), freed on a background thread:
@@ -26,7 +32,7 @@ interface
 
 uses
   Classes, SysUtils, Graphics, Math,
-  // markdown component (vendored, read-only)
+  // markdown component (vendored, pristine Lazarus lazmarkdown, read-only)
   Markdown.Control,
   Markdown.Elements,
   Markdown.Render,
@@ -42,16 +48,16 @@ uses
 type
   { TCudaMarkdownCodeBlockRenderer }
 
-  { grants access to protected FlushTextRun / GetTextBGColor /
-  CreateLayoutItem of the vendored renderer, to paint fenced code
-  byte-for-byte like upstream's own code branch }
-  TMarkDownCanvasRendererAccess = class(TMarkDownCanvasRenderer);
+  { grants access to protected FlushTextRun / CreateLayoutItem /
+  LayoutCharWrapped / MeasureTextWidth / Layout of the vendored renderer,
+  to paint fenced code with per-token lexer colors }
+  TMarkdownCanvasRendererAccess = class(TMarkdownCanvasRenderer);
 
-  TCudaMarkdownCodeBlockRenderer = class(TCanvasMarkDownCodeBlockRenderer)
+  TCudaMarkdownCodeBlockRenderer = class(TCanvasMarkdownCodeBlockRenderer)
   protected
-    procedure DoRender(aBlock: TMarkDownBlock); override;
+    procedure DoRender(aBlock: TMarkdownBlock); override;
   public
-    class function BlockClass: TMarkDownBlockClass; override;
+    class function BlockClass: TMarkdownBlockClass; override;
   end;
 
 // Enable/disable syntax highlighting of fenced code blocks for all
@@ -100,7 +106,7 @@ type
   TCudaMdChunkArray = array of TCudaMdChunk;
 
 function MdView_ChunkSegments(const aSegs: TCudaMdSegmentList;
-  aRenderer: TMarkDownCanvasRenderer; aCanvas: TCanvas): TCudaMdChunkArray;
+  aRenderer: TMarkdownCanvasRenderer; aCanvas: TCanvas): TCudaMdChunkArray;
 
 implementation
 
@@ -121,15 +127,15 @@ var
   GLastPaintedRuns: array of TCudaMdPaintedRun;
 
 procedure MdView_DebugCaptureRun(ALine: integer; const AText: utf8string;
-  ARenderer: TMarkDownCanvasRenderer);
+  ARenderer: TMarkdownCanvasRenderer);
 var
   N: integer;
 begin
   N:= Length(GLastPaintedRuns);
   SetLength(GLastPaintedRuns, N+1);
   GLastPaintedRuns[N].Line:= ALine;
-  GLastPaintedRuns[N].X:= TMarkDownCanvasRendererAccess(ARenderer).Layout.LineX;
-  GLastPaintedRuns[N].Y:= TMarkDownCanvasRendererAccess(ARenderer).Layout.LineY;
+  GLastPaintedRuns[N].X:= TMarkdownCanvasRendererAccess(ARenderer).Layout.LineX;
+  GLastPaintedRuns[N].Y:= TMarkdownCanvasRendererAccess(ARenderer).Layout.LineY;
   GLastPaintedRuns[N].Color:= ARenderer.FontCodeColor;
   GLastPaintedRuns[N].Text:= AText;
 end;
@@ -191,12 +197,12 @@ begin
 end;
 
 { Width-aware chunking of code lines: the highlighted renderer must wrap
-  a source line that is wider than the layout width (the "fancy code
-  blocks do not wrap" bug): FlushTextRun alone lays the whole run out and
-  never checks MaxWidth, so a long line became one item wider than the
-  window - its tail was clipped/invisible. This mirrors the wrapping the
-  upstream renderer now does for fenced code (LayoutFencedCodeLine), but
-  per SEGMENT, keeping each token its lexer color across the wrap.
+  a source line that is wider than the layout width: FlushTextRun lays a
+  run out but never checks MaxWidth itself (the component's own plain
+  fenced-code path wraps via LayoutCharWrapped/WrapCodeBlocks; that path
+  is a single color for the whole line, so the per-token colors here need
+  the same wrapping done per SEGMENT, keeping each token its lexer color
+  across the wrap).
   The returned chunk list is ONE ROW's worth of pieces: when a chunk
   would not fit the remaining row width, the current row is closed and
   the caller must NewLine before painting the rest (chunks are returned
@@ -220,9 +226,9 @@ begin
 end;
 
 function MdView_ChunkSegments(const aSegs: TCudaMdSegmentList;
-  aRenderer: TMarkDownCanvasRenderer; aCanvas: TCanvas): TCudaMdChunkArray;
+  aRenderer: TMarkdownCanvasRenderer; aCanvas: TCanvas): TCudaMdChunkArray;
 var
-  Vis: TMarkDownCanvasRendererAccess absolute aRenderer;
+  Vis: TMarkdownCanvasRendererAccess absolute aRenderer;
   Chunk: utf8string;
   ChunkColor: TColor;
   ChunkStyles: TFontStyles;
@@ -665,27 +671,27 @@ end;
 
 { TCudaMarkdownCodeBlockRenderer }
 
-procedure TCudaMarkdownCodeBlockRenderer.DoRender(aBlock: TMarkDownBlock);
+procedure TCudaMarkdownCodeBlockRenderer.DoRender(aBlock: TMarkdownBlock);
 var
   lCode: TMarkdownCodeBlock absolute aBlock;
   lCodeU8: utf8string;
+  lLineOfCode: utf8string;
   lSegments: TCudaMdLineSegments;
   lChunks: array of TCudaMdChunk;
-  lSavedFontColor: TColor;
-  lLine: utf8string;
   lItem: TLayoutItem;
   i, j: integer;
 begin
   if not assigned(aBlock) then exit;
 
-  // plain rendering when disabled, not fenced, or no language tag
+  // plain rendering when disabled, or no language tag: upstream's own
+  // code-block path (padding band + WrapCodeBlocks/LayoutCharWrapped)
   if (not MdViewCodeSyntaxEnabled) or (lCode.Lang='') then
   begin
     inherited DoRender(aBlock);
     exit;
   end;
 
-  // gather the code text, like TMarkDownCanvasRenderer.RenderTextNode
+  // gather the code text, like TMarkdownCanvasRenderer.RenderTextNode
   // would: children are TMarkdownTextBlock, text resolved the same way
   lCodeU8:= '';
   for i:= 0 to lCode.ChildCount-1 do
@@ -697,89 +703,85 @@ begin
 
   lSegments:= MdView_HighlightCodeBlock(lCode.Lang, lCodeU8);
 
-  // paint lines like upstream's fenced-code branch (RenderTextNode ->
-  // FlushTextRun) BUT width-aware: a source line wider than the layout
-  // is WRAPPED at character boundaries (bug "fancy code blocks do not
-  // wrap: line bigger than the window, tail invisible"), keeping each
-  // lexer token its color across the wrap. Gap segments (clNone) keep
-  // the default code color. Per ROW also the background rect is
-  // created, like upstream does, so the code block keeps its shaded
-  // background and rows stay visually separated. Segments never
-  // contain #10: a token must not paint a newline inside one
-  // FlushTextRun run.
-  lSavedFontColor:= CanvasRenderer.FontCodeColor;
+  // paint lines: background band per first row of the source line, runs
+  // via FlushTextRun with per-token lexer colors. A source line wider
+  // than the layout is WRAPPED at character boundaries (the chunk list
+  // tells where to NewLine), keeping each lexer token its color across
+  // the wrap; gap segments (clNone) keep the default code color.
+  // Segments never contain #10: a token must not paint a newline inside
+  // one FlushTextRun run. The component itself now wraps plain (not
+  // highlighted) fenced code the same way, via WrapCodeBlocks.
   SetLength(GLastPaintedRuns, 0);
 
   ParagraphBreak;
   for i:= 0 to CountLines(lCodeU8)-1 do
   begin
-    lLine:= LineN(lCodeU8, i);
+    lLineOfCode:= LineN(lCodeU8, i);
     if (Length(lSegments)<=i) or (Length(lSegments[i])=0) then
     begin
       // line beyond the tokenized range, or line without tokens: default
-      // code color, still byte-faithful, WRAPPED like upstream's fenced
-      // path (LayoutFencedCodeLine) so long lines stay visible
-      lItem:= TMarkDownCanvasRendererAccess(CanvasRenderer).CreateLayoutItem(
+      // code color, still byte-faithful, WRAPPED by the component's own
+      // LayoutCharWrapped so long lines stay visible
+      lItem:= TMarkdownCanvasRendererAccess(CanvasRenderer).CreateLayoutItem(
         likBackground,
-        TMarkDownCanvasRendererAccess(CanvasRenderer).Layout.LineX,
-        TMarkDownCanvasRendererAccess(CanvasRenderer).Layout.LineY);
-      lItem.BGColor:= TMarkDownCanvasRendererAccess(CanvasRenderer).GetTextBGColor([fcFencedCode]);
-      lItem.Width:= TMarkDownCanvasRendererAccess(CanvasRenderer).Layout.MaxWidth - lItem.X;
-      if lLine<>'' then
+        TMarkdownCanvasRendererAccess(CanvasRenderer).Layout.LineX,
+        TMarkdownCanvasRendererAccess(CanvasRenderer).Layout.LineY);
+      lItem.Width:= TMarkdownCanvasRendererAccess(CanvasRenderer).Layout.MaxWidth - lItem.X;
+      if lLineOfCode<>'' then
       begin
-        MdView_DebugCaptureRun(i, lLine, CanvasRenderer);
-        TMarkDownCanvasRendererAccess(CanvasRenderer).LayoutFencedCodeLine(Canvas,
-          lLine, CanvasRenderer.BaseFontSize, [], [fcMono, fcFencedCode]);
+        MdView_DebugCaptureRun(i, lLineOfCode, CanvasRenderer);
+        TMarkdownCanvasRendererAccess(CanvasRenderer).LayoutCharWrapped(Canvas,
+          lLineOfCode, CanvasRenderer.BaseFontSize, [], '', [fcMono, fcFencedCode], False);
       end;
       NewLine;
-      lItem.Height:= TMarkDownCanvasRendererAccess(CanvasRenderer).Layout.LineY - lItem.Y;
+      lItem.Height:= TMarkdownCanvasRendererAccess(CanvasRenderer).Layout.LineY - lItem.Y;
       continue;
     end;
 
     // background rect for the FIRST row of this line: covers every
     // wrapped row, because Height is finalized after all rows below
-    lItem:= TMarkDownCanvasRendererAccess(CanvasRenderer).CreateLayoutItem(
+    lItem:= TMarkdownCanvasRendererAccess(CanvasRenderer).CreateLayoutItem(
       likBackground,
-      TMarkDownCanvasRendererAccess(CanvasRenderer).Layout.LineX,
-      TMarkDownCanvasRendererAccess(CanvasRenderer).Layout.LineY);
-    lItem.BGColor:= TMarkDownCanvasRendererAccess(CanvasRenderer).GetTextBGColor([fcFencedCode]);
-    lItem.Width:= TMarkDownCanvasRendererAccess(CanvasRenderer).Layout.MaxWidth - lItem.X;
+      TMarkdownCanvasRendererAccess(CanvasRenderer).Layout.LineX,
+      TMarkdownCanvasRendererAccess(CanvasRenderer).Layout.LineY);
+    lItem.Width:= TMarkdownCanvasRendererAccess(CanvasRenderer).Layout.MaxWidth - lItem.X;
 
     // paint the line's segments as width-aware chunks: a WrapAfter
     // chunk closes the current row; the rest continues on the next row
     lChunks:= MdView_ChunkSegments(lSegments[i], CanvasRenderer, Canvas);
     for j:= 0 to Length(lChunks)-1 do
     begin
-      if lChunks[j].Color=clNone then
-        CanvasRenderer.FontCodeColor:= lSavedFontColor
-      else
-        CanvasRenderer.FontCodeColor:= lChunks[j].Color;
       MdView_DebugCaptureRun(i, lChunks[j].Text, CanvasRenderer);
-      TMarkDownCanvasRendererAccess(CanvasRenderer).FlushTextRun(Canvas,
+      TMarkdownCanvasRendererAccess(CanvasRenderer).FlushTextRun(Canvas,
         lChunks[j].Text,
         CanvasRenderer.BaseFontSize, lChunks[j].Styles, '',
         [fcMono, fcFencedCode], False);
+      if lChunks[j].Color=clNone then
+        TMarkdownCanvasRendererAccess(CanvasRenderer).LayoutItems[
+          TMarkdownCanvasRendererAccess(CanvasRenderer).LayoutItems.Count-1].Color:= clNone
+      else
+        TMarkdownCanvasRendererAccess(CanvasRenderer).LayoutItems[
+          TMarkdownCanvasRendererAccess(CanvasRenderer).LayoutItems.Count-1].Color:= lChunks[j].Color;
       if lChunks[j].WrapAfter then
         NewLine;
     end;
 
     NewLine;
-    lItem.Height:= TMarkDownCanvasRendererAccess(CanvasRenderer).Layout.LineY - lItem.Y;
+    lItem.Height:= TMarkdownCanvasRendererAccess(CanvasRenderer).Layout.LineY - lItem.Y;
   end;
 
-  CanvasRenderer.FontCodeColor:= lSavedFontColor;
   ParagraphBreak;
 end;
 
-class function TCudaMarkdownCodeBlockRenderer.BlockClass: TMarkDownBlockClass;
+class function TCudaMarkdownCodeBlockRenderer.BlockClass: TMarkdownBlockClass;
 begin
   Result:= TMarkdownCodeBlock;
 end;
 
 
 initialization
-  // register for the canvas renderer class used by TMarkDownControl:
-  // it resolves block renderers through TMarkDownCanvasRenderer
-  TCudaMarkdownCodeBlockRenderer.RegisterRenderer(TMarkDownCanvasRenderer);
+  // register for the canvas renderer class used by TMarkdownControl:
+  // it resolves block renderers through TMarkdownCanvasRenderer
+  TCudaMarkdownCodeBlockRenderer.RegisterRenderer(TMarkdownCanvasRenderer);
 
 end.

@@ -29,7 +29,7 @@ uses
   ATSynEdit_Gaps,
   ATStatusBar,
   ATListbox,
-  markdown.canvasrender;
+  Markdown.CanvasRender;
 
 type
   TAppPyCommonCallback = function(
@@ -192,7 +192,7 @@ type
     procedure DoOnEditorClickLink(Sender: TObject; const ALink: string);
     procedure DoOnEditorPaste(Sender: TObject; var AHandled: boolean; AKeepCaret, ASelectThen: boolean);
     procedure DoOnMarkdownGetImage(Sender: TObject; const aURL: string; var aImage: TPicture);
-    procedure DoOnMarkdownOpenURL(Sender: TObject; aURL: String);
+    procedure DoOnMarkdownOpenURL(Sender: TObject; const aURL: String);
     function DoEvent(AIdControl: integer; const ACallback: string; const AData: TAppVariant): boolean;
     procedure DoEmulatedModalShow;
     procedure DoEmulatedModalClose;
@@ -1778,7 +1778,7 @@ begin
     AHandled:= true;
 end;
 
-procedure TFormDummy.DoOnMarkdownOpenURL(Sender: TObject; aURL: String);
+procedure TFormDummy.DoOnMarkdownOpenURL(Sender: TObject; const aURL: String);
 begin
   OpenURL(aURL);
 end;
@@ -1795,7 +1795,7 @@ begin
   if (DirectorySeparator<>'/') and (Pos('/', fn)>0) then
     fn:= StringReplace(fn, '/', DirectorySeparator, [rfReplaceAll]);
 
-  dir:= (Sender as TMarkDownCanvasRenderer).FileDir;
+  dir:= (Sender as TMarkdownCanvasRenderer).BaseDir;
   if dir<>'' then
     fn:= dir+DirectorySeparator+fn;
 

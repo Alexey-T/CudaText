@@ -14,7 +14,7 @@
  *****************************************************************************
 }
 
-unit MarkDown.Control;
+unit Markdown.Control;
 
 {$mode ObjFPC}{$H+}
 
@@ -22,28 +22,32 @@ interface
 
 uses
   Classes, SysUtils, Math, Graphics, Controls, StdCtrls, LCLIntf, LCLType, LMessages,
-  MarkDown.Elements, MarkDown.CanvasRender, MarkDown.Parser;
+  Markdown.Elements, Markdown.CanvasRender, Markdown.Parser;
 
 Type
-  TMarkdownImageEvent = MarkDown.CanvasRender.TMarkdownImageEvent;
-  TOpenURLEvent = procedure(Sender : TObject; aURL : String) of object;
+  TMarkdownImageEvent = Markdown.CanvasRender.TMarkdownImageEvent;
+  TMarkdownOpenURLEvent = procedure(Sender : TObject; const aURL : String) of object;
+  TOpenURLEvent = TMarkdownOpenURLEvent deprecated 'Use TMarkdownOpenURLEvent';
 
-  { TCustomMarkDownControl }
+  { TCustomMarkdownControl }
 
-  TCustomMarkDownControl = class(TCustomControl)
+  TCustomMarkdownControl = class(TCustomControl)
   private
     FCalculatedHeight: integer;
     FCalculatedWidth: integer;
     FDefLineHeight: integer;
+    FInPaint: Boolean;
     FIsSelecting: Boolean;
-    FLastCalcClientHeight : integer;
+    FLinkCursorActive: Boolean;
+    FSavedCursor: TCursor;
     FLastCalcClientWidth : integer;
     FLastClientWidth : integer;
     FLastHorzScrollInfo: TScrollInfo;
     FLastVertScrollInfo: TScrollInfo;
-    FMarkDown: TStrings;
-    FOnOpenURL: TOpenURLEvent;
-    FRenderer: TMarkDownCanvasRenderer;
+    FLayoutNeeded: Boolean;
+    FMarkdown: TStrings;
+    FOnOpenURL: TMarkdownOpenURLEvent;
+    FRenderer: TMarkdownCanvasRenderer;
     FSBHorzShowing: ShortInt;
     FSBVertShowing: ShortInt;
     FScrollBars: TScrollStyle;
@@ -51,28 +55,33 @@ Type
     FScrolledLeft: integer; // horizontal scrolled pixels (hidden pixels at left)
     FScrolledTop: integer;  // vertical scrolled pixels (hidden pixels at top)
     FSelectionStart: TSelectionPoint;
-    FLastClickCount: integer; // 1=single, 2=double, 3+=triple (reset on move/time)
-    FLastClickTime: TDateTime;
     function GetColor(AIndex: Integer): TColor;
-    function GetDocument: TMarkDownDocument;
+    function GetDocument: TMarkdownDocument;
     function GetInteger(AIndex: Integer): Integer;
     function GetOnGetImage: TMarkdownImageEvent;
     function GetSelectionColor: TColor;
     function GetString(AIndex: Integer): string;
+    procedure LayoutChanged;
     procedure SetInteger(AIndex: Integer; AValue: Integer);
-    procedure SetMarkDown(AValue: TStrings);
+    procedure SetMarkdown(AValue: TStrings);
     procedure SetOnGetImage(AValue: TMarkdownImageEvent);
     procedure SetRenderColor(AIndex: Integer; AValue: TColor);
     procedure SetScrollBars(AValue: TScrollStyle);
     procedure SetScrolledLeft(AValue: integer);
     procedure SetScrolledTop(AValue: integer);
     procedure SetSelectionColor(AValue: TColor);
-    procedure SetString(AIndex: Integer; AValue: string);
+    function GetWrapCodeBlocks: Boolean;
+    procedure SetWrapCodeBlocks(AValue: Boolean);
+    procedure SetString(AIndex: Integer; const AValue: string);
+    procedure UpdateLinkCursor(aOverLink: Boolean);
+    procedure SelectTo(const aPoint: TSelectionPoint);
   protected
     procedure Click; override;
     procedure CreateWnd; override;
     procedure DestroyWnd; override;
     procedure DoMarkdownChanged(Sender : TObject); virtual;
+    function DoMouseWheel(Shift: TShiftState; WheelDelta: Integer; MousePos: TPoint): Boolean; override;
+    function DoMouseWheelHorz(Shift: TShiftState; WheelDelta: Integer; MousePos: TPoint): Boolean; override;
     function GetMaxScrollLeft: integer;
     function GetMaxScrollTop: integer;
     procedure KeyDown(var Key: Word; Shift: TShiftState); override;
@@ -82,15 +91,17 @@ Type
     procedure MouseUp(Button: TMouseButton; Shift: TShiftState; X, Y: Integer); override;
     procedure CalculatePreferredSize(var PreferredWidth, PreferredHeight: integer;
       WithThemeSpace: Boolean); override;
-    procedure ParseMarkDown; virtual;
+    procedure ParseMarkdown; virtual;
     procedure Resize; override;
     procedure ScrollView(DeltaX, DeltaY: Integer);
     procedure SetShowScrollBar(Which: Integer; AShow: Boolean);
     procedure UpdateScrollBars; virtual;
-    function DoMouseWheel(Shift: TShiftState; WheelDelta: Integer; MousePos: TPoint): Boolean; override;
+    procedure WMGetDlgCode(var Message: TLMNoParams); message LM_GETDLGCODE;
     procedure WMHScroll(var Msg: TLMScroll); message LM_HSCROLL;
     procedure WMVScroll(var Msg: TLMScroll); message LM_VSCROLL;
-    property Document : TMarkDownDocument Read GetDocument;
+    property Document : TMarkdownDocument Read GetDocument;
+    // Renderer that lays out and draws the document
+    property Renderer : TMarkdownCanvasRenderer Read FRenderer;
   Public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -99,9 +110,11 @@ Type
     procedure ClearSelection;
     function GetSelectionText: String;
     procedure CopySelectionToClipBoard;
-    property MarkDown : TStrings Read FMarkDown Write SetMarkDown;
+    // Load a markdown file, set BaseDir to its directory and show it from the top.
+    procedure LoadFromFile(const aFileName: string);
+    // Markdown source. Every change reparses: use BeginUpdate/EndUpdate for bulk changes.
+    property Markdown : TStrings Read FMarkdown Write SetMarkdown;
     property BaseFontSize: Integer index 0 read GetInteger Write SetInteger;
-    property FileDir: string index 100 read GetString write SetString;
     property FontName: string index 0 read GetString write SetString;
     property MonoFontName: string index 1 read GetString write SetString;
     property FontColor: TColor index 0 read GetColor write SetRenderColor;
@@ -109,26 +122,41 @@ Type
     property FontQuoteColor: TColor index 2 read GetColor write SetRenderColor;
     property HyperLinkColor: TColor index 3 read GetColor write SetRenderColor;
     property BGCodeColor: TColor index 4 read GetColor write SetRenderColor;
+    // Color of the table borders and cell separators.
     property TableLinesColor: TColor index 5 read GetColor write SetRenderColor;
     property BulletChar1 : string index 2 read GetString write SetString;
     property BulletChar2 : string index 3 read GetString write SetString;
     property BulletChar3 : string index 4 read GetString write SetString;
+    // Directory used to resolve relative image file names.
+    property BaseDir : string index 5 read GetString write SetString;
     Property BlockQuoteIndent : Integer index 1 read GetInteger Write SetInteger;
     property ParagraphSpacing : Integer index 2 read GetInteger Write SetInteger;
     property ExtraIndent : Integer index 3 read GetInteger Write SetInteger;
     Property ImageMargin : integer index 4 read GetInteger Write SetInteger;
+    // Extra space above a heading, in percent of the base line height.
+    property HeadingSpacing : Integer index 5 read GetInteger Write SetInteger;
+    // Extra space between list items, in percent of the base line height.
+    property ListItemSpacing : Integer index 6 read GetInteger Write SetInteger;
+    // Padding around the contents of a code block, in percent of the base line height.
+    property CodeBlockPadding : Integer index 7 read GetInteger Write SetInteger;
+    // Horizontal padding of table cells, in percent of the base line height.
+    property TableCellPaddingX : Integer index 8 read GetInteger Write SetInteger;
+    // Vertical padding of table cells, in percent of the base line height.
+    property TableCellPaddingY : Integer index 9 read GetInteger Write SetInteger;
     property OnGetImage : TMarkdownImageEvent read GetOnGetImage Write SetOnGetImage;
-    property OnOpenURL : TOpenURLEvent Read FOnOpenURL Write FOnOpenURL;
-    property ScrollBars: TScrollStyle read FScrollBars write SetScrollBars default ssAutoVertical;
+    property OnOpenURL : TMarkdownOpenURLEvent Read FOnOpenURL Write FOnOpenURL;
+    property ScrollBars: TScrollStyle read FScrollBars write SetScrollBars default ssAutoBoth;
     property ScrolledLeft: integer read FScrolledLeft write SetScrolledLeft;
     property ScrolledTop: integer read FScrolledTop write SetScrolledTop;
     property SelectionColor: TColor read GetSelectionColor write SetSelectionColor;
     property SelectedText: String read GetSelectionText;
+    // Wrap long lines of fenced code blocks instead of scrolling horizontally.
+    property WrapCodeBlocks: Boolean read GetWrapCodeBlocks write SetWrapCodeBlocks default False;
   end;
 
-  { TMarkDownControl }
+  { TMarkdownControl }
 
-  TMarkDownControl = class(TCustomMarkDownControl)
+  TMarkdownControl = class(TCustomMarkdownControl)
   published
     property Align;
     property Anchors;
@@ -149,8 +177,7 @@ Type
     property DragMode;
     property Enabled;
     property Font;
-    property MarkDown;
-    property TableLinesColor;
+    property Markdown;
     property ParentBackground;
     property ParentBidiMode;
     property ParentColor;
@@ -160,6 +187,8 @@ Type
     property PopupMenu;
     property ScrollBars;
     property ShowHint;
+    property TableLinesColor;
+    property WrapCodeBlocks;
     property TabOrder;
     property TabStop;
     property Visible;
@@ -198,22 +227,22 @@ Type
 
 implementation
 
-uses markdown.processors,Clipbrd;
+uses Markdown.Processors, Clipbrd;
 
-{ TMarkDownControl }
+{ TMarkdownControl }
 
-procedure TCustomMarkDownControl.SetMarkDown(AValue: TStrings);
+procedure TCustomMarkdownControl.SetMarkdown(AValue: TStrings);
 begin
-  if FMarkDown=AValue then Exit;
-  FMarkDown.Assign(AValue);
+  if FMarkdown=AValue then Exit;
+  FMarkdown.Assign(AValue);
 end;
 
-function TCustomMarkDownControl.GetOnGetImage: TMarkdownImageEvent;
+function TCustomMarkdownControl.GetOnGetImage: TMarkdownImageEvent;
 begin
   Result:=FRenderer.OnGetImage;
 end;
 
-function TCustomMarkDownControl.GetColor(AIndex: Integer): TColor;
+function TCustomMarkdownControl.GetColor(AIndex: Integer): TColor;
 begin
   Case aIndex of
     0 : Result:=FRenderer.FontColor;
@@ -222,15 +251,17 @@ begin
     3 : Result:=FRenderer.FontHyperLinkColor;
     4 : Result:=FRenderer.BGCodeColor;
     5 : Result:=FRenderer.TableLinesColor;
+  else
+    Result:=clNone;
   end;
 end;
 
-function TCustomMarkDownControl.GetDocument: TMarkDownDocument;
+function TCustomMarkdownControl.GetDocument: TMarkdownDocument;
 begin
   Result:=FRenderer.Document;
 end;
 
-function TCustomMarkDownControl.GetInteger(AIndex: Integer): Integer;
+function TCustomMarkdownControl.GetInteger(AIndex: Integer): Integer;
 begin
   Case aIndex of
     0 : Result:=FRenderer.BaseFontSize;
@@ -238,19 +269,40 @@ begin
     2 : Result:=FRenderer.ParagraphSpacing;
     3 : Result:=FRenderer.ExtraIndent;
     4 : Result:=FRenderer.ImageMargin;
+    5 : Result:=FRenderer.HeadingSpacing;
+    6 : Result:=FRenderer.ListItemSpacing;
+    7 : Result:=FRenderer.CodeBlockPadding;
+    8 : Result:=FRenderer.TableCellPaddingX;
+    9 : Result:=FRenderer.TableCellPaddingY;
+  else
+    Result:=0;
   end;
 end;
 
-function TCustomMarkDownControl.GetString(AIndex: Integer): string;
+function TCustomMarkdownControl.GetString(AIndex: Integer): string;
 begin
   Case aIndex of
     0 : Result:=FRenderer.FontName;
     1 : Result:=FRenderer.MonoFontName;
-    100 : Result:= FRenderer.FileDir;
+    2 : Result:=FRenderer.BulletChar1;
+    3 : Result:=FRenderer.BulletChar2;
+    4 : Result:=FRenderer.BulletChar3;
+    5 : Result:=FRenderer.BaseDir;
+  else
+    Result:='';
   end;
 end;
 
-procedure TCustomMarkDownControl.SetRenderColor(AIndex: Integer; AValue: TColor);
+// Recalculate the layout after a change of a layout property.
+procedure TCustomMarkdownControl.LayoutChanged;
+
+begin
+  if not (csLoading in ComponentState) then
+    CalcLayout;
+end;
+
+
+procedure TCustomMarkdownControl.SetRenderColor(AIndex: Integer; AValue: TColor);
 begin
   Case aIndex of
     0 : FRenderer.FontColor:=aValue;
@@ -260,9 +312,10 @@ begin
     4 : FRenderer.BGCodeColor:=aValue;
     5 : FRenderer.TableLinesColor:=aValue;
   end;
+  Invalidate;
 end;
 
-procedure TCustomMarkDownControl.SetInteger(AIndex: Integer; AValue: Integer);
+procedure TCustomMarkdownControl.SetInteger(AIndex: Integer; AValue: Integer);
 begin
   Case aIndex of
     0 : FRenderer.BaseFontSize:=aValue;
@@ -270,32 +323,41 @@ begin
     2 : FRenderer.ParagraphSpacing:=aValue;
     3 : FRenderer.ExtraIndent:=aValue;
     4 : FRenderer.ImageMargin:=aValue;
+    5 : FRenderer.HeadingSpacing:=aValue;
+    6 : FRenderer.ListItemSpacing:=aValue;
+    7 : FRenderer.CodeBlockPadding:=aValue;
+    8 : FRenderer.TableCellPaddingX:=aValue;
+    9 : FRenderer.TableCellPaddingY:=aValue;
   end;
+  LayoutChanged;
 end;
 
-procedure TCustomMarkDownControl.SetOnGetImage(AValue: TMarkdownImageEvent);
+procedure TCustomMarkdownControl.SetOnGetImage(AValue: TMarkdownImageEvent);
 begin
   FRenderer.OnGetImage:=aValue;
 end;
 
-procedure TCustomMarkDownControl.SetString(AIndex: Integer; AValue: string);
+procedure TCustomMarkdownControl.SetString(AIndex: Integer; const AValue: string);
 begin
   Case aIndex of
     0 : FRenderer.FontName:=aValue;
     1 : FRenderer.MonoFontName:=aValue;
-    100 : FRenderer.FileDir:=aValue;
+    2 : FRenderer.BulletChar1:=aValue;
+    3 : FRenderer.BulletChar2:=aValue;
+    4 : FRenderer.BulletChar3:=aValue;
+    5 : FRenderer.BaseDir:=aValue;
   end;
+  LayoutChanged;
 end;
 
-procedure TCustomMarkDownControl.SetScrollBars(AValue: TScrollStyle);
+procedure TCustomMarkdownControl.SetScrollBars(AValue: TScrollStyle);
 begin
   if FScrollBars = AValue then Exit;
   FScrollBars := AValue;
-  FScrollbarsNeedUpdate:=true;
-  UpdateScrollBars;
+  LayoutChanged;
 end;
 
-procedure TCustomMarkDownControl.SetScrolledLeft(AValue: integer);
+procedure TCustomMarkdownControl.SetScrolledLeft(AValue: integer);
 var
   OldScrolledLeft: Integer;
 begin
@@ -306,11 +368,9 @@ begin
   if AValue=FScrolledLeft then exit;
   FScrolledLeft:=AValue;
   ScrollView(OldScrolledLeft-FScrolledLeft, 0);
-  // same as vertical: keep scrollbar in sync
-  UpdateScrollBars;
 end;
 
-procedure TCustomMarkDownControl.SetScrolledTop(AValue: integer);
+procedure TCustomMarkdownControl.SetScrolledTop(AValue: integer);
 var
   OldScrolledTop: Integer;
 begin
@@ -321,62 +381,80 @@ begin
   if AValue=FScrolledTop then exit;
   FScrolledTop:=AValue;
   ScrollView(0, OldScrolledTop-FScrolledTop);
-  // scrollbar thumb must follow programmatic scroll too
-  // (found by AI: scrollbar stayed at the old position when ScrolledTop
-  // was set in code, e.g. after loading a shorter document)
-  UpdateScrollBars;
 end;
 
-procedure TCustomMarkDownControl.DoMarkdownChanged(Sender: TObject);
+procedure TCustomMarkdownControl.DoMarkdownChanged(Sender: TObject);
 begin
+  FIsSelecting:=False;
+  FSelectionStart.LayoutItemIndex:=-1;
   if not (csLoading in ComponentState) then
-  begin
-    // new document: scroll to the begin and repaint
-    // (fixes Lazarus work item 42722: after LoadFromFile the control
-    // kept the old scroll position and was not repainted)
-    ScrolledTop:= 0;
-    ScrolledLeft:= 0;
-    ParseMarkDown;
-    Invalidate;
-  end;
+    ParseMarkdown;
 end;
 
-function TCustomMarkDownControl.GetMaxScrollLeft: integer;
+function TCustomMarkdownControl.DoMouseWheel(Shift: TShiftState; WheelDelta: Integer;
+  MousePos: TPoint): Boolean;
+
+var
+  lLines: Integer;
+
+begin
+  Result:=inherited DoMouseWheel(Shift, WheelDelta, MousePos);
+  if Result then
+    Exit;
+  lLines:=Mouse.WheelScrollLines;
+  if lLines<0 then
+    ScrolledTop:=ScrolledTop-Sign(WheelDelta)*(ClientHeight-FDefLineHeight)
+  else
+    ScrolledTop:=ScrolledTop-(WheelDelta*lLines*FDefLineHeight) div 120;
+  Result:=True;
+end;
+
+
+function TCustomMarkdownControl.DoMouseWheelHorz(Shift: TShiftState; WheelDelta: Integer;
+  MousePos: TPoint): Boolean;
+
+begin
+  Result:=inherited DoMouseWheelHorz(Shift, WheelDelta, MousePos);
+  if Result then
+    Exit;
+  ScrolledLeft:=ScrolledLeft+(WheelDelta*FDefLineHeight) div 120;
+  Result:=True;
+end;
+
+
+function TCustomMarkdownControl.GetMaxScrollLeft: integer;
 begin
   Result:=FCalculatedWidth-(FLastCalcClientWidth-2*BorderWidth);
   if Result<0 then Result:=0;
 end;
 
-function TCustomMarkDownControl.GetMaxScrollTop: integer;
+function TCustomMarkdownControl.GetMaxScrollTop: integer;
 begin
   Result:=FCalculatedHeight-(ClientHeight-2*BorderWidth);
   if Result<0 then Result:=0;
 end;
 
-constructor TCustomMarkDownControl.Create(AOwner: TComponent);
+constructor TCustomMarkdownControl.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
-  FMarkDown:=TStringList.Create;
-  TStringList(FMarkDown).OnChange:=@DoMarkdownChanged;
-  FRenderer:=TMarkDownCanvasRenderer.Create(Nil);
+  FMarkdown:=TStringList.Create;
+  TStringList(FMarkdown).OnChange:=@DoMarkdownChanged;
+  FRenderer:=TMarkdownCanvasRenderer.Create(Nil);
   FDefLineHeight:=FRenderer.BaseFontSize*4 div 3;
   FIsSelecting := False;
-  FScrollBars := ssAutoVertical;
+  FScrollBars := ssAutoBoth;
   FSelectionStart.LayoutItemIndex := -1;
   FSelectionStart.CharOffset := 0;
   FSBVertShowing:=-1;
   FSBHorzShowing:=-1;
+  ControlStyle := ControlStyle + [csTripleClicks];
   TabStop := True;
   BorderStyle := bsSingle;
   BorderWidth := 0;
   AutoSize := True;
-  // the canvas renderer must not paint with its default (white-ish)
-  // background before the first Paint() syncs it with Color
-  // (fixes Lazarus work item 42722: white areas at first paint)
-  FRenderer.BGColor:= Color;
 end;
 
-procedure TCustomMarkDownControl.CalculatePreferredSize(
+procedure TCustomMarkdownControl.CalculatePreferredSize(
   var PreferredWidth, PreferredHeight: integer; WithThemeSpace: Boolean);
 const
   MaxWidgetSetHeight = 30000;
@@ -385,70 +463,52 @@ begin
   PreferredHeight := Min(FCalculatedHeight + 2*BorderWidth, MaxWidgetSetHeight);
 end;
 
-procedure TCustomMarkDownControl.ParseMarkDown;
+procedure TCustomMarkdownControl.ParseMarkdown;
 
 begin
-  FRenderer.ParseMarkdown(FMarkDown);
+  FRenderer.ParseMarkdown(FMarkdown);
   CalcLayout;
 end;
 
-procedure TCustomMarkDownControl.CalcLayout;
+procedure TCustomMarkdownControl.CalcLayout;
 var
-  HasVertSB: Boolean;
+  lReserveVertSB: Boolean;
 begin
   if not HandleAllocated then
     begin
     FLastClientWidth:=ClientWidth;
     FCalculatedWidth:=10;
     FCalculatedHeight:=10;
+    FLayoutNeeded:=True;
     exit;
     end;
+  FLayoutNeeded:=False;
+  FIsSelecting:=False;
+  FSelectionStart.LayoutItemIndex:=-1;
 
-  // Reserve the vertical scrollbar strip when the bar is already shown
-  // or WILL be needed (document taller than the client area), so the
-  // first layout already uses the wrap width the control has with its
-  // scrollbar visible.
-  // The old code read the HORZ flag (`FSBHorzShowing`) here: the strip
-  // was never reserved on the first layout of a tall document, the
-  // scrollbar then appeared, WM_SIZE shrank ClientWidth, Resize
-  // re-layouted at the smaller width, the content became taller and
-  // the scrollbar range GREW after the first drag -- the user had to
-  // drag a second time to reach the document end
-  // (Lazarus work item 42737: initial scrolling cannot reach the end).
-  HasVertSB:=(FSBVertShowing=ord(true)) or
-             (FCalculatedHeight+2*BorderWidth > ClientHeight);
+  // Lay out at the client width that excludes the vertical scrollbar
+  lReserveVertSB:=(FSBVertShowing<>Ord(True))
+                  and (ScrollBars in [ssBoth, ssVertical, ssAutoBoth, ssAutoVertical]);
 
   FLastClientWidth:=ClientWidth;
   FLastCalcClientWidth:=FLastClientWidth;
-  FLastCalcClientHeight:=ClientHeight;
-  if not HasVertSB then
+  if lReserveVertSB then
     dec(FLastCalcClientWidth,GetSystemMetrics(SM_CXVSCROLL));
   if FLastCalcClientWidth<0 then FLastCalcClientWidth:=0;
 
+  FRenderer.TargetDPI:=Font.PixelsPerInch;
   FRenderer.CalculateLayout(Canvas,FLastCalcClientWidth,FCalculatedWidth,FCalculatedHeight);
-
-  // Second pass: if the document turned out taller than the client
-  // area and the strip was NOT reserved above, redo the layout WITH
-  // the strip width, exactly as the control will be sized once
-  // UpdateScrollBars shows the bar. Without this the scrollbar range
-  // computed here is provisional, and the bar appearing (WM_SIZE,
-  // Resize, re-layout at the smaller width, taller content) would
-  // change the range after the user's first drag to the end (42737).
-  if (not HasVertSB) and
-     (FCalculatedHeight+2*BorderWidth > ClientHeight) then
-    begin
-    FLastCalcClientWidth:=FLastClientWidth-GetSystemMetrics(SM_CXVSCROLL);
-    if FLastCalcClientWidth<0 then FLastCalcClientWidth:=0;
-    FRenderer.CalculateLayout(Canvas,FLastCalcClientWidth,FCalculatedWidth,FCalculatedHeight);
-    end;
+  FDefLineHeight:=Max(1,FRenderer.MeasureBaseLineHeight(Canvas));
 
   FScrollbarsNeedUpdate:=true;
   UpdateScrollBars;
   InvalidatePreferredSize;
   AdjustSize;
+  if not FInPaint then
+    Invalidate;
 end;
 
-procedure TCustomMarkDownControl.Click;
+procedure TCustomMarkdownControl.Click;
 var
   P : TPoint;
   URL : UTF8String;
@@ -456,25 +516,20 @@ begin
   inherited Click;
   if assigned(FOnOpenURL) then
     begin
-    // client->document mapping, as in MouseDown: link rectangles are
-    // stored in document coordinates too, so after scrolling a click
-    // would otherwise open the link that was at that client position
-    // before the scroll
     P:=ScreenToControl(Mouse.CursorPos);
-    if FRenderer.HitTestLink(P.X+ScrolledLeft, P.Y+ScrolledTop, URL) then
+    if FRenderer.HitTestLink(P.X+ScrolledLeft,P.Y+ScrolledTop,URL) then
       FOnOpenURL(Self,URL);
     end;
 end;
 
-procedure TCustomMarkDownControl.CreateWnd;
+procedure TCustomMarkdownControl.CreateWnd;
 begin
   FSBHorzShowing:=-1;
   FSBVertShowing:=-1;
-  FLastCalcClientHeight:=-1;
   inherited CreateWnd;
 end;
 
-procedure TCustomMarkDownControl.DestroyWnd;
+procedure TCustomMarkdownControl.DestroyWnd;
 begin
   inherited DestroyWnd;
   if Canvas <> nil then
@@ -483,217 +538,180 @@ begin
   FLastVertScrollInfo.cbSize := 0;
 end;
 
-procedure TCustomMarkDownControl.CopySelectionToClipBoard;
+procedure TCustomMarkdownControl.CopySelectionToClipBoard;
 
 begin
   Clipboard.AsText:=GetSelectionText;
 end;
 
-procedure TCustomMarkDownControl.KeyDown(var Key: Word; Shift: TShiftState);
+procedure TCustomMarkdownControl.LoadFromFile(const aFileName: string);
+
+var
+  lLines: TStrings;
+
 begin
+  lLines:=TStringList.Create;
+  try
+    lLines.LoadFromFile(aFileName);
+    FRenderer.BaseDir:=ExtractFileDir(ExpandFileName(aFileName));
+    FScrolledTop:=0;
+    FScrolledLeft:=0;
+    FMarkdown.Assign(lLines);
+  finally
+    lLines.Free;
+  end;
+end;
+
+
+procedure TCustomMarkdownControl.KeyDown(var Key: Word; Shift: TShiftState);
+
+var
+  lHandled: Boolean;
+
+begin
+  lHandled:=True;
   if (Shift=[ssCtrl]) and ((Key=Ord('C')) or (Key=VK_INSERT)) then
-    begin
-    Key:=0;
-    CopySelectionToClipBoard;
+    CopySelectionToClipBoard
+  else if (Shift=[]) or ((Shift=[ssCtrl]) and (Key in [VK_HOME,VK_END])) then
+    case Key of
+      VK_NEXT:  ScrolledTop:=ScrolledTop+ClientHeight-FDefLineHeight;
+      VK_PRIOR: ScrolledTop:=ScrolledTop-ClientHeight+FDefLineHeight;
+      VK_DOWN:  ScrolledTop:=ScrolledTop+FDefLineHeight;
+      VK_UP:    ScrolledTop:=ScrolledTop-FDefLineHeight;
+      VK_RIGHT: ScrolledLeft:=ScrolledLeft+FDefLineHeight div 2;
+      VK_LEFT:  ScrolledLeft:=ScrolledLeft-FDefLineHeight div 2;
+      VK_HOME:  ScrolledTop:=0;
+      VK_END:   ScrolledTop:=GetMaxScrollTop;
+    else
+      lHandled:=False;
     end
   else
-  if not (ssAlt in Shift) then
-    begin
-    // keyboard scrolling, mirroring WMVScroll/WMHScroll codes
-    // (fixes CudaText issue 6643: PageUp/PageDown keys had no effect)
-    case Key of
-      VK_NEXT: // PageDown
-        if ssShift in Shift then
-          begin
-          Key:=0;
-          ScrolledLeft:=ScrolledLeft + ClientWidth - FDefLineHeight;
-          end
-        else
-          begin
-          Key:=0;
-          ScrolledTop:=ScrolledTop + ClientHeight - FDefLineHeight;
-          end;
-      VK_PRIOR: // PageUp
-        if ssShift in Shift then
-          begin
-          Key:=0;
-          ScrolledLeft:=ScrolledLeft - ClientWidth + FDefLineHeight;
-          end
-        else
-          begin
-          Key:=0;
-          ScrolledTop:=ScrolledTop - ClientHeight + FDefLineHeight;
-          end;
-      VK_DOWN:
-        begin
-        Key:=0;
-        ScrolledTop:=ScrolledTop + FDefLineHeight;
-        end;
-      VK_UP:
-        begin
-        Key:=0;
-        ScrolledTop:=ScrolledTop - FDefLineHeight;
-        end;
-      VK_RIGHT:
-        begin
-        Key:=0;
-        ScrolledLeft:=ScrolledLeft + FDefLineHeight div 2;
-        end;
-      VK_LEFT:
-        begin
-        Key:=0;
-        ScrolledLeft:=ScrolledLeft - FDefLineHeight div 2;
-        end;
-      VK_HOME:
-        begin
-        Key:=0;
-        if ssCtrl in Shift then
-          ScrolledTop:=0
-        else
-          ScrolledLeft:=0;
-        end;
-      VK_END:
-        begin
-        Key:=0;
-        if ssCtrl in Shift then
-          ScrolledTop:=GetMaxScrollTop
-        else
-          ScrolledLeft:=GetMaxScrollLeft;
-        end;
-    else
-      inherited KeyDown(Key, Shift);
-    end;
-    end
+    lHandled:=False;
+  if lHandled then
+    Key:=0
   else
     inherited KeyDown(Key, Shift);
 end;
 
-procedure TCustomMarkDownControl.Loaded;
+
+procedure TCustomMarkdownControl.WMGetDlgCode(var Message: TLMNoParams);
+
 begin
-  inherited Loaded;
-  ParseMarkDown;
+  inherited;
+  Message.Result:=Message.Result or DLGC_WANTARROWS;
 end;
 
-procedure TCustomMarkDownControl.MouseDown(Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+
+procedure TCustomMarkdownControl.Loaded;
+begin
+  inherited Loaded;
+  ParseMarkdown;
+end;
+
+procedure TCustomMarkdownControl.MouseDown(Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+
+var
+  lPoint, lStart, lEnd: TSelectionPoint;
+  lFound: Boolean;
+
 begin
   inherited MouseDown(Button, Shift, X, Y);
-
-  // The control takes keyboard input (Ctrl+C copy etc) but Win32 does
-  // not focus a user-drawn child window on click by itself: after the
-  // user clicks ANY other control (e.g. a "load file..." button that
-  // opens a dialog), KeyDown/Ctrl+C stopped reaching the control and
-  // nothing was copied, although the selection itself worked.
-  // Take focus on click like the reference editors do (SynEdit calls
-  // SetFocus in MouseDown for the same reason).
   if CanFocus and not Focused then
     SetFocus;
 
   if Button = mbLeft then
   begin
-    // Start text selection.
-    // X,Y are CLIENT coordinates; layout items live in DOCUMENT
-    // coordinates (Paint draws them at -ScrolledLeft,-ScrolledTop).
-    // Map the point before hit-testing, otherwise after scrolling the
-    // hit lands on the row that was at that client position BEFORE
-    // the scroll: selecting the visible "444" selected "ggg" etc.
-    FSelectionStart := FRenderer.HitTestText(X+ScrolledLeft, Y+ScrolledTop);
-    if FSelectionStart.LayoutItemIndex <> -1 then
+    lPoint:=FRenderer.HitTestText(X+ScrolledLeft, Y+ScrolledTop);
+    if lPoint.LayoutItemIndex <> -1 then
     begin
-      // Shift+Click EXTENDS the selection to the clicked point; the
-      // anchor stays. No selection yet: the click becomes the anchor
-      // (fixes: shift+click cleared the selection and selected
-      // nothing). Without Shift the plain-click path below runs as
-      // before.
-      if (ssShift in Shift) then
+      if [ssDouble,ssTriple]*Shift<>[] then
         begin
-        FRenderer.ExtendSelectionTo(FSelectionStart);
-        FIsSelecting:= False;
-        Invalidate;
-        Exit;
+        if ssTriple in Shift then
+          lFound:=FRenderer.GetLineBounds(lPoint, lStart, lEnd)
+        else
+          lFound:=FRenderer.GetWordBounds(lPoint, lStart, lEnd);
+        if lFound then
+          begin
+          FSelectionStart:=lStart;
+          SelectTo(lEnd);
+          end;
+        FIsSelecting:=False;
+        end
+      else
+        begin
+        // Shift+click extends the selection from the existing anchor
+        if (ssShift in Shift) and (FSelectionStart.LayoutItemIndex<>-1) then
+          SelectTo(lPoint)
+        else
+          begin
+          FSelectionStart:=lPoint;
+          FRenderer.ClearSelection;
+          end;
+        FIsSelecting := True;
         end;
-
-      FIsSelecting := True;
-      FRenderer.ClearSelection;
-      // click counting for double/triple selection
-      // (fixes CudaText issue 6642: double click must select the word,
-      // triple click the whole paragraph)
-      if (Now - FLastClickTime) * 86400.0 > GetDoubleClickTime / 1000.0 then
-        FLastClickCount:= 0;
-      FLastClickTime:= Now;
-      if FLastClickCount >= 3 then
-        FLastClickCount:= 0; // 4th click restarts the sequence
-      Inc(FLastClickCount);
-      case FLastClickCount of
-        2: // double click: select the word under the cursor
-          begin
-          FRenderer.SelectWordAtPoint(FSelectionStart);
-          FIsSelecting:= False;
-          end;
-        3: // triple click: select the whole paragraph (line group)
-          begin
-          FRenderer.SelectParagraphAtPoint(FSelectionStart);
-          FIsSelecting:= False;
-          end;
-      end;
       Invalidate;
     end;
   end;
 end;
 
-procedure TCustomMarkDownControl.MouseMove(Shift: TShiftState; X, Y: Integer);
 
-  procedure NormalizeSelection(aStart, aCurrent : TSelectionPoint; out P1, P2 : TSelectionPoint);
-  begin
-    if aStart.LayoutItemIndex>aCurrent.LayoutItemIndex then
-      begin
-      p1:=aCurrent;
-      p2:=aStart;
-      end
-    else
-      begin
-      p1:=aStart;
-      p2:=aCurrent;
-      end
-  end;
+// Select the text between the selection anchor and aPoint.
+procedure TCustomMarkdownControl.SelectTo(const aPoint: TSelectionPoint);
+
+begin
+  if (FSelectionStart.LayoutItemIndex>aPoint.LayoutItemIndex)
+     or ((FSelectionStart.LayoutItemIndex=aPoint.LayoutItemIndex)
+         and (FSelectionStart.CharOffset>aPoint.CharOffset)) then
+    FRenderer.SetSelection(aPoint,FSelectionStart)
+  else
+    FRenderer.SetSelection(FSelectionStart,aPoint);
+end;
+
+
+procedure TCustomMarkdownControl.MouseMove(Shift: TShiftState; X, Y: Integer);
 
 var
   CurrentPoint: TSelectionPoint;
-  P1,P2 : TSelectionPoint;
-  URL: UTF8String;
+  lURL : UTF8String;
 
 begin
   inherited MouseMove(Shift, X, Y);
 
-  //show the hand cursor while the pointer hovers a hyperlink, like
-  //other link-capable controls do (editor URLs, gutter bookmarks);
-  //clicks are handled in Click via the same hit-test
-  if FIsSelecting or (ssLeft in Shift) then
-    Cursor:= crDefault
-  else
-  begin
-    // same client->document mapping as in MouseDown: hit-testing
-    // must use document coordinates (see comment there)
-    if FRenderer.HitTestLink(X+ScrolledLeft, Y+ScrolledTop, URL) then
-      Cursor:= crHandPoint
-    else
-      Cursor:= crDefault;
-  end;
-
+  UpdateLinkCursor(not FIsSelecting and not (ssLeft in Shift)
+                   and FRenderer.HitTestLink(X+ScrolledLeft, Y+ScrolledTop, lURL));
   if FIsSelecting and (ssLeft in Shift) then
   begin
-    // same client->document mapping as in MouseDown: hit-testing
-    // must use document coordinates (see comment there)
+    if Y<0 then
+      ScrolledTop:=ScrolledTop-FDefLineHeight
+    else if Y>=ClientHeight then
+      ScrolledTop:=ScrolledTop+FDefLineHeight;
     CurrentPoint := FRenderer.HitTestText(X+ScrolledLeft, Y+ScrolledTop);
     if CurrentPoint.LayoutItemIndex <> -1 then
     begin
-      NormalizeSelection(FSelectionStart, CurrentPoint, P1, P2);
-      FRenderer.SetSelection(P1,P2);
+      SelectTo(CurrentPoint);
       Invalidate;
     end;
   end;
 end;
 
-procedure TCustomMarkDownControl.MouseUp(Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+// Show the hand cursor while over a link, restore the previous cursor otherwise.
+procedure TCustomMarkdownControl.UpdateLinkCursor(aOverLink: Boolean);
+
+begin
+  if aOverLink=FLinkCursorActive then
+    Exit;
+  FLinkCursorActive:=aOverLink;
+  if aOverLink then
+    begin
+    FSavedCursor:=Cursor;
+    Cursor:=crHandPoint;
+    end
+  else
+    Cursor:=FSavedCursor;
+end;
+
+
+procedure TCustomMarkdownControl.MouseUp(Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 begin
   inherited MouseUp(Button, Shift, X, Y);
 
@@ -703,29 +721,14 @@ begin
   end;
 end;
 
-procedure TCustomMarkDownControl.Resize;
+procedure TCustomMarkdownControl.Resize;
 begin
   inherited Resize;
   if ClientWidth<>FLastClientWidth then
-    CalcLayout
-  else
-    begin
-    // height changed with the same wrap width: the content layout is
-    // still valid, but the scrollbar range (nPage/nMax) was computed
-    // with the old ClientHeight and must be refreshed
-    // (fixes Lazarus work item 42737: vert-scrollbar Max stayed too
-    // small after loading a bigger document, until the user dragged it)
-    if ClientHeight<>FLastCalcClientHeight then
-      begin
-      FLastCalcClientHeight:=ClientHeight;
-      FScrollbarsNeedUpdate:=true;
-      UpdateScrollBars;
-      Invalidate;
-      end;
-    end;
+    CalcLayout;
 end;
 
-procedure TCustomMarkDownControl.ScrollView(DeltaX, DeltaY: Integer);
+procedure TCustomMarkdownControl.ScrollView(DeltaX, DeltaY: Integer);
 var
   ScrollArea: TRect;
   ScrollFlags: Integer;
@@ -733,13 +736,9 @@ begin
   if (DeltaX=0) and (DeltaY=0) then
     Exit;
 
-  // handleless (e.g. created from code before parenting): ScrollWindowEx
-  // needs a real window handle, otherwise LCL raises
-  // "Control has no parent window" (part of the work item 42736 fix)
+  FScrollbarsNeedUpdate:=true;
   if not HandleAllocated then
     Exit;
-
-  FScrollbarsNeedUpdate:=true;
   ScrollFlags := SW_INVALIDATE or SW_ERASE;
   ScrollArea := ClientRect;
   InflateRect(ScrollArea, -BorderWidth, -BorderWidth);
@@ -748,7 +747,7 @@ begin
   UpdateScrollbars;
 end;
 
-procedure TCustomMarkDownControl.SetShowScrollBar(Which: Integer; AShow: Boolean);
+procedure TCustomMarkdownControl.SetShowScrollBar(Which: Integer; AShow: Boolean);
 begin
   if ((Which in [SB_Horz, SB_BOTH]) and (FSBHorzShowing<>Ord(AShow)))
   or ((Which in [SB_Vert, SB_BOTH]) and (FSBVertShowing<>Ord(AShow)))
@@ -761,7 +760,7 @@ begin
     FSBVertShowing:=Ord(AShow);
 end;
 
-procedure TCustomMarkDownControl.UpdateScrollBars;
+procedure TCustomMarkdownControl.UpdateScrollBars;
 var
   NeedHorzSB, NeedVertSB: Boolean;
   MaxScrollLeft, MaxScrollTop: Integer;
@@ -797,7 +796,7 @@ begin
       if (fScrollBars in [ssAutoBoth, ssAutoHorizontal])
           and not NeedHorzSB then
         begin
-        //DebugLn(['TCustomMarkDownControl.UpdateScrollbars Hide Horizontal.']);
+        //DebugLn(['TCustomMarkdownControl.UpdateScrollbars Hide Horizontal.']);
         ScrollInfo.nPos := 0;
         SetScrollInfo(Handle, SB_HORZ, ScrollInfo, False);
         FLastHorzScrollInfo.cbSize:=0;
@@ -805,7 +804,7 @@ begin
         end
       else
         begin
-        //DebugLn(['TCustomMarkDownControl.UpdateScrollbars Show Horizontal: nMin=',ScrollInfo.nMin,
+        //DebugLn(['TCustomMarkdownControl.UpdateScrollbars Show Horizontal: nMin=',ScrollInfo.nMin,
         //' nMax=',ScrollInfo.nMax,' nPage=',ScrollInfo.nPage,
         //' nPos=',ScrollInfo.nPos,' GetMaxScrollLeft=',MaxScrollLeft,
         //' ClientW=',ClientWidth, ' MaxRight=',FMaxRight]);
@@ -837,7 +836,7 @@ begin
       if (fScrollBars in [ssAutoBoth, ssAutoVertical])
           and not NeedVertSB then
         begin
-        //DebugLn(['TCustomMarkDownControl.UpdateScrollbars Hide Vertical.']);
+        //DebugLn(['TCustomMarkdownControl.UpdateScrollbars Hide Vertical.']);
         ScrollInfo.nPos := 0;
         SetScrollInfo(Handle, SB_Vert, ScrollInfo, False);
         FLastVertScrollInfo.cbSize:=0;
@@ -845,7 +844,7 @@ begin
         end
       else
         begin
-        //DebugLn(['TCustomMarkDownControl.UpdateScrollbars Show Vertical: nMin=',ScrollInfo.nMin,
+        //DebugLn(['TCustomMarkdownControl.UpdateScrollbars Show Vertical: nMin=',ScrollInfo.nMin,
         //' nMax=',ScrollInfo.nMax,' nPage=',ScrollInfo.nPage,
         //' nPos=',ScrollInfo.nPos,' GetMaxScrollLeft=',MaxScrollLeft,
         //' ClientW=',ClientWidth, ' MaxRight=',FMaxRight]);
@@ -862,7 +861,7 @@ begin
     end;
 end;
 
-procedure TCustomMarkDownControl.WMHScroll(var Msg: TLMScroll);
+procedure TCustomMarkdownControl.WMHScroll(var Msg: TLMScroll);
 begin
   case Msg.ScrollCode of
       // Scrolls to start / end of the text
@@ -884,22 +883,7 @@ begin
   end;
 end;
 
-function TCustomMarkDownControl.DoMouseWheel(Shift: TShiftState; WheelDelta: Integer; MousePos: TPoint): Boolean;
-begin
-  // scroll by whole lines, like other Lazarus controls:
-  // Mouse.WheelScrollLines is the OS-configured value read by the LCL
-  // (fixes Lazarus work item 42733: wheel scrolled only a few pixels)
-  Result:= True;
-  if WheelDelta=0 then Exit;
-  if ssShift in Shift then
-    ScrolledLeft:= ScrolledLeft - WheelDelta * Mouse.WheelScrollLines * FDefLineHeight div 120
-  else
-    ScrolledTop:= ScrolledTop - WheelDelta * Mouse.WheelScrollLines * FDefLineHeight div 120;
-  UpdateScrollBars;
-  Invalidate;
-end;
-
-procedure TCustomMarkDownControl.WMVScroll(var Msg: TLMScroll);
+procedure TCustomMarkdownControl.WMVScroll(var Msg: TLMScroll);
 begin
   case Msg.ScrollCode of
       // Scrolls to start / end of the text
@@ -921,43 +905,67 @@ begin
   end;
 end;
 
-procedure TCustomMarkDownControl.ClearSelection;
+procedure TCustomMarkdownControl.ClearSelection;
 begin
   FRenderer.ClearSelection;
   FIsSelecting := False;
+  FSelectionStart.LayoutItemIndex := -1;
   Invalidate;
 end;
 
-function TCustomMarkDownControl.GetSelectionText: String;
+function TCustomMarkdownControl.GetSelectionText: String;
 begin
   Result := FRenderer.GetSelectedText;
 end;
 
-function TCustomMarkDownControl.GetSelectionColor: TColor;
+function TCustomMarkdownControl.GetSelectionColor: TColor;
 begin
   Result := FRenderer.SelectionColor;
 end;
 
-procedure TCustomMarkDownControl.SetSelectionColor(AValue: TColor);
+procedure TCustomMarkdownControl.SetSelectionColor(AValue: TColor);
 begin
   FRenderer.SelectionColor := AValue;
+  Invalidate;
 end;
 
-destructor TCustomMarkDownControl.Destroy;
+function TCustomMarkdownControl.GetWrapCodeBlocks: Boolean;
+begin
+  Result:=FRenderer.WrapCodeBlocks;
+end;
+
+procedure TCustomMarkdownControl.SetWrapCodeBlocks(AValue: Boolean);
+begin
+  if FRenderer.WrapCodeBlocks=AValue then
+    Exit;
+  FRenderer.WrapCodeBlocks:=AValue;
+  LayoutChanged;
+end;
+
+destructor TCustomMarkdownControl.Destroy;
 begin
   FreeAndNil(FRenderer);
-  FreeAndNil(FMarkDown);
+  FreeAndNil(FMarkdown);
   inherited destroy;
 end;
 
-procedure TCustomMarkDownControl.Paint;
+procedure TCustomMarkdownControl.Paint;
 begin
-  Canvas.Brush.Color:=Color;
+  if FLayoutNeeded then
+    begin
+    FInPaint:=True;
+    try
+      CalcLayout;
+    finally
+      FInPaint:=False;
+    end;
+    end;
+  Canvas.Brush.Color:=GetColorResolvingParent;
   Canvas.Brush.Style:=bsSolid;
   Canvas.FillRect(0,0,Width,Height);
   if (FCalculatedWidth>0) and (FCalculatedHeight>0) then
     begin
-    FRenderer.BGColor:=Color;
+    FRenderer.BGColor:=GetColorResolvingParent;
     FRenderer.DrawLayout(Canvas,-ScrolledLeft,-ScrolledTop);
     end;
 end;

@@ -1,6 +1,6 @@
 {
  /***************************************************************************
-                                markdown.control
+                                markdown.canvasrender
                                 ----------------
                              Markdown renderer to render on canvas
 
@@ -16,7 +16,7 @@
 {
   Text Layout routine was inspired on the algorithm found in https://github.com/BeRo1985/pashtmldown
 }
-unit MarkDown.CanvasRender;
+unit Markdown.CanvasRender;
 {$mode objfpc}
 {$h+}
 {$codepage UTF8}
@@ -25,7 +25,7 @@ unit MarkDown.CanvasRender;
 interface
 
 uses
-  SysUtils, Classes, Contnrs, Graphics, Types, Math, MarkDown.Elements, MarkDown.Parser, MarkDown.Render, Markdown.HTMLEntities, LazUTF8;
+  SysUtils, Classes, Contnrs, Graphics, Types, Math, Markdown.Elements, Markdown.Parser, Markdown.Render, Markdown.HTMLEntities, LazUTF8, LazFileUtils, Character;
 
 type
   TLayoutItemKind = (
@@ -68,6 +68,8 @@ type
     FSelectionEnd: LongInt;
     FSelectionStartChar: Integer;
     FSelectionEndChar: Integer;
+    FLineIndex: Integer;
+    FSoftBreak: Boolean;
   protected
     function GetColor(aKind : TColorKind; aDefault : TColor) : TColor;
   public
@@ -91,6 +93,10 @@ type
     property SelectionEnd: LongInt read FSelectionEnd write FSelectionEnd;
     property SelectionStartChar: Integer read FSelectionStartChar write FSelectionStartChar;
     property SelectionEndChar: Integer read FSelectionEndChar write FSelectionEndChar;
+    // Index of the layout line the item belongs to
+    property LineIndex: Integer read FLineIndex write FLineIndex;
+    // True if the item continues the text of the previous line after a wrap inside a word or code line
+    property SoftBreak: Boolean read FSoftBreak write FSoftBreak;
   end;
 
   { TLayoutItemList }
@@ -141,7 +147,17 @@ type
     LineBelowExtra : LongInt;
     BaselineShiftCurrent : LongInt;
     BaselineFromIndex : Longint;
+    LinkFromIndex : Longint;
+    LineAscent : LongInt;
+    LineDescent : LongInt;
     NeedSpaceBeforeNextText : Boolean;
+  end;
+
+  TAscentCacheEntry = record
+    Mono : Boolean;
+    Size : LongInt;
+    Style : TFontStyles;
+    Ascent : LongInt;
   end;
 
   TLayoutLists = record
@@ -154,9 +170,9 @@ type
 
   TMarkdownImageEvent = procedure(Sender : TObject; const aURL : string; var aImage : TPicture) of object;
 
-  { TMarkDownCanvasRenderer }
+  { TMarkdownCanvasRenderer }
 
-  TMarkDownCanvasRenderer = class(TMarkDownRenderer)
+  TMarkdownCanvasRenderer = class(TMarkdownRenderer)
   private
     FCalculatedBlockQuoteIndent: Integer;
     const BulletCount = 3;
@@ -165,11 +181,11 @@ type
     FBulletLevel: Integer;
     FBullets: Array[1..BulletCount] of string;
     FCanvas: TCanvas;
-    FDocument: TMarkDownDocument;
+    FDocument: TMarkdownDocument;
     FHyperLinkColor: TColor;
     FImageMargin: integer;
     FOnGetImage: TMarkdownImageEvent;
-    FParser: TMarkDownParser;
+    FParser: TMarkdownParser;
     FLists : TLayoutLists;
     FCalculatedWidth: LongInt;
     FCalculatedHeight: LongInt;
@@ -182,7 +198,6 @@ type
     FMonoFontName: utf8string;
     FBaseFontSize: LongInt;
     FTargetDPI: LongInt;
-    FFileDir: string;
 
     // Colors
     FBGCodeColor: TColor;
@@ -197,26 +212,30 @@ type
 
     // Selection support
     FSelectionColor: TColor;
-    // tracked endpoints of the last ApplySelection call: anchor =
-    // where the selection started, extent = where it ends (both -1
-    // when none); ExtendSelectionTo needs them to know where the
-    // current selection IS without scanning every item
-    FSelectionAnchor: TSelectionPoint;
-    FSelectionExtent: TSelectionPoint;
-
     FTableLinesColor: TColor;
     FHTMLEntities : TFPStringHashTable;
+    FBaseDir: string;
+    FLineCount: Integer;
+    FWrapCodeBlocks: Boolean;
+    FHeadingSpacing: Integer;
+    FListItemSpacing: Integer;
+    FCodeBlockPadding: Integer;
+    FTableCellPaddingX: Integer;
+    FTableCellPaddingY: Integer;
+    FBaseLineHeight: LongInt;
+    FAscentCache: array of TAscentCacheEntry;
+    procedure SetBaseDir(const aValue: string);
   Protected
     // Selection methods
     procedure ClearAllSelections;
     procedure ApplySelection(const aStartPoint, aEndPoint: TSelectionPoint);
     function CalculateCharXPosition(aItem: TLayoutItem; aCharIndex: Integer): LongInt;
+    function AdjacentTextItem(aIndex, aDirection: Integer): Integer;
 
     // Layout management
     procedure Clear;
     procedure BeginLayout;
     procedure EndLayout;
-    procedure CenterTextItemsVerticallyInRows;
     function GetBulletChar(AIndex: Integer): string;
     procedure NewLine(const aCanvas: TCanvas);
     procedure ParagraphBreak(const aCanvas: TCanvas);
@@ -227,6 +246,8 @@ type
 
     // Font and measurement
     function DIP(const aValue: LongInt): LongInt;
+    // Pixels for aPercent percent of the base font line height.
+    function EmPercent(const aPercent: Integer): LongInt;
     procedure ApplyFont(const aCanvas: TCanvas; const aFontSize: LongInt; const aFontStyle: TFontStyles;
       const aContext : TFontContext);
     procedure MeasureText(const aCanvas: TCanvas; const aText: utf8string; const aFontSize: LongInt;
@@ -235,6 +256,9 @@ type
       const aFontStyle: TFontStyles; const aContext : TFontContext): LongInt;
     function MeasureTextHeight(const aCanvas: TCanvas; const aFontSize: LongInt; const aFontStyle: TFontStyles;
       const aContext : TFontContext): LongInt;
+    function MeasureTextAscent(const aCanvas: TCanvas; const aFontSize: LongInt; const aFontStyle: TFontStyles;
+      const aContext : TFontContext): LongInt;
+    procedure ShiftLineItems(aDelta: LongInt);
     function GetTextColor(aContext: TFontContext): TColor; virtual;
     function GetTextBGColor(aContext: TFontContext): TColor; virtual;
 
@@ -247,17 +271,20 @@ type
     procedure LayoutTextWrapped(const aCanvas: TCanvas; const aText: utf8string; const aFontSize: LongInt;
       const aFontStyle: TFontStyles; const aLinkHref: utf8string; const aContext : TFontContext;
       const aPreserveWhitespace, aDryRun: boolean); virtual;
-    procedure LayoutFencedCodeLine(const aCanvas: TCanvas; const aText: utf8string; const aFontSize: LongInt;
-      const aFontStyle: TFontStyles; const aContext : TFontContext);
+    procedure LayoutCharWrapped(const aCanvas: TCanvas; const aText: utf8string; const aFontSize: LongInt;
+      const aFontStyle: TFontStyles; const aLinkHref: utf8string; const aContext : TFontContext;
+      const aDryRun: boolean);
     function LayoutImage(aImageURL: UTF8String): Boolean; virtual;
-    procedure RenderTextNode(aTextNode: TMarkDownTextNode; aFontSize: LongInt; aFontStyle: TFontStyles; const aContext : TFontContext);
+    function LoadLocalImage(const aURL: string): TPicture; virtual;
+    procedure RenderTextNode(aTextNode: TMarkdownTextNode; aFontSize: LongInt; aFontStyle: TFontStyles; const aContext : TFontContext;
+      const aLinkHref: utf8string = '');
 
     // Actual drawing
     procedure DrawLayoutItem(aCanvas: TCanvas; aItem: TLayoutItem; const aLeftPosition, aTopPosition: LongInt);
     procedure DrawItemSelection(aCanvas: TCanvas; aItem: TLayoutItem; const aLeftPosition, aTopPosition: LongInt);
 
     // Utility
-    function GetNodeFontStyle(aTextNode: TMarkDownTextNode): TFontStyles;
+    function GetNodeFontStyle(aTextNode: TMarkdownTextNode): TFontStyles;
     // indent
     Procedure Indent(aSize : integer);
     procedure SetBulletChar(AIndex: Integer; AValue: string);
@@ -270,16 +297,18 @@ type
     Property BulletLevel : Integer Read FBulletLevel;
     Property CalculatedBlockQuoteIndent : Integer Read FCalculatedBlockQuoteIndent;
     Property Layout : TLayoutData read FLayout;
+    // Items of the current layout
+    Property LayoutItems : TLayoutItemList read FLists.Items;
   public
     constructor Create(aOwner: TComponent); override;
     destructor Destroy; override;
 
     // Markdown parsing
-    procedure ParseMarkdown(const aMarkDown: utf8string); overload;
-    procedure ParseMarkdown(const aMarkDown: TStrings); overload;
+    procedure ParseMarkdown(const aMarkdown: utf8string); overload;
+    procedure ParseMarkdown(const aMarkdown: TStrings); overload;
 
     // Rendering interface
-    procedure RenderDocument(aDocument: TMarkDownDocument); override;
+    procedure RenderDocument(aDocument: TMarkdownDocument); override;
     procedure CalculateLayout(const aCanvas: TCanvas; const aMaxWidth: LongInt; out aContentWidth: LongInt;
       out aContentHeight: LongInt);
     procedure DrawLayout(const aCanvas: TCanvas; const aLeftPosition, aTopPosition: LongInt);
@@ -290,26 +319,15 @@ type
     procedure ClearSelection;
     function GetSelectedText: String;
     function HitTestText(const aX, aY: LongInt): TSelectionPoint;
-    // select the word (double click) / the whole paragraph (triple
-    // click) around an already hit-tested point (the caller passes
-    // the result of HitTestText); word boundaries follow Unicode
-    // letters/digits/underscore (fixes CudaText issue 6642)
-    function SelectWordAtPoint(const aHit: TSelectionPoint): Boolean;
-    function SelectParagraphAtPoint(const aHit: TSelectionPoint): Boolean;
-    // extend the CURRENT selection to aNew (Shift+Click), or start a
-    // selection at aNew when none exists (the click becomes the
-    // anchor, the NEXT shift-click will extend from there). Keeps
-    // the anchor intact and swaps the endpoints when extending
-    // backwards when the new point is left of the anchor
-    // (fixes: Shift+Click cleared the selection and
-    // selected nothing)
-
-    function ExtendSelectionTo(const aNew: TSelectionPoint): Boolean;
-    // current selection endpoints (LayoutItemIndex of -1: no selection)
-    procedure SetSelectionAnchor(const aValue: TSelectionPoint);
-    procedure SetSelectionExtent(const aValue: TSelectionPoint);
-    property SelectionAnchor: TSelectionPoint read FSelectionAnchor write SetSelectionAnchor;
-    property SelectionExtent: TSelectionPoint read FSelectionExtent write SetSelectionExtent;
+    // Bounds of the word around aPoint, which may span several runs of one line.
+    // Returns False if aPoint is not next to a letter, digit or underscore.
+    function GetWordBounds(const aPoint: TSelectionPoint; out aStart, aEnd: TSelectionPoint): Boolean;
+    // Bounds of the layout line containing aPoint.
+    function GetLineBounds(const aPoint: TSelectionPoint; out aStart, aEnd: TSelectionPoint): Boolean;
+    // Height of a line of text in the base font.
+    function MeasureBaseLineHeight(const aCanvas: TCanvas): LongInt;
+    // Free all cached images.
+    procedure ClearImageCache;
 
     // Properties
     property CalculatedWidth: LongInt read FCalculatedWidth;
@@ -318,7 +336,6 @@ type
     property TargetDPI: LongInt read FTargetDPI write FTargetDPI;
     property FontName: utf8string read FFontName write FFontName;
     property MonoFontName: utf8string read FMonoFontName write FMonoFontName;
-    property FileDir: string read FFileDir write FFileDir;
 
     property FontHyperLinkColor: TColor read FHyperLinkColor write FHyperLinkColor;
     property BGCodeColor: TColor read FBGCodeColor write FBGCodeColor;
@@ -339,17 +356,30 @@ type
     Property ImageMargin : integer read FImageMargin Write FImageMargin;
     Property OnGetImage : TMarkdownImageEvent Read FOnGetImage Write FOnGetImage;
     property SelectionColor: TColor read FSelectionColor write FSelectionColor;
-    // Color of table cell borders and horizontal rules. Default clBlack.
-    // (Lazarus work item 42732: hardcoded black lines are unreadable on dark themes)
+    // Color of the table borders and cell separators.
     property TableLinesColor: TColor read FTableLinesColor write FTableLinesColor;
+    // Directory used to resolve relative image file names.
+    property BaseDir: string read FBaseDir write SetBaseDir;
+    // Wrap long lines of fenced code blocks at the available width.
+    property WrapCodeBlocks: Boolean read FWrapCodeBlocks write FWrapCodeBlocks;
+    // Extra space above a heading, in percent of the base line height.
+    property HeadingSpacing: Integer read FHeadingSpacing write FHeadingSpacing;
+    // Extra space between list items, in percent of the base line height.
+    property ListItemSpacing: Integer read FListItemSpacing write FListItemSpacing;
+    // Padding around the contents of a code block, in percent of the base line height.
+    property CodeBlockPadding: Integer read FCodeBlockPadding write FCodeBlockPadding;
+    // Horizontal padding of table cells, in percent of the base line height.
+    property TableCellPaddingX: Integer read FTableCellPaddingX write FTableCellPaddingX;
+    // Vertical padding of table cells, in percent of the base line height.
+    property TableCellPaddingY: Integer read FTableCellPaddingY write FTableCellPaddingY;
   end;
 
-  { TCanvasMarkDownBlockRenderer }
+  { TCanvasMarkdownBlockRenderer }
 
-  TCanvasMarkDownBlockRenderer = class(TMarkDownBlockRenderer)
+  TCanvasMarkdownBlockRenderer = class(TMarkdownBlockRenderer)
   private
     function GetCanvas: TCanvas;
-    function GetCanvasRenderer: TMarkDownCanvasRenderer;
+    function GetCanvasRenderer: TMarkdownCanvasRenderer;
   protected
     // Helper methods for canvas rendering
     function DIP(aSize : integer) : Integer;
@@ -366,82 +396,87 @@ type
     function GetCurrentY : Integer;
     procedure NewLine; inline;
     procedure ParagraphBreak; inline;
+    // Ends aBlock: a line break inside an item of a tight list, a paragraph break elsewhere.
+    procedure EndBlock(aBlock : TMarkdownBlock);
     procedure MaybeStartParagraph; inline;
     property Canvas : TCanvas read GetCanvas;
   public
-    property CanvasRenderer: TMarkDownCanvasRenderer read GetCanvasRenderer;
+    property CanvasRenderer: TMarkdownCanvasRenderer read GetCanvasRenderer;
   end;
 
-  TCanvasMarkDownBlockRendererClass = class of TCanvasMarkDownBlockRenderer;
+  TCanvasMarkdownBlockRendererClass = class of TCanvasMarkdownBlockRenderer;
 
-  { TCanvasMarkDownTextRenderer }
+  { TCanvasMarkdownTextRenderer }
 
-  TCanvasMarkDownTextRenderer = class(TMarkDownTextRenderer)
+  TCanvasMarkdownTextRenderer = class(TMarkdownTextRenderer)
   private
-    function GetCanvasRenderer: TMarkDownCanvasRenderer;
+    function GetCanvasRenderer: TMarkdownCanvasRenderer;
   protected
-    procedure DoRender(aElement: TMarkDownTextNode); override;
+    procedure DoRender(aElement: TMarkdownTextNode); override;
   public
-    property CanvasRenderer: TMarkDownCanvasRenderer read GetCanvasRenderer;
+    property CanvasRenderer: TMarkdownCanvasRenderer read GetCanvasRenderer;
   end;
 
   { Individual Canvas Block Renderers }
 
-  { TCanvasMarkDownParagraphBlockRenderer }
-  TCanvasMarkDownParagraphBlockRenderer = class(TCanvasMarkDownBlockRenderer)
+  { TCanvasMarkdownParagraphBlockRenderer }
+  TCanvasMarkdownParagraphBlockRenderer = class(TCanvasMarkdownBlockRenderer)
   protected
-    procedure DoRender(aBlock: TMarkDownBlock); override;
+    procedure DoRender(aBlock: TMarkdownBlock); override;
   public
-    class function BlockClass: TMarkDownBlockClass; override;
+    class function BlockClass: TMarkdownBlockClass; override;
   end;
 
-  { TCanvasMarkDownHeadingBlockRenderer }
-  TCanvasMarkDownHeadingBlockRenderer = class(TCanvasMarkDownBlockRenderer)
+  { TCanvasMarkdownHeadingBlockRenderer }
+  TCanvasMarkdownHeadingBlockRenderer = class(TCanvasMarkdownBlockRenderer)
   protected
-    procedure DoRender(aBlock: TMarkDownBlock); override;
+    procedure DoRender(aBlock: TMarkdownBlock); override;
   public
     fontSize: LongInt;
-    class function BlockClass: TMarkDownBlockClass; override;
+    class function BlockClass: TMarkdownBlockClass; override;
   end;
 
-  { TCanvasMarkDownQuoteBlockRenderer }
-  TCanvasMarkDownQuoteBlockRenderer = class(TCanvasMarkDownBlockRenderer)
+  { TCanvasMarkdownQuoteBlockRenderer }
+  TCanvasMarkdownQuoteBlockRenderer = class(TCanvasMarkdownBlockRenderer)
   protected
-    procedure DoRender(aBlock: TMarkDownBlock); override;
+    procedure DoRender(aBlock: TMarkdownBlock); override;
   public
-    class function BlockClass: TMarkDownBlockClass; override;
+    class function BlockClass: TMarkdownBlockClass; override;
   end;
 
-  { TCanvasMarkDownListBlockRenderer }
-  TCanvasMarkDownListBlockRenderer = class(TCanvasMarkDownBlockRenderer)
+  { TCanvasMarkdownListBlockRenderer }
+  TCanvasMarkdownListBlockRenderer = class(TCanvasMarkdownBlockRenderer)
   Private
     FItemNumber : Integer;
+    FOrdered : Boolean;
   protected
-    procedure DoRender(aBlock: TMarkDownBlock); override;
+    procedure DoRender(aBlock: TMarkdownBlock); override;
     property ItemNumber : Integer Read FItemNumber;
+    // True while rendering an ordered list.
+    property Ordered : Boolean Read FOrdered;
   public
     procedure reset; override;
-    class function BlockClass: TMarkDownBlockClass; override;
+    class function BlockClass: TMarkdownBlockClass; override;
   end;
 
-  { TCanvasMarkDownListItemBlockRenderer }
-  TCanvasMarkDownListItemBlockRenderer = class(TCanvasMarkDownBlockRenderer)
+  { TCanvasMarkdownListItemBlockRenderer }
+  TCanvasMarkdownListItemBlockRenderer = class(TCanvasMarkdownBlockRenderer)
   protected
-    procedure DoRender(aBlock: TMarkDownBlock); override;
+    procedure DoRender(aBlock: TMarkdownBlock); override;
   public
-    class function BlockClass: TMarkDownBlockClass; override;
+    class function BlockClass: TMarkdownBlockClass; override;
   end;
 
-  { TCanvasMarkDownCodeBlockRenderer }
-  TCanvasMarkDownCodeBlockRenderer = class(TCanvasMarkDownBlockRenderer)
+  { TCanvasMarkdownCodeBlockRenderer }
+  TCanvasMarkdownCodeBlockRenderer = class(TCanvasMarkdownBlockRenderer)
   protected
-    procedure DoRender(aBlock: TMarkDownBlock); override;
+    procedure DoRender(aBlock: TMarkdownBlock); override;
   public
-    class function BlockClass: TMarkDownBlockClass; override;
+    class function BlockClass: TMarkdownBlockClass; override;
   end;
 
-  { TCanvasMarkDownTableBlockRenderer }
-  TCanvasMarkDownTableBlockRenderer = class(TCanvasMarkDownBlockRenderer)
+  { TCanvasMarkdownTableBlockRenderer }
+  TCanvasMarkdownTableBlockRenderer = class(TCanvasMarkdownBlockRenderer)
   Protected
     Type
       TColData = Record
@@ -453,22 +488,23 @@ type
     FColLayout : TColDataArray;
     FAvailableWidth : Integer;
     FGridSize : Integer;
-    FCellPadding : Integer;
     FCellPaddingX : Integer;
+    FCellPaddingY : Integer;
     FStartX,FStartY : Integer;
     FRowHeights: TLongintArray;
     FCurrentRow : integer;
     FFontStyles : TFontStyles;
-    procedure CalcRowHeights(aTable: TMarkDownTableBlock; const aFontSize: LongInt; const aFontStyle: TFontStyles;
+    procedure CalcRowHeights(aTable: TMarkdownTableBlock; const aFontSize: LongInt; const aFontStyle: TFontStyles;
       const aContext: TFontContext);
     procedure DistributeColumns(const aAvailable: LongInt);
     procedure DrawBorders;
-    procedure GetCellTexts(aCell: TMarkDownBlock; aTexts: TStrings);
+    procedure MeasureCell(aCell: TMarkdownBlock; aHeader: Boolean; var aMin, aPref: LongInt);
     function GetTotalColumns: Integer;
     function GetTotalHeight: Integer;
-    procedure MeasureTableColumns(const aTableModel: TMarkDownTableBlock);
+    function GetTotalWidth: Integer;
+    procedure MeasureTableColumns(const aTableModel: TMarkdownTableBlock);
   protected
-    procedure DoRender(aBlock: TMarkDownBlock); override;
+    procedure DoRender(aBlock: TMarkdownBlock); override;
     // Column layout, calculated at start of DoRender
     property ColLayout : TColDataArray Read FColLayout;
     // Number of columns
@@ -479,46 +515,76 @@ type
     property CurrentRow : Integer Read FCurrentRow;
     // Grid size
     Property GridSize : Integer Read FGridSize;
-    // Cell padding
-    Property CellPadding : Integer Read FCellPadding;
+    // Horizontal cell padding
     Property CellPaddingX : Integer Read FCellPaddingX;
+    // Vertical cell padding
+    Property CellPaddingY : Integer Read FCellPaddingY;
     // Available width, calculated in DoRender
     Property AvailableWidth : Integer Read FAvailableWidth;
     // Font styles
     Property FontStyles : TFontStyles Read FFontStyles;
     // Total height as calculated
     Property TotalHeight : Integer Read GetTotalHeight;
+    // Total width of the columns and grid lines
+    Property TotalWidth : Integer Read GetTotalWidth;
   public
     Procedure Reset; override;
-    class function BlockClass: TMarkDownBlockClass; override;
+    class function BlockClass: TMarkdownBlockClass; override;
   end;
 
-  { TCanvasMarkDownTableRowBlockRenderer }
-  TCanvasMarkDownTableRowBlockRenderer = class(TCanvasMarkDownBlockRenderer)
+  { TCanvasMarkdownTableRowBlockRenderer }
+  TCanvasMarkdownTableRowBlockRenderer = class(TCanvasMarkdownBlockRenderer)
   private
-    FTableRenderer : TCanvasMarkDownTableBlockRenderer;
+    FTableRenderer : TCanvasMarkdownTableBlockRenderer;
     procedure GetTableRenderer;
   protected
-    procedure DoRender(aBlock: TMarkDownBlock); override;
-    Property TableRenderer : TCanvasMarkDownTableBlockRenderer read FTableRenderer;
+    procedure DoRender(aBlock: TMarkdownBlock); override;
+    Property TableRenderer : TCanvasMarkdownTableBlockRenderer read FTableRenderer;
   public
-    class function BlockClass: TMarkDownBlockClass; override;
+    class function BlockClass: TMarkdownBlockClass; override;
   end;
 
-  { TCanvasMarkDownThematicBreakBlockRenderer }
-  TCanvasMarkDownThematicBreakBlockRenderer = class(TCanvasMarkDownBlockRenderer)
+  { TCanvasMarkdownThematicBreakBlockRenderer }
+  TCanvasMarkdownThematicBreakBlockRenderer = class(TCanvasMarkdownBlockRenderer)
   protected
-    procedure DoRender(aBlock: TMarkDownBlock); override;
+    procedure DoRender(aBlock: TMarkdownBlock); override;
   public
-    class function BlockClass: TMarkDownBlockClass; override;
+    class function BlockClass: TMarkdownBlockClass; override;
   end;
 
-  { TCanvasMarkDownTextBlockRenderer }
-  TCanvasMarkDownTextBlockRenderer = class(TCanvasMarkDownBlockRenderer)
+  { TCanvasMarkdownTextBlockRenderer }
+  TCanvasMarkdownTextBlockRenderer = class(TCanvasMarkdownBlockRenderer)
   protected
-    procedure DoRender(aBlock: TMarkDownBlock); override;
+    procedure DoRender(aBlock: TMarkdownBlock); override;
   public
-    class function BlockClass: TMarkDownBlockClass; override;
+    class function BlockClass: TMarkdownBlockClass; override;
+  end;
+
+  { TCanvasMarkdownFrontmatterBlockRenderer }
+  // Front matter is not displayed.
+  TCanvasMarkdownFrontmatterBlockRenderer = class(TCanvasMarkdownBlockRenderer)
+  protected
+    procedure DoRender(aBlock: TMarkdownBlock); override;
+  public
+    class function BlockClass: TMarkdownBlockClass; override;
+  end;
+
+  { TCanvasMarkdownContainerBlockRenderer }
+  // Container blocks without a renderer of their own: only their children are displayed.
+  TCanvasMarkdownContainerBlockRenderer = class(TCanvasMarkdownBlockRenderer)
+  protected
+    procedure DoRender(aBlock: TMarkdownBlock); override;
+  public
+    class function BlockClass: TMarkdownBlockClass; override;
+  end;
+
+  { TCanvasMarkdownLeafBlockRenderer }
+  // Leaf blocks without a renderer of their own are not displayed.
+  TCanvasMarkdownLeafBlockRenderer = class(TCanvasMarkdownBlockRenderer)
+  protected
+    procedure DoRender(aBlock: TMarkdownBlock); override;
+  public
+    class function BlockClass: TMarkdownBlockClass; override;
   end;
 
 implementation
@@ -533,8 +599,6 @@ begin
   case aKind of
     ckBackground : Result:=FBGColor;
     ckForeground : Result:=FColor;
-  else
-    Result:=clNone;
   end;
   if Result=clNone then
     Result:=aDefault;
@@ -604,9 +668,9 @@ begin
 end;
 
 
-{ TMarkDownCanvasRenderer }
+{ TMarkdownCanvasRenderer }
 
-constructor TMarkDownCanvasRenderer.Create(aOwner: TComponent);
+constructor TMarkdownCanvasRenderer.Create(aOwner: TComponent);
 
 begin
   inherited Create(aOwner);
@@ -620,11 +684,10 @@ begin
   FLists.Items:=TLayoutItemList.Create;
   FLists.LinkRects:=TLinkHitRectList.Create;
 
-  fParser:=TMarkDownParser.Create(Self);
+  fParser:=TMarkdownParser.Create(Self);
 
   // Initialize default values
-  // GitHub spacing v2: p { margin-bottom: 16px } (Primer --base-size-16)
-  fParagraphSpacing:=16;
+  fParagraphSpacing:=10;
   fExtraIndent:=0;
   fTargetDPI:=96;
   fFontName:='Sans Serif';
@@ -641,18 +704,15 @@ begin
   FTableLinesColor:=clBlack;
 
   fBaseFontSize:=10;
+  FTableCellPaddingX:=25;
+  FTableCellPaddingY:=25;
   FLayout.BaselineShiftCurrent:=0;
 
   // Initialize selection
   FSelectionColor:=clHighlight;
-  FSelectionAnchor.LayoutItemIndex:=-1;
-  FSelectionAnchor.CharOffset:=0;
-  FSelectionExtent.LayoutItemIndex:=-1;
-  FSelectionExtent.CharOffset:=0;
-
 end;
 
-destructor TMarkDownCanvasRenderer.Destroy;
+destructor TMarkdownCanvasRenderer.Destroy;
 begin
   FreeAndNil(FHTMLEntities);
   FreeAndNil(FImageCache);
@@ -664,7 +724,7 @@ begin
 end;
 
 
-procedure TMarkDownCanvasRenderer.ClearAllSelections;
+procedure TMarkdownCanvasRenderer.ClearAllSelections;
 var
   I: Integer;
 begin
@@ -679,7 +739,7 @@ begin
     end;
 end;
 
-function TMarkDownCanvasRenderer.CalculateCharXPosition(aItem: TLayoutItem; aCharIndex: Integer): LongInt;
+function TMarkdownCanvasRenderer.CalculateCharXPosition(aItem: TLayoutItem; aCharIndex: Integer): LongInt;
 var
   SubText: UTF8String;
 begin
@@ -699,55 +759,24 @@ begin
   Result:=fCanvas.TextWidth(SubText);
 end;
 
-procedure TMarkDownCanvasRenderer.ApplySelection(const aStartPoint, aEndPoint: TSelectionPoint);
+procedure TMarkdownCanvasRenderer.ApplySelection(const aStartPoint, aEndPoint: TSelectionPoint);
 var
   I: Integer;
   Item: TLayoutItem;
   StartIdx, EndIdx: Integer;
-  StartPoint, EndPoint: TSelectionPoint;
 begin
   ClearAllSelections;
-  // track the endpoints for ExtendSelectionTo; aStartPoint/aEndPoint
-  // may be in either order (callers normalize, but be safe: keep the
-  // DOCUMENT-ORDER pair, anchor = first, extent = last)
-  if (aStartPoint.LayoutItemIndex<=aEndPoint.LayoutItemIndex) then
-    begin
-    FSelectionAnchor:=aStartPoint;
-    FSelectionExtent:=aEndPoint;
-    end
-  else
-    begin
-    FSelectionAnchor:=aEndPoint;
-    FSelectionExtent:=aStartPoint;
-    end;
   StartIdx:=aStartPoint.LayoutItemIndex;
   EndIdx:=aEndPoint.LayoutItemIndex;
   if (StartIdx = -1) or (EndIdx = -1) then
     Exit;
 
-  // Normalize the two points into document order (Start first).
-  // The old code only swapped the ITEM indexes; when both points fall
-  // into the SAME item of a RIGHT-TO-LEFT drag, the start char offset
-  // is LARGER than the end offset and was stored reversed:
-  // SelectionStartChar > SelectionEndChar, so GetSelectedText did
-  // UTF8Copy(Text, Start+1, End-Start) with a NEGATIVE count and
-  // copied garbage (selecting "Ma" of "Markdown" RTL copied "rkdown",
-  // selecting "Supported" RTL copied "Markdown" etc). The same
-  // reversal corrupted the drawn selection x-coordinates.
-  StartPoint:=aStartPoint;
-  EndPoint:=aEndPoint;
+  // Ensure proper order
   if StartIdx>EndIdx then
     begin
-    StartPoint:=aEndPoint;
-    EndPoint:=aStartPoint;
+    I:=StartIdx;
     StartIdx:=EndIdx;
-    EndIdx:=aStartPoint.LayoutItemIndex;
-    end
-  else if (StartIdx=EndIdx) and (StartPoint.CharOffset>EndPoint.CharOffset) then
-    begin
-    // same item, reversed drag: swap the offsets, keep the item index
-    StartPoint:=aEndPoint;
-    EndPoint:=aStartPoint;
+    EndIdx:=I;
     end;
 
   for I:=StartIdx to EndIdx do
@@ -761,26 +790,26 @@ begin
     if (I = StartIdx) and (I = EndIdx) then
       begin
       // Single item selection
-      Item.SelectionStartChar:=StartPoint.CharOffset;
-      Item.SelectionEndChar:=EndPoint.CharOffset;
-      Item.SelectionStart:=CalculateCharXPosition(Item, StartPoint.CharOffset);
-      Item.SelectionEnd:=CalculateCharXPosition(Item, EndPoint.CharOffset);
+      Item.SelectionStartChar:=aStartPoint.CharOffset;
+      Item.SelectionEndChar:=aEndPoint.CharOffset;
+      Item.SelectionStart:=CalculateCharXPosition(Item, aStartPoint.CharOffset);
+      Item.SelectionEnd:=CalculateCharXPosition(Item, aEndPoint.CharOffset);
       end
     else if I = StartIdx then
       begin
       // Start item
-      Item.SelectionStartChar:=StartPoint.CharOffset;
+      Item.SelectionStartChar:=aStartPoint.CharOffset;
       Item.SelectionEndChar:=UTF8Length(Item.Text);
-      Item.SelectionStart:=CalculateCharXPosition(Item, StartPoint.CharOffset);
+      Item.SelectionStart:=CalculateCharXPosition(Item, aStartPoint.CharOffset);
       Item.SelectionEnd:=Item.Width;
       end
     else if I = EndIdx then
       begin
       // End item
       Item.SelectionStartChar:=0;
-      Item.SelectionEndChar:=EndPoint.CharOffset;
+      Item.SelectionEndChar:=aEndPoint.CharOffset;
       Item.SelectionStart:=0;
-      Item.SelectionEnd:=CalculateCharXPosition(Item, EndPoint.CharOffset);
+      Item.SelectionEnd:=CalculateCharXPosition(Item, aEndPoint.CharOffset);
       end
     else
       begin
@@ -793,13 +822,12 @@ begin
     end;
 end;
 
-procedure TMarkDownCanvasRenderer.DrawItemSelection(aCanvas: TCanvas; aItem: TLayoutItem; const aLeftPosition, aTopPosition: LongInt);
+procedure TMarkdownCanvasRenderer.DrawItemSelection(aCanvas: TCanvas; aItem: TLayoutItem; const aLeftPosition, aTopPosition: LongInt);
 var
   SelectionRect: TRect;
   OldBrushColor: TColor;
   OldBrushStyle: TBrushStyle;
   OldPenStyle: TPenStyle;
-  I: Integer;
 begin
   if not aItem.IsSelected then
     Exit;
@@ -817,16 +845,6 @@ begin
   SelectionRect.Right:=aItem.X + aLeftPosition + aItem.SelectionEnd;
   SelectionRect.Bottom:=aItem.Y + aTopPosition + aItem.Height;
 
-  // right-to-left drags used to store Start/End reversed on single
-  // items (see ApplySelection): normalize before filling, otherwise
-  // FillRect got an empty/inverted rect and nothing was painted
-  if SelectionRect.Right<SelectionRect.Left then
-    begin
-    I:=SelectionRect.Left;
-    SelectionRect.Left:=SelectionRect.Right;
-    SelectionRect.Right:=I;
-    end;
-
   aCanvas.FillRect(SelectionRect);
 
   aCanvas.Brush.Color:=OldBrushColor;
@@ -834,273 +852,224 @@ begin
   aCanvas.Pen.Style:=OldPenStyle;
 end;
 
-function TMarkDownCanvasRenderer.HitTestText(const aX, aY: LongInt): TSelectionPoint;
+function TMarkdownCanvasRenderer.HitTestText(const aX, aY: LongInt): TSelectionPoint;
 var
-  I: Integer;
-  Item, BestItem: TLayoutItem;
-  RelativeX: LongInt;
-  CharIndex: Integer;
-  CharWidth: LongInt;
-  CurrentX: LongInt;
-  TestChar: UTF8String;
+  I, lBest, lBestDist, lDist, lLine, lCharIndex, lLen: Integer;
+  lItem: TLayoutItem;
+  lRelX, lCurX, lCharW: LongInt;
 begin
   Result.LayoutItemIndex:=-1;
   Result.CharOffset:=0;
-  BestItem:=nil;
-
-  for I:=0 to FLists.Items.Count - 1 do
+  // Text item vertically closest to aY: its line is the target line
+  lBest:=-1;
+  lBestDist:=MaxInt;
+  for I:=0 to FLists.Items.Count-1 do
     begin
-    Item:=FLists.Items[I];
-    if (Item.Kind<>likText) or
-       (aY<Item.Y) or (aY>Item.Y+Item.Height) then
+    lItem:=FLists.Items[I];
+    if lItem.Kind<>likText then
       Continue;
-    // the text of the row starts at this item?
-    if aX<Item.X then
-      Continue;
-    // item hit exactly, or the click/drag is beyond the text end of the
-    // row: the whole row line is the target (fixes Lazarus work items
-    // 42734: clicking after the text end must give the row end, not -1,
-    // and selecting past the end must keep the LAST word selected).
-    // When the position is past the item's right edge we do NOT stop
-    // scanning: later items of the SAME row may follow (a row with two
-    // words is two items). Keep updating the fallback so the LAST item
-    // of the row wins; freezing on the first one deselected the last
-    // word of the row while dragging past the line end.
-    if (aX<=Item.X+Item.Width) then
+    if aY<lItem.Y then
+      lDist:=lItem.Y-aY
+    else if aY>=lItem.Y+lItem.Height then
+      lDist:=aY-(lItem.Y+lItem.Height)+1
+    else
+      lDist:=0;
+    if lDist<lBestDist then
       begin
-      BestItem:=Item;
-      Result.LayoutItemIndex:=I;
+      lBest:=I;
+      lBestDist:=lDist;
+      end;
+    end;
+  if lBest<0 then
+    Exit;
+  // Last item of that line starting at or before aX, else the first item of the line
+  lLine:=FLists.Items[lBest].LineIndex;
+  lBest:=-1;
+  for I:=0 to FLists.Items.Count-1 do
+    begin
+    lItem:=FLists.Items[I];
+    if (lItem.Kind<>likText) or (lItem.LineIndex<>lLine) then
+      Continue;
+    if (lBest<0) or (lItem.X<=aX) then
+      lBest:=I;
+    end;
+  Result.LayoutItemIndex:=lBest;
+  lItem:=FLists.Items[lBest];
+  lRelX:=aX-lItem.X;
+  if lRelX<=0 then
+    Exit;
+  lLen:=UTF8Length(lItem.Text);
+  if lRelX>=lItem.Width then
+    begin
+    Result.CharOffset:=lLen;
+    Exit;
+    end;
+  ApplyFont(fCanvas, lItem.FontSize, lItem.FontStyle, lItem.Context);
+  lCurX:=0;
+  lCharIndex:=0;
+  while lCharIndex<lLen do
+    begin
+    lCharW:=fCanvas.TextWidth(UTF8Copy(lItem.Text, lCharIndex+1, 1));
+    if lRelX<=lCurX+(lCharW div 2) then
       Break;
+    Inc(lCurX, lCharW);
+    Inc(lCharIndex);
+    end;
+  Result.CharOffset:=lCharIndex;
+end;
+
+
+// Check whether a single UTF-8 encoded character is part of a word.
+function IsWordChar(const aChar: utf8string): Boolean;
+
+var
+  lChar: UnicodeString;
+
+begin
+  if aChar='_' then
+    Exit(True);
+  lChar:=UTF8ToUTF16(aChar);
+  Result:=(lChar<>'') and (IsLetterOrDigit(lChar,1)
+          or (GetUnicodeCategory(lChar,1) in [TUnicodeCategory.ucNonSpacingMark,TUnicodeCategory.ucCombiningMark]));
+end;
+
+
+// Index of the next text item of the same line in aDirection (1 or -1), or -1.
+function TMarkdownCanvasRenderer.AdjacentTextItem(aIndex, aDirection: Integer): Integer;
+
+var
+  lLine: Integer;
+
+begin
+  Result:=-1;
+  lLine:=FLists.Items[aIndex].LineIndex;
+  Inc(aIndex,aDirection);
+  while (aIndex>=0) and (aIndex<FLists.Items.Count) do
+    case FLists.Items[aIndex].Kind of
+      likText:
+        begin
+        if FLists.Items[aIndex].LineIndex=lLine then
+          Result:=aIndex;
+        Exit;
+        end;
+      likBackground:
+        Inc(aIndex,aDirection);
+    else
+      Exit;
+    end;
+end;
+
+
+function TMarkdownCanvasRenderer.GetWordBounds(const aPoint: TSelectionPoint; out aStart, aEnd: TSelectionPoint): Boolean;
+
+var
+  lIndex: Integer;
+  lText: utf8string;
+
+begin
+  aStart:=aPoint;
+  aEnd:=aPoint;
+  if (aPoint.LayoutItemIndex<0) or (aPoint.LayoutItemIndex>=FLists.Items.Count) then
+    Exit(False);
+  repeat
+    lText:=FLists.Items[aStart.LayoutItemIndex].Text;
+    if aStart.CharOffset>0 then
+      begin
+      if not IsWordChar(UTF8Copy(lText,aStart.CharOffset,1)) then
+        Break;
+      Dec(aStart.CharOffset);
       end
     else
       begin
-      BestItem:=Item;
-      Result.LayoutItemIndex:=I;
+      lIndex:=AdjacentTextItem(aStart.LayoutItemIndex,-1);
+      if lIndex<0 then
+        Break;
+      lText:=FLists.Items[lIndex].Text;
+      if not IsWordChar(UTF8Copy(lText,UTF8Length(lText),1)) then
+        Break;
+      aStart.LayoutItemIndex:=lIndex;
+      aStart.CharOffset:=UTF8Length(lText);
       end;
-    end;
-
-  if BestItem=nil then
-    Exit;
-
-  // Find character position
-  Result.CharOffset:=UTF8Length(BestItem.Text);
-  ApplyFont(fCanvas, BestItem.FontSize, BestItem.FontStyle, BestItem.Context);
-  RelativeX:=aX - BestItem.X;
-  if RelativeX>=BestItem.Width then
-    Exit; // after the text end: keep the end-of-item offset
-  CurrentX:=0;
-  CharIndex:=0;
-
-  while CharIndex<UTF8Length(BestItem.Text) do
-    begin
-    TestChar:=UTF8Copy(BestItem.Text, CharIndex + 1, 1);
-    CharWidth:=fCanvas.TextWidth(TestChar);
-    if RelativeX <= CurrentX + (CharWidth div 2) then
-      Break;
-    CurrentX:=CurrentX + CharWidth;
-    Inc(CharIndex);
-    end;
-
-  Result.CharOffset:=CharIndex;
+  until False;
+  repeat
+    lText:=FLists.Items[aEnd.LayoutItemIndex].Text;
+    if aEnd.CharOffset<UTF8Length(lText) then
+      begin
+      if not IsWordChar(UTF8Copy(lText,aEnd.CharOffset+1,1)) then
+        Break;
+      Inc(aEnd.CharOffset);
+      end
+    else
+      begin
+      lIndex:=AdjacentTextItem(aEnd.LayoutItemIndex,1);
+      if (lIndex<0) or not IsWordChar(UTF8Copy(FLists.Items[lIndex].Text,1,1)) then
+        Break;
+      aEnd.LayoutItemIndex:=lIndex;
+      aEnd.CharOffset:=0;
+      end;
+  until False;
+  Result:=(aStart.LayoutItemIndex<>aEnd.LayoutItemIndex) or (aStart.CharOffset<>aEnd.CharOffset);
 end;
 
-procedure TMarkDownCanvasRenderer.SetSelection(const aStart, aEnd: TSelectionPoint);
+
+function TMarkdownCanvasRenderer.GetLineBounds(const aPoint: TSelectionPoint; out aStart, aEnd: TSelectionPoint): Boolean;
+
+var
+  I, lLine: Integer;
+
+begin
+  aStart:=aPoint;
+  aEnd:=aPoint;
+  if (aPoint.LayoutItemIndex<0) or (aPoint.LayoutItemIndex>=FLists.Items.Count) then
+    Exit(False);
+  lLine:=FLists.Items[aPoint.LayoutItemIndex].LineIndex;
+  aStart.LayoutItemIndex:=-1;
+  for I:=0 to FLists.Items.Count-1 do
+    with FLists.Items[I] do
+      if (Kind=likText) and (LineIndex=lLine) then
+        begin
+        if aStart.LayoutItemIndex<0 then
+          aStart.LayoutItemIndex:=I;
+        aEnd.LayoutItemIndex:=I;
+        end;
+  aStart.CharOffset:=0;
+  aEnd.CharOffset:=UTF8Length(FLists.Items[aEnd.LayoutItemIndex].Text);
+  Result:=True;
+end;
+
+
+
+function TMarkdownCanvasRenderer.MeasureBaseLineHeight(const aCanvas: TCanvas): LongInt;
+begin
+  Result:=MeasureTextHeight(aCanvas, fBaseFontSize, [], []);
+end;
+
+
+procedure TMarkdownCanvasRenderer.ClearImageCache;
+begin
+  FImageCache.Clear;
+end;
+
+
+procedure TMarkdownCanvasRenderer.SetBaseDir(const aValue: string);
+begin
+  if FBaseDir=aValue then
+    Exit;
+  FBaseDir:=aValue;
+  ClearImageCache;
+end;
+
+procedure TMarkdownCanvasRenderer.SetSelection(const aStart, aEnd: TSelectionPoint);
 begin
   ApplySelection(aStart, aEnd);
 end;
 
-{ SelectWordAtPoint / SelectParagraphAtPoint: word- and paragraph-level
-  selection for double/triple clicks (CudaText issue 6642). They reuse
-  the plain ApplySelection machinery: only the two TSelectionPoints
-  differ.
-
-  A word is a run of Unicode letters/digits/underscore around the hit
-  position; the run may cross several items of the same visual row.
-  A paragraph is the run of text items between two "blank" vertical
-  gaps: consecutive paragraph rows are one row-height apart, a
-  paragraph gap shows a bigger Y step. }
-
-function LocalSelectionPoint(const aIndex, aOffset: Integer): TSelectionPoint;
-begin
-  Result.LayoutItemIndex:=aIndex;
-  Result.CharOffset:=aOffset;
-end;
-
-function IsWordCharUtf8(const aChar: utf8string): Boolean;
-begin
-  // letters/digits/underscore/marks: anything but space and punctuation
-  if aChar='' then
-    exit(False);
-  Result:= not (aChar[1] in [#0..#32, '!', '"', '#', '$', '%', '&', '''',
-    '(', ')', '*', '+', ',', '-', '.', '/', ':', ';', '<', '=', '>', '?',
-    '@', '[', '\', ']', '^', '`', '{', '|', '}', '~', #127..#255])
-    or (Length(aChar)>1); // multibyte = non-ASCII letter/mark usually
-end;
-
-function TMarkDownCanvasRenderer.SelectWordAtPoint(const aHit: TSelectionPoint): Boolean;
-var
-  Item: TLayoutItem;
-  WordStart, WordEnd: TSelectionPoint;
-  P1, P2: TSelectionPoint;
-begin
-  Result:=False;
-  if aHit.LayoutItemIndex=-1 then
-    exit;
-  Item:=FLists.Items[aHit.LayoutItemIndex];
-
-  // walk back from the hit position to the word start
-  P1:=aHit;
-  while (P1.CharOffset>0) do
-  begin
-    if not IsWordCharUtf8(UTF8Copy(FLists.Items[P1.LayoutItemIndex].Text, P1.CharOffset, 1)) then
-      Break;
-    Dec(P1.CharOffset);
-  end;
-
-  // walk forward from the hit position to the word end
-  P2:=aHit;
-  Item:=FLists.Items[P2.LayoutItemIndex];
-  while P2.CharOffset<UTF8Length(Item.Text) do
-  begin
-    if not IsWordCharUtf8(UTF8Copy(Item.Text, P2.CharOffset+1, 1)) then
-      Break;
-    Inc(P2.CharOffset);
-  end;
-  // the word may continue in the next item of the same visual row
-  if (P2.LayoutItemIndex+1<FLists.Items.Count) then
-    begin
-      Item:=FLists.Items[P2.LayoutItemIndex+1];
-      if (Item.Kind=likText) and (Abs(Item.Y - FLists.Items[P2.LayoutItemIndex].Y) < Item.Height)
-        and IsWordCharUtf8(UTF8Copy(Item.Text, 1, 1)) then
-      begin
-        P2.LayoutItemIndex:=P2.LayoutItemIndex+1;
-        P2.CharOffset:=0;
-        while P2.CharOffset<UTF8Length(Item.Text) do
-        begin
-          if not IsWordCharUtf8(UTF8Copy(Item.Text, P2.CharOffset+1, 1)) then
-            Break;
-          Inc(P2.CharOffset);
-        end;
-      end;
-    end;
-
-  if (P1.LayoutItemIndex=P2.LayoutItemIndex) and (P1.CharOffset=P2.CharOffset) then
-    exit(False); // empty selection: hit a separator
-
-  // normalize order
-  if (P1.LayoutItemIndex>P2.LayoutItemIndex)
-     or ((P1.LayoutItemIndex=P2.LayoutItemIndex) and (P1.CharOffset>P2.CharOffset)) then
-  begin
-    WordStart:=P2;
-    WordEnd:=P1;
-  end
-  else
-  begin
-    WordStart:=P1;
-    WordEnd:=P2;
-  end;
-  ApplySelection(WordStart, WordEnd);
-  Result:=True;
-end;
-
-function TMarkDownCanvasRenderer.SelectParagraphAtPoint(const aHit: TSelectionPoint): Boolean;
-var
-  Item: TLayoutItem;
-  FirstIdx, LastIdx: Integer;
-begin
-  Result:=False;
-  if aHit.LayoutItemIndex=-1 then
-    exit;
-  Item:=FLists.Items[aHit.LayoutItemIndex];
-
-  // extend from the hit item while items are "dense" vertically:
-  // consecutive text items of the same paragraph are one row apart;
-  // a paragraph gap shows as a bigger Y step
-  FirstIdx:=aHit.LayoutItemIndex;
-  while FirstIdx>0 do
-  begin
-    Item:=FLists.Items[FirstIdx-1];
-    if (Item.Kind=likText) and (FLists.Items[FirstIdx].Y - Item.Y <= Item.Height + DIP(2)) then
-      Dec(FirstIdx)
-    else
-      Break;
-  end;
-  LastIdx:=aHit.LayoutItemIndex;
-  while LastIdx+1<FLists.Items.Count do
-  begin
-    Item:=FLists.Items[LastIdx+1];
-    if (Item.Kind=likText) and (Item.Y - FLists.Items[LastIdx].Y <= FLists.Items[LastIdx].Height + DIP(2)) then
-      Inc(LastIdx)
-    else
-      Break;
-  end;
-
-  ApplySelection(
-    LocalSelectionPoint(FirstIdx, 0),
-    LocalSelectionPoint(LastIdx, MaxInt));
-  Result:=True;
-end;
-
-procedure TMarkDownCanvasRenderer.SetSelectionAnchor(const aValue: TSelectionPoint);
-begin
-  FSelectionAnchor:=aValue;
-end;
-
-procedure TMarkDownCanvasRenderer.SetSelectionExtent(const aValue: TSelectionPoint);
-begin
-  FSelectionExtent:=aValue;
-end;
-
-{ ExtendSelectionTo: Shift+Click semantics. The ANCHOR (where the
-  selection started) never moves; the extent jumps to the new point.
-  When the new point is BEFORE the anchor, the pair is swapped so
-  ApplySelection still receives document order. With no selection
-  yet, the click becomes a one-char selection anchor the next
-  shift-click will extend from. A miss (LayoutItemIndex=-1) keeps the
-  current selection untouched. }
-
-function TMarkDownCanvasRenderer.ExtendSelectionTo(const aNew: TSelectionPoint): Boolean;
-var
-  P1, P2: TSelectionPoint;
-begin
-  Result:=False;
-  if aNew.LayoutItemIndex<0 then
-    exit(False); // miss: keep the current selection intact
-
-  if FSelectionAnchor.LayoutItemIndex=-1 then
-    begin
-    // no selection yet: this click becomes the anchor; select the
-    // clicked char so something is visibly selected, like editors do
-    FSelectionAnchor:=aNew;
-    FSelectionExtent:=aNew;
-    exit(True);
-    end;
-
-  // extend: anchor stays, extent moves
-  if (aNew.LayoutItemIndex<FSelectionAnchor.LayoutItemIndex)
-     or ((aNew.LayoutItemIndex=FSelectionAnchor.LayoutItemIndex)
-         and (aNew.CharOffset<FSelectionAnchor.CharOffset)) then
-    begin
-    P1:=aNew;
-    P2:=FSelectionAnchor;
-    end
-  else
-    begin
-    P1:=FSelectionAnchor;
-    P2:=aNew;
-    end;
-  ApplySelection(P1, P2);
-  Result:=True;
-end;
-
-procedure TMarkDownCanvasRenderer.ClearSelection;
+procedure TMarkdownCanvasRenderer.ClearSelection;
 begin
   ClearAllSelections;
-  FSelectionAnchor.LayoutItemIndex:=-1;
-  FSelectionExtent.LayoutItemIndex:=-1;
 end;
 
-function TMarkDownCanvasRenderer.GetSelectedText: String;
+function TMarkdownCanvasRenderer.GetSelectedText: String;
 var
   I: Integer;
   Item,PrevItem: TLayoutItem;
@@ -1115,55 +1084,39 @@ begin
       begin
       ItemText:=UTF8Copy(Item.Text, Item.SelectionStartChar + 1,
                           Item.SelectionEndChar - Item.SelectionStartChar);
-      // guard: a reversed (RTL drag) or degenerate range must never
-      // reach UTF8Copy with a negative count (UTF8Copy tolerates it,
-      // but the result is garbage text, not an empty string)
-      if Item.SelectionEndChar < Item.SelectionStartChar then
-        ItemText:='';
-      if Result<>'' then
-        begin
-        // Add spacing between items.
-        // Wrapped FENCED CODE rows are pieces of ONE source line
-        // (soft wraps, LayoutFencedCodeLine): they must be joined with
-        // NO separator at all, or a copy of a single long code line
-        // would get spaces/newlines injected at every wrap point.
-        // Different Y rows of normal text are separate source lines
-        // (LineEnding); same-row items are separate words (' ').
-        if (fcFencedCode in PrevItem.Context) and (fcFencedCode in Item.Context) then
-          begin
-          if PrevItem.Y<>Item.Y then
-            ; // soft wrap of one code source line: no separator
-          end
-        else if (I>0) and (PrevItem.Y<>Item.Y) then
-          Result:=Result + LineEnding
-        else
-          Result:=Result + ' ';
-        end;
+      // Runs of one line already contain their separating spaces
+      if (Result<>'') and (PrevItem<>nil) and (PrevItem.LineIndex<>Item.LineIndex)
+         and not Item.SoftBreak then
+        Result:=Result + LineEnding;
       Result:=Result + ItemText;
+      PrevItem:=Item;
       end;
-    PrevItem:=Item;
     end;
 end;
 
-procedure TMarkDownCanvasRenderer.ParseMarkdown(const aMarkDown: utf8string);
+procedure TMarkdownCanvasRenderer.ParseMarkdown(const aMarkdown: utf8string);
 var
   S: TStrings;
 begin
-  FreeAndNil(fDocument);
   S:=TStringList.Create;
   try
-    S.Text:=aMarkDown;
+    S.Text:=aMarkdown;
+    ParseMarkdown(S);
   finally
     S.Free;
   end;
 end;
 
-procedure TMarkDownCanvasRenderer.ParseMarkdown(const aMarkDown: TStrings);
+procedure TMarkdownCanvasRenderer.ParseMarkdown(const aMarkdown: TStrings);
+var
+  lDocument: TMarkdownDocument;
 begin
-  fDocument:=fParser.Parse(aMarkDown);
+  lDocument:=fParser.Parse(aMarkdown);
+  FreeAndNil(fDocument);
+  fDocument:=lDocument;
 end;
 
-procedure TMarkDownCanvasRenderer.RenderDocument(aDocument: TMarkDownDocument);
+procedure TMarkdownCanvasRenderer.RenderDocument(aDocument: TMarkdownDocument);
 begin
   if not assigned(aDocument) then exit;
   fDocument:=aDocument;
@@ -1171,83 +1124,48 @@ begin
   RenderChildren(aDocument);
 end;
 
-procedure TMarkDownCanvasRenderer.Clear;
+procedure TMarkdownCanvasRenderer.Clear;
 begin
   FLists.Items.Clear;
   FLists.LinkRects.Clear;
   fCalculatedWidth:=0;
   fCalculatedHeight:=0;
   FLayout:=Default(TLayoutData);
+  FLayout.BaselineFromIndex:=-1;
   fLineWidth:=0;
+  FLineCount:=0;
   FLayout.NeedSpaceBeforeNextText:=False;
 end;
 
-procedure TMarkDownCanvasRenderer.BeginLayout;
+procedure TMarkdownCanvasRenderer.BeginLayout;
 begin
   Clear;
 end;
 
-procedure TMarkDownCanvasRenderer.EndLayout;
+procedure TMarkdownCanvasRenderer.EndLayout;
 begin
   // Reserved for future batching hooks
 end;
 
-procedure TMarkDownCanvasRenderer.CenterTextItemsVerticallyInRows;
-var
-  I: Integer;
-  Item: TLayoutItem;
-  RowY, RowMaxH: LongInt;
-begin
-  // Text items of one visual row keep the row's top Y and their own font
-  // height. Shorter items (e.g. mono/backtick runs next to taller
-  // proportional text) were painted from the row top, i.e. a few pixels
-  // too high (Lazarus work item 42738). Shift each text item down inside
-  // its row so all text bands of the row are vertically centered.
-  // Two passes over the item list (items are created row by row):
-  // 1) find the max text height per row (row = shared top Y),
-  // 2) center every text item of the row within that height.
-  if FLists.Items.Count=0 then
-    exit;
-  RowY:=MaxInt;
-  RowMaxH:=0;
-  // pass 1: remember the row's maximal text height in DeltaY
-  for I:=0 to FLists.Items.Count-1 do
-    begin
-    Item:=FLists.Items[I];
-    if (Item.Kind<>likText) or (Item.Height<=0) then
-      continue;
-    if Item.Y<>RowY then
-      begin
-      RowY:=Item.Y;
-      RowMaxH:=Item.Height;
-      end
-    else if Item.Height>RowMaxH then
-      RowMaxH:=Item.Height;
-    Item.DeltaY:=RowMaxH;
-    end;
-  // pass 2: shift shorter items down by half the difference
-  for I:=0 to FLists.Items.Count-1 do
-    begin
-    Item:=FLists.Items[I];
-    if (Item.Kind<>likText) or (Item.Height<=0) then
-      continue;
-    if Item.Height<Item.DeltaY then
-      Item.Y:=Item.Y + (Item.DeltaY-Item.Height) div 2;
-    Item.DeltaY:=0;
-    end;
-end;
-
-function TMarkDownCanvasRenderer.GetBulletChar(AIndex: Integer): string;
+function TMarkdownCanvasRenderer.GetBulletChar(AIndex: Integer): string;
 begin
   result:=FBullets[aIndex];
 end;
 
-function TMarkDownCanvasRenderer.DIP(const aValue: LongInt): LongInt;
+function TMarkdownCanvasRenderer.DIP(const aValue: LongInt): LongInt;
 begin
   Result:=(aValue * fTargetDPI + 48) div 96;
 end;
 
-procedure TMarkDownCanvasRenderer.NewLine(const aCanvas: TCanvas);
+function TMarkdownCanvasRenderer.EmPercent(const aPercent: Integer): LongInt;
+
+begin
+  Result:=(aPercent*FBaseLineHeight+50) div 100;
+end;
+
+
+
+procedure TMarkdownCanvasRenderer.NewLine(const aCanvas: TCanvas);
 begin
   if (aCanvas=Nil) then; // Silence compiler warning
   FLayout.LineX:=0;
@@ -1262,10 +1180,14 @@ begin
   FLayout.LineBelowExtra:=0;
   FLayout.NeedSpaceBeforeNextText:=False;
   FLayout.BaselineFromIndex:=FLists.Items.Count-1;
+  FLayout.LinkFromIndex:=FLists.LinkRects.Count;
   FLayout.BaselineShiftCurrent:=0;
+  FLayout.LineAscent:=0;
+  FLayout.LineDescent:=0;
+  Inc(FLineCount);
 end;
 
-procedure TMarkDownCanvasRenderer.ParagraphBreak(const aCanvas: TCanvas);
+procedure TMarkdownCanvasRenderer.ParagraphBreak(const aCanvas: TCanvas);
 begin
   if FLayout.LineX<>0 then
     NewLine(aCanvas);
@@ -1274,30 +1196,30 @@ begin
   FLayout.LineBelowExtra:=0;
 end;
 
-procedure TMarkDownCanvasRenderer.MaybeStartParagraph;
+procedure TMarkdownCanvasRenderer.MaybeStartParagraph;
 begin
   if FLayout.LineX<>0 then
    ParagraphBreak(FCanvas);
 end;
 
-function TMarkDownCanvasRenderer.SwapLayout(const aData: TLayoutData): TLayoutData;
+function TMarkdownCanvasRenderer.SwapLayout(const aData: TLayoutData): TLayoutData;
 begin
   Result:=FLayout;
   FLayout:=aData;
 end;
 
-function TMarkDownCanvasRenderer.SwapLayoutLists(const aData: TLayoutLists): TLayoutLists;
+function TMarkdownCanvasRenderer.SwapLayoutLists(const aData: TLayoutLists): TLayoutLists;
 begin
   Result:=FLists;
   FLists:=aData;
 end;
 
-procedure TMarkDownCanvasRenderer.SetCurrentY(aValue: Integer);
+procedure TMarkdownCanvasRenderer.SetCurrentY(aValue: Integer);
 begin
   FLayout.LineY:=aValue;
 end;
 
-procedure TMarkDownCanvasRenderer.ApplyFont(const aCanvas: TCanvas; const aFontSize: LongInt;
+procedure TMarkdownCanvasRenderer.ApplyFont(const aCanvas: TCanvas; const aFontSize: LongInt;
   const aFontStyle: TFontStyles; const aContext : TFontContext);
 
   Procedure SetFontName(aName : string);
@@ -1320,7 +1242,7 @@ begin
 end;
 
 
-procedure TMarkDownCanvasRenderer.MeasureText(const aCanvas: TCanvas; const aText: utf8string;
+procedure TMarkdownCanvasRenderer.MeasureText(const aCanvas: TCanvas; const aText: utf8string;
   const aFontSize: LongInt; const aFontStyle: TFontStyles; const aContext : TFontContext;
   out aWidth, aHeight: LongInt);
 begin
@@ -1337,7 +1259,7 @@ begin
   end;
 end;
 
-function TMarkDownCanvasRenderer.MeasureTextWidth(const aCanvas: TCanvas; const aText: utf8string;
+function TMarkdownCanvasRenderer.MeasureTextWidth(const aCanvas: TCanvas; const aText: utf8string;
   const aFontSize: LongInt; const aFontStyle: TFontStyles; const aContext : TFontContext): LongInt;
 var
   Width, Height: LongInt;
@@ -1346,7 +1268,7 @@ begin
   Result:=Width;
 end;
 
-function TMarkDownCanvasRenderer.MeasureTextHeight(const aCanvas: TCanvas; const aFontSize: LongInt;
+function TMarkdownCanvasRenderer.MeasureTextHeight(const aCanvas: TCanvas; const aFontSize: LongInt;
   const aFontStyle: TFontStyles; const aContext: TFontContext): LongInt;
 var
   Width, Height: LongInt;
@@ -1355,7 +1277,51 @@ begin
   Result:=Height;
 end;
 
-function TMarkDownCanvasRenderer.GetTextColor(aContext : TFontContext) : TColor;
+
+function TMarkdownCanvasRenderer.MeasureTextAscent(const aCanvas: TCanvas; const aFontSize: LongInt;
+  const aFontStyle: TFontStyles; const aContext: TFontContext): LongInt;
+
+var
+  I: Integer;
+  lMono: Boolean;
+  lTM: TLCLTextMetric;
+
+begin
+  lMono:=fcMono in aContext;
+  for I:=0 to Length(FAscentCache)-1 do
+    with FAscentCache[I] do
+      if (Mono=lMono) and (Size=aFontSize) and (Style=aFontStyle) then
+        Exit(Ascent);
+  ApplyFont(aCanvas, aFontSize, aFontStyle, aContext);
+  if aCanvas.GetTextMetrics(lTM) then
+    Result:=lTM.Ascender
+  else
+    Result:=aCanvas.TextHeight(ExtendHeight);
+  I:=Length(FAscentCache);
+  SetLength(FAscentCache, I+1);
+  FAscentCache[I].Mono:=lMono;
+  FAscentCache[I].Size:=aFontSize;
+  FAscentCache[I].Style:=aFontStyle;
+  FAscentCache[I].Ascent:=Result;
+end;
+
+
+procedure TMarkdownCanvasRenderer.ShiftLineItems(aDelta: LongInt);
+
+var
+  I: Integer;
+
+begin
+  for I:=FLayout.BaselineFromIndex+1 to FLists.Items.Count-1 do
+    with FLists.Items[I] do
+      if Kind in [likText,likImage] then
+        Y:=Y+aDelta;
+  for I:=FLayout.LinkFromIndex to FLists.LinkRects.Count-1 do
+    with FLists.LinkRects[I] do
+      FY:=FY+aDelta;
+end;
+
+function TMarkdownCanvasRenderer.GetTextColor(aContext : TFontContext) : TColor;
 
 begin
   if fcHyperLink in aContext then
@@ -1368,7 +1334,7 @@ begin
     Result:=FontColor;
 end;
 
-function TMarkDownCanvasRenderer.GetTextBGColor(aContext : TFontContext) : TColor;
+function TMarkdownCanvasRenderer.GetTextBGColor(aContext : TFontContext) : TColor;
 
 begin
   if fcFencedCode in aContext then
@@ -1377,42 +1343,39 @@ begin
     Result:=BGColor;
 end;
 
-procedure TMarkDownCanvasRenderer.FlushTextRun(const aCanvas: TCanvas; const aText: utf8string;
+procedure TMarkdownCanvasRenderer.FlushTextRun(const aCanvas: TCanvas; const aText: utf8string;
   const aFontSize: LongInt; const aFontStyle: TFontStyles; const aLinkHref: utf8string;
   const aContext : TFontContext; const aDryRun: boolean);
 var
   Item: TLayoutItem;
   lX,lY : Longint;
-  lNewWidth, lHeight, lWidth, BaselineShift: LongInt;
+  lNewWidth, lHeight, lWidth, lAscent, lDescent: LongInt;
 begin
   if length(aText)=0 then
     exit;
 
   lWidth:=MeasureTextWidth(aCanvas, aText, aFontSize, aFontStyle, aContext);
   lHeight:=MeasureTextHeight(aCanvas, aFontSize, aFontStyle, aContext);
-  BaselineShift:=FLayout.BaselineShiftCurrent;
-  if FLayout.LineHeight<(lHeight) then
-    FLayout.LineHeight:=lHeight;
+  lAscent:=MeasureTextAscent(aCanvas, aFontSize, aFontStyle, aContext);
+  lDescent:=Max(0, lHeight-lAscent);
+  // All runs of a line share the baseline at LineAscent below the line top
+  if lAscent>FLayout.LineAscent then
+    begin
+    if FLayout.LineAscent>0 then
+      ShiftLineItems(lAscent-FLayout.LineAscent);
+    FLayout.LineAscent:=lAscent;
+    end;
+  if lDescent>FLayout.LineDescent then
+    FLayout.LineDescent:=lDescent;
+  if FLayout.LineHeight<FLayout.LineAscent+FLayout.LineDescent then
+    FLayout.LineHeight:=FLayout.LineAscent+FLayout.LineDescent;
 
   if not aDryRun then
     begin
     lX:=FLayout.CurrentIndent + FLayout.LineX;
-    lY:=FLayout.LineY + FLayout.LineAboveExtra + BaselineShift;
+    lY:=FLayout.LineY + FLayout.LineAboveExtra + FLayout.BaselineShiftCurrent + (FLayout.LineAscent-lAscent);
     Item:=FLists.Items.NewItem(TLayoutItemKind.likText,lX,lY);
-
-    // Do NOT cache the live background color in the item: the renderer
-    // BGColor is synced from control.Color only at Paint() time, while
-    // layout items are created earlier (parse/load). A cached value
-    // bakes the stale constructor default (clWindow = white) into the
-    // item, so the first paints show white text bands until the layout
-    // is rebuilt (Lazarus work item 42722). clNone makes DrawLayoutItem
-    // fall back to the CURRENT renderer.BGColor at draw time. Explicit
-    // background kinds (fenced code) keep their own stable color.
-    if fcFencedCode in aContext then
-      item.BGColor:=GetTextBGColor(aContext)
-    else
-      item.BGColor:=clNone;
-    item.color:=GetTextColor(aContext);
+    Item.LineIndex:=FLineCount;
     Item.Width:=lWidth;
     Item.Height:=lHeight;
     Item.Text:=aText;
@@ -1432,7 +1395,7 @@ begin
     fCalculatedWidth:=lNewWidth;
 end;
 
-procedure TMarkDownCanvasRenderer.LayoutTextWrapped(const aCanvas: TCanvas; const aText: utf8string;
+procedure TMarkdownCanvasRenderer.LayoutTextWrapped(const aCanvas: TCanvas; const aText: utf8string;
   const aFontSize: LongInt; const aFontStyle: TFontStyles; const aLinkHref: utf8string;
   const aContext : TFontContext; const aPreserveWhitespace, aDryRun: boolean);
 Const
@@ -1451,65 +1414,9 @@ var
       end;
   end;
 
-  function NextUTF8CharLenAt(const aString: utf8string; const aPosition: integer): integer;
-  var
-    ByteValue: byte;
-  begin
-    if (aPosition<1) or (aPosition>length(aString)) then
-      begin
-      Result:=0;
-      exit;
-      end;
-    ByteValue:=byte(aString[aPosition]);
-    if ByteValue<$80 then
-      Result:=1
-    else if (ByteValue and $e0) = $c0 then
-      Result:=2
-    else if (ByteValue and $f0) = $e0 then
-      Result:=3
-    else
-      Result:=4;
-  end;
-
   procedure BreakLongWord(const aWord: utf8string);
-  var
-    CharPos, WordLen, CharLen: LongInt;
-    CharBuffer, CurrentChar: utf8string;
-    CharWidth: LongInt;
   begin
-    WordLen:=length(aWord);
-    CharBuffer:='';
-    CharPos:=1;
-
-    while CharPos <= WordLen do
-      begin
-      CharLen:=NextUTF8CharLenAt(aWord, CharPos);
-      if CharLen <= 0 then
-        CharLen:=1;
-
-      CurrentChar:=copy(aWord, CharPos, CharLen);
-      CharWidth:=MeasureTextWidth(aCanvas, CharBuffer + CurrentChar, aFontSize, aFontStyle, aContext);
-
-      if (FLayout.CurrentIndent + FLayout.LineX + CharWidth)<=FLayout.MaxWidth then
-        CharBuffer:=CharBuffer + CurrentChar
-      else
-        begin
-        if length(CharBuffer)>0 then
-          begin
-          FlushTextRun(aCanvas, CharBuffer, aFontSize, aFontStyle, aLinkHref, aContext, aDryRun);
-          CharBuffer:='';
-          end;
-        // same first-line guard as in AddWordToLine: do not advance to a
-        // new line when the current line is still empty (Lazarus work
-        // item 42723: first row of a cell was pushed one line down)
-        if (FLayout.LineX>0) or (length(CharBuffer)>0) then
-          NewLine(aCanvas);
-        CharBuffer:=CurrentChar;
-        end;
-      Inc(CharPos, CharLen);
-      end;
-    if length(CharBuffer)>0 then
-      FlushTextRun(aCanvas, CharBuffer, aFontSize, aFontStyle, aLinkHref, aContext, aDryRun);
+    LayoutCharWrapped(aCanvas, aWord, aFontSize, aFontStyle, aLinkHref, aContext, aDryRun);
     NeedSpace:=True;
   end;
 
@@ -1541,12 +1448,7 @@ var
       begin
       // aWord doesn't fit, flush current line and try on new line
       FlushCurrentLine;
-      // do not advance to a new line when the current line is still
-      // empty (the very first word of a paragraph/cell): NewLine would
-      // push the first text row one full line below the top of the
-      // cell (Lazarus work item 42723: table cell text was distorted
-      // and did not stay in its cell)
-      if (FLayout.LineX>0) or (length(LineBuffer)>0) then
+      if FLayout.LineX>0 then
         NewLine(aCanvas);
       NeedSpace:=False;
       // Check if aWord fits on new line
@@ -1639,66 +1541,61 @@ begin
   FLayout.NeedSpaceBeforeNextText:=(lLength>0) and (lText[lLength] in WhiteSpace);
 end;
 
-procedure TMarkDownCanvasRenderer.LayoutFencedCodeLine(const aCanvas: TCanvas; const aText: utf8string;
-  const aFontSize: LongInt; const aFontStyle: TFontStyles; const aContext : TFontContext);
+// Lay out aText, breaking it between characters where it exceeds the available width.
+procedure TMarkdownCanvasRenderer.LayoutCharWrapped(const aCanvas: TCanvas; const aText: utf8string;
+  const aFontSize: LongInt; const aFontStyle: TFontStyles; const aLinkHref: utf8string;
+  const aContext: TFontContext; const aDryRun: boolean);
+
 var
-  CharPos, CharLen, TextLen: LongInt;
-  CharBuffer, CurrentChar: utf8string;
-  CharWidth: LongInt;
-begin
-  // Wrap ONE source line of a fenced code block at character
-  // boundaries so it fits FLayout.MaxWidth. Code has no word
-  // boundaries worth respecting (long paths, statements, strings),
-  // so unlike LayoutTextWrapped we do NOT collapse whitespace and do
-  // NOT break at spaces: every character is preserved on a wrapped
-  // line exactly as in the source. The old code flushed the whole
-  // line as a single item that could be far wider than the visible
-  // window: the tail was invisible (fCalculatedWidth grew to the
-  // line width and the text stuck out of the code background band).
-  TextLen:=length(aText);
-  if TextLen=0 then
-    exit;
-  CharPos:=1;
-  CharBuffer:='';
-  while CharPos<=TextLen do
-    begin
-    if Byte(aText[CharPos])<$80 then
-      CharLen:=1
-    else if (Byte(aText[CharPos]) and $e0)=$c0 then
-      CharLen:=2
-    else if (Byte(aText[CharPos]) and $f0)=$e0 then
-      CharLen:=3
-    else
-      CharLen:=4;
-    if CharPos+CharLen>TextLen+1 then
-      CharLen:=1; // truncated sequence at line end: take it byte-wise
-    CurrentChar:=copy(aText, CharPos, CharLen);
-    CharWidth:=MeasureTextWidth(aCanvas, CharBuffer+CurrentChar, aFontSize, aFontStyle, aContext);
-    if (FLayout.CurrentIndent+FLayout.LineX+CharWidth)<=FLayout.MaxWidth then
-      CharBuffer:=CharBuffer+CurrentChar
-    else
+  lPos, lLen, lStart, lCharLen: Integer;
+  lRunWidth, lCharWidth: LongInt;
+  lAfterWrap: Boolean;
+
+  procedure FlushRun;
+  begin
+    if lPos>lStart then
       begin
-      if length(CharBuffer)>0 then
-        begin
-        FlushTextRun(aCanvas, CharBuffer, aFontSize, aFontStyle, '', aContext, False);
-        CharBuffer:='';
-        end;
-      // advance to a new line only when the current one carries
-      // something: an empty line must stay empty (blank code line)
-      if FLayout.LineX>0 then
-        NewLine(aCanvas);
-      CharBuffer:=CurrentChar;
+      FlushTextRun(aCanvas, Copy(aText,lStart,lPos-lStart), aFontSize, aFontStyle, aLinkHref, aContext, aDryRun);
+      if lAfterWrap and not aDryRun then
+        FLists.Items[FLists.Items.Count-1].SoftBreak:=True;
       end;
-    Inc(CharPos, CharLen);
+    lAfterWrap:=False;
+  end;
+
+begin
+  lLen:=Length(aText);
+  lPos:=1;
+  lStart:=1;
+  lRunWidth:=0;
+  lAfterWrap:=False;
+  while lPos<=lLen do
+    begin
+    lCharLen:=UTF8CodepointSize(@aText[lPos]);
+    if (lCharLen<1) or (lPos+lCharLen>lLen+1) then
+      lCharLen:=1;
+    lCharWidth:=MeasureTextWidth(aCanvas, Copy(aText,lPos,lCharLen), aFontSize, aFontStyle, aContext);
+    if (FLayout.CurrentIndent+FLayout.LineX+lRunWidth+lCharWidth>FLayout.MaxWidth)
+       and ((lPos>lStart) or (FLayout.LineX>0)) then
+      begin
+      FlushRun;
+      NewLine(aCanvas);
+      lAfterWrap:=lPos>1;
+      lStart:=lPos;
+      lRunWidth:=0;
+      end;
+    Inc(lRunWidth,lCharWidth);
+    Inc(lPos,lCharLen);
     end;
-  // flush the remainder of the line (caller does the final NewLine
-  // so the code background band covers all wrapped rows)
-  if length(CharBuffer)>0 then
-    FlushTextRun(aCanvas, CharBuffer, aFontSize, aFontStyle, '', aContext, False);
+  FlushRun;
 end;
 
-procedure TMarkDownCanvasRenderer.CalculateLayout(const aCanvas: TCanvas; const aMaxWidth: LongInt;
+
+procedure TMarkdownCanvasRenderer.CalculateLayout(const aCanvas: TCanvas; const aMaxWidth: LongInt;
   out aContentWidth: LongInt; out aContentHeight: LongInt);
+
+var
+  I: Integer;
+
 begin
   if not assigned(aCanvas) then
     begin
@@ -1707,11 +1604,12 @@ begin
     exit;
     end;
   fCanvas:=aCanvas;
+  SetLength(FAscentCache,0);
   if FBlockQuoteIndent<>0 then
     FCalculatedBlockQuoteIndent:=FBlockQuoteIndent
   else
-    // GitHub spacing: blockquote { padding: 0 1em } = 16px left inset
-    FCalculatedBlockQuoteIndent:=DIP(16);
+    FCalculatedBlockQuoteIndent:=MeasureTextWidth(FCanvas,'WWWW',fBaseFontSize,[],[]);
+  FBaseLineHeight:=MeasureBaseLineHeight(FCanvas);
   BeginLayout;
 
   FLayout.MaxWidth:=aMaxWidth;
@@ -1724,6 +1622,11 @@ begin
     if FLayout.LineX<>0 then
       NewLine(fCanvas);
     fCalculatedHeight:=FLayout.LineY;
+    // Code backgrounds cover lines that are wider than the available width
+    for I:=0 to FLists.Items.Count-1 do
+      with FLists.Items[I] do
+        if (Kind=likBackground) and (X+Width<fCalculatedWidth) then
+          Width:=fCalculatedWidth-X;
     end
   else
     begin
@@ -1735,14 +1638,10 @@ begin
   aContentWidth:=fCalculatedWidth;
   aContentHeight:=fCalculatedHeight;
 
-  // vertically center shorter text runs inside their row
-  // (fixes Lazarus work item 42738: backtick/mono text painted too high)
-  CenterTextItemsVerticallyInRows;
-
   EndLayout;
 end;
 
-procedure TMarkDownCanvasRenderer.DrawLayoutItem(aCanvas : TCanvas; aItem : TLayoutItem;const aLeftPosition, aTopPosition: LongInt);
+procedure TMarkdownCanvasRenderer.DrawLayoutItem(aCanvas : TCanvas; aItem : TLayoutItem;const aLeftPosition, aTopPosition: LongInt);
 var
   lImage : TPicture;
   lX,lY : LongInt;
@@ -1755,15 +1654,13 @@ begin
   case aItem.Kind of
    TLayoutItemKind.likText:
      begin
-     if aItem.IsSelected then
+     if aItem.IsSelected or (aItem.BGColor=clNone) then
        aCanvas.Brush.Style:=bsClear
-     else if (fcFencedCode in aItem.Context) then
-       aCanvas.Brush.Color:=aItem.GetColor(ckBackground,BGCodeColor)
      else
-       // inline code (`x`) never had a code background in the canvas
-       // renderer: GetTextBGColor gives it BGColor too. Keep that when
-       // the item no longer caches the color (42722 fix).
-       aCanvas.Brush.Color:=aItem.GetColor(ckBackground,BGColor);
+       begin
+       aCanvas.Brush.Style:=bsSolid;
+       aCanvas.Brush.Color:=aItem.BGColor;
+       end;
      with aItem do
        begin
        ApplyFont(aCanvas, FontSize, FontStyle, Context);
@@ -1771,21 +1668,27 @@ begin
        aCanvas.TextOut(lX,lY, Text);
        end;
      end;
-   TLayoutItemKind.likRect,
+   TLayoutItemKind.likRect:
+     begin
+     aCanvas.Pen.Style:=psSolid;
+     aCanvas.Pen.Color:=aItem.GetColor(ckForeground,TableLinesColor);
+     aCanvas.Pen.Width:=1;
+     aCanvas.Brush.Style:=bsSolid;
+     aCanvas.Brush.Color:=aItem.GetColor(ckBackGround,BGColor);
+     aCanvas.Rectangle(lX,LY,lX+aItem.Width,lY+aItem.Height);
+     end;
    TLayoutItemKind.likBackground:
      begin
      aCanvas.Pen.Style:=psSolid;
-     if aItem.Kind=TLayoutItemKind.likRect then
-       aCanvas.Pen.Color:=TableLinesColor
-     else
-       aCanvas.Pen.Color:=aItem.GetColor(ckBackground,BGColor);
+     aCanvas.Pen.Color:=aItem.GetColor(ckBackground,BGCodeColor);
      aCanvas.Pen.Width:=1;
-     aCanvas.Brush.Color:=aItem.GetColor(ckBackGround,BGColor);
+     aCanvas.Brush.Style:=bsSolid;
+     aCanvas.Brush.Color:=aItem.GetColor(ckBackGround,BGCodeColor);
      aCanvas.Rectangle(lX,LY,lX+aItem.Width,lY+aItem.Height);
      end;
    TLayoutItemKind.likLine:
      begin
-     aCanvas.Pen.Color:=TableLinesColor;
+     aCanvas.Pen.Color:=aItem.GetColor(ckForeground,TableLinesColor);
      aCanvas.Pen.Width:=1;
      With aItem do
        aCanvas.Line(lX,lY,lX+DeltaX,lY+DeltaY);
@@ -1797,10 +1700,11 @@ begin
        With aItem do
          aCanvas.Draw(lX,lY,lImage.Graphic);
      end;
+   TLayoutItemKind.likHR: ;
  end;
 end;
 
-procedure TMarkDownCanvasRenderer.DrawLayout(const aCanvas: TCanvas; const aLeftPosition, aTopPosition: LongInt);
+procedure TMarkdownCanvasRenderer.DrawLayout(const aCanvas: TCanvas; const aLeftPosition, aTopPosition: LongInt);
 var
   Index: LongInt;
   Item: TLayoutItem;
@@ -1840,7 +1744,7 @@ begin
     end;
 end;
 
-function TMarkDownCanvasRenderer.HitTestLink(const aX, aY: LongInt; out aHref: utf8string): boolean;
+function TMarkdownCanvasRenderer.HitTestLink(const aX, aY: LongInt; out aHref: utf8string): boolean;
 var
   I: LongInt;
   Itm: TLinkHitRect;
@@ -1861,12 +1765,13 @@ begin
     end;
 end;
 
-function TMarkDownCanvasRenderer.CreateLayoutItem(aKind: TLayoutItemKind; aX, aY: Longint): TLayoutItem;
+function TMarkdownCanvasRenderer.CreateLayoutItem(aKind: TLayoutItemKind; aX, aY: Longint): TLayoutItem;
 begin
   Result:=FLists.Items.NewItem(aKind,aX,aY);
+  Result.LineIndex:=FLineCount;
 end;
 
-function TMarkDownCanvasRenderer.LayoutImage(aImageURL : UTF8String) : Boolean;
+function TMarkdownCanvasRenderer.LayoutImage(aImageURL : UTF8String) : Boolean;
 var
   lImage : TPicture;
   lItem : TLayoutItem;
@@ -1878,11 +1783,11 @@ begin
   if not assigned(lImage) then
     begin
     if assigned(FOnGetImage) then
-      begin
       FOnGetImage(Self,aImageURL,lImage);
-      if assigned(lImage) then
-        FImageCache.Add(aImageURL,lImage);
-      end;
+    if not assigned(lImage) then
+      lImage:=LoadLocalImage(aImageURL);
+    if assigned(lImage) then
+      FImageCache.Add(aImageURL,lImage);
     end;
   Result:=assigned(lImage);
   if not Result then exit;
@@ -1912,7 +1817,62 @@ begin
     FLayout.LineHeight:=lImage.Height;
 end;
 
-procedure TMarkDownCanvasRenderer.CollectHTMLEntities;
+function TMarkdownCanvasRenderer.LoadLocalImage(const aURL: string): TPicture;
+
+  function PercentDecode(const aValue: string): string;
+  var
+    I, lLen, lCode: Integer;
+  begin
+    Result:='';
+    I:=1;
+    lLen:=Length(aValue);
+    while I<=lLen do
+      begin
+      if (aValue[I]='%') and (I+2<=lLen) and TryStrToInt('$'+Copy(aValue,I+1,2),lCode) then
+        begin
+        Result:=Result+Chr(lCode);
+        Inc(I,3);
+        end
+      else
+        begin
+        Result:=Result+aValue[I];
+        Inc(I);
+        end;
+      end;
+  end;
+
+var
+  lName: string;
+
+begin
+  Result:=nil;
+  lName:=aURL;
+  if SameText(Copy(lName,1,7),'file://') then
+    begin
+    Delete(lName,1,7);
+    // file:///C:/dir/name
+    if (Length(lName)>=3) and (lName[1]='/') and (lName[3]=':') then
+      Delete(lName,1,1);
+    end
+  else if Pos('://',lName)>0 then
+    Exit;
+  lName:=SetDirSeparators(PercentDecode(lName));
+  if lName='' then
+    Exit;
+  if not FilenameIsAbsolute(lName) and (FBaseDir<>'') then
+    lName:=CreateAbsolutePath(lName,FBaseDir);
+  if not FileExists(lName) then
+    Exit;
+  Result:=TPicture.Create;
+  try
+    Result.LoadFromFile(lName);
+  except
+    FreeAndNil(Result);
+  end;
+end;
+
+
+procedure TMarkdownCanvasRenderer.CollectHTMLEntities;
 var
   Ent : THTMLEntityDef;
 begin
@@ -1920,7 +1880,7 @@ begin
     FHTMLEntities.Add(ent.e,Utf8Encode(ent.u));
 end;
 
-function TMarkDownCanvasRenderer.ResolveEntities(const aText: String): String;
+function TMarkdownCanvasRenderer.ResolveEntities(const aText: String): String;
 
 
   procedure copytoresult(aEnd,aStart : Integer);
@@ -1971,37 +1931,50 @@ begin
   CopyToResult(Length(aText),lPrev+1);
 end;
 
-procedure TMarkDownCanvasRenderer.RenderTextNode(aTextNode: TMarkDownTextNode; aFontSize: LongInt;
-  aFontStyle: TFontStyles; const aContext : TFontContext);
+procedure TMarkdownCanvasRenderer.RenderTextNode(aTextNode: TMarkdownTextNode; aFontSize: LongInt;
+  aFontStyle: TFontStyles; const aContext : TFontContext; const aLinkHref: utf8string);
+
 var
   lItem : TLayoutItem;
   fontStyle: TFontStyles;
   lText,linkHref: utf8string;
+  lHref,lClass: string;
   lContext : TFontContext;
   Alt : string;
+  lExists : Boolean;
+  lChild : TMarkdownTextNode;
+
+  procedure LayoutLink(const aHref, aDefaultText: utf8string);
+  begin
+    linkHref:=aHref;
+    fontStyle:=fontStyle+[fsUnderline];
+    lContext:=lContext+[fcHyperLink];
+    if (lText='') and not aTextNode.HasChildren then
+      lText:=aDefaultText;
+    LayoutTextWrapped(fCanvas, lText, aFontSize, fontStyle, linkHref, lContext, False, False);
+  end;
+
 begin
   if not assigned(aTextNode) then exit;
   lContext:=aContext;
   fontStyle:=aFontStyle + GetNodeFontStyle(aTextNode);
   lText:=ResolveEntities(aTextNode.NodeText);
-  linkHref:='';
+  linkHref:=aLinkHref;
   if aTextNode.Kind = nkCode then
     lContext:=lContext+[fcMono,fcCode];
   case aTextNode.Kind of
     nkCode,
-    nkText:
+    nkText,
+    nkNamed:
       begin
       if fcFencedCode in lContext then
         begin
-        // fenced code line: wrap it to FLayout.MaxWidth like the rest
-        // of the document (fancy ``` blocks used to lay the whole
-        // source line out as ONE item: a line longer than the window
-        // was simply wider than the visible area, its tail invisible
-        // and it dragged the horizontal scroll range out)
         lItem:=FLists.Items.NewItem(likBackground,FLayout.LineX,FLayout.LineY);
-        lItem.BGColor:=GetTextBGColor([fcFencedCode]);
         lItem.Width:=FLayout.MaxWidth-LItem.X;
-        LayoutFencedCodeLine(fCanvas, lText, aFontSize, fontStyle, lContext);
+        if FWrapCodeBlocks then
+          LayoutCharWrapped(fCanvas, lText, aFontSize, fontStyle, '', lContext, False)
+        else
+          FlushTextRun(fCanvas, lText, aFontSize, fontStyle, '', lContext, False);
         NewLine(fCanvas);
         lItem.Height:=FLayout.LineY-lItem.Y;
         end
@@ -2011,11 +1984,25 @@ begin
     nkLineBreak:
       NewLine(fCanvas);
     nkURI, nkEmail:
+      LayoutLink(aTextNode.Attrs['href'], aTextNode.Attrs['href']);
+    nkWikiLink:
       begin
-      linkHref:=aTextNode.Attrs['href'];
-      LayoutTextWrapped(fCanvas, lText, aFontSize, fontStyle + [fsUnderline], linkHref,
-        lContext+[fcHyperLink], False, False);
+      DoResolveWikiLink(aTextNode.Attrs['target'], aTextNode.Attrs['fragment'], lHref, lClass, lExists);
+      LayoutLink(lHref, aTextNode.Attrs['target']);
       end;
+    nkFootnoteRef:
+      begin
+      lText:=aTextNode.Attrs['number'];
+      if lText='' then
+        lText:=aTextNode.Attrs['label'];
+      LayoutTextWrapped(fCanvas, '['+lText+']', aFontSize, fontStyle, linkHref, lContext, False, False);
+      end;
+    nkDirective:
+      LayoutTextWrapped(fCanvas, lText, aFontSize, fontStyle, linkHref, lContext, False, False);
+    nkRaw:
+      if SameText(Copy(lText,1,3),'<br') then
+        NewLine(fCanvas);
+    nkComment: ;
     nkImg:
       if Not LayoutImage(aTextNode.Attrs['src']) then
         begin
@@ -2025,9 +2012,12 @@ begin
         LayoutTextWrapped(fCanvas, '['+Alt+']', aFontSize, fontStyle, '', lContext+[fcQuote], False, False);
         end;
   end;
+  if aTextNode.HasChildren and not (aTextNode.Kind in [nkImg,nkComment,nkRaw]) then
+    for lChild in aTextNode.Children do
+      RenderTextNode(lChild, aFontSize, fontStyle, lContext, linkHref);
 end;
 
-function TMarkDownCanvasRenderer.GetNodeFontStyle(aTextNode: TMarkDownTextNode): TFontStyles;
+function TMarkdownCanvasRenderer.GetNodeFontStyle(aTextNode: TMarkdownTextNode): TFontStyles;
 begin
   Result:=[];
   if nsStrong in aTextNode.Styles then
@@ -2038,7 +2028,7 @@ begin
     Include(Result, fsStrikeOut);
 end;
 
-procedure TMarkDownCanvasRenderer.Indent(aSize: integer);
+procedure TMarkdownCanvasRenderer.Indent(aSize: integer);
 begin
   inc(aSize,fExtraIndent);
   if FLayout.LineX>0 then
@@ -2047,12 +2037,12 @@ begin
     FLayout.CurrentIndent:=FLayout.CurrentIndent+aSize;
 end;
 
-procedure TMarkDownCanvasRenderer.SetBulletChar(AIndex: Integer; AValue: string);
+procedure TMarkdownCanvasRenderer.SetBulletChar(AIndex: Integer; AValue: string);
 begin
   FBullets[aIndex]:=aValue;
 end;
 
-procedure TMarkDownCanvasRenderer.Undent(aSize: integer);
+procedure TMarkdownCanvasRenderer.Undent(aSize: integer);
 begin
   inc(aSize,fExtraIndent);
   { Unwind any deferred indent first, so a matched Indent/Undent pair on a
@@ -2069,28 +2059,28 @@ begin
     FLayout.CurrentIndent:=0;
 end;
 
-procedure TMarkDownCanvasRenderer.IncBulletLevel;
+procedure TMarkdownCanvasRenderer.IncBulletLevel;
 begin
   Inc(FBulletLevel);
 end;
 
-procedure TMarkDownCanvasRenderer.DecBulletLevel;
+procedure TMarkdownCanvasRenderer.DecBulletLevel;
 begin
   Dec(FBulletLevel);
   if FBulletLevel<0 then
     FBulletLevel:=0;
 end;
 
-function TMarkDownCanvasRenderer.GetBullet: String;
+function TMarkdownCanvasRenderer.GetBullet: String;
 begin
   Result:=GetBulletAt(BulletLevel)
 end;
 
-function TMarkDownCanvasRenderer.GetBulletAt(aLevel: integer): string;
+function TMarkdownCanvasRenderer.GetBulletAt(aLevel: integer): string;
 begin
-  While aLevel>BulletCount do
-    aLevel:=aLevel-BulletCount;
-  Result:=FBullets[aLevel];
+  if aLevel<1 then
+    aLevel:=1;
+  Result:=FBullets[((aLevel-1) mod BulletCount)+1];
 end;
 
 
@@ -2115,174 +2105,196 @@ begin
 end;
 
 
-{ TCanvasMarkDownBlockRenderer }
+{ TCanvasMarkdownBlockRenderer }
 
-function TCanvasMarkDownBlockRenderer.GetCanvas: TCanvas;
+function TCanvasMarkdownBlockRenderer.GetCanvas: TCanvas;
 begin
   Result:=CanvasRenderer.FCanvas;
 end;
 
-function TCanvasMarkDownBlockRenderer.GetCanvasRenderer: TMarkDownCanvasRenderer;
+function TCanvasMarkdownBlockRenderer.GetCanvasRenderer: TMarkdownCanvasRenderer;
 begin
-  if Renderer is TMarkDownCanvasRenderer then
-    Result:=TMarkDownCanvasRenderer(Renderer)
+  if Renderer is TMarkdownCanvasRenderer then
+    Result:=TMarkdownCanvasRenderer(Renderer)
   else
     Result:=nil;
 end;
 
-function TCanvasMarkDownBlockRenderer.DIP(aSize: integer): Integer;
+function TCanvasMarkdownBlockRenderer.DIP(aSize: integer): Integer;
 begin
   Result:=CanvasRenderer.DIP(aSize);
 end;
 
-procedure TCanvasMarkDownBlockRenderer.Indent(aSize: Integer);
+procedure TCanvasMarkdownBlockRenderer.Indent(aSize: Integer);
 begin
   CanvasRenderer.Indent(aSize);
 end;
 
-procedure TCanvasMarkDownBlockRenderer.Undent(aSize: Integer);
+procedure TCanvasMarkdownBlockRenderer.Undent(aSize: Integer);
 begin
  CanvasRenderer.Undent(aSize);
 end;
 
-function TCanvasMarkDownBlockRenderer.LayoutData: TLayoutData;
+function TCanvasMarkdownBlockRenderer.LayoutData: TLayoutData;
 begin
   Result:=CanvasRenderer.Layout;
 end;
 
-function TCanvasMarkDownBlockRenderer.CreateLayoutItem(aKind: TLayoutItemKind; aX, aY: Longint): TLayoutItem;
+function TCanvasMarkdownBlockRenderer.CreateLayoutItem(aKind: TLayoutItemKind; aX, aY: Longint): TLayoutItem;
 begin
   Result:=CanvasRenderer.CreateLayoutItem(aKind, aX, aY);
 end;
 
-function TCanvasMarkDownBlockRenderer.MeasureTextHeight(const aFontSize: LongInt; const aFontStyle: TFontStyles;
+function TCanvasMarkdownBlockRenderer.MeasureTextHeight(const aFontSize: LongInt; const aFontStyle: TFontStyles;
   const aContext: TFontContext): LongInt;
 begin
   Result:=CanvasRenderer.MeasureTextHeight(CanvasRenderer.FCanvas,aFontSize,aFontStyle,aContext);
 end;
 
-function TCanvasMarkDownBlockRenderer.MeasureTextWidth(const aText: utf8string; const aFontSize: LongInt;
+function TCanvasMarkdownBlockRenderer.MeasureTextWidth(const aText: utf8string; const aFontSize: LongInt;
   const aFontStyle: TFontStyles; aFontContext : TFontContext): LongInt;
 begin
   Result:=CanvasRenderer.MeasureTextWidth(CanvasRenderer.FCanvas,aText,aFontSize,aFontStyle,aFontContext);
 end;
 
-procedure TCanvasMarkDownBlockRenderer.LayoutText(const aText: utf8string; const aFontSize: LongInt;
+procedure TCanvasMarkdownBlockRenderer.LayoutText(const aText: utf8string; const aFontSize: LongInt;
   const aFontStyle: TFontStyles; const aLinkHref: utf8string; const aContext: TFontContext);
 begin
   CanvasRenderer.LayoutTextWrapped(CanvasRenderer.fCanvas, aText, aFontSize, aFontStyle, aLinkHref,aContext, False, False);
 end;
 
-procedure TCanvasMarkDownBlockRenderer.SetCurrentY(aValue: Integer);
+procedure TCanvasMarkdownBlockRenderer.SetCurrentY(aValue: Integer);
 begin
   CanvasRenderer.SetCurrentY(aValue);
 end;
 
-function TCanvasMarkDownBlockRenderer.GetCurrentY: Integer;
+function TCanvasMarkdownBlockRenderer.GetCurrentY: Integer;
 begin
   Result:=CanvasRenderer.FLayout.Liney;
 end;
 
-procedure TCanvasMarkDownBlockRenderer.NewLine;
+procedure TCanvasMarkdownBlockRenderer.NewLine;
 begin
   CanvasRenderer.NewLine(CanvasRenderer.fCanvas);
 end;
 
-procedure TCanvasMarkDownBlockRenderer.ParagraphBreak;
+procedure TCanvasMarkdownBlockRenderer.ParagraphBreak;
 begin
   CanvasRenderer.ParagraphBreak(CanvasRenderer.fCanvas);
 end;
 
-procedure TCanvasMarkDownBlockRenderer.MaybeStartParagraph;
+// True when aBlock is a direct child of an item of a tight list.
+function InTightListItem(aBlock : TMarkdownBlock) : Boolean;
+
+var
+  lItem : TMarkdownBlock;
+
+begin
+  Result:=False;
+  lItem:=aBlock.Parent;
+  if not (lItem is TMarkdownListItemBlock) then
+    exit;
+  Result:=(lItem.Parent is TMarkdownListBlock) and not TMarkdownListBlock(lItem.Parent).Loose;
+end;
+
+
+procedure TCanvasMarkdownBlockRenderer.EndBlock(aBlock : TMarkdownBlock);
+
+begin
+  if not InTightListItem(aBlock) then
+    ParagraphBreak
+  else if LayoutData.LineX<>0 then
+    NewLine;
+end;
+
+
+procedure TCanvasMarkdownBlockRenderer.MaybeStartParagraph;
 begin
   CanvasRenderer.MaybeStartParagraph;
 end;
 
-{ TCanvasMarkDownTextRenderer }
+{ TCanvasMarkdownTextRenderer }
 
-function TCanvasMarkDownTextRenderer.GetCanvasRenderer: TMarkDownCanvasRenderer;
+function TCanvasMarkdownTextRenderer.GetCanvasRenderer: TMarkdownCanvasRenderer;
 begin
-  if Renderer is TMarkDownCanvasRenderer then
-    Result:=TMarkDownCanvasRenderer(Renderer)
+  if Renderer is TMarkdownCanvasRenderer then
+    Result:=TMarkdownCanvasRenderer(Renderer)
   else
     Result:=nil;
 end;
 
-procedure TCanvasMarkDownTextRenderer.DoRender(aElement: TMarkDownTextNode);
+procedure TCanvasMarkdownTextRenderer.DoRender(aElement: TMarkdownTextNode);
 begin
   if not assigned(aElement) or not assigned(CanvasRenderer) then exit;
   CanvasRenderer.RenderTextNode(aElement, CanvasRenderer.fBaseFontSize, [], []);
 end;
 
-{ TCanvasMarkDownParagraphBlockRenderer }
+{ TCanvasMarkdownParagraphBlockRenderer }
 
-procedure TCanvasMarkDownParagraphBlockRenderer.DoRender(aBlock: TMarkDownBlock);
+procedure TCanvasMarkdownParagraphBlockRenderer.DoRender(aBlock: TMarkdownBlock);
 begin
   if not assigned(aBlock) then exit;
 
   // Render paragraph children and add paragraph break
-  Renderer.RenderChildren(aBlock as TMarkDownContainerBlock);
-  ParagraphBreak;
+  Renderer.RenderChildren(aBlock as TMarkdownContainerBlock);
+  EndBlock(aBlock);
 end;
 
-class function TCanvasMarkDownParagraphBlockRenderer.BlockClass: TMarkDownBlockClass;
+class function TCanvasMarkdownParagraphBlockRenderer.BlockClass: TMarkdownBlockClass;
 begin
-  Result:=TMarkDownParagraphBlock;
+  Result:=TMarkdownParagraphBlock;
 end;
 
-{ TCanvasMarkDownHeadingBlockRenderer }
+{ TCanvasMarkdownHeadingBlockRenderer }
 
-procedure TCanvasMarkDownHeadingBlockRenderer.DoRender(aBlock: TMarkDownBlock);
+procedure TCanvasMarkdownHeadingBlockRenderer.DoRender(aBlock: TMarkdownBlock);
 const
   FontSizeCount = 5;
   FontSizes : Array[1..FontSizeCount] of Integer = (10,8,6,4,2);
 var
-  lHeading: TMarkDownHeadingBlock;
+  lHeading: TMarkdownHeadingBlock;
 
 begin
   if not assigned(aBlock) then exit;
-  lHeading:=aBlock as TMarkDownHeadingBlock;
+  lHeading:=aBlock as TMarkdownHeadingBlock;
   FontSize:=CanvasRenderer.fBaseFontSize;
   if (lHeading.Level in [1..FontSizeCount]) then
     Inc(FontSize,FontSizes[lHeading.Level]);
-  // GitHub spacing v2 for headings: margin-top 24px / margin-bottom 16px
-  // (paragraph breaks now contribute 16px each way: the extra above is
-  // 24-16=8; below, the 16px paragraph break IS GitHub's h margin-bottom,
-  // so no extra is added; no underline below headers)
-  SetCurrentY(GetCurrentY+DIP(8));
+  if GetCurrentY>0 then
+    SetCurrentY(GetCurrentY+CanvasRenderer.EmPercent(CanvasRenderer.HeadingSpacing));
   Renderer.RenderChildren(lHeading);
   ParagraphBreak;
 end;
 
-class function TCanvasMarkDownHeadingBlockRenderer.BlockClass: TMarkDownBlockClass;
+class function TCanvasMarkdownHeadingBlockRenderer.BlockClass: TMarkdownBlockClass;
 begin
-  Result:=TMarkDownHeadingBlock;
+  Result:=TMarkdownHeadingBlock;
 end;
 
-{ TCanvasMarkDownQuoteBlockRenderer }
+{ TCanvasMarkdownQuoteBlockRenderer }
 
-procedure TCanvasMarkDownQuoteBlockRenderer.DoRender(aBlock: TMarkDownBlock);
+procedure TCanvasMarkdownQuoteBlockRenderer.DoRender(aBlock: TMarkdownBlock);
 var
   lIndent : Integer;
 begin
   if not assigned(aBlock) then exit;
   lIndent:=CanvasRenderer.CalculatedBlockQuoteIndent;
   CanvasRenderer.Indent(lIndent);
-  Renderer.RenderChildren(aBlock as TMarkDownContainerBlock);
+  Renderer.RenderChildren(aBlock as TMarkdownContainerBlock);
   CanvasRenderer.Undent(lindent);
   ParagraphBreak;
 end;
 
-class function TCanvasMarkDownQuoteBlockRenderer.BlockClass: TMarkDownBlockClass;
+class function TCanvasMarkdownQuoteBlockRenderer.BlockClass: TMarkdownBlockClass;
 begin
-  Result:=TMarkDownQuoteBlock;
+  Result:=TMarkdownQuoteBlock;
 end;
 
-{ TCanvasMarkDownListBlockRenderer }
+{ TCanvasMarkdownListBlockRenderer }
 
-procedure TCanvasMarkDownListBlockRenderer.DoRender(aBlock: TMarkDownBlock);
+procedure TCanvasMarkdownListBlockRenderer.DoRender(aBlock: TMarkdownBlock);
 var
-  lBlock : TMarkDownListBlock absolute aBlock;
+  lBlock : TMarkdownListBlock absolute aBlock;
   i : Integer;
 begin
   if not assigned(aBlock) then exit;
@@ -2290,124 +2302,192 @@ begin
     CanvasRenderer.IncBulletLevel;
   // Render all list items
   FItemNumber:=0;
+  FOrdered:=lBlock.Ordered;
   For I:=0 to aBlock.ChildCount-1 do
     begin
     if I>0 then
-      // GitHub spacing v2: li+li { margin-top: .25em } = 4px (on top
-      // of the 16px paragraph break the text block always adds =>
-      // 20px total gap between sibling items)
-      SetCurrentY(GetCurrentY+DIP(4));
+      SetCurrentY(GetCurrentY+CanvasRenderer.EmPercent(CanvasRenderer.ListItemSpacing));
     if lBlock.Ordered then
       FItemNumber:=lBlock.Start+i;
     Renderer.RenderBlock(aBlock.Children[i]);
     end;
   if not lBlock.Ordered then
     CanvasRenderer.DecBulletLevel;
-  ParagraphBreak;
+  EndBlock(aBlock);
 end;
 
-procedure TCanvasMarkDownListBlockRenderer.reset;
+procedure TCanvasMarkdownListBlockRenderer.reset;
 begin
   inherited reset;
   FItemNumber:=0;
+  FOrdered:=False;
 end;
 
-class function TCanvasMarkDownListBlockRenderer.BlockClass: TMarkDownBlockClass;
+class function TCanvasMarkdownListBlockRenderer.BlockClass: TMarkdownBlockClass;
 begin
-  Result:=TMarkDownListBlock;
+  Result:=TMarkdownListBlock;
 end;
 
-{ TCanvasMarkDownListItemBlockRenderer }
+{ TCanvasMarkdownListItemBlockRenderer }
 
-procedure TCanvasMarkDownListItemBlockRenderer.DoRender(aBlock: TMarkDownBlock);
+procedure TCanvasMarkdownListItemBlockRenderer.DoRender(aBlock: TMarkdownBlock);
 
 var
-  lBlock : TMarkDownListItemBlock absolute aBlock;
-  lListRenderer : TCanvasMarkDownListBlockRenderer;
+  lBlock : TMarkdownListItemBlock absolute aBlock;
+  lListRenderer : TCanvasMarkdownListBlockRenderer;
   lPrefix : string;
   lIndent : Integer;
 
 begin
   if not assigned(aBlock) then exit;
   // Add bullet point and render children
-  lListRenderer:=TCanvasMarkDownListBlockRenderer(GetFirstParentWithClass(TCanvasMarkDownListBlockRenderer));
-  if Assigned(lListRenderer) and (lListRenderer.ItemNumber>0) then
+  lListRenderer:=TCanvasMarkdownListBlockRenderer(GetFirstParentWithClass(TCanvasMarkdownListBlockRenderer));
+  if Assigned(lListRenderer) and lListRenderer.Ordered then
     lPrefix:=IntToStr(lListRenderer.ItemNumber)+'.'
   else
     lPrefix:=CanvasRenderer.GetBullet;
-  // GitHub spacing: ul/ol { padding-left: 2em } = 32px marker box:
-  // indent FIRST so the bullet and the first text line both sit
-  // inside the 32px box (and wrapped lines align with the text)
-  lIndent:=DIP(32);
-  CanvasRenderer.Indent(lIndent);
   LayoutText(lPrefix+' ', CanvasRenderer.fBaseFontSize, [], '', []);
+  lIndent:=MeasureTextWidth(lPrefix+'_',CanvasRenderer.BaseFontSize,[],[]);
+  CanvasRenderer.Indent(lIndent);
   Renderer.RenderChildren(lBlock);
   CanvasRenderer.Undent(lIndent);
   NewLine;
 end;
 
-class function TCanvasMarkDownListItemBlockRenderer.BlockClass: TMarkDownBlockClass;
+class function TCanvasMarkdownListItemBlockRenderer.BlockClass: TMarkdownBlockClass;
 begin
-  Result:=TMarkDownListItemBlock;
+  Result:=TMarkdownListItemBlock;
 end;
 
-{ TCanvasMarkDownCodeBlockRenderer }
+{ TCanvasMarkdownCodeBlockRenderer }
 
-procedure TCanvasMarkDownCodeBlockRenderer.DoRender(aBlock: TMarkDownBlock);
+procedure TCanvasMarkdownCodeBlockRenderer.DoRender(aBlock: TMarkdownBlock);
+
+var
+  lPad : Integer;
+  lBack : TLayoutItem;
+
 begin
   if not assigned(aBlock) then exit;
   ParagraphBreak;
-  // GitHub spacing v2: pre { padding: 16px } and the pre wrapper
-  // keeps a 16px margin below; horizontal padding via indent, vertical
-  // via position shifts (the per-line background band spans the full
-  // width, so it covers the padding like GitHub's pre background does)
-  SetCurrentY(GetCurrentY+DIP(16));
-  Indent(DIP(16));
+  lPad:=CanvasRenderer.EmPercent(CanvasRenderer.CodeBlockPadding);
+  lBack:=Nil;
+  if lPad>0 then
+    begin
+    // Background of the whole block, padding included
+    lBack:=CreateLayoutItem(likBackground,0,GetCurrentY);
+    lBack.Width:=LayoutData.MaxWidth;
+    SetCurrentY(GetCurrentY+lPad);
+    Indent(lPad);
+    Dec(CanvasRenderer.FLayout.MaxWidth,lPad);
+    end;
   // Render code with monospace font
-  Renderer.RenderChildren(aBlock as TMarkDownContainerBlock);
-  Undent(DIP(16));
-  SetCurrentY(GetCurrentY+DIP(16));
+  Renderer.RenderChildren(aBlock as TMarkdownContainerBlock);
+  if Assigned(lBack) then
+    begin
+    Inc(CanvasRenderer.FLayout.MaxWidth,lPad);
+    Undent(lPad);
+    SetCurrentY(GetCurrentY+lPad);
+    lBack.Height:=GetCurrentY-lBack.Y;
+    end;
   ParagraphBreak;
 end;
 
-class function TCanvasMarkDownCodeBlockRenderer.BlockClass: TMarkDownBlockClass;
+class function TCanvasMarkdownCodeBlockRenderer.BlockClass: TMarkdownBlockClass;
 begin
-  Result:=TMarkDownCodeBlock;
+  Result:=TMarkdownCodeBlock;
 end;
 
-{ TCanvasMarkDownTableBlockRenderer }
-procedure TCanvasMarkDownTableBlockRenderer.GetCellTexts(aCell: TMarkDownBlock; aTexts : TStrings);
+{ TCanvasMarkdownTableBlockRenderer }
+procedure TCanvasMarkdownTableBlockRenderer.MeasureCell(aCell: TMarkdownBlock; aHeader: Boolean;
+  var aMin, aPref: LongInt);
 
 var
-  lCont : TMarkDownContainerBlock absolute aCell;
-  lText : TMarkDownTextBlock absolute aCell;
-  i : integer;
+  lCont : TMarkdownContainerBlock absolute aCell;
+  lText : TMarkdownTextBlock absolute aCell;
+  I : Integer;
+  lWord, lLine : LongInt;
+
+  procedure EndWord;
+  begin
+    if lWord>aMin then
+      aMin:=lWord;
+    lWord:=0;
+  end;
+
+  procedure EndLine;
+  begin
+    EndWord;
+    if lLine>aPref then
+      aPref:=lLine;
+    lLine:=0;
+  end;
+
+  procedure MeasureNode(aNode: TMarkdownTextNode; aStyle: TFontStyles);
+  var
+    lPos, lStart : Integer;
+    lStyle : TFontStyles;
+    lContext : TFontContext;
+    lStr : string;
+    lChild : TMarkdownTextNode;
+  begin
+    if aNode.Kind=nkLineBreak then
+      begin
+      EndLine;
+      Exit;
+      end;
+    if aNode.Kind in [nkImg,nkComment,nkRaw] then
+      Exit;
+    lStyle:=aStyle+CanvasRenderer.GetNodeFontStyle(aNode);
+    if aNode.Kind=nkCode then
+      lContext:=[fcMono,fcCode]
+    else
+      lContext:=[];
+    lStr:=CanvasRenderer.ResolveEntities(aNode.NodeText);
+    Inc(lLine,MeasureTextWidth(lStr,CanvasRenderer.BaseFontSize,lStyle,lContext));
+    // A word may continue in the next node
+    lStart:=1;
+    for lPos:=1 to Length(lStr)+1 do
+      if (lPos>Length(lStr)) or (lStr[lPos] in [' ',#9,#10,#13]) then
+        begin
+        if lPos>lStart then
+          Inc(lWord,MeasureTextWidth(Copy(lStr,lStart,lPos-lStart),CanvasRenderer.BaseFontSize,lStyle,lContext));
+        if lPos<=Length(lStr) then
+          EndWord;
+        lStart:=lPos+1;
+        end;
+    if aNode.HasChildren then
+      for lChild in aNode.Children do
+        MeasureNode(lChild,lStyle);
+  end;
 
 begin
-  if aCell is TMarkDownTextBlock then
+  if aCell is TMarkdownTextBlock then
     begin
+    lWord:=0;
+    lLine:=0;
     for I:=0 to lText.Nodes.Count-1 do
-      aTexts.Add(lText.Nodes[i].NodeText)
+      if aHeader then
+        MeasureNode(lText.Nodes[I],[fsBold])
+      else
+        MeasureNode(lText.Nodes[I],[]);
+    EndLine;
     end
-  else
-    For I:=0 to lCont.ChildCount do
-      GetCellTexts(lCont[i],aTexts);
+  else if aCell is TMarkdownContainerBlock then
+    for I:=0 to lCont.ChildCount-1 do
+      MeasureCell(lCont[I],aHeader,aMin,aPref);
 end;
 
-function TCanvasMarkDownTableBlockRenderer.GetTotalColumns: Integer;
+
+function TCanvasMarkdownTableBlockRenderer.GetTotalColumns: Integer;
 begin
   Result:=Length(FColLayout);
 end;
 
-function TCanvasMarkDownTableBlockRenderer.GetTotalHeight: Integer;
+function TCanvasMarkdownTableBlockRenderer.GetTotalHeight: Integer;
 var
   I : Integer;
 begin
-  // total height must include the grid lines drawn between the rows:
-  // the row loop advances FStartY by RowHeights[i]+GridSize per row, so
-  // the last row's text ended GridSize*(rows-1) below the table border
-  // (fixes Lazarus work item 42723: last table row had too small height,
-  // its text did not fit inside the table)
   Result:=0;
   For I:=0 to Length(FRowHeights)-1 do
     Result:=Result+FRowHeights[i];
@@ -2415,15 +2495,28 @@ begin
     Result:=Result+(Length(FRowHeights)-1)*FGridSize;
 end;
 
-procedure TCanvasMarkDownTableBlockRenderer.CalcRowHeights(aTable: TMarkDownTableBlock; const aFontSize: LongInt; const aFontStyle: TFontStyles; const aContext : TFontContext);
+// Width of the columns and the grid lines between them.
+function TCanvasMarkdownTableBlockRenderer.GetTotalWidth: Integer;
+
+var
+  I : Integer;
+
+begin
+  Result:=0;
+  For I:=0 to Length(FColLayout)-1 do
+    Result:=Result+FColLayout[I].Width;
+  if Length(FColLayout)>1 then
+    Result:=Result+(Length(FColLayout)-1)*FGridSize;
+end;
+
+procedure TCanvasMarkdownTableBlockRenderer.CalcRowHeights(aTable: TMarkdownTableBlock; const aFontSize: LongInt; const aFontStyle: TFontStyles; const aContext : TFontContext);
 
 var
   lRow,lColumn:LongInt;
   CellWidth,TextWidth:LongInt;
   Saved, Temp: TLayoutData;
   SavedItems, TempItems : TLayoutLists;
-  Cell:TMarkDownBlock;
-  CellFontStyle:TFontStyles;
+  Cell:TMarkdownBlock;
 
 begin
  SetLength(FRowHeights,aTable.ChildCount);
@@ -2442,16 +2535,16 @@ begin
 
      Temp:=Default(TLayoutData);
      Temp.MaxWidth:=TextWidth;
+     Temp.BaselineFromIndex:=-1;
      Saved:=CanvasRenderer.SwapLayout(Temp);
-     CellFontStyle:=aFontStyle;
-     if lRow=0 then
-       Include(CellFontStyle,fsBold);
       // dry-run traversal inside a temporary items/link list to measure height only
       TempItems:=TLayoutLists.Create;
       SavedItems:=CanvasRenderer.SwapLayoutLists(TempItems);
+      FCurrentRow:=lRow;
       try
          CanvasRenderer.RenderBlock(Cell);
       finally
+        FCurrentRow:=-1;
         CanvasRenderer.SwapLayoutLists(SavedItems);
         TempItems.Free;
       end;
@@ -2461,97 +2554,43 @@ begin
       end;
     if FRowHeights[lRow]<MeasureTextHeight(aFontSize,aFontStyle,aContext) then
       FRowHeights[lRow]:=MeasureTextHeight(aFontSize,aFontStyle,aContext);
-    FRowHeights[lRow]:=FRowHeights[lRow]+(FCellPadding*2);
+    FRowHeights[lRow]:=FRowHeights[lRow]+(FCellPaddingY*2);
     end;
 end;
 
-procedure TCanvasMarkDownTableBlockRenderer.MeasureTableColumns(const aTableModel:TMarkDownTableBlock);
-
-
-  function MaxWordWidth(aTexts : TStrings; aFontSize : integer):LongInt;
-
-  var ScanIndex:LongInt;
-      WordBuffer:UTF8String;
-      BestWidth,Current:LongInt;
-      text : string;
-
-      procedure Updatebest;
-      begin
-        if WordBuffer='' then
-          exit;
-        Current:=MeasureTextWidth(WordBuffer,aFontSize,[],[fcQuote]);
-        if Current>BestWidth then
-          BestWidth:=Current;
-        WordBuffer:='';
-      end;
-
-  begin
-    BestWidth:=0;
-    WordBuffer:='';
-    for Text in aTexts do
-      begin
-      ScanIndex:=1;
-      while ScanIndex<=length(Text) do
-        begin
-        if (Text[ScanIndex]=' ') or (Text[ScanIndex]=#9) or (Text[ScanIndex]=#10) or (Text[ScanIndex]=#13) then
-          UpdateBest
-        else
-          WordBuffer:=WordBuffer+Text[ScanIndex];
-        inc(ScanIndex);
-        end;
-        UpdateBest;
-      end;
-    result:=BestWidth;
-  end;
-
-  function NoWrapWidth(Texts : TStrings; aFontSize : Integer):LongInt;
-  begin
-    Result:=MeasureTextWidth(Texts.DelimitedText,aFontSize,[],[fcQuote]);
-  end;
+procedure TCanvasMarkdownTableBlockRenderer.MeasureTableColumns(const aTableModel:TMarkdownTableBlock);
 
 var
   lColumn,lRow :LongInt;
-  MinimumWord,PreferredNoWrap:LongInt;
-  Cell:TMarkDownBlock;
-  lRowBlock : TMarkDownTableRowBlock;
-  lFontSize : Integer;
-  Texts : TStrings;
+  lMin,lPref:LongInt;
+  lRowBlock : TMarkdownTableRowBlock;
 
 begin
-  lFontSize:=CanvasRenderer.BaseFontSize;
   For lColumn:=0 to TotalColumns-1 do
     begin
     FColLayout[lColumn].Min:=DIP(8);
     FColLayout[lColumn].Pref:=DIP(16);
     end;
- Texts:=TstringList.Create;
- try
-   Texts.Delimiter:=' ';
-   For lRow:=0 to aTableModel.ChildCount-1 do
-     begin
-     lRowBlock:=aTableModel.Children[lRow] as TMarkDownTableRowBlock;
-     For lColumn:=0 to Min(lRowBlock.ChildCount-1, TotalColumns-1) do
-       begin
-       Cell:=lRowBlock.Children[lColumn];
-       Texts.Clear;
-       GetCellTexts(Cell,Texts);
-       MinimumWord:=MaxWordWidth(texts,lFontSize)+DIP(8);
-       PreferredNoWrap:=NoWrapWidth(texts,lFontSize)+DIP(8);
-       With FColLayout[lColumn] do
-         begin
-         if MinimumWord>Min then
-           Min:=MinimumWord;
-         if PreferredNoWrap>Pref then
-           Pref:=PreferredNoWrap;
-         end;
-       end;
-     end;
-  finally
-    Texts.Free;
-  end;
+  For lRow:=0 to aTableModel.ChildCount-1 do
+    begin
+    lRowBlock:=aTableModel.Children[lRow] as TMarkdownTableRowBlock;
+    For lColumn:=0 to Min(lRowBlock.ChildCount-1, TotalColumns-1) do
+      begin
+      lMin:=0;
+      lPref:=0;
+      MeasureCell(lRowBlock.Children[lColumn],lRow=0,lMin,lPref);
+      With FColLayout[lColumn] do
+        begin
+        if lMin+2*FCellPaddingX>Min then
+          Min:=lMin+2*FCellPaddingX;
+        if lPref+2*FCellPaddingX>Pref then
+          Pref:=lPref+2*FCellPaddingX;
+        end;
+      end;
+    end;
 end;
 
-procedure TCanvasMarkDownTableBlockRenderer.DistributeColumns(const aAvailable:LongInt);
+procedure TCanvasMarkdownTableBlockRenderer.DistributeColumns(const aAvailable:LongInt);
 
 var I : LongInt;
     TotalMin,TotalPref,Extra,Remain,Room,Denom,SpanVal:LongInt;
@@ -2567,22 +2606,13 @@ begin
      end;
   if aAvailable<=TotalMin then
     begin
-    // Less room than minimum: shrink the columns proportionally so the
-    // table still fits into the available width (fixes Lazarus work item
-    // 42723: cells of the last columns were drawn outside the table
-    // border / outside the control). Columns stay above a hard floor.
-    if TotalMin>0 then
-      begin
-      For I:=0 to TotalColumns-1 do
-        With FColLayout[i] do
-          Width:=Max(DIP(8),(Min*aAvailable) div TotalMin);
-      end
-    else
-      begin
-      For I:=0 to TotalColumns-1 do
-        With FColLayout[i] do
+    // Less room than minimum: shrink proportionally, long words get broken.
+    For I:=0 to TotalColumns-1 do
+      With FColLayout[i] do
+        if TotalMin>0 then
+          Width:=Math.Max(DIP(8),(Min*aAvailable) div TotalMin)
+        else
           Width:=Min;
-      end;
     end
   else if aAvailable>=TotalPref then
     begin
@@ -2615,28 +2645,29 @@ begin
     end;
 end;
 
-procedure TCanvasMarkDownTableBlockRenderer.DrawBorders;
+procedure TCanvasMarkdownTableBlockRenderer.DrawBorders;
 
 var
   I, ColX : Integer;
   Itm : TLayoutItem;
 begin
   Itm:=CreateLayoutItem(likRect,FStartX,FStartY);
-  Itm.Width:=AvailableWidth;
+  Itm.Width:=TotalWidth;
   Itm.Height:=TotalHeight;
   ColX:=FStartX;
   For I:=0 to Length(FColLayout)-2 do
     begin
-    ColX:=ColX+FColLayout[i].Width+FGridSize;
+    ColX:=ColX+FColLayout[i].Width;
     Itm:=CreateLayoutItem(likLine,ColX,FStartY);
     Itm.DeltaX:=0;
     Itm.DeltaY:=TotalHeight;
+    ColX:=ColX+FGridSize;
     end;
 end;
 
-procedure TCanvasMarkDownTableBlockRenderer.DoRender(aBlock: TMarkDownBlock);
+procedure TCanvasMarkdownTableBlockRenderer.DoRender(aBlock: TMarkdownBlock);
 var
-  lTable : TMarkDownTableBlock absolute aBlock;
+  lTable : TMarkdownTableBlock absolute aBlock;
   I : Integer;
 
 begin
@@ -2644,11 +2675,8 @@ begin
   CanvasRenderer.MaybeStartParagraph;
   SetLength(FColLayout,Length(lTable.Columns));
   FGridSize:=DIP(1);
-  // GitHub spacing: table th/td { padding: 6px 13px }: vertical 6px,
-  // horizontal 13px (kept separate: CellPadding drives row height,
-  // CellPaddingX drives the text inset)
-  FCellPadding:=DIP(6);
-  FCellPaddingX:=DIP(13);
+  FCellPaddingX:=CanvasRenderer.EmPercent(CanvasRenderer.TableCellPaddingX);
+  FCellPaddingY:=CanvasRenderer.EmPercent(CanvasRenderer.TableCellPaddingY);
   FAvailableWidth:=CanvasRenderer.FLayout.MaxWidth-CanvasRenderer.FLayout.CurrentIndent-(TotalColumns-1)*FGridSize;
   if FAvailableWidth<1 then
     FAvailableWidth:=1;
@@ -2670,7 +2698,7 @@ begin
   ParagraphBreak;
 end;
 
-procedure TCanvasMarkDownTableBlockRenderer.Reset;
+procedure TCanvasMarkdownTableBlockRenderer.Reset;
 begin
   inherited Reset;
   FCurrentRow:=-1;
@@ -2678,17 +2706,17 @@ begin
 end;
 
 
-class function TCanvasMarkDownTableBlockRenderer.BlockClass: TMarkDownBlockClass;
+class function TCanvasMarkdownTableBlockRenderer.BlockClass: TMarkdownBlockClass;
 begin
-  Result:=TMarkDownTableBlock;
+  Result:=TMarkdownTableBlock;
 end;
 
-{ TCanvasMarkDownTableRowBlockRenderer }
+{ TCanvasMarkdownTableRowBlockRenderer }
 
-procedure TCanvasMarkDownTableRowBlockRenderer.GetTableRenderer;
+procedure TCanvasMarkdownTableRowBlockRenderer.GetTableRenderer;
 
 var
-  A: TMarkDownElementRendererArray;
+  A: TMarkdownElementRendererArray;
   I : integer;
 
 begin
@@ -2697,21 +2725,21 @@ begin
   I:=Length(A)-1;
   While (I>=0) and Not Assigned(FTableRenderer) do
     begin
-    if A[I] is TCanvasMarkDownTableBlockRenderer then
-      FTableRenderer:=TCanvasMarkDownTableBlockRenderer(A[i]);
+    if A[I] is TCanvasMarkdownTableBlockRenderer then
+      FTableRenderer:=TCanvasMarkdownTableBlockRenderer(A[i]);
     Dec(i);
     end;
   if FTableRenderer=nil then
-    Raise EMarkDown.Create('Could not find markdown table renderer');
+    Raise EMarkdown.Create('Could not find markdown table renderer');
 end;
 
-procedure TCanvasMarkDownTableRowBlockRenderer.DoRender(aBlock: TMarkDownBlock);
+procedure TCanvasMarkdownTableRowBlockRenderer.DoRender(aBlock: TMarkdownBlock);
 
 var
   lColumn:LongInt;
   CellWidth,CurrentY,CurrentX:LongInt;
   Saved, Temp: TLayoutData;
-  Cell:TMarkDownBlock;
+  Cell:TMarkdownBlock;
   Itm:TLayoutItem;
 
 begin
@@ -2722,8 +2750,8 @@ begin
   CurrentX:=TableRenderer.FStartX;
   if FTableRenderer.CurrentRow>0 then
     begin
-    Itm:=CreateLayoutItem(likLine,CurrentX,CurrentY);
-    Itm.DeltaX:=FTableRenderer.AvailableWidth;
+    Itm:=CreateLayoutItem(likLine,CurrentX,CurrentY-FTableRenderer.GridSize);
+    Itm.DeltaX:=FTableRenderer.TotalWidth;
     end;
   For lColumn:=0 to Min(aBlock.ChildCount-1, Length(FTableRenderer.ColLayout)-1) do
     begin
@@ -2731,8 +2759,11 @@ begin
     CellWidth:=FTableRenderer.ColLayout[lColumn].Width;
     Temp:=Default(TLayoutData);
     Temp.MaxWidth:=CurrentX+CellWidth-FTableRenderer.CellPaddingX;
-    Temp.CurrentIndent:=CurrentX+FTableRenderer.FCellPaddingX;
-    Temp.LineY:=CurrentY+FTableRenderer.FCellPadding;
+    Temp.CurrentIndent:=CurrentX+FTableRenderer.CellPaddingX;
+    Temp.LineY:=CurrentY+FTableRenderer.CellPaddingY;
+    Temp.BaselineFromIndex:=CanvasRenderer.FLists.Items.Count-1;
+    Temp.LinkFromIndex:=CanvasRenderer.FLists.LinkRects.Count;
+    Inc(CanvasRenderer.FLineCount);
     Saved:=CanvasRenderer.SwapLayout(Temp);
     CanvasRenderer.RenderBlock(Cell);
     CanvasRenderer.SwapLayout(Saved);
@@ -2741,53 +2772,44 @@ begin
     end;
 end;
 
-class function TCanvasMarkDownTableRowBlockRenderer.BlockClass: TMarkDownBlockClass;
+class function TCanvasMarkdownTableRowBlockRenderer.BlockClass: TMarkdownBlockClass;
 begin
-  Result:=TMarkDownTableRowBlock;
+  Result:=TMarkdownTableRowBlock;
 end;
 
-{ TCanvasMarkDownThematicBreakBlockRenderer }
+{ TCanvasMarkdownThematicBreakBlockRenderer }
 
-procedure TCanvasMarkDownThematicBreakBlockRenderer.DoRender(aBlock: TMarkDownBlock);
+procedure TCanvasMarkdownThematicBreakBlockRenderer.DoRender(aBlock: TMarkdownBlock);
 var
-  Itm: TLayoutItem;
+  lItem: TLayoutItem;
+  lData: TLayoutData;
+  lHeight: Integer;
 begin
   if not assigned(aBlock) then exit;
-
-  // Render horizontal line: a real likLine item across the FULL
-  // available row width, not a text of box-drawing chars
-  // (fixes CudaText issue 6645: the fixed 40-char line was shorter
-  // than wide windows and never grew with the layout width)
   MaybeStartParagraph;
-  // GitHub spacing v2: hr { margin: var(--base-size-24) 0 } = 24px
-  // above and below (paragraph breaks now contribute 16px each way,
-  // so the extra is 24-16=8; the hr line itself is drawn centered in
-  // the row, same rhythm as GitHub)
-  SetCurrentY(GetCurrentY+DIP(8));
-  Itm:=CreateLayoutItem(likLine,
-    CanvasRenderer.FLayout.CurrentIndent,
-    CanvasRenderer.FLayout.LineY + CanvasRenderer.FLayout.LineHeight div 2);
-  Itm.DeltaX:=Max(1, CanvasRenderer.FLayout.MaxWidth - CanvasRenderer.FLayout.CurrentIndent);
-  Itm.DeltaY:=0;
-  Itm.Width:=Itm.DeltaX;
-  Itm.Height:=DIP(2);
-  NewLine;
-  SetCurrentY(GetCurrentY+DIP(8));
+  lData:=LayoutData;
+  lHeight:=MeasureTextHeight(CanvasRenderer.fBaseFontSize, [], []);
+  // Line across the available width, vertically centered in one text line
+  lItem:=CreateLayoutItem(likLine, lData.CurrentIndent, lData.LineY+(lHeight div 2));
+  lItem.DeltaX:=Max(1, lData.MaxWidth-lData.CurrentIndent);
+  lItem.DeltaY:=0;
+  lItem.Width:=lItem.DeltaX;
+  SetCurrentY(lData.LineY+lHeight);
   ParagraphBreak;
 end;
 
-class function TCanvasMarkDownThematicBreakBlockRenderer.BlockClass: TMarkDownBlockClass;
+class function TCanvasMarkdownThematicBreakBlockRenderer.BlockClass: TMarkdownBlockClass;
 begin
-  Result:=TMarkDownThematicBreakBlock;
+  Result:=TMarkdownThematicBreakBlock;
 end;
 
-{ TCanvasMarkDownTextBlockRenderer }
+{ TCanvasMarkdownTextBlockRenderer }
 
-procedure TCanvasMarkDownTextBlockRenderer.DoRender(aBlock: TMarkDownBlock);
+procedure TCanvasMarkdownTextBlockRenderer.DoRender(aBlock: TMarkdownBlock);
 var
-  lTextBlock: TMarkDownTextBlock absolute aBlock;
-  Parents : TMarkDownElementRendererArray;
-  Parent : TMarkDownElementRenderer;
+  lTextBlock: TMarkdownTextBlock absolute aBlock;
+  Parents : TMarkdownElementRendererArray;
+  Parent : TMarkdownElementRenderer;
   i: integer;
   FontStyles : TFontStyles;
   FontSize : integer;
@@ -2802,12 +2824,15 @@ begin
   For I:=Length(Parents)-1 downto 0 do
     begin
     Parent:=Parents[i];
-    if Parent is TCanvasMarkDownTableRowBlockRenderer then
-      if TCanvasMarkDownTableRowBlockRenderer(Parent).FTableRenderer.CurrentRow=0 then
+    if (Parent is TCanvasMarkdownTableBlockRenderer)
+       and (TCanvasMarkdownTableBlockRenderer(Parent).CurrentRow=0) then
+      Include(FontStyles,fsBold);
+    if Parent is TCanvasMarkdownTableRowBlockRenderer then
+      if TCanvasMarkdownTableRowBlockRenderer(Parent).FTableRenderer.CurrentRow=0 then
          Include(FontStyles,fsBold);
-    if Parent is TCanvasMarkDownHeadingBlockRenderer then
-      Fontsize:=TCanvasMarkDownHeadingBlockRenderer(Parent).fontSize;
-    if (Parent is TCanvasMarkDownQuoteBlockRenderer) then
+    if Parent is TCanvasMarkdownHeadingBlockRenderer then
+      Fontsize:=TCanvasMarkdownHeadingBlockRenderer(Parent).fontSize;
+    if (Parent is TCanvasMarkdownQuoteBlockRenderer) then
       Include(FontContext,fcQuote);
     if (Parent is TCanvasMarkdownCodeBlockRenderer) then
       FontContext:=FontContext+[fcMono,fcFencedCode];
@@ -2818,24 +2843,74 @@ begin
   end;
 end;
 
-class function TCanvasMarkDownTextBlockRenderer.BlockClass: TMarkDownBlockClass;
+class function TCanvasMarkdownTextBlockRenderer.BlockClass: TMarkdownBlockClass;
 begin
-  Result:=TMarkDownTextBlock;
+  Result:=TMarkdownTextBlock;
+end;
+
+{ TCanvasMarkdownFrontmatterBlockRenderer }
+
+procedure TCanvasMarkdownFrontmatterBlockRenderer.DoRender(aBlock: TMarkdownBlock);
+
+begin
+end;
+
+
+class function TCanvasMarkdownFrontmatterBlockRenderer.BlockClass: TMarkdownBlockClass;
+
+begin
+  Result:=TMarkdownFrontmatterBlock;
+end;
+
+
+{ TCanvasMarkdownContainerBlockRenderer }
+
+procedure TCanvasMarkdownContainerBlockRenderer.DoRender(aBlock: TMarkdownBlock);
+
+begin
+  if not assigned(aBlock) then exit;
+  Renderer.RenderChildren(aBlock as TMarkdownContainerBlock);
+  ParagraphBreak;
+end;
+
+
+class function TCanvasMarkdownContainerBlockRenderer.BlockClass: TMarkdownBlockClass;
+
+begin
+  Result:=TMarkdownContainerBlock;
+end;
+
+
+{ TCanvasMarkdownLeafBlockRenderer }
+
+procedure TCanvasMarkdownLeafBlockRenderer.DoRender(aBlock: TMarkdownBlock);
+
+begin
+end;
+
+
+class function TCanvasMarkdownLeafBlockRenderer.BlockClass: TMarkdownBlockClass;
+
+begin
+  Result:=TMarkdownLeafBlock;
 end;
 
 initialization
   // Register all canvas block renderers
-  TCanvasMarkDownParagraphBlockRenderer.RegisterRenderer(TMarkDownCanvasRenderer);
-  TCanvasMarkDownHeadingBlockRenderer.RegisterRenderer(TMarkDownCanvasRenderer);
-  TCanvasMarkDownQuoteBlockRenderer.RegisterRenderer(TMarkDownCanvasRenderer);
-  TCanvasMarkDownListBlockRenderer.RegisterRenderer(TMarkDownCanvasRenderer);
-  TCanvasMarkDownListItemBlockRenderer.RegisterRenderer(TMarkDownCanvasRenderer);
-  TCanvasMarkDownCodeBlockRenderer.RegisterRenderer(TMarkDownCanvasRenderer);
-  TCanvasMarkDownTableBlockRenderer.RegisterRenderer(TMarkDownCanvasRenderer);
-  TCanvasMarkDownTableRowBlockRenderer.RegisterRenderer(TMarkDownCanvasRenderer);
-  TCanvasMarkDownThematicBreakBlockRenderer.RegisterRenderer(TMarkDownCanvasRenderer);
-  TCanvasMarkDownTextBlockRenderer.RegisterRenderer(TMarkDownCanvasRenderer);
+  TCanvasMarkdownParagraphBlockRenderer.RegisterRenderer(TMarkdownCanvasRenderer);
+  TCanvasMarkdownHeadingBlockRenderer.RegisterRenderer(TMarkdownCanvasRenderer);
+  TCanvasMarkdownQuoteBlockRenderer.RegisterRenderer(TMarkdownCanvasRenderer);
+  TCanvasMarkdownListBlockRenderer.RegisterRenderer(TMarkdownCanvasRenderer);
+  TCanvasMarkdownListItemBlockRenderer.RegisterRenderer(TMarkdownCanvasRenderer);
+  TCanvasMarkdownCodeBlockRenderer.RegisterRenderer(TMarkdownCanvasRenderer);
+  TCanvasMarkdownTableBlockRenderer.RegisterRenderer(TMarkdownCanvasRenderer);
+  TCanvasMarkdownTableRowBlockRenderer.RegisterRenderer(TMarkdownCanvasRenderer);
+  TCanvasMarkdownThematicBreakBlockRenderer.RegisterRenderer(TMarkdownCanvasRenderer);
+  TCanvasMarkdownTextBlockRenderer.RegisterRenderer(TMarkdownCanvasRenderer);
+  TCanvasMarkdownFrontmatterBlockRenderer.RegisterRenderer(TMarkdownCanvasRenderer);
+  TCanvasMarkdownContainerBlockRenderer.RegisterRenderer(TMarkdownCanvasRenderer);
+  TCanvasMarkdownLeafBlockRenderer.RegisterRenderer(TMarkdownCanvasRenderer);
 
   // Register text renderer
-  TCanvasMarkDownTextRenderer.RegisterRenderer(TMarkDownCanvasRenderer);
+  TCanvasMarkdownTextRenderer.RegisterRenderer(TMarkdownCanvasRenderer);
 end.
