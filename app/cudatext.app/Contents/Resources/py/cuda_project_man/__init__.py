@@ -4675,13 +4675,20 @@ class Command:
         def cb(fn, node):
             if fn == path:
                 found.append(node)
-                return False
+                # issue #6681: keep walking while only the 'Favorites'
+                # section's copy matched - the real node wins
+                return self._in_favorites_section(node)
             return True
 
         self.enum_all(cb)
         if found:
-            tree_proc(self.tree, TREE_ITEM_SELECT, found[0])
-            tree_proc(self.tree, TREE_ITEM_SHOW, found[0])
+            node = found[0]
+            for h in found:
+                if not self._in_favorites_section(h):
+                    node = h
+                    break
+            tree_proc(self.tree, TREE_ITEM_SELECT, node)
+            tree_proc(self.tree, TREE_ITEM_SHOW, node)
 
     def _filter_visible_changed(self, index, live):
         """True when a _filter_rebuild(index, live) would change what
@@ -7760,8 +7767,20 @@ class Command:
         if not self.tree:
             return
         items = tree_proc(self.tree, TREE_ITEM_ENUM_EX, 0)
-        if items:
-            return self.enum_subitems_fn(items[0]['id'], filename, and_open)
+        if not items:
+            return
+        # issue #6681: a file/folder attached to the project sits in the
+        # tree TWICE - as the top 'Favorites' section's child and as the
+        # real node below. The REAL node must win: the project nodes are
+        # walked first, and the 'Favorites' section is searched only as
+        # the fallback (the path is a favorite and not in the project at
+        # all, so the section's copy is its only node)
+        if not self.enum_subitems_fn(items[0]['id'], filename, and_open):
+            return False
+        h_section = self._favorites_section_handle()
+        if h_section is None:
+            return True
+        return self.enum_subitems_fn(h_section, filename, and_open)
 
     def enum_subitems_fn(self, item_src, filename, and_open):
         """
@@ -7769,7 +7788,15 @@ class Command:
         When found 'filename', focus it and return False
         """
         def _need(dirpath):
-            return filename.startswith(dirpath+os.sep)
+            # data='' (the 'Favorites' section header, the project root)
+            # must never look like a parent folder of an absolute
+            # filename: on POSIX, filename.startswith(''+os.sep) is
+            # filename.startswith('/'), True for EVERY absolute path,
+            # so the section was walked into and its favorite copy of
+            # the file got the selection before the real node - on
+            # Windows startswith('\\') is False and the bug hid
+            # (issue #6681)
+            return bool(dirpath) and filename.startswith(dirpath+os.sep)
 
         prop_list = tree_proc(self.tree, TREE_ITEM_ENUM_EX, item_src) or []
         for prop in prop_list:
@@ -7804,8 +7831,17 @@ class Command:
         if not self.tree:
             return
         items = tree_proc(self.tree, TREE_ITEM_ENUM_EX, 0)
-        if items:
-            return self.enum_subitems_sel(items[0]['id'], filename)
+        if not items:
+            return
+        # issue #6681: like enum_all_fn, the real project node wins over
+        # the 'Favorites' section's copy of the same path; the section is
+        # searched only as the fallback
+        if not self.enum_subitems_sel(items[0]['id'], filename):
+            return False
+        h_section = self._favorites_section_handle()
+        if h_section is None:
+            return True
+        return self.enum_subitems_sel(h_section, filename)
 
     def enum_subitems_sel(self, item_src, filename):
         """
@@ -7819,6 +7855,13 @@ class Command:
             is_dir = prop['sub_items']
 
             if is_dir:
+                # issue #6681: never recurse into path-less nodes
+                # (data=''): the 'Favorites' section header is such a
+                # node, and its children are the favorites' copies of
+                # nodes which (almost always) exist below as the real
+                # project nodes - they must not shadow the real ones
+                if not fn:
+                    continue
                 node = prop['id']
                 if not self.enum_subitems_sel(node, filename):
                     return False
