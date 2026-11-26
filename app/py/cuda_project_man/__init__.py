@@ -25,7 +25,7 @@ from cudatext import *
 from cudatext_keys import *
 import cudatext_cmd
 
-from cudax_lib import get_translation
+from cudax_lib import CONFIG_LEV_USER_ONLY, get_opt, get_translation
 _   = get_translation(__file__)  # i18n
 
 from . import favorites as _favorites
@@ -766,6 +766,58 @@ def resolve_session_pointer(ptr):
     if fn and not os.path.dirname(fn):
         fn = os.path.join(app_path(APP_DIR_SETTINGS), fn)
     return fn + sep + rest
+
+#: file name of the app's "none" session (the core's cAppSessionNone,
+#: proc_globdata.pas): the session CudaText activates when it restores
+#: no session - "Restore session" (ui_reopen_session) off, or session
+#: loading blocked by the command line (-ns, -nsl, file names with
+#: ui_reopen_session_cmdline off). It owns no file: the core's
+#: DoOps_SaveSession exits on this file name, nothing is ever written.
+NONE_SESSION_FILENAME = '-.cuda-session'
+
+
+def _session_restore_disabled():
+    """True when CudaText's "Restore session" option (ui_reopen_session
+    in user.json) is off. The app then restores NO session at start, and
+    history.json's "session" key is empty - or holds a STALE pointer
+    from before the option was switched off. Either way the pointer says
+    nothing about a session being restored, so on_start must not judge
+    by it: the project comes back on its own, with NO session loaded
+    (the user turned sessions off).
+
+    Read via cudax_lib.get_opt, not json.load: user.json allows '//'
+    comments, stray commas and a BOM, and a strict parse would raise and
+    silently fall back to 'not disabled'. get_opt parses all of that
+    tolerantly and never raises on bad json (it logs and returns the
+    default). CONFIG_LEV_USER_ONLY mirrors the core, which reads this
+    option from user.json only (formmain_loadsave.inc, no entry in
+    default.json); the default True matches the compiled-in default
+    (proc_globdata.pas: ReopenSession:= true).
+
+    Strictly `is False`: a missing key (fresh install - the option
+    defaults to on), a foreign value, or a damaged settings dir must
+    never look like 'disabled', or the plugin would detach a project
+    whose session CudaText is restoring right now."""
+    try:
+        return get_opt('ui_reopen_session', True, CONFIG_LEV_USER_ONLY) is False
+    # intentional silence: get_opt never raises on bad JSON, but the
+    # default.json of a damaged install can still make its first call
+    # fail (it is opened outside the tolerant parser); the option then
+    # defaults to on and the startup pointer check stays in charge
+    except Exception:
+        return False
+
+
+def _app_session_none_active():
+    """True when the app's current session is the "none" session
+    (NONE_SESSION_FILENAME). app_path(APP_FILE_SESSION) returns the
+    session pointer with the settings dir prepended for dir-less file
+    names (the core's AppFile_Session), so compare the base name of the
+    file part, like the core's own IsNoneSessionActive does."""
+    ptr = app_path(APP_FILE_SESSION)
+    if not ptr:
+        return False
+    return os.path.basename(ptr.split('|', 1)[0]) == NONE_SESSION_FILENAME
 
 def same_path(a, b):
     """Filename comparison tolerant to separators and (on Windows only)
@@ -5937,7 +5989,9 @@ class Command:
         # Save the current session to its slot, then prepare the tabs for
         # the closing load below. Skipped when load_session=False (on_start
         # when CudaText already loaded the project session from
-        # history.json).
+        # history.json) and when load_session=None (on_start with
+        # "Restore session" off: no session belongs to the tabs and none
+        # must be created or loaded - the user turned sessions off).
         # skip_session_save: with a project open, action_save_project_as
         # above saved the current session into its slot already (same
         # synchronous call, no tab could change since); without a project
@@ -6079,7 +6133,7 @@ class Command:
                 # in-memory project keeps the old session list
                 except (OSError, ValueError):
                     pass
-        elif not self.project.get('sessions'):
+        elif load_session is False and not self.project.get('sessions'):
             # Startup path (load_session=False): CudaText is restoring the
             # project's session from history.json itself. If the file has
             # no sessions at all (left over by old builds), create
@@ -6088,6 +6142,9 @@ class Command:
             # autosave would write the app session pointer's sub-key into
             # the file only much later, and the sessions menu would be
             # empty meanwhile).
+            # NOT for load_session=None ("Restore session" off): no
+            # session belongs to the tabs and none may be created or
+            # loaded - the user turned sessions off.
             sess_path = str(path) + '|/sessions/session1'
             if app_proc(PROC_SAVE_SESSION, sess_path):
                 self._set_session(sess_path)
@@ -7604,7 +7661,37 @@ class Command:
             except (OSError, ValueError):
                 pass
 
-            if sess_ptr and '|' in sess_ptr:
+            # "Restore session" (ui_reopen_session) off in user.json: the
+            # app restores NO session at start and leaves history.json's
+            # "session" key empty - or a STALE pointer from before the
+            # option was switched off (the key was last written while the
+            # option was still on). The pointer check below can never
+            # match in the first case and must not be trusted in the
+            # second, so decide by the OPTION, not by the pointer. The
+            # project still comes back, but with NO session at all: the
+            # user turned sessions off, the plugin must not load one
+            # (load_session=None also creates no 'session1' and touches
+            # no tab - the editor stays exactly as CudaText left it).
+            # The on_state handler keeps this project open against the
+            # app's "none" session, which the app's own startup session
+            # init (running AFTER on_start, FormShow order) sets then.
+            if _session_restore_disabled():
+                if os.path.isfile(str(items[0])):
+                    self.action_open_project(str(items[0]), load_session=None)
+                else:
+                    # a "one folder" folder entry, or a dead path: no
+                    # project to restore. Detach like the branches below
+                    # (the subscription stays while an "Open folder"
+                    # folder is remembered - the folder restore at the
+                    # end of on_start needs it); a dead project path is
+                    # reported the same way as in the pointer-matching
+                    # branch.
+                    if not os.path.isdir(str(items[0])):
+                        msg_status(_("Project file not found: ") +
+                                   collapse_filename(str(items[0])))
+                    self._close_project_silent()
+                    self._update_on_start_subscription(False)
+            elif sess_ptr and '|' in sess_ptr:
                 # history.json stores the pointer of a session file located
                 # in the settings dir WITHOUT its directory part (the app's
                 # AppSessionName_ForHistoryFile strips the settings dir), so
@@ -9466,6 +9553,19 @@ class Command:
                 return
             if self.project_file_path:
                 if not self.session_cur_name():
+                    if _app_session_none_active() and \
+                            _session_restore_disabled():
+                        # "Restore session" off: on_start opened the
+                        # project with load_session=None (no session
+                        # anywhere), and this event is the app's own
+                        # startup session init (FormShow runs it AFTER
+                        # on_start) setting the "none" session. That is
+                        # the state the user configured - the project
+                        # stays open, nothing is re-pointed or closed.
+                        # The none-session owns no file: the core's
+                        # DoOps_SaveSession exits on this file name, no
+                        # session can be clobbered by the autosave.
+                        return
                     print(_('Project Manager: app session was changed outside the project, closing the project'))
                     self._close_project_silent()
                     # No project is in use anymore — drop the on_start

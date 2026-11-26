@@ -728,6 +728,12 @@ Startup
     also recorded in the project file, so the project reopens with it
     later). No extra prompts, no session switching.
 
+  - If CudaText's option "Restore session" (ui_reopen_session) is off,
+    no session is restored at all - the most recent project still
+    reopens (project panel, nodes, favorites), but NO session is
+    loaded or created: the editor stays exactly as CudaText left it,
+    per the user's choice of not using sessions.
+
   - If the session belongs to a different project, or is a plain
     non-project session, the plugin detaches from the project silently.
     The session's tabs load without interruption, and the project

@@ -376,6 +376,28 @@ never use projects never load the plugin at all.
   invariant). Otherwise (foreign session / plain default session) the
   plugin detaches silently (`_close_project_silent`) so the two
   sessions don't fight — and unsubscribes.
+- **`on_start` with "Restore session" off** (`ui_reopen_session:
+  false` in user.json, checked by `_session_restore_disabled()` via
+  `cudax_lib.get_opt('ui_reopen_session', True,
+  CONFIG_LEV_USER_ONLY)` — user.json legally carries `//` comments,
+  stray commas and a BOM that a strict `json.load` would reject, so
+  the option is never read with the stdlib parser; `get_opt` parses
+  all of that tolerantly and never raises on bad json; its USER_ONLY
+  level + default `true` mirror the core, which reads this option
+  from user.json only with a compiled-in default of on): the
+  app restores NO session and leaves history.json's `session` key
+  empty — or a STALE pointer from before the option was switched off,
+  so the pointer is not trusted. The most-recent project still
+  reopens, with `action_open_project(path, load_session=None)`: NO
+  session is loaded or created (the user turned sessions off), no tab
+  is touched, the editor stays exactly as CudaText left it. The app's
+  own startup session init (FormShow runs it AFTER on_start) then
+  sets the "none" session (`-.cuda-session`), whose
+  APPSTATE_SESSION_SET would normally close the project via §7 — the
+  on_state handler explicitly keeps the project open for the
+  none-session while the option is off (`_app_session_none_active`).
+  The none-session owns no file (the core's DoOps_SaveSession exits
+  on that file name), so nothing can be clobbered by the autosave.
 - **`on_exit`**: with a project open, saves it
   (`action_save_project_as`) — which per §3 takes fresh sessions from
   disk and then saves the current session slot (and keeps on_start
@@ -396,6 +418,18 @@ loaded — the foreign session just takes over and the project's session
 data is protected from being overwritten by the ~40 s autosave. The
 on_start subscription is removed as well (§6): no project is in use
 anymore.
+
+Exception: the app's "none" session (`-.cuda-session`, what the core
+activates when it restores no session) while `ui_reopen_session` is
+off. That is not a foreign session taking over: it is the state the
+user configured, reached at every start after §6's load_session=None
+open — the app's own startup session init (FormShow, AFTER on_start)
+switches the session from the plain default (or a stale pointer, what
+DoOps_LoadHistory set at OnCreate) to the none session, and that
+switch fires this very event. The project stays open, nothing is
+re-pointed or closed. No data can be lost through it: the none-session
+owns no file (the core's DoOps_SaveSession exits on that file name),
+so there is nothing to clobber.
 
 - Own changes are ignored via the `_session_set_by_plugin` guard flag
   (set only around the `PROC_SET_SESSION` call inside `_set_session`).

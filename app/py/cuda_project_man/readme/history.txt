@@ -1,4 +1,28 @@
 2026.11.26 (@badrelmers)
++ FIXED: a project did not reopen at CudaText start with the option
+  "Restore session" (ui_reopen_session) off. With the option off the
+  app restores no session and leaves history.json's "session" key
+  EMPTY - or a stale pointer from before the option was switched
+  off - and on_start treated both as "no project session" and
+  detached (after one such restart it even dropped its on_start
+  subscription, so the plugin stopped loading at start altogether).
+  The option is now checked directly (_session_restore_disabled
+  reads ui_reopen_session via cudax_lib.get_opt - user.json allows
+  // comments, stray commas and a BOM that a strict json parser
+  would reject, so the stdlib json is never used for it) instead of
+  trusting the pointer: with it off, the most recent project reopens
+  with the new
+  action_open_project(load_session=None) mode - NO session is loaded
+  or created (the user turned sessions off), no tab is touched, the
+  editor stays exactly as CudaText left it. The app's own startup
+  session init (FormShow runs it after on_start) then activates the
+  "none" session (-.cuda-session); on_state no longer mistakes that
+  for a foreign session taking over while the option is off, so the
+  project stays open (the none-session owns no file, the app never
+  writes it - nothing can be clobbered). Documented in
+  doc_for_dev.md sections 6 and 7.
+
+2026.11.26 (@badrelmers)
 + The Favorites window KEEPS ITS SIZE (and the maximized state)
   across CudaText restarts: the size is saved on close and on the
   app exit, and restored on the next open. The old forced default
