@@ -557,6 +557,7 @@ begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'i:app_idle', @Flag)) then
     begin
+      MsgLogConsole('ERROR: called app_idle API, which is deprecated');
       Application.ProcessMessages;
       Application.Idle(Flag);
       Result:= AppPython.Engine.ReturnNone;
@@ -2067,6 +2068,7 @@ begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'Ls:get_filename', @H, @PtrOps)) then
     begin
+      MsgLogConsole('ERROR: called Editor.get_filename API, which is deprecated');
       Ed:= PyHelper_EditorFromHandle(H);
       F:= TGroupsHelper.GetEditorFrame(Ed);
       StrOps:= string(PtrOps);
@@ -9001,6 +9003,7 @@ begin
 
         APP_IMAGE_PAINT:
           begin
+            MsgLogConsole('ERROR: called image_proc(... IMAGE_PAINT ...) API, which is deprecated');
             Sep.Init(StrValue);
             Sep.GetItemInt64(Num64, 0);
             Canvas:= PyHelper_CanvasId_to_CanvasObject(Num64);
@@ -9017,6 +9020,7 @@ begin
 
         APP_IMAGE_PAINT_SIZED:
           begin
+            MsgLogConsole('ERROR: called image_proc(... IMAGE_PAINT_SIZED ...) API, which is deprecated');
             Sep.Init(StrValue);
             Sep.GetItemInt64(Num64, 0);
             Canvas:= PyHelper_CanvasId_to_CanvasObject(Num64);
@@ -9114,6 +9118,7 @@ begin
 
         GAP_MAKE_BITMAP:
           begin
+            MsgLogConsole('ERROR: called Editor.gap(... GAP_MAKE_BITMAP ...) API, which is deprecated');
             Bmp:= TBitmap.Create;
             Bmp.PixelFormat:= pf24bit;
             Bmp.SetSize(Num1, Num2);
