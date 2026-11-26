@@ -591,6 +591,16 @@ begin
   C.FontQuoteColor:= AppTheme.Styles[TAppThemeStyle.Id2].Font.Color;
   C.SelectionColor:= AppTheme.Colors[TAppThemeColor.EdSelBg].color;
   C.HyperLinkColor:= AppTheme.Colors[TAppThemeColor.EdLinks].color;
+
+  //GitHub markdown style, hardcoded (values of the "GitHub spacing"
+  //checkbox in the lazmarkdown demo; no API to turn it off): approximations
+  //for a 1.5 em line height, in the units each property defines
+  C.ParagraphSpacing:= 16;
+  C.HeadingSpacing:= 33;
+  C.ListItemSpacing:= 17;
+  C.CodeBlockPadding:= 67;
+  C.TableCellPaddingX:= 54;
+  C.TableCellPaddingY:= 25;
 end;
 
 

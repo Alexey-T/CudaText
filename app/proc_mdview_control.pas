@@ -679,6 +679,9 @@ var
   lSegments: TCudaMdLineSegments;
   lChunks: array of TCudaMdChunk;
   lItem: TLayoutItem;
+  lBack: TLayoutItem;
+  lLayout: TLayoutData;
+  lPad: Integer;
   i, j: integer;
 begin
   if not assigned(aBlock) then exit;
@@ -713,7 +716,30 @@ begin
   // highlighted) fenced code the same way, via WrapCodeBlocks.
   SetLength(GLastPaintedRuns, 0);
 
+  // GitHub padding band, exactly like upstream TCanvasMarkdownCodeBlockRenderer
+  // .DoRender: a likBackground item spanning MaxWidth, lPad above and below,
+  // Indent(lPad) plus the matching reduction of MaxWidth (our chunker and
+  // LayoutCharWrapped measure against MaxWidth, so the band's right edge
+  // and the code's wrap limit both honor the padding). Skip when lPad=0:
+  // upstream does the same (plain rendering, no band).
+  lPad:= TMarkdownCanvasRendererAccess(CanvasRenderer).EmPercent(
+    CanvasRenderer.CodeBlockPadding);
+  lBack:= Nil;
   ParagraphBreak;
+  if lPad>0 then
+  begin
+    lBack:= CreateLayoutItem(likBackground, 0, GetCurrentY);
+    lBack.Width:= LayoutData.MaxWidth;
+    SetCurrentY(GetCurrentY+lPad);
+    Indent(lPad);
+    // MaxWidth is a field of FLayout: LayoutData hands out a copy, so the
+    // reduced value must be written back via SwapLayout (protected on the
+    // canvas renderer, reached through the Access class)
+    lLayout:= LayoutData;
+    Dec(lLayout.MaxWidth, lPad);
+    TMarkdownCanvasRendererAccess(CanvasRenderer).SwapLayout(lLayout);
+  end;
+
   for i:= 0 to CountLines(lCodeU8)-1 do
   begin
     lLineOfCode:= LineN(lCodeU8, i);
@@ -722,7 +748,7 @@ begin
       // line beyond the tokenized range, or line without tokens: default
       // code color, still byte-faithful, WRAPPED by the component's own
       // LayoutCharWrapped so long lines stay visible
-      lItem:= TMarkdownCanvasRendererAccess(CanvasRenderer).CreateLayoutItem(
+      lItem:= CreateLayoutItem(
         likBackground,
         TMarkdownCanvasRendererAccess(CanvasRenderer).Layout.LineX,
         TMarkdownCanvasRendererAccess(CanvasRenderer).Layout.LineY);
@@ -740,7 +766,7 @@ begin
 
     // background rect for the FIRST row of this line: covers every
     // wrapped row, because Height is finalized after all rows below
-    lItem:= TMarkdownCanvasRendererAccess(CanvasRenderer).CreateLayoutItem(
+    lItem:= CreateLayoutItem(
       likBackground,
       TMarkdownCanvasRendererAccess(CanvasRenderer).Layout.LineX,
       TMarkdownCanvasRendererAccess(CanvasRenderer).Layout.LineY);
@@ -768,6 +794,18 @@ begin
 
     NewLine;
     lItem.Height:= TMarkdownCanvasRendererAccess(CanvasRenderer).Layout.LineY - lItem.Y;
+  end;
+
+  if lBack<>Nil then
+  begin
+    // restore the full-width MaxWidth and the indent, then close the band
+    // (upstream order: Inc(MaxWidth), Undent, SetCurrentY+lPad, band height)
+    lLayout:= LayoutData;
+    Inc(lLayout.MaxWidth, lPad);
+    TMarkdownCanvasRendererAccess(CanvasRenderer).SwapLayout(lLayout);
+    Undent(lPad);
+    SetCurrentY(GetCurrentY+lPad);
+    lBack.Height:= GetCurrentY-lBack.Y;
   end;
 
   ParagraphBreak;
