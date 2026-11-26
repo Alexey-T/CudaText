@@ -56,7 +56,6 @@ def plot(data,sx=450,sy=130,offsetx=0):
             canvas_proc(0, CANVAS_TEXT, t, x=offsetx+5, y=2)
             canvas_proc(0, CANVAS_TEXT, n, x=offsetx+5, y=h)
             canvas_proc(0, CANVAS_TEXT, nn, x=offsetx+5, y=h*2)
-            #app_idle()
             #sleep(0.1)
     #canvas_proc(0, CANVAS_TEXT, 'done', x=offsetx+5, y=h*2)
 
@@ -131,7 +130,7 @@ class Command:
             file_open('')
             result = []
             ed.set_text_all(('00 '*10 + '\n') * n)
-            app_idle()
+            app_proc(PROC_IDLE, '')
             for i in range(n):
                 _time = perf_counter()*1000
                 ed.replace_lines(0, 0, [])
