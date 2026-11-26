@@ -1,3 +1,18 @@
+2026.11.26 (@badrelmers)
++ The Favorites window KEEPS ITS SIZE (and the maximized state)
+  across CudaText restarts: the size is saved on close and on the
+  app exit, and restored on the next open. The old forced default
+  size (the workaround for the fullscreen-window bug) is gone.
+  Only sizes the window really had in the NORMAL state are saved:
+  the plugin remembers the last normal size itself (the live client
+  size of a maximized window is the whole work area, and a form
+  re-created with that size covers the OS taskbar, its resize
+  borders unreachable - that fullscreen-window bug). A maximized
+  window is saved by its normal size plus the 'maximized' flag and
+  restored by re-maximizing OVER the restored size, so
+  un-maximizing gives back exactly the saved size. Works on
+  unmodified CudaText builds, no core changes needed.
+
 2026.11.24 (@badrelmers)
 + FIXED: the Favorites section's star was BLURRED with a big
   file-type icon set. The star png comes from the (16x16) toolbar

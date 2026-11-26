@@ -92,11 +92,18 @@ Main window (non-modal, resizable):
   control, wrapping at the ends), Esc closes the window. Del deletes
   the SELECTED favorite - but while the filter field is focused, Del
   stays in the field and deletes the next letter, as in any editor
-- the window is only HIDDEN on close and reused on the next open, so
-  its size and position are kept for the whole CudaText session; they
-  reset only when CudaText restarts (the size is not saved to disk: a
-  form recreated with the pixel size of a maximized window ends up
-  taller than the work area)
+- the window is only HIDDEN on close and reused for the whole
+  CudaText session; its SIZE (and the maximized state) is saved on
+  close and on the CudaText exit, and restored on the next open.
+  Only sizes the window really had in the NORMAL state are saved:
+  the plugin remembers the last normal size itself (the live client
+  size of a maximized window is the whole work area, and a form
+  re-created with that size covers the OS taskbar, its resize
+  borders unreachable - the fullscreen-window bug that was the
+  reason sizes were never saved before). A maximized window is
+  restored by re-maximizing OVER the saved normal size, so
+  un-maximizing gives that size back. Works on unmodified CudaText
+  builds, no core changes needed
 
 THEME COLORS: the whole window follows the CudaText UI theme, like the
 built-in Preferences dialog (app_proc(PROC_THEME_UI_DICT_GET)). The
@@ -329,6 +336,17 @@ def _ui_scale():
     # unscaled layout
     except Exception:
         return 1.0
+
+
+def _pos_int(v):
+    """A positive int of a stored UI value (the window size), or None
+    - junk stored by hand/older builds falls back to the built-in
+    default size."""
+    try:
+        n = int(v)
+    except (TypeError, ValueError):
+        return None
+    return n if n > 0 else None
 
 
 def get_theme_ui_colors():
@@ -703,10 +721,20 @@ class FavoritesCore:
                 if isinstance(val, list):
                     self.data[cat] = val
         self.ui = own.get('_ui') if isinstance(own, dict) and isinstance(own.get('_ui'), dict) else {}
-        # window size is NOT persisted (see the module docstring) - drop
-        # the keys if an older build of this unreleased version wrote them
-        self.ui.pop('w', None)
-        self.ui.pop('h', None)
+        # the window size ('w'/'h', scaled px) and 'maximized' flag are
+        # restored by build()/show() (see save_ui_state); junk values
+        # (non-int, non-positive) are dropped - the built-in default
+        # window size is used then
+        w = _pos_int(self.ui.get('w'))
+        h = _pos_int(self.ui.get('h'))
+        if w and h:
+            self.ui['w'] = w
+            self.ui['h'] = h
+        else:
+            self.ui.pop('w', None)
+            self.ui.pop('h', None)
+        if not isinstance(self.ui.get('maximized'), bool):
+            self.ui.pop('maximized', None)
         self.deleted = [p for p in (own.get('_deleted') if isinstance(own, dict) else None) or []
                         if isinstance(p, str)]
         self._normalize()
@@ -1229,6 +1257,21 @@ class FavoritesForm:
         self.rows = []          # what is shown: dicts with cached dead
         self.selected_data = -1 # data index to re-select after refill
         self._closing = False
+        #: re-maximize the window on its next show(): set by build()
+        #: from the saved 'maximized' flag, CLEARED by show() - the
+        #: saved flag must not re-maximize a window the user just
+        #: un-maximized while it stays open (the flag is re-read from
+        #: the store only by the next build)
+        self._max_pending = False
+        #: (w, h) of the last size the window had in the NORMAL state:
+        #: the only size ever saved to the store. The live client size
+        #: of a maximized window is the whole work area - saving THAT
+        #: and re-creating the form with it re-creates the old bug (a
+        #: normal window covering the taskbar, borders unreachable).
+        #: Seeded by build() with the restored/default size (a freshly
+        #: built form is normal), updated by form_on_resize() while
+        #: the form stays normal
+        self._last_normal = None
         #: the index of the tab currently under the mouse, or -1
         #: (on_mouse_enter / on_mouse_exit of the colorpanel tabs;
         #: _update_tabs highlights it with the theme hover color)
@@ -1657,6 +1700,40 @@ class FavoritesForm:
             listbox_proc(self.h_list, LISTBOX_SET_DRAWN, index=1)
 
         dlg_proc(self.h, DLG_SCALE)
+
+        # restore the LAST USED window size (saved on close / on the
+        # app exit, scaled client px - the same restore-after-scale
+        # pattern as the cuda_prefs dialogs): applying it AFTER
+        # DLG_SCALE makes the anchors re-flow the layout exactly like
+        # a user resize (no scale round-trip drift at non-100% DPI),
+        # and the LCL constraints (w_min/h_min) still bound it from
+        # below. No size yet (the first ever open) keeps the
+        # FONT_W x FONT_H default. The saved value is always a size
+        # the window really had in the NORMAL state (see
+        # save_ui_state), so restoring can never re-create the old
+        # fullscreen-window bug
+        saved_w = self._ui_get('w', 0)
+        saved_h = self._ui_get('h', 0)
+        if saved_w and saved_h:
+            try:
+                dlg_proc(self.h, DLG_PROP_SET,
+                         prop={'w': int(saved_w), 'h': int(saved_h)})
+            except Exception:
+                log_error('Favorites: cannot restore the window size')
+        # seed the last-normal-size tracker: the freshly built form
+        # is in the NORMAL state, so its live w/h are trustworthy on
+        # every CudaText build (a maximized form's live w/h are not)
+        try:
+            props = dlg_proc(self.h, DLG_PROP_GET) or {}
+            w = _pos_int(props.get('w'))
+            h = _pos_int(props.get('h'))
+            if w and h:
+                self._last_normal = (w, h)
+        except Exception:
+            pass
+        # re-maximize on the first show (see _max_pending)
+        self._max_pending = bool(self._ui_get('maximized', False))
+
         self.apply_theme()   # also calls _update_tabs (tab bar colors)
         self._layout_tabs()
         self.fill_list()
@@ -1746,6 +1823,21 @@ class FavoritesForm:
         self.apply_theme()
         dlg_proc(self.h, DLG_SHOW_NONMODAL)
         dlg_proc(self.h, DLG_TO_FRONT)
+        # the window was maximized when it was last closed: maximize
+        # it again OVER the restored NORMAL size - only right after a
+        # build (see _max_pending), and AFTER the show: the form was
+        # created with the saved normal size, so un-maximizing later
+        # gives that size back, never a fullscreen one. Within a
+        # session the hidden form keeps its own live state, so this
+        # never fires ('form_state' needs CudaText api 1.0.475+; on
+        # older builds the window just opens with the restored size,
+        # not maximized - degrades safely)
+        if self._max_pending:
+            self._max_pending = False
+            try:
+                dlg_proc(self.h, DLG_PROP_SET, prop={'form_state': 'max'})
+            except Exception:
+                log_error('Favorites: cannot maximize the window')
         # focus the filter: type-to-filter right away; Ctrl+1..9 etc work
         # from any control because the form has keypreview=True
         try:
@@ -1770,10 +1862,36 @@ class FavoritesForm:
         # for a form that a timer was about to free.
 
     def save_ui_state(self):
-        # NOTE: the window size is deliberately NOT saved to the json -
-        # see the module docstring (a form recreated with the pixel size
-        # of a maximized window ends up with its bottom off-screen).
-        # The size lives on because the hidden form is simply reused.
+        # the window SIZE is saved ('w'/'h', scaled client px, in the
+        # '_ui' dict of the store) - but ONLY a size the window really
+        # had in the NORMAL state: the live client size of a maximized
+        # window is the whole work area, and a form re-created with
+        # that size covers the OS taskbar with unreachable resize
+        # borders (the fullscreen-window bug, the reason sizes were
+        # not persisted before). When the window is maximized or
+        # minimized at the save, the remembered last normal size is
+        # saved instead. 'maximized' keeps the window state too: the
+        # next open restores the size, then re-maximizes over it, so
+        # un-maximizing gives back exactly the saved normal size
+        if self.h:
+            try:
+                props = dlg_proc(self.h, DLG_PROP_GET) or {}
+                if props.get('form_state') == 'norm':
+                    w = _pos_int(props.get('w'))
+                    h = _pos_int(props.get('h'))
+                else:
+                    # maximized/minimized: form_on_resize() kept the
+                    # last normal size for exactly this case
+                    w = h = None
+                    if self._last_normal:
+                        w, h = self._last_normal
+                if w and h:
+                    self.core.ui['w'] = w
+                    self.core.ui['h'] = h
+                self.core.ui['maximized'] = \
+                    (props.get('form_state') == 'max')
+            except Exception:
+                log_error('Favorites: cannot save the window size')
         self.core.ui['tab'] = self.tab
         self.core.ui['sort_col'] = self.sort_col
         self.core.ui['sort_desc'] = self.sort_desc
@@ -1794,6 +1912,19 @@ class FavoritesForm:
         nothing else to recompute here."""
         if self._closing or not self.h or not self.h_list:
             return
+        # remember the size only while the window is NORMAL: the size
+        # of a maximized window is the whole work area, not a size to
+        # re-create the form with. This also fires on un-maximize -
+        # with the restored normal size, exactly the value to keep
+        try:
+            props = dlg_proc(self.h, DLG_PROP_GET) or {}
+            if props.get('form_state') == 'norm':
+                w = _pos_int(props.get('w'))
+                h = _pos_int(props.get('h'))
+                if w and h:
+                    self._last_normal = (w, h)
+        except Exception:
+            pass
         self._layout_tabs()
         self._repaint_list()
 
@@ -3544,6 +3675,15 @@ def apply_theme_all():
     window is re-themed by its next show() anyway."""
     if _form is not None and _form.h:
         _form.apply_theme()
+
+
+def save_window_state():
+    """Save the window size/state of the open (or hidden) favorites
+    window. Called from the plugin's on_exit: a form that is still
+    open when CudaText quits never runs its on_close, so its size
+    would otherwise be lost for the next start."""
+    if _form is not None and _form.h:
+        _form.save_ui_state()
 
 
 def _font_opts():

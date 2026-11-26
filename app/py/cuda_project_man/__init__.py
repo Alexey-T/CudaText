@@ -7399,6 +7399,15 @@ class Command:
             return False #block opening
 
     def on_exit(self, ed_self):
+        # save the favorites window size now: a window still open at
+        # the app exit never runs its on_close, so its last size would
+        # be lost for the next start (intentional silence: saving must
+        # never break the exit flow)
+        try:
+            _favorites.save_window_state()
+        except Exception as e:
+            log_error('Project Manager: cannot save the favorites '
+                      'window state on exit: ' + str(e))
         # label the backups made by the exit saves -- this one, and the
         # app's own session save which runs right after on_exit (the core
         # fires OnExit first, then DoOps_SaveHistory saves the session) --
