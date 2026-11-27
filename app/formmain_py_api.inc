@@ -1963,6 +1963,7 @@ begin
       if bAllText then
         EditorResetHorizontalScrollbarMax(Ed);
 
+      Ed.LastCommand:= 0;
       Ed.DoEventChange(Y1);
       Ed.UpdateWrapInfo(true); //fixing #4173
       Ed.Update(true);
