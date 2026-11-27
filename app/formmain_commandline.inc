@@ -194,6 +194,7 @@ begin
       begin
         Frame.TabCaption:= 'stdin';
         Frame.TabCaptionReason:= TAppTabCaptionReason.UnsavedSpecial;
+        Frame.EdFirst.LastCommand:= 0;
         Frame.EdFirst.Strings.LoadFromString(_GetStdin);
         //Frame.EdFirst.Modified:= false;
       end;

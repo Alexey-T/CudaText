@@ -4656,6 +4656,7 @@ begin
       SText:= msgFirstStartInfo;
       if not AppPython.Inited then
         SText+= #10+msgCannotInitPython1+#10+msgCannotInitPython2+#10+msgCannotInitPython2b;
+      Ed.LastCommand:= 0;
       Ed.Strings.LoadFromString(SText);
       Ed.UpdateWrapInfo(true, false);
       Ed.Modified:= false;

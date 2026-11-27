@@ -155,6 +155,7 @@ begin
       Frame.TabCaption:= msgFinderRegexMatchesNumbered;
       Frame.TabCaptionReason:= TAppTabCaptionReason.UnsavedSpecial;
       Ed:= Frame.EdFirst;
+      Ed.LastCommand:= 0;
       Ed.Strings.LoadFromStrings(Matches, TATLineEnds.Unix, false);
       Ed.UpdateWrapInfo(true, false); //AForceUpdate=True to fix #4609
       Ed.Update;
