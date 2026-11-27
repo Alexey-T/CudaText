@@ -176,9 +176,7 @@ var
   AppStatusbarMessages: TStringList;
   AppBookmarkImagelist: TImageList;
   AppApiFlatTheme: TATFlatTheme;
-  AppAlwaysNewInstance: boolean;
   AppSessionName_: string;
-  AppServerId: string = 'cudatext.0'; //used by TUniqueInstance (which is used only on Unix)
 
 var
   AppFrameList1: TFPList;
@@ -577,9 +575,11 @@ type
     );
 
   TAppCommandlineOps = record
+    AlwaysNewInstance: boolean;
     AllowSessionLoad: TAppAllowSomething;
     AllowSessionSave: TAppAllowSomething;
     FileCount: integer;
+    ServerId: string; //used by TUniqueInstance, only on Unix
     WindowPos: string;
     StartupCommand: string;
   end;
@@ -3561,11 +3561,15 @@ begin
              ];
 end;
 
-procedure InitBasicCommandLineOptions;
+procedure InitCommandLineOptions;
 var
   S: string;
   i: integer;
 begin
+  AppCommandlineOps.ServerId:= 'cudatext.0';
+  AppCommandlineOps.AllowSessionLoad:= TAppAllowSomething.Enable;
+  AppCommandlineOps.AllowSessionSave:= TAppAllowSomething.Enable;
+
   for i:= 1 to ParamCount do
   begin
     S:= ParamStr(i);
@@ -3590,7 +3594,7 @@ begin
 
     if S='-n' then
     begin
-      AppAlwaysNewInstance:= true;
+      AppCommandlineOps.AlwaysNewInstance:= true;
       Continue;
     end;
 
@@ -3598,7 +3602,45 @@ begin
     begin
       Delete(S, 1, Length('-id='));
       if S<>'' then
-        AppServerId:= S;
+        AppCommandlineOps.ServerId:= S;
+      Continue;
+    end;
+
+    if not SBeginsWith(S, '-') then
+    begin
+      if AppCommandlineOps.AllowSessionLoad=TAppAllowSomething.Enable then
+        AppCommandlineOps.AllowSessionLoad:= TAppAllowSomething.NotGood; //block loading last session if any filenames present
+      Inc(AppCommandlineOps.FileCount);
+      Continue;
+    end;
+
+    if SBeginsWith(S, '-w=') then
+    begin
+      AppCommandlineOps.WindowPos:= Copy(S, 4, MaxInt);
+      Continue;
+    end;
+
+    if SBeginsWith(S, '-c=') then
+    begin
+      AppCommandlineOps.StartupCommand:= Copy(S, 4, MaxInt);
+      Continue;
+    end;
+
+    if (S='-nsl') then
+    begin
+      AppCommandlineOps.AllowSessionLoad:= TAppAllowSomething.Disable;
+      Continue;
+    end;
+
+    if (S='-nss') then
+    begin
+      AppCommandlineOps.AllowSessionSave:= TAppAllowSomething.Disable;
+      Continue;
+    end;
+
+    if (S='-verbose') then
+    begin
+      UiOps.PyOutputCopyToStdout:= true;
       Continue;
     end;
   end;
@@ -4217,7 +4259,7 @@ begin
   AppUniqInstDummy:= TAppUniqInstDummy.Create;
   AppUniqInst:= TUniqueInstance.Create(nil);
   AppUniqInst.UpdateInterval:= 100; //work faster, issue #5081
-  AppUniqInst.Identifier:= AppUserName+'_'+AppServerId; //added username to fix CudaText #4079
+  AppUniqInst.Identifier:= AppUserName+'_'+AppCommandlineOps.ServerId; //added username to fix CudaText #4079
   AppUniqInst.OnOtherInstance:= @AppUniqInstDummy.HandleOtherInstance;
   AppUniqInst.Enabled:= true;
 
@@ -4385,7 +4427,7 @@ initialization
   InitDirs;
   InitEditorOps(EditorOps);
   InitUiOps(UiOps);
-  InitBasicCommandLineOptions;
+  InitCommandLineOptions;
 
   AppCommandsDelayed:= TAppCommandsDelayed.Create;
   AppCommandList:= TFPList.Create;

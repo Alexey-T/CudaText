@@ -7,59 +7,6 @@ Copyright (c) Alexey Torgashin
 *)
 {$ifdef nn}begin end;{$endif}
 
-procedure InitAdditionalCommandLineOptions(var Ops: TAppCommandlineOps);
-//Option -n is handled via proc_globdata.AppAlwaysNewInstance
-var
-  SParam: string;
-  i: integer;
-begin
-  Ops.AllowSessionLoad:= TAppAllowSomething.Enable;
-  Ops.AllowSessionSave:= TAppAllowSomething.Enable;
-
-  for i:= 1 to ParamCount do
-  begin
-    SParam:= ParamStr(i);
-    if not SBeginsWith(SParam, '-') then
-    begin
-      if Ops.AllowSessionLoad=TAppAllowSomething.Enable then
-        Ops.AllowSessionLoad:= TAppAllowSomething.NotGood; //block loading last session if any filenames present
-      Inc(Ops.FileCount);
-      Continue;
-    end;
-
-    if SBeginsWith(SParam, '-w=') then
-    begin
-      Ops.WindowPos:= Copy(SParam, 4, MaxInt);
-      Continue;
-    end;
-
-    if SBeginsWith(SParam, '-c=') then
-    begin
-      Ops.StartupCommand:= Copy(SParam, 4, MaxInt);
-      Continue;
-    end;
-
-    if (SParam='-nsl') then
-    begin
-      Ops.AllowSessionLoad:= TAppAllowSomething.Disable;
-      Continue;
-    end;
-
-    if (SParam='-nss') then
-    begin
-      Ops.AllowSessionSave:= TAppAllowSomething.Disable;
-      Continue;
-    end;
-
-    if (SParam='-verbose') then
-    begin
-      UiOps.PyOutputCopyToStdout:= true;
-      Continue;
-    end;
-  end;
-end;
-
-
 function _GetStdin: string;
 var
   s: string;

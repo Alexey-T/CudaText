@@ -29,7 +29,7 @@ uses
 {$R *.res}
 
 begin
-  if not AppAlwaysNewInstance then
+  if not AppCommandlineOps.AlwaysNewInstance then
     if IsSetToOneInstance then
       if IsAnotherInstanceRunning then exit; //func has different implementations for Win and Unix
   {$IFDEF WINDOWS}

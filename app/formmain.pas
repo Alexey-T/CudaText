@@ -3165,7 +3165,7 @@ begin
   PopupToolbarComment.OnPopup:= @PopupToolbarCommentOnPopup;
 
   {$ifdef windows}
-  if not AppAlwaysNewInstance and IsSetToOneInstance then
+  if not AppCommandlineOps.AlwaysNewInstance and IsSetToOneInstance then
     with TInstanceManage.GetInstance do
       case Status of
         isFirst:
@@ -3230,18 +3230,8 @@ begin
     ShowMenu:= false;
 end;
 
-procedure InitAdditionalCommandLineOptions(var Ops: TAppCommandlineOps); forward;
-
 procedure TfmMain.DoOps_OnCreate;
 begin
-  //must load window position in OnCreate to fix flickering with maximized window, Win10
-  try
-    InitAdditionalCommandLineOptions(AppCommandlineOps);
-  except
-    on E: Exception do
-      AppLogException(E, 'DoOps_OnCreate: InitAdditionalCommandLineOptions');
-  end;
-
   EditorCachedOpsId:= 'user';
 
   try
@@ -5247,7 +5237,7 @@ begin
   CompletionOps.FormMaxVisibleItems:= UiOps.ListboxAutoCompleteMaxItems;
 
   {$ifdef unix}
-  if not AppAlwaysNewInstance and UiOps.OneInstance then
+  if not AppCommandlineOps.AlwaysNewInstance and UiOps.OneInstance then
   begin
     if Assigned(AppUniqInst) then
       AppUniqInst.OnOtherInstance:= @fmMain.HandleOtherInstance;
