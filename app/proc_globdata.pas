@@ -577,11 +577,11 @@ type
     );
 
   TAppCommandlineOps = record
-    WindowPos: string;
     AllowSessionLoad: TAppAllowSomething;
     AllowSessionSave: TAppAllowSomething;
-    StartupCommand: string;
     FileCount: integer;
+    WindowPos: string;
+    StartupCommand: string;
   end;
 var
   AppCommandlineOps: TAppCommandlineOps;
