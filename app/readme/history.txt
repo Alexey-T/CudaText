@@ -2271,7 +2271,7 @@ core changes for huge documents:
 + add: lexer PHP: support some features of PHP 8.1 (octal numbers, enums, 'noreturn')
 + add: lexer YAML: highlight %vars%, blocks in () brackets
 * change: hotkey Ctrl+Right reassigned from command "go to word next" to "go to word end", to be like in other editors (thanks @halfbrained)
-- fix: plugin exceptions were not handled good, e.g. if exception occured on button-press in plugin dialog (thanks @halfbrained, @pyscripter)
+- fix: plugin exceptions were not handled good, e.g. if exception occurred on button-press in plugin dialog (thanks @halfbrained, @pyscripter)
 - fix: undo of "paste 50-lines block" action was giving the huge pause
 - fix: "find current word, next" didn't scroll to found match in some cases (thanks @king.midas)
 
@@ -4019,7 +4019,7 @@ core changes for huge documents:
 + add: command "Selection - Expand selection to word" (like in many editors)
 + add: option "allow_wide_chars"
 + add: commands "find current word/sel next/prev": they select current word before search
-* change: option "find_hotkey_find_next" is now hotkey, which is independant from focused input; its value "Enter" is ignored, other value works. "Enter" is now hardcoded hotkey.
+* change: option "find_hotkey_find_next" is now hotkey, which is independent from focused input; its value "Enter" is ignored, other value works. "Enter" is now hardcoded hotkey.
 - fix: cannot find string with trailing EOL (multi-line input)
 
 1.32.2 (2018/01)
