@@ -13,7 +13,6 @@ var
   SParam: string;
   i: integer;
 begin
-  Ops:= Default(TAppCommandlineOps);
   Ops.AllowSessionLoad:= TAppAllowSomething.Enable;
   Ops.AllowSessionSave:= TAppAllowSomething.Enable;
 
