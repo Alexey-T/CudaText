@@ -222,7 +222,7 @@ begin
   end;
 
   if ASaveSession and
-    ((FOption_AllowSessionSave=TAppAllowSomething.Enable) or not IsDefaultSessionActive)
+    ((AppCommandlineOps.AllowSessionSave=TAppAllowSomething.Enable) or not IsDefaultSessionActive)
     ////see http://synwrite.sourceforge.net/forums/viewtopic.php?f=20&t=2576
     ////@tmsg wants to save session always, even with -ns cmdline opt
   then
@@ -1225,7 +1225,7 @@ begin
     if UiOps.LangName<>'' then
       Localize;
 
-    if FOption_AllowSessionLoad=TAppAllowSomething.Enable then
+    if AppCommandlineOps.AllowSessionLoad=TAppAllowSomething.Enable then
     begin
       sNewSession:= cfg.GetValue('session'+cOptionSystemSuffix, AppSessionName_);
 
@@ -1327,9 +1327,9 @@ var
   Sep: TATStringSeparator;
   NLeft, NTop, NWidth, NHeight: integer;
 begin
-  if FOption_WindowPos<>'' then
+  if AppCommandlineOps.WindowPos<>'' then
   begin
-    Sep.Init(FOption_WindowPos);
+    Sep.Init(AppCommandlineOps.WindowPos);
     Sep.GetItemInt(NLeft, Left);
     Sep.GetItemInt(NTop, Top);
     Sep.GetItemInt(NWidth, Width);
@@ -1753,8 +1753,8 @@ begin
   UiOps.ReopenSession:= cfg.GetValue('ui_reopen_session', UiOps.ReopenSession);
   UiOps.ReopenSessionWithCmdLine:= cfg.GetValue('ui_reopen_session_cmdline', UiOps.ReopenSessionWithCmdLine);
   if UiOps.ReopenSessionWithCmdLine then
-    if FOption_AllowSessionLoad=TAppAllowSomething.NotGood then
-      FOption_AllowSessionLoad:= TAppAllowSomething.Enable;
+    if AppCommandlineOps.AllowSessionLoad=TAppAllowSomething.NotGood then
+      AppCommandlineOps.AllowSessionLoad:= TAppAllowSomething.Enable;
   UiOps.SessionSaveInterval:= cfg.GetValue('ui_session_save_interval', UiOps.SessionSaveInterval);
   UiOps.AutoSaveSession:= cfg.GetValue('ui_auto_save_session', UiOps.AutoSaveSession);
   UiOps.BackupLastSessions:= cfg.GetValue('ui_backup_sessions', UiOps.BackupLastSessions);

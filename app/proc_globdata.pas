@@ -570,6 +570,23 @@ const
   OpStr_UiFontOutputSize = 'ui_font_output_size'+cOptionSystemSuffix;
 
 type
+  TAppAllowSomething = (
+    Enable,
+    Disable,
+    NotGood
+    );
+
+  TAppCommandlineOps = record
+    WindowPos: string;
+    AllowSessionLoad: TAppAllowSomething;
+    AllowSessionSave: TAppAllowSomething;
+    StartupCommand: string;
+    FileCount: integer;
+  end;
+var
+  AppCommandlineOps: TAppCommandlineOps;
+
+type
   TEditorOps = record
     OpFontName: UnicodeString;
     OpFontName_i: UnicodeString;

@@ -7,54 +7,48 @@ Copyright (c) Alexey Torgashin
 *)
 {$ifdef nn}begin end;{$endif}
 
-procedure InitAdditionalCommandLineOptions(
-  out AWindowPos: string;
-  out AAllowSessionLoad, AAllowSessionSave: TAppAllowSomething;
-  out AStartupCommand: string;
-  out AFileFolderCount: integer);
+procedure InitAdditionalCommandLineOptions(var Ops: TAppCommandlineOps);
 //Option -n is handled via proc_globdata.AppAlwaysNewInstance
 var
   SParam: string;
   i: integer;
 begin
-  AWindowPos:= '';
-  AAllowSessionLoad:= TAppAllowSomething.Enable;
-  AAllowSessionSave:= TAppAllowSomething.Enable;
-  AStartupCommand:= '';
-  AFileFolderCount:= 0;
+  Ops:= Default(TAppCommandlineOps);
+  Ops.AllowSessionLoad:= TAppAllowSomething.Enable;
+  Ops.AllowSessionSave:= TAppAllowSomething.Enable;
 
   for i:= 1 to ParamCount do
   begin
     SParam:= ParamStr(i);
     if not SBeginsWith(SParam, '-') then
     begin
-      if AAllowSessionLoad=TAppAllowSomething.Enable then
-        AAllowSessionLoad:= TAppAllowSomething.NotGood; //block loading last session if any filenames present
-      Inc(AFileFolderCount);
+      if Ops.AllowSessionLoad=TAppAllowSomething.Enable then
+        Ops.AllowSessionLoad:= TAppAllowSomething.NotGood; //block loading last session if any filenames present
+      Inc(Ops.FileCount);
       Continue;
     end;
 
     if SBeginsWith(SParam, '-w=') then
     begin
-      AWindowPos:= Copy(SParam, 4, MaxInt);
+      Ops.WindowPos:= Copy(SParam, 4, MaxInt);
       Continue;
     end;
 
     if SBeginsWith(SParam, '-c=') then
     begin
-      AStartupCommand:= Copy(SParam, 4, MaxInt);
+      Ops.StartupCommand:= Copy(SParam, 4, MaxInt);
       Continue;
     end;
 
     if (SParam='-nsl') then
     begin
-      AAllowSessionLoad:= TAppAllowSomething.Disable;
+      Ops.AllowSessionLoad:= TAppAllowSomething.Disable;
       Continue;
     end;
 
     if (SParam='-nss') then
     begin
-      AAllowSessionSave:= TAppAllowSomething.Disable;
+      Ops.AllowSessionSave:= TAppAllowSomething.Disable;
       Continue;
     end;
 

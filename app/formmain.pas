@@ -245,12 +245,6 @@ const
   cMenuTabsizeMax = 8;
 
 type
-  TAppAllowSomething = (
-    Enable,
-    Disable,
-    NotGood
-    );
-
   TAppConfigHistoryElement = (
     RecentFiles,
     Search,
@@ -765,16 +759,11 @@ type
     FLastPyMenuHashOfLines: QWord;
     FDisableTreeClearing: boolean;
     FLexerProgressIndex: integer;
-    FOption_WindowPos: string;
-    FOption_AllowSessionLoad: TAppAllowSomething;
-    FOption_AllowSessionSave: TAppAllowSomething;
-    FOption_StartupCommand: string;
     FOption_GroupMode: TATGroupsMode;
     FOption_GroupSizes: TAppGroupsPoints;
     FOption_GroupPanelSize: TPoint;
     FOption_SidebarTab: string;
     FOption_BottomTab: string;
-    FCmdlineFileCount: integer;
     FPrevFramesEditState: array of TFrameEditState;
     //FPrevFindDlgVisible: boolean;
     FStartupShowFloating1: boolean;
@@ -2629,10 +2618,10 @@ begin
   if AppClosingTabs then exit;
   if AppDroppingFiles then exit;
 
-  if FOption_StartupCommand<>'' then
+  if AppCommandlineOps.StartupCommand<>'' then
   begin
-    STemp:= FOption_StartupCommand;
-    FOption_StartupCommand:= '';
+    STemp:= AppCommandlineOps.StartupCommand;
+    AppCommandlineOps.StartupCommand:= '';
     DoPyCommand_CommandLineParam(STemp);
   end;
 
@@ -3241,23 +3230,13 @@ begin
     ShowMenu:= false;
 end;
 
-procedure InitAdditionalCommandLineOptions(
-  out AWindowPos: string;
-  out AAllowSessionLoad, AAllowSessionSave: TAppAllowSomething;
-  out AStartupCommand: string;
-  out AFileFolderCount: integer);
-  forward;
+procedure InitAdditionalCommandLineOptions(var Ops: TAppCommandlineOps); forward;
 
 procedure TfmMain.DoOps_OnCreate;
 begin
   //must load window position in OnCreate to fix flickering with maximized window, Win10
   try
-    InitAdditionalCommandLineOptions(
-      FOption_WindowPos,
-      FOption_AllowSessionLoad,
-      FOption_AllowSessionSave,
-      FOption_StartupCommand,
-      FCmdlineFileCount);
+    InitAdditionalCommandLineOptions(AppCommandlineOps);
   except
     on E: Exception do
       AppLogException(E, 'DoOps_OnCreate: InitAdditionalCommandLineOptions');
@@ -4244,7 +4223,7 @@ procedure TfmMain.FormShow(Sender: TObject);
     //after loading keymap-main and keymap for none-lexer
     if //fixing #4239, don't check here IsDefaultSessionActive ////avoid if on_start runs ProjectManager which loaded project-session
        UiOps.ReopenSession and
-       (FOption_AllowSessionLoad=TAppAllowSomething.Enable) then
+       (AppCommandlineOps.AllowSessionLoad=TAppAllowSomething.Enable) then
       DoOps_LoadSession(AppFile_Session, false);
     if not UiOps.ReopenSession then
       AppSessionName_Set(cAppSessionNone);
