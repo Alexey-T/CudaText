@@ -263,7 +263,6 @@ type
     PyCaretSlow: integer;
     PyChangeSlow: integer;
     PyChangeSlowMaxSeconds: integer;
-    PyOutputCopyToStdout: boolean;
 
     MaxLineLenForEditingKeepingLexer: integer;
     MaxSizeForSession: integer;
@@ -582,6 +581,7 @@ type
     ServerId: string; //used by TUniqueInstance, only on Unix
     WindowPos: string;
     StartupCommand: string;
+    PyOutputCopyToStdout: boolean;
   end;
 var
   AppCommandlineOps: TAppCommandlineOps;
@@ -2335,7 +2335,6 @@ begin
     PyCaretSlow:= 100;
     PyChangeSlow:= 1500;
     PyChangeSlowMaxSeconds:= 30;
-    PyOutputCopyToStdout:= false;
 
     MaxLineLenForEditingKeepingLexer:= 2000;
     MaxSizeForSession:= 50*1000*1000;
@@ -3640,7 +3639,7 @@ begin
 
     if (S='-verbose') then
     begin
-      UiOps.PyOutputCopyToStdout:= true;
+      AppCommandlineOps.PyOutputCopyToStdout:= true;
       Continue;
     end;
   end;

@@ -478,7 +478,7 @@ procedure TfmMain.PythonIOSendUniData(Sender: TObject; const Data: UnicodeString
   procedure MaybeWriteln(const S: UnicodeString); inline;
   begin
     {$ifdef unix}
-    if UiOps.PyOutputCopyToStdout then
+    if AppCommandlineOps.PyOutputCopyToStdout then
       Writeln(S);
     {$endif}
   end;
