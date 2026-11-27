@@ -154,7 +154,6 @@ Supported flags:
 * -n: Ignore option "ui_one_instance", and open new app window.
 * -nsl: Don't load last session on start.
 * -nss: Don't save last session on exit.
-* -ns: Shortcut to "-nsl" together with "-nss".
 * -nh: Don't load saved file history (caret, selection, scroll position, etc.).
 * -nn: Don't suggest to create new file if command-line filename is not found.
 * -e=value: Open all files from command-line in given encoding.
