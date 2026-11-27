@@ -46,13 +46,6 @@ begin
       Continue;
     end;
 
-    if (SParam='-ns') then
-    begin
-      AAllowSessionLoad:= TAppAllowSomething.Disable;
-      AAllowSessionSave:= TAppAllowSomething.Disable;
-      Continue;
-    end;
-
     if (SParam='-nsl') then
     begin
       AAllowSessionLoad:= TAppAllowSomething.Disable;

@@ -364,7 +364,6 @@ const
       '  -nh             - Ignore saved file history'+EOL+
       '  -nsl            - No session loading on start'+EOL+
       '  -nss            - No session saving on exit'+EOL+
-      '  -ns             - The same as -nsl and -nss'+EOL+
       '  -nn             - Don''t suggest to create new file if filename not found'+EOL+
       '  -s=folder       - Set full path of "settings" folder'+EOL+
       '  -i              - Open contents of stdin in new tab (Unix only)'+EOL+
