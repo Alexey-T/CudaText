@@ -2628,7 +2628,7 @@ var
 begin
   Strs:= Ed.Strings;
   Strs.SetNewCommandMark;
-  Ed.LastCommand:= 0;
+  Ed.LastCommand:= -1;
 
   {
   //ATSynEdit can render #10 and #13 if occured in a line,
@@ -2674,7 +2674,7 @@ begin
   Strs.SetNewCommandMark;
 
   //don't keep Undo, not needed in set_text_all
-  Ed.LastCommand:= 0;
+  Ed.LastCommand:= -1;
   Ed.DoCaretSingle(0, 0);
   Ed.Markers.Clear;
   Ed.Attribs.Clear;
@@ -2699,7 +2699,7 @@ var
 begin
   Strs:= Ed.Strings;
   Strs.SetNewCommandMark;
-  Ed.LastCommand:= 0;
+  Ed.LastCommand:= -1;
 
   Strs.TextDeleteRange(X1, Y1, X2, Y2, Shift);
   Ed.UpdateMarkersOnDeleting(X1, Y1, X2, Y2);
@@ -2729,7 +2729,7 @@ begin
   Strs.SetNewCommandMark;
   APosAfter:= Point(AX, AY);
   if AY<0 then exit(false);
-  Ed.LastCommand:= 0;
+  Ed.LastCommand:= -1;
 
   //too big index: do append
   if AY>=Strs.Count then
