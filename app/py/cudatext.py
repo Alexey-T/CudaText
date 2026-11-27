@@ -1536,7 +1536,7 @@ def to_str(v, escape=False):
 
 def _dlg_proc_wait(id_dialog):
     while True:
-        app_idle()
+        app_proc(PROC_IDLE, '')
         from time import sleep
         sleep(0.03) # 30 msec seems ok for CPU load
 
