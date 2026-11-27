@@ -167,6 +167,9 @@
   //Allow to run only one instance (main window) of CudaText.
   "ui_one_instance": true,
 
+  //Enable 'fast way' of (normal) lexer parsing (on editing in a single line with single caret).
+  "ui_fast_parsing": true,
+
   //How to show main window on taskbar. [has suffix]
   //If on (default): App is minimized/restored with proper Windows OS animation.
   //   But Windows Alt+Tab will show additional cells for opened dialogs.

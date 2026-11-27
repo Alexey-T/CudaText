@@ -1432,6 +1432,8 @@ begin
   UiOps.MaxUndoSizeForSessionFile:= cfg.GetValue('ui_session_max_undo', UiOps.MaxUndoSizeForSessionFile);
   UiOps.MaxSizeForSession:= cfg.GetValue('ui_session_max_text', UiOps.MaxSizeForSession);
 
+  OptFastParsing:= cfg.GetValue('ui_fast_parsing', OptFastParsing);
+
   s:= cfg.GetValue('fallback_encoding', '');
   if s<>'' then
     AppApplyFallbackEncoding(s);

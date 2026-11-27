@@ -3,6 +3,11 @@
   - fixed
   * changed
 
+1.240.2 (2026/12)
+
++ add: new 'fast way' of lexer-parsing, without calling parser-thread (ie in the main thread), on editing inside a single line, with single caret. The effect of 'fast way' is visible mainly on big files (eg 10K lines C++ file) on older PCs (eg CPU Intel 3GHz)
++ add: new option "ui_fast_parsing" can disable 'fast way' of parsing
+
 1.240.0 (2026/11)
 
 + add: new API to show Markdown with formatting/tables/pictures/bullets; it will be used in LSP_Client and later in other plugins (thanks @badrelmers)
