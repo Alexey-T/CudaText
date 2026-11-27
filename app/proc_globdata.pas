@@ -577,7 +577,7 @@ type
     AlwaysNewInstance: boolean;
     AllowSessionLoad: TAppAllowSomething;
     AllowSessionSave: TAppAllowSomething;
-    FileCount: integer;
+    FileOrFolderCount: integer;
     ServerId: string; //used by TUniqueInstance, only on Unix
     WindowPos: string;
     StartupCommand: string;
@@ -3609,7 +3609,7 @@ begin
     begin
       if AppCommandlineOps.AllowSessionLoad=TAppAllowSomething.Enable then
         AppCommandlineOps.AllowSessionLoad:= TAppAllowSomething.NotGood; //block loading last session if any filenames present
-      Inc(AppCommandlineOps.FileCount);
+      Inc(AppCommandlineOps.FileOrFolderCount);
       Continue;
     end;
 
