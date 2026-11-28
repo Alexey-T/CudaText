@@ -1,4 +1,28 @@
 2026.11.28 (@badrelmers)
++ FIXED: over-long items of the plugin's dlg_menu list dialogs were
+  hard-cut at the dialog's right edge with no ellipsis, so the END of
+  a too-long item - the part of a path that names the file - was
+  simply invisible. Every such dialog now passes clip=CLIP_MIDDLE
+  (the dlg_menu API param that shortens too-long lines), so an
+  over-long item gets a middle ellipsis and keeps both its start and
+  its end visible. The dialogs: "Find favorites...", "Add opened
+  favorite", "Attach to which project favorite?", "Detach from which
+  project?", "List attached files/folders...", "Recent projects"
+  (the toolbar button), "Go to file", "Choose project to open" (a
+  folder with several .cuda-proj files), and the three project-session
+  menus ("Open project session", "Delete project session", the
+  "Session to load instead of ..." follow-up). The static short
+  choosers (the "Project.../File.../Folder..." pick of "Add...")
+  are untouched - their items can never be long.
++ Options dialog: a separator line before the "Recent projects" list
+  (request) - the list is its own group, not a fifth "Project tree"
+  option, and gets the visual break the other groups between the
+  sections already have. The line is the same drawn 2px separator
+  (the theme-colored 'colorpanel') and follows the existing y-phase
+  snapping, so it renders equally thick with the others at any DPI
+  scale.
+
+2026.11.28 (@badrelmers)
 + The tree's "by name" sorting now follows the OS file browser's
   order instead of Python's plain string order ("file2" before
   "file10", names compared the way Windows Explorer does it):

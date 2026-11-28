@@ -3352,7 +3352,8 @@ class FavoritesForm:
                 else '{} — {}'.format(it['name'], it['path'])
                 for it in items]
         res = dlg_menu(DMENU_LIST, caps,
-                       caption=_('Attach to which project favorite?'))
+                       caption=_('Attach to which project favorite?'),
+                       clip=CLIP_MIDDLE)
         if res is None:
             return None
         return items[res]
@@ -3389,7 +3390,9 @@ class FavoritesForm:
             msg_status(_('Favorites: not attached to any project'))
             return
         caps = [self.core.project_display_name(p) for p in projs]
-        res = dlg_menu(DMENU_LIST, caps, caption=_('Detach from which project?'))
+        res = dlg_menu(DMENU_LIST, caps,
+                       caption=_('Detach from which project?'),
+                       clip=CLIP_MIDDLE)
         if res is None:
             return
         self.core.detach(self.cat(), data_idx, projs[res])
@@ -3414,7 +3417,8 @@ class FavoritesForm:
             caps.append('{} {}{} — {}'.format(prefix, dead, it['name'],
                                               it['path']))
         res = dlg_menu(DMENU_LIST, caps,
-                       caption=_('Attached to: ') + row['name'])
+                       caption=_('Attached to: ') + row['name'],
+                       clip=CLIP_MIDDLE)
         if res is None:
             return
         self._open_paths([items[res][1]['path']])
@@ -3935,7 +3939,7 @@ def choose_opened_favorite():
         msg_status(_('Favorites: no opened project, and the current tab is untitled'))
         return None
     res = dlg_menu(DMENU_LIST, [c[0] for c in choices],
-                   caption=_('Add opened favorite'))
+                   caption=_('Add opened favorite'), clip=CLIP_MIDDLE)
     if res is None:
         return None
     return choices[res][1], choices[res][2]
@@ -4078,7 +4082,8 @@ def find_favorites():
     if not caps:
         msg_status(_('Favorites: nothing saved yet'))
         return False
-    res = dlg_menu(DMENU_LIST, caps, caption=_('Find favorites'))
+    res = dlg_menu(DMENU_LIST, caps,
+                   caption=_('Find favorites'), clip=CLIP_MIDDLE)
     if res is None:
         return False
     path = entries[res][1]

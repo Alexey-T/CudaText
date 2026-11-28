@@ -7378,7 +7378,10 @@ class Command:
             return
 
         items_nice = [os.path.basename(fn)+'\t'+collapse_filename(str(os.path.dirname(fn))) for fn in items]
-        res = dlg_menu(DMENU_LIST, items_nice, caption=_('Recent projects'))
+        # clip=CLIP_MIDDLE: long paths get a middle ellipsis, so the end
+        # of the folder path stays visible in the dialog
+        res = dlg_menu(DMENU_LIST, items_nice,
+                       caption=_('Recent projects'), clip=CLIP_MIDDLE)
         if res is None:
             return
 
@@ -7443,7 +7446,8 @@ class Command:
         if projects:
             projects.sort()
             res = dlg_menu(DMENU_LIST, projects,
-                           caption=_('Choose project to open'))
+                           caption=_('Choose project to open'),
+                           clip=CLIP_MIDDLE)
             if res is None:
                 # cancelled: the user still wanted the FOLDER open
                 return ''
@@ -8160,7 +8164,8 @@ class Command:
 
         res = dlg_menu(DMENU_LIST_ALT+DMENU_NO_FULLFILTER, #fuzzy search is needed for users
                        files_nice,
-                       caption=_('Go to file')
+                       caption=_('Go to file'),
+                       clip=CLIP_MIDDLE
                        )
         if res is None:
             return
@@ -9051,7 +9056,8 @@ class Command:
                 MB_OK + MB_ICONINFO)
             return
 
-        res = dlg_menu(DMENU_LIST, names, caption=_('Delete project session'))
+        res = dlg_menu(DMENU_LIST, names,
+                       caption=_('Delete project session'), clip=CLIP_MIDDLE)
         if res is None:
             return
         name = names[res]
@@ -9065,7 +9071,8 @@ class Command:
         if name == self.session_cur_name():
             rest = [n for n in names if n != name]
             res2 = dlg_menu(DMENU_LIST, rest,
-                caption=_('Session to load instead of "%s"') % name)
+                caption=_('Session to load instead of "%s"') % name,
+                clip=CLIP_MIDDLE)
             if res2 is None:
                 return
             repl = rest[res2]
@@ -9268,7 +9275,8 @@ class Command:
     def session_load_menu(self):
 
         names = self.session_get_names()
-        res = dlg_menu(DMENU_LIST, names, caption=_('Open project session'))
+        res = dlg_menu(DMENU_LIST, names,
+                       caption=_('Open project session'), clip=CLIP_MIDDLE)
         if res is None:
             return
         self.session_load(names[res])

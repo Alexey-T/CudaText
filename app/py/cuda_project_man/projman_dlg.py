@@ -599,6 +599,10 @@ def dialog_config(op):
     # two mask options; default off
     check('gitignore', _("Read '.gitignore' of &root folders"), op.get('gitignore', False))
     check('no_hidden', _('Ignore all &hidden files/folders'), op.get('no_hidden', True))
+    # separator line (request): the recent-projects list is its own group,
+    # not another tree option - it gets the visual break the other groups
+    # between the sections have
+    sep()
     lab(_('&Recent projects:'), X0, PANEL_W - 2 * X0, dy=17)
     # a real mini-editor: 5 visible lines, one project per line, plain
     # '\n' separation (the old OS 'memo' needed the dialog API's TAB
