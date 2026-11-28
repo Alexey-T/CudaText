@@ -271,6 +271,9 @@ PROJECT SESSIONS (also on the toolbar button)
       session slot; the new session becomes the active one. No tabs are
       closed - the full current state is saved as is, and the previously
       active session is updated with the same state.
+      The unsaved text of modified tabs is stored IN the session,
+      so it survives a CudaText restart even when you answer
+      "Don't save" to the exit prompt about modified files.
 
   New empty session (closes all tabs)
       Prompts for a name and creates a brand-new EMPTY session of the

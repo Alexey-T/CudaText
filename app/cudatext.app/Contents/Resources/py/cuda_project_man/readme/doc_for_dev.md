@@ -131,6 +131,34 @@ plugin:
    update `sessions.<name>` (and nothing else) via the app's own
    read-modify-write. They do not pass through the plugin and never
    update `Command.project`.
+
+   The exit write follows three rules of its own (core fix 2026.11.26,
+   `DoOps_SaveHistory` in formmain_loadsave.inc). The exit save now
+   happens ONLY when all of these hold:
+   - the "Save tabs?" dialog was answered "Save" or "Don't save / keep
+     in session" — or was not shown at all (`ASaveModifiedTabs`, i.e.
+     `UiOps.SaveModifiedTabsOnClose`);
+   - `ui_reopen_session` is on: the option promises "Save current
+     session on program closing, and restore it on start", so off = no
+     session saving on close, for ANY session file (the "keep in
+     session" button is hidden then anyway, the user cannot even ask
+     to keep texts);
+   - the command line allows it (no `-ns`/`-nss`).
+   Before, the dialog's "Don't save" (which answers "write modified
+   FILES to disk?") was also applied as "don't keep the texts in the
+   session", so the app's exit write — running right AFTER the plugin's
+   on_exit save — rewrote the just-saved session without the texts of
+   modified tabs; and `ui_reopen_session:false` did not stop the exit
+   save at all (only named/project sessions were exempted via a 2020
+   workaround clause). After a restart the session loaded with empty
+   buffers; untitled tabs lost their content entirely. `APP_PROC_
+   CONFIG_HISTORY_SAVE` was never affected — it passes
+   `ASaveSession=false`, which short-circuits the gate in both the old
+   and the new core. A companion fix in `FormCloseQuery` resets
+   `UiOps.SaveModifiedTabsOnClose` before the exit decision: the flag
+   can hold a stale "Don't save" from an earlier palette "Save tabs?"
+   dialog (`cmd_DialogSaveTabs`) in the same run. Verified by
+   scripts/test_session_exit_matrix.py.
 2. **The plugin** writes the whole file in `action_save_project_as`
    (also used for in-place saves), plus read-modify-write helpers
    (`_remember_last_session`, `session_delete`,
@@ -404,8 +432,12 @@ never use projects never load the plugin at all.
   subscribed: the project is in use, the next start must restore it).
   CudaText saves the app session AFTER plugin exit handlers (verified
   in formmain.pas), so the app's final write lands on the
-  already-correct file. With NO project open, it unsubscribes
-  on_start instead (see the invariant above).
+  already-correct file — and since the core fix of 2026.11.26 (§3)
+  that write does not even happen with `ui_reopen_session` off or a
+  "Don't save" exit answer: the exit save is fully gated now, so the
+  plugin's own saves are the last word on the session's contents.
+  With NO project open, it unsubscribes on_start instead (see the
+  invariant above).
 
 ---
 ## 7. External session switches

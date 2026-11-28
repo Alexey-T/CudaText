@@ -21,6 +21,40 @@
   project stays open (the none-session owns no file, the app never
   writes it - nothing can be clobbered). Documented in
   doc_for_dev.md sections 6 and 7.
++ FIXED: a session saved with "Save session as..." loaded EMPTY after
+  a CudaText restart, and the same silent deletion hit PLAIN sessions
+  too (a session set via a plugin, e.g. PROC_SAVE_SESSION +
+  PROC_LOAD_SESSION/PROC_SET_SESSION of any session manager): on exit
+  the app's own session save (DoOps_SaveHistory in
+  formmain_loadsave.inc, run by FormClose right AFTER the plugin's
+  on_exit) rewrote the session file from the live frames with the
+  exit dialog's "Don't save" flags - "Don't save" answers "write
+  modified files to disk?", but the app used it for "keep the texts
+  in the session?" too, so texts saved moments earlier (by the
+  plugin, by "Save session as...", by the ~40s autosave) were
+  stripped from the file; after the restart every modified tab
+  restored with an empty buffer, untitled tabs lost their content
+  entirely (with "Restore session" off, a "Don't save, keep in
+  session"-style answer was impossible: the dialog hides that
+  button). The same exit write also fired with "Restore session"
+  OFF, although that option promises "Save current session on
+  program closing" = off: no saving on close at all, and with
+  -ns/-nss for named sessions (a 2020 workaround clause made them
+  save on exit anyway). CORE fix (formmain_loadsave.inc,
+  DoOps_SaveHistory): the exit session save now runs ONLY when the
+  dialog answer allows it (ASaveModifiedTabs), ui_reopen_session is
+  ON, and the command line allows it (no -ns/-nss); -nsl keeps the
+  old "manually loaded session is saved on exit" behavior.
+  Companion fix (formmain.pas, FormCloseQuery): UiOps.
+  SaveModifiedTabsOnClose is reset before the exit decision - it
+  could hold a stale "Don't save" from an earlier palette "Save
+  tabs?" dialog (cmd_DialogSaveTabs) in the same run, which silently
+  skipped (or text-stripped) the exit save for users whose exit
+  shows no dialog (ui_auto_save_session on). Verified by
+  scripts/test_session_exit_matrix.py (58 checks: all 4 option
+  combos, -ns/-nss/-nsl, project/plain/default sessions, keep-in-
+  session, stale flag, CONFIG_HISTORY_SAVE). Documented in
+  doc_for_dev.md sections 3 and 6.
 
 2026.11.26 (@badrelmers)
 + The Favorites window KEEPS ITS SIZE (and the maximized state)
