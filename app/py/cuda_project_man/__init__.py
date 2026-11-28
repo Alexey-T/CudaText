@@ -15,6 +15,7 @@ from .projman_glob import *
 from .store import (STATE_KEYS, migrate_options_file, store_read,
                     store_update)
 from .projman_backup import ProjectFileBackups, DEFAULT_BACKUP_COUNT, DEFAULT_BACKUP_FOLDER
+from .projman_os_sort import os_name_key
 from .projman_trash import (send_to_trash, trash_label,
                              trash_supported, delete_permanently)
 from .utils import (MIN_PLAUSIBLE_CELL, app_font_scale,
@@ -203,7 +204,11 @@ def _direntry_ordering(path, order):
     if order == 'ext':
         key = _file_ext(path.name).upper() if isfile else ''
     elif order == 'name':
-        key = path.name.upper()
+        # the OS file browser's order (see projman_os_sort): Windows
+        # Explorer / the Finder / the Linux file managers, with the
+        # old .upper() order as the fallback when natsort failed to
+        # load
+        key = os_name_key(path.name)
     elif order == 'size':
         key = -path.stat().st_size if isfile else ''
     elif order == 'size-':
@@ -1258,6 +1263,12 @@ class Command:
         "on_start": False,
         "on_start_activate": False,
         "favorites_add_opened_projects": False,
+        # show the attachment columns of the Favorites window
+        # ('Attached projects' on its Files/Folders tabs, 'Attachments'
+        # on its Projects tab); default off - a simpler list, more
+        # room for Name/Path (the attachments stay reachable in the
+        # context menus / the "Attached projects" list commands)
+        "favorites_show_attach_cols": False,
         "icon_theme": "vscode_16x16",
         "toolbar_theme": "auto",
         "backup_enabled": True,
@@ -2888,7 +2899,11 @@ class Command:
         if sort_order=='ext':
             key = _file_ext(path.name).upper() if isfile else ''
         elif sort_order=='name':
-            key = path.name.upper()
+            # the OS file browser's order (see projman_os_sort): Windows
+            # Explorer / the Finder / the Linux file managers, with the
+            # old .upper() order as the fallback when natsort failed to
+            # load
+            key = os_name_key(path.name)
         elif sort_order=='size':
             key = -path.stat().st_size if isfile else ''
         elif sort_order=='size-':
@@ -7611,6 +7626,15 @@ class Command:
         if dialog_config(self.options):
             print(_('Project Manager: saving options'))
             self.save_options()
+
+            # the column options of an open/hidden Favorites window
+            # (the attachment columns) follow the saved file right now
+            # - the window itself re-reads them on its next show too
+            try:
+                _favorites.apply_column_options()
+            except Exception:
+                log_error('Project Manager: cannot apply the '
+                          'favorites columns')
 
             if self.h_dlg:
                 # the two font-size options apply immediately; the

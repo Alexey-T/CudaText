@@ -77,6 +77,12 @@ Main window (non-modal, resizable):
   header captions (the mouse cursor changes to the split shape over a
   divider); the Path column is auto-stretched - it always fills the
   free width, also when the window is resized
+- the attachment columns ('Attached projects' on the Files/Folders
+  tabs, 'Attachments' on the Projects tab) can be HIDDEN by the
+  option "favorites_show_attach_cols" of the config dialog's
+  "Favorites" section (default: hidden) - a simpler list with more
+  room for Name/Path; the attachments stay reachable in the context
+  menus and their list commands
 - filter field at the top filters by name, path and the attachment
   column's text (attached projects on the Files/Folders tabs,
   attachments on the Projects tab)
@@ -125,7 +131,9 @@ the tab to one picked project at once). The links live in the item's
 the 'Attached projects' column, and the Projects tab shows the
 reverse in its 'Attachments' column - the files/folders attached to
 that project; both columns are filterable (the filter field) and
-sortable; a project favorite's context menu has
+sortable (and both can be hidden by the option
+"favorites_show_attach_cols" of the config dialog's "Favorites"
+section - default: hidden); a project favorite's context menu has
 "List attached files/folders..." (the same filterable list; picking
 an entry opens it). Deleting a project favorite drops every link to
 it; deleting a file/folder favorite drops its links with it. The
@@ -1302,9 +1310,19 @@ class FavoritesForm:
         self._key_time = 0.0
         #: column widths [key, check, star, name, path, attachment
         #: (COL_PROJECTS - 'Attached projects' / 'Attachments'),
-        #: state], scaled px (path = 0: auto-stretched by the listbox)
+        #: state], scaled px (path = 0: auto-stretched by the listbox);
+        #: ALL 7 slots are kept in both column modes - the engine list
+        #: the listbox gets is built by _eng_cols(), which drops the
+        #: attachment slot when it is hidden (option
+        #: 'favorites_show_attach_cols', see _attach_cols_opt)
         self.cols = [KEY_W, CHECK_W, STAR_W, NAME_W, 400, PROJECTS_W,
                      STATE_W]
+        #: the attachment columns are shown (option
+        #: 'favorites_show_attach_cols', re-read by
+        #: apply_column_options on every show and after the options
+        #: dialog OK; the sort/divider/paint code indexes the ENGINE
+        #: columns through _ecol/_lcol when it is False)
+        self.show_attach = _attach_cols_opt()
 
     def _ui_get(self, key, default):
         # plain dict access, cannot fail - no error handling wanted
@@ -1738,6 +1756,23 @@ class FavoritesForm:
         self._layout_tabs()
         self.fill_list()
 
+    def apply_column_options(self):
+        """Re-read the column options (currently: whether the
+        attachment columns are shown) and re-apply them to the built
+        list. Called on every show() (an option may have changed while
+        the window was hidden - the form is reused) and from the
+        plugin's config-dialog OK (see apply_column_options(), the
+        module-level one) so an OPEN window follows the change too.
+        No-op on a not-yet-built window (build() reads the option
+        anyway)."""
+        if not self.h or not self.h_list:
+            return
+        attach = _attach_cols_opt()
+        if attach != self.show_attach:
+            self.show_attach = attach
+            self._apply_columns()
+            self._repaint_list()
+
     def apply_theme(self):
         """Re-color the window to the current UI theme - the same way
         the built-in Preferences dialog does it (the theme colors come
@@ -1821,6 +1856,9 @@ class FavoritesForm:
         # the UI theme may have changed while the window was hidden:
         # re-read the colors on every show (the form is reused)
         self.apply_theme()
+        # so may a column option - re-read it on every show too (the
+        # form is reused)
+        self.apply_column_options()
         dlg_proc(self.h, DLG_SHOW_NONMODAL)
         dlg_proc(self.h, DLG_TO_FRONT)
         # the window was maximized when it was last closed: maximize
@@ -1982,17 +2020,53 @@ class FavoritesForm:
             log_error('Favorites: cannot read the list height')
             return 0
 
+    def _eng_cols(self):
+        """The column list the LISTBOX ENGINE gets (LISTBOX_SET_COLUMNS
+        / _live_cols): the 7 self.cols slots, or 6 when the attachment
+        column is hidden - its slot is dropped, because the engine
+        cannot hide a column (a width of 0 means auto-stretch there).
+        self.cols itself keeps ALL 7 slots in both modes, so the saved
+        widths (and every COL_* index into self.cols) stay valid."""
+        if self.show_attach:
+            return list(self.cols)
+        return list(self.cols[:COL_PROJECTS]) + list(self.cols[COL_PROJECTS + 1:])
+
+    def _ecol(self, logical):
+        """Engine-column index of a logical COL_* column: the same
+        number while the attachment column is shown, one less for the
+        columns right of it (COL_STATE) when it is hidden. The hidden
+        attachment column itself has NO engine column - None is
+        returned for it, so a caller that ignores the hidden mode
+        fails loudly instead of painting into a wrong column."""
+        if self.show_attach:
+            return logical
+        if logical < COL_PROJECTS:
+            return logical
+        if logical == COL_PROJECTS:
+            return None
+        return logical - 1
+
+    def _lcol(self, eng):
+        """Logical COL_* column of an engine-column index - the
+        inverse of _ecol. The engine reports its own indexes (the
+        header clicks, the header dividers); every self.cols/COL_*
+        access needs the logical one."""
+        if self.show_attach or eng < COL_PROJECTS:
+            return eng
+        return eng + 1
+
     def _live_cols(self):
-        """Effective widths of the columns, in REAL pixels. Mirrors
-        TATListbox.UpdateColumnWidths: sizes >0 are fixed, a size of 0
-        is auto-stretched (it gets the free width of the listbox,
-        minus the vertical scrollbar when the rows overflow it).
-        self.cols keeps the SET sizes; this returns what is actually
-        painted - used for hit-testing (checkbox/star cells) and for
-        the header divider positions. Every tab has the SAME columns:
-        the 6th is 'Attached projects' / 'Attachments' (COL_PROJECTS),
-        only its text differs per tab."""
-        cols = list(self.cols)
+        """Effective widths of the ENGINE columns (see _eng_cols), in
+        REAL pixels. Mirrors TATListbox.UpdateColumnWidths: sizes >0
+        are fixed, a size of 0 is auto-stretched (it gets the free
+        width of the listbox, minus the vertical scrollbar when the
+        rows overflow it). self.cols keeps the SET sizes; this returns
+        what is actually painted - used for hit-testing (checkbox/star
+        cells) and for the header divider positions. Every tab has the
+        SAME columns; the 6th is 'Attached projects' / 'Attachments'
+        (COL_PROJECTS), only its text differs per tab - or it is not
+        there at all (option 'favorites_show_attach_cols' off)."""
+        cols = self._eng_cols()
         if 0 not in cols:
             return cols
         w = self._live_list_w()
@@ -2024,12 +2098,14 @@ class FavoritesForm:
         return int(ITEM_H * self._scale)
 
     def _col_bounds(self):
-        """[(x0, x1), ...] of the NCOLS columns, from the LIVE widths
-        (the Path column is auto-stretched, so its real width is only
-        known from the control size). The grid starts at LIST_INDENT:
-        the engine indents its own column painting (the header
-        included) by that much, and the owner-drawn rows must match
-        it or every row column sits left of the header's."""
+        """[(x0, x1), ...] of the ENGINE columns (see _eng_cols -
+        6, not 7, while the attachment column is hidden), from the
+        LIVE widths (the Path column is auto-stretched, so its real
+        width is only known from the control size). The grid starts
+        at LIST_INDENT: the engine indents its own column painting
+        (the header included) by that much, and the owner-drawn rows
+        must match it or every row column sits left of the
+        header's."""
         res = []
         x = LIST_INDENT
         for wc in self._live_cols():
@@ -2068,7 +2144,9 @@ class FavoritesForm:
         selects the row), the 'All' cell toggles all checkboxes when
         clicked. The 6th cell is 'Attached projects' on the Files and
         Folders tabs, 'Attachments' on the Projects tab; both sort by
-        the 'attach' mode."""
+        the 'attach' mode - and the whole cell is gone while the
+        attachment columns are hidden (option
+        'favorites_show_attach_cols')."""
         cells = [
             '#',
             _('All'),
@@ -2076,10 +2154,11 @@ class FavoritesForm:
             self._sort_caption('name', _('Name')),
             self._sort_caption('path', _('Path')),
         ]
-        if self.cat() == 'projects':
-            cells.append(self._sort_caption('attach', _('Attachments')))
-        else:
-            cells.append(self._sort_caption('attach', _('Attached projects')))
+        if self.show_attach:
+            if self.cat() == 'projects':
+                cells.append(self._sort_caption('attach', _('Attachments')))
+            else:
+                cells.append(self._sort_caption('attach', _('Attached projects')))
         cells.append(self._sort_caption('state', _('State')))
         return LIST_SEP.join(cells)
 
@@ -2087,10 +2166,12 @@ class FavoritesForm:
         """Push the column widths + the header line into the listbox
         (this repaints the themed header). Every tab gets the SAME
         columns - the 6th is 'Attached projects' / 'Attachments'
-        (COL_PROJECTS), only its text differs per tab."""
+        (COL_PROJECTS), only its text differs per tab; with the
+        option 'favorites_show_attach_cols' off that column is not
+        pushed at all (_eng_cols drops it)."""
         if not self.h_list:
             return
-        cols = list(self.cols)
+        cols = self._eng_cols()
         try:
             listbox_proc(self.h_list, LISTBOX_SET_COLUMNS,
                          text=[int(c) for c in cols])
@@ -2438,18 +2519,22 @@ class FavoritesForm:
         # attachment column (col 5: 'Attached projects' on the
         # Files/Folders tabs, 'Attachments' on the Projects tab):
         # refill its background first (covers a long path bleeding
-        # into it), then the joined names, dimmed like the path
-        try:
-            canvas_proc(cnv, CANVAS_SET_BRUSH, color=bg,
-                        style=BRUSH_SOLID)
-            canvas_proc(cnv, CANVAS_RECT_FILL,
-                        x=bounds[COL_PROJECTS][0], y=y0,
-                        x2=bounds[COL_PROJECTS][1], y2=y1)
-        except Exception:
-            log_error('Favorites: cannot draw the projects cell')
-        self._draw_text_cell(cnv, bounds[COL_PROJECTS][0], y0,
-                             self.cols[COL_PROJECTS], row_h,
-                             row['projects'], path_col)
+        # into it), then the joined names, dimmed like the path.
+        # The whole column is skipped while it is hidden (option
+        # 'favorites_show_attach_cols') - bounds/COL_PROJECTS would
+        # index one column too far then
+        if self.show_attach:
+            try:
+                canvas_proc(cnv, CANVAS_SET_BRUSH, color=bg,
+                            style=BRUSH_SOLID)
+                canvas_proc(cnv, CANVAS_RECT_FILL,
+                            x=bounds[COL_PROJECTS][0], y=y0,
+                            x2=bounds[COL_PROJECTS][1], y2=y1)
+            except Exception:
+                log_error('Favorites: cannot draw the projects cell')
+            self._draw_text_cell(cnv, bounds[COL_PROJECTS][0], y0,
+                                 self.cols[COL_PROJECTS], row_h,
+                                 row['projects'], path_col)
 
         # state (always the LAST column): fill to the right edge
         # (covers a long path), then the centered '?' for dead paths
@@ -2639,9 +2724,11 @@ class FavoritesForm:
         if col == COL_CHECK:
             self._toggle_check_all()
             return
-        # every tab has the same columns, so the live column index IS
-        # the column constant (see COL_PROJECTS)
-        self.sort_by_column(col)
+        # every tab has the same ENGINE columns; the live index IS the
+        # column constant while the attachment column is shown, and
+        # one less for the columns right of it while it is hidden
+        # (see COL_PROJECTS / _lcol)
+        self.sort_by_column(self._lcol(col))
 
     def _toggle_check_all(self):
         """The 'All' header cell: check everything, or uncheck when
@@ -2721,16 +2808,18 @@ class FavoritesForm:
         # column (size 0) resizes the column AFTER it - Path must stay
         # 0 and simply absorbs whatever width is left, so the divider
         # still follows the mouse exactly (the attachment column).
-        # Every tab has the same columns, so the live index is the
-        # self.cols index
+        # Every tab has the same columns; the live index is an ENGINE
+        # index - with the attachment column hidden it is one less
+        # than the self.cols/COL_MIN_W slot it resizes (see _lcol)
         live = self._live_cols()
         li = k + 1 if k == COL_PATH else k
         if not (0 <= li < len(live)):
             return
+        ci = self._lcol(li)
         self._col_drag = {
-            'col': li,
+            'col': ci,
             'x0': x,
-            'orig_w': self.cols[li] if self.cols[li] > 0 else live[li],
+            'orig_w': self.cols[ci] if self.cols[ci] > 0 else live[li],
             'sign': -1 if k == COL_PATH else 1,
             'moved': False,
         }
@@ -3677,6 +3766,17 @@ def apply_theme_all():
         _form.apply_theme()
 
 
+def apply_column_options():
+    """Re-read the column options file and re-apply them to the open
+    (or hidden) favorites window - currently: whether the attachment
+    columns are shown. Called from the plugin's config-dialog OK (the
+    options file was just saved) so an open window follows the change
+    without a restart; a hidden window re-reads on its next show()
+    anyway."""
+    if _form is not None and _form.h:
+        _form.apply_column_options()
+
+
 def save_window_state():
     """Save the window size/state of the open (or hidden) favorites
     window. Called from the plugin's on_exit: a form that is still
@@ -3705,6 +3805,33 @@ def _font_opts():
         # the engine defaults
         pass
     return ui, edit
+
+
+def _attach_cols_opt():
+    """True = show the attachment columns ('Attached projects' on the
+    Files/Folders tabs, 'Attachments' on the Projects tab) of the
+    Favorites window. Default False: hidden - a simpler list with
+    more room for Name/Path (the attachments stay reachable in the
+    context menus and the "Attached projects" list commands). Read
+    fresh from the plugin options file at every window build/show,
+    like _font_opts (the options dialog saves the file on OK)."""
+    try:
+        path = os.path.join(app_path(APP_DIR_SETTINGS),
+                            'cuda_project_man.json')
+        with open(path, encoding='utf8') as f:
+            data = json.load(f)
+        if isinstance(data, dict):
+            val = data.get('favorites_show_attach_cols', False)
+            if isinstance(val, bool):
+                return val
+            # a hand-edited options file: the dialog saves real JSON
+            # booleans, tolerate the string forms too
+            return str(val) in ('1', 'True', 'true')
+    except Exception:
+        # intentional silence: no options file yet / unreadable ->
+        # the default (hidden)
+        pass
+    return False
 
 
 def _rebuild_form():

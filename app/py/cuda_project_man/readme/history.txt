@@ -1,4 +1,38 @@
 2026.11.28 (@badrelmers)
++ The tree's "by name" sorting now follows the OS file browser's
+  order instead of Python's plain string order ("file2" before
+  "file10", names compared the way Windows Explorer does it):
+  powered by the bundled natsort library
+  (https://pypi.org/project/natsort/, version 8.4.0 - pure Python,
+  no dependencies, supports Python 3.7+ so the plugin's Python 3.8
+  minimum is safe). It ships in libs/natsort/ next to send2trash
+  and loads the same way: as a PRIVATE subpackage of the plugin
+  (its internal imports were rewritten to relative ones, nothing is
+  ever added to sys.path - see projman_os_sort.py). On Windows it
+  calls the OS's own StrCmpLogicalW (the exact Windows Explorer
+  comparison); on macOS/Linux it uses PyICU when installed, else
+  natsort's OWN built-in fallback - its natural sort with
+  ns.LOCALE|ns.PATH|ns.IGNORECASE (the library ships that
+  fallback for every OS, no extra code was needed here). Any
+  failure to load the library silently keeps the old plain
+  order, so a broken copy can never break the tree. The other
+  sorting orders (extension, size, dates) are untouched.
++ NEW OPTION "Show the attachment columns in the Favorites window"
+  (default: off), in the options dialog's "Favorites" section:
+  hides the two columns that complicate the Favorites window's
+  GUI - "Attached projects" on the Files/Folders tabs and
+  "Attachments" on the Projects tab. The attachments keep
+  working (attach/detach commands, "List attached files/folders...",
+  the filter still searches their text). The hidden column is
+  DROPPED from the listbox engine's column list - a zero width
+  would mean auto-stretch there, not hiding - and every engine
+  index (painting, header clicks, the resize dividers) maps
+  through one place (_ecol/_lcol), so the 7-slot column layout
+  itself never changes. An open Favorites window applies the
+  option right after the config dialog's OK, a hidden one on
+  its next show.
+
+2026.11.28 (@badrelmers)
 + REVERTED to ';' (issue #6707, per Alexey-T: "';' char is fully ok.
   All aps use it, together with comma" - and a mask never needs the
   char): the separator of the 'Ignore files'/'Ignore folders' mask
@@ -31,11 +65,11 @@
   and the bare name does not tell them apart (the home dir is
   collapsed to '~', the same style as the recent-projects menu).
 + The vendored Send2Trash library moved from send2trash/ to
-  lib/send2trash/ - a 'lib' home for the vendored third-party
+  libs/send2trash/ - a 'libs' home for the vendored third-party
   libraries of the plugin. The loading approach is unchanged: the
   library still imports as a PRIVATE subpackage
-  ('cuda_project_man.lib.send2trash'; all internal imports stay
-  relative, only the loader's import path gained the '.lib' part),
+  ('cuda_project_man.libs.send2trash'; all internal imports stay
+  relative, only the loader's import path gained the '.libs' part),
   nothing is ever added to sys.path, and no top-level module is
   registered.
 

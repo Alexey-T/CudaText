@@ -29,6 +29,9 @@ and #6366 (external session switch detection).
 13. Drag & drop
 14. Project file backups
 15. Trash and deletion safety (projman_trash)
+16. Options dialog + toolbar internals (issues #6633/#6634)
+17. Error handling policy
+18. The OS name order and the hideable attachment columns
 
 ---
 ## 1. Core concepts
@@ -1066,8 +1069,8 @@ backups") for the user-facing rules; the developer-facing ones:
 `projman_trash.py` is the ONLY module that removes anything from the
 disk — every delete of the plugin funnels through it, so the safety
 policy is auditable in one file. The engine is the bundled Send2Trash
-library (vendored in `lib/send2trash/`, BSD license, see
-`lib/send2trash/LICENSE`):
+library (vendored in `libs/send2trash/`, BSD license, see
+`libs/send2trash/LICENSE`):
 
 - `send_to_trash(path)` — the normal delete. Moves the item to the OS
   trash (Recycle Bin / Trash / GIO-or-FreeDesktop-spec). NEVER deletes
@@ -1094,10 +1097,10 @@ library (vendored in `lib/send2trash/`, BSD license, see
 - `trash_label()` — localized "Recycle Bin"/"Trash" for dialog texts.
 
 Vendoring note: the vendored `send2trash` copy lives in the plugin's
-`lib/` folder and is loaded as a PRIVATE subpackage of the plugin. Its
+`libs/` folder and is loaded as a PRIVATE subpackage of the plugin. Its
 internal imports were rewritten to relative ones (`from .util import
 ...`, `from .mac import ...`), so `projman_trash` imports it as
-`cuda_project_man.lib.send2trash` through the plugin package's own
+`cuda_project_man.libs.send2trash` through the plugin package's own
 `__path__` — like every other relative import of the plugin. NOTHING
 is ever added to `sys.path`, and no top-level `send2trash` module is
 ever registered: other plugins can neither see this copy nor shadow it
@@ -1105,7 +1108,7 @@ with their own, and this copy cannot shadow a real system-wide
 Send2Trash installation. (Should the plugin ever be loaded NOT as a
 package — an exotic embedder — `projman_trash` registers a synthetic
 private host `_cuda_project_man_s2t` pointing at the plugin folder and
-imports `_cuda_project_man_s2t.lib.send2trash` instead; `sys.path`
+imports `_cuda_project_man_s2t.libs.send2trash` instead; `sys.path`
 stays untouched either way.) Python >= 3.8 is
 required (Send2Trash 2.2.0). The dialogs are `msg_box_ex()` calls —
 custom captions, custom button lists, an icon, a focused-button
@@ -1256,3 +1259,81 @@ the file to `.corrupt` (and starts empty) - when even the rename
 fails, the core goes read-only and `save()` refuses, so an empty list
 is never written over the user's data. A merely MISSING file returns
 None and stays silent (a fresh install is not an error).
+
+## 18. The OS name order and the hideable attachment columns
+
+Two 2026.11.28 features that touch module-level invariants:
+
+### The tree's "by name" order (projman_os_sort + libs/natsort)
+
+The user asks for the OS file browser's order, not Python's plain
+string order (`'file1' < 'file10' < 'file2'`): `sort_order == 'name'`
+builds its key with `os_name_key(path.name)` (projman_os_sort.py) in
+BOTH sort-key functions - the module-level `_direntry_ordering`
+(the background filter worker) and `Command.node_ordering_direntry`
+(the UI thread). Every other order (extension, size, dates) still
+uses the old plain keys, and the final tiebreak stays `name.upper()`
+so two names with equal OS keys (a case-insensitive collision) keep a
+deterministic order. IMPORTANT: all keys of one sorted() call must
+come from the SAME branch - a mixed key list (some OS keys, some
+plain strings) would raise TypeError mid-sort - which is guaranteed
+because the loader resolves once, before the first key is built.
+
+The engine is the bundled natsort library (vendored in `libs/natsort/`,
+MIT license, see `libs/natsort/LICENSE`; version 8.4.0, pure Python,
+no hard dependencies, Python >= 3.7 so the plugin's Python 3.8
+minimum is safe - `fastnumbers` and PyICU are optional extras that
+simply speed it up / improve the macOS-Linux collation when present):
+
+- Windows: the OS's own `StrCmpLogicalW` via ctypes - the exact
+  Windows Explorer comparison.
+- macOS / Linux: the PyICU collator with numeric collation when the
+  `icu` module is importable, else natsort's OWN built-in fallback -
+  its natural sort with `ns.LOCALE | ns.PATH | ns.IGNORECASE`. The
+  library ships that fallback for every OS, so no extra fallback code
+  was needed; any OTHER OS (*BSD, ...) gets the same fallback.
+- any failure to load the vendored copy: `os_name_key` silently
+  returns `name.upper()` - the exact old order of the tree, so a
+  broken copy degrades, never crashes.
+
+Vendoring note: the same rules as send2trash's (see section 15): the
+`libs/natsort` internal imports were rewritten to relative ones
+(`from .natsort import ...`, `from .compat import locale as
+compat_locale`, `from ..unicode_numbers import ...` in compat/), so
+`projman_os_sort` imports it as `cuda_project_man.libs.natsort`
+through the plugin package's own `__path__`. NOTHING is ever added to
+`sys.path`, no top-level `natsort` module is registered, and the
+loose-module fallback host is `_cuda_project_man_natsort` (the
+send2trash one is `_cuda_project_man_s2t` - one private host per
+vendored library, nothing shares).
+
+### The hideable attachment columns (favorites.py)
+
+Option `favorites_show_attach_cols` (default False = hidden) hides the
+Favorites window's COL_PROJECTS column - 'Attached projects' on the
+Files/Folders tabs, 'Attachments' on the Projects tab. The
+listbox_ex engine cannot hide a column (a width of 0 means
+AUTO-STRETCH there, not hidden), so the column is DROPPED from the
+engine's column list. The invariants that keep this safe:
+
+- `self.cols` always keeps ALL 7 slots (widths, indexes) in both
+  modes; `_eng_cols()` builds the 6/7-slot engine list, `_ecol` /
+  `_lcol` map logical COL_* <-> engine indexes, `_live_cols` /
+  `_col_bounds` / `_apply_columns` work on the ENGINE list.
+- `_ecol(COL_PROJECTS)` returns None while hidden (not a silently
+  wrong slot) - a caller that forgets the guard fails loudly.
+- The columns LEFT of COL_PROJECTS (key, check, star, name, path)
+  never shift: their engine index equals their logical index in both
+  modes, so the checkbox/star hit-tests need no mapping.
+- The resize dividers and the header clicks report ENGINE indexes:
+  `_lcol` converts before any `self.cols` / `COL_MIN_W` access (which
+  are 7-slot logical).
+- The option is read fresh from cuda_project_man.json on every window
+  build/show (`_attach_cols_opt`, like `_font_opts`), and
+  `Command.config()` calls the module-level `apply_column_options()`
+  after the options dialog's OK so an OPEN window follows it live -
+  no rebuild needed, everything column-related is dynamic.
+- The attachments keep working while the columns are hidden: the
+  links, the attach/detach commands, "List attached files/folders..."
+  and the filter's search over the attachment text are data-driven,
+  only the painting/header cell of the column is gone.

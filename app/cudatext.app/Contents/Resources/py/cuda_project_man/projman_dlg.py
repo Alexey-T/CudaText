@@ -651,6 +651,13 @@ def dialog_config(op):
     check('favorites_add_opened_projects',
           _('Add all &opened projects to favorites'),
           op.get('favorites_add_opened_projects', False))
+    # the attachment columns of the Favorites window ('Attached
+    # projects' / 'Attachments') are heavy GUI - request: they are
+    # hidden by default, this checkbox shows them back
+    check('favorites_show_attach_cols',
+          _('Show the attachment columns in the &Favorites window'),
+          op.get('favorites_show_attach_cols', False))
+    hint(_('"Attached projects" on the Files/Folders tabs, "Attachments" on the Projects tab.'))
 
     sep()
 
@@ -778,6 +785,8 @@ def dialog_config(op):
         op['always_sync'] = _val_bool(state.get('always_sync'))
         op['favorites_add_opened_projects'] = _val_bool(
             state.get('favorites_add_opened_projects'))
+        op['favorites_show_attach_cols'] = _val_bool(
+            state.get('favorites_show_attach_cols'))
 
         index = _val_int(state.get('icon_theme'))
         if 0 <= index < len(themes):

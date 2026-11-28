@@ -6,7 +6,7 @@
 
 # Vendored: relative import so the package stays private to the
 # cuda_project_man plugin (run as a module only for debugging, e.g.
-# "python -m cuda_project_man.lib.send2trash" from the app's py/
+# "python -m cuda_project_man.libs.send2trash" from the app's py/
 # folder).
 
 import sys

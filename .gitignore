@@ -84,8 +84,3 @@ cuda_complete_from_text/
 cuda_runner/
 cuda_tab_icons/
 cuda_git_*
-
-# the vendored third-party libraries of the Project Manager plugin
-# (source code, not a build artifact - re-included from the lib/ rule)
-!app/py/cuda_project_man/lib/
-!app/cudatext.app/Contents/Resources/py/cuda_project_man/lib/
