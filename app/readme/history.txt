@@ -5,7 +5,6 @@
 
 1.241.0 (2026/12)
 
-* change: removed command-line option '-ns' because it was trivial alias to '-nsl -nss'
 + add: new 'fast way' of lexer-parsing, without calling parser-thread (ie in the main thread), on editing inside a single line, with single caret. The effect of 'fast way' is visible mainly on big files (eg 10K lines C++ file) on older PCs (eg CPU Intel 3GHz)
 + add: new option "ui_fast_parsing" can disable 'fast way' of parsing
 
@@ -19,6 +18,9 @@
     + add: new option to Hide the Favorites window's attachment columns
     + add: dlg_menu 'Find favorite' and similar menus like "Add opened" clamp long names
     * change: ignore-separator back to ';' instead of '/'
+
+* change: removed command-line option '-ns' because it was trivial alias to '-nsl -nss'
+- fix: command-line option '-nss' should not save session, default-session or not (before is worked differently for default-session or not)
 
 1.240.0 (2026/11)
 
