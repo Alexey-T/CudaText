@@ -29,6 +29,9 @@ and #6366 (external session switch detection).
 13. Drag & drop
 14. Project file backups
 15. Trash and deletion safety (projman_trash)
+16. Options dialog + toolbar internals (issues #6633/#6634)
+17. Error handling policy
+18. The OS name order and the hideable attachment columns
 
 ---
 ## 1. Core concepts
@@ -131,11 +134,88 @@ plugin:
    update `sessions.<name>` (and nothing else) via the app's own
    read-modify-write. They do not pass through the plugin and never
    update `Command.project`.
+
+   The exit write follows three rules of its own (core fix 2026.11.26,
+   `DoOps_SaveHistory` in formmain_loadsave.inc). The exit save now
+   happens ONLY when all of these hold:
+   - the "Save tabs?" dialog was answered "Save" or "Don't save / keep
+     in session" — or was not shown at all (`ASaveModifiedTabs`, i.e.
+     `UiOps.SaveModifiedTabsOnClose`);
+   - `ui_reopen_session` is on: the option promises "Save current
+     session on program closing, and restore it on start", so off = no
+     session saving on close, for ANY session file (the "keep in
+     session" button is hidden then anyway, the user cannot even ask
+     to keep texts);
+   - the command line allows it (no `-ns`/`-nss`).
+   Before, the dialog's "Don't save" (which answers "write modified
+   FILES to disk?") was also applied as "don't keep the texts in the
+   session", so the app's exit write — running right AFTER the plugin's
+   on_exit save — rewrote the just-saved session without the texts of
+   modified tabs; and `ui_reopen_session:false` did not stop the exit
+   save at all (only named/project sessions were exempted via a 2020
+   workaround clause). After a restart the session loaded with empty
+   buffers; untitled tabs lost their content entirely. `APP_PROC_
+   CONFIG_HISTORY_SAVE` was never affected — it passes
+   `ASaveSession=false`, which short-circuits the gate in both the old
+   and the new core. A companion fix in `FormCloseQuery` resets
+   `UiOps.SaveModifiedTabsOnClose` before the exit decision: the flag
+   can hold a stale "Don't save" from an earlier palette "Save tabs?"
+   dialog (`cmd_DialogSaveTabs`) in the same run. Verified by
+   scripts/test_session_exit_matrix.py.
+
+   The third request of issue #6715 — `PROC_LOAD_SESSION` should not
+   make the loaded session the persistent default one (previously
+   issue #6341, rejected as "as intended") — is deliberately NOT
+   implemented, after re-analysis on 2026.11.27:
+   - every letter scenario of problem 1 is already fixed by the exit
+     gate above: the pointer being persisted by the load is harmless
+     once no disallowed write can follow it;
+   - the core's startup session restore (formmain.pas,
+     `_Init_StartupSession`) is itself a `DoOps_LoadSession` call that
+     MUST set the pointer (it loads what history.json names; not
+     setting it would make `AppFile_Session` fall back to the default
+     name and write project-session state into
+     default.cuda-session), so "load never persists" cannot be a
+     uniform rule anyway;
+   - removing the persistence ONLY from the Python API path cannot
+     break any known plugin (all four PROC_LOAD_SESSION sites in this
+     plugin pair the load with `_set_session`, and upstream
+     cuda_sess_manager calls PROC_SET_SESSION on the very next line
+     after its single load) — but it silently redirects the ALLOWED
+     exit/autosave writes to the OLD session pointer for any future
+     plugin that loads without setting, overwriting THAT session with
+     work done in the loaded one. Modeled in
+     scripts/test_load_persistence_analysis.py (23 checks): the
+     proposal trades a documented, now-harmless side effect for a new
+     undocumented data hazard.
+   The documented contract stands (wiki since #6341): LOAD makes the
+   session the default one, SET sets the pointer only; a plugin
+   wanting a non-persistent load emulates it with PROC_SET_SESSION
+   back after the load (exactly what this plugin and
+   cuda_sess_manager already do).
 2. **The plugin** writes the whole file in `action_save_project_as`
    (also used for in-place saves), plus read-modify-write helpers
    (`_remember_last_session`, `session_delete`,
    `action_import_external_session`, `upgrade_project_file_on_disk`,
    `_create_project_file`).
+
+   Third rule (2026.11.28, none-session mode): **the plugin never
+   writes editor state into a project session slot that is not
+   active**. `session_save_as`'s non-interactive branch used to fall
+   back to `'session1'` when no session of the project was active —
+   in none-session mode ("Restore session" off, on_start opens the
+   project with `load_session=None`) the exit save then OVERWROTE the
+   project's saved session1 with tabs that were never loaded as a
+   session. Now the embed is skipped entirely when
+   `session_cur_name()` is empty and no `sess_name` was passed: the
+   project file is still written (sessions block fresh from disk,
+   §rule below), but the tabs' state belongs to the app session
+   pointer (the none session is never written by the app either —
+   `DoOps_SaveSession` exits on `-.cuda-session`). The same audit
+   confirmed every other `PROC_SAVE_SESSION` site already follows this
+   rule: they save only into the active slot (guarded by
+   `session_cur_name`) or create brand-new unique names. Verified by
+   scripts/test_none_session_clobber.py (13 checks).
 
 This two-writer setup caused the worst data-loss bug this plugin ever
 had (fixed 2026.10, see history.txt). To understand it, remember that
@@ -376,14 +456,40 @@ never use projects never load the plugin at all.
   invariant). Otherwise (foreign session / plain default session) the
   plugin detaches silently (`_close_project_silent`) so the two
   sessions don't fight — and unsubscribes.
+- **`on_start` with "Restore session" off** (`ui_reopen_session:
+  false` in user.json, checked by `_session_restore_disabled()` via
+  `cudax_lib.get_opt('ui_reopen_session', True,
+  CONFIG_LEV_USER_ONLY)` — user.json legally carries `//` comments,
+  stray commas and a BOM that a strict `json.load` would reject, so
+  the option is never read with the stdlib parser; `get_opt` parses
+  all of that tolerantly and never raises on bad json; its USER_ONLY
+  level + default `true` mirror the core, which reads this option
+  from user.json only with a compiled-in default of on): the
+  app restores NO session and leaves history.json's `session` key
+  empty — or a STALE pointer from before the option was switched off,
+  so the pointer is not trusted. The most-recent project still
+  reopens, with `action_open_project(path, load_session=None)`: NO
+  session is loaded or created (the user turned sessions off), no tab
+  is touched, the editor stays exactly as CudaText left it. The app's
+  own startup session init (FormShow runs it AFTER on_start) then
+  sets the "none" session (`-.cuda-session`), whose
+  APPSTATE_SESSION_SET would normally close the project via §7 — the
+  on_state handler explicitly keeps the project open for the
+  none-session while the option is off (`_app_session_none_active`).
+  The none-session owns no file (the core's DoOps_SaveSession exits
+  on that file name), so nothing can be clobbered by the autosave.
 - **`on_exit`**: with a project open, saves it
   (`action_save_project_as`) — which per §3 takes fresh sessions from
   disk and then saves the current session slot (and keeps on_start
   subscribed: the project is in use, the next start must restore it).
   CudaText saves the app session AFTER plugin exit handlers (verified
   in formmain.pas), so the app's final write lands on the
-  already-correct file. With NO project open, it unsubscribes
-  on_start instead (see the invariant above).
+  already-correct file — and since the core fix of 2026.11.26 (§3)
+  that write does not even happen with `ui_reopen_session` off or a
+  "Don't save" exit answer: the exit save is fully gated now, so the
+  plugin's own saves are the last word on the session's contents.
+  With NO project open, it unsubscribes on_start instead (see the
+  invariant above).
 
 ---
 ## 7. External session switches
@@ -396,6 +502,18 @@ loaded — the foreign session just takes over and the project's session
 data is protected from being overwritten by the ~40 s autosave. The
 on_start subscription is removed as well (§6): no project is in use
 anymore.
+
+Exception: the app's "none" session (`-.cuda-session`, what the core
+activates when it restores no session) while `ui_reopen_session` is
+off. That is not a foreign session taking over: it is the state the
+user configured, reached at every start after §6's load_session=None
+open — the app's own startup session init (FormShow, AFTER on_start)
+switches the session from the plain default (or a stale pointer, what
+DoOps_LoadHistory set at OnCreate) to the none session, and that
+switch fires this very event. The project stays open, nothing is
+re-pointed or closed. No data can be lost through it: the none-session
+owns no file (the core's DoOps_SaveSession exits on that file name),
+so there is nothing to clobber.
 
 - Own changes are ignored via the `_session_set_by_plugin` guard flag
   (set only around the `PROC_SET_SESSION` call inside `_set_session`).
@@ -951,7 +1069,8 @@ backups") for the user-facing rules; the developer-facing ones:
 `projman_trash.py` is the ONLY module that removes anything from the
 disk — every delete of the plugin funnels through it, so the safety
 policy is auditable in one file. The engine is the bundled Send2Trash
-library (vendored in `send2trash/`, BSD license, see `send2trash/LICENSE`):
+library (vendored in `libs/send2trash/`, BSD license, see
+`libs/send2trash/LICENSE`):
 
 - `send_to_trash(path)` — the normal delete. Moves the item to the OS
   trash (Recycle Bin / Trash / GIO-or-FreeDesktop-spec). NEVER deletes
@@ -977,19 +1096,20 @@ library (vendored in `send2trash/`, BSD license, see `send2trash/LICENSE`):
   without trash support; there is no other caller, no fallback path.
 - `trash_label()` — localized "Recycle Bin"/"Trash" for dialog texts.
 
-Vendoring note: the vendored `send2trash` copy is loaded as a PRIVATE
-subpackage of the plugin. Its internal imports were rewritten to
-relative ones (`from .util import ...`, `from .mac import ...`), so
-`projman_trash` imports it as `cuda_project_man.send2trash` through
-the plugin package's own `__path__` — like every other relative import
-of the plugin. NOTHING is ever added to `sys.path`, and no top-level
-`send2trash` module is ever registered: other plugins can neither see
-this copy nor shadow it with their own, and this copy cannot shadow a
-real system-wide Send2Trash installation. (Should the plugin ever be
-loaded NOT as a package — an exotic embedder — `projman_trash`
-registers a synthetic private host `_cuda_project_man_s2t` pointing
-at the plugin folder and imports `_cuda_project_man_s2t.send2trash`
-instead; `sys.path` stays untouched either way.) Python >= 3.8 is
+Vendoring note: the vendored `send2trash` copy lives in the plugin's
+`libs/` folder and is loaded as a PRIVATE subpackage of the plugin. Its
+internal imports were rewritten to relative ones (`from .util import
+...`, `from .mac import ...`), so `projman_trash` imports it as
+`cuda_project_man.libs.send2trash` through the plugin package's own
+`__path__` — like every other relative import of the plugin. NOTHING
+is ever added to `sys.path`, and no top-level `send2trash` module is
+ever registered: other plugins can neither see this copy nor shadow it
+with their own, and this copy cannot shadow a real system-wide
+Send2Trash installation. (Should the plugin ever be loaded NOT as a
+package — an exotic embedder — `projman_trash` registers a synthetic
+private host `_cuda_project_man_s2t` pointing at the plugin folder and
+imports `_cuda_project_man_s2t.libs.send2trash` instead; `sys.path`
+stays untouched either way.) Python >= 3.8 is
 required (Send2Trash 2.2.0). The dialogs are `msg_box_ex()` calls —
 custom captions, custom button lists, an icon, a focused-button
 index, and a 0-based button index (or `None` when cancelled) as the
@@ -1139,3 +1259,81 @@ the file to `.corrupt` (and starts empty) - when even the rename
 fails, the core goes read-only and `save()` refuses, so an empty list
 is never written over the user's data. A merely MISSING file returns
 None and stays silent (a fresh install is not an error).
+
+## 18. The OS name order and the hideable attachment columns
+
+Two 2026.11.28 features that touch module-level invariants:
+
+### The tree's "by name" order (projman_os_sort + libs/natsort)
+
+The user asks for the OS file browser's order, not Python's plain
+string order (`'file1' < 'file10' < 'file2'`): `sort_order == 'name'`
+builds its key with `os_name_key(path.name)` (projman_os_sort.py) in
+BOTH sort-key functions - the module-level `_direntry_ordering`
+(the background filter worker) and `Command.node_ordering_direntry`
+(the UI thread). Every other order (extension, size, dates) still
+uses the old plain keys, and the final tiebreak stays `name.upper()`
+so two names with equal OS keys (a case-insensitive collision) keep a
+deterministic order. IMPORTANT: all keys of one sorted() call must
+come from the SAME branch - a mixed key list (some OS keys, some
+plain strings) would raise TypeError mid-sort - which is guaranteed
+because the loader resolves once, before the first key is built.
+
+The engine is the bundled natsort library (vendored in `libs/natsort/`,
+MIT license, see `libs/natsort/LICENSE`; version 8.4.0, pure Python,
+no hard dependencies, Python >= 3.7 so the plugin's Python 3.8
+minimum is safe - `fastnumbers` and PyICU are optional extras that
+simply speed it up / improve the macOS-Linux collation when present):
+
+- Windows: the OS's own `StrCmpLogicalW` via ctypes - the exact
+  Windows Explorer comparison.
+- macOS / Linux: the PyICU collator with numeric collation when the
+  `icu` module is importable, else natsort's OWN built-in fallback -
+  its natural sort with `ns.LOCALE | ns.PATH | ns.IGNORECASE`. The
+  library ships that fallback for every OS, so no extra fallback code
+  was needed; any OTHER OS (*BSD, ...) gets the same fallback.
+- any failure to load the vendored copy: `os_name_key` silently
+  returns `name.upper()` - the exact old order of the tree, so a
+  broken copy degrades, never crashes.
+
+Vendoring note: the same rules as send2trash's (see section 15): the
+`libs/natsort` internal imports were rewritten to relative ones
+(`from .natsort import ...`, `from .compat import locale as
+compat_locale`, `from ..unicode_numbers import ...` in compat/), so
+`projman_os_sort` imports it as `cuda_project_man.libs.natsort`
+through the plugin package's own `__path__`. NOTHING is ever added to
+`sys.path`, no top-level `natsort` module is registered, and the
+loose-module fallback host is `_cuda_project_man_natsort` (the
+send2trash one is `_cuda_project_man_s2t` - one private host per
+vendored library, nothing shares).
+
+### The hideable attachment columns (favorites.py)
+
+Option `favorites_show_attach_cols` (default False = hidden) hides the
+Favorites window's COL_PROJECTS column - 'Attached projects' on the
+Files/Folders tabs, 'Attachments' on the Projects tab. The
+listbox_ex engine cannot hide a column (a width of 0 means
+AUTO-STRETCH there, not hidden), so the column is DROPPED from the
+engine's column list. The invariants that keep this safe:
+
+- `self.cols` always keeps ALL 7 slots (widths, indexes) in both
+  modes; `_eng_cols()` builds the 6/7-slot engine list, `_ecol` /
+  `_lcol` map logical COL_* <-> engine indexes, `_live_cols` /
+  `_col_bounds` / `_apply_columns` work on the ENGINE list.
+- `_ecol(COL_PROJECTS)` returns None while hidden (not a silently
+  wrong slot) - a caller that forgets the guard fails loudly.
+- The columns LEFT of COL_PROJECTS (key, check, star, name, path)
+  never shift: their engine index equals their logical index in both
+  modes, so the checkbox/star hit-tests need no mapping.
+- The resize dividers and the header clicks report ENGINE indexes:
+  `_lcol` converts before any `self.cols` / `COL_MIN_W` access (which
+  are 7-slot logical).
+- The option is read fresh from cuda_project_man.json on every window
+  build/show (`_attach_cols_opt`, like `_font_opts`), and
+  `Command.config()` calls the module-level `apply_column_options()`
+  after the options dialog's OK so an OPEN window follows it live -
+  no rebuild needed, everything column-related is dynamic.
+- The attachments keep working while the columns are hidden: the
+  links, the attach/detach commands, "List attached files/folders..."
+  and the filter's search over the attachment text are data-driven,
+  only the painting/header cell of the column is gone.

@@ -593,8 +593,16 @@ def dialog_config(op):
 
     section(_('Project tree'))
     row_edit(_('Ignore &files:'), 'no_files', op.get('no_files', ''))
-    row_edit(_('Ignore fold&ers:'), 'no_dirs', op.get('no_dirs', '.git/.svn'))
+    row_edit(_('Ignore fold&ers:'), 'no_dirs', op.get('no_dirs', '.git;.svn'))
+    # right below the two ignore-mask rows it builds on (request): the
+    # '.gitignore' of every root node folder, read and applied like the
+    # two mask options; default off
+    check('gitignore', _("Read '.gitignore' of &root folders"), op.get('gitignore', False))
     check('no_hidden', _('Ignore all &hidden files/folders'), op.get('no_hidden', True))
+    # separator line (request): the recent-projects list is its own group,
+    # not another tree option - it gets the visual break the other groups
+    # between the sections have
+    sep()
     lab(_('&Recent projects:'), X0, PANEL_W - 2 * X0, dy=17)
     # a real mini-editor: 5 visible lines, one project per line, plain
     # '\n' separation (the old OS 'memo' needed the dialog API's TAB
@@ -647,6 +655,13 @@ def dialog_config(op):
     check('favorites_add_opened_projects',
           _('Add all &opened projects to favorites'),
           op.get('favorites_add_opened_projects', False))
+    # the attachment columns of the Favorites window ('Attached
+    # projects' / 'Attachments') are heavy GUI - request: they are
+    # hidden by default, this checkbox shows them back
+    check('favorites_show_attach_cols',
+          _('Show the attachment columns in the &Favorites window'),
+          op.get('favorites_show_attach_cols', False))
+    hint(_('"Attached projects" on the Files/Folders tabs, "Attachments" on the Projects tab.'))
 
     sep()
 
@@ -758,6 +773,7 @@ def dialog_config(op):
     if ok:
         op['no_files'] = str(state.get('no_files', '')).strip()
         op['no_dirs'] = str(state.get('no_dirs', '')).strip()
+        op['gitignore'] = _val_bool(state.get('gitignore'))
         op['no_hidden'] = _val_bool(state.get('no_hidden'))
 
         # the "Recent projects" editor keeps one project per line -
@@ -773,6 +789,8 @@ def dialog_config(op):
         op['always_sync'] = _val_bool(state.get('always_sync'))
         op['favorites_add_opened_projects'] = _val_bool(
             state.get('favorites_add_opened_projects'))
+        op['favorites_show_attach_cols'] = _val_bool(
+            state.get('favorites_show_attach_cols'))
 
         index = _val_int(state.get('icon_theme'))
         if 0 <= index < len(themes):

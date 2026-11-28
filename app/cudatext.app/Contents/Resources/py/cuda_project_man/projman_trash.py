@@ -4,7 +4,7 @@ OSes without trash support and ONLY after an explicit confirmation.
 This module is the ONLY place where Project Manager removes anything
 from the disk. The trash engine is the bundled Send2Trash library
 (https://pypi.org/project/Send2Trash/ - the vendored copy lives in
-the send2trash/ subfolder of this plugin, BSD license):
+the libs/send2trash/ subfolder of this plugin, BSD license):
 
 - Windows: the Recycle Bin - the modern IFileOperation COM interface
   when pywin32 is available, else SHFileOperationW. A pre-check with
@@ -54,11 +54,11 @@ try:
 except ImportError:
     _ = lambda s: s
 
-# The vendored Send2Trash library lives in the send2trash/ subfolder of
-# THIS plugin and is loaded as a PRIVATE subpackage of the plugin: its
-# internal imports are relative, so it imports as
-# <plugin package>.send2trash through the plugin's own package path and
-# is visible ONLY under that dotted name. Nothing is ever added to
+# The vendored Send2Trash library lives in the libs/send2trash/
+# subfolder of THIS plugin and is loaded as a PRIVATE subpackage of the
+# plugin: its internal imports are relative, so it imports as
+# <plugin package>.libs.send2trash through the plugin's own package path
+# and is visible ONLY under that dotted name. Nothing is ever added to
 # sys.path and no top-level 'send2trash' module is ever registered:
 # other plugins / app code can neither import this copy nor shadow it
 # with their own, and this copy cannot shadow a real system-wide
@@ -70,14 +70,15 @@ def _load_send2trash():
     """Import the vendored send2trash WITHOUT any sys.path change.
 
     Normal case: CudaText loads the plugin as a package, so the vendored
-    library simply imports as the subpackage <plugin>.send2trash
+    library simply imports as the subpackage <plugin>.libs.send2trash
     (resolved against this plugin folder, like every other relative
     import of the plugin).
 
     Fallback (the plugin was loaded as a loose module by some exotic
     embedder): a synthetic host package pointing at the plugin folder is
     registered under a private name nothing else uses, and the library
-    imports as <host>.send2trash. sys.path is never touched either way.
+    imports as <host>.libs.send2trash. sys.path is never touched either
+    way.
     """
     import importlib
     import types
@@ -85,7 +86,7 @@ def _load_send2trash():
     pkg = __package__ or ''
     if pkg:
         try:
-            module = importlib.import_module('.send2trash', pkg)
+            module = importlib.import_module('.libs.send2trash', pkg)
             return module.send2trash
         # intentional silence: probing an import path - fall through
         # to the private-host loader below
@@ -100,7 +101,7 @@ def _load_send2trash():
             host.__path__ = [_HERE]
             host.__package__ = host_name
             sys.modules[host_name] = host
-        module = importlib.import_module(host_name + '.send2trash')
+        module = importlib.import_module(host_name + '.libs.send2trash')
         return module.send2trash
     # intentional silence: the private-host import failed too - the
     # caller gets None and raises a user-visible error on use

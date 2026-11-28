@@ -1,3 +1,219 @@
+2026.11.28 (@badrelmers)
++ FIXED: over-long items of the plugin's dlg_menu list dialogs were
+  hard-cut at the dialog's right edge with no ellipsis, so the END of
+  a too-long item - the part of a path that names the file - was
+  simply invisible. Every such dialog now passes clip=CLIP_MIDDLE
+  (the dlg_menu API param that shortens too-long lines), so an
+  over-long item gets a middle ellipsis and keeps both its start and
+  its end visible. The dialogs: "Find favorites...", "Add opened
+  favorite", "Attach to which project favorite?", "Detach from which
+  project?", "List attached files/folders...", "Recent projects"
+  (the toolbar button), "Go to file", "Choose project to open" (a
+  folder with several .cuda-proj files), and the three project-session
+  menus ("Open project session", "Delete project session", the
+  "Session to load instead of ..." follow-up). The static short
+  choosers (the "Project.../File.../Folder..." pick of "Add...")
+  are untouched - their items can never be long.
++ Options dialog: a separator line before the "Recent projects" list
+  (request) - the list is its own group, not a fifth "Project tree"
+  option, and gets the visual break the other groups between the
+  sections already have. The line is the same drawn 2px separator
+  (the theme-colored 'colorpanel') and follows the existing y-phase
+  snapping, so it renders equally thick with the others at any DPI
+  scale.
+
+2026.11.28 (@badrelmers)
++ The tree's "by name" sorting now follows the OS file browser's
+  order instead of Python's plain string order ("file2" before
+  "file10", names compared the way Windows Explorer does it):
+  powered by the bundled natsort library
+  (https://pypi.org/project/natsort/, version 8.4.0 - pure Python,
+  no dependencies, supports Python 3.7+ so the plugin's Python 3.8
+  minimum is safe). It ships in libs/natsort/ next to send2trash
+  and loads the same way: as a PRIVATE subpackage of the plugin
+  (its internal imports were rewritten to relative ones, nothing is
+  ever added to sys.path - see projman_os_sort.py). On Windows it
+  calls the OS's own StrCmpLogicalW (the exact Windows Explorer
+  comparison); on macOS/Linux it uses PyICU when installed, else
+  natsort's OWN built-in fallback - its natural sort with
+  ns.LOCALE|ns.PATH|ns.IGNORECASE (the library ships that
+  fallback for every OS, no extra code was needed here). Any
+  failure to load the library silently keeps the old plain
+  order, so a broken copy can never break the tree. The other
+  sorting orders (extension, size, dates) are untouched.
++ NEW OPTION "Show the attachment columns in the Favorites window"
+  (default: off), in the options dialog's "Favorites" section:
+  hides the two columns that complicate the Favorites window's
+  GUI - "Attached projects" on the Files/Folders tabs and
+  "Attachments" on the Projects tab. The attachments keep
+  working (attach/detach commands, "List attached files/folders...",
+  the filter still searches their text). The hidden column is
+  DROPPED from the listbox engine's column list - a zero width
+  would mean auto-stretch there, not hiding - and every engine
+  index (painting, header clicks, the resize dividers) maps
+  through one place (_ecol/_lcol), so the 7-slot column layout
+  itself never changes. An open Favorites window applies the
+  option right after the config dialog's OK, a hidden one on
+  its next show.
+
+2026.11.28 (@badrelmers)
++ REVERTED to ';' (issue #6707, per Alexey-T: "';' char is fully ok.
+  All aps use it, together with comma" - and a mask never needs the
+  char): the separator of the 'Ignore files'/'Ignore folders' mask
+  lists is ';' again - internally, in the options file, and in the
+  'Add to ignore ...' context-menu commands (the 2026.11.23 change
+  of this fork to '/' is undone). One-way migration of a fork-era
+  config: every '/' of the two lists becomes ';' ('/' can never be
+  part of a base name, so every '/' IS a separator), guarded by
+  the 'mask_sep' marker == ';' and rewritten once at load. An old
+  ';' config or a fresh one is not touched.
++ NEW OPTION "Read '.gitignore' of root folders" (default: off), in
+  the options dialog right below the two ignore-mask rows it builds
+  on: the '.gitignore' file of every ROOT node folder (level-1
+  nodes only - the '.gitignore' of a nested folder is never read)
+  hides files and folders in the tree exactly like the two mask
+  options do (base-name fnmatch). The git rules are reduced to
+  those masks: comments ('#'), negations ('!') and sub-path rules
+  ('docs/temp', 'a/**/b') cannot be expressed as base-name masks
+  without hiding far too much and are skipped; a leading '/'
+  (root-anchored) and a leading '**/' (any depth) are dropped; a
+  trailing '/' marks a folders-only rule; every other rule hides
+  both files and folders (the git meaning). Applies everywhere the
+  two mask options apply: the tree fill, the tree filter scan, and
+  'Go to file'/'Open all project files'. The reads are cached (per
+  root set, re-checked at most once a second), so the per-entry
+  checks never re-read the disk.
++ Tree's 'Favorites' section: a FILE favorite shows its owning
+  folder in parentheses at the end of the caption - several
+  favorites can carry the same file name from different folders,
+  and the bare name does not tell them apart (the home dir is
+  collapsed to '~', the same style as the recent-projects menu).
++ The vendored Send2Trash library moved from send2trash/ to
+  libs/send2trash/ - a 'libs' home for the vendored third-party
+  libraries of the plugin. The loading approach is unchanged: the
+  library still imports as a PRIVATE subpackage
+  ('cuda_project_man.libs.send2trash'; all internal imports stay
+  relative, only the loader's import path gained the '.libs' part),
+  nothing is ever added to sys.path, and no top-level module is
+  registered.
+
+2026.11.28 (@badrelmers)
++ FIXED: severe data loss in none-session mode ("Restore session" off,
+  reported 2026.11.28, introduced by the 2026.11.26 on_start fix): with
+  the option off the plugin opens the last project with no session, but
+  on exit the project save still embedded the editor state as
+  'session1' (session_save_as's non-interactive fallback), OVERWRITING
+  the project's saved session1 with tabs that were never loaded as a
+  session. The fallback is removed: when no session of the project is
+  active (none session, or an external .cuda-session left by the
+  session manager), the project file is still written - with its
+  sessions block taken fresh from disk - but NO editor state is
+  embedded into any session slot. The state in the tabs belongs to the
+  app session pointer, not to the project. Verified by
+  scripts/test_none_session_clobber.py (13 checks: clobber repro,
+  fix, no-regression for in-session save / save-as carry / brand-new
+  project). Audited all other session/project write paths for the
+  same class: every other PROC_SAVE_SESSION site already saves only
+  into the active slot (session_cur_name checks) or creates
+  brand-new unique names (action_new_project, session_new_empty,
+  _auto_import_current_session); the core refuses the none-session
+  pointer itself (DoOps_SaveSession exits on '-.cuda-session').
+
+2026.11.27 (@badrelmers)
++ ANALYZED (no code change): the third request of CudaText issue
+  #6715 - "PROC_LOAD_SESSION should not make session the persistent
+  default one" (previously #6341, rejected as "as intended") - was
+  re-examined after the exit-gate core fix and deliberately NOT
+  implemented. Facts (verified in the core source, the plugin, and
+  upstream cuda_sess_manager): (1) all problem-1 letter scenarios are
+  already fixed by the exit gate - the pointer the load persists is
+  harmless once no disallowed write can follow it; (2) the core's own
+  startup session restore is a DoOps_LoadSession call that MUST set
+  the pointer (it loads what history.json names), so "load never
+  persists" cannot be a uniform rule; (3) no known plugin would break
+  (this plugin pairs every PROC_LOAD_SESSION with _set_session,
+  upstream cuda_sess_manager calls PROC_SET_SESSION on the next line
+  after its single load), but removing the persistence from the API
+  path would silently redirect the ALLOWED exit/autosave writes to
+  the OLD session pointer for any future plugin that loads without
+  setting - overwriting that session with work done in the loaded
+  one (modeled in scripts/test_load_persistence_analysis.py, 23
+  checks). The documented contract stands (wiki since #6341): LOAD
+  makes the session the default one, SET sets the pointer only.
+
+2026.11.26 (@badrelmers)
++ FIXED: a project did not reopen at CudaText start with the option
+  "Restore session" (ui_reopen_session) off. With the option off the
+  app restores no session and leaves history.json's "session" key
+  EMPTY - or a stale pointer from before the option was switched
+  off - and on_start treated both as "no project session" and
+  detached (after one such restart it even dropped its on_start
+  subscription, so the plugin stopped loading at start altogether).
+  The option is now checked directly (_session_restore_disabled
+  reads ui_reopen_session via cudax_lib.get_opt - user.json allows
+  // comments, stray commas and a BOM that a strict json parser
+  would reject, so the stdlib json is never used for it) instead of
+  trusting the pointer: with it off, the most recent project reopens
+  with the new
+  action_open_project(load_session=None) mode - NO session is loaded
+  or created (the user turned sessions off), no tab is touched, the
+  editor stays exactly as CudaText left it. The app's own startup
+  session init (FormShow runs it after on_start) then activates the
+  "none" session (-.cuda-session); on_state no longer mistakes that
+  for a foreign session taking over while the option is off, so the
+  project stays open (the none-session owns no file, the app never
+  writes it - nothing can be clobbered). Documented in
+  doc_for_dev.md sections 6 and 7.
++ FIXED: a session saved with "Save session as..." loaded EMPTY after
+  a CudaText restart, and the same silent deletion hit PLAIN sessions
+  too (a session set via a plugin, e.g. PROC_SAVE_SESSION +
+  PROC_LOAD_SESSION/PROC_SET_SESSION of any session manager): on exit
+  the app's own session save (DoOps_SaveHistory in
+  formmain_loadsave.inc, run by FormClose right AFTER the plugin's
+  on_exit) rewrote the session file from the live frames with the
+  exit dialog's "Don't save" flags - "Don't save" answers "write
+  modified files to disk?", but the app used it for "keep the texts
+  in the session?" too, so texts saved moments earlier (by the
+  plugin, by "Save session as...", by the ~40s autosave) were
+  stripped from the file; after the restart every modified tab
+  restored with an empty buffer, untitled tabs lost their content
+  entirely (with "Restore session" off, a "Don't save, keep in
+  session"-style answer was impossible: the dialog hides that
+  button). The same exit write also fired with "Restore session"
+  OFF, although that option promises "Save current session on
+  program closing" = off: no saving on close at all, and with
+  -ns/-nss for named sessions (a 2020 workaround clause made them
+  save on exit anyway). CORE fix (formmain_loadsave.inc,
+  DoOps_SaveHistory): the exit session save now runs ONLY when the
+  dialog answer allows it (ASaveModifiedTabs), ui_reopen_session is
+  ON, and the command line allows it (no -ns/-nss); -nsl keeps the
+  old "manually loaded session is saved on exit" behavior.
+  Companion fix (formmain.pas, FormCloseQuery): UiOps.
+  SaveModifiedTabsOnClose is reset before the exit decision - it
+  could hold a stale "Don't save" from an earlier palette "Save
+  tabs?" dialog (cmd_DialogSaveTabs) in the same run, which silently
+  skipped (or text-stripped) the exit save for users whose exit
+  shows no dialog (ui_auto_save_session on). Verified by
+  scripts/test_session_exit_matrix.py (58 checks: all 4 option
+  combos, -ns/-nss/-nsl, project/plain/default sessions, keep-in-
+  session, stale flag, CONFIG_HISTORY_SAVE). Documented in
+  doc_for_dev.md sections 3 and 6.
+
+2026.11.26 (@badrelmers)
++ The Favorites window KEEPS ITS SIZE (and the maximized state)
+  across CudaText restarts: the size is saved on close and on the
+  app exit, and restored on the next open. The old forced default
+  size (the workaround for the fullscreen-window bug) is gone.
+  Only sizes the window really had in the NORMAL state are saved:
+  the plugin remembers the last normal size itself (the live client
+  size of a maximized window is the whole work area, and a form
+  re-created with that size covers the OS taskbar, its resize
+  borders unreachable - that fullscreen-window bug). A maximized
+  window is saved by its normal size plus the 'maximized' flag and
+  restored by re-maximizing OVER the restored size, so
+  un-maximizing gives back exactly the saved size. Works on
+  unmodified CudaText builds, no core changes needed.
+
 2026.11.24 (@badrelmers)
 + FIXED: the Favorites section's star was BLURRED with a big
   file-type icon set. The star png comes from the (16x16) toolbar
