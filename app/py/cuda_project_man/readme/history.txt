@@ -1,3 +1,47 @@
+2026.11.28 (@badrelmers)
++ FIXED: severe data loss in none-session mode ("Restore session" off,
+  reported 2026.11.28, introduced by the 2026.11.26 on_start fix): with
+  the option off the plugin opens the last project with no session, but
+  on exit the project save still embedded the editor state as
+  'session1' (session_save_as's non-interactive fallback), OVERWRITING
+  the project's saved session1 with tabs that were never loaded as a
+  session. The fallback is removed: when no session of the project is
+  active (none session, or an external .cuda-session left by the
+  session manager), the project file is still written - with its
+  sessions block taken fresh from disk - but NO editor state is
+  embedded into any session slot. The state in the tabs belongs to the
+  app session pointer, not to the project. Verified by
+  scripts/test_none_session_clobber.py (13 checks: clobber repro,
+  fix, no-regression for in-session save / save-as carry / brand-new
+  project). Audited all other session/project write paths for the
+  same class: every other PROC_SAVE_SESSION site already saves only
+  into the active slot (session_cur_name checks) or creates
+  brand-new unique names (action_new_project, session_new_empty,
+  _auto_import_current_session); the core refuses the none-session
+  pointer itself (DoOps_SaveSession exits on '-.cuda-session').
+
+2026.11.27 (@badrelmers)
++ ANALYZED (no code change): the third request of CudaText issue
+  #6715 - "PROC_LOAD_SESSION should not make session the persistent
+  default one" (previously #6341, rejected as "as intended") - was
+  re-examined after the exit-gate core fix and deliberately NOT
+  implemented. Facts (verified in the core source, the plugin, and
+  upstream cuda_sess_manager): (1) all problem-1 letter scenarios are
+  already fixed by the exit gate - the pointer the load persists is
+  harmless once no disallowed write can follow it; (2) the core's own
+  startup session restore is a DoOps_LoadSession call that MUST set
+  the pointer (it loads what history.json names), so "load never
+  persists" cannot be a uniform rule; (3) no known plugin would break
+  (this plugin pairs every PROC_LOAD_SESSION with _set_session,
+  upstream cuda_sess_manager calls PROC_SET_SESSION on the next line
+  after its single load), but removing the persistence from the API
+  path would silently redirect the ALLOWED exit/autosave writes to
+  the OLD session pointer for any future plugin that loads without
+  setting - overwriting that session with work done in the loaded
+  one (modeled in scripts/test_load_persistence_analysis.py, 23
+  checks). The documented contract stands (wiki since #6341): LOAD
+  makes the session the default one, SET sets the pointer only.
+
 2026.11.26 (@badrelmers)
 + FIXED: a project did not reopen at CudaText start with the option
   "Restore session" (ui_reopen_session) off. With the option off the

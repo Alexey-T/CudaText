@@ -159,11 +159,60 @@ plugin:
    can hold a stale "Don't save" from an earlier palette "Save tabs?"
    dialog (`cmd_DialogSaveTabs`) in the same run. Verified by
    scripts/test_session_exit_matrix.py.
+
+   The third request of issue #6715 — `PROC_LOAD_SESSION` should not
+   make the loaded session the persistent default one (previously
+   issue #6341, rejected as "as intended") — is deliberately NOT
+   implemented, after re-analysis on 2026.11.27:
+   - every letter scenario of problem 1 is already fixed by the exit
+     gate above: the pointer being persisted by the load is harmless
+     once no disallowed write can follow it;
+   - the core's startup session restore (formmain.pas,
+     `_Init_StartupSession`) is itself a `DoOps_LoadSession` call that
+     MUST set the pointer (it loads what history.json names; not
+     setting it would make `AppFile_Session` fall back to the default
+     name and write project-session state into
+     default.cuda-session), so "load never persists" cannot be a
+     uniform rule anyway;
+   - removing the persistence ONLY from the Python API path cannot
+     break any known plugin (all four PROC_LOAD_SESSION sites in this
+     plugin pair the load with `_set_session`, and upstream
+     cuda_sess_manager calls PROC_SET_SESSION on the very next line
+     after its single load) — but it silently redirects the ALLOWED
+     exit/autosave writes to the OLD session pointer for any future
+     plugin that loads without setting, overwriting THAT session with
+     work done in the loaded one. Modeled in
+     scripts/test_load_persistence_analysis.py (23 checks): the
+     proposal trades a documented, now-harmless side effect for a new
+     undocumented data hazard.
+   The documented contract stands (wiki since #6341): LOAD makes the
+   session the default one, SET sets the pointer only; a plugin
+   wanting a non-persistent load emulates it with PROC_SET_SESSION
+   back after the load (exactly what this plugin and
+   cuda_sess_manager already do).
 2. **The plugin** writes the whole file in `action_save_project_as`
    (also used for in-place saves), plus read-modify-write helpers
    (`_remember_last_session`, `session_delete`,
    `action_import_external_session`, `upgrade_project_file_on_disk`,
    `_create_project_file`).
+
+   Third rule (2026.11.28, none-session mode): **the plugin never
+   writes editor state into a project session slot that is not
+   active**. `session_save_as`'s non-interactive branch used to fall
+   back to `'session1'` when no session of the project was active —
+   in none-session mode ("Restore session" off, on_start opens the
+   project with `load_session=None`) the exit save then OVERWROTE the
+   project's saved session1 with tabs that were never loaded as a
+   session. Now the embed is skipped entirely when
+   `session_cur_name()` is empty and no `sess_name` was passed: the
+   project file is still written (sessions block fresh from disk,
+   §rule below), but the tabs' state belongs to the app session
+   pointer (the none session is never written by the app either —
+   `DoOps_SaveSession` exits on `-.cuda-session`). The same audit
+   confirmed every other `PROC_SAVE_SESSION` site already follows this
+   rule: they save only into the active slot (guarded by
+   `session_cur_name`) or create brand-new unique names. Verified by
+   scripts/test_none_session_clobber.py (13 checks).
 
 This two-writer setup caused the worst data-loss bug this plugin ever
 had (fixed 2026.10, see history.txt). To understand it, remember that

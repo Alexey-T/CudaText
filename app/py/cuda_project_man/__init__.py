@@ -8946,10 +8946,26 @@ class Command:
         (including tabs not belonging to the project) is saved as is.
 
         Non-interactive (called after saving the project file): saves the
-        current state into the current session slot, or 'session1' if
-        none is active. `sess_name` (used by "Save project as...") keeps
-        the active session's NAME in the new file instead of the generic
-        'session1' — the session keeps its identity across the save-as."""
+        current state into the current session slot. `sess_name` (used by
+        "Save project as...") keeps the active session's NAME in the new
+        file instead of the generic name — the session keeps its identity
+        across the save-as.
+
+        NO session slot active (the app session pointer sits outside the
+        project: the none session '-.cuda-session' when "Restore session"
+        is off, or an external .cuda-session left by the session
+        manager): the embed step is SKIPPED. Saving the project file must
+        not write the editor state into a session that was never loaded —
+        the old fallback 'session1' OVERWROTE the project's saved
+        session1 with tabs the user never opened as a session (silent
+        data loss, reported 2026.11.28). The project file itself is
+        still written by the caller with its sessions block taken fresh
+        from disk (action_save_project_as / _read_session_keys), so the
+        saved sessions survive untouched. The state in the tabs is not
+        lost either: it belongs to whatever the app session pointer says
+        (the none session is never saved by the app; an external session
+        file is written by the app's own exit save / autosave), not to
+        the project."""
 
         fn = str(self.project_file_path) if self.project_file_path else ''
         if not fn:
@@ -8975,7 +8991,14 @@ class Command:
                     continue
                 break
         else:
-            s = sess_name or self.session_cur_name() or 'session1'
+            s = sess_name or self.session_cur_name()
+            if not s:
+                # No active session slot: write NOTHING into the
+                # project's sessions. See the docstring — the 'session1'
+                # fallback here overwrote a never-loaded session (data
+                # loss). The caller already wrote the project file with
+                # the sessions block fresh from disk.
+                return
 
         # the changes were made while the current session was active:
         # save them into it as well, before switching to the new one
