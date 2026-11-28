@@ -20,7 +20,8 @@
     * change: ignore-separator back to ';' instead of '/'
 
 * change: removed command-line option '-ns' because it was trivial alias to '-nsl -nss'
-- fix: command-line option '-nss' should not save session, default-session or not (before is worked differently for default-session or not)
+- fix: command-line option '-nss' should not save session, default-session or not; before is worked differently for default-session or not (by @badrelmers)
+- fix: bug in detecting lexer for mixed-case extension like 'tmPreferences' (thanks @PalmtopTiger)
 
 1.240.0 (2026/11)
 
