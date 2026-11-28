@@ -3399,7 +3399,8 @@ begin
   DoOps_SaveHistory(
     AppFile_History,
     UiOps.SaveModifiedTabsOnClose,
-    true //param ASaveSession=True, because dlg "Save tabs?" always wants to save session on exit
+    true //param ASaveSession=True: exit always offers session saving; DoOps_SaveHistory
+         //itself decides (dlg answer, ui_reopen_session, cmdline -ns/-nss) whether to do it
     );
 
   {$ifndef windows}
@@ -3738,6 +3739,17 @@ begin
     if not F.EditorsLinked then
       DoPyEvent(F.EdSecond, TAppPyEvent.OnCloseBefore, []);
   end;
+
+  //reset before the exit decision: the flag can hold a STALE value from
+  //an earlier "Save tabs?" dialog in this run (palette command
+  //cmd_DialogSaveTabs also shows that dialog and writes the flag, and
+  //DoDialogSaveTabs is called from here too). With the flag stuck false
+  //("Don't save" answered there), the exit's session save in
+  //DoOps_SaveHistory would be silently skipped even when the exit itself
+  //shows no dialog (ui_auto_save_session on) - or, stuck true, a "Don't
+  //save" answer of THIS exit would be ignored. The exit must decide on
+  //its own dialog only.
+  UiOps.SaveModifiedTabsOnClose:= true;
 
   if GetModifiedCount>0 then
   begin

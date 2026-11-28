@@ -221,10 +221,30 @@ begin
     cfg.Free;
   end;
 
+  //Session save on exit: skipped when
+  //- user answered "Don't save" in dlg "Save tabs?" (ASaveModifiedTabs
+  //  is false): that answer only means "don't write modified files to
+  //  disk", it must not touch the session file. Old code rewrote the
+  //  session here from live frames, without texts of modified tabs,
+  //  and so destroyed texts stored earlier: by session autosave, by
+  //  "Save session as...", by plugin saves (Project Manager on_exit),
+  //  by "keep in session" answers of earlier exits.
+  //- option "ui_reopen_session" is off: it promises "Save current
+  //  session on program closing, and restore it on start", so off =
+  //  no session saving on close, for any session file. Dlg button
+  //  "Don't save / keep in session" is hidden then, user cannot even
+  //  ask to keep texts in session. Session files become fully manual:
+  //  they change only on explicit saves (plugins, session manager).
+  //- cmdline -ns/-nss: "don't save session on exit" must cover named
+  //  sessions too. Old clause "or not IsDefaultSessionActive" (2020
+  //  workaround for synwrite forum t=2576, made before -nsl existed)
+  //  made -nss save named sessions. Use -nsl to keep that behavior:
+  //  it blocks only loading, manually loaded session is still saved
+  //  on exit (with ui_reopen_session on).
   if ASaveSession and
-    ((AppCommandlineOps.AllowSessionSave=TAppAllowSomething.Enable) or not IsDefaultSessionActive)
-    ////see http://synwrite.sourceforge.net/forums/viewtopic.php?f=20&t=2576
-    ////@tmsg wants to save session always, even with -ns cmdline opt
+    ASaveModifiedTabs and
+    UiOps.ReopenSession and
+    (AppCommandlineOps.AllowSessionSave=TAppAllowSomething.Enable)
   then
   begin
     fnBase:= AppFile_Session;
