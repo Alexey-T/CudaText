@@ -3,11 +3,22 @@
   - fixed
   * changed
 
-1.240.2 (2026/12)
+1.241.0 (2026/12)
 
 * change: removed command-line option '-ns' because it was trivial alias to '-nsl -nss'
 + add: new 'fast way' of lexer-parsing, without calling parser-thread (ie in the main thread), on editing inside a single line, with single caret. The effect of 'fast way' is visible mainly on big files (eg 10K lines C++ file) on older PCs (eg CPU Intel 3GHz)
 + add: new option "ui_fast_parsing" can disable 'fast way' of parsing
+
++ add: Project Manager improvements: (by @badrelmers)
+    - fix: a project did not reopen at CudaText start with "ui_reopen_session":false
+    - fix: focus auto jumps to favorite section on Linux
+    + add: Favorites window now keeps its size (and the maximized state) across CudaText restarts
+    + add: Favorites in tree: show owning folder
+    + add: new option "Read '.gitignore' of root folders"
+    + add: OS-like sorting for "sort by name" using "natsort" library for Windows/Mac/Linux
+    + add: new option to Hide the Favorites window's attachment columns
+    + add: dlg_menu 'Find favorite' and similar menus like "Add opened" clamp long names
+    * change: ignore-separator back to ';' instead of '/'
 
 1.240.0 (2026/11)
 
