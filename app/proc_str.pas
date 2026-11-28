@@ -264,10 +264,6 @@ begin
   Ext:= ExtractFileExt(AFileName);
   if Ext='' then exit(false);
 
-  //ascii lowercase
-  for i:= 1 to Length(Ext) do
-    if (Ord(Ext[i])>=Ord('A')) and (Ord(Ext[i])<=Ord('Z')) then
-      Inc(Ext[i], 32);
   if Ext[1]='.' then
     Delete(Ext, 1, 1);
 
