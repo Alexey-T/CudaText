@@ -642,6 +642,17 @@ panel context menu (at the bottom), or CudaText's Settings menu.
   Ignore all hidden
   files/folders:          Hides files/folders with the hidden attribute.
 
+  Read '.gitignore' of
+  root folders:           The '.gitignore' file of every ROOT node
+                          folder (level-1 nodes only - the
+                          '.gitignore' of a nested folder is never
+                          read) hides files and folders in the
+                          tree, like the two mask options above:
+                          every rule is reduced to a base-name mask
+                          (comments, negations and sub-path rules
+                          are skipped; a trailing '/' marks a
+                          folders-only rule). Default: off.
+
   Recent projects:        Editable list of recently opened projects -
                           one project per line.
 
@@ -1008,7 +1019,7 @@ NOTES
 
 - The trash support is powered by the bundled Send2Trash library
   (https://pypi.org/project/Send2Trash/) - it ships inside the
-  plugin's send2trash/ subfolder, so nothing extra needs to be
+  plugin's lib/send2trash/ subfolder, so nothing extra needs to be
   installed. It is loaded privately inside the plugin only: it never
   touches the global Python module path, so it cannot conflict with
   other plugins or with a Send2Trash you may have installed yourself.
@@ -1024,5 +1035,5 @@ AUTHORS
 - Badr ELmers  https://github.com/badrelmers
 
 License: MIT. The plugin bundles the BSD-licensed Send2Trash library
-(https://pypi.org/project/Send2Trash/) in its send2trash/ subfolder;
-its license text is kept in send2trash/LICENSE.
+(https://pypi.org/project/Send2Trash/) in its lib/send2trash/ subfolder;
+its license text is kept in lib/send2trash/LICENSE.

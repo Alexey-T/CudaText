@@ -1,4 +1,45 @@
 2026.11.28 (@badrelmers)
++ REVERTED to ';' (issue #6707, per Alexey-T: "';' char is fully ok.
+  All aps use it, together with comma" - and a mask never needs the
+  char): the separator of the 'Ignore files'/'Ignore folders' mask
+  lists is ';' again - internally, in the options file, and in the
+  'Add to ignore ...' context-menu commands (the 2026.11.23 change
+  of this fork to '/' is undone). One-way migration of a fork-era
+  config: every '/' of the two lists becomes ';' ('/' can never be
+  part of a base name, so every '/' IS a separator), guarded by
+  the 'mask_sep' marker == ';' and rewritten once at load. An old
+  ';' config or a fresh one is not touched.
++ NEW OPTION "Read '.gitignore' of root folders" (default: off), in
+  the options dialog right below the two ignore-mask rows it builds
+  on: the '.gitignore' file of every ROOT node folder (level-1
+  nodes only - the '.gitignore' of a nested folder is never read)
+  hides files and folders in the tree exactly like the two mask
+  options do (base-name fnmatch). The git rules are reduced to
+  those masks: comments ('#'), negations ('!') and sub-path rules
+  ('docs/temp', 'a/**/b') cannot be expressed as base-name masks
+  without hiding far too much and are skipped; a leading '/'
+  (root-anchored) and a leading '**/' (any depth) are dropped; a
+  trailing '/' marks a folders-only rule; every other rule hides
+  both files and folders (the git meaning). Applies everywhere the
+  two mask options apply: the tree fill, the tree filter scan, and
+  'Go to file'/'Open all project files'. The reads are cached (per
+  root set, re-checked at most once a second), so the per-entry
+  checks never re-read the disk.
++ Tree's 'Favorites' section: a FILE favorite shows its owning
+  folder in parentheses at the end of the caption - several
+  favorites can carry the same file name from different folders,
+  and the bare name does not tell them apart (the home dir is
+  collapsed to '~', the same style as the recent-projects menu).
++ The vendored Send2Trash library moved from send2trash/ to
+  lib/send2trash/ - a 'lib' home for the vendored third-party
+  libraries of the plugin. The loading approach is unchanged: the
+  library still imports as a PRIVATE subpackage
+  ('cuda_project_man.lib.send2trash'; all internal imports stay
+  relative, only the loader's import path gained the '.lib' part),
+  nothing is ever added to sys.path, and no top-level module is
+  registered.
+
+2026.11.28 (@badrelmers)
 + FIXED: severe data loss in none-session mode ("Restore session" off,
   reported 2026.11.28, introduced by the 2026.11.26 on_start fix): with
   the option off the plugin opens the last project with no session, but

@@ -593,7 +593,11 @@ def dialog_config(op):
 
     section(_('Project tree'))
     row_edit(_('Ignore &files:'), 'no_files', op.get('no_files', ''))
-    row_edit(_('Ignore fold&ers:'), 'no_dirs', op.get('no_dirs', '.git/.svn'))
+    row_edit(_('Ignore fold&ers:'), 'no_dirs', op.get('no_dirs', '.git;.svn'))
+    # right below the two ignore-mask rows it builds on (request): the
+    # '.gitignore' of every root node folder, read and applied like the
+    # two mask options; default off
+    check('gitignore', _("Read '.gitignore' of &root folders"), op.get('gitignore', False))
     check('no_hidden', _('Ignore all &hidden files/folders'), op.get('no_hidden', True))
     lab(_('&Recent projects:'), X0, PANEL_W - 2 * X0, dy=17)
     # a real mini-editor: 5 visible lines, one project per line, plain
@@ -758,6 +762,7 @@ def dialog_config(op):
     if ok:
         op['no_files'] = str(state.get('no_files', '')).strip()
         op['no_dirs'] = str(state.get('no_dirs', '')).strip()
+        op['gitignore'] = _val_bool(state.get('gitignore'))
         op['no_hidden'] = _val_bool(state.get('no_hidden'))
 
         # the "Recent projects" editor keeps one project per line -

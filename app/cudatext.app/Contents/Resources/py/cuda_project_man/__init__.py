@@ -245,6 +245,13 @@ def scan_dir_entries(fn, opts):
     no_files = str(opts.get("no_files", "") or "")
     no_dirs = str(opts.get("no_dirs", "") or "")
     proj_file = str(opts.get("proj_file", "") or "")
+    # the '.gitignore' option: the masks of the ROOT node owning the
+    # ENTRY (resolved per entry - the children of the root itself are
+    # owned by it too, the scanned folder alone would miss them). The
+    # snapshot list comes in opts ('gitignore' = [(root, files masks,
+    # dirs masks), ...], taken once on the UI thread - see
+    # Command._gitignore_snapshot)
+    gi = opts.get('gitignore') or []
     for e in entries:
         try:
             is_dir = e.is_dir()
@@ -263,6 +270,11 @@ def scan_dir_entries(fn, opts):
         msk = no_dirs if is_dir else no_files
         if msk and is_mask_listed(e.name, msk):
             continue
+        if gi:
+            gi_files, gi_dirs = gitignore_masks_for(e.path, gi)
+            msk = gi_dirs if is_dir else gi_files
+            if msk and is_mask_listed(e.name, msk):
+                continue
         res.append(e)
 
     order = opts.get('sort_order', 'ext')
@@ -838,16 +850,85 @@ def is_simple_listed(name, masks):
     return False
 
 def is_mask_listed(s, masks):
-    # the mask lists are '/'-separated: a file NAME can contain ';' on
-    # every OS, but never '/' - so '/' is the only safe separator.
-    # Configs of older builds keep ';' lists and are migrated once at
-    # load (see the 'mask_sep' handling in Command.__init__)
-    for mask in masks.split('/'):
+    # the mask lists are ';'-separated (issue #6707: ';' is what apps
+    # conventionally use, and a mask never needs the ';' char). Configs
+    # of the fork builds that used '/' are migrated once at load (see
+    # the 'mask_sep' handling in Command.__init__)
+    for mask in masks.split(';'):
         r = fnmatch(s, mask)
         #print("fnmatch('%s', '%s') = %d"%(s, mask, int(r)))
         if r:
             return True
     return False
+
+
+def parse_gitignore_lines(text):
+    """The two ignore-mask list strings (files, dirs) built from the
+    lines of ONE '.gitignore' file - the '.gitignore' option reduces
+    the git rules to the plugin's base-name fnmatch masks, the very
+    matching the 'no_files'/'no_dirs' options use. Comment lines ('#'),
+    negations ('!') and sub-path rules ('docs/temp', 'a/**/b') cannot
+    be expressed as base-name masks without hiding far too much, so
+    they are skipped; a leading '/' (root-anchored) and a leading
+    '**/' (any depth) are dropped; a trailing '/' marks a folders-only
+    mask; a lone '*' (a white-list '.gitignore' built on negations) is
+    skipped too - without its negations it would hide EVERYTHING.
+    Every other rule hides both files and folders (the git meaning).
+    Returns ('', '') when nothing applies."""
+    fm, dm = [], []
+    for line in str(text or '').splitlines():
+        line = line.strip()
+        if not line or line.startswith('#') or line.startswith('!'):
+            continue
+        while line.startswith('/'):
+            line = line[1:]
+        while line.startswith('**/'):
+            line = line[3:]
+        # a trailing '/' (the git folders-only marker) goes before the
+        # sub-path check - 'build/' is a folder mask, not a sub-path
+        dir_only = line.endswith('/')
+        if dir_only:
+            line = line[:-1]
+        if not line or '/' in line or '**' in line or line == '*':
+            continue
+        if dir_only:
+            dm.append(line)
+        else:
+            fm.append(line)
+            dm.append(line)
+    return ';'.join(fm), ';'.join(dm)
+
+
+def is_subpath_of(path, parent):
+    """True when path sits INSIDE parent (a strict descendant - path ==
+    parent is False). Separator- and (on Windows) case-tolerant, like
+    same_path."""
+    if not path or not parent:
+        return False
+    p = os.path.normcase(os.path.normpath(str(path)))
+    r = os.path.normcase(os.path.normpath(str(parent)))
+    if len(r) > 1 and r.endswith(os.sep):
+        r = r[:-1]
+    # a single-char root ('/' or 'X:\\'): everything is inside it
+    if len(r) == 1:
+        return p.startswith(r) and p != r
+    return p.startswith(r + os.sep)
+
+
+def gitignore_masks_for(path, gitignores):
+    """(files masks, dirs masks) of the '.gitignore' ROOTS owning the
+    given path: the masks of EVERY owning root are joined (git applies
+    every '.gitignore' along the way too). gitignores is the snapshot
+    list [(root, files masks, dirs masks), ...]; ('', '') when no root
+    owns the path."""
+    fm, dm = [], []
+    for root, fm_root, dm_root in gitignores or []:
+        if (fm_root or dm_root) and is_subpath_of(path, root):
+            if fm_root:
+                fm.append(fm_root)
+            if dm_root:
+                dm.append(dm_root)
+    return ';'.join(fm), ';'.join(dm)
 
 # only Py 3.5 supports os.stat(s).st_file_attributes
 # so this is to support Py 3.4
@@ -1155,14 +1236,19 @@ class Command:
         "project_from_tabs_files": True,
         "project_from_tabs_folders": True,
         "no_files": "",
-        "no_dirs": ".git/.svn",
-        # separator version of the two ignore-mask lists above: '/' is
-        # the separator now (';' was the old one - unsafe, a file NAME
-        # can contain ';' on every OS). '' = a config written by a
-        # build older than the change: its ';' lists are migrated to
-        # '/' once at load (Command.__init__)
+        "no_dirs": ".git;.svn",
+        # marker of the one-way ';' migration of the two ignore-mask
+        # lists above (see Command.__init__): '' = a config written by
+        # a build older than the change: its '/' lists are migrated to
+        # ';' once at load
         "mask_sep": "",
         "no_hidden": True,
+        # read the '.gitignore' of every FOLDER root node (level-1
+        # nodes only, never a nested folder's one) and hide files/
+        # folders by its rules, exactly like the two ignore-mask
+        # options above (base-name fnmatch masks, see
+        # parse_gitignore_lines); default off
+        "gitignore": False,
         "toolbar": True,
         "preview": True,
         "d_click": False,
@@ -1251,6 +1337,12 @@ class Command:
     #: options snapshot of the running/last scan (for the lazy
     #: single-level fallback refill of folders the index does not know)
     _filter_opts = None
+    #: (key, stamp, snapshot) cache of the per-root '.gitignore' masks
+    #: of the 'gitignore' option (see _gitignore_snapshot): the key is
+    #: the roots tuple - any project change re-reads at once; the
+    #: monotonic stamp makes the open/read round of the '.gitignore'
+    #: files run at most once a second (the tree fill asks per entry)
+    _gitignore_cache = (None, 0.0, [])
     #: the live set of the scan whose (finished or cancelled) result is
     #: in _filter_index: the uniform live filter of _filter_rows_for
     #: keeps needing it after the worker object is dropped
@@ -1395,25 +1487,27 @@ class Command:
                 log_error('Project Manager: cannot load the options from '
                           + str(self.options_filename))
 
-        # the two ignore-mask lists ('no_files'/'no_dirs') were ';'
-        # -separated once, but a file NAME can contain ';' on every OS,
-        # so the separator is '/' now (it can never be part of a base
-        # name). ONE-WAY migration of an old config: every ';' of the
-        # two lists becomes '/', the 'mask_sep' marker remembers the
-        # done migration (a literal ';' typed after the change is a
-        # mask character and must survive), and the file is rewritten
-        # at once. A config already migrated ('mask_sep' == '/') or a
-        # fresh one is not touched.
-        if self.options.get("mask_sep") != "/":
-            self.options["mask_sep"] = "/"
+        # the separator of the two ignore-mask lists ('no_files'/
+        # 'no_dirs') is ';' (issue #6707: "';' char is fully ok. All
+        # aps use it, together with comma" - and a mask never needs
+        # the ';' char). A build of this fork briefly used '/' as the
+        # separator (a file NAME can contain ';' on every OS, but
+        # never '/'): ONE-WAY migration of such a config - every '/'
+        # of the two lists becomes ';' ('/' can never be part of a
+        # base name, so every '/' IS a separator), the 'mask_sep'
+        # marker remembers the done migration, and the file is
+        # rewritten at once. A config already migrated ('mask_sep' ==
+        # ';'), an older ';' one, or a fresh one is not touched.
+        if self.options.get("mask_sep") != ";":
+            self.options["mask_sep"] = ";"
             migrated_masks = False
             for key in ("no_files", "no_dirs"):
                 val = self.options.get(key)
-                if isinstance(val, str) and ";" in val:
-                    self.options[key] = val.replace(";", "/")
+                if isinstance(val, str) and "/" in val:
+                    self.options[key] = val.replace("/", ";")
                     migrated_masks = True
             if migrated_masks:
-                print(_('Project Manager: ignore lists migrated to the / separator'))
+                print(_('Project Manager: ignore lists migrated to the ; separator'))
                 self.save_options()
 
         # the options file keeps ONLY settings now (user request): the
@@ -3313,7 +3407,7 @@ class Command:
     def _add_to_ignore_masks(self, opt_key, what):
         """Shared body of the two 'Add to ignore ...' context-menu
         commands: add the selected item's NAME to the option's mask
-        list ('/'-separated fnmatch masks over base names), save the
+        list (';'-separated fnmatch masks over base names), save the
         options and refresh the tree so the item disappears at once.
         A name already in the list is reported, not duplicated."""
         node = self.selected
@@ -3324,12 +3418,12 @@ class Command:
         if not name:
             return
         masks = str(self.options.get(opt_key, "") or "").strip()
-        items = [m.strip() for m in masks.split("/") if m.strip()]
+        items = [m.strip() for m in masks.split(";") if m.strip()]
         if name in items:
             msg_status(_("Already in ignore list: ") + name)
             return
         items.append(name)
-        self.options[opt_key] = "/".join(items)
+        self.options[opt_key] = ";".join(items)
         self.save_options()
         self.action_refresh()
         msg_status(_("Added to ignore %s: ") % what + name)
@@ -4479,6 +4573,10 @@ class Command:
             'no_hidden': bool(self.options.get('no_hidden', True)),
             'no_files': str(self.options.get('no_files', '') or ''),
             'no_dirs': str(self.options.get('no_dirs', '') or ''),
+            # the '.gitignore' masks of the roots, frozen for the whole
+            # search (taken here on the UI thread: the worker never
+            # touches the plugin state)
+            'gitignore': self._gitignore_snapshot(),
             'sort_order': sort_order,
             'proj_file': str(self.project_file_path or ''),
         }
@@ -4660,12 +4758,15 @@ class Command:
             return cached
         flt = (self.tree_filter or '').lower()
         opts = self._filter_opts or self.options
-        # plain options carry no 'proj_file': inject it (into a copy,
-        # never the live options dict) so the opened project file
-        # stays hidden in the fallback scan too
-        if 'proj_file' not in opts:
+        # plain options carry neither 'proj_file' nor 'gitignore':
+        # inject both (into a copy, never the live options dict) so the
+        # opened project file stays hidden in the fallback scan too,
+        # and the fallback applies the same '.gitignore' rules the
+        # scan snapshot used
+        if 'proj_file' not in opts or 'gitignore' not in opts:
             opts = dict(opts)
-            opts['proj_file'] = str(self.project_file_path or '')
+            opts.setdefault('proj_file', str(self.project_file_path or ''))
+            opts.setdefault('gitignore', self._gitignore_snapshot())
         rows = []
         for e in scan_dir_entries(path, opts) or []:
             try:
@@ -4984,6 +5085,15 @@ class Command:
             if self.is_opened_project_file(path):
                 continue
             is_dir = os.path.isdir(path)
+            # a FILE favorite shows its owning folder in parentheses at
+            # the end: several favorites may carry the same file name
+            # from different folders, and the bare name does not tell
+            # them apart (the same style as nice_filename - the home
+            # dir collapsed to '~')
+            if not is_dir:
+                dirname = os.path.dirname(str(path))
+                if dirname:
+                    name += ' (' + collapse_filename(dirname) + ')'
             index = self._add_tree_node(section, name, path, is_dir)
             if is_dir:
                 # the dummy child gives the fold arrow; the real
@@ -7522,8 +7632,9 @@ class Command:
                     self.tree_icons_reload()
                 else:
                     # everything else the tree shows (sorting order,
-                    # the ignore masks, hidden files) applies right
-                    # now too - a refresh keeps the folds + selection
+                    # the ignore masks, the '.gitignore' rules,
+                    # hidden files) applies right now too - a refresh
+                    # keeps the folds + selection
                     self.action_refresh()
 
             # keep the on_start subscription in sync with the project
@@ -7615,15 +7726,57 @@ class Command:
             if self.project_file_path:
                 self.action_save_project_as(self.project_file_path)
 
+    def _gitignore_snapshot(self):
+        """[(root, files masks, dirs masks), ...] of the project's
+        FOLDER root nodes - the 'gitignore' option (the request: read
+        the '.gitignore' of the NODE ROOTS only, never of a nested
+        folder). [] when the option is off or no root carries a usable
+        '.gitignore' (a FILE root node contributes nothing: its
+        '<root>/.gitignore' cannot exist and the open below fails).
+        The masks hide files/folders exactly like the 'no_files'/
+        'no_dirs' options do (base-name fnmatch, see
+        parse_gitignore_lines). Cached by (roots, 1s): every root's
+        '.gitignore' is read once and re-read when the tree asks again
+        after a second - the fill and the scans ask per entry, so the
+        roots key stays pure string work (no stat per call)."""
+        if not self.options.get('gitignore', False):
+            return []
+        roots = tuple(str(n) for n in self.project.get('nodes', []) or [])
+        ckey, stamp, snapshot = self._gitignore_cache
+        now = time.monotonic()
+        if ckey == roots and now - stamp < 1.0:
+            return snapshot
+        snapshot = []
+        for root in roots:
+            try:
+                with open(os.path.join(root, '.gitignore'),
+                          encoding='utf8', errors='replace') as fin:
+                    fm, dm = parse_gitignore_lines(fin.read())
+            # intentional silence: no '.gitignore', unreadable, or a
+            # foreign encoding - the root contributes no masks
+            except OSError:
+                continue
+            if fm or dm:
+                snapshot.append((root, fm, dm))
+        self._gitignore_cache = (roots, now, snapshot)
+        return snapshot
+
     def is_filename_ignored(self, fn, is_dir):
         if is_dir:
             msk = self.options.get("no_dirs", "")
         else:
             msk = self.options.get("no_files", "")
-        if msk:
-            return is_mask_listed(os.path.basename(fn), msk)
-        else:
-            return False
+        if msk and is_mask_listed(os.path.basename(fn), msk):
+            return True
+        # the 'gitignore' option: the '.gitignore' masks of every root
+        # node owning fn (level-1 folder nodes only - a nested
+        # folder's '.gitignore' is never read)
+        if self.options.get('gitignore', False):
+            fm, dm = gitignore_masks_for(fn, self._gitignore_snapshot())
+            msk = dm if is_dir else fm
+            if msk and is_mask_listed(os.path.basename(fn), msk):
+                return True
+        return False
 
     def is_opened_project_file(self, fn):
         """True when 'fn' is the .cuda-proj file of the currently

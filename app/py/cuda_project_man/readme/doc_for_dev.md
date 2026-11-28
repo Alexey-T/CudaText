@@ -1066,7 +1066,8 @@ backups") for the user-facing rules; the developer-facing ones:
 `projman_trash.py` is the ONLY module that removes anything from the
 disk — every delete of the plugin funnels through it, so the safety
 policy is auditable in one file. The engine is the bundled Send2Trash
-library (vendored in `send2trash/`, BSD license, see `send2trash/LICENSE`):
+library (vendored in `lib/send2trash/`, BSD license, see
+`lib/send2trash/LICENSE`):
 
 - `send_to_trash(path)` — the normal delete. Moves the item to the OS
   trash (Recycle Bin / Trash / GIO-or-FreeDesktop-spec). NEVER deletes
@@ -1092,19 +1093,20 @@ library (vendored in `send2trash/`, BSD license, see `send2trash/LICENSE`):
   without trash support; there is no other caller, no fallback path.
 - `trash_label()` — localized "Recycle Bin"/"Trash" for dialog texts.
 
-Vendoring note: the vendored `send2trash` copy is loaded as a PRIVATE
-subpackage of the plugin. Its internal imports were rewritten to
-relative ones (`from .util import ...`, `from .mac import ...`), so
-`projman_trash` imports it as `cuda_project_man.send2trash` through
-the plugin package's own `__path__` — like every other relative import
-of the plugin. NOTHING is ever added to `sys.path`, and no top-level
-`send2trash` module is ever registered: other plugins can neither see
-this copy nor shadow it with their own, and this copy cannot shadow a
-real system-wide Send2Trash installation. (Should the plugin ever be
-loaded NOT as a package — an exotic embedder — `projman_trash`
-registers a synthetic private host `_cuda_project_man_s2t` pointing
-at the plugin folder and imports `_cuda_project_man_s2t.send2trash`
-instead; `sys.path` stays untouched either way.) Python >= 3.8 is
+Vendoring note: the vendored `send2trash` copy lives in the plugin's
+`lib/` folder and is loaded as a PRIVATE subpackage of the plugin. Its
+internal imports were rewritten to relative ones (`from .util import
+...`, `from .mac import ...`), so `projman_trash` imports it as
+`cuda_project_man.lib.send2trash` through the plugin package's own
+`__path__` — like every other relative import of the plugin. NOTHING
+is ever added to `sys.path`, and no top-level `send2trash` module is
+ever registered: other plugins can neither see this copy nor shadow it
+with their own, and this copy cannot shadow a real system-wide
+Send2Trash installation. (Should the plugin ever be loaded NOT as a
+package — an exotic embedder — `projman_trash` registers a synthetic
+private host `_cuda_project_man_s2t` pointing at the plugin folder and
+imports `_cuda_project_man_s2t.lib.send2trash` instead; `sys.path`
+stays untouched either way.) Python >= 3.8 is
 required (Send2Trash 2.2.0). The dialogs are `msg_box_ex()` calls —
 custom captions, custom button lists, an icon, a focused-button
 index, and a 0-based button index (or `None` when cancelled) as the
