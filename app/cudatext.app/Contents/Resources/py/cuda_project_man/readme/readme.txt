@@ -271,6 +271,9 @@ PROJECT SESSIONS (also on the toolbar button)
       session slot; the new session becomes the active one. No tabs are
       closed - the full current state is saved as is, and the previously
       active session is updated with the same state.
+      The unsaved text of modified tabs is stored IN the session,
+      so it survives a CudaText restart even when you answer
+      "Don't save" to the exit prompt about modified files.
 
   New empty session (closes all tabs)
       Prompts for a name and creates a brand-new EMPTY session of the
@@ -490,6 +493,9 @@ window...)
   only on the Files and Folders tabs (see Attachments below); the
   column widths are resizable (drag the divider between two header
   captions), the Path column fills the remaining width.
+  The attachment columns can be hidden entirely - the option
+  "Show the attachment columns in the Favorites window" of the
+  options dialog ("Favorites" section) shows them back.
 
   Quick-select labels (the "#" column, first)
       Every row carries a short label: 1 to 9, then a to z, then aa,
@@ -526,6 +532,9 @@ window...)
       The project favorites a file/folder favorite is attached to (see
       Attachments below), comma-separated. Not sortable - click the
       header of the other columns to sort.
+      Hidden by the option "Show the attachment columns in the
+      Favorites window" (the options dialog, "Favorites" section)
+      - default: off.
 
   Filter
       The field at the top filters by name AND path as you type. Clear
@@ -568,6 +577,13 @@ ATTACHMENTS (files/folders <-> projects)
   A file or folder favorite can be ATTACHED to one or several project
   favorites - a simple link, handy to see which files/folders belong to
   which projects.
+  The two columns that show them ("Attached projects" on the
+  Files/Folders tabs, "Attachments" on the Projects tab) can be
+  hidden by the option "Show the attachment columns in the
+  Favorites window" (the options dialog, "Favorites" section -
+  default: off): the links keep working, and they stay visible
+  in the "List attached files/folders..." lists and the
+  attach/detach commands.
 
   Attach favorite to project...
       (context menu of a file/folder favorite) A filterable list of the
@@ -639,6 +655,17 @@ panel context menu (at the bottom), or CudaText's Settings menu.
   Ignore all hidden
   files/folders:          Hides files/folders with the hidden attribute.
 
+  Read '.gitignore' of
+  root folders:           The '.gitignore' file of every ROOT node
+                          folder (level-1 nodes only - the
+                          '.gitignore' of a nested folder is never
+                          read) hides files and folders in the
+                          tree, like the two mask options above:
+                          every rule is reduced to a base-name mask
+                          (comments, negations and sub-path rules
+                          are skipped; a trailing '/' marks a
+                          folders-only rule). Default: off.
+
   Recent projects:        Editable list of recently opened projects -
                           one project per line.
 
@@ -667,11 +694,32 @@ panel context menu (at the bottom), or CudaText's Settings menu.
   Sorting order:          How to sort items in the tree: by name,
                           extension, size, date, etc. (applies
                           immediately, no restart).
+                          "By name" sorts like the OS file browser
+                          does (Windows Explorer, the macOS Finder,
+                          the Linux file managers - numbers inside
+                          names compare as numbers: file2 comes
+                          before file10), powered by the bundled
+                          natsort library; its plain old order is
+                          the fallback when the library cannot
+                          load.
 
   File type icons:        Icon theme for file types in the tree
                           (applies immediately, no restart).
 
   Toolbar icons:          Icon theme for the toolbar buttons.
+
+  Show the attachment
+  columns in the
+  Favorites window:       Shows/hides the two attachment
+                          columns of the Favorites window:
+                          "Attached projects" on its Files/Folders
+                          tabs and "Attachments" on its Projects
+                          tab. Default: off - a simpler list with
+                          more room for Name and Path; the
+                          attachment links keep working, they stay
+                          visible in the "List attached
+                          files/folders..." lists and the
+                          attach/detach commands.
                           "auto" (the default) uses the default icons
                           and automatically switches between the black
                           set (default_16x16) for a light UI theme and
@@ -727,6 +775,12 @@ Startup
     normally — CudaText itself restores the last used session (it is
     also recorded in the project file, so the project reopens with it
     later). No extra prompts, no session switching.
+
+  - If CudaText's option "Restore session" (ui_reopen_session) is off,
+    no session is restored at all - the most recent project still
+    reopens (project panel, nodes, favorites), but NO session is
+    loaded or created: the editor stays exactly as CudaText left it,
+    per the user's choice of not using sessions.
 
   - If the session belongs to a different project, or is a plain
     non-project session, the plugin detaches from the project silently.
@@ -998,8 +1052,17 @@ NOTES
   doc_for_dev.md next to the plugin source code.
 
 - The trash support is powered by the bundled Send2Trash library
+- The tree's "by name" order is the OS file browser's order,
+  powered by the bundled natsort library
+  (https://pypi.org/project/natsort/) - it ships inside the
+  plugin's libs/natsort/ subfolder, so nothing extra needs to be
+  installed. It is loaded privately inside the plugin only: it
+  never touches the global Python module path, so it cannot
+  conflict with other plugins or with a natsort you may have
+  installed yourself.
+
   (https://pypi.org/project/Send2Trash/) - it ships inside the
-  plugin's send2trash/ subfolder, so nothing extra needs to be
+  plugin's libs/send2trash/ subfolder, so nothing extra needs to be
   installed. It is loaded privately inside the plugin only: it never
   touches the global Python module path, so it cannot conflict with
   other plugins or with a Send2Trash you may have installed yourself.
@@ -1015,5 +1078,8 @@ AUTHORS
 - Badr ELmers  https://github.com/badrelmers
 
 License: MIT. The plugin bundles the BSD-licensed Send2Trash library
-(https://pypi.org/project/Send2Trash/) in its send2trash/ subfolder;
-its license text is kept in send2trash/LICENSE.
+(https://pypi.org/project/Send2Trash/) in its libs/send2trash/
+subfolder (its license text is kept in libs/send2trash/LICENSE), and
+the MIT-licensed natsort library (https://pypi.org/project/natsort/)
+in its libs/natsort/ subfolder (its license text is kept in
+libs/natsort/LICENSE).

@@ -4,11 +4,11 @@
 # which should be included with this package. The terms are also available at
 # http://www.hardcoded.net/licenses/bsd_license
 
-# VENDORED inside the CudaText plugin "cuda_project_man": all internal
-# imports below are RELATIVE (upstream uses absolute "send2trash.xxx"
-# imports) so this package can be loaded as a PRIVATE subpackage of the
-# plugin - "cuda_project_man.send2trash" - without ever touching
-# sys.path. See projman_trash.py for the loader.
+# VENDORED inside the CudaText plugin "cuda_project_man" (in its libs/
+# folder): all internal imports below are RELATIVE (upstream uses
+# absolute "send2trash.xxx" imports) so this package can be loaded as a
+# PRIVATE subpackage of the plugin - "cuda_project_man.libs.send2trash"
+# - without ever touching sys.path. See projman_trash.py for the loader.
 
 import sys
 

@@ -15,6 +15,7 @@ from .projman_glob import *
 from .store import (STATE_KEYS, migrate_options_file, store_read,
                     store_update)
 from .projman_backup import ProjectFileBackups, DEFAULT_BACKUP_COUNT, DEFAULT_BACKUP_FOLDER
+from .projman_os_sort import os_name_key
 from .projman_trash import (send_to_trash, trash_label,
                              trash_supported, delete_permanently)
 from .utils import (MIN_PLAUSIBLE_CELL, app_font_scale,
@@ -25,7 +26,7 @@ from cudatext import *
 from cudatext_keys import *
 import cudatext_cmd
 
-from cudax_lib import get_translation
+from cudax_lib import CONFIG_LEV_USER_ONLY, get_opt, get_translation
 _   = get_translation(__file__)  # i18n
 
 from . import favorites as _favorites
@@ -203,7 +204,11 @@ def _direntry_ordering(path, order):
     if order == 'ext':
         key = _file_ext(path.name).upper() if isfile else ''
     elif order == 'name':
-        key = path.name.upper()
+        # the OS file browser's order (see projman_os_sort): Windows
+        # Explorer / the Finder / the Linux file managers, with the
+        # old .upper() order as the fallback when natsort failed to
+        # load
+        key = os_name_key(path.name)
     elif order == 'size':
         key = -path.stat().st_size if isfile else ''
     elif order == 'size-':
@@ -245,6 +250,13 @@ def scan_dir_entries(fn, opts):
     no_files = str(opts.get("no_files", "") or "")
     no_dirs = str(opts.get("no_dirs", "") or "")
     proj_file = str(opts.get("proj_file", "") or "")
+    # the '.gitignore' option: the masks of the ROOT node owning the
+    # ENTRY (resolved per entry - the children of the root itself are
+    # owned by it too, the scanned folder alone would miss them). The
+    # snapshot list comes in opts ('gitignore' = [(root, files masks,
+    # dirs masks), ...], taken once on the UI thread - see
+    # Command._gitignore_snapshot)
+    gi = opts.get('gitignore') or []
     for e in entries:
         try:
             is_dir = e.is_dir()
@@ -263,6 +275,11 @@ def scan_dir_entries(fn, opts):
         msk = no_dirs if is_dir else no_files
         if msk and is_mask_listed(e.name, msk):
             continue
+        if gi:
+            gi_files, gi_dirs = gitignore_masks_for(e.path, gi)
+            msk = gi_dirs if is_dir else gi_files
+            if msk and is_mask_listed(e.name, msk):
+                continue
         res.append(e)
 
     order = opts.get('sort_order', 'ext')
@@ -767,6 +784,58 @@ def resolve_session_pointer(ptr):
         fn = os.path.join(app_path(APP_DIR_SETTINGS), fn)
     return fn + sep + rest
 
+#: file name of the app's "none" session (the core's cAppSessionNone,
+#: proc_globdata.pas): the session CudaText activates when it restores
+#: no session - "Restore session" (ui_reopen_session) off, or session
+#: loading blocked by the command line (-ns, -nsl, file names with
+#: ui_reopen_session_cmdline off). It owns no file: the core's
+#: DoOps_SaveSession exits on this file name, nothing is ever written.
+NONE_SESSION_FILENAME = '-.cuda-session'
+
+
+def _session_restore_disabled():
+    """True when CudaText's "Restore session" option (ui_reopen_session
+    in user.json) is off. The app then restores NO session at start, and
+    history.json's "session" key is empty - or holds a STALE pointer
+    from before the option was switched off. Either way the pointer says
+    nothing about a session being restored, so on_start must not judge
+    by it: the project comes back on its own, with NO session loaded
+    (the user turned sessions off).
+
+    Read via cudax_lib.get_opt, not json.load: user.json allows '//'
+    comments, stray commas and a BOM, and a strict parse would raise and
+    silently fall back to 'not disabled'. get_opt parses all of that
+    tolerantly and never raises on bad json (it logs and returns the
+    default). CONFIG_LEV_USER_ONLY mirrors the core, which reads this
+    option from user.json only (formmain_loadsave.inc, no entry in
+    default.json); the default True matches the compiled-in default
+    (proc_globdata.pas: ReopenSession:= true).
+
+    Strictly `is False`: a missing key (fresh install - the option
+    defaults to on), a foreign value, or a damaged settings dir must
+    never look like 'disabled', or the plugin would detach a project
+    whose session CudaText is restoring right now."""
+    try:
+        return get_opt('ui_reopen_session', True, CONFIG_LEV_USER_ONLY) is False
+    # intentional silence: get_opt never raises on bad JSON, but the
+    # default.json of a damaged install can still make its first call
+    # fail (it is opened outside the tolerant parser); the option then
+    # defaults to on and the startup pointer check stays in charge
+    except Exception:
+        return False
+
+
+def _app_session_none_active():
+    """True when the app's current session is the "none" session
+    (NONE_SESSION_FILENAME). app_path(APP_FILE_SESSION) returns the
+    session pointer with the settings dir prepended for dir-less file
+    names (the core's AppFile_Session), so compare the base name of the
+    file part, like the core's own IsNoneSessionActive does."""
+    ptr = app_path(APP_FILE_SESSION)
+    if not ptr:
+        return False
+    return os.path.basename(ptr.split('|', 1)[0]) == NONE_SESSION_FILENAME
+
 def same_path(a, b):
     """Filename comparison tolerant to separators and (on Windows only)
     letter case, mirroring the app's SameFileName."""
@@ -786,16 +855,85 @@ def is_simple_listed(name, masks):
     return False
 
 def is_mask_listed(s, masks):
-    # the mask lists are '/'-separated: a file NAME can contain ';' on
-    # every OS, but never '/' - so '/' is the only safe separator.
-    # Configs of older builds keep ';' lists and are migrated once at
-    # load (see the 'mask_sep' handling in Command.__init__)
-    for mask in masks.split('/'):
+    # the mask lists are ';'-separated (issue #6707: ';' is what apps
+    # conventionally use, and a mask never needs the ';' char). Configs
+    # of the fork builds that used '/' are migrated once at load (see
+    # the 'mask_sep' handling in Command.__init__)
+    for mask in masks.split(';'):
         r = fnmatch(s, mask)
         #print("fnmatch('%s', '%s') = %d"%(s, mask, int(r)))
         if r:
             return True
     return False
+
+
+def parse_gitignore_lines(text):
+    """The two ignore-mask list strings (files, dirs) built from the
+    lines of ONE '.gitignore' file - the '.gitignore' option reduces
+    the git rules to the plugin's base-name fnmatch masks, the very
+    matching the 'no_files'/'no_dirs' options use. Comment lines ('#'),
+    negations ('!') and sub-path rules ('docs/temp', 'a/**/b') cannot
+    be expressed as base-name masks without hiding far too much, so
+    they are skipped; a leading '/' (root-anchored) and a leading
+    '**/' (any depth) are dropped; a trailing '/' marks a folders-only
+    mask; a lone '*' (a white-list '.gitignore' built on negations) is
+    skipped too - without its negations it would hide EVERYTHING.
+    Every other rule hides both files and folders (the git meaning).
+    Returns ('', '') when nothing applies."""
+    fm, dm = [], []
+    for line in str(text or '').splitlines():
+        line = line.strip()
+        if not line or line.startswith('#') or line.startswith('!'):
+            continue
+        while line.startswith('/'):
+            line = line[1:]
+        while line.startswith('**/'):
+            line = line[3:]
+        # a trailing '/' (the git folders-only marker) goes before the
+        # sub-path check - 'build/' is a folder mask, not a sub-path
+        dir_only = line.endswith('/')
+        if dir_only:
+            line = line[:-1]
+        if not line or '/' in line or '**' in line or line == '*':
+            continue
+        if dir_only:
+            dm.append(line)
+        else:
+            fm.append(line)
+            dm.append(line)
+    return ';'.join(fm), ';'.join(dm)
+
+
+def is_subpath_of(path, parent):
+    """True when path sits INSIDE parent (a strict descendant - path ==
+    parent is False). Separator- and (on Windows) case-tolerant, like
+    same_path."""
+    if not path or not parent:
+        return False
+    p = os.path.normcase(os.path.normpath(str(path)))
+    r = os.path.normcase(os.path.normpath(str(parent)))
+    if len(r) > 1 and r.endswith(os.sep):
+        r = r[:-1]
+    # a single-char root ('/' or 'X:\\'): everything is inside it
+    if len(r) == 1:
+        return p.startswith(r) and p != r
+    return p.startswith(r + os.sep)
+
+
+def gitignore_masks_for(path, gitignores):
+    """(files masks, dirs masks) of the '.gitignore' ROOTS owning the
+    given path: the masks of EVERY owning root are joined (git applies
+    every '.gitignore' along the way too). gitignores is the snapshot
+    list [(root, files masks, dirs masks), ...]; ('', '') when no root
+    owns the path."""
+    fm, dm = [], []
+    for root, fm_root, dm_root in gitignores or []:
+        if (fm_root or dm_root) and is_subpath_of(path, root):
+            if fm_root:
+                fm.append(fm_root)
+            if dm_root:
+                dm.append(dm_root)
+    return ';'.join(fm), ';'.join(dm)
 
 # only Py 3.5 supports os.stat(s).st_file_attributes
 # so this is to support Py 3.4
@@ -1103,14 +1241,19 @@ class Command:
         "project_from_tabs_files": True,
         "project_from_tabs_folders": True,
         "no_files": "",
-        "no_dirs": ".git/.svn",
-        # separator version of the two ignore-mask lists above: '/' is
-        # the separator now (';' was the old one - unsafe, a file NAME
-        # can contain ';' on every OS). '' = a config written by a
-        # build older than the change: its ';' lists are migrated to
-        # '/' once at load (Command.__init__)
+        "no_dirs": ".git;.svn",
+        # marker of the one-way ';' migration of the two ignore-mask
+        # lists above (see Command.__init__): '' = a config written by
+        # a build older than the change: its '/' lists are migrated to
+        # ';' once at load
         "mask_sep": "",
         "no_hidden": True,
+        # read the '.gitignore' of every FOLDER root node (level-1
+        # nodes only, never a nested folder's one) and hide files/
+        # folders by its rules, exactly like the two ignore-mask
+        # options above (base-name fnmatch masks, see
+        # parse_gitignore_lines); default off
+        "gitignore": False,
         "toolbar": True,
         "preview": True,
         "d_click": False,
@@ -1120,6 +1263,12 @@ class Command:
         "on_start": False,
         "on_start_activate": False,
         "favorites_add_opened_projects": False,
+        # show the attachment columns of the Favorites window
+        # ('Attached projects' on its Files/Folders tabs, 'Attachments'
+        # on its Projects tab); default off - a simpler list, more
+        # room for Name/Path (the attachments stay reachable in the
+        # context menus / the "Attached projects" list commands)
+        "favorites_show_attach_cols": False,
         "icon_theme": "vscode_16x16",
         "toolbar_theme": "auto",
         "backup_enabled": True,
@@ -1199,6 +1348,12 @@ class Command:
     #: options snapshot of the running/last scan (for the lazy
     #: single-level fallback refill of folders the index does not know)
     _filter_opts = None
+    #: (key, stamp, snapshot) cache of the per-root '.gitignore' masks
+    #: of the 'gitignore' option (see _gitignore_snapshot): the key is
+    #: the roots tuple - any project change re-reads at once; the
+    #: monotonic stamp makes the open/read round of the '.gitignore'
+    #: files run at most once a second (the tree fill asks per entry)
+    _gitignore_cache = (None, 0.0, [])
     #: the live set of the scan whose (finished or cancelled) result is
     #: in _filter_index: the uniform live filter of _filter_rows_for
     #: keeps needing it after the worker object is dropped
@@ -1343,25 +1498,27 @@ class Command:
                 log_error('Project Manager: cannot load the options from '
                           + str(self.options_filename))
 
-        # the two ignore-mask lists ('no_files'/'no_dirs') were ';'
-        # -separated once, but a file NAME can contain ';' on every OS,
-        # so the separator is '/' now (it can never be part of a base
-        # name). ONE-WAY migration of an old config: every ';' of the
-        # two lists becomes '/', the 'mask_sep' marker remembers the
-        # done migration (a literal ';' typed after the change is a
-        # mask character and must survive), and the file is rewritten
-        # at once. A config already migrated ('mask_sep' == '/') or a
-        # fresh one is not touched.
-        if self.options.get("mask_sep") != "/":
-            self.options["mask_sep"] = "/"
+        # the separator of the two ignore-mask lists ('no_files'/
+        # 'no_dirs') is ';' (issue #6707: "';' char is fully ok. All
+        # aps use it, together with comma" - and a mask never needs
+        # the ';' char). A build of this fork briefly used '/' as the
+        # separator (a file NAME can contain ';' on every OS, but
+        # never '/'): ONE-WAY migration of such a config - every '/'
+        # of the two lists becomes ';' ('/' can never be part of a
+        # base name, so every '/' IS a separator), the 'mask_sep'
+        # marker remembers the done migration, and the file is
+        # rewritten at once. A config already migrated ('mask_sep' ==
+        # ';'), an older ';' one, or a fresh one is not touched.
+        if self.options.get("mask_sep") != ";":
+            self.options["mask_sep"] = ";"
             migrated_masks = False
             for key in ("no_files", "no_dirs"):
                 val = self.options.get(key)
-                if isinstance(val, str) and ";" in val:
-                    self.options[key] = val.replace(";", "/")
+                if isinstance(val, str) and "/" in val:
+                    self.options[key] = val.replace("/", ";")
                     migrated_masks = True
             if migrated_masks:
-                print(_('Project Manager: ignore lists migrated to the / separator'))
+                print(_('Project Manager: ignore lists migrated to the ; separator'))
                 self.save_options()
 
         # the options file keeps ONLY settings now (user request): the
@@ -2742,7 +2899,11 @@ class Command:
         if sort_order=='ext':
             key = _file_ext(path.name).upper() if isfile else ''
         elif sort_order=='name':
-            key = path.name.upper()
+            # the OS file browser's order (see projman_os_sort): Windows
+            # Explorer / the Finder / the Linux file managers, with the
+            # old .upper() order as the fallback when natsort failed to
+            # load
+            key = os_name_key(path.name)
         elif sort_order=='size':
             key = -path.stat().st_size if isfile else ''
         elif sort_order=='size-':
@@ -3261,7 +3422,7 @@ class Command:
     def _add_to_ignore_masks(self, opt_key, what):
         """Shared body of the two 'Add to ignore ...' context-menu
         commands: add the selected item's NAME to the option's mask
-        list ('/'-separated fnmatch masks over base names), save the
+        list (';'-separated fnmatch masks over base names), save the
         options and refresh the tree so the item disappears at once.
         A name already in the list is reported, not duplicated."""
         node = self.selected
@@ -3272,12 +3433,12 @@ class Command:
         if not name:
             return
         masks = str(self.options.get(opt_key, "") or "").strip()
-        items = [m.strip() for m in masks.split("/") if m.strip()]
+        items = [m.strip() for m in masks.split(";") if m.strip()]
         if name in items:
             msg_status(_("Already in ignore list: ") + name)
             return
         items.append(name)
-        self.options[opt_key] = "/".join(items)
+        self.options[opt_key] = ";".join(items)
         self.save_options()
         self.action_refresh()
         msg_status(_("Added to ignore %s: ") % what + name)
@@ -4427,6 +4588,10 @@ class Command:
             'no_hidden': bool(self.options.get('no_hidden', True)),
             'no_files': str(self.options.get('no_files', '') or ''),
             'no_dirs': str(self.options.get('no_dirs', '') or ''),
+            # the '.gitignore' masks of the roots, frozen for the whole
+            # search (taken here on the UI thread: the worker never
+            # touches the plugin state)
+            'gitignore': self._gitignore_snapshot(),
             'sort_order': sort_order,
             'proj_file': str(self.project_file_path or ''),
         }
@@ -4608,12 +4773,15 @@ class Command:
             return cached
         flt = (self.tree_filter or '').lower()
         opts = self._filter_opts or self.options
-        # plain options carry no 'proj_file': inject it (into a copy,
-        # never the live options dict) so the opened project file
-        # stays hidden in the fallback scan too
-        if 'proj_file' not in opts:
+        # plain options carry neither 'proj_file' nor 'gitignore':
+        # inject both (into a copy, never the live options dict) so the
+        # opened project file stays hidden in the fallback scan too,
+        # and the fallback applies the same '.gitignore' rules the
+        # scan snapshot used
+        if 'proj_file' not in opts or 'gitignore' not in opts:
             opts = dict(opts)
-            opts['proj_file'] = str(self.project_file_path or '')
+            opts.setdefault('proj_file', str(self.project_file_path or ''))
+            opts.setdefault('gitignore', self._gitignore_snapshot())
         rows = []
         for e in scan_dir_entries(path, opts) or []:
             try:
@@ -4675,13 +4843,20 @@ class Command:
         def cb(fn, node):
             if fn == path:
                 found.append(node)
-                return False
+                # issue #6681: keep walking while only the 'Favorites'
+                # section's copy matched - the real node wins
+                return self._in_favorites_section(node)
             return True
 
         self.enum_all(cb)
         if found:
-            tree_proc(self.tree, TREE_ITEM_SELECT, found[0])
-            tree_proc(self.tree, TREE_ITEM_SHOW, found[0])
+            node = found[0]
+            for h in found:
+                if not self._in_favorites_section(h):
+                    node = h
+                    break
+            tree_proc(self.tree, TREE_ITEM_SELECT, node)
+            tree_proc(self.tree, TREE_ITEM_SHOW, node)
 
     def _filter_visible_changed(self, index, live):
         """True when a _filter_rebuild(index, live) would change what
@@ -4925,6 +5100,15 @@ class Command:
             if self.is_opened_project_file(path):
                 continue
             is_dir = os.path.isdir(path)
+            # a FILE favorite shows its owning folder in parentheses at
+            # the end: several favorites may carry the same file name
+            # from different folders, and the bare name does not tell
+            # them apart (the same style as nice_filename - the home
+            # dir collapsed to '~')
+            if not is_dir:
+                dirname = os.path.dirname(str(path))
+                if dirname:
+                    name += ' (' + collapse_filename(dirname) + ')'
             index = self._add_tree_node(section, name, path, is_dir)
             if is_dir:
                 # the dummy child gives the fold arrow; the real
@@ -5930,7 +6114,9 @@ class Command:
         # Save the current session to its slot, then prepare the tabs for
         # the closing load below. Skipped when load_session=False (on_start
         # when CudaText already loaded the project session from
-        # history.json).
+        # history.json) and when load_session=None (on_start with
+        # "Restore session" off: no session belongs to the tabs and none
+        # must be created or loaded - the user turned sessions off).
         # skip_session_save: with a project open, action_save_project_as
         # above saved the current session into its slot already (same
         # synchronous call, no tab could change since); without a project
@@ -6072,7 +6258,7 @@ class Command:
                 # in-memory project keeps the old session list
                 except (OSError, ValueError):
                     pass
-        elif not self.project.get('sessions'):
+        elif load_session is False and not self.project.get('sessions'):
             # Startup path (load_session=False): CudaText is restoring the
             # project's session from history.json itself. If the file has
             # no sessions at all (left over by old builds), create
@@ -6081,6 +6267,9 @@ class Command:
             # autosave would write the app session pointer's sub-key into
             # the file only much later, and the sessions menu would be
             # empty meanwhile).
+            # NOT for load_session=None ("Restore session" off): no
+            # session belongs to the tabs and none may be created or
+            # loaded - the user turned sessions off.
             sess_path = str(path) + '|/sessions/session1'
             if app_proc(PROC_SAVE_SESSION, sess_path):
                 self._set_session(sess_path)
@@ -7189,7 +7378,10 @@ class Command:
             return
 
         items_nice = [os.path.basename(fn)+'\t'+collapse_filename(str(os.path.dirname(fn))) for fn in items]
-        res = dlg_menu(DMENU_LIST, items_nice, caption=_('Recent projects'))
+        # clip=CLIP_MIDDLE: long paths get a middle ellipsis, so the end
+        # of the folder path stays visible in the dialog
+        res = dlg_menu(DMENU_LIST, items_nice,
+                       caption=_('Recent projects'), clip=CLIP_MIDDLE)
         if res is None:
             return
 
@@ -7254,7 +7446,8 @@ class Command:
         if projects:
             projects.sort()
             res = dlg_menu(DMENU_LIST, projects,
-                           caption=_('Choose project to open'))
+                           caption=_('Choose project to open'),
+                           clip=CLIP_MIDDLE)
             if res is None:
                 # cancelled: the user still wanted the FOLDER open
                 return ''
@@ -7399,6 +7592,15 @@ class Command:
             return False #block opening
 
     def on_exit(self, ed_self):
+        # save the favorites window size now: a window still open at
+        # the app exit never runs its on_close, so its last size would
+        # be lost for the next start (intentional silence: saving must
+        # never break the exit flow)
+        try:
+            _favorites.save_window_state()
+        except Exception as e:
+            log_error('Project Manager: cannot save the favorites '
+                      'window state on exit: ' + str(e))
         # label the backups made by the exit saves -- this one, and the
         # app's own session save which runs right after on_exit (the core
         # fires OnExit first, then DoOps_SaveHistory saves the session) --
@@ -7429,6 +7631,15 @@ class Command:
             print(_('Project Manager: saving options'))
             self.save_options()
 
+            # the column options of an open/hidden Favorites window
+            # (the attachment columns) follow the saved file right now
+            # - the window itself re-reads them on its next show too
+            try:
+                _favorites.apply_column_options()
+            except Exception:
+                log_error('Project Manager: cannot apply the '
+                          'favorites columns')
+
             if self.h_dlg:
                 # the two font-size options apply immediately; the
                 # filter row grows/shrinks and everything below it
@@ -7449,8 +7660,9 @@ class Command:
                     self.tree_icons_reload()
                 else:
                     # everything else the tree shows (sorting order,
-                    # the ignore masks, hidden files) applies right
-                    # now too - a refresh keeps the folds + selection
+                    # the ignore masks, the '.gitignore' rules,
+                    # hidden files) applies right now too - a refresh
+                    # keeps the folds + selection
                     self.action_refresh()
 
             # keep the on_start subscription in sync with the project
@@ -7542,15 +7754,57 @@ class Command:
             if self.project_file_path:
                 self.action_save_project_as(self.project_file_path)
 
+    def _gitignore_snapshot(self):
+        """[(root, files masks, dirs masks), ...] of the project's
+        FOLDER root nodes - the 'gitignore' option (the request: read
+        the '.gitignore' of the NODE ROOTS only, never of a nested
+        folder). [] when the option is off or no root carries a usable
+        '.gitignore' (a FILE root node contributes nothing: its
+        '<root>/.gitignore' cannot exist and the open below fails).
+        The masks hide files/folders exactly like the 'no_files'/
+        'no_dirs' options do (base-name fnmatch, see
+        parse_gitignore_lines). Cached by (roots, 1s): every root's
+        '.gitignore' is read once and re-read when the tree asks again
+        after a second - the fill and the scans ask per entry, so the
+        roots key stays pure string work (no stat per call)."""
+        if not self.options.get('gitignore', False):
+            return []
+        roots = tuple(str(n) for n in self.project.get('nodes', []) or [])
+        ckey, stamp, snapshot = self._gitignore_cache
+        now = time.monotonic()
+        if ckey == roots and now - stamp < 1.0:
+            return snapshot
+        snapshot = []
+        for root in roots:
+            try:
+                with open(os.path.join(root, '.gitignore'),
+                          encoding='utf8', errors='replace') as fin:
+                    fm, dm = parse_gitignore_lines(fin.read())
+            # intentional silence: no '.gitignore', unreadable, or a
+            # foreign encoding - the root contributes no masks
+            except OSError:
+                continue
+            if fm or dm:
+                snapshot.append((root, fm, dm))
+        self._gitignore_cache = (roots, now, snapshot)
+        return snapshot
+
     def is_filename_ignored(self, fn, is_dir):
         if is_dir:
             msk = self.options.get("no_dirs", "")
         else:
             msk = self.options.get("no_files", "")
-        if msk:
-            return is_mask_listed(os.path.basename(fn), msk)
-        else:
-            return False
+        if msk and is_mask_listed(os.path.basename(fn), msk):
+            return True
+        # the 'gitignore' option: the '.gitignore' masks of every root
+        # node owning fn (level-1 folder nodes only - a nested
+        # folder's '.gitignore' is never read)
+        if self.options.get('gitignore', False):
+            fm, dm = gitignore_masks_for(fn, self._gitignore_snapshot())
+            msk = dm if is_dir else fm
+            if msk and is_mask_listed(os.path.basename(fn), msk):
+                return True
+        return False
 
     def is_opened_project_file(self, fn):
         """True when 'fn' is the .cuda-proj file of the currently
@@ -7588,7 +7842,37 @@ class Command:
             except (OSError, ValueError):
                 pass
 
-            if sess_ptr and '|' in sess_ptr:
+            # "Restore session" (ui_reopen_session) off in user.json: the
+            # app restores NO session at start and leaves history.json's
+            # "session" key empty - or a STALE pointer from before the
+            # option was switched off (the key was last written while the
+            # option was still on). The pointer check below can never
+            # match in the first case and must not be trusted in the
+            # second, so decide by the OPTION, not by the pointer. The
+            # project still comes back, but with NO session at all: the
+            # user turned sessions off, the plugin must not load one
+            # (load_session=None also creates no 'session1' and touches
+            # no tab - the editor stays exactly as CudaText left it).
+            # The on_state handler keeps this project open against the
+            # app's "none" session, which the app's own startup session
+            # init (running AFTER on_start, FormShow order) sets then.
+            if _session_restore_disabled():
+                if os.path.isfile(str(items[0])):
+                    self.action_open_project(str(items[0]), load_session=None)
+                else:
+                    # a "one folder" folder entry, or a dead path: no
+                    # project to restore. Detach like the branches below
+                    # (the subscription stays while an "Open folder"
+                    # folder is remembered - the folder restore at the
+                    # end of on_start needs it); a dead project path is
+                    # reported the same way as in the pointer-matching
+                    # branch.
+                    if not os.path.isdir(str(items[0])):
+                        msg_status(_("Project file not found: ") +
+                                   collapse_filename(str(items[0])))
+                    self._close_project_silent()
+                    self._update_on_start_subscription(False)
+            elif sess_ptr and '|' in sess_ptr:
                 # history.json stores the pointer of a session file located
                 # in the settings dir WITHOUT its directory part (the app's
                 # AppSessionName_ForHistoryFile strips the settings dir), so
@@ -7751,8 +8035,20 @@ class Command:
         if not self.tree:
             return
         items = tree_proc(self.tree, TREE_ITEM_ENUM_EX, 0)
-        if items:
-            return self.enum_subitems_fn(items[0]['id'], filename, and_open)
+        if not items:
+            return
+        # issue #6681: a file/folder attached to the project sits in the
+        # tree TWICE - as the top 'Favorites' section's child and as the
+        # real node below. The REAL node must win: the project nodes are
+        # walked first, and the 'Favorites' section is searched only as
+        # the fallback (the path is a favorite and not in the project at
+        # all, so the section's copy is its only node)
+        if not self.enum_subitems_fn(items[0]['id'], filename, and_open):
+            return False
+        h_section = self._favorites_section_handle()
+        if h_section is None:
+            return True
+        return self.enum_subitems_fn(h_section, filename, and_open)
 
     def enum_subitems_fn(self, item_src, filename, and_open):
         """
@@ -7760,7 +8056,15 @@ class Command:
         When found 'filename', focus it and return False
         """
         def _need(dirpath):
-            return filename.startswith(dirpath+os.sep)
+            # data='' (the 'Favorites' section header, the project root)
+            # must never look like a parent folder of an absolute
+            # filename: on POSIX, filename.startswith(''+os.sep) is
+            # filename.startswith('/'), True for EVERY absolute path,
+            # so the section was walked into and its favorite copy of
+            # the file got the selection before the real node - on
+            # Windows startswith('\\') is False and the bug hid
+            # (issue #6681)
+            return bool(dirpath) and filename.startswith(dirpath+os.sep)
 
         prop_list = tree_proc(self.tree, TREE_ITEM_ENUM_EX, item_src) or []
         for prop in prop_list:
@@ -7795,8 +8099,17 @@ class Command:
         if not self.tree:
             return
         items = tree_proc(self.tree, TREE_ITEM_ENUM_EX, 0)
-        if items:
-            return self.enum_subitems_sel(items[0]['id'], filename)
+        if not items:
+            return
+        # issue #6681: like enum_all_fn, the real project node wins over
+        # the 'Favorites' section's copy of the same path; the section is
+        # searched only as the fallback
+        if not self.enum_subitems_sel(items[0]['id'], filename):
+            return False
+        h_section = self._favorites_section_handle()
+        if h_section is None:
+            return True
+        return self.enum_subitems_sel(h_section, filename)
 
     def enum_subitems_sel(self, item_src, filename):
         """
@@ -7810,6 +8123,13 @@ class Command:
             is_dir = prop['sub_items']
 
             if is_dir:
+                # issue #6681: never recurse into path-less nodes
+                # (data=''): the 'Favorites' section header is such a
+                # node, and its children are the favorites' copies of
+                # nodes which (almost always) exist below as the real
+                # project nodes - they must not shadow the real ones
+                if not fn:
+                    continue
                 node = prop['id']
                 if not self.enum_subitems_sel(node, filename):
                     return False
@@ -7844,7 +8164,8 @@ class Command:
 
         res = dlg_menu(DMENU_LIST_ALT+DMENU_NO_FULLFILTER, #fuzzy search is needed for users
                        files_nice,
-                       caption=_('Go to file')
+                       caption=_('Go to file'),
+                       clip=CLIP_MIDDLE
                        )
         if res is None:
             return
@@ -8735,7 +9056,8 @@ class Command:
                 MB_OK + MB_ICONINFO)
             return
 
-        res = dlg_menu(DMENU_LIST, names, caption=_('Delete project session'))
+        res = dlg_menu(DMENU_LIST, names,
+                       caption=_('Delete project session'), clip=CLIP_MIDDLE)
         if res is None:
             return
         name = names[res]
@@ -8749,7 +9071,8 @@ class Command:
         if name == self.session_cur_name():
             rest = [n for n in names if n != name]
             res2 = dlg_menu(DMENU_LIST, rest,
-                caption=_('Session to load instead of "%s"') % name)
+                caption=_('Session to load instead of "%s"') % name,
+                clip=CLIP_MIDDLE)
             if res2 is None:
                 return
             repl = rest[res2]
@@ -8807,10 +9130,26 @@ class Command:
         (including tabs not belonging to the project) is saved as is.
 
         Non-interactive (called after saving the project file): saves the
-        current state into the current session slot, or 'session1' if
-        none is active. `sess_name` (used by "Save project as...") keeps
-        the active session's NAME in the new file instead of the generic
-        'session1' — the session keeps its identity across the save-as."""
+        current state into the current session slot. `sess_name` (used by
+        "Save project as...") keeps the active session's NAME in the new
+        file instead of the generic name — the session keeps its identity
+        across the save-as.
+
+        NO session slot active (the app session pointer sits outside the
+        project: the none session '-.cuda-session' when "Restore session"
+        is off, or an external .cuda-session left by the session
+        manager): the embed step is SKIPPED. Saving the project file must
+        not write the editor state into a session that was never loaded —
+        the old fallback 'session1' OVERWROTE the project's saved
+        session1 with tabs the user never opened as a session (silent
+        data loss, reported 2026.11.28). The project file itself is
+        still written by the caller with its sessions block taken fresh
+        from disk (action_save_project_as / _read_session_keys), so the
+        saved sessions survive untouched. The state in the tabs is not
+        lost either: it belongs to whatever the app session pointer says
+        (the none session is never saved by the app; an external session
+        file is written by the app's own exit save / autosave), not to
+        the project."""
 
         fn = str(self.project_file_path) if self.project_file_path else ''
         if not fn:
@@ -8836,7 +9175,14 @@ class Command:
                     continue
                 break
         else:
-            s = sess_name or self.session_cur_name() or 'session1'
+            s = sess_name or self.session_cur_name()
+            if not s:
+                # No active session slot: write NOTHING into the
+                # project's sessions. See the docstring — the 'session1'
+                # fallback here overwrote a never-loaded session (data
+                # loss). The caller already wrote the project file with
+                # the sessions block fresh from disk.
+                return
 
         # the changes were made while the current session was active:
         # save them into it as well, before switching to the new one
@@ -8929,7 +9275,8 @@ class Command:
     def session_load_menu(self):
 
         names = self.session_get_names()
-        res = dlg_menu(DMENU_LIST, names, caption=_('Open project session'))
+        res = dlg_menu(DMENU_LIST, names,
+                       caption=_('Open project session'), clip=CLIP_MIDDLE)
         if res is None:
             return
         self.session_load(names[res])
@@ -9414,6 +9761,19 @@ class Command:
                 return
             if self.project_file_path:
                 if not self.session_cur_name():
+                    if _app_session_none_active() and \
+                            _session_restore_disabled():
+                        # "Restore session" off: on_start opened the
+                        # project with load_session=None (no session
+                        # anywhere), and this event is the app's own
+                        # startup session init (FormShow runs it AFTER
+                        # on_start) setting the "none" session. That is
+                        # the state the user configured - the project
+                        # stays open, nothing is re-pointed or closed.
+                        # The none-session owns no file: the core's
+                        # DoOps_SaveSession exits on this file name, no
+                        # session can be clobbered by the autosave.
+                        return
                     print(_('Project Manager: app session was changed outside the project, closing the project'))
                     self._close_project_silent()
                     # No project is in use anymore — drop the on_start
